@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Grays Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1124,
+      402
+    ],
+    "lonlat": [
+      -65.34649263048846,
+      44.22857514116878
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 110502,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 110502,
+    "nearest_unfiltered_distance_guide_px": 0.3245930604675375,
+    "selected_distance_guide_px": 0.3245930604675375,
+    "guide_reference_pixel_xy": [
+      1128.2013748828322,
+      345.74542425200343
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Handsled Lake northwestern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      526,
+      646
+    ],
+    "lonlat": [
+      -65.37337588804519,
+      44.20203697120756
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 138557,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138557,
+    "nearest_unfiltered_distance_guide_px": 0.6919143309729553,
+    "selected_distance_guide_px": 0.6919143309729553,
+    "guide_reference_pixel_xy": [
+      532.450614313886,
+      678.5250639785081
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "First Beaver Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1201,
+      575
+    ],
+    "lonlat": [
+      -65.33381506978377,
+      44.21900197113457
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 127109,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127109,
+    "nearest_unfiltered_distance_guide_px": 0.6685103130935243,
+    "selected_distance_guide_px": 0.6685103130935243,
+    "guide_reference_pixel_xy": [
+      1217.770004984457,
+      605.3722991703544
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Black Duck Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1320,
+      2833
+    ],
+    "lonlat": [
+      -65.26614788800804,
+      44.122557996186686
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 125413,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125413,
+    "nearest_unfiltered_distance_guide_px": 0.22883049703140185,
+    "selected_distance_guide_px": 0.22883049703140185,
+    "guide_reference_pixel_xy": [
+      1305.0784504490439,
+      2846.785037390655
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Beartrack Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1123,
+      1814
+    ],
+    "lonlat": [
+      -65.30469729987968,
+      44.16324551835036
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 143461,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 143461,
+    "nearest_unfiltered_distance_guide_px": 2.3132893857466317,
+    "selected_distance_guide_px": 2.3132893857466317,
+    "guide_reference_pixel_xy": [
+      1131.5668583560619,
+      1838.7572384463856
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Second Porcupine Lake western lobe northwestern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1583,
+      2556
+    ],
+    "lonlat": [
+      -65.25834496764564,
+      44.13966629295259
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 132451,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132451,
+    "nearest_unfiltered_distance_guide_px": 1.6006480081697605,
+    "selected_distance_guide_px": 1.6006480081697605,
+    "guide_reference_pixel_xy": [
+      1559.3044150806963,
+      2572.5714342190186
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Lake Martin northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      564,
+      3581
+    ],
+    "lonlat": [
+      -65.29107383894736,
+      44.07445570676013
+    ],
+    "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+    "reference_objectid": 174699,
+    "reference_feature_code": "WARV20",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 174699,
+    "nearest_unfiltered_distance_guide_px": 1.205478517025499,
+    "selected_distance_guide_px": 1.205478517025499,
+    "guide_reference_pixel_xy": [
+      549.2399212149321,
+      3598.935659497627
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

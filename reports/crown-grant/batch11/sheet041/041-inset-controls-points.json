@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Inset Cape Chignecto western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      498,
+      1108
+    ],
+    "lonlat": [
+      -64.94456239007751,
+      45.328156817353005
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 3926,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3926,
+    "nearest_unfiltered_distance_guide_px": 1.2296840441737948,
+    "selected_distance_guide_px": 1.2296840441737948,
+    "guide_reference_pixel_xy": [
+      502.34498853678815,
+      1058.8197009878932
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Inset northern lower headland northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      817,
+      535
+    ],
+    "lonlat": [
+      -64.9396273699128,
+      45.359608971309015
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 4148,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4148,
+    "nearest_unfiltered_distance_guide_px": 0.9789337124773656,
+    "selected_distance_guide_px": 0.9789337124773656,
+    "guide_reference_pixel_xy": [
+      831.277779992146,
+      484.9386956319213
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Inset southeastern southern coast bend",
+    "role": "proposal",
+    "pixel_xy": [
+      933,
+      1184
+    ],
+    "lonlat": [
+      -64.9163304583606,
+      45.33320419458114
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 1870,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1870,
+    "nearest_unfiltered_distance_guide_px": 11.4403341365948,
+    "selected_distance_guide_px": 11.4403341365948,
+    "guide_reference_pixel_xy": [
+      923.2953310898738,
+      1130.5634784700815
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

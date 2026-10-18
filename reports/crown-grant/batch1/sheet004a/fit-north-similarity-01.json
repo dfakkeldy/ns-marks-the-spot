@@ -1,0 +1,124 @@
+{
+  "sheet": "004a",
+  "version": "north-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.961953623105254,
+      1.9799872409764838
+    ],
+    [
+      1.9799872409764838,
+      -4.961953623105254
+    ],
+    [
+      242700.02252070387,
+      4831312.684712315
+    ]
+  ],
+  "source_sha256": "0383f61be07cb70dc5cba2a57f17fbc21fc3347f17122bc30d7af512fd9b171a",
+  "source_dimensions": [
+    3912,
+    5727
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "NA01",
+      "label": "Flat Island western tip",
+      "role": "control",
+      "pixel_xy": [
+        1755,
+        2737
+      ],
+      "lonlat": [
+        -66.00873345982374,
+        43.50488925765184
+      ],
+      "reference_objectid": 18239,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1758.7491304081632,
+        2689.8155661751516
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "NA02",
+      "label": "Round Island eastern tip",
+      "role": "control",
+      "pixel_xy": [
+        2160,
+        2795
+      ],
+      "lonlat": [
+        -65.98196940222131,
+        43.508804420193314
+      ],
+      "reference_objectid": 19951,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2160.829393365013,
+        2792.352023787098
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "NA03",
+      "label": "Mud Island southwestern tip",
+      "role": "control",
+      "pixel_xy": [
+        1726,
+        3412
+      ],
+      "lonlat": [
+        -65.99109296900548,
+        43.474012579176076
+      ],
+      "reference_objectid": 20146,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1723.9152213067864,
+        3386.7577553499723
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "NA04",
+      "label": "Noddy Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1725,
+        3640
+      ],
+      "lonlat": [
+        -65.98586590709577,
+        43.463953543229465
+      ],
+      "reference_objectid": 20736,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1705.4949795479188,
+        3610.397545185522
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    92.67061812149956,
+    81.12115178976184,
+    57.365359937858656,
+    7.08845164529776
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: printed displaced component, narrow control distribution; constrained similarity avoids unsupported affine shear"
+}

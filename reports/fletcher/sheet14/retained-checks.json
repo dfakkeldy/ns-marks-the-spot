@@ -1,0 +1,69 @@
+{
+  "fit_sha256": "ff1981e9afd1d6d044c454ca05707b2203afcb3ce3d513a4223324e63618bb2b",
+  "points": [
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7218,
+        3590
+      ],
+      "lonlat": [
+        -61.3386802,
+        46.1855246
+      ],
+      "modern_node": "J0204",
+      "modern_objectids": [
+        191453,
+        269171,
+        269173
+      ],
+      "identity_evidence": "Northwestern thin arm joins main above loop with a separate southern arm at its base; eastbound main continues to C07. Same catchment as C06/C07, limited independence.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        6400,
+        4940
+      ],
+      "lonlat": [
+        -61.3800562,
+        46.1431433
+      ],
+      "modern_node": "J0418",
+      "modern_objectids": [
+        195895,
+        196370,
+        196371
+      ],
+      "identity_evidence": "Eastern arm above successive northwestern and western tributaries C17; entire fork order is identifiable on native scan. Same catchment as C17.",
+      "source_uncertainty_px": 5,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        6449,
+        6363
+      ],
+      "lonlat": [
+        -61.367183,
+        46.1026316
+      ],
+      "modern_node": "J0584",
+      "modern_objectids": [
+        195713,
+        196050,
+        196696
+      ],
+      "identity_evidence": "Northern tributary enters the main at the crest of tight eastward loop upstream of C13, separate from the longer northwestern C13 branch. Boundary check near control; limited independence.",
+      "source_uncertainty_px": 7,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    }
+  ],
+  "status": "Three retained diagnostic checks after consuming five of the original eight; fresh checks required."
+}

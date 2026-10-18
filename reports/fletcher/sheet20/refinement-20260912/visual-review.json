@@ -1,0 +1,155 @@
+{
+  "count": 37,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/17-north-grand-head-lake.jpg",
+      "sha256": "9f74bc412ca0db2bdd4cfc8a1f81d914bfb74e3c869e7ef80c1a435519d8202b"
+    },
+    {
+      "path": "adjacent-sheet-review/17-northeast.jpg",
+      "sha256": "000166c19dbd19c4f76957ea137928335463879365873d6c304e2094f2142d12"
+    },
+    {
+      "path": "adjacent-sheet-review/17-northwest-inlet.jpg",
+      "sha256": "d7140366f4f9044378d88e51b50c1b0cc863a0eb29621f2ba5e340f4c69203f8"
+    },
+    {
+      "path": "adjacent-sheet-review/21-west-north.jpg",
+      "sha256": "19cb5582574dd4f0c920df7188470d9a5f7a0b30e7be75dae1183d6f8f1dc444"
+    },
+    {
+      "path": "adjacent-sheet-review/21-west-south.jpg",
+      "sha256": "3abd109e09d65d9d6e3af83b32a97e772b0d108306314d3d2112a54b6e66663a"
+    },
+    {
+      "path": "boundary-corners.jpg",
+      "sha256": "66e7fb6f0a8ededa3951a1747fdd9865a868d3b8ec0af0d68db5c63a938331cb"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "8fa52eb36c6bfdc27ceee6321794cc2a4e196e6285c7799e84e59af236f5c3dd"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "6d524267fb7a6a2f9af3d8c54ba9fdd687fb0d128b365be59c3e31028e4c8dc2"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "ae32c72fbd702970d748d0698768f5f2587fe83eb27b6209fd40807dca3f4ccf"
+    },
+    {
+      "path": "browser-first-attempt/failure.png",
+      "sha256": "a55b6b2c23ac809abceb30ec30a444328f312d008b85c2d7a9cf158aa85553e0"
+    },
+    {
+      "path": "browser-first-attempt/import-desktop.png",
+      "sha256": "8fa52eb36c6bfdc27ceee6321794cc2a4e196e6285c7799e84e59af236f5c3dd"
+    },
+    {
+      "path": "fresh-close/sheet-20-F01.jpg",
+      "sha256": "e640953a8c9459d1b577c6fbbf8f23579adaa21f8827c24ee0e228d7375e03bb"
+    },
+    {
+      "path": "fresh-close/sheet-20-F02.jpg",
+      "sha256": "373722d79576f90a7a177428fe76220e7441dcc5297017832cf2129670c4b899"
+    },
+    {
+      "path": "fresh-close/sheet-20-F03.jpg",
+      "sha256": "558cd251f188cf5de3a6d4a6f9ac5daf387bf9cf7070b8fcd48a8ab69cd1762f"
+    },
+    {
+      "path": "fresh-wide/sheet-20-F01.jpg",
+      "sha256": "ee94a32f1f5b46bfc6194eeff7b01a8a386447fdf35bb7cdcd195d2169f5ae2e"
+    },
+    {
+      "path": "fresh-wide/sheet-20-F02.jpg",
+      "sha256": "968ef50e5a766fd0ce5d5e5f88c5c7fd5382f101355eb9f6b84117bc8846e039"
+    },
+    {
+      "path": "fresh-wide/sheet-20-F03.jpg",
+      "sha256": "b0396286cf63ff025a9ba207f93956599029e7046c8457b1f173c9c75456ca8b"
+    },
+    {
+      "path": "full-boundary-review.jpg",
+      "sha256": "eab3420e25984b6a3968a89ebb58d74f013fd00eb850ff2df1aeae8d17d0a955"
+    },
+    {
+      "path": "repair-close/sheet-20-V02.jpg",
+      "sha256": "7e77b930290afe56cb4bcb45d463bf0186b5274c1ba8bd958e1e42b1af699010"
+    },
+    {
+      "path": "repair-close/sheet-20-V03.jpg",
+      "sha256": "76e1fd700b00b380b5c939d2893c4a0915a44fcea652ad8f67b46d8770cf62ba"
+    },
+    {
+      "path": "repair-close/sheet-20-V05.jpg",
+      "sha256": "701d010fed83abe91d400590e69f12b032a0b7e55a20097ace7b07bb82769961"
+    },
+    {
+      "path": "repair-native-wide/sheet-20-V02.jpg",
+      "sha256": "0862e78629b298de7696acf8969c7eaa8201132a64493f622207175cf9a06f63"
+    },
+    {
+      "path": "repair-native-wide/sheet-20-V03.jpg",
+      "sha256": "751d0901912be816ea53626773f1ba62bc96624961622db2b4dffe6a87e8a1ad"
+    },
+    {
+      "path": "repair-native-wide/sheet-20-V05.jpg",
+      "sha256": "4eb5ce31ab3f1e03a783414591c3faf5fefc990507fd8e7cc13f9aee7dcc97e1"
+    },
+    {
+      "path": "repair-wide/sheet-20-V02.jpg",
+      "sha256": "be14478687a3bf00ce0685faf3f87f527514c837d61d5c9a18595025724488aa"
+    },
+    {
+      "path": "repair-wide/sheet-20-V03.jpg",
+      "sha256": "9cae96f512d37fa3626affbd44d9640c38a13dddbd3223866bc9830d48f418a2"
+    },
+    {
+      "path": "repair-wide/sheet-20-V05.jpg",
+      "sha256": "f4c99b68dd9326c24477e95a9d625156f730a1abf4ecd61fbc1183062968379d"
+    },
+    {
+      "path": "southern-boundary-review.jpg",
+      "sha256": "deb11dcebce82f413ca05ad928f1bab2cb42386ac6973999fb8389564d5c211d"
+    },
+    {
+      "path": "warped-review/central-grand-river.jpg",
+      "sha256": "6d8d2aa17afa11da8d142dd79eb7844840261dccfc3a48f937802e045607f882"
+    },
+    {
+      "path": "warped-review/ferguson-lake.jpg",
+      "sha256": "67803bbe8be8ee2878ccb92f8509cedea4c9901a651e0861b2f3f55aa9dc79c6"
+    },
+    {
+      "path": "warped-review/northeast-unexplored.jpg",
+      "sha256": "c2fa41111ba010c8717f0fd3d074cc3c95cfbb8ad9f2752ac4cbb80779efa796"
+    },
+    {
+      "path": "warped-review/northwest-inlet.jpg",
+      "sha256": "5bc88cc780456389f2bad0ed7e0201f3b26fa458fb20688c2452d675312a557c"
+    },
+    {
+      "path": "warped-review/saint-esprit-coast.jpg",
+      "sha256": "46dd6c002a67dff2a168181b3e5f7481319af1d6e63c2b500ecdd3ee1ec60a23"
+    },
+    {
+      "path": "warped-review/southern-extensions.jpg",
+      "sha256": "f1301f2f383ed7c5de42c1b331259b7296ead7ad327bd2ecd4d379d31054a1b6"
+    },
+    {
+      "path": "warped-review/southwest-island.jpg",
+      "sha256": "ecd82332232e86b957bbafa88e5e5cde3c9dc06c9c2d285a4b884f9a8d9b4bc8"
+    },
+    {
+      "path": "warped-review/upper-grand-river.jpg",
+      "sha256": "6bc3b548248c4879a1243478c19368aec5a62a49ac6cbec5e9f7bc56a4890d1a"
+    },
+    {
+      "path": "warped-review/western-lakes.jpg",
+      "sha256": "a2a0fee8faa58825b57d9a34393316c88012b43a7ebe3e67277b2b2a7d2e59af"
+    }
+  ],
+  "review": "Personally inspected all exact close/wide native crosshairs before promotion or first score, all nine actual old/new warped regions, five real adjacent-sheet windows, three native boundary figures, both first-attempt images and three final browser screenshots.",
+  "result": "Local inlet improvement. Whole-sheet upper Grand/northeast/joins still fail. Full three-component boundary preserved. Final real import and desktop/mobile reload pass after local server restart; first failed run retained."
+}

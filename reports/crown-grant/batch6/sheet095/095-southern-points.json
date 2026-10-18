@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C09",
+    "label": "Trout Lake island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3065,
+      3193
+    ],
+    "lonlat": [
+      -62.23145785032504,
+      45.22133896605146
+    ],
+    "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+    "reference_objectid": 149687,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 149687,
+    "nearest_unfiltered_distance_guide_px": 0.19092711611377147,
+    "selected_distance_guide_px": 0.19092711611377147,
+    "guide_reference_pixel_xy": [
+      3043.8972665483598,
+      3138.8390683325706
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Smith Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4195,
+      3859
+    ],
+    "lonlat": [
+      -62.14757802064243,
+      45.212990653326614
+    ],
+    "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+    "reference_objectid": 142565,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142565,
+    "nearest_unfiltered_distance_guide_px": 0.7927141716516486,
+    "selected_distance_guide_px": 0.7927141716516486,
+    "guide_reference_pixel_xy": [
+      4191.677423153946,
+      3805.724113206845
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

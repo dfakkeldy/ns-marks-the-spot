@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Nicholson Lake northern narrow horn tip",
+    [
+      1132,
+      310
+    ],
+    [
+      1206,
+      340
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Armand Lake northern tip",
+    [
+      3223,
+      197
+    ],
+    [
+      3303,
+      240
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Horse Island in Grand Lake northern tip",
+    [
+      4186,
+      345
+    ],
+    [
+      4261,
+      383
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C04",
+    "Wilson Lake northern tip",
+    [
+      1185,
+      2450
+    ],
+    [
+      1260,
+      2499
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Barrett Lake northern tip",
+    [
+      1453,
+      2519
+    ],
+    [
+      1558,
+      2562
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Little Lake No Good southern tip",
+    [
+      5197,
+      3207
+    ],
+    [
+      5263,
+      3294
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Grand Lake Indian Point northern tip",
+    [
+      3723,
+      1074
+    ],
+    [
+      3800,
+      1118
+    ],
+    "WALK20"
+  ]
+]

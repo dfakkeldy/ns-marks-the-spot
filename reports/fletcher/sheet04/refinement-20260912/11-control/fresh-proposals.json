@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-04",
+  "collected_at_utc": "2026-09-12T14:37:05.058582+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.3352516,
+        46.7732684
+      ],
+      "source_guide_xy": [
+        4072.299701759359,
+        1596.7207248003688
+      ],
+      "objectids": [
+        165104,
+        170606,
+        181060
+      ],
+      "id": "F08",
+      "modern_node_id": "J0226",
+      "role": "check",
+      "pixel_xy": [
+        4310,
+        1406
+      ],
+      "identity_evidence": "Black Brook mouth southern bank/coast junction",
+      "source_uncertainty_px": 20,
+      "status": "New candidate collected after eleven-control freeze, awaiting exact native/modern review."
+    },
+    {
+      "lonlat": [
+        -60.3394052,
+        46.7682992
+      ],
+      "source_guide_xy": [
+        3982.2230707192793,
+        1752.8927424002904
+      ],
+      "objectids": [
+        156655,
+        156656,
+        181059
+      ],
+      "id": "F09",
+      "modern_node_id": "J0244",
+      "role": "check",
+      "pixel_xy": [
+        4240,
+        1450
+      ],
+      "identity_evidence": "Black Brook last southern tributary before coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "New candidate collected after eleven-control freeze, awaiting exact native/modern review."
+    }
+  ]
+}

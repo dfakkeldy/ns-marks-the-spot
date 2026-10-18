@@ -1,0 +1,47 @@
+[
+  {
+    "image": "cove-brook.jpg",
+    "lonlat_bounds": [
+      -61.415,
+      46.152,
+      -61.376,
+      46.186
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/result/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif"
+    ],
+    "reference": "../reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "strathlorne.jpg",
+    "lonlat_bounds": [
+      -61.328,
+      46.176,
+      -61.276,
+      46.213
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/result/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif"
+    ],
+    "reference": "../reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "hay-river.jpg",
+    "lonlat_bounds": [
+      -61.26,
+      46.101,
+      -61.222,
+      46.123
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/result/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif"
+    ],
+    "reference": "../reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

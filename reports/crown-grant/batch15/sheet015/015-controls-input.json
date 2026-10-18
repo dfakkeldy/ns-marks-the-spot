@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Granit Lake northern tip",
+    [
+      3348,
+      450
+    ],
+    [
+      3300,
+      474
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Whitesand Lake northeastern roof",
+    [
+      5106,
+      310
+    ],
+    [
+      5096,
+      355
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Flagstaff Lake northern tip",
+    [
+      4150,
+      1623
+    ],
+    [
+      4148,
+      1678
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "East Clearwater Lake northern roof",
+    [
+      3449,
+      2483
+    ],
+    [
+      3420,
+      2483
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Lost Lake northeastern horn",
+    [
+      4251,
+      2516
+    ],
+    [
+      4208,
+      2519
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Harlow Lake northern roof",
+    [
+      617,
+      1656
+    ],
+    [
+      609,
+      1632
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Solomon Churchill Lake southern tip",
+    [
+      723,
+      3365
+    ],
+    [
+      700,
+      3337
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Barrios Lake northeastern island north",
+    [
+      335,
+      1358
+    ],
+    [
+      320,
+      1334
+    ],
+    "WALKIS10"
+  ]
+]

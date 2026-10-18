@@ -1,0 +1,112 @@
+[
+  {
+    "id": "C01",
+    "label": "Henry Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1204,
+      2547
+    ],
+    "lonlat": [
+      -61.59666639582646,
+      45.98953128161241
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 22575,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1228.2702236750629,
+      2547.1467949943617
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Port Hood Island West Point",
+    "role": "proposal",
+    "pixel_xy": [
+      1512,
+      2420
+    ],
+    "lonlat": [
+      -61.58150230470994,
+      46.00029487997488
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 20913,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1536.04732662288,
+      2412.164727680618
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Finlay Point western corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4274,
+      291
+    ],
+    "lonlat": [
+      -61.46561009817827,
+      46.13546525671276
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 5327,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4318.657712229819,
+      286.38153652858455
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Green Point northwestern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      3700,
+      989
+    ],
+    "lonlat": [
+      -61.48450197885034,
+      46.09623824310668
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 6552,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3724.8759281960083,
+      987.997770441114
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cape Susan northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1857,
+      3577
+    ],
+    "lonlat": [
+      -61.532880533000245,
+      45.95735530751574
+    ],
+    "guide_file": ".crown-grant-local/108-adjacent-guide.npy",
+    "reference_objectid": 10472,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1887.694241766294,
+      3576.2277200230164
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

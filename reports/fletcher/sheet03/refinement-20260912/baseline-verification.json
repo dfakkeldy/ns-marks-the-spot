@@ -1,0 +1,21 @@
+{
+  "base_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet03/final-fit.json",
+      "sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet03/boundary.json",
+      "sha256": "3956eff0f13aba1316eed2e8df40d36fb3429138e4e356f3a1a7be10739a547b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/native/sheet03.png",
+      "sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "sha256": "86f27229ea21c2e36d822be8f9871c16241a28bb1b4daa8abd7ec2761eaed951"
+    }
+  ]
+}

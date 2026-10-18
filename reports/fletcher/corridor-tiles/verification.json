@@ -1,0 +1,15 @@
+{
+  "zoom": 15,
+  "projectedPixelSizeM": 4.777314267823516,
+  "completeXYZRectangles": true,
+  "referenceLineCells": 22574,
+  "transparentRoadCells": 0,
+  "opaqueSourceBoundaryDifferencesAtCropEdges": 0,
+  "opaqueInteriorTileBoundaryHoles": 0,
+  "opaqueRGBMeanAbsoluteDifference": 0.0,
+  "boundaryRGBMeanAbsoluteDifference": 0.0,
+  "boundaryRGBMaxDifference": 0,
+  "comparison": "GDAL raster tile bilinear tiles versus a continuous GDAL bilinear render. Resampling differences are not geographic errors.",
+  "sourceSha256": "df654367879697a98f99a110ebd17d9bb4a9ad53d43551f87855c00458f23ebe",
+  "coverageLineSha256": "ea8d87af5df7c83eb475b1401424a20d099ea83705a898402bd0c00a247c0dd6"
+}

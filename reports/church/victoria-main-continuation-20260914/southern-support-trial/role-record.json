@@ -1,0 +1,32 @@
+{
+  "prospective_control": "VM23",
+  "never_fresh": true,
+  "source_observation_sha256": "72a9cea4b55e26162bfa9a72c19a6a61d010f36c4acd3df7eeae914a30e883e1",
+  "preserved_initial_unscored_centroid": "../centroid-arithmetic-audit/VM23-original-unscored.json",
+  "diagnostics": [
+    "VM07",
+    "VM20",
+    "VM21",
+    "VM22"
+  ],
+  "prior_first_results_preserved": [
+    "regional-tps11/VM20-first.json",
+    "regional-tps11/VM21-first.json",
+    "regional-tps11/VM22-first.json"
+  ],
+  "excluded_from_checks": [
+    "VM01",
+    "VM02",
+    "VM06",
+    "VM11",
+    "VM17",
+    "VM18",
+    "VM08",
+    "VM19",
+    "VM10",
+    "VM12",
+    "VM15",
+    "VM23"
+  ],
+  "geographic_acceptance": false
+}

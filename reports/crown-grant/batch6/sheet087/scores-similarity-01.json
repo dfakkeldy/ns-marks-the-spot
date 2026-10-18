@@ -1,0 +1,155 @@
+{
+  "count": 4,
+  "rms_ground_m": 117.04764688698587,
+  "median_ground_m": 105.78670762120267,
+  "p95_ground_m": 158.76155893166907,
+  "max_ground_m": 163.9376292139114,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 19.721595940601198,
+  "mean_north_ground_m": -29.994427309122578,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Botany Bay Lake east lobe extremity",
+      "role": "check",
+      "pixel_xy": [
+        360,
+        1364
+      ],
+      "lonlat": [
+        -62.960041962737066,
+        45.47635504084646
+      ],
+      "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+      "reference_objectid": 124945,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124945,
+      "nearest_unfiltered_distance_guide_px": 1.3630795911159843,
+      "selected_distance_guide_px": 1.3630795911159843,
+      "guide_reference_pixel_xy": [
+        313.6479888979229,
+        1324.8266450128285
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and scoring; modern WALK20 features verified.",
+      "review": "All physical decisions precede fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.959766393396634,
+        45.47520673150101
+      ],
+      "error_ground_m": 129.4304939989626,
+      "east_ground_m": 21.547416836592735,
+      "north_ground_m": -127.62429864444157
+    },
+    {
+      "id": "Q02",
+      "label": "Round Lake northeast tip",
+      "role": "check",
+      "pixel_xy": [
+        1118,
+        3630
+      ],
+      "lonlat": [
+        -62.86030919388094,
+        45.394286143396556
+      ],
+      "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+      "reference_objectid": 142990,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142990,
+      "nearest_unfiltered_distance_guide_px": 1.955596531416503,
+      "selected_distance_guide_px": 1.955596531416503,
+      "guide_reference_pixel_xy": [
+        1090.4121632642928,
+        3633.088330772007
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and scoring; modern WALK20 features verified.",
+      "review": "All physical decisions precede fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.861101559860124,
+        45.39407025856623
+      ],
+      "error_ground_m": 66.52328921229244,
+      "east_ground_m": -62.045812746586265,
+      "north_ground_m": -23.993022490671255
+    },
+    {
+      "id": "Q03",
+      "label": "Calder Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        5088,
+        3287
+      ],
+      "lonlat": [
+        -62.63749984118995,
+        45.475010935301135
+      ],
+      "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+      "reference_objectid": 141701,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141701,
+      "nearest_unfiltered_distance_guide_px": 4.783994398468515,
+      "selected_distance_guide_px": 4.783994398468515,
+      "guide_reference_pixel_xy": [
+        5037.239008855657,
+        3305.2219797853613
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and scoring; modern WALK20 features verified.",
+      "review": "All physical decisions precede fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.63546786876242,
+        45.474647578546396
+      ],
+      "error_ground_m": 163.9376292139114,
+      "east_ground_m": 158.8862890903171,
+      "north_ground_m": -40.381845071592366
+    },
+    {
+      "id": "Q04",
+      "label": "Mill Pond near Concord Mills north tip",
+      "role": "check",
+      "pixel_xy": [
+        2045,
+        2885
+      ],
+      "lonlat": [
+        -62.82378460255752,
+        45.43983424732131
+      ],
+      "guide_file": ".crown-grant-local/087-adjacent-guide.npy",
+      "reference_objectid": 132845,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132845,
+      "nearest_unfiltered_distance_guide_px": 1.801306413903286,
+      "selected_distance_guide_px": 1.801306413903286,
+      "guide_reference_pixel_xy": [
+        2007.7799458765658,
+        2909.7234182340326
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and scoring; modern WALK20 features verified.",
+      "review": "All physical decisions precede fitting; checks excluded from fit.",
+      "predicted_lonlat": [
+        -62.824289476331025,
+        45.44048226862038
+      ],
+      "error_ground_m": 82.14292124344274,
+      "east_ground_m": -39.50150941791877,
+      "north_ground_m": 72.02145697021487
+    }
+  ],
+  "fit_sha256": "deda44b69536df85cd39eba185dcbdbbe461e8b4db8bf5cbbd4fbcbe7f643b1d",
+  "checks_sha256": "6796eb12086075454ace7576d35f81c34a910e841677083d002d4dfc31a9ec0c",
+  "status": "Four excluded checks reserved before first constrained similarity fit and score; all are on the same four lakes as controls and cannot establish whole-sheet accuracy"
+}

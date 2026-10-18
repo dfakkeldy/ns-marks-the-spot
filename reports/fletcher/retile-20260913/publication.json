@@ -1,0 +1,14 @@
+{
+  "revision": "fletcher-full-sheets-20260913.1",
+  "bucket": "ns-marks-fletcher-tiles",
+  "public_root": "https://tiles.kinnokilabs.com/fletcher-full-sheets-20260913.1",
+  "verified_at": "2026-09-15T11:45:08.924842+00:00",
+  "objects": 44342,
+  "tile_objects": 44340,
+  "bytes": 2448005158,
+  "all_remote_sizes_and_md5_etags_match": true,
+  "source_sha256": "f09c9e9d934a7956f811012bbd37fc8080be3bbef059038ddc9a6b8ffcf2cb7c",
+  "inventory_sha256": "5fcd277d4daf50974cf33a035c1859af775f9b5075de9208a1b9b750f5d39851",
+  "geographic_acceptance_changed": false,
+  "application_pins_changed": false
+}

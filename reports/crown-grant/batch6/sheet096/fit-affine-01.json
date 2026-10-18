@@ -1,0 +1,263 @@
+{
+  "sheet": "096",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.575000144054678,
+      1.9172965142569631
+    ],
+    [
+      1.9427228936885588,
+      -4.658965569955431
+    ],
+    [
+      547931.4068047274,
+      4998920.594291924
+    ]
+  ],
+  "source_sha256": "7853958cfa826f30f4bb6431fdb9fcf9178e35dca55e226fc8c1e86029744097",
+  "source_dimensions": [
+    6085,
+    4117
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Middle pond east of Stillwater Brook south tip",
+      "role": "control",
+      "pixel_xy": [
+        3268,
+        668
+      ],
+      "lonlat": [
+        -62.182696560141224,
+        45.16985232728048
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 124769,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124769,
+      "nearest_unfiltered_distance_guide_px": 0.3907381917805091,
+      "selected_distance_guide_px": 0.3907381917805091,
+      "guide_reference_pixel_xy": [
+        3342.1391957040178,
+        659.3651039447868
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Maloy Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        2357,
+        1568
+      ],
+      "lonlat": [
+        -62.214948964699744,
+        45.11613856378529
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 136685,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136685,
+      "nearest_unfiltered_distance_guide_px": 0.9472193432490433,
+      "selected_distance_guide_px": 0.9472193432490433,
+      "guide_reference_pixel_xy": [
+        2426.46272941347,
+        1578.8265022529522
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Georges Lake northwest lobe north tip",
+      "role": "control",
+      "pixel_xy": [
+        1595,
+        1350
+      ],
+      "lonlat": [
+        -62.26475588242513,
+        45.112170877796004
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 126430,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126430,
+      "nearest_unfiltered_distance_guide_px": 2.681927594946707,
+      "selected_distance_guide_px": 2.681927594946707,
+      "guide_reference_pixel_xy": [
+        1670.0614972303156,
+        1367.3187775707338
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Pond west of Cranberry Lakes northern lobe",
+      "role": "control",
+      "pixel_xy": [
+        5006,
+        1005
+      ],
+      "lonlat": [
+        -62.07376267529118,
+        45.183941003151354
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 134419,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134419,
+      "nearest_unfiltered_distance_guide_px": 0.6327457203940753,
+      "selected_distance_guide_px": 0.6327457203940753,
+      "guide_reference_pixel_xy": [
+        5040.391882769589,
+        1007.1748158481205
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Triangular pond southeast of New Chester southeast tip",
+      "role": "control",
+      "pixel_xy": [
+        2031,
+        3680
+      ],
+      "lonlat": [
+        -62.18294257243491,
+        45.0210880022833
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 129501,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129501,
+      "nearest_unfiltered_distance_guide_px": 0.0763932758678569,
+      "selected_distance_guide_px": 0.0763932758678569,
+      "guide_reference_pixel_xy": [
+        2099.9462396524614,
+        3729.945725165773
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Sinclair Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        4867,
+        3500
+      ],
+      "lonlat": [
+        -62.02148454112544,
+        45.07760695429601
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 142453,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142453,
+      "nearest_unfiltered_distance_guide_px": 0.7425580725698273,
+      "selected_distance_guide_px": 0.7425580725698273,
+      "guide_reference_pixel_xy": [
+        4918.419666329108,
+        3510.6125950239366
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Cranberry western lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        5635,
+        1285
+      ],
+      "lonlat": [
+        -62.03006567428994,
+        45.18263126204303
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 128660,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128660,
+      "nearest_unfiltered_distance_guide_px": 0.13930873248097692,
+      "selected_distance_guide_px": 0.13930873248097692,
+      "guide_reference_pixel_xy": [
+        5663.959575766174,
+        1289.8666853186442
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Pond west of Goldenville south tip",
+      "role": "control",
+      "pixel_xy": [
+        4975,
+        2659
+      ],
+      "lonlat": [
+        -62.03579401266787,
+        45.113716878090266
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 142880,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142880,
+      "nearest_unfiltered_distance_guide_px": 0.7104457526378817,
+      "selected_distance_guide_px": 0.7104457526378817,
+      "guide_reference_pixel_xy": [
+        5009.567434683442,
+        2680.5635782238096
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    83.19134540215364,
+    21.116457072821927,
+    21.780165707083604,
+    39.473778668831095,
+    51.93297238039779,
+    93.83461867919064,
+    41.85639279563949,
+    38.409067999214464
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

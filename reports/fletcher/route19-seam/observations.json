@@ -1,0 +1,196 @@
+{
+  "fit_changes": false,
+  "role": "additional checks only; no fitting inputs",
+  "source_frame": "Original full scan, zero-based image-edge x/y. Unrotated native crops; each trace is drawn from native road-centre ink.",
+  "source_sha256": {
+    "16": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+    "19": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724"
+  },
+  "line_metric": "Nearest perpendicular distance to modern highway polyline; cannot detect displacement along a straight road. Samples are correlated, not independent point checks.",
+  "line_gate": {
+    "median_ground_m": 100,
+    "worst_ground_m": 200
+  },
+  "seam_gate": {
+    "road_discontinuity_ground_m": 25,
+    "reason": "Limit a visible road-centre step to approximately the old road symbol width at this map scale; footprint overlap alone is insufficient."
+  },
+  "points": [
+    {
+      "id": "S16A",
+      "sheet": "16",
+      "pixel_xy": [
+        4302,
+        6333
+      ],
+      "lonlat": [
+        -61.4678419,
+        45.9252338
+      ],
+      "label": "Judique Intervale Brook at Judique River",
+      "reference": {
+        "layer": "water-lines",
+        "objectids": [
+          195936,
+          275409,
+          275411
+        ]
+      },
+      "identity": "Large eastern Intervale Brook joins the main north-south Judique River before the main exits the southern border. Eastern loop and road crossing upstream distinguish it from the tiny tributary farther south.",
+      "uncertainty_native_px": 6
+    },
+    {
+      "id": "S19A",
+      "sheet": "19",
+      "pixel_xy": [
+        4098,
+        1181
+      ],
+      "lonlat": [
+        -61.4726654,
+        45.92115
+      ],
+      "label": "Northwestern tributary beside Judique main channel",
+      "reference": {
+        "layer": "water-lines",
+        "objectids": [
+          195830,
+          195831,
+          195933
+        ]
+      },
+      "identity": "Thin northwestern tributary crosses the road and joins the west side of the main river north of the large eastern fork O01. Modern separate bank/centreline nodes differ; this is the western junction, not O01 or the next eastern tributary farther north.",
+      "uncertainty_native_px": 10
+    }
+  ],
+  "lines": [
+    {
+      "id": "L16P",
+      "sheet": "16",
+      "area": "Port Hood gap",
+      "pixel_xy": [
+        [
+          2981,
+          3800
+        ],
+        [
+          2982,
+          3850
+        ],
+        [
+          2985,
+          3900
+        ],
+        [
+          2982,
+          3950
+        ],
+        [
+          2970,
+          4000
+        ],
+        [
+          2977,
+          4050
+        ],
+        [
+          2984,
+          4100
+        ],
+        [
+          2995,
+          4150
+        ],
+        [
+          3000,
+          4200
+        ],
+        [
+          3007,
+          4250
+        ],
+        [
+          3015,
+          4300
+        ],
+        [
+          3028,
+          4350
+        ]
+      ],
+      "identity": "Eastern paired road lines beside the labelled tram road. Trace the road centre, not the western tramway or the changed mining shoreline. Only the straight stretch south of Mill Creek and north of the southern bend is tested."
+    },
+    {
+      "id": "L16S",
+      "sheet": "16",
+      "area": "Southern gap",
+      "pixel_xy": [
+        [
+          4100,
+          6100
+        ],
+        [
+          4147,
+          6150
+        ],
+        [
+          4164,
+          6200
+        ],
+        [
+          4178,
+          6250
+        ],
+        [
+          4179,
+          6280
+        ],
+        [
+          4176,
+          6300
+        ],
+        [
+          4164,
+          6350
+        ],
+        [
+          4141,
+          6400
+        ],
+        [
+          4138,
+          6410
+        ]
+      ],
+      "identity": "Paired north-south road west of Judique River, following the eastern bow and southward return to the neatline."
+    },
+    {
+      "id": "L19N",
+      "sheet": "19",
+      "area": "Judique join",
+      "pixel_xy": [
+        [
+          4081,
+          1100
+        ],
+        [
+          4063,
+          1150
+        ],
+        [
+          4042,
+          1200
+        ],
+        [
+          4027,
+          1240
+        ]
+      ],
+      "identity": "Paired road west of Judique River, from the inner northern neatline toward the river crossing; stop before the crossing bend."
+    }
+  ],
+  "rejections": [
+    "Portsmouth mine headland: modern shoreline shape differs markedly; not used.",
+    "Sheet16 thin lines crossing the road near native y6187 and y6337: lack matching water topology and may be geological linework; not admitted as stream crossings."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-09-15T22:12:39.606664+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Actual production GeoTIFF import, 4751x6488 source dimensions, 70% opacity, only active My Maps raster among 16 records, survives navigation/reload. Full cutline overview z10; McLennan z15 in 2D, 10x terrain at 50 and 0 degrees; Skye z14 in 2D and 10x terrain at 50 degrees. Screenshots supply context, no measured source pixels.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/mclennan-2d.png",
+      "sha256": "3b73de01bab8634083be564538014b9e2c8f4bdb502c4c4f193b508d6c3d96c2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/mclennan-terrain10x-topdown.png",
+      "sha256": "9868185a4b04bb076b6ad154feccf8116b567aef7094c8c68368839e8639ac89"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/mclennan-terrain10x.png",
+      "sha256": "1d4a580782a64aae842baec07db8ec1f6aad40fa89401d7afaf1f931dac9af4a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/overview-reloaded-2d.png",
+      "sha256": "336cf0da958f8953b7f1a2caa71c1f2d33fb59cf13b08ca2059bbceb55834e03"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/skye-2d.png",
+      "sha256": "001c1e2001b6adc01a1f50cb8166b6c70f61aea7e85af737c354b8e20b1ff5e9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/skye-terrain10x.png",
+      "sha256": "9cf45b18074778dae8f0c75690960f4bad5c7cb592a38638e0286f9fdf9898c6"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/imported-state.txt",
+      "sha256": "5e541a80ae39406d71e782288974350d0154850059a11e9610f130a0720356dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/mclennan-terrain10x-topdown-state.txt",
+      "sha256": "571d6727cfc360c7466ed6234d804eb765d99042d01a78c74b3e20d200bc943b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/reloaded-state.txt",
+      "sha256": "aba832fc46366a5826bd20879d19913c96de2d151886e2e21cc99943b0b561d3"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/browser/skye-terrain10x-state.txt",
+      "sha256": "39ca5fea80c8be82ab963ec3005a7c26e73114030ac7c7ee60301093d871b767"
+    }
+  ],
+  "console_errors": [],
+  "raw_scan_mesh_acceptance": false,
+  "geographic_acceptance": false
+}

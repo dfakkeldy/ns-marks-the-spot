@@ -1,0 +1,9 @@
+{
+  "frozen_at": "2026-09-12T15:45:14.547855+00:00",
+  "fit_sha256": "41f3defeab5ada5b71e1ec2493cb5955fb1f5787cf85969a32f28e586e8043b8",
+  "prior_control_count": 8,
+  "control_count": 10,
+  "prior_fit_sha256": "4dbb3c414a96a7a3a7a547b2c837e601aa6a9a7e68387f46e43415c2611c9daa",
+  "repairs_complete_before_new_selection": true,
+  "legacy_metadata_note": "Parent prior_control_count=0 is inaccurate; eight actual records preserved unchanged."
+}

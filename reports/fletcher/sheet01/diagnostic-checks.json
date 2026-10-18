@@ -1,0 +1,35 @@
+{
+  "sheet": "sheet-01",
+  "fit_sha256": "3a99982a376d5768097ea5b146dda9a0a9de957fbb7fd868b22e2890ebf3a3db",
+  "points": [
+    {
+      "lonlat": [
+        -60.6202159,
+        47.0231761
+      ],
+      "source_guide_xy": [
+        3772.6276816802565,
+        4717.820553279249
+      ],
+      "objectids": [
+        7565,
+        7566,
+        180804
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        3908,
+        4594
+      ],
+      "modern_node_id": "J0045",
+      "identity_evidence": "Northern of the two Lowland Cove mouths, on coastal bend north of road turn; historical tributary is drawn shorter than modern.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected diagnostic proposal; final crosshair pending inspection before scoring.",
+      "original_pixel_xy": [
+        3870,
+        4610
+      ]
+    }
+  ]
+}

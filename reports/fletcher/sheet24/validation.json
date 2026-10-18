@@ -1,0 +1,122 @@
+{
+  "sheet": "sheet-24",
+  "fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+  "points": [
+    {
+      "lonlat": [
+        -61.48807962148118,
+        45.37923234701242
+      ],
+      "guide_xy": [
+        3660.822425646009,
+        7184.322811188409
+      ],
+      "modern_objectid": 3905,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 3905,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 929.96179269281
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        3748,
+        7058
+      ],
+      "identity_evidence": "Hadley Beach southernmost spit, mapped Guysborough extension",
+      "source_uncertainty_px": 20,
+      "status": "Original native crosshair and modern physical context personally inspected before scoring."
+    },
+    {
+      "lonlat": [
+        -61.5503352,
+        45.4445601
+      ],
+      "source_guide_xy": [
+        2309.082488320535,
+        5128.957091440447
+      ],
+      "objectids": [
+        127433,
+        127434,
+        211975
+      ],
+      "id": "V03",
+      "role": "check",
+      "modern_node_id": "J1084",
+      "pixel_xy": [
+        2388,
+        4951
+      ],
+      "identity_evidence": "Fraser Lake northern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Original native crosshair and modern physical context personally inspected before scoring."
+    },
+    {
+      "lonlat": [
+        -61.4121455,
+        45.4295003
+      ],
+      "source_guide_xy": [
+        5323.907571820077,
+        5619.715096000116
+      ],
+      "objectids": [
+        136232,
+        136333,
+        196359
+      ],
+      "id": "V04",
+      "role": "check",
+      "modern_node_id": "J1214",
+      "pixel_xy": [
+        5428,
+        5507
+      ],
+      "identity_evidence": "McPherson Lake southeastern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Original native crosshair and modern physical context personally inspected before scoring."
+    },
+    {
+      "lonlat": [
+        -61.28188878963612,
+        45.5533698853498
+      ],
+      "guide_xy": [
+        8180.904401891865,
+        1756.4523657981772
+      ],
+      "modern_objectid": 4978,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 4978,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 183.78535073389037
+      },
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        8298,
+        1688
+      ],
+      "identity_evidence": "Flat Head southernmost outer coast, north side of Strait",
+      "source_uncertainty_px": 20,
+      "status": "Original native crosshair and modern physical context personally inspected before scoring.",
+      "correction": "Expanded selection window to include complete Flat Head tip; initial minimum was clipped at window boundary."
+    }
+  ],
+  "status": "Four fresh physical checks collected and personally inspected after repair freeze; none used in fit. Northern Knight basin and Sundown competing tributaries rejected unscored. Sparse northern/interior coverage remains an acceptance limitation."
+}

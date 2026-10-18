@@ -1,0 +1,24 @@
+{
+  "checked_at_utc": "2026-09-24T12:34:24.376807+00:00",
+  "reason": "Reconcile unlinked numeric gaps without inferring absence from consecutive numbering",
+  "sources": [
+    {
+      "sheet": "001",
+      "url": "https://novascotia.ca/natr/land/indexmaps/001.pdf",
+      "http_status": 404,
+      "content_type": "text/html; Charset=utf-8"
+    },
+    {
+      "sheet": "012",
+      "url": "https://novascotia.ca/natr/land/indexmaps/012.pdf",
+      "http_status": 404,
+      "content_type": "text/html; Charset=utf-8"
+    },
+    {
+      "sheet": "134",
+      "url": "https://novascotia.ca/natr/land/indexmaps/134.pdf",
+      "http_status": 404,
+      "content_type": "text/html; Charset=utf-8"
+    }
+  ]
+}

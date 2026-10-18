@@ -1,0 +1,70 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "before": {
+    "record": {
+      "id": "3dbef476-6ac2-494f-92b8-6281b110dfce",
+      "name": "hawkesbury-corridor-preview",
+      "source": "geotiff",
+      "createdAt": "2026-09-07T01:12:38.435Z",
+      "pixelSize": {
+        "width": 2588,
+        "height": 4007
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6842620,
+          5,
+          0,
+          5739470,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      2588,
+      4007
+    ],
+    "storedRasterSha256": "c320023ccd7c21402b315d313590d2b5aa75ab0f0392b02b34857a6b83838c47",
+    "rasterBytes": 3506791,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 8982531,
+    "opaquePixels": 1387585
+  },
+  "after": {
+    "record": {
+      "id": "3dbef476-6ac2-494f-92b8-6281b110dfce",
+      "name": "hawkesbury-corridor-preview",
+      "source": "geotiff",
+      "createdAt": "2026-09-07T01:12:38.435Z",
+      "pixelSize": {
+        "width": 2588,
+        "height": 4007
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6842620,
+          5,
+          0,
+          5739470,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      2588,
+      4007
+    ],
+    "storedRasterSha256": "c320023ccd7c21402b315d313590d2b5aa75ab0f0392b02b34857a6b83838c47",
+    "rasterBytes": 3506791,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 8982531,
+    "opaquePixels": 1387585
+  },
+  "enabledStateSurvived": true
+}

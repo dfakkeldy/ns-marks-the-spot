@@ -1,0 +1,52 @@
+{
+  "verified_at_utc": "2026-09-25T10:03:33.266973+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "020",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6058,
+        5212
+      ],
+      "complete": true
+    },
+    {
+      "file": "prim-point-inset-3857.png",
+      "dimensions": [
+        2819,
+        2082
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5740,
+        3852
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-frame historical and modern-only screenshots inspected; all decoded images and both raster opacities65/40/0/65 verified.",
+    "Separate Prim Point inset inspected at1km in both historical and modern-only views; full inset visible1180x871screenpixels.",
+    "Warning/error console empty."
+  ],
+  "inset_close_review": {
+    "component": "prim-point-inset",
+    "scale_bar": "1 km",
+    "historical": true,
+    "modern_only": true
+  }
+}

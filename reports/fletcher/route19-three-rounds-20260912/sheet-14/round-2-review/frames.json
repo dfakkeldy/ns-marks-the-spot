@@ -1,0 +1,117 @@
+[
+  {
+    "image": "C12.jpg",
+    "record": "route19-three-rounds-20260912/sheet-14/round-1-fit.json",
+    "record_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+    "id": "C12",
+    "native_box": [
+      5191,
+      4808,
+      5511,
+      5128
+    ],
+    "pixel_xy": [
+      5351,
+      4968
+    ],
+    "lonlat": [
+      -61.4290245,
+      46.1428783
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "C13.jpg",
+    "record": "route19-three-rounds-20260912/sheet-14/round-1-fit.json",
+    "record_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+    "id": "C13",
+    "native_box": [
+      6215,
+      6251,
+      6535,
+      6571
+    ],
+    "pixel_xy": [
+      6375,
+      6411
+    ],
+    "lonlat": [
+      -61.3701531,
+      46.1048035
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "C17.jpg",
+    "record": "route19-three-rounds-20260912/sheet-14/round-1-fit.json",
+    "record_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+    "id": "C17",
+    "native_box": [
+      6196,
+      4849,
+      6516,
+      5169
+    ],
+    "pixel_xy": [
+      6356,
+      5009
+    ],
+    "lonlat": [
+      -61.3819245,
+      46.1411574
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "Q08.jpg",
+    "record": "route19-three-rounds-20260912/sheet-14/round-1-fit.json",
+    "record_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+    "id": "Q08",
+    "native_box": [
+      6789,
+      5123,
+      7109,
+      5443
+    ],
+    "pixel_xy": [
+      6949,
+      5283
+    ],
+    "lonlat": [
+      -61.3520005,
+      46.1307664
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "F04.jpg",
+    "record": "route19-three-rounds-20260912/sheet-14/round-1-fit.json",
+    "record_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+    "id": "F04",
+    "native_box": [
+      4980,
+      5990,
+      5300,
+      6310
+    ],
+    "pixel_xy": [
+      5140,
+      6150
+    ],
+    "lonlat": [
+      -61.4394085,
+      46.1043032
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  }
+]

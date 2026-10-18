@@ -1,0 +1,55 @@
+{
+  "status": "exploratory-not-accepted",
+  "transform": "affine in EPSG:3857",
+  "coordinate_precision": "Transcribed UI values: integer pixels; WGS84 4 decimal places. Not exact session export.",
+  "source_dimensions": [
+    5416,
+    3842
+  ],
+  "source_sha256": "5df5fe1e6d33e61b2f7c3c3811e2152b3c5f3ff2f999806ba404460aff02f49c",
+  "control_rms_metres": 16.2,
+  "observations": [
+    {
+      "label": "Big Harbour Island hooked peninsula northern tip",
+      "role": "control",
+      "error_metres": 8.5
+    },
+    {
+      "label": "Black Pond headland northern tip",
+      "role": "control",
+      "error_metres": 14.2
+    },
+    {
+      "label": "Calder Island northern tip",
+      "role": "control",
+      "error_metres": 22.4
+    },
+    {
+      "label": "River Denys estuary narrow crossing",
+      "role": "control",
+      "error_metres": 16.7
+    },
+    {
+      "label": "Crane Island northern tip",
+      "role": "check",
+      "error_metres": 67.2
+    }
+  ],
+  "parameters": [
+    [
+      10.309648407700934,
+      0.13251866988184702,
+      -6823743.247489639
+    ],
+    [
+      -0.0028477447824570845,
+      -10.19540825850072,
+      5773602.13106375
+    ]
+  ],
+  "limitations": [
+    "Single island check only; no independent mountain or western/northern-margin validation.",
+    "No measurement of production Rumsey-baseline errors; improvement over production not established.",
+    "No curved warp justified by these observations."
+  ]
+}

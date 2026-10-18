@@ -1,0 +1,25 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "sha256": "9f3cbc615328c16e806daf15954b0cf58595105e41205fc0f922521de44d3544"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif",
+      "sha256": "72e71a885c26a3b675de77d0d4c5dd9c8ad50637806621d4cc97c619128c59c4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "sha256": "4b6057df3d3ad73269cce9cbf43dedf72a0cb73a5f9974a794b31c70d3722180"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif",
+      "sha256": "3e67d70abb9d33a86bdceccd9be00a1e68f98e93f988267ff281a315d5a23edf"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/30-control/sheet-11-exact.tif",
+      "sha256": "b765d51fc4466a9f17dae197898f1cbe84208127b9987bf238adc8dbe7aec95f"
+    }
+  ],
+  "scope": "All neighboring rasters remain provisional; Sheet08 eleven-control and Sheet11 thirty-control external drafts; Sheet06 preserved ten-control raster."
+}

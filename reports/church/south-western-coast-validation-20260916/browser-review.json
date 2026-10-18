@@ -1,0 +1,59 @@
+{
+  "recorded_at": "2026-09-16T03:21:26.253046+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active at 70% opacity. Both checks inspected in 2D and at 10× terrain with 50° and 0° tilt, north up, zoom 15. Exaggerated slopes obscure both features in the tilted view; top-down captures retain the plan view. Coordinates come from native/vector evidence, not screenshots. No new import or fit change.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS48-2d.png",
+      "sha256": "18e881bc1a4e5e51c483524f28d0ac4abf4beca8eb83f785a814276e2a7bac4d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS48-terrain10x-topdown.png",
+      "sha256": "e3253cb5302cc0912c6eb27ae2c419ae3eb136a27c1a356cef20a114de85706e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS48-terrain10x.png",
+      "sha256": "03d8604dcde0b3b54cf7a7717399a52e06fdb04e1ef01851170a975a8ace49c3"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS49-2d.png",
+      "sha256": "43d441757cbc7df01c5df73323ad594aa9773e116916faf69cbcbef95c5c9b98"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS49-terrain10x-topdown.png",
+      "sha256": "5a92c62fc822f4ac8e9bb732b4556125bbce8f4f09e488822797c36985932ca0"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS49-terrain10x.png",
+      "sha256": "b8b8611fbb6bf7113968a32f4495f54d292383cd7f4291a8f08af21d6ba565a1"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS48-import-state.txt",
+      "sha256": "542a99be2d4ca0438f520f9a57de4ee7552992171ce1155bf7ab07dce85c7c99"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS48-terrain10x-state.txt",
+      "sha256": "5601b921e71873910ec04ef3ce0e96a6d1978344af314cbe629fc3b624ece9bc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS48-topdown-state.txt",
+      "sha256": "b947e6b7bf8a276d51c1ace4339e6d70d20c18a61c44769815e6c632ff25e656"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS49-import-state.txt",
+      "sha256": "56237cf7c377988d62a3737317b144989935f54ee1942be2db74683230c3851f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS49-terrain10x-state.txt",
+      "sha256": "df3dcaea36477c606299269755d8c3e6e7fad72eb4e2325c886692437d7b0be1"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/browser/IS49-topdown-state.txt",
+      "sha256": "c123236ca8d3bc7f092e817cb6d4b1edb28cde51ea7966d9c7c514dd58d2ef32"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

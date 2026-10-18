@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Long Pond southern tip",
+    [
+      958,
+      2597
+    ],
+    [
+      1085,
+      2560
+    ],
+    "WA"
+  ],
+  [
+    "C02",
+    "Dunmore coastal pond southern tip",
+    [
+      950,
+      1688
+    ],
+    [
+      955,
+      1647
+    ],
+    "WA"
+  ],
+  [
+    "C04",
+    "River Inhabitants west-facing loop apex near Askilton",
+    [
+      3275,
+      2190
+    ],
+    [
+      3240,
+      2250
+    ],
+    "WA"
+  ],
+  [
+    "C05",
+    "Sugar Camp kidney-shaped pond northern tip",
+    [
+      2720,
+      2319
+    ],
+    [
+      2736,
+      2337
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Lake north of Beaver Lakes northwestern lobe apex",
+    [
+      5320,
+      1409
+    ],
+    [
+      5078,
+      1577
+    ],
+    "WALK"
+  ]
+]

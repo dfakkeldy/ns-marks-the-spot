@@ -1,0 +1,199 @@
+{
+  "sheet": "044",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.986657974478027,
+      2.006333250731953
+    ],
+    [
+      1.9991708153346288,
+      -4.841685239819994
+    ],
+    [
+      364532.4028387003,
+      4985934.322830795
+    ]
+  ],
+  "source_sha256": "fe8fb448da91fc3259fde5a4bca71f28ae36ca102d45e778261fb10f37f356e4",
+  "source_dimensions": [
+    5672,
+    3933
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Gaspereau northwestern fingered island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1183,
+        1706
+      ],
+      "lonlat": [
+        -64.60047108790228,
+        44.96314030258307
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 310769,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 310769,
+      "nearest_unfiltered_distance_guide_px": 1.0841338031501218,
+      "selected_distance_guide_px": 1.0841338031501218,
+      "guide_reference_pixel_xy": [
+        1157.6405112160137,
+        1683.0227971046697
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Gaspereau central star island eastern horn",
+      "role": "control",
+      "pixel_xy": [
+        1412,
+        1737
+      ],
+      "lonlat": [
+        -64.58371639042858,
+        44.9651338170448
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 153249,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 153249,
+      "nearest_unfiltered_distance_guide_px": 0.16777033780138975,
+      "selected_distance_guide_px": 0.16777033780138975,
+      "guide_reference_pixel_xy": [
+        1402.0159436446265,
+        1746.1670110368868
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Gaspereau eastern heart island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1918,
+        2114
+      ],
+      "lonlat": [
+        -64.54242544037119,
+        44.958919693123086
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 153462,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 153462,
+      "nearest_unfiltered_distance_guide_px": 0.5871412039212438,
+      "selected_distance_guide_px": 0.5871412039212438,
+      "guide_reference_pixel_xy": [
+        1911.9329355725204,
+        2113.5832985135494
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "River Lake large island northern corner",
+      "role": "control",
+      "pixel_xy": [
+        3060,
+        2367
+      ],
+      "lonlat": [
+        -64.46489763090138,
+        44.96940625132361
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 154496,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 154496,
+      "nearest_unfiltered_distance_guide_px": 0.7544459530794569,
+      "selected_distance_guide_px": 0.7544459530794569,
+      "guide_reference_pixel_xy": [
+        3053.458407467697,
+        2380.474770312081
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Morton Flowage northern large island northwest corner",
+      "role": "control",
+      "pixel_xy": [
+        3359,
+        3315
+      ],
+      "lonlat": [
+        -64.42036018040223,
+        44.93435887008253
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 147817,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 147817,
+      "nearest_unfiltered_distance_guide_px": 0.7279343684499082,
+      "selected_distance_guide_px": 0.7279343684499082,
+      "guide_reference_pixel_xy": [
+        3369.575091688719,
+        3316.408948926255
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Mill Brook southern tributary junction north of South Alton",
+      "role": "control",
+      "pixel_xy": [
+        2467,
+        638
+      ],
+      "lonlat": [
+        -64.54730234268926,
+        45.033224035761926
+      ],
+      "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+      "reference_objectid": 273173,
+      "reference_feature_code": "WARV50",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 273173,
+      "nearest_unfiltered_distance_guide_px": 1.797934916927284,
+      "selected_distance_guide_px": 1.797934916927284,
+      "guide_reference_pixel_xy": [
+        2462.38428815105,
+        668.3107786158798
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    84.15026236003493,
+    82.85342674766233,
+    23.538150761248335,
+    45.09009296948032,
+    23.08880160502023,
+    14.30589292154317
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

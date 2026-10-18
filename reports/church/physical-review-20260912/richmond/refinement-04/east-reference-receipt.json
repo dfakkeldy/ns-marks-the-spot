@@ -1,0 +1,11 @@
+{
+  "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "bbox": "-60.46,45.61,-60.20,45.82",
+  "count": 3643,
+  "unique_feature_ids": 3643,
+  "sha256": "a891b4f897d31d007e790ce1c2485aac6e3f7dc4ccad56214ccfb0140b85a53a",
+  "retrieved_date": "2026-09-13T01:53:47.426345+00:00",
+  "output_crs": "EPSG:4326",
+  "method": "tools/fletcher/fetch_nstdb_extract.py paged 1000-feature requests through final short page; complete response retained outside Git",
+  "path": "/Users/dfakkeldy/Downloads/church-refinement-03/east-water-lines.geojson"
+}

@@ -1,0 +1,54 @@
+[
+  [
+    "C01",
+    "Longspell Point southeast shore corner",
+    [
+      772,
+      2860
+    ],
+    [
+      854,
+      2775
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Split Rock northwest mainland corner",
+    [
+      3370,
+      3512
+    ],
+    [
+      3435,
+      3445
+    ],
+    "WACO20"
+  ],
+  [
+    "C03",
+    "Starratt Point western projecting tip",
+    [
+      3964,
+      3430
+    ],
+    [
+      4038,
+      3348
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "Pembroke western projecting tip",
+    [
+      5096,
+      3333
+    ],
+    [
+      5162,
+      3283
+    ],
+    "WACO20"
+  ]
+]

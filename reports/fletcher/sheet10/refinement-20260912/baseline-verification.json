@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-09-12T12:33:21.748314+00:00",
+  "base_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/native/sheet10.png",
+      "sha256": "492a7b5b6cf6e0b33576c5b9489bc9bd91bc43d8f0f63a125c44225929fcab46"
+    },
+    {
+      "path": "reports/fletcher/sheet10/repaired-fit.json",
+      "sha256": "684472b4fdbe8b6e6afe8c13de4d123c0b43144880dc3340a3f21f8585ac982d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "sha256": "990434356bf80c3c5a9fd310b220d3da9fa6b0dff61177286c5f5c90092b6c8a"
+    },
+    {
+      "path": "reports/fletcher/sheet10/boundary.json",
+      "sha256": "6ac04881d5ed210a745434fe9763a18e5fee941b3c29e274b0157243d7c3353b"
+    }
+  ]
+}

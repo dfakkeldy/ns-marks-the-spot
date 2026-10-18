@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "NB Grindstone Island western tip",
+    [
+      1734,
+      1609
+    ],
+    [
+      1697,
+      1546
+    ],
+    "NBHN_7"
+  ],
+  [
+    "C02",
+    "NB narrow coastal inlet north end west of Black Point",
+    [
+      4606,
+      1404
+    ],
+    [
+      4558,
+      1365
+    ],
+    "NBHN_100"
+  ],
+  [
+    "C03",
+    "NS Downing Head northwest shore corner",
+    [
+      4480,
+      2145
+    ],
+    [
+      4435,
+      2110
+    ],
+    "WACO20"
+  ],
+  [
+    "C04",
+    "NS Boss Point western projecting tip",
+    [
+      4133,
+      2350
+    ],
+    [
+      4090,
+      2315
+    ],
+    "WACO20"
+  ],
+  [
+    "C05",
+    "NS Ragged Reef Point northwest tip",
+    [
+      3105,
+      3250
+    ],
+    [
+      3068,
+      3237
+    ],
+    "WACO20"
+  ]
+]

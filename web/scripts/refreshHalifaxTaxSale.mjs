@@ -1,0 +1,427 @@
+import { execFile as execFileCallback } from "node:child_process";
+import { createHash } from "node:crypto";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
+import { promisify } from "node:util";
+import { fileURLToPath } from "node:url";
+import { buildHalifaxHistoricalAddition, findHalifaxResultPdf, parseHalifaxResultText } from "./halifaxTaxSaleResults.mjs";
+import { fetchOfficial } from "./taxSaleWatch/fetchOfficial.mjs";
+import { formatDataset, formatLedger } from "./taxSaleWatch/dataset.mjs";
+import { updateHistoricalDatasetHash } from "./watchTaxSaleSources.mjs";
+
+const execFile = promisify(execFileCallback);
+const LANDING_PAGE_URL = "https://www.halifax.ca/home-property/property-taxes/tax-sale";
+const RESULTS_PAGE_URL =
+  "https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results";
+const CURRENT_TENDER_NUMBER = "HRM-TaxSale23";
+const CURRENT_EVENT_DATE = "2026-09-15";
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
+const SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.snapshot.json");
+const MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.ts");
+const RESULT_SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSaleResults.snapshot.json");
+const HISTORICAL_DATASET_PATH = resolve(SCRIPT_DIR, "../src/data/historicalTaxSales.json");
+const HISTORICAL_LEDGER_PATH = resolve(SCRIPT_DIR, "../src/data/historicalSourceLedger.json");
+const HISTORICAL_MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/historicalTaxSales.ts");
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June", "July",
+  "August", "September", "October", "November", "December",
+];
+// The sept11 Schedule A continues to omit the two parking-space PIDs that
+// previously had empty NSPRD geometry. A non-empty pin must match a live row.
+export const HALIFAX_GEOMETRY_EXCEPTIONS = [];
+
+function decodeHtml(value) {
+  return value
+    .replaceAll("&amp;", "&").replaceAll("&quot;", '"').replaceAll("&apos;", "'")
+    .replace(/&#(\d+);/gu, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/giu, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)));
+}
+
+function textContent(value) {
+  return decodeHtml(value.replace(/<[^>]+>/gu, " ")).replace(/\s+/gu, " ").trim();
+}
+
+function uniqueMatchingUrls(html, pattern) {
+  const officialOrigin = new URL(LANDING_PAGE_URL).origin;
+  return [...new Set(Array.from(
+    html.matchAll(/href=["']([^"']+)["']/giu),
+    ([, href]) => {
+      try {
+        return String(new URL(decodeHtml(href), LANDING_PAGE_URL));
+      } catch {
+        // Official HTML has included broken hrefs (spaces in a fake absolute
+        // URL). Skip those so PDF discovery can still fail closed on count.
+        return null;
+      }
+    },
+  ).filter((url) => {
+    if (!url) return false;
+    const parsed = new URL(url);
+    return parsed.origin === officialOrigin && pattern.test(parsed.pathname);
+  }))];
+}
+
+function landingPageText(html) {
+  return textContent(
+    html
+      .replace(/<script\b[\s\S]*?<\/script>/giu, " ")
+      .replace(/<style\b[\s\S]*?<\/style>/giu, " "),
+  );
+}
+
+function isClosedAwaitingResults(pageText) {
+  return (
+    /Bidding for\s+TAXSALE23 LIST\s+[–—-]\s+Tuesday,\s+September\s+15,\s*2026\s+is now\s+Closed/iu.test(
+      pageText,
+    ) && /monitor this website page for the Results/iu.test(pageText)
+  );
+}
+
+function currentNoticeDocuments(html) {
+  return {
+    tenderNumbers: [...new Set(landingPageText(html).match(/HRM-TaxSale\d+/gu) ?? [])],
+    tenderUrls: uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu),
+    scheduleUrls: uniqueMatchingUrls(
+      html,
+      /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-[a-z]{3,9}-?\d{1,2}\.26\.pdf$/iu,
+    ),
+    taxSalePdfs: uniqueMatchingUrls(
+      html,
+      /\/documents\/home-property\/property-taxes\/[^/]+\.pdf$/iu,
+    ),
+  };
+}
+
+export function classifyLandingPage(html) {
+  const pageText = landingPageText(html);
+  const closed = isClosedAwaitingResults(pageText);
+  const { tenderNumbers, tenderUrls, scheduleUrls, taxSalePdfs } =
+    currentNoticeDocuments(html);
+
+  if (/TAXSALE23 LIST\s+[–—-]\s+Tuesday,\s+September\s+15,\s*2026\s+RESULTS\b/iu.test(pageText)) {
+    if (tenderNumbers.length || tenderUrls.length || scheduleUrls.length || taxSalePdfs.length) {
+      throw new Error("Halifax landing page mixes published results with current tender documents; refusing to guess.");
+    }
+    return { kind: "published-results", tenderNumber: CURRENT_TENDER_NUMBER, eventDate: CURRENT_EVENT_DATE };
+  }
+
+  if (closed) {
+    if (
+      tenderNumbers.length > 0 ||
+      tenderUrls.length > 0 ||
+      scheduleUrls.length > 0 ||
+      taxSalePdfs.length > 0
+    ) {
+      throw new Error(
+        "Halifax landing page mixes a closed TaxSale23 notice with current tender documents; refusing to guess which is current.",
+      );
+    }
+    return {
+      kind: "closed-awaiting-results",
+      tenderNumber: CURRENT_TENDER_NUMBER,
+      eventDate: CURRENT_EVENT_DATE,
+    };
+  }
+
+  if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
+    throw new Error(
+      `Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`,
+    );
+  }
+  return {
+    kind: "current-tender",
+    tenderNumber: tenderNumbers[0],
+    tenderUrl: tenderUrls[0],
+    scheduleUrl: scheduleUrls[0],
+  };
+}
+
+export function parseLandingPage(html) {
+  const landing = classifyLandingPage(html);
+  if (landing.kind !== "current-tender") {
+    throw new Error(
+      `Expected a current Halifax tender, found ${landing.kind}.`,
+    );
+  }
+  return {
+    tenderNumber: landing.tenderNumber,
+    tenderUrl: landing.tenderUrl,
+    scheduleUrl: landing.scheduleUrl,
+  };
+}
+
+export function assertHalifaxResultsStillHistorical(html) {
+  const pageText = landingPageText(html);
+  if (/TAXSALE\s*23|HRM[- ]?TaxSale\s*23/iu.test(pageText)) {
+    throw new Error(
+      "Official Halifax TaxSale23 results appear on the results page; refusing to guess outcomes.",
+    );
+  }
+  const currentResultPdfs = uniqueMatchingUrls(
+    html,
+    /sept(?:ember)?-?15.*2026|sept15\.2026|taxsale23/iu,
+  );
+  if (currentResultPdfs.length > 0) {
+    throw new Error(
+      "Official Halifax PDFs for the September 15, 2026 sale appear on the results page; refusing to guess outcomes.",
+    );
+  }
+}
+
+function parseDate(monthName, day, year) {
+  const month = MONTHS.indexOf(monthName) + 1;
+  return month === 0 ? null : `${year}-${String(month).padStart(2, "0")}-${String(Number(day)).padStart(2, "0")}`;
+}
+
+export function parseTenderText(source, expectedTenderNumber) {
+  const text = source.replace(/\s+/gu, " ").trim();
+  const dateAndTime = text.match(/(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4}) at (\d{1,2}):(\d{2})\s*(?:a\.?m\.?|am)/iu);
+  const tenderNumbers = [...new Set(text.match(/HRM-TaxSale\d+/gu) ?? [])];
+  const venueMatch = text.match(/Alderney Customer Service Centre located at (40 Alderney Drive, Dartmouth, Nova Scotia)/iu);
+  if (!dateAndTime || !venueMatch || tenderNumbers.length !== 1 || tenderNumbers[0] !== expectedTenderNumber) {
+    throw new Error("Could not reconcile the Halifax tender number, deadline, and submission venue.");
+  }
+  return {
+    eventDate: parseDate(dateAndTime[1], dateAndTime[2], dateAndTime[3]),
+    bidDeadlineTime: `${dateAndTime[4].padStart(2, "0")}:${dateAndTime[5]}`,
+    venue: `Online or Alderney Customer Service Centre, ${venueMatch[1]}`,
+  };
+}
+
+function parseMoneyCents(value) {
+  const match = value.match(/^\$([\d,]+)\.(\d{2})$/u);
+  return match ? Number(match[1].replaceAll(",", "")) * 100 + Number(match[2]) : null;
+}
+
+export function parseScheduleText(source) {
+  const candidateLines = source.split(/\r?\n/u).filter(
+    (line) => (line.match(/\b\d{8}\b/gu) ?? []).length >= 2 && /\$[\d,]+\.\d{2}/u.test(line),
+  );
+  if (candidateLines.some((line) => !/^\d{8}/u.test(line))) {
+    throw new Error("The fixed Schedule A columns shifted unexpectedly.");
+  }
+  const listings = candidateLines.map((line, index) => {
+    const item = index + 1;
+    const aan = line.slice(0, 8);
+    // Official pdftotext keeps description at column 130; the PID column has
+    // sat at both 196 (aug-25 fixture) and ~189 (sept3 revision). Take every
+    // complete 8-digit token after the description start, not a fixed split.
+    const pidMatches = [...line.matchAll(/\b\d{8}\b/gu)].filter((match) => (match.index ?? 0) >= 130);
+    const firstPidIndex = pidMatches[0]?.index;
+    const description = firstPidIndex === undefined ? "" : line.slice(130, firstPidIndex).trim();
+    const ownerFreeTail = firstPidIndex === undefined ? "" : line.slice(firstPidIndex);
+    const pids = pidMatches.map((match) => match[0]);
+    const amountText = ownerFreeTail.match(/\$[\d,]+\.\d{2}/u)?.[0];
+    const flags = ownerFreeTail.match(/\b(?:Yes|No)\b/gu) ?? [];
+    const openingBidCents = amountText ? parseMoneyCents(amountText) : null;
+    if (!/^\d{8}$/u.test(aan) || !description || pids.length === 0 || !Number.isSafeInteger(openingBidCents) || flags.length !== 2) {
+      throw new Error(`Could not parse owner-free Halifax row ${item}.`);
+    }
+    return {
+      item, aan, pids, description, openingBidCents,
+      hst: flags[0] === "Yes", redeemable: flags[1] === "Yes",
+      listingStatus: "advertised",
+    };
+  });
+  if (listings.length === 0) throw new Error("The Halifax Schedule A contained no complete rows.");
+  const seenAans = new Set();
+  const seenPids = new Set();
+  for (const { aan, pids } of listings) {
+    if (seenAans.has(aan)) throw new Error(`Duplicate Halifax AAN ${aan}.`);
+    seenAans.add(aan);
+    for (const pid of pids) {
+      if (seenPids.has(pid)) throw new Error(`Duplicate Halifax PID ${pid}.`);
+      seenPids.add(pid);
+    }
+  }
+  return listings;
+}
+
+export function assertCurrentScheduleCounts(listings) {
+  if (listings.length !== 10) throw new Error(`Expected 10 Halifax Schedule A rows, found ${listings.length}.`);
+  const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
+  if (pidCount !== 11) throw new Error(`Expected 11 Halifax Schedule A PIDs, found ${pidCount}.`);
+}
+
+function sha256(contents) {
+  return createHash("sha256").update(contents).digest("hex");
+}
+
+function halifaxDate(now = new Date()) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Halifax", year: "numeric", month: "2-digit", day: "2-digit",
+  }).formatToParts(now).filter(({ type }) => type !== "literal").map(({ type, value }) => [type, value]));
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function reconcileGeometryExceptions(listings, exceptions = HALIFAX_GEOMETRY_EXCEPTIONS) {
+  for (const exception of exceptions) {
+    const listing = listings.find(({ aan }) => aan === exception.aan);
+    if (!listing || listing.pids.length !== 1 || listing.pids[0] !== exception.pid) {
+      throw new Error(`Could not reconcile Halifax geometry exception AAN ${exception.aan} and PID ${exception.pid}.`);
+    }
+  }
+  return exceptions;
+}
+
+export function buildSnapshot(current, receipt, tenderBytes, scheduleBytes, now = new Date(), exceptions = HALIFAX_GEOMETRY_EXCEPTIONS) {
+  const geometryExceptions = reconcileGeometryExceptions(receipt.listings, exceptions);
+  const exceptionPids = new Set(geometryExceptions.map(({ pid }) => pid));
+  const mappedListings = receipt.listings.filter(({ pids }) => pids.every((pid) => !exceptionPids.has(pid)));
+  const tenderDocumentSha256 = sha256(tenderBytes);
+  const scheduleDocumentSha256 = sha256(scheduleBytes);
+  const sourceFactsSha256 = sha256(JSON.stringify(receipt));
+  const changed = current?.sourceFactsSha256 !== sourceFactsSha256 || current?.tenderDocumentSha256 !== tenderDocumentSha256 || current?.scheduleDocumentSha256 !== scheduleDocumentSha256;
+  return {
+    schemaVersion: 1,
+    municipality: "Halifax Regional Municipality",
+    source: receipt.scheduleUrl,
+    landingPage: LANDING_PAGE_URL,
+    tenderInstructions: receipt.tenderUrl,
+    retrievedDate: changed ? halifaxDate(now) : current.retrievedDate,
+    tenderNumber: receipt.tenderNumber,
+    tenderDocumentSha256,
+    scheduleDocumentSha256,
+    sourceFactsSha256,
+    sourceHashPolicy: "Both dated official PDFs contain assessed-owner names. This receipt hashes the source bytes and normalized owner-free facts; the PDFs themselves are not committed.",
+    ownerNamesExcluded: true,
+    eventDate: receipt.eventDate,
+    bidDeadlineTime: receipt.bidDeadlineTime,
+    venue: receipt.venue,
+    sourceRowCount: receipt.listings.length,
+    listingCount: receipt.listings.length,
+    parcelIdentifierCount: new Set(receipt.listings.flatMap(({ pids }) => pids)).size,
+    mappedListingCount: mappedListings.length,
+    mappedParcelIdentifierCount: new Set(mappedListings.flatMap(({ pids }) => pids)).size,
+    hstYesCount: receipt.listings.filter(({ hst }) => hst).length,
+    notRedeemableCount: receipt.listings.filter(({ redeemable }) => !redeemable).length,
+    geometryExceptions,
+    listings: receipt.listings.map(({ item, aan, pids, description, openingBidCents, redeemable, listingStatus }) => ({
+      item, aan, pids, description, openingBidCents, redeemable, listingStatus,
+    })),
+  };
+}
+
+export function updateDatasetHash(modelSource, datasetHash) {
+  const pattern = /(HALIFAX_TAX_SALE_DATASET_SHA256\s*=\s*\n\s*")([a-f\d]{64})(";)/u;
+  if (!pattern.test(modelSource)) throw new Error("Could not find HALIFAX_TAX_SALE_DATASET_SHA256.");
+  return modelSource.replace(pattern, `$1${datasetHash}$3`);
+}
+
+async function pdfText(pdfBytes) {
+  const directory = await mkdtemp(join(tmpdir(), "ns-marks-halifax-tax-sale-"));
+  const pdfPath = join(directory, "source.pdf");
+  try {
+    await writeFile(pdfPath, pdfBytes);
+    return (await execFile("pdftotext", ["-layout", pdfPath, "-"])).stdout;
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+}
+
+async function fetchBytes(url) {
+  const response = await fetchOfficial(url, { accept: "application/pdf" });
+  return Buffer.from(await response.arrayBuffer());
+}
+
+async function fetchHtml(url) {
+  const response = await fetchOfficial(url);
+  return response.text();
+}
+
+async function ingestResults(resultUrl) {
+  const [noticeSource, modelSource, resultBytes, datasetSource, ledgerSource, historicalModel, currentSource] = await Promise.all([
+    readFile(SNAPSHOT_PATH, "utf8"), readFile(MODEL_PATH, "utf8"), fetchBytes(resultUrl),
+    readFile(HISTORICAL_DATASET_PATH, "utf8"), readFile(HISTORICAL_LEDGER_PATH, "utf8"),
+    readFile(HISTORICAL_MODEL_PATH, "utf8"),
+    readFile(RESULT_SNAPSHOT_PATH, "utf8").catch((error) => {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }),
+  ]);
+  const addition = buildHalifaxHistoricalAddition(
+    JSON.parse(noticeSource), parseHalifaxResultText(await pdfText(resultBytes)), resultUrl,
+    sha256(resultBytes), halifaxDate(), currentSource ? JSON.parse(currentSource) : null,
+  );
+  const dataset = JSON.parse(datasetSource);
+  const ledger = JSON.parse(ledgerSource);
+  const existing = dataset.events.find(({ id }) => id === addition.event.id);
+  if (existing) {
+    const records = dataset.records.filter(({ eventId }) => eventId === addition.event.id);
+    if (JSON.stringify(existing) !== JSON.stringify(addition.event) || JSON.stringify(records) !== JSON.stringify(addition.records)) {
+      throw new Error(`${addition.event.id} changed after ingestion; refusing to rewrite verified records.`);
+    }
+  } else {
+    if (dataset.records.some(({ eventId }) => eventId === addition.event.id)) {
+      throw new Error("Halifax historical records exist without their event; refusing to double-ingest.");
+    }
+    dataset.events.push(addition.event);
+    dataset.records.push(...addition.records);
+    ledger.retrievedOn = addition.snapshot.retrievedDate;
+    ledger.coverage.push(addition.ledgerEntry);
+  }
+  const resultSource = `${JSON.stringify(addition.snapshot, null, 2)}\n`;
+  const resultHashPattern = /(HALIFAX_TAX_SALE_RESULT_DATASET_SHA256\s*=\s*\n\s*")[a-f\d]{64}(";)/u;
+  if (!resultHashPattern.test(modelSource) || !/eventStatus: "(?:upcoming|historical)"/u.test(modelSource)) {
+    throw new Error("Could not find the Halifax result hash and lifecycle fields.");
+  }
+  const nextModel = modelSource.replace(resultHashPattern, `$1${sha256(resultSource)}$2`)
+    .replace(/eventStatus: "(?:upcoming|historical)"/u, 'eventStatus: "historical"');
+  const nextDataset = existing ? datasetSource : formatDataset(dataset);
+  const nextHistoricalModel = updateHistoricalDatasetHash(historicalModel, sha256(nextDataset));
+  await Promise.all([
+    writeFile(RESULT_SNAPSHOT_PATH, resultSource), writeFile(MODEL_PATH, nextModel),
+    writeFile(HISTORICAL_DATASET_PATH, nextDataset),
+    writeFile(HISTORICAL_LEDGER_PATH, existing ? ledgerSource : formatLedger(ledger)),
+    writeFile(HISTORICAL_MODEL_PATH, nextHistoricalModel),
+  ]);
+  console.log(`Halifax ${addition.event.saleDate}: ${addition.snapshot.resultRowCount} verified result rows; ${addition.snapshot.missingNoticeRowCount} missing notice rows remain unknown; result SHA-256 ${addition.snapshot.sourceDocumentSha256}.`);
+}
+
+async function main() {
+  const landingHtml = await fetchHtml(LANDING_PAGE_URL);
+  const landing = classifyLandingPage(landingHtml);
+  if (landing.kind !== "current-tender") {
+    const resultsHtml = await fetchHtml(RESULTS_PAGE_URL);
+    let resultUrl;
+    try { resultUrl = findHalifaxResultPdf(resultsHtml, landing.eventDate); } catch (error) {
+      if (landing.kind !== "closed-awaiting-results" || !/found 0\./u.test(error.message)) throw error;
+      assertHalifaxResultsStillHistorical(resultsHtml);
+      console.log(`Halifax ${landing.tenderNumber} (${landing.eventDate}) is closed pending official results; retaining the last verified Schedule A snapshot.`);
+      return;
+    }
+    await ingestResults(resultUrl);
+    return;
+  }
+  const { tenderNumber, tenderUrl, scheduleUrl } = landing;
+  const [tenderBytes, scheduleBytes, currentSource, modelSource] = await Promise.all([
+    fetchBytes(tenderUrl), fetchBytes(scheduleUrl),
+    readFile(SNAPSHOT_PATH, "utf8").catch((error) => {
+      if (error?.code === "ENOENT") return null;
+      throw error;
+    }),
+    readFile(MODEL_PATH, "utf8"),
+  ]);
+  const [tenderText, scheduleText] = await Promise.all([pdfText(tenderBytes), pdfText(scheduleBytes)]);
+  const tender = parseTenderText(tenderText, tenderNumber);
+  const listings = parseScheduleText(scheduleText);
+  assertCurrentScheduleCounts(listings);
+  const receipt = { tenderNumber, tenderUrl, scheduleUrl, ...tender, listings };
+  const current = currentSource ? JSON.parse(currentSource) : null;
+  const snapshot = buildSnapshot(current, receipt, tenderBytes, scheduleBytes);
+  const nextSnapshotSource = `${JSON.stringify(snapshot, null, 2)}\n`;
+  const datasetHash = sha256(nextSnapshotSource);
+  await Promise.all([
+    writeFile(SNAPSHOT_PATH, nextSnapshotSource),
+    writeFile(MODEL_PATH, updateDatasetHash(modelSource, datasetHash)),
+  ]);
+  console.log(`Checked ${snapshot.listingCount} owner-free Halifax listings with ${snapshot.parcelIdentifierCount} official PIDs; ${snapshot.mappedListingCount} rows / ${snapshot.mappedParcelIdentifierCount} PIDs mapped and ${snapshot.geometryExceptions.length} rows declared unavailable in NSPRD; tender SHA-256 ${snapshot.tenderDocumentSha256}; schedule SHA-256 ${snapshot.scheduleDocumentSha256}; dataset SHA-256 ${datasetHash}.`);
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+  });
+}

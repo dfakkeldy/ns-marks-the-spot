@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 77.47311988039998,
+  "median_ground_m": 78.5382807000569,
+  "p95_ground_m": 113.21374546488798,
+  "max_ground_m": 114.14304506951848,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -11.784670584959525,
+  "mean_north_ground_m": 44.72633673663708,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Westmore Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        370,
+        1447
+      ],
+      "lonlat": [
+        -65.58917318421298,
+        43.89753593395573
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 141044,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141044,
+      "nearest_unfiltered_distance_guide_px": 1.3432116895810589,
+      "selected_distance_guide_px": 1.3432116895810589,
+      "guide_reference_pixel_xy": [
+        365.14754429931054,
+        1449.6981115413364
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.58946092141939,
+        43.89829400713049
+      ],
+      "error_ground_m": 87.34458613677897,
+      "east_ground_m": -23.117692647440553,
+      "north_ground_m": 84.22973948709372
+    },
+    {
+      "id": "Q02",
+      "label": "Johns Lake long island southeastern end",
+      "role": "check",
+      "pixel_xy": [
+        3602,
+        691
+      ],
+      "lonlat": [
+        -65.41475657634135,
+        43.995005657964924
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 145190,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 145190,
+      "nearest_unfiltered_distance_guide_px": 0.7295222677395294,
+      "selected_distance_guide_px": 0.7295222677395294,
+      "guide_reference_pixel_xy": [
+        3618.266604194767,
+        664.320938189514
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.4151586279421,
+        43.99472243474889
+      ],
+      "error_ground_m": 45.05976109646301,
+      "east_ground_m": -32.24988660966083,
+      "north_ground_m": -31.4694595399149
+    },
+    {
+      "id": "Q03",
+      "label": "Upper Stave Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4829,
+        743
+      ],
+      "lonlat": [
+        -65.33950420000563,
+        44.015691365757505
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 139169,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139169,
+      "nearest_unfiltered_distance_guide_px": 2.879734684107621,
+      "selected_distance_guide_px": 2.879734684107621,
+      "guide_reference_pixel_xy": [
+        4836.256255971442,
+        727.8744944577338
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.33955205270593,
+        44.016456244650115
+      ],
+      "error_ground_m": 85.0742226431335,
+      "east_ground_m": -3.837021926127107,
+      "north_ground_m": 84.9876498149694
+    },
+    {
+      "id": "Q04",
+      "label": "Eastern McKay Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        3153,
+        2269
+      ],
+      "lonlat": [
+        -65.39950667129595,
+        43.91647727542427
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 304536,
+      "reference_feature_code": "WARVLK20",
+      "nearest_unfiltered_feature_code": "WARVLK20",
+      "nearest_unfiltered_objectid": 304536,
+      "nearest_unfiltered_distance_guide_px": 0.630161540330374,
+      "selected_distance_guide_px": 0.630161540330374,
+      "guide_reference_pixel_xy": [
+        3152.4920255257166,
+        2244.606281256536
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.39903830593381,
+        43.91702982227149
+      ],
+      "error_ground_m": 72.00233875698032,
+      "east_ground_m": 37.61811310744524,
+      "north_ground_m": 61.39392765339588
+    },
+    {
+      "id": "Q05",
+      "label": "Gold Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1780,
+        3378
+      ],
+      "lonlat": [
+        -65.4503060379105,
+        43.84115147881324
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 141197,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141197,
+      "nearest_unfiltered_distance_guide_px": 0.1730813841687141,
+      "selected_distance_guide_px": 0.1730813841687141,
+      "guide_reference_pixel_xy": [
+        1799.868435318116,
+        3363.112462882884
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.45148992270718,
+        43.84171814465826
+      ],
+      "error_ground_m": 114.14304506951848,
+      "east_ground_m": -95.20696362397244,
+      "north_ground_m": 62.96243971802327
+    },
+    {
+      "id": "Q07",
+      "label": "Wentworth Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4338,
+        3688
+      ],
+      "lonlat": [
+        -65.28891798267502,
+        43.878348082219475
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 140270,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140270,
+      "nearest_unfiltered_distance_guide_px": 1.2344906804938076,
+      "selected_distance_guide_px": 1.2344906804938076,
+      "guide_reference_pixel_xy": [
+        4355.78048202768,
+        3637.1916850422276
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.28873324107695,
+        43.87820587826468
+      ],
+      "error_ground_m": 21.681833205533724,
+      "east_ground_m": 14.847697672374938,
+      "north_ground_m": -15.800245725378346
+    },
+    {
+      "id": "Q08",
+      "label": "Rory Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1548,
+        1298
+      ],
+      "lonlat": [
+        -65.52258310958983,
+        43.92694552187446
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 304447,
+      "reference_feature_code": "WARVLK20",
+      "nearest_unfiltered_feature_code": "WARVLK20",
+      "nearest_unfiltered_objectid": 304447,
+      "nearest_unfiltered_distance_guide_px": 0.700415294091571,
+      "selected_distance_guide_px": 0.700415294091571,
+      "guide_reference_pixel_xy": [
+        1540.3800402625347,
+        1298.588345972239
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.5225204428195,
+        43.9279478928678
+      ],
+      "error_ground_m": 111.48790334200278,
+      "east_ground_m": 5.032341756287365,
+      "north_ground_m": 111.3742704938788
+    },
+    {
+      "id": "Q09",
+      "label": "Aspect Lake small island southern end",
+      "role": "check",
+      "pixel_xy": [
+        4350,
+        859
+      ],
+      "lonlat": [
+        -65.3653731199299,
+        44.00202366998119
+      ],
+      "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+      "reference_objectid": 146422,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146422,
+      "nearest_unfiltered_distance_guide_px": 0.4481799077442863,
+      "selected_distance_guide_px": 0.4481799077442863,
+      "guide_reference_pixel_xy": [
+        4361.15842159983,
+        830.4192467369139
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence.",
+      "predicted_lonlat": [
+        -65.36534025292619,
+        44.00202486131184
+      ],
+      "error_ground_m": 2.6393691004149673,
+      "east_ground_m": 2.6360475914171917,
+      "north_ground_m": 0.13237199102882946
+    }
+  ],
+  "fit_sha256": "50e73d30f4a25617abc4cbdc256d6ce024ebcf1cfbb82526cc4977211bfcaaa0",
+  "checks_sha256": "f4066d88803001876fe3aca773a52e7b67a080e8c4f03d8166363645976a42ad",
+  "status": "Reserved before first fit and score"
+}

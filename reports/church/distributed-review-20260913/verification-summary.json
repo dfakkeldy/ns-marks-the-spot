@@ -1,0 +1,169 @@
+{
+  "baseline_commit": "d2cb82040e10f68d50e805702f71d33f7e2148db",
+  "preserved_paths": [
+    "reports/church/physical-review-20260912",
+    "reports/church/physical-review-20260913",
+    "tools/church/gcps/inverness-south.csv",
+    "tools/church/checks/inverness-south.csv",
+    "tools/church/gcps/victoria-main.csv",
+    "tools/church/panels.py"
+  ],
+  "historical_inputs_unchanged": true,
+  "observation_checks": [
+    {
+      "id": "R26",
+      "panel": "richmond",
+      "source_frame_roundtrip": true,
+      "phase": "fresh against unchanged v4; not used for tuning",
+      "role": "check"
+    },
+    {
+      "id": "R27",
+      "panel": "richmond",
+      "source_frame_roundtrip": true,
+      "phase": "fresh against unchanged v4; not used for tuning",
+      "role": "check"
+    },
+    {
+      "id": "I13",
+      "panel": "inverness-north",
+      "source_frame_roundtrip": true,
+      "phase": "fresh after corrected-I10 affine freeze; southern-interior region only",
+      "role": "check"
+    },
+    {
+      "id": "VN08",
+      "panel": "victoria-northwest",
+      "source_frame_roundtrip": true,
+      "phase": "fresh against unchanged four-control affine",
+      "role": "check"
+    },
+    {
+      "id": "VM15",
+      "panel": "victoria-main",
+      "source_frame_roundtrip": true,
+      "phase": "fresh northern-interior check against unchanged four-control physical affine",
+      "role": "check"
+    },
+    {
+      "id": "CB07",
+      "panel": "cape-breton",
+      "source_frame_roundtrip": true,
+      "phase": "prospective physical control; never previously scored as check",
+      "role": "control"
+    },
+    {
+      "id": "CB08",
+      "panel": "cape-breton",
+      "source_frame_roundtrip": true,
+      "phase": "prospective physical control; never previously scored as check",
+      "role": "control"
+    },
+    {
+      "id": "IS07-retrace",
+      "panel": "inverness-south",
+      "source_frame_roundtrip": true,
+      "phase": "retrace of retained historical diagnostic; source coordinates differ, fitting and modern coordinates unchanged",
+      "role": "check"
+    },
+    {
+      "id": "I10",
+      "panel": "inverness-north",
+      "source_frame_roundtrip": true,
+      "phase": null,
+      "role": "control"
+    }
+  ],
+  "replays": [
+    {
+      "name": "richmond",
+      "controls": 10,
+      "checks": 2,
+      "method": "tps",
+      "rms_ground_m": 462.56233885595884,
+      "replayed": true
+    },
+    {
+      "name": "inverness-north",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 353.0642025688203,
+      "replayed": true
+    },
+    {
+      "name": "victoria-northwest",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 441.8633467896681,
+      "replayed": true
+    },
+    {
+      "name": "victoria-main",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 235.9228762491279,
+      "replayed": true
+    },
+    {
+      "name": "cape-breton",
+      "controls": 3,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 522.6306565792348,
+      "replayed": true
+    },
+    {
+      "name": "north retained N03 prior",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 167.24434975741306,
+      "replayed": true
+    },
+    {
+      "name": "north retained N03 corrected",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 125.72620327913053,
+      "replayed": true
+    },
+    {
+      "name": "south baseline audited six",
+      "controls": 12,
+      "checks": 6,
+      "method": "tps",
+      "rms_ground_m": 314.5760193417397,
+      "replayed": true
+    },
+    {
+      "name": "south physical audited six",
+      "controls": 4,
+      "checks": 6,
+      "method": "affine",
+      "rms_ground_m": 141.1626755361214,
+      "replayed": true
+    },
+    {
+      "name": "Cow Island original hand",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 39.24254454246835,
+      "replayed": true
+    },
+    {
+      "name": "Cow Island retrace",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 111.56975733681408,
+      "replayed": true
+    }
+  ],
+  "scope": "Numerical/frame/reference integrity only. Visual correspondence review and geographic acceptance are separate.",
+  "geographic_acceptance": false
+}

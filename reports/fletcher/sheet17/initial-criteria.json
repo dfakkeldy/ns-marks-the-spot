@@ -1,0 +1,7 @@
+{
+  "sheet": "sheet-17",
+  "provisional_criteria_ground_m": {"median": 100, "worst": 200},
+  "rationale": "Research-scale Fletcher queue target; requires physical identity, geographic coverage, actual full-raster inspection and browser verification. Printed graticules are search guides only.",
+  "scope": "Inspect entire source and preserve mapped neatline, islands, extensions and crossing labels. Keep unsupported regions visible in the draft and excluded from acceptance.",
+  "fit_policy": "Review original native crosshairs and actual modern geometry. Preserve each failed or rejected stage, freeze repairs before fresh checks, never silently fit validation points."
+}

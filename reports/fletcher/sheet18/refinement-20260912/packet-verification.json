@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "stages": [
+    {
+      "controls": 15,
+      "diagnostics": 6,
+      "fresh_checks": 2,
+      "coverage_cells": 48011486,
+      "technical_evidence": "pass",
+      "whole_sheet_geographically_accepted": false
+    },
+    {
+      "controls": 16,
+      "diagnostics": 7,
+      "fresh_checks": 2,
+      "coverage_cells": 47516104,
+      "technical_evidence": "pass",
+      "whole_sheet_geographically_accepted": false
+    }
+  ],
+  "verified_native_frames": 16,
+  "viewed_figures": 50,
+  "whole_sheet_geographically_accepted": false
+}

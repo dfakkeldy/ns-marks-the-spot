@@ -1,0 +1,45 @@
+{
+  "sheet": "097",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS FAILED; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/097.pdf",
+    "pdf_sha256": "11a2e7bc16eebdcb166a2bc9ab117f41a3d9a1f78747cdb42ca965e3907ea136",
+    "jpeg_sha256": "845f6b356f27917935954929cbe7e0251333d61a8004be845290d75465d40f0e",
+    "dimensions": [
+      6036,
+      4122
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 107.9189301421114,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight excluded checks give RMS 107.92 m, exceeding the 100 m ceiling. Median is 72.51 m, P95 188.77 m exceeds 150 m, and maximum 209.42 m exceeds 200 m. The failed first result remains authoritative.",
+    "Checks and controls often occupy separate points on the same island, so observations are spatially correlated. The northern inland band has only Lost Lake evidence; harbour heads, complex barriers and unmeasured offshore ledges remain unvalidated.",
+    "The eastern segment of southern Halibut Island is separate in modern shoreline data; its outer eastern shore was matched, while the changed internal connection was not validated.",
+    "Generalized coast observations use 18 px working source uncertainty and Lost Lake observations 12 px. The full image remains visible despite the numerical failure."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 107.92 m, median 72.51 m, P95 188.77 m, maximum 209.42 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Moose River and Necum Teuch, Ecum Secum, Marie Joseph Harbour, Liscomb Harbour and mainland headlands, Amelia and Liscomb islands, Sheep, Rocky, Hog, Barren, Goose and neighbouring islands, Halibut and White islands, all offshore ledges and the complete southern Atlantic Ocean frame. No displaced inset identified."
+  }
+}

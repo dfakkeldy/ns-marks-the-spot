@@ -1,0 +1,11 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "thresholds": {
+    "median_ground_m": 100,
+    "worst_ground_m": 200
+  },
+  "recommendation": "Keep the earlier fifteen-control fit as provisional baseline; retain the seventeen-control experiment and its mainland regression.",
+  "reason": "Cook inlet improves locally, but McIntosh mainland mouth worsens and fails the worst limit; both checks are near the two new controls and do not validate the whole interior.",
+  "fresh_median_ground_m": 116.83831920810096,
+  "fresh_worst_ground_m": 209.68897968589732
+}

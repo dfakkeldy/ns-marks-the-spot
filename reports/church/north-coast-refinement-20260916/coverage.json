@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "id": "N03",
+      "inside_control_hull": true
+    },
+    {
+      "id": "I13",
+      "inside_control_hull": false
+    },
+    {
+      "id": "I15",
+      "inside_control_hull": true
+    },
+    {
+      "id": "I16",
+      "inside_control_hull": true
+    },
+    {
+      "id": "I17",
+      "inside_control_hull": false
+    }
+  ],
+  "scope": "Five diagnostic checks; three inland points share one watershed. Northern tip, intervening coast, inland north and cross-sheet seams remain insufficiently checked."
+}

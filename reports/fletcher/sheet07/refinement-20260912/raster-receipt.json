@@ -1,0 +1,95 @@
+{
+  "fit_sha256": "bcc49f0869d2b40b817de4ea0902fa8f313fe7dfb60126df8251a4636cbed4cb",
+  "boundary_sha256": "ebf62db3000ce6fd6393ac213d6125fe87ac4d469128ea2fe8ca7b0f0b7c593d",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "428e409505fe8b2f24c2d4c6f7b806e7ce29ece89ba3207963c7eb16bf52789b",
+  "median_ground_m": 145.1531644462046,
+  "worst_ground_m": 252.22368964575327,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 54.709085832290455,
+      "predicted_lonlat": [
+        -60.44686041618798,
+        46.555940048580794
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 44.133126098994666,
+      "predicted_lonlat": [
+        -60.45867986046601,
+        46.523877267348105
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 252.22368964575327,
+      "predicted_lonlat": [
+        -60.39140432150907,
+        46.582643841567766
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 240.01209162331716,
+      "predicted_lonlat": [
+        -60.39792459675411,
+        46.572623937318596
+      ]
+    },
+    {
+      "id": "V05",
+      "error_ground_m": 145.1531644462046,
+      "predicted_lonlat": [
+        -60.43665694477568,
+        46.49623965878931
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71931,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -27.646321572320087,
+      -14.632093781911113
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif",
+    "sha256": "94b6010b21c428841205bc6672bd6df5f10d9921154ddb0606b6aac2ecd43500",
+    "size": [
+      7245,
+      6404
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.4708569,
+            46.6428703
+          ],
+          [
+            -60.4708569,
+            46.4450321
+          ],
+          [
+            -60.1454422,
+            46.4450321
+          ],
+          [
+            -60.1454422,
+            46.6428703
+          ],
+          [
+            -60.4708569,
+            46.6428703
+          ]
+        ]
+      ]
+    }
+  }
+}

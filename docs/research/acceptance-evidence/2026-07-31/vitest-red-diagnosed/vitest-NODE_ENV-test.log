@@ -1,0 +1,129 @@
+
+ RUN  v4.1.10 /Users/dfakkeldy/Developer/ns-marks-geopdf-acceptance/web
+
+ ✓ src/userMaps/components/GeoreferenceMapLayer.test.tsx (7 tests) 34ms
+ ✓ src/userMaps/components/ScanPane.test.tsx (15 tests) 44ms
+ ✓ src/userMaps/components/UserMapLayers.paneMount.test.tsx (1 test) 103ms
+ ✓ src/userMaps/useGeoreferenceSession.test.ts (55 tests) 163ms
+ ✓ src/userMaps/components/GcpList.test.tsx (12 tests) 326ms
+ ✓ src/components/print/PrintMap.test.tsx (8 tests) 28ms
+ ✓ src/userMaps/components/GeoreferencePanel.test.tsx (43 tests) 834ms
+ ✓ src/components/MapCanvas.test.tsx (50 tests) 1106ms
+ ✓ src/components/MineralProximityParcelLayer.test.tsx (8 tests) 241ms
+ ✓ src/userMaps/components/UserMapRows.test.tsx (16 tests) 349ms
+ ✓ src/components/MeasureTool.test.tsx (10 tests) 364ms
+Not implemented: Window's scrollTo() method
+Not implemented: Window's scrollTo() method
+ ✓ src/userMaps/components/ScanPane.realMount.test.tsx (7 tests) 278ms
+ ✓ src/userMaps/components/UserMapLayers.test.tsx (14 tests) 854ms
+ ✓ src/components/print/PrintPreview.test.tsx (13 tests) 1104ms
+ ✓ src/components/print/PrintDocuments.test.tsx (17 tests) 1043ms
+Not implemented: Window's scrollTo() method
+ ✓ src/userMaps/components/GeoreferenceMapLayer.realMount.test.tsx (3 tests) 194ms
+ ✓ scripts/cbrmTaxSaleResults.test.mjs (7 tests) 13ms
+ ✓ src/components/TaxSalePropertyList.test.tsx (2 tests) 216ms
+ ✓ src/userMaps/components/GeoPdfFrameChooser.test.tsx (2 tests) 318ms
+     ✓ chooses a frame without invoking georeferencing  305ms
+ ✓ scripts/generateInvernessHydroPilot.test.mjs (8 tests) 6ms
+ ✓ scripts/refreshInvernessTaxSale.test.mjs (7 tests) 19ms
+ ✓ scripts/refreshPictouTaxSaleResults.test.mjs (4 tests) 13ms
+ ✓ src/styles.test.ts (29 tests) 13ms
+ ✓ scripts/taxSaleWatch/archive.test.mjs (7 tests) 12ms
+ ✓ scripts/taxSaleWatch/dataset.test.mjs (9 tests) 23ms
+ ✓ scripts/taxSaleWatch/watchTaxSaleSources.test.mjs (6 tests) 20ms
+ ✓ src/userMaps/browserAcceptanceReceipt.test.ts (5 tests) 62ms
+ ✓ src/userMaps/testFixtures.test.ts (5 tests) 86ms
+ ✓ src/userMaps/parsers/fletcherGcps.test.ts (35 tests) 13ms
+stderr | src/userMaps/parsers/geoPdfMetadata.test.ts > extractGeoPdfMetadata > classifies unreadable bytes without guessing a registration family
+Trying to parse invalid object: {"line":30,"column":2,"offset":502})
+Invalid object ref: 4 0 R
+
+ ✓ src/userMaps/parsers/geoPdfMetadata.test.ts (15 tests) 42ms
+ ✓ src/userMaps/parsers/geoTiffSource.test.ts (16 tests) 18ms
+ ✓ src/data/invernessHydroPotential.test.ts (3 tests) 140ms
+ ✓ src/components/mapPanes.test.ts (6 tests) 87ms
+ ✓ src/userMaps/render/WarpedRasterLayer.caching.test.ts (16 tests) 245ms
+ ✓ src/userMaps/render/WarpedRasterLayer.test.ts (10 tests) 284ms
+ ✓ src/userMaps/useUserMaps.test.ts (38 tests) 938ms
+ ✓ src/services/nsprd.test.ts (8 tests) 75ms
+ ✓ src/userMaps/transform/residuals.test.ts (19 tests) 47ms
+ ✓ src/userMaps/store/userMapStore.test.ts (14 tests) 179ms
+ ✓ src/services/civicAddresses.test.ts (15 tests) 33ms
+ ✓ src/services/pvscAssessments.test.ts (7 tests) 16ms
+ ✓ src/data/historicalTaxSales.test.ts (20 tests) 20ms
+ ✓ src/components/OldGrowthPolicyLayer.test.ts (2 tests) 22ms
+ ✓ src/services/mineralProximity.test.ts (6 tests) 56ms
+ ✓ src/layers/fletcherLayer.test.ts (4 tests) 4ms
+ ✓ src/services/pvscDwellings.test.ts (7 tests) 17ms
+ ✓ src/data/taxSaleCatalog.test.ts (11 tests) 13ms
+ ✓ src/data/annapolisTaxSale.test.ts (4 tests) 3ms
+ ✓ src/services/arcGISFeatureOverlay.test.ts (7 tests) 24ms
+ ✓ src/services/floodHazard.test.ts (6 tests) 10ms
+ ✓ src/userMaps/recordMesh.test.ts (8 tests) 9ms
+ ✓ src/layers/layerCatalog.test.ts (42 tests) 22ms
+ ✓ src/userMaps/transform/gcpMesh.test.ts (10 tests) 9ms
+ ✓ src/services/parcelContext.test.ts (3 tests) 13ms
+ ✓ src/services/parcelResources.test.ts (5 tests) 21ms
+ ✓ src/services/wellLogs.test.ts (19 tests) 10ms
+ ✓ src/services/geodesy.test.ts (12 tests) 4ms
+ ✓ src/userMaps/transform/projection.test.ts (13 tests) 8ms
+ ✓ scripts/taxSaleWatch/cumberland.test.mjs (15 tests) 9ms
+ ✓ src/userMaps/parsers/geoPdfSource.test.ts (8 tests) 9ms
+ ✓ src/userMaps/parsers/parseGeoPdfAuto.test.ts (7 tests) 7ms
+ ✓ src/userMaps/render/mesh.test.ts (14 tests) 7ms
+ ✓ src/services/buildings.test.ts (3 tests) 10ms
+ ✓ src/userMaps/transform/tps.test.ts (8 tests) 13ms
+ ✓ src/services/printSnapshot.test.ts (15 tests) 6ms
+ ✓ src/services/hydroPotential.test.ts (5 tests) 4ms
+ ✓ src/services/oldGrowthPolicy.test.ts (5 tests) 6ms
+ ✓ src/userMaps/parsers/imageSource.test.ts (8 tests) 11ms
+ ✓ src/userMaps/allmaps/annotation.test.ts (3 tests) 3ms
+ ✓ src/userMaps/transform/affine.test.ts (18 tests) 5ms
+ ✓ src/services/mapShareState.test.ts (8 tests) 5ms
+ ✓ src/userMaps/parsers/geoPdfFrameSelection.test.ts (11 tests) 7ms
+ ✓ src/services/evidenceNote.test.ts (5 tests) 5ms
+ ✓ src/data/invernessTaxSale.test.ts (5 tests) 8ms
+ ✓ src/services/zoning.test.ts (8 tests) 5ms
+ ✓ src/userMaps/components/scanGeometry.test.ts (7 tests) 4ms
+ ✓ scripts/taxSaleWatch/richmond.test.mjs (2 tests) 5ms
+ ✓ src/services/browserLocation.test.ts (2 tests) 3ms
+ ✓ src/userMaps/transform/webMercator.test.ts (7 tests) 5ms
+ ✓ src/services/printQr.test.ts (2 tests) 4ms
+ ✓ src/indexHtml.test.ts (4 tests) 3ms
+ ✓ src/services/parcelMarkers.test.ts (4 tests) 4ms
+ ✓ src/licensing/provinceLicense.test.ts (5 tests) 3ms
+ ✓ src/layers/arcGISExport.test.ts (3 tests) 3ms
+ ✓ src/userMaps/parsers/sniff.test.ts (8 tests) 3ms
+ ✓ src/userMaps/errors.test.ts (5 tests) 3ms
+ ✓ src/userMaps/sourceRect.test.ts (2 tests) 2ms
+ ✓ src/userMaps/components/gcpIcon.test.ts (3 tests) 2ms
+ ✓ src/services/viewpoint.test.ts (2 tests) 2ms
+ ✓ src/userMaps/transform/conditioning.test.ts (3 tests) 2ms
+ ↓ src/services/nsprd.live.test.ts (1 test | 1 skipped)
+ ✓ src/licensing/rumseyLicense.test.ts (3 tests) 2ms
+ ✓ src/App.test.tsx (98 tests) 22156ms
+     ✓ requires licence acceptance before enabling Province map layers  366ms
+     ✓ toggles the building overlay and counts mapped building features on a PID  810ms
+     ✓ opens the About dialog from the header, explains the method, and closes  371ms
+     ✓ reveals the remaining privacy-minimized upcoming event after acceptance  481ms
+     ✓ makes current notices and historical records separate map modes  362ms
+     ✓ carries the province's testing guidance beside every well-water screen  323ms
+     ✓ keeps historical records off by default and loads them on demand  546ms
+     ✓ shows owner-free historical outcome and financial context for a matched PID  438ms
+     ✓ keeps open geology and resource overlays collapsed, optional, and licence-independent  454ms
+     ✓ keeps the open old-growth policy layer collapsed, optional, and explicit about coverage  312ms
+     ✓ searches a civic address and opens its containing parcel  581ms
+     ✓ aborts a pending map-point lookup when a PID search takes over  555ms
+     ✓ aborts a pending civic search when the user changes its text  506ms
+     ✓ keeps a blank CBRM result row unknown while linking the official result  484ms
+     ✓ aborts a stale civic lookup before showing the next selected PID  398ms
+     ✓ keeps share and print viewport state isolated from a legacy location recenter  427ms
+     ✓ keeps layers frozen while matching pending evidence settles in the open preview  400ms
+     ✓ does not let an older same-PID evidence request settle a reopened print capture  364ms
+     ✓ ends a drag without opening a second undo step  389ms
+
+ Test Files  92 passed | 1 skipped (93)
+      Tests  1057 passed | 1 skipped (1058)
+   Start at  01:47:25
+   Duration  24.96s (transform 5.93s, setup 14.26s, import 10.49s, tests 32.57s, environment 64.93s)
+

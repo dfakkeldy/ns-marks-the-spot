@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C07",
+    "label": "Mill Brook southern tributary junction north of South Alton",
+    "role": "proposal",
+    "pixel_xy": [
+      2467,
+      638
+    ],
+    "lonlat": [
+      -64.54730234268926,
+      45.033224035761926
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 273173,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 273173,
+    "nearest_unfiltered_distance_guide_px": 1.797934916927284,
+    "selected_distance_guide_px": 1.797934916927284,
+    "guide_reference_pixel_xy": [
+      2462.38428815105,
+      668.3107786158798
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Moore Brook junction with Mill Brook east of North Alton",
+    "role": "proposal",
+    "pixel_xy": [
+      3091,
+      469
+    ],
+    "lonlat": [
+      -64.51272213397398,
+      45.05394969263415
+    ],
+    "guide_file": ".crown-grant-local/044-island-discovery-guide.npy",
+    "reference_objectid": 273289,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 273289,
+    "nearest_unfiltered_distance_guide_px": 1.0942448213874798,
+    "selected_distance_guide_px": 1.0942448213874798,
+    "guide_reference_pixel_xy": [
+      3104.012531938497,
+      481.4149105959805
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

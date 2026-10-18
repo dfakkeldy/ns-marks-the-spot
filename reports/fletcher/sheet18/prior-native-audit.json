@@ -1,0 +1,110 @@
+{
+  "sheet": "sheet-18",
+  "source_sha256": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "source_dimensions": [
+    10832,
+    7683
+  ],
+  "points": [
+    {
+      "id": "P01",
+      "role": "control",
+      "pixel_xy": [
+        8190.0,
+        2631.657470067673
+      ],
+      "lonlat": [
+        -60.918,
+        45.874
+      ],
+      "identity_evidence": "Big Harbour Island hooked peninsula northern tip",
+      "source_uncertainty_px": 2,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        4095.0,
+        1316.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit."
+    },
+    {
+      "id": "P02",
+      "role": "control",
+      "pixel_xy": [
+        7660.0,
+        5833.240760020823
+      ],
+      "lonlat": [
+        -60.9404,
+        45.7717
+      ],
+      "identity_evidence": "Black Pond headland northern tip",
+      "source_uncertainty_px": 2,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        3830.0,
+        2917.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit."
+    },
+    {
+      "id": "P03",
+      "role": "control",
+      "pixel_xy": [
+        5088.0,
+        5129.332378969287
+      ],
+      "lonlat": [
+        -61.0603,
+        45.7944
+      ],
+      "identity_evidence": "Calder Island northern tip",
+      "source_uncertainty_px": 2,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2544.0,
+        2565.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit."
+    },
+    {
+      "id": "P04",
+      "role": "control",
+      "pixel_xy": [
+        4490.0,
+        3255.5762623633523
+      ],
+      "lonlat": [
+        -61.0887,
+        45.854
+      ],
+      "identity_evidence": "River Denys estuary narrow crossing",
+      "source_uncertainty_px": 2,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2245.0,
+        1628.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit."
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        4638.0,
+        6021.216293597085
+      ],
+      "lonlat": [
+        -61.0805,
+        45.7652
+      ],
+      "identity_evidence": "Crane Island northern tip",
+      "source_uncertainty_px": 2,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2319.0,
+        3011.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit."
+    }
+  ]
+}

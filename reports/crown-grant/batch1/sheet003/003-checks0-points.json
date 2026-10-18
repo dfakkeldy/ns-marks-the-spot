@@ -1,0 +1,296 @@
+[
+  {
+    "id": "Q01",
+    "label": "Allen Lake northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3935,
+      487
+    ],
+    "lonlat": [
+      -66.14163997887204,
+      43.95763846214183
+    ],
+    "reference_objectid": 130350,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3930.2747529519256,
+      489.13185011723544
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Darlings Lake southern bay tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4210,
+      587
+    ],
+    "lonlat": [
+      -66.12351871917387,
+      43.95976079576905
+    ],
+    "reference_objectid": 128971,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4178.885204525664,
+      557.7130641205003
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Coggins Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4510,
+      361
+    ],
+    "lonlat": [
+      -66.10805677421023,
+      43.975964299910956
+    ],
+    "reference_objectid": 128626,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4507.463091096142,
+      364.62881187698804
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Wellington Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4441,
+      1190
+    ],
+    "lonlat": [
+      -66.08798994374008,
+      43.93526483412251
+    ],
+    "reference_objectid": 138693,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4434.601817621617,
+      1192.9279373164754
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Bunker Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4420,
+      1606
+    ],
+    "lonlat": [
+      -66.08003099079839,
+      43.91552802550975
+    ],
+    "reference_objectid": 124552,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4376.757666466641,
+      1584.3083992121974
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Turley Lake southern outlet corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3305,
+      1540
+    ],
+    "lonlat": [
+      -66.1512279882479,
+      43.89394552813389
+    ],
+    "reference_objectid": 114467,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3291.9412657344947,
+      1546.1908841566183
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Small lake west of Bunker, southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3640,
+      1643
+    ],
+    "lonlat": [
+      -66.12637375485423,
+      43.8962917575243
+    ],
+    "reference_objectid": 141690,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3628.688077550207,
+      1650.2874372586375
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Doctor Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3970,
+      1825
+    ],
+    "lonlat": [
+      -66.09895875219678,
+      43.895589718871356
+    ],
+    "reference_objectid": 128095,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3973.538175607391,
+      1822.4915810463717
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Chegoggin Point southern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2780,
+      2170
+    ],
+    "lonlat": [
+      -66.1630910371015,
+      43.85313598438275
+    ],
+    "reference_objectid": 15125,
+    "reference_feature_code": "WACO25",
+    "guide_reference_pixel_xy": [
+      2809.6682558049215,
+      2189.9822948117508
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "Chandler Lake southern outlet",
+    "role": "proposal",
+    "pixel_xy": [
+      4215,
+      2740
+    ],
+    "lonlat": [
+      -66.05821938007684,
+      43.858330222655844
+    ],
+    "reference_objectid": 147602,
+    "reference_feature_code": "WALKIS10",
+    "guide_reference_pixel_xy": [
+      4193.519186830206,
+      2711.341102343169
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q11",
+    "label": "Salmon Lake southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4590,
+      2970
+    ],
+    "lonlat": [
+      -66.0250733717529,
+      43.85416962333346
+    ],
+    "reference_objectid": 116075,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4584.169449563837,
+      2977.203774285619
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q12",
+    "label": "Harris Lake western point",
+    "role": "proposal",
+    "pixel_xy": [
+      5050,
+      2340
+    ],
+    "lonlat": [
+      -66.01014069399392,
+      43.892333648042815
+    ],
+    "reference_objectid": 137003,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5083.241050299897,
+      2396.775775055052
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q13",
+    "label": "Cape Forchu east cape southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2450,
+      3315
+    ],
+    "lonlat": [
+      -66.15349710740978,
+      43.79232865681374
+    ],
+    "reference_objectid": 20191,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2439.9341448396444,
+      3308.630198223167
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q14",
+    "label": "Telly Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4140,
+      3270
+    ],
+    "lonlat": [
+      -66.04014497303196,
+      43.82917698306871
+    ],
+    "reference_objectid": 115586,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4189.449588048796,
+      3326.3941589546157
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

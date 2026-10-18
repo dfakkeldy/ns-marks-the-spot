@@ -1,0 +1,142 @@
+[
+  {
+    "image": "sheet-24-C03.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C03",
+    "native_box": [
+      5085,
+      2889,
+      5305,
+      3109
+    ],
+    "native_coordinates": [
+      5195,
+      2999
+    ],
+    "modern_lonlat": [
+      -61.4174538,
+      45.5143962
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-24-C04.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C04",
+    "native_box": [
+      6808,
+      1502,
+      7028,
+      1722
+    ],
+    "native_coordinates": [
+      6918,
+      1612
+    ],
+    "modern_lonlat": [
+      -61.3457876,
+      45.5579732
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-24-C07.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C07",
+    "native_box": [
+      8540,
+      3032,
+      8760,
+      3252
+    ],
+    "native_coordinates": [
+      8650,
+      3142
+    ],
+    "modern_lonlat": [
+      -61.2630259,
+      45.5067385
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-24-C08.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C08",
+    "native_box": [
+      5118,
+      4385,
+      5338,
+      4605
+    ],
+    "native_coordinates": [
+      5228,
+      4495
+    ],
+    "modern_lonlat": [
+      -61.4227622,
+      45.4602023
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-24-C09.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C09",
+    "native_box": [
+      1690,
+      5685,
+      1910,
+      5905
+    ],
+    "native_coordinates": [
+      1800,
+      5795
+    ],
+    "modern_lonlat": [
+      -61.5768757,
+      45.4171718
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-24-C13.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C13",
+    "native_box": [
+      2328,
+      5018,
+      2548,
+      5238
+    ],
+    "native_coordinates": [
+      2438,
+      5128
+    ],
+    "modern_lonlat": [
+      -61.5475064,
+      45.4395402
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-24-C14.jpg",
+    "point_record": "sheet24/refined-candidates.json",
+    "point_id": "C14",
+    "native_box": [
+      3770,
+      2555,
+      3990,
+      2775
+    ],
+    "native_coordinates": [
+      3880,
+      2665
+    ],
+    "modern_lonlat": [
+      -61.4844047,
+      45.5190236
+    ],
+    "rotation_degrees": 0
+  }
+]

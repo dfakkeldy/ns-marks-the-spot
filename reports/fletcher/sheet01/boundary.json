@@ -1,0 +1,28 @@
+{
+  "sheet": "sheet-01",
+  "source_sha256": "ee65feacee038b3f57804b3e88ceedba38bc810682faa79d305ea8000c9130a3",
+  "ring_pixel_xy": [
+    [
+      1325,
+      1054
+    ],
+    [
+      9543,
+      1102
+    ],
+    [
+      9524,
+      6555
+    ],
+    [
+      1311,
+      6510
+    ],
+    [
+      1325,
+      1054
+    ]
+  ],
+  "scope": "Complete mapped frame including broad northern sea, interior legend, Cape St Lawrence, Cape North, ponds and coastal rocks. No mapped extension outside frame identified.",
+  "status": "Overview, four corners and labels personally inspected; red boundary pending review."
+}

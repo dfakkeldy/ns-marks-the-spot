@@ -1,0 +1,73 @@
+{
+  "id": "VM24",
+  "role": "check",
+  "label": "Benacadie Point rounded southern headland apex",
+  "pixel_xy": [
+    21968.666666666668,
+    30545.0
+  ],
+  "lonlat": [
+    -60.72723408095741,
+    45.90202050039225
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      21700,
+      30330
+    ],
+    "extent": [
+      400,
+      400
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    806,
+    645
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-benacadie-tip-native.jpg",
+  "source_crop_sha256": "4567fc8159e53063db13a84e47d383148d21f88c029031bf94f1e4e476ae9277",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    13829,
+    13830
+  ],
+  "reference_vertex": {
+    "feature_id": 13830,
+    "vertex": 2
+  },
+  "uncertainty_ground_m": 180,
+  "identity_evidence": "The source labels Benacadie Point on the broad rounded headland immediately west of the southern Benacadie Pond outlet. Its long western coast, southern rounded bend and northern return into the narrow pond distinguish it from the opposite eastern bank. Select the southernmost part of the main rounded shoreline, excluding disconnected flecks/short offshore ink and the engraved page rule below. Original WACO20 vertex13830v2 is the corresponding southern apex. The rounded bend is spatially broad and belongs to generalized Cape Breton context, so180m uncertainty is retained. Official cape CACQV identifies the feature; its representative point is not used as the coordinate.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-benacadie-point-context.jpg",
+    "sha256": "a62461e05cb944643115bb4eb2885c318bda598dade1e9b44abbedf58b1fb701",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        21400,
+        29600
+      ],
+      "extent": [
+        1700,
+        1600
+      ],
+      "display": [
+        1275,
+        1200
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh southern-edge check after TPS14 freeze; never fitted or used to select the candidate",
+  "recorded_at": "2026-09-15T00:04:27.476062+00:00",
+  "freeze_sha256": "553da69eb097089171a6306dea790d90aee002d28c25585ff5bfcfc58e53dcd3"
+}

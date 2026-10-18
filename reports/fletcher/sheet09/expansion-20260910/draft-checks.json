@@ -1,0 +1,118 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "Q01-Q04 reused diagnostics after model comparison and road-crossing/mouth repair; Q01 tributary identity remains uncertain. Q05 first scored on this revision but close to fitting controls. Not fresh regional validation.",
+  "fit_sha256": "ae7b4eb9f843012feada645bee9ddb5e009b6873f5d065c05e3361e0ba7a64e6",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7951,
+        6395
+      ],
+      "lonlat": [
+        -60.9275594,
+        46.4580556
+      ],
+      "modern_node": "J1449",
+      "modern_objectids": [
+        277807,
+        277810,
+        287345
+      ],
+      "identity_evidence": "Stewart long southern tributary below northern control C09 and above the river mouth C10; tributary curves southwest upstream. Smaller modern southern spurs nearer C09 are not this arm.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "identity_status": "Unresolved after failed initial check. Long historical southern arm may not correspond to the selected short modern tributary; retain as diagnostic, not acceptance evidence."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        9160,
+        5673
+      ],
+      "lonlat": [
+        -60.8816454,
+        46.4831797
+      ],
+      "modern_node": "J1287",
+      "modern_objectids": [
+        200072,
+        277198,
+        277201
+      ],
+      "identity_evidence": "Second Fork long southern tributary at low point of eastward reach above mouth; main continues northeast toward paired northern and southeastern spurs by Fall 50. Smaller southern tributary immediately adjacent to river mouth is not selected.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7543,
+        1729
+      ],
+      "lonlat": [
+        -60.9431439,
+        46.5996268
+      ],
+      "modern_node": "J0241",
+      "modern_objectids": [
+        223208,
+        266665,
+        267773
+      ],
+      "identity_evidence": "Aucoin southern tributary just southeast of major northeastern headwater fork C08. Southern arm curves southwest; main headwater continues southeast. Close local check, not independent regional validation.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        4741,
+        5040
+      ],
+      "lonlat": [
+        -61.0758228,
+        46.4970208
+      ],
+      "modern_node": "J1176",
+      "modern_objectids": [
+        5489,
+        5490,
+        186190
+      ],
+      "identity_evidence": "Coastal creek mouth north of Murphys Brook and south of Basile drainage, at pointed coastal inlet. Creek crosses coast road, curves northeast into a rounded bend then southeast toward inland tributaries. Distinguish the separate smaller coastal creek immediately south.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        7176,
+        3368
+      ],
+      "lonlat": [
+        -60.9625724,
+        46.5499856
+      ],
+      "modern_node": "J0699",
+      "modern_objectids": [
+        263863,
+        263864,
+        312425
+      ],
+      "identity_evidence": "Farm Brook southern tributary feeding a small downstream/upstream pond and then a branching southern valley. Located between the major northeastern arm C14 and eastern arm C15. The tiny southern spur immediately below C14 is not this larger pond-bearing tributary. Local interpolation check.",
+      "source_uncertainty_px": 10,
+      "review": "Broad branch sequence and enlarged native pixel examined. Proposed before scoring this regional addition."
+    }
+  ]
+}

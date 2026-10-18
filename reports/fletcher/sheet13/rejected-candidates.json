@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "id": "C06",
+      "role": "rejected",
+      "pixel_xy": [
+        7950,
+        6014
+      ],
+      "lonlat": [
+        -60.9317945,
+        46.1163469
+      ],
+      "modern_node": "J0910",
+      "modern_objectids": [
+        156065,
+        156066,
+        195029
+      ],
+      "identity_evidence": "Major western branch enters Middle River at its western bank, south of the West Side Middle River bends and north of the paired southern tributaries. Bank geometry requires explicit review.",
+      "source_uncertainty_px": 10,
+      "review": "Native source crosshair and modern topology inspected; corrected from the retained proposal before any numerical fit. Await final crosshair confirmation.",
+      "pre_review_pixel_xy": [
+        7929,
+        6007
+      ],
+      "rejection": "Modern J0910 is a tributary into the western river channel above its merger with the eastern/main channel; the historical proposed pixel is the larger channel merger. Shared feature definition unresolved. Excluded before fitting."
+    }
+  ]
+}

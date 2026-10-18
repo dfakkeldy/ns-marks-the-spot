@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-03-U04.jpg",
+    "point_record": "sheet03/refinement-20260912/validation-ten.json",
+    "point_id": "U04",
+    "native_box": [
+      4321,
+      2711,
+      5021,
+      3411
+    ],
+    "native_coordinates": [
+      4671,
+      3061
+    ],
+    "modern_lonlat": [
+      -60.7126792,
+      46.887396
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-03-U06.jpg",
+    "point_record": "sheet03/refinement-20260912/validation-ten.json",
+    "point_id": "U06",
+    "native_box": [
+      7524,
+      5342,
+      8224,
+      6042
+    ],
+    "native_coordinates": [
+      7874,
+      5692
+    ],
+    "modern_lonlat": [
+      -60.55805944446946,
+      46.811054107638576
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,625 @@
+{
+  "schemaVersion": 1,
+  "headSha": "cfabf37bf3b8314c8b073533951e2ee7c88aa601",
+  "decision": "blocked",
+  "recordedAt": "2026-07-28",
+  "updatedAt": "2026-07-29",
+  "artifact": {
+    "topology": "metadata-worker-main-canvas-pdfjs",
+    "baselineRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
+    "correctionRuntimeSha": "fea8681385bf5ab2d62cc8e82f28839de1ca3a71",
+    "buildCommand": "npm ci && npm test && npm run lint && npm run build && npm run check:pdf-assets",
+    "desktopPreviewCommand": "npx vite preview --host 0.0.0.0 --port 4179 --strictPort",
+    "desktopPreviewUrl": "http://127.0.0.1:4179/",
+    "physicalPreviewUrl": "http://192.168.1.161:4184/",
+    "evidenceBoundary": "The baseline complete desktop matrix belongs to 4c46ca276. The earlier renderer correction is fea868138 and its integrated physical evidence belongs to 7656364a. The complete candidate Chrome functional matrix belongs to parser commit ad1016b73, while layout commit ae7d57009 owns the 320x640 rerun. PR 188 merged both runtime fixes and the candidate receipt as cfabf37bf; that exact integrated SHA owns fresh full local gates, but no complete post-merge desktop or physical matrix because the Mac and iPhone became unavailable.",
+    "integratedRuntimeSha": "cfabf37bf3b8314c8b073533951e2ee7c88aa601",
+    "candidateParserSha": "ad1016b734abafded493443bc6a8be4229609448",
+    "candidateLayoutSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
+    "candidatePreviewUrl": "http://127.0.0.1:4187/",
+    "mergedPreviewUrls": [
+      "http://127.0.0.1:4188/",
+      "http://127.0.0.1:4189/"
+    ]
+  },
+  "environment": {
+    "os": "macOS 27.0 (26A5388g)",
+    "architecture": "arm64",
+    "hardwareModel": "MacBookPro18,1",
+    "memoryBytes": 17179869184,
+    "node": "22.23.1",
+    "npm": "10.9.8",
+    "gdal": "3.9.0",
+    "pdfLib": "1.17.1",
+    "pdfjsDist": "6.1.200",
+    "chrome": "150.0.7871.187",
+    "chromeViewport": "1440x817 CSS pixels at DPR 2; responsive control 320x640 CSS pixels",
+    "firefox": "146.0.1",
+    "firefoxCapturedSurface": "1179x768 pixels",
+    "desktopSafari": "27.0",
+    "desktopSafariCapturedSurface": "1081x768 pixels",
+    "mobileSafari": "physical iPhone 12 Pro on iOS 27.0 beta (24A5390f)",
+    "mobileScreen": "390x844 points",
+    "mobilePageZoom": "Maine began at 100%; completed legacy New Hampshire run used 85%"
+  },
+  "topologies": [
+    {
+      "id": "metadata-worker-main-canvas-pdfjs",
+      "result": "waiting-for-user",
+      "evidence": "Baseline desktop matrices pass. Earlier exact merged 7656364a physical Safari imported and initially rendered the 3.2 MB legacy frame but appeared blank after reload; its 5.8 MB Maine import replaced the WebContent process and created no record. Candidate ad1016b73 bounds PDF.js per-image resizing to 4096-squared RGBA bytes and passes the complete Chrome functional matrix. Exact candidate physical efficacy is waiting for the unavailable iPhone; the legacy rerun must use a persisted GCP extent before judging repaint."
+    },
+    {
+      "id": "pdfjs-feature-worker",
+      "result": "blocked",
+      "evidence": "The installed PDF.js display API remains incompatible with the feature-worker rendering topology; it was not promoted as a fallback."
+    }
+  ],
+  "browsers": [
+    {
+      "name": "Chrome",
+      "version": "150.0.7871.187",
+      "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511; candidate functional matrix ad1016b734abafded493443bc6a8be4229609448; exact responsive rerun ae7d5700963ee7457d791c6c59df8383cee9cc09",
+      "viewport": "1440x817 CSS pixels at DPR 2; responsive control 320x640 CSS pixels",
+      "result": "partial-pass",
+      "candidateEvidence": "All five real files and all 16 frames, four embedded GCPs, chooser non-preselection, reload provenance, sole registrations, page-count and manual controls, Hampton stress, Maine import, and clean logs passed on ad1016b73. Exact ae7d57009 fixed and reran the 320x640 layout: card 229/229, group 255/255, panel 287/287, document 320/320, ordinary row 255/255.",
+      "mergedStatus": "Exact integrated cfabf37bf was freshly built and served. The first 4188 chooser attempt was discarded after a harness wait timed out while the import continued and a retry created duplicate Maine records. A fresh 4189-origin restart was blocked when supported desktop control reported that the Mac was locked and automatic unlock was paused. No post-merge Chrome matrix result is claimed.",
+      "completed": [
+        "all five real-USGS files through the native chooser",
+        "every Measure and LGIDict main-map and inset frame selected explicitly",
+        "every initial multi-registration chooser had no checked radio",
+        "four embedded GCPs and recorded RMS for every frame",
+        "all five selections and provenance records persisted after reload",
+        "35 MB raster stress import and three-frame selection",
+        "deterministic sole Measure and LGIDict placement",
+        "page 1 of 2 reporting",
+        "plain-PDF manual fallback",
+        "320x640 long-filename wrapping and operable chooser",
+        "no warning or error console entries",
+        "no imported filename, file URL, or temporary path in rendered src or href values",
+        "all candidate IDs recorded",
+        "three normal and three stress import-remove cycles"
+      ],
+      "blocked": [
+        "long-task and input-latency recording",
+        "import request-body inspection",
+        "worker, document, object URL, canvas, and retained-memory release"
+      ],
+      "status20260731": "BLOCKED — import hang",
+      "note20260731": "No GeoPDF completes import in Chrome 150 on this machine at any size. A 2 KB in-repo synthetic fixture reproduces the identical indefinite Reading state as a 3.2 MB real USGS file, so this is not a size threshold. Isolated to one PDF.js step: the worker streams the page operator list, emits StartRenderPage and one obj, then stops producing output; renderTask.promise never settles. Recorded as \"worker stops mid-stream; render promise pending\", NOT as a proven deadlock — the worker is not terminated and emits no error, and did not answer an injected liveness message, but PDF.js MessageHandler may silently drop an unrecognised action, so non-response is strong but not conclusive. Ruled out by test: file delivery (byte-exact), repo SHA, file size, registration family, HTTP server, missing PDF.js assets, asset MIME, console errors, failed requests, browser major version."
+    },
+    {
+      "name": "Firefox",
+      "version": "146.0.1",
+      "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
+      "viewport": "captured content surface 1179x768 pixels; separate CSS viewport unavailable",
+      "result": "partial-pass",
+      "candidateStatus": "Complete merged-SHA rerun pending; the Mac is locked and supported foreground control is unavailable.",
+      "completed": [
+        "complete five-file real-USGS rendered matrix",
+        "every main-map and inset selection from four embedded GCPs",
+        "initial choosers with no preselection",
+        "selection and provenance persistence after reload",
+        "deterministic sole Measure and LGIDict placement",
+        "plain-PDF manual fallback",
+        "page 1 of 2 reporting",
+        "35 MB stress import",
+        "clean Developer Tools console",
+        "removal-only Network panel showed no requests",
+        "heap decreased from 17.33 MB post-import to 16.26 MB five seconds after monitored removals"
+      ],
+      "blocked": [
+        "native import chooser did not open while Developer Tools was docked, so import request bodies were not observed",
+        "no pre-import heap baseline",
+        "no retained-object or task-owned-resource ledger"
+      ]
+    },
+    {
+      "name": "desktop Safari",
+      "version": "27.0",
+      "artifact": "baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
+      "viewport": "captured content surface 1081x768 pixels; separate CSS viewport unavailable",
+      "result": "partial-pass",
+      "candidateStatus": "Complete merged-SHA rerun pending; the Mac is locked and supported foreground control is unavailable.",
+      "completed": [
+        "complete five-file real-USGS rendered matrix",
+        "every main-map and inset selection from four embedded GCPs",
+        "initial choosers with no preselection",
+        "selection and provenance persistence after reload",
+        "deterministic sole Measure and LGIDict placement",
+        "plain-PDF manual fallback",
+        "page 1 of 2 reporting",
+        "35 MB stress import"
+      ],
+      "blocked": [
+        "Safari Allow remote automation was disabled",
+        "JavaScript from Apple Events was disabled",
+        "the supported accessibility path did not expose Web Inspector",
+        "console, request-body, long-task, and retained-resource diagnostics remained unavailable"
+      ],
+      "status20260731": "BLOCKED — session creation fails; zero cases run",
+      "note20260731": "sudo safaridriver --enable was run by the user and the lane retried on 2026-07-31. POST /session returns HTTP 500 after 30 s on TWO independent drivers — the pre-existing one and one started fresh after the --enable — which rules out stale driver authorization state. The --diagnose log carries the HTTP layer only; the request never reaches a Safari instance. Both documented remedies are now applied (the Settings -> Developer toggle is enabled, verified visually and carried forward; --enable has been run) and neither changed the outcome. No window was opened, so the clean-profile requirement is UNEXERCISED, not satisfied. PerformanceObserver.supportedEntryTypes was never read, so Safari Long Tasks support is UNMEASURED — not \"unsupported\" and certainly not \"no long tasks\"."
+    },
+    {
+      "name": "physical Mobile Safari",
+      "version": "iOS 27.0 beta (24A5390f)",
+      "artifact": "exact merged nightly 7656364a6c16791a6334d0c8179e1c6c4cd01248, with baseline and correction evidence retained separately",
+      "viewport": "physical iPhone 12 Pro, 390x844-point screen; 85% page zoom for completed run",
+      "result": "waiting-for-user",
+      "candidateStatus": "The iPhone is unavailable. Exact candidate and merged-SHA Maine import plus legacy import/render/reload remain pending. The legacy reload must navigate to a persisted GCP extent before a repaint verdict.",
+      "completed": [
+        "devicectl and iPhone Mirroring confirmed the physical iPhone 12 Pro paired, trusted, locked, and reachable",
+        "fresh Private-tab origin at the exact merged SHA with no prior GeoPDF record",
+        "native iOS Files chooser import of the 3.2 MB legacy LGIDict file",
+        "all three registrations visible with no initial selection",
+        "Map Layers selected explicitly and preview outline changed",
+        "initial raster rendered conclusively with OpenStreetMap disabled",
+        "page, label, LGIDict family, enabled state, and chosen-by-you provenance persisted after reload"
+      ],
+      "failed": [
+        "after reload and safe licence continuation, the enabled legacy raster remained blank after waiting, base-map isolation, an off-on cycle, and a pan",
+        "the exact 5.8 MB Maine Measure import returned to the startup licence dialog and created no record"
+      ],
+      "blocked": [
+        "physical Safari console, process, request-body, long-task, and retained-resource diagnostics were unavailable"
+      ]
+    },
+    {
+      "name": "Firefox",
+      "version": "152.0.6",
+      "buildId": "20260713164047",
+      "artifact": "branch runtime a75fef33c1004943465b6b95713c7f28201fd0f5, served from that worktree dist by vite preview",
+      "harness": "geckodriver 0.37.1 + Selenium 4.46.0, fresh geckodriver temp profile, native <input type=file> send_keys",
+      "viewport": "1440 px capture width; dedicated responsive control at 320x640 CSS pixels",
+      "result": "extends-the-record",
+      "closesReceiptLineItems": false,
+      "versionCaveat": "Firefox 152.0.6 is NOT the receipt 146.0.1. Every result here EXTENDS the record and closes NO Firefox line item the receipt left open. Nothing here transfers to Chrome.",
+      "completed": [
+        "stop rule 1 discriminated across all five real USGS files: persisted-but-offscreen, not lost bytes and not a genuine blank render",
+        "stored bytes read back from IndexedDB and reconstructed to an image, proving byte survival independently of the render",
+        "post-reload raster present and correct after using a persisted GCP Zoom to point control",
+        "16 of 16 frames across four multi-registration files selected explicitly, zero preselection, Use this frame disabled until chosen",
+        "no supported frame requested manual GCP entry; no silent first-or-largest selection",
+        "per-file IndexedDB and user-map-ui-state-v1 reset with an asserted recordsBeforeImport == 0 for every fixture",
+        "both files over 10 MB imported through a genuine native file input: San Francisco South 12,127,762 B and Hampton 35,264,037 B",
+        "manual-points boundary held in both directions across 13 tracked repository fixtures",
+        "distinct truthful fallback reasons: absent, invalid and unsupported-crs are not collapsed into one generic state",
+        "readable supported registration never pushed to manual; two or more candidates return selection-required",
+        "unreadable file produces a typed error and no record",
+        "page-count reporting: Page 1 of 2 imported, in both the outcome and the persisted row, with pageCount 2 persisted",
+        "a page-2 registration does not leak forward into page 1, which reports absent registration",
+        "reload persistence of selection, label, registration family and chosen-by-you provenance",
+        "320x640 responsive ledger matching the receipt",
+        "six of six import/remove cycles",
+        "zero failed resources, zero JS errors, zero unhandled rejections"
+      ],
+      "blocked": [
+        "Long Tasks API not implemented: longTaskApiSupported was false for all 13 fixtures. An empty supportedEntryTypes is NO INSTRUMENT, not no long tasks. The 200 ms threshold cannot be satisfied on any Firefox lane.",
+        "import-time request bodies not captured; no local-only-network claim",
+        "retained-resource and memory reclamation not captured; no resource-release claim"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "name": "ns-utm20-iso.pdf",
+      "role": "deterministic Measure",
+      "byteSize": 1878,
+      "sha256": "43e07add666de062d2dfb91eca17fc807d32eea7e9a1e5fc90b35d8441a82148",
+      "chromeResult": "pass",
+      "firefoxResult": "pass",
+      "safariResult": "pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    },
+    {
+      "name": "ns-utm20-lgidict.pdf",
+      "role": "deterministic LGIDict",
+      "byteSize": 1896,
+      "sha256": "92196cd8210c63aeb14977a6213045a90e97a630dd008bbc6e1136d94ecc101a",
+      "chromeResult": "pass",
+      "firefoxResult": "pass",
+      "safariResult": "pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    },
+    {
+      "name": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+      "role": "current Measure and physical 5.8 MB case",
+      "byteSize": 5831077,
+      "sha256": "9e0e5c17276b6ff0793c29ffc190b0b43e559fd197f0e17c79560adda54a4357",
+      "candidateIds": [
+        "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+        "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+        "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+      ],
+      "chromeResult": "all frames pass",
+      "firefoxResult": "all frames pass",
+      "safariResult": "all frames pass",
+      "mobileSafariResult": "fail; exact merged import reset to the licence dialog and created no record",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
+      "mobileBaselineRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
+      "mobileCorrectionEvidence": "superseded by exact merged physical failure",
+      "mobileIntegratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248"
+    },
+    {
+      "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
+      "role": "legacy LGIDict and physical 3.2 MB case",
+      "byteSize": 3241291,
+      "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
+      "candidateIds": [
+        "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+        "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+        "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477"
+      ],
+      "chromeResult": "all frames pass",
+      "firefoxResult": "all frames pass",
+      "safariResult": "all frames pass",
+      "mobileSafariResult": "fresh exact merged chooser, explicit selection, initial isolated render, and provenance persistence pass; post-reload raster repaint fails",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
+      "mobileBaselineRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511",
+      "mobileCorrectionEvidence": "superseded by fresh exact merged physical evidence",
+      "mobileIntegratedRuntimeSha": "7656364a6c16791a6334d0c8179e1c6c4cd01248"
+    },
+    {
+      "name": "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
+      "role": "10-20 MB Measure",
+      "byteSize": 12127762,
+      "sha256": "1e64eabdb4df545a651a7721ed808c6199e89df27c7659424ead22a3c9f74732",
+      "candidateIds": [
+        "measure-direct-0-0-0-3389.7145968-3984.7847136",
+        "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+        "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337"
+      ],
+      "chromeResult": "all frames pass",
+      "firefoxResult": "all frames pass",
+      "safariResult": "all frames pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    },
+    {
+      "name": "NH_Hampton_20240808_TM_geo.pdf",
+      "role": "35 MB stress Measure and 320x640 responsive control",
+      "byteSize": 35264037,
+      "sha256": "a4b29c41289e5d4dab3ec33f2d0019441c2525aba0c61b498a15da3434bc546b",
+      "candidateIds": [
+        "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451",
+        "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+        "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+      ],
+      "chromeResult": "all frames and responsive case pass",
+      "firefoxResult": "all frames pass",
+      "safariResult": "all frames pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    },
+    {
+      "name": "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf",
+      "role": "four-frame legacy LGIDict",
+      "byteSize": 9052006,
+      "sha256": "756f06c2c1a826c151bb2a753fe8a8e9efac28557865c37262cd773160961266",
+      "candidateIds": [
+        "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+        "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+        "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+        "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586"
+      ],
+      "chromeResult": "all frames pass",
+      "firefoxResult": "all frames pass",
+      "safariResult": "all frames pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    },
+    {
+      "name": "byte_and_rgbsmall_2pages.pdf",
+      "role": "page-count control",
+      "byteSize": 8992,
+      "sha256": "e483d8eec5820e0a828d41d804978e4090d46c806615fa961de0ec205777abb9",
+      "chromeResult": "pass",
+      "firefoxResult": "pass",
+      "safariResult": "pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    },
+    {
+      "name": "plain.pdf",
+      "role": "plain-PDF fallback",
+      "byteSize": 1030,
+      "sha256": "65b2f799cca6153964eab02498be32e1dc1362f1ed886e8803b9e9a8735880c4",
+      "chromeResult": "pass",
+      "firefoxResult": "pass",
+      "safariResult": "pass",
+      "desktopResultRuntimeSha": "4c46ca276982ac9e4da593ee79b5a88503818511"
+    }
+  ],
+  "candidateChrome": {
+    "functionalRuntimeSha": "ad1016b734abafded493443bc6a8be4229609448",
+    "layoutRuntimeSha": "ae7d5700963ee7457d791c6c59df8383cee9cc09",
+    "realFiles": "all five",
+    "embeddedFrames": 16,
+    "initialChoosersUnselected": true,
+    "embeddedPointsPerFrame": 4,
+    "reloadProvenance": "pass",
+    "maineImport": "pass without page-process reset",
+    "controls": "sole Measure, sole LGIDict, page 1 of 2, and plain-PDF manual fallback pass",
+    "responsive320x640": {
+      "result": "pass",
+      "card": "229/229 clientWidth/scrollWidth",
+      "group": "255/255 clientWidth/scrollWidth",
+      "panel": "287/287 clientWidth/scrollWidth",
+      "document": "320/320 clientWidth/scrollWidth",
+      "ordinaryRow": "255/255 clientWidth/scrollWidth"
+    },
+    "console": "no warning or error entries"
+  },
+  "performance": [
+    {
+      "check": "35 MB stress import",
+      "result": "pass-observed",
+      "evidence": "The chooser and every frame completed in all three desktop browsers on the baseline SHA. The mission's 200 ms long-task threshold was not measured, so no performance pass is claimed."
+    },
+    {
+      "check": "main-thread long tasks and input responsiveness",
+      "result": "blocked",
+      "evidence": "The Chrome control surface exposed no Performance panel, so the required 200 ms threshold was not measured and remains blocked."
+    },
+    {
+      "check": "Firefox heap snapshots",
+      "result": "supporting",
+      "evidence": "17.33 MB post-import and 16.26 MB five seconds after monitored removals; no pre-import baseline or retained-object ledger."
+    },
+    {
+      "check": "main-thread long tasks — instrument availability across all reachable lanes",
+      "result": "open",
+      "evidence": "Firefox 152.0.6: longTaskApiSupported false for all 13 fixtures; Firefox does not implement the Long Tasks API and an empty PerformanceObserver.supportedEntryTypes is no instrument, not no long tasks. Chromium: BLOCKED by the import hang, so no run reaches a measurable state. Desktop Safari: UNMEASURED — no session could be created, so supportedEntryTypes was never read. No currently reachable lane can satisfy the 200 ms threshold. The item stays OPEN."
+    }
+  ],
+  "cleanup": [
+    {
+      "check": "desktop reload persistence",
+      "result": "pass",
+      "evidence": "All five real-file selection and provenance records persisted in Chrome, Firefox, and desktop Safari on the baseline SHA."
+    },
+    {
+      "check": "physical reload persistence",
+      "result": "fail",
+      "evidence": "On exact merged 7656364a the fresh legacy record and provenance persisted, but its raster did not repaint after reload, waiting, off-on, or pan."
+    },
+    {
+      "check": "three normal import-remove cycles",
+      "result": "pass-observed",
+      "evidence": "Three product removal cycles completed in Chrome; confirmation delivery produced harness noise."
+    },
+    {
+      "check": "three stress import-remove cycles",
+      "result": "pass-observed",
+      "evidence": "Three 35 MB product removal cycles completed in Chrome; confirmation delivery produced harness noise."
+    },
+    {
+      "check": "worker, document, object URL, canvas, and memory release",
+      "result": "blocked",
+      "evidence": "No retained-resource ledger was available."
+    }
+  ],
+  "networkPrivacy": [
+    {
+      "check": "rendered imported-file URLs",
+      "result": "pass-supporting",
+      "evidence": "Chrome rendered src and href values contained no imported filename, file URL, or temporary corpus path."
+    },
+    {
+      "check": "PDF import request or upload body",
+      "result": "blocked",
+      "evidence": "Chrome and Safari exposed no request-body ledger; Firefox could not open the native chooser while Developer Tools was docked."
+    },
+    {
+      "check": "console",
+      "result": "partial-pass",
+      "evidence": "Chrome and Firefox were clean. Desktop and physical Safari console inspection was unavailable."
+    }
+  ],
+  "screenshots": [
+    {
+      "directory": "docs/research/geopdf-browser-evidence",
+      "count": 57,
+      "runtimeShas": [
+        "4c46ca276982ac9e4da593ee79b5a88503818511",
+        "fea8681385bf5ab2d62cc8e82f28839de1ca3a71",
+        "7656364a6c16791a6334d0c8179e1c6c4cd01248"
+      ],
+      "artifactBreakdown": [
+        {
+          "artifact": "exact baseline 4c46ca276982ac9e4da593ee79b5a88503818511",
+          "count": 43
+        },
+        {
+          "artifact": "temporary instrumented correction branch; supporting only and not an exact artifact",
+          "count": 5
+        },
+        {
+          "artifact": "exact correction fea8681385bf5ab2d62cc8e82f28839de1ca3a71; persisted-state checks only",
+          "count": 2
+        },
+        {
+          "artifact": "exact merged nightly 7656364a6c16791a6334d0c8179e1c6c4cd01248; fresh physical import/render/reload/Maine matrix",
+          "count": 7
+        }
+      ],
+      "coverage": [
+        "Chrome chooser, extents, insets, stress, and 320x640",
+        "Firefox and desktop Safari first and final frames, stress, and controls",
+        "physical chooser, explicit selection, embedded points, provenance persistence, failures, and correction-state checks",
+        "exact merged physical fresh chooser, explicit selection, isolated initial render, persisted provenance, blank post-reload raster, and Maine reset/absence"
+      ]
+    }
+  ],
+  "verification": {
+    "exactRuntime": [
+      "npm ci",
+      "11 Node script tests passed",
+      "1011 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
+    ],
+    "receiptBranch": [
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1013 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
+    ],
+    "buildAdvisory": "Existing large-chunk advisory only; no build error.",
+    "integratedRuntime": [
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1013 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
+    ],
+    "candidateRuntime": [
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1015 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
+    ],
+    "mergedRuntime": [
+      "exact integrated nightly cfabf37bf3b8314c8b073533951e2ee7c88aa601",
+      "npm ci installed 329 packages with zero vulnerabilities",
+      "12 Node script tests passed",
+      "1015 Vitest tests passed and 1 skipped",
+      "npm run lint",
+      "npm run build",
+      "npm run check:pdf-assets checked 200 assets"
+    ],
+    "branchLocalGates20260731": {
+      "runtimeSha": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+      "npmCi": "329 packages, 330 audited, 0 vulnerabilities — required npm ci --include=dev",
+      "nodeScriptTests": "12 of 12 passed",
+      "vitest": "1,057 passed, 1 skipped across 92 files passed and 1 skipped",
+      "lint": "clean",
+      "build": "NOT RUN by the 2026-07-31 session — running it would have overwritten the live dist that the evidence origins serve and that all committed Firefox evidence was measured against",
+      "checkPdfAssets": "200 assets checked",
+      "environmentTrap": "This host injects NODE_ENV=production into the agent process chain. A bare npm ci silently installs 57 packages and omits every devDependency, and Vitest reports a large false RED (React.act is not a function; No such built-in module: node:) that is infrastructure, not product assertions. NODE_ENV=test and npm ci --include=dev are required.",
+      "claimBoundary": "Local runtime proof ONLY. Not CI, not merge, not acceptance, not deployment."
+    }
+  },
+  "automaticRule": {
+    "approved": false,
+    "producerObservation": "pdf-lib returned null or undefined Producer for all five discovery files and all twelve holdouts",
+    "creatorObservation": "ArcSOC version strings are in PDF Creator, not Producer",
+    "spatialObservation": "Twelve authoritative files across six quadrangles were evaluated. Several current Measure files exceeded 1 pixel and 5 metres and unsupported CRS cases remained.",
+    "reason": "The proposed producer-keyed signatures cannot match actual metadata, and the modern holdouts do not satisfy the frozen oracle. Changing the key to Creator would require a newly frozen selector and independent holdouts."
+  },
+  "blockers": [
+    "The physical iPhone is unavailable, so exact candidate and merged-SHA Maine import plus legacy import/render/reload verification are waiting for the user.",
+    "Chrome and Chromium are BLOCKED by an import hang that reproduces at this receipt own baseline SHA and Chrome major version, isolated to PDF.js rasterization after StartRenderPage/obj with the render promise pending. This supersedes \"the Mac is locked\" as the reason the Chrome matrix has not rerun.",
+    "Desktop Safari is BLOCKED at session creation with zero cases run. Both documented remedies are applied and neither was effective.",
+    "The 200 ms long-task diagnostic is OPEN. Firefox has no instrument, Chromium is blocked, Safari is unmeasured; no currently reachable lane can satisfy it.",
+    "Chrome request-body and retained-resource diagnostics remain unavailable.",
+    "Desktop Safari console, network, and resource diagnostics remain unavailable.",
+    "Firefox import request bodies and retained-object release remain unproven on every Firefox lane, including 152.0.6.",
+    "The modern automatic-rule holdouts fail the frozen spatial threshold and the proposed producer metadata field does not match the files.",
+    "The receipt-integrity question is open: a recorded Chrome matrix that does not reproduce at its own baseline.",
+    "byte_enc.pdf produced no documented error across 28 samples over 420 s. Recorded OPEN and distinct from the Chrome hang."
+  ],
+  "runtimeBranch": "nightly",
+  "receiptBranch": "feature/geopdf-merged-desktop-waiting",
+  "extendedAt": "2026-07-31",
+  "openQuestions": [
+    {
+      "id": "receipt-integrity",
+      "state": "OPEN",
+      "statement": "This receipt records a complete Chrome 150 five-file matrix at baseline 4c46ca276982ac9e4da593ee79b5a88503818511. That baseline, rebuilt from a clean git archive of the same SHA and served independently, does not import a single GeoPDF on this machine, on the same Chrome major version the receipt names.",
+      "framing": "Recorded as an OPEN QUESTION, not a refutation.",
+      "readingsStillLive": [
+        "a machine- or profile-dependent factor not captured in the receipt",
+        "the recorded matrix is not reproducible as written"
+      ],
+      "excludedEitherWay": "repo SHA",
+      "ruledOutByTest": [
+        "file delivery — byte-exact 3,241,291/3,241,291, %PDF-1.6, %EOF, 4 ms",
+        "repo SHA — reproduces at baseline 4c46ca276",
+        "file size — reproduces at 2 KB",
+        "registration family — reproduces on LGIDict and on real Measure",
+        "HTTP server — reproduces on python http.server AND vite preview",
+        "missing PDF.js assets — all 201 present, cmaps/ standard_fonts/ iccs/ wasm/ present",
+        "asset MIME — openjpeg.wasm and jbig2.wasm both HTTP 200 application/wasm",
+        "console errors — none",
+        "failed network requests — none",
+        "browser major version — Chrome 150, the same major version the receipt records"
+      ],
+      "why": "A recorded pass that cannot be reproduced at its own baseline is a receipt-integrity concern independent of which reading is correct, and should not be silently carried forward."
+    },
+    {
+      "id": "byte_enc-no-documented-error",
+      "state": "OPEN",
+      "fixture": "web/src/test/fixtures/geopdf/byte_enc.pdf",
+      "byteSize": 2605,
+      "documentedBehaviour": "manifest.json records password-protected; the fixtures README describes a typed unlock/export error with no password UI",
+      "observedBehaviour": "through a 180 s settle window and a dedicated bounded re-run of 28 samples over 420 s, the status surface stayed on Reading \"byte_enc.pdf\" with no outcome, no error row and no record",
+      "verdict": "OPEN — not a pass and not a fail",
+      "distinctFrom": "the Chrome import hang, which occurs in a different browser and affects every file",
+      "harnessLabelCorrection": "control-matrix.json scores this fixture ERROR_NO_RECORD. That is the harness classifier being too coarse — it inferred \"error\" from the absence of a record. \"Still reading\" is not \"a typed error\". Corrected in prose rather than silently in the JSON so the discarded classification stays visible."
+    },
+    {
+      "id": "fixture-manifest-expected-values",
+      "state": "OPEN — documentation defect, NOT a product defect",
+      "statement": "web/src/test/fixtures/geopdf/README.md calls manifest.json authoritative for exact expected statuses. Measured against the running product, 6 of 13 expected values are inaccurate.",
+      "inaccurateEntries": [
+        {
+          "fixture": "ns-utm20-lgidict.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "ns-utm20-iso.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "test_iso32000.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "test_ogc_bp.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "rotated-cropped.pdf",
+          "manifestExpected": "manual-unsupported",
+          "observed": "embedded"
+        },
+        {
+          "fixture": "adobe_style_geospatial.pdf",
+          "manifestExpected": "manual-ambiguous",
+          "observed": "selection-required"
+        }
+      ],
+      "whyNotAProductDefect": "In every case the observed behaviour is what the parser unit tests already assert, and placing a file whose CRS is in SUPPORTED_EPSG_CODES from its embedded coordinates is correct.",
+      "whyNoTestCatchesIt": "testFixtures.test.ts asserts the manifest AGAINST ITSELF, which stays green no matter what the product does. The expected column has no behavioural oracle behind it.",
+      "action": "Recommended, not actioned, and not approved. No fixture, manifest or test is changed. A future change should either correct the six values or bind them to real behaviour; correcting them without an oracle would only move the drift."
+    }
+  ],
+  "stopRule1": {
+    "state": "SETTLED",
+    "resolution": "PERSISTED_BUT_OFFSCREEN",
+    "lane": "desktop Firefox 152.0.6",
+    "coverage": "all five real USGS files",
+    "method": "Three outcomes were discriminated rather than inferred: stored bytes were read back from IndexedDB and reconstructed to an image (proving byte survival), the pre-reload render was captured, and the post-reload viewport was captured both before and after using a persisted GCP Zoom to point control.",
+    "finding": "The reload returns the viewport to the default Nova Scotia centre. The raster is off screen, not absent. Not lost bytes and not a genuine blank render.",
+    "doesNotClose": "Physical Mobile Safari, which stays WAITING_FOR_USER. The desktop mechanism is a strong candidate explanation for the physical result, not a closure of it."
+  },
+  "geoPdfApprovedRules": {
+    "state": "empty",
+    "verifiedAt": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+    "recommendation": "AGAINST a producer-specific automatic main-map rule.",
+    "rationale": "pdf-lib returns a null Producer for all 12 holdout files and ArcSOC appears in Creator instead, so producer-keyed signatures cannot match. Re-keying to Creator would define a NEW selector.",
+    "requirementForAnyFutureSelector": "A freshly frozen independent holdout, LARGER than the discovery set, drawn from quadrangles not used here.",
+    "defectDefinition": "A silent \"first\" or \"largest\" selection would be a defect."
+  },
+  "evidenceDirectories": [
+    "docs/research/geopdf-browser-evidence",
+    "docs/research/acceptance-evidence"
+  ],
+  "corpusPdfInRepository": false
+}

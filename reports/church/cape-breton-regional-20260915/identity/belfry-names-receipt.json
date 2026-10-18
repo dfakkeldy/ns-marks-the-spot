@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=upper%28geoname%29+like+%27%25BELFRY%25%27&%24limit=100",
+  "query": {
+    "$where": "upper(geoname) like '%BELFRY%'",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T14:26:19.328738+00:00",
+  "sha256": "5faf8f16ab3f31832804f367b6573921009e42dcc406d0307523be18e7b57888"
+}

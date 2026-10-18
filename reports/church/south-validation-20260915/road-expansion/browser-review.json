@@ -1,0 +1,72 @@
+{
+  "reviewed_at": "2026-09-15T20:53:13.252145+00:00",
+  "artifact_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "active_raster": "south-explicit-affine-20m",
+  "only_active_user_raster": true,
+  "opacity_percent": 70,
+  "terrain_exaggeration": 10,
+  "tilt_degrees": 50,
+  "locations": [
+    {
+      "name": "Doyles Bridge",
+      "lat": 46.33032,
+      "lon": -61.07733,
+      "zoom": 15
+    },
+    {
+      "name": "Ainslie Glen",
+      "lat": 46.04241,
+      "lon": -61.11695,
+      "zoom": 15
+    },
+    {
+      "name": "Glencoe",
+      "lat": 45.97134,
+      "lon": -61.31938,
+      "zoom": 15
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/ainslie-10x.png",
+      "sha256": "7ee87b1d5070bdea92ba5338391902e50364a317fffdf2e6f36f0652321f6612"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/ainslie-2d.png",
+      "sha256": "b01c25825630b6e31bd05206de9e5105a8aa7e722fde5bd1f0d557439e0dbd05"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/doyles-10x.png",
+      "sha256": "c2d498e90cc4715689e456a40565d57db646db8ff5658ef02b4ee0f20de03e30"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/doyles-2d.png",
+      "sha256": "d29ae6f10a6a50a89264d1152fa5b7ee594b76f59882d262142343d5b228ecfe"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/glencoe-10x.png",
+      "sha256": "1e31b066738247c49c1ef76a58c8ffaac9b7681d5d58d4e3e28f23fdb7be6fc4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/glencoe-2d.png",
+      "sha256": "8281fca0f1db59d8f09f56694457f40fdc72988c4b695a8dd3ba4f151f8c8e03"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/ainslie-state.txt",
+      "sha256": "3d214dea75d9c53852ba9e6de9b889a60391ea7edaff23af38be4e23ab14fffb"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/doyles-state.txt",
+      "sha256": "88bb71adc8610ddadae5fbc33a65d29c130626e54541268445763d0d97583cf6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/browser/glencoe-state.txt",
+      "sha256": "6a9a99e1be5e65afb6550a4aeaa02d6535f4b0569d1b9974a27834d2455aaaeb"
+    }
+  ],
+  "console_errors": [],
+  "scope": "Previously imported embedded raster retained after navigation; inspected in2D and10x terrain. No new import or raw-scan mesh acceptance.",
+  "geographic_acceptance": false
+}

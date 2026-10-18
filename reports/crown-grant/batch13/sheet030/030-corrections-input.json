@@ -1,0 +1,54 @@
+[
+  [
+    "C07",
+    "Unnamed lake south of Skunk Lake northern tip",
+    [
+      4628,
+      547
+    ],
+    [
+      4609,
+      551
+    ],
+    "WALK20"
+  ],
+  [
+    "Q01",
+    "Stoney Lake western projecting bend",
+    [
+      630,
+      838
+    ],
+    [
+      631,
+      820
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Unnamed lake south of Skunk Lake southern tip",
+    [
+      4643,
+      660
+    ],
+    [
+      4627,
+      633
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Skunk Lake southern tip",
+    [
+      4710,
+      413
+    ],
+    [
+      4719,
+      434
+    ],
+    "WALK20"
+  ]
+]

@@ -1,0 +1,26 @@
+{
+  "source_sha256": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "native_box": [
+    0,
+    0,
+    10832,
+    7683
+  ],
+  "rotation_degrees": 0,
+  "image": "full-boundary-review.jpg",
+  "overlay": "Red ring on complete native scan. Full scan, corners and Macrae Point notch inspected.",
+  "macrae_native_crop": [
+    9560,
+    6400,
+    9900,
+    6550
+  ],
+  "macrae_image": "macrae-label-native.png",
+  "rejected_Q03_native_crop": [
+    2660,
+    2010,
+    2920,
+    2240
+  ],
+  "rejected_Q03_image": "rejected-Q03-native.png"
+}

@@ -1,0 +1,93 @@
+{
+  "source_service": "https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer",
+  "source_layers": [
+    9,
+    11
+  ],
+  "source_filter": "LEVELPRIOR = 1 AND FLOWDIR = 1",
+  "bounds_west_south_east_north": [
+    -61.17,
+    46.35,
+    -60.55,
+    47.1
+  ],
+  "coast_reference": "NSTDB WACO40",
+  "terminal_coast_distance_m": 500,
+  "coalescing_distance_m": 750,
+  "edges": 23851,
+  "raw_terminal_mouths": 168,
+  "coalesced_mouths": 66,
+  "thresholds": [
+    {
+      "minimum_upstream_km": 5,
+      "coalesced_mouths": 19,
+      "isolated_by_3km": 10
+    },
+    {
+      "minimum_upstream_km": 10,
+      "coalesced_mouths": 7,
+      "isolated_by_3km": 7
+    },
+    {
+      "minimum_upstream_km": 15,
+      "coalesced_mouths": 3,
+      "isolated_by_3km": 3
+    },
+    {
+      "minimum_upstream_km": 20,
+      "coalesced_mouths": 3,
+      "isolated_by_3km": 3
+    }
+  ],
+  "mouths_with_at_least_10km_upstream": [
+    {
+      "lon": -60.961012,
+      "lat": 46.672496,
+      "name": "Ch\u00e9ticamp River",
+      "upstream_km": 49.90995235653997,
+      "coast_distance_m": 0.005105495684353159
+    },
+    {
+      "lon": -61.112925,
+      "lat": 46.441781,
+      "name": "Margaree River",
+      "upstream_km": 30.629218375670003,
+      "coast_distance_m": 0.020589399811713618
+    },
+    {
+      "lon": -60.829369,
+      "lat": 46.823498,
+      "name": "MacKenzies River",
+      "upstream_km": 24.475919545160007,
+      "coast_distance_m": 49.69614136806133
+    },
+    {
+      "lon": -60.876655,
+      "lat": 46.796231,
+      "name": "Fishing Cove River",
+      "upstream_km": 14.744327268210002,
+      "coast_distance_m": 207.14990708591608
+    },
+    {
+      "lon": -61.028602,
+      "lat": 46.582458,
+      "name": "Farm Brook",
+      "upstream_km": 12.27335667614,
+      "coast_distance_m": 0.0031782322744856296
+    },
+    {
+      "lon": -60.926669,
+      "lat": 46.726255,
+      "name": "Corney Brook",
+      "upstream_km": 11.287586838130002,
+      "coast_distance_m": 0.010424748120950126
+    },
+    {
+      "lon": -60.692181,
+      "lat": 46.914405,
+      "name": "Polletts Cove River",
+      "upstream_km": 11.228161713880002,
+      "coast_distance_m": 134.24371507394267
+    }
+  ]
+}

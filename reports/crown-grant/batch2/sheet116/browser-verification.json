@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-09-23T04:16:12.468208+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet116/main-3857.png",
+      "complete": true,
+      "width": 6158,
+      "height": 5159
+    }
+  ],
+  "verified": [
+    "Actual complete bays/islands raster inspected against NSTDB/OSM",
+    "40 percent opacity, modern-only and restore worked",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone Leaflet raster review, not native importer/TPS",
+    "Interior and small-island coverage limits remain"
+  ]
+}

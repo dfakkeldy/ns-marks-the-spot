@@ -1,0 +1,52 @@
+{
+  "sheet": "sheet-02",
+  "points": [
+    {
+      "id": "R01",
+      "role": "candidate-control",
+      "pixel_xy": [
+        1393,
+        3275
+      ],
+      "lonlat": [
+        -60.45939168237563,
+        46.890064988992265
+      ],
+      "modern_objectid": 27683,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_component_ids": [
+        27682,
+        27683
+      ],
+      "identity_evidence": "Westernmost tip of the largest interior Middle Pond island, east-west two-lobed form with small island to its east and southwest. Entire two-segment closed modern coast-river-island shoreline checked. Pond entrances and barrier geometry are not this control.",
+      "source_uncertainty_px": 20,
+      "status": "Proposal awaiting exact native close/wide review; unscored."
+    },
+    {
+      "lonlat": [
+        -60.3665856,
+        46.8231981
+      ],
+      "source_guide_xy": [
+        3448.5081593994983,
+        5477.380358740222
+      ],
+      "objectids": [
+        179002,
+        285078,
+        285079
+      ],
+      "id": "R02",
+      "modern_node_id": "J0305",
+      "role": "candidate-control",
+      "pixel_xy": [
+        3510,
+        5250
+      ],
+      "identity_evidence": "Candidate northern tributary on Rachel Brook upstream of Neils junction. Modern northern branch extends to a pond; native branch is very short. Must establish order/continuity, not merely similar position.",
+      "source_uncertainty_px": 25,
+      "status": "Proposal awaiting exact close/wide review; unscored."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "image": "R1-A.jpg",
+    "record": "route19-three-rounds-20260912/sheet-16/round-1-proposal.json",
+    "record_sha256": "cfffa8b34a01a970b5b5e5747ef000a0195afcb3df784c3fa7237e88cf65a413",
+    "id": "R1-A",
+    "native_box": [
+      6887,
+      1427,
+      7047,
+      1587
+    ],
+    "pixel_xy": [
+      6967,
+      1507
+    ],
+    "lonlat": [
+      -61.35403397212542,
+      46.07644192975278
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 350
+  }
+]

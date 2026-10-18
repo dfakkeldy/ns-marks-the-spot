@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-09-C03.jpg",
+    "point_record": "sheet09/expansion-20260910/faribault-proposals.json",
+    "point_id": "C03",
+    "native_box": [
+      8503,
+      1808,
+      8723,
+      2028
+    ],
+    "native_coordinates": [
+      8613,
+      1918
+    ],
+    "modern_lonlat": [
+      -60.8989298,
+      46.5942935
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C04.jpg",
+    "point_record": "sheet09/expansion-20260910/faribault-proposals.json",
+    "point_id": "C04",
+    "native_box": [
+      8365,
+      1545,
+      8585,
+      1765
+    ],
+    "native_coordinates": [
+      8475,
+      1655
+    ],
+    "modern_lonlat": [
+      -60.9049773,
+      46.6021433
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "sheet": "sheet-17",
+  "fit_sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+  "points": [
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7989,
+        4350
+      ],
+      "lonlat": [
+        -60.5539977,
+        45.8136712
+      ],
+      "modern_node_id": "J0404",
+      "modern_objectids": [
+        135855,
+        135857,
+        295489
+      ],
+      "identity_evidence": "Northern upper pond southern outlet above Loch Lomond",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -60.762471084012375,
+        45.80550790462264
+      ],
+      "guide_xy": [
+        3351.8832601290196,
+        4744.824616930215
+      ],
+      "modern_objectid": 23627,
+      "modern_part": 0,
+      "modern_vertex": 355,
+      "modern_properties": {
+        "OBJECTID": 23627,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3072.15148130193
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3444,
+        4604
+      ],
+      "identity_evidence": "Red Island main island easternmost outer coast tip",
+      "source_uncertainty_px": 20
+    }
+  ],
+  "status": "Reused diagnostics; not fresh independent validation"
+}

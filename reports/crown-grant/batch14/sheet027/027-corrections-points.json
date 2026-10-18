@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C01",
+    "label": "Black Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      327,
+      1438
+    ],
+    "lonlat": [
+      -65.06858976298041,
+      43.68557372153916
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 2376,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2376,
+    "nearest_unfiltered_distance_guide_px": 1.9163455029324084,
+    "selected_distance_guide_px": 1.9163455029324084,
+    "guide_reference_pixel_xy": [
+      409.78651841095416,
+      1495.2524963874603
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Hemeon Head southern shore low point",
+    "role": "proposal",
+    "pixel_xy": [
+      980,
+      1522
+    ],
+    "lonlat": [
+      -65.02832123488331,
+      43.69477717045248
+    ],
+    "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+    "reference_objectid": 6413,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 6413,
+    "nearest_unfiltered_distance_guide_px": 0.758480452095967,
+    "selected_distance_guide_px": 0.758480452095967,
+    "guide_reference_pixel_xy": [
+      1039.2800492377137,
+      1562.7613297335338
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

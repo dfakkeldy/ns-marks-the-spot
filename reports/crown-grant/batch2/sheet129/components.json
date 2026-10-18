@@ -1,0 +1,93 @@
+{
+  "source_frame": "Original 5705 x 3877 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      130,
+      125
+    ],
+    [
+      5620,
+      125
+    ],
+    [
+      5620,
+      3740
+    ],
+    [
+      130,
+      3740
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 63.33 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          130,
+          125
+        ],
+        [
+          5620,
+          125
+        ],
+        [
+          5620,
+          2850
+        ],
+        [
+          4600,
+          2850
+        ],
+        [
+          4600,
+          3740
+        ],
+        [
+          130,
+          3740
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "27eb95e05ec73a086b8e0d3fb8c346e2280bc69a844c0d2ed61c714304da328f"
+    },
+    {
+      "id": "smokey-inset",
+      "status": "RMS 90.80 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          4600,
+          2850
+        ],
+        [
+          5620,
+          2850
+        ],
+        [
+          5620,
+          3740
+        ],
+        [
+          4600,
+          3740
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "d2a32d264ace6df47c4557005a03d9fe7bff8d71e88391069571f8c70a66adae",
+      "matrix": [
+        [
+          5.018730413689451,
+          2.1209988442979264
+        ],
+        [
+          2.1209988442979264,
+          -5.018730413689451
+        ],
+        [
+          669443.3938689746,
+          5169944.243112644
+        ]
+      ]
+    }
+  ]
+}

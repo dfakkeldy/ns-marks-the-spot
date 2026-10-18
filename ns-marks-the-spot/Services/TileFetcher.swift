@@ -1,91 +1,151 @@
 import Foundation
+import NSDataServices
 import UIKit
 
-final class TileFetcher {
-    private let tileCache: TileCache?
+nonisolated enum TileFetcherError: Error, Equatable {
+    case invalidHTTPStatus(Int)
+    case invalidContentType(String?)
+    case invalidImageData
 
-    init(tileCache: TileCache? = nil) {
-        self.tileCache = tileCache
+    /// Whether this means "there is no tile here" rather than "the tile could
+    /// not be fetched right now".
+    ///
+    /// The distinction only matters for the Fletcher sheets, and there it
+    /// matters a lot. A sheet's bounds are a rectangle drawn around a scan with
+    /// ragged content, so along the survey's edges a sheet legitimately covers
+    /// tiles it has no ink for, and a 404 is the normal answer. Treating that
+    /// as a failure makes every seam permanently incomplete. A 5xx or a dropped
+    /// connection is the opposite: a tile we could have had, and one that will
+    /// probably be there on the next try, so a composite missing it must not be
+    /// cached or saved as though it were whole.
+    ///
+    /// 410 is a definitive answer like 404. 403 is deliberately NOT here: an
+    /// object store answers 403 for a missing key (S3 without `ListBucket`),
+    /// but a host also answers 403 for a rate-limit ban, expired auth, or a
+    /// broken bucket policy — "refused right now", not "does not exist".
+    /// Counting a refusal as absence froze blank tiles into caches and saved
+    /// areas for as long as the episode lasted. Callers that want the S3
+    /// tolerance ask `meansAccessRefused` and grant it only when a sibling
+    /// sheet in the same pass actually answered with bytes.
+    static func meansNoTileExists(_ error: any Error) -> Bool {
+        guard let error = error as? TileFetcherError else { return false }
+        switch error {
+        case .invalidHTTPStatus(let code):
+            return code == 404 || code == 410
+        case .invalidContentType, .invalidImageData:
+            return false
+        }
     }
 
-    func fetchTile(z: Int, x: Int, y: Int, from baseURL: URL, layerName: String) async throws -> Data {
-        let url = baseURL
-            .appendingPathComponent("\(z)")
-            .appendingPathComponent("\(x)")
-            .appendingPathComponent("\(y).jpg")
-        let (data, _) = try await URLSession.shared.data(from: url)
-        tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+    /// Whether this means "the host refused to answer" — possibly a missing S3
+    /// key, possibly a ban. Only the surrounding pass can tell which.
+    static func meansAccessRefused(_ error: any Error) -> Bool {
+        guard let error = error as? TileFetcherError else { return false }
+        switch error {
+        case .invalidHTTPStatus(let code):
+            return code == 401 || code == 403
+        case .invalidContentType, .invalidImageData:
+            return false
+        }
+    }
+}
+
+/// Stateless beyond its two `Sendable` collaborators, so tile fetches can run
+/// on MapKit's background tile-loading tasks without hopping to the main actor.
+nonisolated final class TileFetcher: Sendable {
+    private let tileCache: TileCache?
+    private let urlSession: URLSession
+
+    init(tileCache: TileCache? = nil, urlSession: URLSession = .shared) {
+        self.tileCache = tileCache
+        self.urlSession = urlSession
+    }
+
+    func fetchTile(
+        z: Int,
+        x: Int,
+        y: Int,
+        from baseURL: URL,
+        layerName: String,
+        cacheResult: Bool = true
+    ) async throws -> Data {
+        let url = tileURL(z: z, x: x, y: y, from: baseURL)
+        let data = try await imageData(from: url)
+
+        if cacheResult {
+            tileCache?.cacheTile(data, z: z, x: x, y: y, layerName: layerName)
+        }
+
         return data
     }
 
-    func fetchArcGISDynamicTile(z: Int, x: Int, y: Int, from serverURL: URL, layerName: String, dynamicLayersJSON: String? = nil, layerRestrictions: String? = nil) async throws -> Data {
-        let bbox = tileToBBOX(z: z, x: x, y: y)
+    /// Fetches one image and checks it is one, with no caching of its own.
+    ///
+    /// Takes a finished URL because that is all a `TileRequest` carries, and a
+    /// `TileRequest` is the only way a catalogued layer's address is produced —
+    /// `TileRequestFactory` checks the Province licence before it assembles
+    /// one. Caching is the caller's, because the bytes worth keeping are the
+    /// composite of a layer's passes rather than each pass on its own.
+    ///
+    /// Every provincial map image — on screen, in a print export, in a saved
+    /// area — arrives through here, so this is where those requests say who
+    /// is asking.
+    func imageData(from url: URL) async throws -> Data {
+        let request = ClientIdentity.identified(URLRequest(url: url))
+        let (data, response) = try await urlSession.data(for: request)
+        try validateImageResponse(data: data, response: response)
+        return data
+    }
 
-        // Calculate size to bypass server-side scale limits (e.g. minScale 36,114)
-        // Capped at 4096 because it's the server's maximum image dimensions.
-        let scaleFactor = pow(2.0, Double(max(0, 14 - z)))
-        let requestedSize = min(4096, 256 * Int(scaleFactor))
-        let targetSize = 256
-
-        var components = URLComponents(
-            url: serverURL.appendingPathComponent("export"),
-            resolvingAgainstBaseURL: false
-        )!
-        var queryItems = [
-            URLQueryItem(name: "bbox", value: "\(bbox.minX),\(bbox.minY),\(bbox.maxX),\(bbox.maxY)"),
-            URLQueryItem(name: "bboxSR", value: "3857"),
-            URLQueryItem(name: "imageSR", value: "3857"),
-            URLQueryItem(name: "size", value: "\(requestedSize),\(requestedSize)"),
-            URLQueryItem(name: "format", value: "png32"),
-            URLQueryItem(name: "transparent", value: "true"),
-            URLQueryItem(name: "f", value: "image"),
+    func tileURL(z: Int, x: Int, y: Int, from baseURL: URL) -> URL {
+        let template = baseURL.absoluteString
+        let replacements = [
+            "{z}": "\(z)",
+            "{x}": "\(x)",
+            "{y}": "\(y)",
+            "%7Bz%7D": "\(z)",
+            "%7Bx%7D": "\(x)",
+            "%7By%7D": "\(y)"
         ]
-        if let json = dynamicLayersJSON {
-            // Strip formatting, newlines and spaces to avoid URL parsing issues on older/strict servers
-            let minified = json.components(separatedBy: .newlines)
-                .map { $0.trimmingCharacters(in: .whitespaces) }
-                .joined()
-            queryItems.append(URLQueryItem(name: "dynamicLayers", value: minified))
-        }
-        if let layers = layerRestrictions {
-            queryItems.append(URLQueryItem(name: "layers", value: layers))
-        }
-        components.queryItems = queryItems
 
-        let (data, _) = try await URLSession.shared.data(from: components.url!)
+        var expanded = template
+        for (placeholder, value) in replacements {
+            expanded = expanded.replacingOccurrences(
+                of: placeholder,
+                with: value,
+                options: [.caseInsensitive]
+            )
+        }
 
-        let finalData: Data
-        if requestedSize != targetSize {
-            if let resized = resizeImage(data: data, to: CGSize(width: targetSize, height: targetSize)) {
-                finalData = resized
-            } else {
-                finalData = data
+        if expanded != template, let url = URL(string: expanded) {
+            return url
+        }
+
+        return baseURL
+            .appendingPathComponent("\(z)")
+            .appendingPathComponent("\(x)")
+            .appendingPathComponent("\(y).jpg")
+    }
+
+    private func validateImageResponse(data: Data, response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            guard UIImage(data: data) != nil else {
+                throw TileFetcherError.invalidImageData
             }
-        } else {
-            finalData = data
+            return
         }
 
-        tileCache?.cacheTile(finalData, z: z, x: x, y: y, layerName: layerName)
-        return finalData
-    }
-
-    private func resizeImage(data: Data, to size: CGSize) -> Data? {
-        guard let image = UIImage(data: data) else { return nil }
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1.0
-        let renderer = UIGraphicsImageRenderer(size: size, format: format)
-        return renderer.pngData { _ in
-            image.draw(in: CGRect(origin: .zero, size: size))
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw TileFetcherError.invalidHTTPStatus(httpResponse.statusCode)
         }
-    }
 
-    private func tileToBBOX(z: Int, x: Int, y: Int) -> (minX: Double, minY: Double, maxX: Double, maxY: Double) {
-        let worldExtent = 20_037_508.342789244
-        let tileSize = (2 * worldExtent) / pow(2, Double(z))
-        let minX = -worldExtent + Double(x) * tileSize
-        let maxX = minX + tileSize
-        let maxY = worldExtent - Double(y) * tileSize
-        let minY = maxY - tileSize
-        return (minX, minY, maxX, maxY)
+        let mimeType = httpResponse.mimeType?.lowercased()
+        if let mimeType, !mimeType.hasPrefix("image/") {
+            throw TileFetcherError.invalidContentType(mimeType)
+        }
+
+        guard UIImage(data: data) != nil else {
+            throw TileFetcherError.invalidImageData
+        }
     }
 }

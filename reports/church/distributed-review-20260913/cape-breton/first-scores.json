@@ -1,0 +1,39 @@
+{
+  "phase": "first physical affine; previously reserved Hay Island check only; no model selection or tuning follows",
+  "method": "affine",
+  "csv_sha256": "499d698746963ae7ad5d19e91a190746188b1cab1c967498be16e9c8dfa55b4c",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "CB04",
+        "east_ground_m": 228.38001178470836,
+        "north_ground_m": 470.09081400688797,
+        "error_ground_m": 522.6306565792348
+      }
+    ],
+    "rms_ground_m": 522.6306565792348,
+    "median_ground_m": 522.6306565792348,
+    "p95_ground_m": 522.6306565792348,
+    "max_ground_m": 522.6306565792348,
+    "mean_east_ground_m": 228.38001178470836,
+    "mean_north_ground_m": 470.09081400688797,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "CB04": false
+  },
+  "affine": {
+    "a": 3.831197440613636,
+    "b": 0.021864125820111133,
+    "c": -6775832.14755474,
+    "d": 0.016449581376090344,
+    "e": -3.884781252091184,
+    "f": 5854949.150130191
+  },
+  "orientation_determinant": -14.883723646072477,
+  "geographic_acceptance": false,
+  "limitation": "Three controls give no redundancy. One check adjacent to Scatarie does not test the mainland. No raster justified for geographic use."
+}

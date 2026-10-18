@@ -1,0 +1,44 @@
+{
+  "sheet": "023",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/023.pdf",
+    "pdf_sha256": "4d447b879a7fbdef838aa31941e7a28a97b35483de4f6f4e7e45dc75fd2fbd4b",
+    "jpeg_sha256": "c6139e7d837272461dc67959996d0063f875cf194950e0e80fde556bce4b701c",
+    "dimensions": [
+      6089,
+      4149
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 88.20405601631789,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks share control lakes or associated islands; Little Red Lake adds one separate waterbody. Shared historical cartography limits independence.",
+    "The large Kejimkujik/Hemlock/George lake complex, southeastern river reaches and intervening interior are retained but independently unvalidated.",
+    "Generalized shore extrema and narrow islands carry 24 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 88.20 m, median 70.49 m, P95 147.31 m, maximum 184.82 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame retains Kejimkujik, lake islands and southern river extensions. Eight controls and nine excluded checks sample northern, western, central, southwestern and eastern waterbodies; the large unsampled lake complex remains provisional."
+  }
+}

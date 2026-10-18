@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "89bdc06179cd60084608457911fe4e8db9a673b9e78071084b6ddde6af5838b8",
+  "collected_at_utc": "2026-09-12T14:07:57.961502+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.6671927,
+        46.7365995
+      ],
+      "source_guide_xy": [
+        5193.973404039629,
+        2812.0497227199376
+      ],
+      "objectids": [
+        267374,
+        267375,
+        290882
+      ],
+      "id": "F07",
+      "role": "check",
+      "modern_node_id": "J1031",
+      "pixel_xy": [
+        5340,
+        2740
+      ],
+      "identity_evidence": "Big Southwest Brook eastern headwater tributary west of Sunday Lake",
+      "source_uncertainty_px": 20,
+      "status": "New fresh candidate pending native and modern exact close/wide identity review"
+    }
+  ]
+}

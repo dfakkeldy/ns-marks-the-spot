@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Q01",
+    "label": "Leeks Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3027,
+      1421
+    ],
+    "lonlat": [
+      -64.34455798227498,
+      45.435044430248006
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 131150,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 131150,
+    "nearest_unfiltered_distance_guide_px": 0.044341602900198125,
+    "selected_distance_guide_px": 0.044341602900198125,
+    "guide_reference_pixel_xy": [
+      3111.044284063857,
+      1302.002258193097
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Summit Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3394,
+      870
+    ],
+    "lonlat": [
+      -64.33685186232121,
+      45.46597947541652
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 137358,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137358,
+    "nearest_unfiltered_distance_guide_px": 0.4601956329042368,
+    "selected_distance_guide_px": 0.4601956329042368,
+    "guide_reference_pixel_xy": [
+      3474.2742752290214,
+      751.3695309449686
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Small pond west of Cranberry Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4289,
+      1157
+    ],
+    "lonlat": [
+      -64.27259684133959,
+      45.47067316599686
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 125224,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125224,
+    "nearest_unfiltered_distance_guide_px": 0.7344311428793676,
+    "selected_distance_guide_px": 0.7344311428793676,
+    "guide_reference_pixel_xy": [
+      4384.705519921787,
+      1038.672807986848
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Cape Sharp southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1902,
+      2525
+    ],
+    "lonlat": [
+      -64.38628872484843,
+      45.36474290396204
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 8404,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8404,
+    "nearest_unfiltered_distance_guide_px": 4.79956503788696,
+    "selected_distance_guide_px": 4.79956503788696,
+    "guide_reference_pixel_xy": [
+      1956.3438776465482,
+      2410.212769828271
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Partridge Island southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2667,
+      2818
+    ],
+    "lonlat": [
+      -64.33032097352286,
+      45.36647255560126
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 8497,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8497,
+    "nearest_unfiltered_distance_guide_px": 1.525640133101642,
+    "selected_distance_guide_px": 1.525640133101642,
+    "guide_reference_pixel_xy": [
+      2730.842157807201,
+      2707.0065316953696
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Two Brothers larger island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4373,
+      3134
+    ],
+    "lonlat": [
+      -64.2145397203293,
+      45.38583009893919
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 17266,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17266,
+    "nearest_unfiltered_distance_guide_px": 0.10145171925632779,
+    "selected_distance_guide_px": 0.10145171925632779,
+    "guide_reference_pixel_xy": [
+      4465.096292597591,
+      3015.0319403661415
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Two Brothers smaller island southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4356,
+      3226
+    ],
+    "lonlat": [
+      -64.21256879569155,
+      45.3815330976098
+    ],
+    "guide_file": ".crown-grant-local/051-north-adjacent-guide.npy",
+    "reference_objectid": 17265,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17265,
+    "nearest_unfiltered_distance_guide_px": 2.1402984940699974,
+    "selected_distance_guide_px": 2.1402984940699974,
+    "guide_reference_pixel_xy": [
+      4456.067295795947,
+      3109.4457746525295
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

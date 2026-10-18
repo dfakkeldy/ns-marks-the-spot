@@ -1,0 +1,45 @@
+{
+  "sheet": "091",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS passes with P95 qualification; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/091.pdf",
+    "pdf_sha256": "caf3bffeb56194fec75b50ee2119a2efd1804b68b10bbab34abe85c2539c6029",
+    "jpeg_sha256": "e42713c5191302819d122895acb42c5cdc8fa73c034a2dce5f7eff6a113dc87f",
+    "dimensions": [
+      5991,
+      4172
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 8,
+      "rms_ground_m": 96.68041014853144,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight excluded checks give RMS 96.68 m, within the 100 m ceiling, but P95 158.78 m exceeds the 150 m companion bound. Median is 69.96 m and maximum 174.84 m. The first result remains qualified.",
+    "Checks and controls frequently occupy separate points on the same lake or island, so these observations are spatially correlated. Guilford and Logwood provide additional islands without fitted points.",
+    "Three northern lake controls extend inland coverage, but harbour heads, complex barriers, the far western and eastern frame edges and many small offshore ledges remain insufficiently checked.",
+    "Generalized coastal observations use 18 px working source uncertainty; natural lake observations use 12 px. Full source imagery remains visible without automatic geographic acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 96.68 m, median 69.96 m, P95 158.78 m, maximum 174.84 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Mushaboom and Spry harbours, Taylors Head, Sheet Harbour Passage, Port Dufferin and Hartling, Moosehead and the Bay of Islands, the nearshore archipelagos, Horse, Pumpkin, Brother and Beaver islands, Bird Islands, and the full southern Atlantic Ocean frame. No displaced inset identified."
+  }
+}

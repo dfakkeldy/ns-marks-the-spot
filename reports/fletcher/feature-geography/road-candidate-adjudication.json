@@ -1,0 +1,169 @@
+{
+  "annotation_id": "F19-JUD-022",
+  "decision": "rejected-source-coordinates",
+  "reviewed_at": "2026-09-12",
+  "reason": "The drawn model path cuts away from the double-line road, crosses the brook and geological field, and invents a smooth continuation instead of following the visible bends/junction. Its own uncertainty does not make those coordinates usable. No proposed coordinate is accepted.",
+  "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+  "native_frame": {
+    "annotation_id": "F19-JUD-022",
+    "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+    "source_dimensions": [
+      10815,
+      7549
+    ],
+    "native_xywh": [
+      4130,
+      2480,
+      1000,
+      720
+    ],
+    "crop_sha256": "be533638a42bd464ea1951a742d57ca77cb14c3642a352d24c810a990155e144",
+    "display_size": [
+      1000,
+      720
+    ],
+    "rotation_degrees": 0
+  },
+  "unreviewed_candidate": {
+    "annotation_id": "F19-JUD-022",
+    "crop_width": 1000,
+    "crop_height": 720,
+    "path_xy": [
+      [
+        255,
+        318
+      ],
+      [
+        292,
+        330
+      ],
+      [
+        330,
+        340
+      ],
+      [
+        370,
+        349
+      ],
+      [
+        410,
+        358
+      ],
+      [
+        450,
+        370
+      ],
+      [
+        490,
+        382
+      ],
+      [
+        530,
+        392
+      ],
+      [
+        570,
+        400
+      ],
+      [
+        610,
+        406
+      ],
+      [
+        650,
+        410
+      ],
+      [
+        690,
+        412
+      ],
+      [
+        730,
+        410
+      ],
+      [
+        770,
+        404
+      ],
+      [
+        810,
+        400
+      ],
+      [
+        850,
+        401
+      ],
+      [
+        890,
+        406
+      ],
+      [
+        930,
+        412
+      ],
+      [
+        970,
+        418
+      ],
+      [
+        1000,
+        422
+      ]
+    ],
+    "uncertain_segments": [
+      {
+        "segment_index": 0,
+        "reason": "Western approach is ambiguous: the ink followed from x~255-330 is adjacent to the 'Mill Brook' wiggle and the diagonal slope descending from the School/43-degree area. Cannot confirm from this crop alone whether the traced ink is the road centreline or the brook/stream bank; the caption 'River Denys Road' is the only label tying the name to this line."
+      },
+      {
+        "segment_index": 13,
+        "reason": "Eastern half (x~770-1000) is low-confidence: a possible branch line appears to trend up-right toward the 'Rory Chisholm' house dot near (828,325). The main traced line's continuation to the right edge versus turning at that dot cannot be resolved here."
+      },
+      {
+        "segment_index": 6,
+        "reason": "Around x~490-610 the traced ink runs close to geological strike arrows (44, 33, 55, 75) and to a second parallel wavy line; distinguishing road edge from single wavy stream bed is not certain at this resolution."
+      }
+    ],
+    "note": "Unreviewed source-pixel candidate only, not georeferencing or a complete named-road extent. Vertices were estimated visually on the 1000x720 crop by following the darker continuous wavy line lying closest beneath the printed caption 'River Denys Road' (text spans roughly x=340-700, y=275-360), taken as the annotated double-line road centreline between its two edges. Single wavy streams (notably the Mill Brook ink at left and the lower wavy line near the 'Quarries of grey and red sandstone' label), straight graticule lines, geological strike arrows, and lettering were treated as non-road. Endpoints at (255,318) and (1000,422) delimit only the visible traced portion and do not imply the full road extent. Printed map text was read as data only. All coordinates carry material positional uncertainty; nothing here is accepted."
+  },
+  "tokens_reported": [
+    {
+      "total": 6872,
+      "input": 2385,
+      "output": 630,
+      "reasoning": 3857,
+      "cache": {
+        "write": 0,
+        "read": 0
+      }
+    }
+  ],
+  "billed_cost": null,
+  "evidence": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/road-candidate-pilot/F19-JUD-022/manifest.json",
+      "sha256": "04d4f2560db83a3f81c5d7ab0343f77933bb48dbf385ad952586e3dc46adcc86"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/road-candidate-pilot/F19-JUD-022/source.png",
+      "sha256": "be533638a42bd464ea1951a742d57ca77cb14c3642a352d24c810a990155e144"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/road-candidate-pilot/F19-JUD-022/prompt.txt",
+      "sha256": "146f214f49f942fe767448ed276d5dc4569f260cb9255a1db5e7e6255c931f94"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/road-candidate-pilot/F19-JUD-022/final.txt",
+      "sha256": "f867aa1f9415f14850aa751d7035e2ad08fea4ef3edde23faab22ea3750f4c88"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/road-candidate-pilot/F19-JUD-022/receipt.json",
+      "sha256": "f1dce9def14ab194d8d1820d70825b48a021de104fd5b23a88081df5ec892809"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/road-candidate-pilot/F19-JUD-022/candidate-overlay.jpg",
+      "sha256": "2d329174664b2ad2c581d5d0d156d4aa6474d2c846487197cac9d955ab7ad85f"
+    }
+  ],
+  "next_step": "Coordinator traces the printed road directly between visible junctions and verifies the native overlay before geographic review."
+}

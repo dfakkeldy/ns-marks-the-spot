@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "88e6089dfaad86956126fc71012f1d2345dc1b2cdf8cb4cdc9a18e6043c51a47",
+  "fit_sha256": "635c9fc81675ae704d7ec10c860453be4cb86ab02f936df8829ff4f5f52a20fc",
+  "components_sha256": "c282d6c1b21d79ca7edb36e5edf29ad2cdba79b7da5137b306d02539b47bcd37",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.83 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          45.328444950154534,
+          -65.00616177666843
+        ],
+        [
+          45.59543968744672,
+          -64.56318454376341
+        ]
+      ],
+      "dimensions": [
+        6164,
+        5297
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 17351568,
+      "source_mask_pixels": 19111100,
+      "affine_determinant": -28.579208730355198,
+      "png_sha256": "e7a81a9357ce07f003478210b3e2a6adc4831e076c8082c96dd3b2a74a333390",
+      "tif_sha256": "ec0c88675daa5318ab50f47213e6281b175203244241ec0b862dc79b35099520"
+    },
+    {
+      "id": "cape-chignecto-inset",
+      "status": "RMS 37.75 m passes 100 m; limitations retained",
+      "png": "cape-chignecto-inset-3857.png",
+      "tif": "cape-chignecto-inset-3857.tif",
+      "bounds": [
+        [
+          45.31280131951655,
+          -64.9873822154906
+        ],
+        [
+          45.37816002329488,
+          -64.90272498311518
+        ]
+      ],
+      "dimensions": [
+        1178,
+        1294
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 871348,
+      "source_mask_pixels": 962500,
+      "affine_determinant": -28.615595614359822,
+      "png_sha256": "99c8ea1f399fc0fcbed5213315959fb2638885ab53ad465c77b6761c21010da8",
+      "tif_sha256": "212d48c232bac2c3993fa5da31e86acb8379472b4535d91b3fda1a00cc08b111"
+    }
+  ]
+}

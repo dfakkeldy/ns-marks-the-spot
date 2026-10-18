@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+%3D+%27White+Point%27+AND+nad83_lat+between+45.85+and+45.95+AND+nad83_lon+between+-60.1+and+-59.8&%24limit=50",
+  "query": {
+    "$where": "geoname = 'White Point' AND nad83_lat between 45.85 and 45.95 AND nad83_lon between -60.1 and -59.8",
+    "$limit": 50
+  },
+  "retrieved_at": "2026-09-15T14:49:49.562254+00:00",
+  "sha256": "531e2bbce800ad7f905847acc3f5d0a90fb7b21ebf31312d842f9677e0d4578d"
+}

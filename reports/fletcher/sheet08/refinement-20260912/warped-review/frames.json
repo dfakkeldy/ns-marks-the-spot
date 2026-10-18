@@ -1,0 +1,167 @@
+[
+  {
+    "image": "north-branch.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.55,
+      -60.76,
+      46.625
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "northeast-margaree.jpg",
+    "lonlat_bounds": [
+      -60.85,
+      46.5,
+      -60.71,
+      46.59
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "coulmeach.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.48,
+      -60.7,
+      46.55
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "first-second-forks.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.43,
+      -60.69,
+      46.5
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "upper-ingonish.jpg",
+    "lonlat_bounds": [
+      -60.69,
+      46.565,
+      -60.58,
+      46.63
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "ingonish-mckinnon.jpg",
+    "lonlat_bounds": [
+      -60.58,
+      46.57,
+      -60.47,
+      46.63
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "reservoir-interior.jpg",
+    "lonlat_bounds": [
+      -60.74,
+      46.46,
+      -60.57,
+      46.58
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "indian-brook.jpg",
+    "lonlat_bounds": [
+      -60.62,
+      46.44,
+      -60.53,
+      46.51
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "french-little-rivers.jpg",
+    "lonlat_bounds": [
+      -60.56,
+      46.44,
+      -60.47,
+      46.55
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "gisborne-lake.jpg",
+    "lonlat_bounds": [
+      -60.61,
+      46.53,
+      -60.51,
+      46.59
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.9,
+      46.42,
+      -60.44,
+      46.65
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet08/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

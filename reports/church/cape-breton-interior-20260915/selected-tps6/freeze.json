@@ -1,0 +1,17 @@
+{
+  "frozen_at": "2026-09-15T13:01:38.282338+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "5c3d0ab5f6f1a17d0e72a94f3d8e0e5c81f9f65be005c25d0d62337878f18038",
+  "boundary_sha256": "96ce252e8e00633611e38e4406eff15edeba339cb8d93246b6dd067d7ac6e48e",
+  "baseline_input_commit": "516eaa62a3fcd5d3028aafb7e08a1bcfc4740725",
+  "selection": "Six-control TPS adds independently reviewed western support; same-two diagnostic RMS422.67m versus affine6 463.50m. Provisional only.",
+  "diagnostics": [
+    "CB04",
+    "CB09"
+  ],
+  "promoted_features_excluded_from_checks": [
+    "CB12"
+  ],
+  "reserved_next_region": "North Head coastal point, subject to identity/native review",
+  "geographic_acceptance": false
+}

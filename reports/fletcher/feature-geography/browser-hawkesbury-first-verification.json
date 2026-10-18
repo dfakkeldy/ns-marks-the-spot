@@ -1,0 +1,157 @@
+{
+  "reviewed_at": "2026-09-12",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 134,
+  "export_sha256": "4c473cb25f4d0bd756d31107d8b3ea8fc71f330e9a46889a7f8f8df524fa688d",
+  "checks": {
+    "count": 134,
+    "checks": [
+      {
+        "id": "F22-HAW-004",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-008",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-023",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-026",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-031",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-032",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-041",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-042",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All eight Hawkesbury additions selected across alternating desktop/mobile viewports with decoded native excerpts, visible placement notes, a ready basemap and clean console.",
+    "All 126 prior Judique public feature objects remain equal to the merged export, including source/fit identity and church correction.",
+    "Combined export preserves two independent source records; sheet 22 receives no Judique pilot or correction.",
+    "The default Judique geographic renderer replay reproduces its entire prior frame receipt, including every scene image hash.",
+    "Four Hawkesbury holdbacks remain excluded, with source pixels and the unresolved mill prediction retained."
+  ],
+  "local_checks": {
+    "python": "299 tests pass, 8 existing skips",
+    "web": "7 Fletcher component tests and web script tests pass; lint and build pass"
+  },
+  "judique_renderer_receipt_sha256": "e8396ac2b8adfc4319a8f49dcccdec49dceeb02e47b6d96c058ffeddeb3df3a8",
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-first-review.json",
+      "sha256": "9d0d09d1d6981fb104230ce38e781b1316b974eced51a85316379a8934dc1163"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-first-42.png",
+      "sha256": "c25cd8fd1cda0e7a1343369330fd48445ce1d2ba79ea1861e8a92381f8ea548d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-first-26.png",
+      "sha256": "42b4dca54fb5a559a7975d6dde7d2eacea17576f66195430c84ad11b9760e3b5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-first-4.png",
+      "sha256": "dd1bebcb3849a89f0b7ed0475b0bab49b14d73f1b6515cb8ad3402380460da98"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-first-23.png",
+      "sha256": "0dc703c06f9d77454d3f25c2f14279d67564ac9ff8070c195d26627878b851cf"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-134-export/source.json",
+      "sha256": "ee8c25edd205d26d3937673c1e98f7100b28443b516e44e03ddb859849e24a52"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-134-export/reviewed.geojson",
+      "sha256": "4c473cb25f4d0bd756d31107d8b3ea8fc71f330e9a46889a7f8f8df524fa688d"
+    }
+  ],
+  "limits": "Approximate historical marks and candidate groups; no current site identity, property or production publication claim."
+}

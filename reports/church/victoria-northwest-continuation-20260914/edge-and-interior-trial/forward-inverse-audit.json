@@ -1,0 +1,41 @@
+{
+  "scope": "Empirical forward/inverse TPS round trip at current check observations; source pixels. Audit does not change preserved first scores.",
+  "points": [
+    {
+      "id": "VN18",
+      "source_xy": [
+        4143.2,
+        14905.4
+      ],
+      "roundtrip_xy": [
+        4143.19999999836,
+        14905.4000000055
+      ],
+      "difference_native_px": 5.739849308891633e-09
+    },
+    {
+      "id": "VN19",
+      "source_xy": [
+        5012.0,
+        14058.0
+      ],
+      "roundtrip_xy": [
+        5011.99999999991,
+        14057.9999999705
+      ],
+      "difference_native_px": 2.9500507554784335e-08
+    },
+    {
+      "id": "VN11",
+      "source_xy": [
+        3653.6666666666665,
+        2481.0
+      ],
+      "roundtrip_xy": [
+        3653.66666666914,
+        2481.00000000073
+      ],
+      "difference_native_px": 2.578812285491968e-09
+    }
+  ]
+}

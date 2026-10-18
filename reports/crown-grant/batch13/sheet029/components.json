@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6009 x 4151 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 57.86 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          125
+        ],
+        [
+          5900,
+          135
+        ],
+        [
+          5890,
+          4015
+        ],
+        [
+          90,
+          3985
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Tupperville, Inglisville, East Inglisville, Roxbury, Alpena, Albany, Dalhousie West and Squirreltown; Clear, Corbet, Paradise, Godfrey, Spectacle, Eel Ware, Second Port Medway and Scrogg lakes, all depicted islands, rivers and intervening land. No inset or internal crop."
+    }
+  ]
+}

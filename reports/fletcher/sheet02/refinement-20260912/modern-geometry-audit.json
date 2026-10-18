@@ -1,0 +1,35 @@
+{
+  "records": [
+    {
+      "file": "candidate-controls.json",
+      "id": "R01",
+      "coordinates_match_source_geometry": true
+    },
+    {
+      "file": "candidate-controls.json",
+      "id": "R02",
+      "coordinates_match_source_geometry": true
+    },
+    {
+      "file": "reviewed-additions.json",
+      "id": "R02",
+      "coordinates_match_source_geometry": true
+    },
+    {
+      "file": "fresh-candidates.json",
+      "id": "F03",
+      "coordinates_match_source_geometry": true
+    },
+    {
+      "file": "fresh-candidates.json",
+      "id": "F04",
+      "coordinates_match_source_geometry": true
+    },
+    {
+      "file": "validation.json",
+      "id": "F04",
+      "coordinates_match_source_geometry": true
+    }
+  ],
+  "scope": "Direct modern vertices/shared endpoints; does not prove historical equivalence, especially rejected R01/F03."
+}

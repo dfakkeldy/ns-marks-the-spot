@@ -1,0 +1,34 @@
+{
+  "sheet": "104",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08"
+  ],
+  "rejected_before_fit": {
+    "C04": "Summers Lake current shoreline classified WARS20 reservoir; historical water-level equivalence not established",
+    "C05": "Mattie/Clyne Lake current shore classified WARS20 reservoir; natural lake-code candidate was distant and rejected",
+    "Q03": "Mattie/Clyne reservoir shoreline excluded before scoring",
+    "Q04": "Summers reservoir arm excluded before scoring"
+  },
+  "notes": [
+    "Modern code filtering did not establish identity; detected reservoir bodies were excluded rather than adopting distant natural-lake vertices.",
+    "Controls span northern capes, Pomquet Island, western Pomquet River junction and southern/interior natural lakes. Natural Mary Dismal Lake is an excluded southeastern check outside strong local control coverage.",
+    "Pomquet Island, William Lake and Tracadie Lake each supply separate control/check endpoints; sample locations are correlated. Western/southern parcel interiors, reservoirs and minor islands remain qualified.",
+    "Delory northeastern physical corner selected by adjoining shore faces, not a northern or eastern coordinate extremum. Corrections precede all scoring."
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "sheet": "sheet-05",
+  "source_sha256": "10ce67bd1d08c5838cdb5891d17775c230bac69527619419d9520640034c2ac0",
+  "points": [
+    {
+      "lonlat": [
+        -60.6863611,
+        46.7663357
+      ],
+      "source_guide_xy": [
+        4777.484731719596,
+        1882.0696657600347
+      ],
+      "objectids": [
+        158617,
+        182897,
+        266881
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        4798,
+        1620
+      ],
+      "modern_node_id": "J0700",
+      "identity_evidence": "North Aspy River / Big Southwest Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5497636,
+        46.76199
+      ],
+      "source_guide_xy": [
+        7733.00506672007,
+        2013.48301696009
+      ],
+      "objectids": [
+        170895,
+        170896,
+        281426
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        7772,
+        1729
+      ],
+      "modern_node_id": "J0757",
+      "identity_evidence": "Black Brook / Doherty Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.4809518,
+        46.7642498
+      ],
+      "source_guide_xy": [
+        9221.599009359954,
+        1940.4482396801468
+      ],
+      "objectids": [
+        170752,
+        170894,
+        281431
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        9311,
+        1658
+      ],
+      "modern_node_id": "J0734",
+      "identity_evidence": "Black Brook / Donovan Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5764083,
+        46.7426225
+      ],
+      "source_guide_xy": [
+        7157.714361159829,
+        2620.503558879951
+      ],
+      "objectids": [
+        156069,
+        156070,
+        277363
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        7200,
+        2320
+      ],
+      "modern_node_id": "J0947",
+      "identity_evidence": "Black Brook / Snipe Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5071197,
+        46.6724897
+      ],
+      "source_guide_xy": [
+        8660.967332440428,
+        4813.051570720272
+      ],
+      "objectids": [
+        266048,
+        266159,
+        266160
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        8997,
+        4689
+      ],
+      "modern_node_id": "J1968",
+      "identity_evidence": "Curtis Brook / Dauphiney Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5291135,
+        46.6646089
+      ],
+      "source_guide_xy": [
+        8185.608716200106,
+        5060.42807920021
+      ],
+      "objectids": [
+        155442,
+        155564,
+        277991
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        8550,
+        4824
+      ],
+      "modern_node_id": "J2066",
+      "identity_evidence": "Clyburn Brook / South Clyburn Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5061047,
+        46.6629269
+      ],
+      "source_guide_xy": [
+        8683.500422440004,
+        5112.294855520129
+      ],
+      "objectids": [
+        170961,
+        170964,
+        266161
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        9012,
+        4939
+      ],
+      "modern_node_id": "J2077",
+      "identity_evidence": "Clyburn Brook / Curtis Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.8398908,
+        46.6369636
+      ],
+      "source_guide_xy": [
+        1463.6627041595057,
+        5936.057505279779
+      ],
+      "objectids": [
+        170650,
+        170652,
+        270491
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        1638,
+        5840
+      ],
+      "modern_node_id": "J2350",
+      "identity_evidence": "Ch\u00e9ticamp River / LeBlanc Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.7300288,
+        46.6178072
+      ],
+      "source_guide_xy": [
+        3841.654485759791,
+        6531.8848364800215
+      ],
+      "objectids": [
+        170955,
+        171089,
+        267749
+      ],
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3977,
+        6320
+      ],
+      "modern_node_id": "J2665",
+      "identity_evidence": "Ch\u00e9ticamp River / Artemise Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.7480285,
+        46.7474334
+      ],
+      "source_guide_xy": [
+        3444.457004199503,
+        2475.7080711999442
+      ],
+      "objectids": [
+        160342,
+        160343,
+        179233
+      ],
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3356,
+        2082
+      ],
+      "modern_node_id": "J0893",
+      "identity_evidence": "Historical unnamed northern river eastern tributary, proposed modern MacKenzies River",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.8382311,
+        46.765516
+      ],
+      "source_guide_xy": [
+        1491.856837719446,
+        1912.8258289596997
+      ],
+      "objectids": [
+        179120,
+        263340,
+        263341
+      ],
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        1496,
+        1308
+      ],
+      "modern_node_id": "J0713",
+      "identity_evidence": "Fishing Cove River western tributary proposal",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    }
+  ]
+}

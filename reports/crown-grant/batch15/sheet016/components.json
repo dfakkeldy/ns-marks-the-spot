@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5738 x 3900 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 98.07 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          150,
+          120
+        ],
+        [
+          5620,
+          120
+        ],
+        [
+          5620,
+          3755
+        ],
+        [
+          160,
+          3755
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The full mapped frame retains all inland lakes, islands, river corridors and boundary continuations. Seven controls and eight excluded checks sample western, northern and southern lakes; the eastern third remains provisional."
+    }
+  ]
+}

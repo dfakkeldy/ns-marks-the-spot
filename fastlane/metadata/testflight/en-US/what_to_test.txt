@@ -1,11 +1,24 @@
-Please focus this build on the core map workflow:
+This build is about the property-research workflow, not the historical overlay.
 
-- Launch the app and confirm the initial map loads cleanly.
-- Toggle the Fletcher historical overlay and adjust opacity.
-- Compare modern, satellite, and hybrid basemaps.
-- Toggle optional Nova Scotia reference layers, including property boundaries, Crown lands, flood risk, and waterfalls.
-- Open Data Sources & Licenses and confirm the map-source disclaimers are understandable.
-- Prepare a small Fletcher offline area, relaunch, and confirm the saved area remains available.
-- Try the Current Location control if you are physically in Nova Scotia and are comfortable granting location access.
+Please try:
+- Search for a parcel by PID or by civic address, and confirm the map frames it.
+- Tap parcels to open the inspector. Check the boundary, the identifiers and the dates shown.
+- Export an evidence note from an open parcel and read it. It should say plainly which sources answered, which returned nothing, and which failed.
+- Open the tax-sale notices sheet, turn the layer on, and compare notices with the parcels drawn on the map. Switch to historical records and confirm dated results never read as current offerings.
+- Toggle reference layers: property boundaries, Crown lands, aerial, flood zones, well-water risk, zoning where offered. Some ask you to accept the provincial licence first — try accepting it, and try withdrawing it from the Map Info sheet.
+- Measure a distance and an area.
+- Export a framed PDF map and check its scale, its attribution, and the list of layers it says it could not print.
+- Import one of your own maps, place it by hand over the modern map, and draw a layer. Both should survive a relaunch, and neither ever leaves your device.
+- The map now opens on the NS Marks Atlas, following the phone's light or dark appearance. Compare Atlas Day, Atlas Night and Atlas Fletcher with the OpenStreetMap, standard, satellite and hybrid base maps, and check the credit strip under the map changes with the ground.
+- Share a link from an Atlas style and open it in the browser map; it should open in the same style. Export a PDF over the Atlas and check the base map is drawn and credited.
+- Start a track recording, put the phone in a pocket or lock the screen for a few minutes, then return. Confirm the track continued (no auto-pause message) and that the system blue location indicator behaved as expected while the recording was off screen.
+- With a recording running, check the Lock Screen and Dynamic Island: they should show elapsed time and distance, Pause and Resume should work, and there should be no Stop there — open the app to stop and save.
+- Start a track recording, collect some points, then force-quit the app (or otherwise end it). Relaunch and confirm a restore notice, and that the walk is in the save sheet up to the last recorded point — not a gap filled to the time you reopened the app.
+- Optionally: stop a recording without saving, force-quit, relaunch, and confirm the "stopped and never saved" restore path.
 
-Known scope for this beta: Nova Scotia aerial and restricted provincial reference layers are online services. Saved offline areas download Fletcher historical tiles only.
+Known scope for this build:
+- The 1885 historical overlay can load when the build uses the published default tile host. If the layer row is present, you can toggle it. An empty or explicit host override still disables hosting. Saved offline areas store historical-overlay tiles.
+- NS Aerial and the provincial reference layers are online services. Recently viewed tiles redraw offline until the cache makes room for newer ones.
+- The Atlas base map is pre-rendered provincial-plus-OSM tiles from the published tile host, not a live vector map: zooming in past its deepest level magnifies the tiles rather than adding detail, and the Atlas is not part of saved offline areas yet. Those tiles do not yet include the browser Atlas Crown Land fills. With no tile host configured the Atlas entries are absent and the map opens on OpenStreetMap.
+
+An empty search result or an empty layer is worth reporting, with the place and the time — but note that the app deliberately reports an empty answer as "nothing returned", never as proof that nothing exists.

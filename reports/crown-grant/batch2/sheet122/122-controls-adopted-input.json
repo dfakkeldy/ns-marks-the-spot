@@ -1,0 +1,85 @@
+[
+  [
+    "C03",
+    "Baddeck Forks northern bank wedge",
+    [
+      2935,
+      3310
+    ],
+    [
+      2955,
+      3300
+    ],
+    "WARV"
+  ],
+  [
+    "C04",
+    "North Baddeck eastern of two adjacent confluences",
+    [
+      3186,
+      1804
+    ],
+    [
+      3188.72,
+      1775.67
+    ],
+    "WARV",
+    [
+      184743,
+      272758,
+      272759
+    ]
+  ],
+  [
+    "C05",
+    "Central southern pond western end",
+    [
+      3486,
+      1154
+    ],
+    [
+      3486,
+      1115
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Northeastern compact pond western corner",
+    [
+      4660,
+      650
+    ],
+    [
+      4660,
+      620
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Northeastern tall lake southern tip",
+    [
+      4880,
+      688
+    ],
+    [
+      4878,
+      663
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Upper Middle River western large loop northern bank crest",
+    [
+      1599,
+      974
+    ],
+    [
+      1605,
+      964
+    ],
+    "WARV10"
+  ]
+]

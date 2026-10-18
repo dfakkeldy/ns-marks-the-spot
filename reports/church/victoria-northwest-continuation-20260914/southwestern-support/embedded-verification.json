@@ -1,0 +1,31 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/tps15-rendered/victoria-northwest-tps15-review-20m.tif",
+  "sha256": "aec83eeca7f49a82c88009d01ccda482e59130f3808eede04b5825480ccf3e82",
+  "sourceCodeBaseCommit": "145197182659eda548ac61a692a573430b2c5dc3",
+  "pixelSize": {
+    "width": 2435,
+    "height": 3906
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6759140,
+      20,
+      0,
+      5956500,
+      0,
+      -20
+    ]
+  },
+  "preview": {
+    "width": 2435,
+    "height": 3906,
+    "channels": 4,
+    "transparentPixels": 979894,
+    "opaquePixels": 8531216
+  },
+  "embeddedMeshNodes": 81,
+  "maxMeshDifferenceProjectedMetres": 3.839941346661803e-9,
+  "scope": "Real production GeoTIFF decode, alpha extraction and embedded projection lattice. PNG writer stubbed in this Node probe; actual browser import, persistence, 2D overview/regional view and 10x terrain were checked separately through CUA. No raw-scan GCP mesh or geographic acceptance."
+}

@@ -1,0 +1,8 @@
+{
+  "fit": "regional-fit.json",
+  "sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+  "frozen_utc": "2026-09-11T14:12:17.611224+00:00",
+  "control_count": 10,
+  "initial_eight_preserved": true,
+  "fresh_checks_selected_after_freeze": true
+}

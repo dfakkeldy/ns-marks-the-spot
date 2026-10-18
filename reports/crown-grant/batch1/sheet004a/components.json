@@ -1,0 +1,144 @@
+{
+  "source_frame": "Original 3912 x 5727 JPEG; coordinates unchanged across all components",
+  "cartographic_displacement": "Northern and Southern Seal groups each explicitly printed five miles east of true positions. Their geometry is fitted independently; no global warp bridges the discontinuity.",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; 10 independent checks, RMS 101.96 m fails 100 m",
+      "ring_pixel_xy": [
+        [
+          155,
+          173
+        ],
+        [
+          3775,
+          137
+        ],
+        [
+          3770,
+          5580
+        ],
+        [
+          155,
+          5610
+        ]
+      ],
+      "holes_pixel_xy": [
+        [
+          [
+            1400,
+            2530
+          ],
+          [
+            2310,
+            2530
+          ],
+          [
+            2310,
+            3730
+          ],
+          [
+            1400,
+            3730
+          ]
+        ],
+        [
+          [
+            350,
+            3920
+          ],
+          [
+            1900,
+            3920
+          ],
+          [
+            1900,
+            5480
+          ],
+          [
+            350,
+            5480
+          ]
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json"
+    },
+    {
+      "id": "northern-seal",
+      "status": "provisional; 6 independent checks, RMS 167.56 m fails 100 m",
+      "ring_pixel_xy": [
+        [
+          1400,
+          2530
+        ],
+        [
+          2310,
+          2530
+        ],
+        [
+          2310,
+          3730
+        ],
+        [
+          1400,
+          3730
+        ]
+      ],
+      "matrix": [
+        [
+          4.961953623105254,
+          1.9799872409764838
+        ],
+        [
+          1.9799872409764838,
+          -4.961953623105254
+        ],
+        [
+          242700.02252070387,
+          4831312.684712315
+        ]
+      ],
+      "fit_file": "fit-north-similarity-01.json",
+      "fit_sha256": "39fc67faed309e0d1a7a483de1ccbf006ccb595a18ed377301f74ea68b833a96"
+    },
+    {
+      "id": "southern-seal",
+      "status": "UNVALIDATED control-only similarity; no independent accuracy score",
+      "ring_pixel_xy": [
+        [
+          350,
+          3920
+        ],
+        [
+          1900,
+          3920
+        ],
+        [
+          1900,
+          5480
+        ],
+        [
+          350,
+          5480
+        ]
+      ],
+      "matrix": [
+        [
+          4.945891319444249,
+          2.343655416980538
+        ],
+        [
+          2.343655416980538,
+          -4.945891319444249
+        ],
+        [
+          241242.59305812867,
+          4830693.965013114
+        ]
+      ],
+      "fit_file": "fit-south-similarity-01.json",
+      "fit_sha256": "fd73f28a4b29f168d058ed7593b27bb9b34e84e2e422a6785f822fa5b7cf2492",
+      "limitations": "Elbow/Purdy rock symbols follow this displaced region, corroborated only by locality coordinates; not precise shoreline validation."
+    }
+  ]
+}

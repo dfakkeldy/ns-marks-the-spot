@@ -1,0 +1,23 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "sha256": "e62f084f1bb73de336d9e1740337701812c5c607155ec689b7e6aed82b54dd10"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif",
+      "sha256": "94b6010b21c428841205bc6672bd6df5f10d9921154ddb0606b6aac2ecd43500"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif",
+      "sha256": "72e71a885c26a3b675de77d0d4c5dd9c8ad50637806621d4cc97c619128c59c4"
+    }
+  ],
+  "frames_personally_reviewed": 12,
+  "accepted": false,
+  "findings": "Morrison registration improves only at new control; surrounding lower Morrison and Pathend checks worsen. Northern/western streams remain displaced; southern coastal ponds differ. Two Sheet 4 and three Sheet 8 windows show gaps/offsets, no accepted seam. Full offshore frame and legend remain."
+}

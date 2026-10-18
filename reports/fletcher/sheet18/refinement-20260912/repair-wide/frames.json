@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-18-V03.jpg",
+    "point_record": "sheet18/validation.json",
+    "point_id": "V03",
+    "native_box": [
+      2413,
+      1513,
+      3113,
+      2213
+    ],
+    "native_coordinates": [
+      2763,
+      1863
+    ],
+    "modern_lonlat": [
+      -61.1648471,
+      45.899365
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "county": "inverness",
+    "source_dimensions": [
+      34427,
+      34543
+    ],
+    "overview_dimensions": [
+      1800,
+      1806
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "rotation": 0,
+    "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+    "cutline_source": "tools/church/panels.py; unchanged prior cutlines shown for audit"
+  },
+  {
+    "county": "richmond",
+    "source_dimensions": [
+      35735,
+      30429
+    ],
+    "overview_dimensions": [
+      1800,
+      1533
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "rotation": 0,
+    "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+    "cutline_source": "tools/church/panels.py; unchanged prior cutlines shown for audit"
+  },
+  {
+    "county": "victoria",
+    "source_dimensions": [
+      33711,
+      31468
+    ],
+    "overview_dimensions": [
+      1800,
+      1680
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "rotation": 0,
+    "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+    "cutline_source": "tools/church/panels.py; unchanged prior cutlines shown for audit"
+  },
+  {
+    "county": "cape-breton",
+    "source_dimensions": [
+      36223,
+      35027
+    ],
+    "overview_dimensions": [
+      1800,
+      1741
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "rotation": 0,
+    "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+    "cutline_source": "tools/church/panels.py; unchanged prior cutlines shown for audit"
+  }
+]

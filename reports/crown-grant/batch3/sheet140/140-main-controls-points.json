@@ -1,0 +1,178 @@
+[
+  {
+    "id": "MC01",
+    "label": "Stewart Lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      574,
+      643
+    ],
+    "lonlat": [
+      -60.014664728684686,
+      45.943226795401145
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 140009,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      574.0699226973811,
+      674.5931772114709
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC02",
+    "label": "Grand Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1515,
+      859
+    ],
+    "lonlat": [
+      -59.95286231765538,
+      45.953762352427425
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 126388,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1493.8502172869048,
+      780.9473084070487
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC03",
+    "label": "Mitchell Lake north end",
+    "role": "proposal",
+    "pixel_xy": [
+      2475,
+      302
+    ],
+    "lonlat": [
+      -59.90138800484751,
+      45.9929139678846
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 136683,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2476.4561152812093,
+      278.41353734896984
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC04",
+    "label": "Louisbourg White Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      403,
+      2140
+    ],
+    "lonlat": [
+      -59.99404144397444,
+      45.874059468053176
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 21271,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      361.1044744818937,
+      2122.4262451467803
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC05",
+    "label": "Lorraine Head east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1740,
+      1630
+    ],
+    "lonlat": [
+      -59.91787423850476,
+      45.92124999111215
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 5229,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1740.040358022612,
+      1588.7336701408494
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC06",
+    "label": "Cape Breton east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3762,
+      1690
+    ],
+    "lonlat": [
+      -59.78770335711456,
+      45.9515061870096
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 12931,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3735.5881912652985,
+      1652.9111089598155
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC07",
+    "label": "Scatarie Point Howe south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5280,
+      1320
+    ],
+    "lonlat": [
+      -59.69952430025508,
+      45.992250479480695
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 21320,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5230.33076642768,
+      1300.2812164659845
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MC08",
+    "label": "Scatarie northwest head",
+    "role": "proposal",
+    "pixel_xy": [
+      4050,
+      585
+    ],
+    "lonlat": [
+      -59.79577120832883,
+      46.004956282616405
+    ],
+    "guide_file": ".crown-grant-local/140-main-adjacent-guide.npy",
+    "reference_objectid": 22550,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4004.961048217374,
+      572.9304377128137
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

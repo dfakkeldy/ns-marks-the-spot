@@ -1,0 +1,63 @@
+{
+  "fit_sha256": "2b4a15579de38102ce6950f95f954c401e6d4b1f4266d2516e6757c8a671a997",
+  "boundary_sha256": "71bc58ceb5476a5ca9b98fd8be187d4ea88b4052cad67a37c1f534bfbdb6c720",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "431ffa8c833413e8b2ab750b637f99e2238c141a8ae3fca954bcdfafc970d0f6",
+  "median_ground_m": 145.608168674732,
+  "worst_ground_m": 145.608168674732,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 145.608168674732,
+      "predicted_lonlat": [
+        -60.596805246873885,
+        46.224186923605686
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 79024,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -30.764098949202694,
+      -24.950126067573983
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+    "sha256": "70f38cadb03bbb6d0b5753a96cf1802800d2e7b03503490a660121e10d589b98",
+    "size": [
+      8567,
+      6581
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.8552011,
+            46.2733657
+          ],
+          [
+            -60.8552011,
+            46.0686671
+          ],
+          [
+            -60.4704078,
+            46.0686671
+          ],
+          [
+            -60.4704078,
+            46.2733657
+          ],
+          [
+            -60.8552011,
+            46.2733657
+          ]
+        ]
+      ]
+    }
+  }
+}

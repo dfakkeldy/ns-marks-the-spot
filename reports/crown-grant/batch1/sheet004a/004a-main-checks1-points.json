@@ -1,0 +1,254 @@
+[
+  {
+    "id": "MQ01",
+    "label": "Pease Island southern tip at sheet join",
+    "role": "proposal",
+    "pixel_xy": [
+      1058,
+      266
+    ],
+    "lonlat": [
+      -66.02636699279552,
+      43.62837807543749
+    ],
+    "reference_objectid": 20668,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1065.933838656405,
+      264.63692577334587
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ02",
+    "label": "Little Half Bald Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      969,
+      377
+    ],
+    "lonlat": [
+      -66.02964670408413,
+      43.621844629620654
+    ],
+    "reference_objectid": 19306,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      965.3758834562032,
+      368.1789202587679
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ03",
+    "label": "Little Bald Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1007,
+      490
+    ],
+    "lonlat": [
+      -66.02425146255942,
+      43.61771274913187
+    ],
+    "reference_objectid": 19916,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1004.346729352721,
+      480.6828885751311
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ04",
+    "label": "Inner Bald Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      960,
+      653
+    ],
+    "lonlat": [
+      -66.0229814666453,
+      43.60961082624629
+    ],
+    "reference_objectid": 17825,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      952.9409038629383,
+      642.6829096659785
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ05",
+    "label": "Gull Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2874,
+      389
+    ],
+    "lonlat": [
+      -65.91560881335705,
+      43.65999380579508
+    ],
+    "reference_objectid": 18039,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2854.904130501498,
+      359.4636017184239
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ06",
+    "label": "Whitehead Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3548,
+      637
+    ],
+    "lonlat": [
+      -65.86668061739977,
+      43.662533337237505
+    ],
+    "reference_objectid": 22079,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3548.251712188474,
+      617.8574324349174
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ07",
+    "label": "St John Island northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3567,
+      3158
+    ],
+    "lonlat": [
+      -65.79629402904887,
+      43.55236711710973
+    ],
+    "reference_objectid": 17834,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3584.6769665175816,
+      3154.819974164595
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ08",
+    "label": "Goodwins Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3530,
+      4198
+    ],
+    "lonlat": [
+      -65.77252879854285,
+      43.50597906539699
+    ],
+    "reference_objectid": 21411,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3520.3388269175193,
+      4186.488537056721
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ09",
+    "label": "Mutton group small western island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3654,
+      4127
+    ],
+    "lonlat": [
+      -65.76782016675828,
+      43.5114292266463
+    ],
+    "reference_objectid": 18090,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3631.1848655292997,
+      4112.243627146352
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ10",
+    "label": "Robinson Ball western end",
+    "role": "proposal",
+    "pixel_xy": [
+      3445,
+      4310
+    ],
+    "lonlat": [
+      -65.77143119231799,
+      43.502335126533204
+    ],
+    "reference_objectid": 14502,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3504.712157268892,
+      4262.716850904864
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ11",
+    "label": "Bon Portage Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3510,
+      4736
+    ],
+    "lonlat": [
+      -65.75901323012899,
+      43.48287769140908
+    ],
+    "reference_objectid": 21065,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3511.671907769807,
+      4710.831153160194
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "MQ12",
+    "label": "Bon Portage Island eastern waist",
+    "role": "proposal",
+    "pixel_xy": [
+      3530,
+      5050
+    ],
+    "lonlat": [
+      -65.74835966858069,
+      43.468241574962285
+    ],
+    "reference_objectid": 18129,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3535.086127210816,
+      5056.142153146677
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

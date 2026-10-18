@@ -1,0 +1,14 @@
+{
+  "id": "Q03",
+  "role": "check",
+  "pixel_xy": [
+    2785,
+    2095
+  ],
+  "lonlat": [
+    -61.1646221,
+    45.8919142
+  ],
+  "modern_node_id": "J0374",
+  "status": "Rejected before scoring. Native road, closely spaced small forks and hatch marks cannot be separated reliably; no check or control role in any fit."
+}

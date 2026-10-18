@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T23:26:04.993770+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "071",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6104,
+        5220
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6001,
+        4193
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full original mapped frame and modern reference visibly inspected. Review visibly states LOCAL RMS PASSES and most of sheet unvalidated; only northeastern cluster has measured evidence."
+  ]
+}

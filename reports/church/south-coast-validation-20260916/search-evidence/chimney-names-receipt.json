@@ -1,0 +1,7 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Chimney+Corner%27%2C%27Chimney+Corner+Beach%27%2C%27Chimney+Corner+Point%27%29+AND+county%3D%27Inverness%27&%24limit=100",
+  "path": "/Users/dfakkeldy/Downloads/church-south-mouth-validation-20260916/chimney-names.geojson",
+  "sha256": "f1813596d7c4ba67409a1845294b8b52528fe87bbd23fefa8bbbeda2d0d180a6",
+  "retrieved_at": "2026-09-16T01:42:29.385023+00:00",
+  "count": 3
+}

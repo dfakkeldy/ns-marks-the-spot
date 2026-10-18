@@ -1,0 +1,94 @@
+[
+  {
+    "image": "H01.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/round-2-fit.json",
+    "record_sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+    "id": "H01",
+    "native_box": [
+      8837,
+      3046,
+      9157,
+      3366
+    ],
+    "pixel_xy": [
+      8997,
+      3206
+    ],
+    "lonlat": [
+      -61.2526379,
+      45.6800346
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "H02.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/round-2-fit.json",
+    "record_sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+    "id": "H02",
+    "native_box": [
+      9014,
+      4769,
+      9334,
+      5089
+    ],
+    "pixel_xy": [
+      9174,
+      4929
+    ],
+    "lonlat": [
+      -61.2445026,
+      45.6239926
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "H03.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/round-2-fit.json",
+    "record_sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+    "id": "H03",
+    "native_box": [
+      8504,
+      6183,
+      8824,
+      6503
+    ],
+    "pixel_xy": [
+      8664,
+      6343
+    ],
+    "lonlat": [
+      -61.266713425498494,
+      45.577644284503236
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "Q07.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/round-2-fit.json",
+    "record_sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+    "id": "Q07",
+    "native_box": [
+      1987,
+      2442,
+      2307,
+      2762
+    ],
+    "pixel_xy": [
+      2147,
+      2602
+    ],
+    "lonlat": [
+      -61.56867557413942,
+      45.69216901220799
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  }
+]

@@ -1,0 +1,97 @@
+{
+  "sheet": "sheet-23",
+  "fit_sha256": "d90713b109ed4e9032f1837357f9f2bf983f3db000e8dbb5cff1159ec7f1405e",
+  "points": [
+    {
+      "lonlat": [
+        -61.151477149200694,
+        45.55338023836882
+      ],
+      "guide_xy": [
+        2886.461771354545,
+        1822.9276431188919
+      ],
+      "modern_objectid": 16923,
+      "modern_part": 0,
+      "modern_vertex": 51,
+      "modern_properties": {
+        "OBJECTID": 16923,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1383.1440500559095
+      },
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2925,
+        1774
+      ],
+      "identity_evidence": "Campbell Island southernmost protruding coast; modern island OBJECTID fixed to same island as northern control, different vertex.",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native and modern crosshairs before first score; never fitted."
+    },
+    {
+      "lonlat": [
+        -60.955508634593336,
+        45.53262968141554
+      ],
+      "guide_xy": [
+        7173.21960281604,
+        2525.138155725319
+      ],
+      "modern_objectid": 21823,
+      "modern_part": 0,
+      "modern_vertex": 18,
+      "modern_properties": {
+        "OBJECTID": 21823,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 553.9241741164167
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        7250,
+        2399
+      ],
+      "identity_evidence": "Rocky Islets easternmost main island coast",
+      "source_uncertainty_px": 25,
+      "status": "Personally reviewed native and modern crosshairs before first score; never fitted.",
+      "review_note": "Island group proportions differ; retained as provisional check with explicit uncertainty."
+    },
+    {
+      "lonlat": [
+        -61.0017142,
+        45.4748092
+      ],
+      "source_guide_xy": [
+        6136.145971359918,
+        4338.6065820402
+      ],
+      "objectids": [
+        7234,
+        7235,
+        197768
+      ],
+      "id": "Q05",
+      "modern_node_id": "J0663",
+      "role": "check",
+      "pixel_xy": [
+        6200,
+        4245
+      ],
+      "identity_evidence": "Guet Cove western stream/shoreline junction",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native and modern crosshairs before first score; never fitted."
+    }
+  ],
+  "status": "Three reused diagnostic checks after regional repair; not fresh validation."
+}

@@ -1,0 +1,491 @@
+import { describe, expect, it } from "vitest";
+import { buildEvidenceNote } from "./evidenceNote";
+
+describe("parcel evidence note", () => {
+  it("exports a timestamped, source-linked note with limitations", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [{ name: "NS Property Boundaries", sourceUrl: "https://example.com/nsprd", sourceDate: "Live service checked July 20, 2026" }],
+      events: [{
+        name: "CBRM — July 21, 2026",
+        sources: [{ label: "Official notice", sourceUrl: "https://example.com/notice" }],
+      }],
+      civicAddresses: { status: "ready", points: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: {
+          matchMethod: "notice-aan",
+          accounts: [{
+            aan: "00603988",
+            records: [
+              {
+                taxYear: 2026,
+                assessedValue: 41_000,
+                taxableAssessedValue: 39_500,
+                coordinates: [-61.391318, 46.071925],
+              },
+              {
+                taxYear: 2025,
+                assessedValue: 40_000,
+                taxableAssessedValue: 40_000,
+                coordinates: [-61.391318, 46.071925],
+              },
+            ],
+          }],
+        },
+      },
+      dwellingEvidence: {
+        status: "ready",
+        accounts: [{
+          aan: "00603988",
+          dwellings: [
+            {
+              yearBuilt: 2018,
+              style: "Manufactured Home",
+              squareFeetLivingArea: 1056,
+              livingUnits: 1,
+              bathrooms: 2,
+              garage: false,
+              underConstruction: false,
+            },
+            {
+              yearBuilt: 1962,
+              style: "1 Storey",
+              squareFeetLivingArea: 480,
+              livingUnits: 1,
+              bathrooms: 0,
+              garage: null,
+              underConstruction: null,
+            },
+          ],
+        }],
+      },
+      resourceResults: [{
+        name: "Mineral occurrences",
+        sourceUrl: "https://example.com/minerals",
+        status: "ready",
+        results: ["A01-002 · Nearby occurrence · Within 1 km · Placer · Au"],
+        emptyMessage: "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
+      }],
+    });
+
+    expect(note.filename).toBe(
+      "ns-marks-evidence-15234636-2026-07-20T14-05-06Z.md",
+    );
+    expect(note.markdown).toContain("Generated: 2026-07-20T14:05:06.000Z");
+    expect(note.markdown).toContain("Mode: Current notices");
+    expect(note.markdown).toContain("## Event");
+    expect(note.markdown).toContain("[Open this map state](https://example.com/map/?pid=15234636)");
+    expect(note.markdown).toContain("[Official notice](https://example.com/notice)");
+    expect(note.markdown).toContain("[Mineral occurrences source](https://example.com/minerals)");
+    expect(note.markdown).toContain("not proof of ownership, access, occupancy");
+    expect(note.markdown).toContain("Within 1 km");
+    expect(note.markdown).toContain("proximity to a published record");
+    expect(note.markdown).toContain("A returned-empty result does not prove absence.");
+    expect(note.markdown).toContain("does not prove mineralization");
+    expect(note.markdown).toContain("## PVSC assessment accounts");
+    expect(note.markdown).toContain("AAN 00603988");
+    expect(note.markdown).toContain("2026: assessed $41,000.00; taxable assessed $39,500.00");
+    expect(note.markdown).toContain("2025: assessed $40,000.00; taxable assessed $40,000.00");
+    expect(note.markdown).toContain("matched directly from the municipal notice AAN");
+    expect(note.markdown).toContain("not a current market appraisal or sale price");
+    expect(note.markdown).toContain("Open Data & Information Government Licence");
+    expect(note.markdown).toContain("## PVSC residential dwelling records");
+    expect(note.markdown).toContain(
+      "- built 2018 · Manufactured Home · 1,056 sq ft living area · 1 living unit · 2 bathrooms · no garage",
+    );
+    expect(note.markdown).toContain(
+      "- built 1962 · 1 Storey · 480 sq ft living area · 1 living unit · 0 bathrooms",
+    );
+    expect(note.markdown).toContain("not a building census");
+  });
+
+  it("omits retained tax-sale context from an ordinary parcel note", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: false,
+      mode: "historical",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [{
+        name: "NS Property Boundaries",
+        sourceUrl: "https://example.com/nsprd",
+        sourceDate: "Live service checked July 20, 2026",
+      }],
+      events: [{
+        name: "Retained Tax Sale Event",
+        sources: [{
+          label: "Official tax-sale notice",
+          sourceUrl: "https://example.com/retained-notice",
+        }],
+      }],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [{
+        name: "Mineral occurrences",
+        sourceUrl: "https://example.com/minerals",
+        status: "ready",
+        results: [],
+      }],
+    });
+
+    expect(note.markdown).not.toContain("Mode: Historical records");
+    expect(note.markdown).not.toContain("## Event");
+    expect(note.markdown).not.toContain("Retained Tax Sale Event");
+    expect(note.markdown).not.toContain("Official tax-sale notice");
+    expect(note.markdown).not.toContain(
+      "Tax-sale notices and results are dated source records",
+    );
+    expect(note.markdown).toContain("[NS Property Boundaries](https://example.com/nsprd)");
+    expect(note.markdown).toContain("## PVSC assessment accounts");
+    expect(note.markdown).toContain(
+      "No PVSC assessment account point was returned inside the mapped parcel geometry.",
+    );
+    expect(note.markdown).toContain("## Geology and resource context");
+  });
+
+  it("exports source-specific bounded empty wording", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [{
+        name: "Mineral occurrences",
+        sourceUrl: "https://example.com/minerals",
+        status: "ready",
+        results: [],
+        emptyMessage: "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
+      }],
+    });
+
+    expect(note.markdown).toContain(
+      "No published mineral occurrence was returned on or within 1 km of this parcel; a returned-empty result does not prove absence.",
+    );
+    expect(note.markdown).toContain(
+      "No PVSC assessment account point was returned inside the mapped parcel geometry.",
+    );
+    expect(note.markdown).toContain(
+      "No residential dwelling record was returned for the matched assessment accounts.",
+    );
+  });
+
+  it("keeps multiple spatially matched assessment accounts separate", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "historical",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: {
+          matchMethod: "spatial",
+          accounts: [
+            {
+              aan: "00000001",
+              records: [{ taxYear: 2026, assessedValue: 100_000, taxableAssessedValue: 90_000, coordinates: [-61, 46] }],
+            },
+            {
+              aan: "00000002",
+              records: [{ taxYear: 2026, assessedValue: 200_000, taxableAssessedValue: 180_000, coordinates: [-61, 46] }],
+            },
+          ],
+        },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("AAN 00000001");
+    expect(note.markdown).toContain("AAN 00000002");
+    expect(note.markdown).toContain("kept separate and are not summed");
+    expect(note.markdown).not.toContain("$300,000");
+  });
+
+  it("records a PVSC source failure explicitly", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: { status: "error" },
+      dwellingEvidence: { status: "blocked" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("PVSC assessment source unavailable at export time.");
+    expect(note.markdown).toContain(
+      "Dwelling records were not looked up because the PVSC assessment account lookup was unavailable.",
+    );
+  });
+
+  it("records a dwelling source failure explicitly", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "error" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "PVSC residential dwelling source unavailable at export time.",
+    );
+  });
+
+  // Every dependent source can say only that it was not evaluated. Which of
+  // the two NSPRD outcomes produced that is a fact about NSPRD, and the live
+  // message carrying it does not travel with the file.
+  it.each([
+    ["returned-empty", "returned no parcel for this PID"],
+    ["source-error", "did not answer for this PID"],
+    ["unusable-geometry", "a geometry this build cannot query against"],
+  ] as const)("records how the parcel geometry resolved: %s", (outcome, sentence) => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: false,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      parcelGeometry: outcome,
+      civicAddresses: { status: "geometry-unavailable" },
+      assessmentEvidence: { status: "geometry-unavailable" },
+      dwellingEvidence: { status: "geometry-unavailable" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("## NSPRD parcel geometry");
+    expect(note.markdown).toContain(sentence);
+  });
+
+  it("says nothing about the parcel geometry when it resolved", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: false,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).not.toContain("## NSPRD parcel geometry");
+  });
+
+  it("records a civic address source failure explicitly instead of claiming absence", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "error" },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "Civic address source unavailable at export time.",
+    );
+    expect(note.markdown).not.toContain(
+      "No mapped civic address point returned inside the parcel.",
+    );
+  });
+
+  it("does not report an absence when no returned civic row could be read", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 2 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "2 mapped points here could not be read. Whether an address is mapped inside this parcel is unknown.",
+    );
+    expect(note.markdown).not.toContain(
+      "No mapped civic address point returned inside the parcel.",
+    );
+  });
+
+  it("marks a civic list as a floor when some rows could not be read", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: {
+        status: "ready",
+        points: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }],
+        unreadableRows: 1,
+      },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("[16 Centre St, Reserve Mines](https://example.com/civic)");
+    expect(note.markdown).toContain(
+      "One more mapped point here could not be read, so it is not listed.",
+    );
+  });
+
+  // Three different reasons the dwelling dataset went unasked. Each names its
+  // own cause; none of them says the dataset answered.
+  it("says no account was matched rather than reporting an empty dwelling answer", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "no-account" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    );
+    expect(note.markdown).not.toContain(
+      "No residential dwelling record was returned for the matched assessment accounts.",
+    );
+  });
+
+  // An AAN the notice supplied is an account that was available to ask with,
+  // and PVSC answering with no record for it is the assessment dataset
+  // answering. "No account was matched" is a different fact.
+  it("says a notice AAN had no assessment record rather than no account", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "notice-aan", accounts: [] },
+      },
+      dwellingEvidence: { status: "no-record-for-notice-aan" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
+    );
+    expect(note.markdown).not.toContain(
+      "No PVSC assessment account was matched to this parcel",
+    );
+  });
+
+  it("does not blame a source outage when the parcel had no geometry to match an account with", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "geometry-unavailable" },
+      assessmentEvidence: { status: "geometry-unavailable" },
+      dwellingEvidence: { status: "geometry-unavailable" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
+    );
+    expect(note.markdown).not.toContain(
+      "Dwelling records were not looked up because the PVSC assessment account lookup was unavailable.",
+    );
+  });
+});

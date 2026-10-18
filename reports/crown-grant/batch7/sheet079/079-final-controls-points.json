@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "Rocky Lake northeast tip",
+    "role": "control",
+    "pixel_xy": [
+      521,
+      554
+    ],
+    "lonlat": [
+      -63.412219809922306,
+      45.57137101249368
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 142777,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142777,
+    "nearest_unfiltered_distance_guide_px": 0.04523204931127204,
+    "selected_distance_guide_px": 0.04523204931127204,
+    "guide_reference_pixel_xy": [
+      426.0428588044597,
+      466.98554105241783
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth."
+  },
+  {
+    "id": "C02",
+    "label": "Northern pond east of Long Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      1121,
+      388
+    ],
+    "lonlat": [
+      -63.380846658225806,
+      45.58788790703761
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 141554,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141554,
+    "nearest_unfiltered_distance_guide_px": 0.15810430789916402,
+    "selected_distance_guide_px": 0.15810430789916402,
+    "guide_reference_pixel_xy": [
+      1029.023624401365,
+      321.1563293313375
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth."
+  },
+  {
+    "id": "C03",
+    "label": "Long Lake southern tip",
+    "role": "control",
+    "pixel_xy": [
+      1085,
+      805
+    ],
+    "lonlat": [
+      -63.37294171926497,
+      45.56983184942551
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 137706,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137706,
+    "nearest_unfiltered_distance_guide_px": 0.8710353859474508,
+    "selected_distance_guide_px": 0.8710353859474508,
+    "guide_reference_pixel_xy": [
+      982.3455629723612,
+      730.7995554237859
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth."
+  },
+  {
+    "id": "C04",
+    "label": "Cook Lake eastern tip",
+    "role": "control",
+    "pixel_xy": [
+      430,
+      1354
+    ],
+    "lonlat": [
+      -63.396708157934526,
+      45.53594792594367
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 135994,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135994,
+    "nearest_unfiltered_distance_guide_px": 1.4958997074778198,
+    "selected_distance_guide_px": 1.4958997074778198,
+    "guide_reference_pixel_xy": [
+      334.3364468278014,
+      1270.672031108872
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth."
+  },
+  {
+    "id": "C05",
+    "label": "Frog Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      354,
+      1763
+    ],
+    "lonlat": [
+      -63.391370452575146,
+      45.517329665774525
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 127270,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127270,
+    "nearest_unfiltered_distance_guide_px": 1.6321515174863783,
+    "selected_distance_guide_px": 1.6321515174863783,
+    "guide_reference_pixel_xy": [
+      245.36110543995164,
+      1676.4082960585365
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth."
+  },
+  {
+    "id": "C06",
+    "label": "Whippy Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2038,
+      842
+    ],
+    "lonlat": [
+      -63.31570142310964,
+      45.58478081596641
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 141552,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141552,
+    "nearest_unfiltered_distance_guide_px": 0.8041326021981017,
+    "selected_distance_guide_px": 0.8041326021981017,
+    "guide_reference_pixel_xy": [
+      1946.7247493554023,
+      769.2444430368487
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Native paired crosshairs and surrounding lake outlines inspected before first fit and score; discovery guide not used as ground truth."
+  }
+]

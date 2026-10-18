@@ -1,0 +1,255 @@
+{
+  "sheet": "033",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      5.2654156194216855,
+      2.261404702790847
+    ],
+    [
+      2.2001766458722356,
+      -5.282700894739142
+    ],
+    [
+      340919.31885082327,
+      4892404.838443663
+    ]
+  ],
+  "source_sha256": "5513b8bb0f5232a4e50ef63c808e9b0ebf9b559a8e899aaadc5feea21e626fff",
+  "source_dimensions": [
+    5242,
+    3683
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Ten Mile Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        1994,
+        435
+      ],
+      "lonlat": [
+        -64.8476169901734,
+        44.18987072905368
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 140247,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140247,
+      "nearest_unfiltered_distance_guide_px": 1.0282465998154338,
+      "selected_distance_guide_px": 1.0282465998154338,
+      "guide_reference_pixel_xy": [
+        2024.7551310767885,
+        386.6979026629124
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Little Bonnature Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        309,
+        1778
+      ],
+      "lonlat": [
+        -64.91728055097808,
+        44.09072154398402
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 132658,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132658,
+      "nearest_unfiltered_distance_guide_px": 0.28845509566743743,
+      "selected_distance_guide_px": 0.28845509566743743,
+      "guide_reference_pixel_xy": [
+        329.08019488770515,
+        1735.7229167594342
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Unnamed pond west of Green Brook southern tip",
+      "role": "control",
+      "pixel_xy": [
+        1358,
+        1788
+      ],
+      "lonlat": [
+        -64.84923798208514,
+        44.11198419877172
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 129106,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129106,
+      "nearest_unfiltered_distance_guide_px": 0.690235454603052,
+      "selected_distance_guide_px": 0.690235454603052,
+      "guide_reference_pixel_xy": [
+        1379.7326849057572,
+        1749.636370664928
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Barnaby Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        2935,
+        867
+      ],
+      "lonlat": [
+        -64.77380022584057,
+        44.18975636493435
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 124859,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124859,
+      "nearest_unfiltered_distance_guide_px": 0.526568007364764,
+      "selected_distance_guide_px": 0.526568007364764,
+      "guide_reference_pixel_xy": [
+        2977.5738535425044,
+        808.6906893743435
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Horse Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4826,
+        718
+      ],
+      "lonlat": [
+        -64.6530728694482,
+        44.236847623931574
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 137906,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137906,
+      "nearest_unfiltered_distance_guide_px": 0.5612617514707122,
+      "selected_distance_guide_px": 0.5612617514707122,
+      "guide_reference_pixel_xy": [
+        4913.501639950322,
+        663.2581705144839
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Crane Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3663,
+        2127
+      ],
+      "lonlat": [
+        -64.6900602765449,
+        44.14555420530554
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 129159,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129159,
+      "nearest_unfiltered_distance_guide_px": 0.8561621443716455,
+      "selected_distance_guide_px": 0.8561621443716455,
+      "guide_reference_pixel_xy": [
+        3707.325109895086,
+        2063.4731822290923
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Eight Mile Lake north-central island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2328,
+        1075
+      ],
+      "lonlat": [
+        -64.80725652828482,
+        44.167034701929644
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 144282,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 144282,
+      "nearest_unfiltered_distance_guide_px": 0.6162586015514324,
+      "selected_distance_guide_px": 0.6162586015514324,
+      "guide_reference_pixel_xy": [
+        2363.4063602878596,
+        1018.8345715980977
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Port Medway Harbour small western island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4574,
+        2834
+      ],
+      "lonlat": [
+        -64.60954987153049,
+        44.13210501702888
+      ],
+      "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+      "reference_objectid": 27742,
+      "reference_feature_code": "WACORVIS10",
+      "nearest_unfiltered_feature_code": "WACORVIS10",
+      "nearest_unfiltered_objectid": 27742,
+      "nearest_unfiltered_distance_guide_px": 0.15705011764616678,
+      "selected_distance_guide_px": 0.15705011764616678,
+      "guide_reference_pixel_xy": [
+        4642.138137649978,
+        2757.0747176626464
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    34.65701874275451,
+    64.16488128460894,
+    58.60402216304463,
+    43.73791811616035,
+    85.99580657828847,
+    59.36231208216819,
+    38.64803794319354,
+    27.964684398270098
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

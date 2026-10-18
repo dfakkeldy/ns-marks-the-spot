@@ -1,0 +1,15 @@
+{
+  "scope": "Fresh local checks on frozen Mabou36/Sheet14Hay26 followed by physical join investigation and next full-sheet start.",
+  "fits": {
+    "16": {
+      "path": "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/fit.json",
+      "sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e"
+    },
+    "14": {
+      "path": "reports/fletcher/sheet14/southern-audit-20260909/hay-topology/fit.json",
+      "sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb"
+    }
+  },
+  "criteria": "Retain working <=100 ground m median / <=200 ground m worst as local diagnostic goals; report limits and geographic clustering. No refitting of validation checks in this pass.",
+  "guide": "Saved hand-point affine for16, engraved graticule for14; guide used only to locate network."
+}

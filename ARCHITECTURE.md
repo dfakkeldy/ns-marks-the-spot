@@ -1,160 +1,1178 @@
-# Architecture - NS Marks The Spot
-
-Status as of July 1, 2026.
+# Architecture — NS Marks The Spot
 
 ## Overview
-
-NS Marks The Spot is an iOS/iPadOS SwiftUI app for exploring georeferenced
-historical Nova Scotia maps over modern map context. The v1.0 candidate centers
-on Fletcher map overlays, transparency comparison, optional reference layers,
-waterfall POIs, and prepared offline Fletcher areas.
-
-## Platform And Toolchain
-
-- Xcode project: `ns-marks-the-spot.xcodeproj`
-- Scheme: `ns-marks-the-spot`
-- Local Xcode observed: 26.6
-- GitHub Actions Xcode selection: 26.5
-- Deployment target: iOS 26.5
-- Swift setting: `SWIFT_VERSION = 5.0`
-- App bundle id: `com.danfakkeldy.nsmarksthespot`
-- App version: `1.0`
-- App build in source: `1`; Fastlane increments the uploaded build number
-- Third-party app dependencies: none
-
-The app intentionally preserves its current Swift language setting. New code
-should remain Swift-6-friendly, but a Swift 6 language-mode migration is tracked
-separately and should not be mixed into release docs or App Store prep work.
+NS Marks The Spot is an open-source iOS map app that overlays georeferenced
+historical maps of Nova Scotia (Fletcher maps, David Rumsey collection) on
+modern maps. Users control overlay transparency with a slider. Secondary
+features include custom vector layers for Points of Interest (POIs) like
+waterfalls.
 
 ## Key Design Decisions
 
-### Engine-Agnostic Map Boundary
+### State-Diffed Map Surface
+The map is a concrete MapKit module (`MapSurface/`), not a provider-agnostic
+protocol facade. The former `MapEngine`/`MapLayer` protocols and their mock
+existed to hypothetically swap map vendors; that flexibility was never used,
+and it priced every new map feature at three implementations. Three pieces
+replace them:
 
-SwiftUI views do not import MapKit directly. Map rendering goes through the
-`MapEngine` abstraction, with MapKit contained in the adapter layer.
+- **`MapViewState`** — an `Equatable` value describing what the map should
+  show: base map, tile layers (`MapLayerState` over an immutable
+  `TileLayerConfiguration`), annotations, user-location visibility, and the
+  current interaction mode.
+- **`MapStateDiff`** — a pure function from `(current, desired)` to
+  `[MapMutation]` (add/remove overlay, set alpha, set map type, …). This is
+  where ordering rules live, and it is what unit tests assert against — no
+  mock engine required.
+- **`MapController`** — owns the `MKMapView`, is its delegate, applies
+  mutations, and reports interaction back through a single `MapEvent` stream
+  (heading changes, annotation selection, completed bounds selections), gated
+  by the interaction mode. Its imperative API (`addLayer`, `setOpacity`,
+  `beginBoundsSelection`, …) is a thin wrapper that edits the desired state
+  and applies the diff. Attaching a map view replays the diff from an empty
+  state, which is how layers and annotations added before the view existed
+  appear on it.
+- **Base grounds** — `MapBaseType` names Apple's maps and three
+  base-replacing tile overlays: `AtlasBaseOverlay` (the NS Marks Atlas, the
+  default, drawn from raster tiles that `web/scripts/atlasRaster` renders
+  from the web's own style and archive at 512 CSS pixels per tile, so a
+  rendered zoom z is the web's Leaflet zoom z + 1 and MapKit's 256-point
+  square at zoom z is cut from the rendered tile at z − 1 — MapKit's
+  `tileSize` is an expected resolution, not a zoom offset; a 404 is open
+  water answered by the style's ocean stand-in, anything else is retried),
+  `OSMBaseOverlay` and
+  `BlankBaseOverlay`. `AtlasRaster` in `MapCatalog` pins the revision, zoom
+  range and provincial snapshot and is tested against the web's receipts; the
+  host is the `ATLAS_TILE_BASE_URL` build setting (`AtlasRasterHost`), and an
+  unhosted build drops the Atlas from the picker rather than substituting a
+  ground under its credit. A system-appearance Atlas resolves to Day or Night
+  from the map view's trait, and links, notes and pages name the resolved
+  style (`MapShareState.basemapStyle`, the web's `basemap` parameter).
+  MapKit draws its own place names and route shields over everything at
+  `MKOverlayLevel.aboveRoads` whatever `canReplaceMapContent` says, so a
+  base-replacing ground and every overlay with it are installed at
+  `.aboveLabels`, while Apple's grounds — NS Aerial included — keep
+  `.aboveRoads` so Apple's lettering stays over the layers
+  (`MapBaseType.showsAppleLabels`, `MapController.overlayLevel(for:)`;
+  a change of ground carries the installed overlays across in order).
 
-- `MapEngine` defines map behavior: render view, manage layers, update opacity,
-  report viewed tiles, and drive saved-area bounds selection.
-- `MapLayer` defines map overlays and metadata that concrete engines can render.
-- `MapKitEngine`, `MapKitMapView`, `MapKitTileLayer`, and
-  `OpacityTileOverlay` contain the MapKit-specific implementation.
-- `MockMapEngine` supports tests and UI logic without live MapKit behavior.
+SwiftUI views other than the `MapSurfaceView` representable still never
+import MapKit; they observe `MapController.state` through `@Observable`.
 
-If MapKit becomes the wrong renderer for raster tiles or opacity performance, a
-future engine can conform to `MapEngine` while preserving the SwiftUI and
-view-model surfaces.
-
-### Architecture Shape
-
-```text
-SwiftUI Views
-  -> ViewModels and local SwiftUI state
-  -> MapEngine protocol
-  -> MapKit adapter
-  -> Tile, POI, layer, and offline services
-  -> SwiftData and file-backed tile storage
+### Layer Architecture
+```
+┌───────────────────────────────┐
+│  SwiftUI Views                │  ← observe @Observable models; no MapKit
+├───────────────────────────────┤
+│  ViewModels (@Observable)     │  ← feature logic over MapController
+├───────────────────────────────┤
+│  MapController + MapViewState │  ← desired state; MapStateDiff reconciles
+├───────────────────────────────┤
+│  MKMapView + OpacityTileOverlay│ ← MapKit rendering, off-main tile loads
+├───────────────────────────────┤
+│  Services (TileFetcher, Cache)│  ← network & persistence
+└───────────────────────────────┘
 ```
 
-The project is feature-oriented:
+Navigation is routed, not toggled: the map screen's modals are one
+`SheetRoute?` on an app-level `NavigationModel`, so a future share-link or
+deep-link parser has a single value to drive.
 
-- `App/`: app entry point and dependency container.
-- `MapEngine/`: protocols plus MapKit implementation.
-- `Layers/`: layer descriptors, attribution, and catalog metadata.
-- `Offline/`: saved-area models, planning, tile store, downloads, and UI.
-- `Overlay/`: map screen, layer controls, transparency, and app information.
-- `POI/`: point-of-interest model, view model, and detail UI.
-- `Services/`: POI and tile networking/cache services.
-- `Mocks/`: test doubles.
-
-### Layer Catalog And Attribution
-
-v1.0 centralizes layer definitions in `LayerCatalog`. Each layer carries its
-rendering role, source, cache key, zoom limits, attribution, and offline policy.
-
-Current layer categories:
-
-- Fletcher historical maps: core historical overlay and prepared offline areas.
-- NS Aerial: context layer with viewed-tile caching only in v1.0.
-- Nova Scotia reference layers: property, Crown land, flood risk, and related
-  online services, with licensing and offline constraints made visible to users.
-- Waterfall POIs: fetched from the ArcGIS-backed service through `POIFetcher`.
-
-The app includes a Data Sources & Licenses surface because the Province of Nova
-Scotia restricted-service attribution is part of the release surface, not just a
-developer note.
-
-### Offline Storage
-
-Offline support has two tiers:
-
-- Viewed-tile persistence through `TileCache` and `TileStore`.
-- Explicit Fletcher saved areas using rectangular bounds captured from the map,
-  estimated by `FletcherTilePlanner`, and downloaded through the offline flow.
-
-NS Aerial and restricted provincial layers are viewed-cache only for v1.0. Bulk
-offline downloads for those layers are deferred until licensing and product scope
-are revisited.
-
-### Data Flow - Transparency Slider
-
-1. `TransparencySliderView` writes to `OverlayViewModel.opacity`.
-2. `OverlayViewModel.updateOpacity(_:)` updates state and calls
-   `engine.setOpacity(for:to:)`.
-3. `MapKitEngine` finds the matching layer and updates its opacity.
-4. The MapKit overlay renderer reads the updated opacity on its next draw.
-
-This keeps UI state small and prevents the slider from recreating the map view
-for every opacity change.
-
-### Data Flow - Offline Area
-
-1. The user starts a saved-area draft from the offline UI.
-2. The app asks `MapEngine` to select rectangular map bounds.
-3. `FletcherTilePlanner` estimates the Fletcher tile count for the selected
-   zoom range.
-4. The user confirms the saved area.
-5. `TileDownloadManager` fetches Fletcher tiles and records progress, success,
-   and failure counts.
-6. `SavedOfflineAreaRepository` persists the saved-area metadata.
-
-### POI Fetching
-
-`POIFetcher` is injectable and tested with an ephemeral `URLSession` plus custom
-`URLProtocol`. ArcGIS attributes are decoded through typed fields that the app
-actually consumes instead of relying on broad string dictionaries.
+### Data Flow — Transparency Slider
+1. User drags `TransparencySliderView` → calls
+   `OverlayViewModel.updateLayerOpacity(for:to:)`
+2. The view model forwards to `MapController.setOpacity(for:to:)`, which
+   edits the desired `MapViewState` and applies the diff
+3. The diff emits `.setTileOverlayAlpha` only when the layer's effective
+   alpha actually changed; the controller pokes the live
+   `MKTileOverlayRenderer`
+4. Views re-render because they read `MapController.state` via Observation
 
 ### Dependency Injection
+Manual DI via `AppContainer`. No third-party framework. The container owns
+all long-lived services and injects them through initializers. Compile-time
+safety — missing dependencies are compiler errors, not runtime crashes.
 
-`AppContainer` owns long-lived services and injects them through initializers.
-The project avoids a third-party dependency-injection framework; missing
-dependencies should remain compile-time problems.
+### Layer Catalog And Offline Storage
+v1.0 centralizes map layer definitions in `LayerCatalog`. Each layer declares
+its rendering role, source URL, attribution, cache key, zoom range, and offline
+policy. SwiftUI views consume catalog metadata through view models while MapKit
+rendering stays inside `MapSurface/`.
 
-## Release Architecture
+Both iOS build configurations default `FLETCHER_TILE_BASE_URL` to
+`https://tiles.kinnokilabs.com`. The app Info.plist expands that setting into
+`FletcherTileBaseURL`; build overrides remain supported. An empty
+`FLETCHER_TILE_BASE_URL` or `VITE_FLETCHER_TILE_BASE_URL` override still
+disables hosting. Both surfaces pin the published 24-sheet mosaic revision
+`fletcher-seams-20261009.2`, fetched as one precomposited XYZ pyramid
+`{base}/{revision}/{z}/{x}/{y}.png` (zooms 8–15; overzoom past 15). The
+source receipt is `{base}/{revision}/source.json`. Sheet footprints remain
+coverage metadata rather than per-sheet fetches. Alignment is approximate,
+with cartographic edge adjustments for visual continuity; geographic acceptance findings are unchanged.
+Attribution remains David Rumsey Map Collection, David Rumsey Map Center,
+Stanford University Libraries and
+[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
+Hosted delivery is recorded in `docs/FLETCHER_GEOREFERENCING.md`.
 
-Release automation is intentionally file-backed:
+Viewed tiles are persisted through `TileStore`. Fletcher tiles can also be
+downloaded for rectangular saved areas through the controller's
+bounds-selection flow added for v1.0. NS Aerial and restricted Nova Scotia reference layers are
+viewed-cache only in v1.0.
 
-- App Store metadata lives under `fastlane/metadata/en-US`.
-- TestFlight metadata lives under `fastlane/metadata/testflight/en-US`.
-- Review notes live under `fastlane/metadata/review_information/notes.txt`.
-- Fastlane lanes validate metadata, build, upload TestFlight builds, and upload
-  App Store builds without submitting for review.
-- GitHub Actions checks out train branches (`nightly`, `weekly`) from the
-  workflow definitions on `main`.
+The A.F. Church county maps (four Cape Breton Island sheets from the David
+Rumsey collection) are catalogued in both the native and web catalogs but do
+not render: no tiles have been produced for them. On the web they follow the
+Fletcher precedent as disabled rows; on iOS they carry `sourceURL: nil` and
+install no layer. See `docs/CHURCH_MAPS.md`.
 
-`main` is also the GitHub Pages source branch (`docs/`). Release-train changes
-therefore sometimes need back-merges down to `nightly` so the workflows and
-integration branch stay aligned.
+### Folder Organization
+Feature-grouped — each feature (MapSurface, Layers, Offline, Overlay, POI) is
+a self-contained folder with its own types and views.
 
-## App Store Compliance Gaps
+## Dependencies
+- **SwiftUI** — UI framework (OS)
+- **MapKit** — map rendering (OS, contained in `MapSurface/`)
 
-Known gaps before App Review:
+No third-party dependencies. POIs are plain value types fetched per launch;
+nothing is persisted through SwiftData.
 
-- No `PrivacyInfo.xcprivacy` is present in the current tree.
-- Privacy and support URLs still need to be published and configured.
-- Current screenshots for required iPhone/iPad sizes still need to be captured.
-- Age rating, export compliance, DSA/trader status, pricing, and territory
-  settings need final confirmation in App Store Connect.
-- The app should be tested on a physical device and an IPv6-only network before
-  submission.
+## Online Web Companion
 
-See `docs/APP_STORE_NEXT_STEPS.md` for the operational checklist.
+The `web/` React + Vite app is a separate online-only delivery surface. It does
+not change the native app's offline contract or its `MapSurface` boundary.
+Leaflet owns research state, GeoJSON parcel highlights, source queries and the
+web catalog's image overlays. In 2D it also owns direct map navigation. `atlas/AtlasBasemapLayer.tsx` draws the modern Day and Night
+themes and the explicitly chosen Fletcher style (`atlas/palette.ts`,
+`atlas/style.ts`; Fletcher is modern geography in the colours and lettering of
+the 1884 sheets, not a historical map) over the
+provincial-first vector sources beneath those overlays with a noninteractive
+MapLibre canvas synchronized to Leaflet's camera. Map lettering comes from
+self-hosted SDF glyph ranges (`web/public/atlas/fonts`, with `source.json` as
+the pinned-font and licence receipt) and the paper grain, shore stipple and
+hand-inked strokes from a procedural sprite (`web/public/atlas/sprite`); both
+are generated by `web/scripts` and tracked. OSM raster tiles remain selectable.
+The same content-addressed provincial PMTiles archive supplies NSRN roads,
+GeoNAMES labels, NSTDB water/woodland and municipal boundaries to the live map,
+study and PDF renderer. A separate Crown Land PMTiles archive in
+`web/public/atlas/crown/` (receipt `source.json`, independent of
+`provincial/source.json`) adds a fill-only dissolved display union of mapped
+Crown Land, including holes and disconnected pieces, without boundary strokes.
+Live map, study, PDF, and the native raster-generation pipeline share that
+Crown Land source; already published native atlas-raster tiles remain the
+prior provincial-plus-OSM render until a separate raster publish. OSM supplies
+supplemental ocean, land-use and building context.
+`web/public/atlas/provincial/source.json` records provincial release provenance
+and explicitly rejected records; the prebuild gates verify each archive hash.
+Appearance follows the system by default; shared URLs and print captures carry
+the resolved style, while local storage keeps the user's appearance preference.
+
+`components/MeasureTool.tsx` renders the distance/area measure control inside
+the Leaflet map. Geometry math lives in `services/geodesy.ts` (haversine
+paths, spherical-excess areas on Leaflet's sphere). While a measurement is
+active, `MapCanvas` suspends parcel identify/selection and double-click zoom;
+a 250 ms deferred click in `ParcelIdentifyController` keeps double-tap zoom
+from selecting parcels the rest of the time.
+
+### Web terrain views
+
+`components/MapCanvas.tsx` offers an in-place 2D/3D switch.
+`terrain/ResearchTerrainLayer.tsx` synchronizes the terrain camera with the
+Leaflet map and forwards parcel interaction by geographic position.
+`terrain/leafletScene.ts` reads mounted Leaflet tile/image layers, local warped
+raster canvases, paths and markers into the MapLibre scene. The mounted layers
+continue to own source queries, consent, visibility and selection; changing
+renderers does not create a separate evidence or licensing path. User imports
+remain local browser inputs. Remote raster draping still depends on source CORS
+permission.
+
+`terrain/researchStyle.ts` adds a Terrarium raster DEM from
+[Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/), with
+[upstream source licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md).
+This provides province-wide display relief with varying source detail and age,
+not provincial LiDAR or hydrologically conditioned terrain. The view preserves
+the current centre and layers; tilt, bearing and dimension choice are not
+URL-persisted. Height exaggeration changes display only. `terrain/reliefMath.ts`
+defines the 1–10× controls and continuous low-ground transform. For a selected
+threshold t (20 or 100 m), positive source height h displays as
+`lowScale * min(h, t) + overallScale * max(0, h - t)`. Nonpositive elevations
+retain the overall scale. `terrain/terrainRelief.ts` rewrites temporary browser
+DEM tiles, normalized by the overall MapLibre exaggeration, preserving original
+sources and alpha/no-data. Tile fetches retry a dropped connection or a 5xx/429
+twice with backoff; a 4xx or abort is answered at once.
+`terrain/terrainStatus.ts` reports a dropped connection as
+"(connection interrupted)" rather than as a bad source. The same controls work
+with the main view's Terrarium tiles and Judique's Mapbox-encoded tiles. Editing, measurement,
+print mode and export framing suspend terrain and use the 2D contracts below.
+
+Display stacking is distinct from terrain construction. Roads, bridges and
+property outlines draw above water in both dimensions. The NSPRD boundary pane
+is 218, above water at 210; the terrain scene preserves mounted layer order and
+places source-classified basemap roads and bridges above water.
+
+The separate `terrain/TerrainStudy.tsx` entry at `/terrain.html` remains the
+Judique experiment. `web/scripts/buildJudiqueTerrain.py` interpolates open NSTDB
+contours onto a 30 m grid, smooths the display, and conditions supported lake
+interiors using dissolved NSTDB lake/reservoir polygons and estimated median
+contour-shoreline levels. Unsupported or sub-grid lakes remain references;
+ocean polygons use display zero, and river polygons remain unflattened. Source
+water/NSHN Z is excluded because its vertical frame has not been reconciled
+with the contours. The method does not enforce drainage or establish vertical
+accuracy. Its receipt at `web/public/terrain/judique/source.json` records input
+and artifact hashes, per-lake support and estimates, and the separate ocean
+convention. It also records the pinned historical draft and its approximate
+alignment. Open NSRN road/bridge vectors and licence-gated property boundaries
+appear above water; aerial imagery keeps its own acceptance gate.
+
+KinNoKi Labs publishes a separately pinned generated copy. Source changes here,
+local builds, hosted CI and repository merges do not themselves prove that pin
+was updated or that the public deployment serves these terrain views.
+
+### Web print/export boundary
+
+The web print flow is capture-and-seal rather than a live projection of
+`App` state. `App.tsx` owns the selected parcel, privacy-safe printable
+viewport, enabled layer IDs and source metadata, event context, and
+PID-plus-generation evidence request. Activating the inspector's
+**Print / export** action creates a tokened `PrintCapture`. Matching evidence
+may settle that capture only when its token, PID, and request generation still
+agree; stale results cannot attach to a new selection. Losing the selected PID,
+request generation, or Province licence closes the capture.
+
+`services/printSnapshot.ts` owns the capture/readiness/seal domain. Research
+waits for all evidence states or, after the bounded timeout, seals the ones
+still pending as *unanswered* — or *not asked*, where a slot named the source
+it was waiting on and so never started. Neither is “Source unavailable at
+export time”, which stays reserved for a source that answered and failed:
+the printed page names which of the three happened, and its front page names
+the sources that were still out. Field output does not wait for research
+evidence. Sealing deep-clones and deep-freezes a
+template-specific `PrintSnapshot`, so later application, map, or source changes
+cannot mutate an open document. Research bounds derive from the complete
+selected parcel geometry. Field bounds preserve the complete frozen live
+viewport. `ParcelInspector.tsx` owns only the action and capability UI;
+`PrintPreview.tsx` owns template options, snapshot sealing, attempt-scoped map
+readiness, local QR settlement, retry/incomplete-print consent, focus trapping,
+and the call to `window.print()`.
+
+`components/print/PrintMap.tsx` reuses `MapCanvas` in a display-only Leaflet
+print mode. The map fits explicit bounds, disables interaction and location UI,
+tracks readiness for the requested layers, and reports the resolved printed
+position. OpenStreetMap and ArcGIS tiles remain ordinary browser-rendered image
+layers in this path. Atlas uses the captured style and a preserved drawing
+buffer. CSS applies monochrome treatment to both tiles and the atlas canvas,
+with app-owned parcel line/weight/hatch styles.
+
+The separate generated-PDF compositor (`print/pdf/`) renders atlas locally via
+`atlas/renderAtlasImage.ts`, crops the projected requested bounds to avoid
+fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
+receipt discloses resampling. Source errors remain failures and require the
+existing incomplete-export consent; the renderer never substitutes another
+basemap. Legacy snapshots without a basemap style continue to use OSM.
+Browser print supports the static context layers (77 catalog entries, including
+static Rhodena geometry and the fishing layers) subject to fitted zoom and
+source readiness; the interactive Rhodena turbine viewshed and private
+viewpoint are omitted. Generated PDF still uses the MapServer, open-data and
+tile path for supported entries; unsupported vector formats (including
+September 2026 GIS feature overlays and the four fishing feature-query
+layers), eight electoral feature entries, Rhodena source-format layers, and
+the static radon image are omitted and named as not included. It preserves the
+on-screen image order and selected-parcel authority.
+
+The exact receipt is derived only after the print map resolves. It uses the
+existing map-share format with the captured PID, mode and event IDs, the
+actually rendered layer IDs, and the derived print position. Browser-location
+movement is suppressed from the printable viewport, and print mode never
+receives or renders the location marker or its raw coordinates.
+`services/printQr.ts` converts that same receipt URL to SVG locally with
+`qrcode@1.5.4`; no remote QR or screenshot service receives it. The complete
+written URL remains present when QR generation fails.
+
+Document ownership is split by output concern:
+
+- `PrintResearchDocument` owns the portrait summary and optional evidence
+  appendix;
+- `PrintFieldDocument` owns the single-page landscape field sheet;
+- `PrintEvidenceAppendix` owns source-state wording without collapsing empty,
+  coverage, error, or timeout states;
+- `printSnapshot.ts` seals assessment and dependent PVSC dwelling evidence
+  under the same selected-PID generation token so a late account response
+  cannot cross parcel selections;
+- `printRenderedLayers.ts` limits source material to actually rendered layers;
+  and
+- `printEvidenceAttribution.ts` adds Nova Scotia open-data and PVSC evidence
+  attribution independently from restricted Province layer attribution and
+  OpenStreetMap attribution.
+
+The boundary exports a rendered personal/research view only. It does not expose
+raw geometry, tiles, owner names, private notes, uploads, browser location, or
+a public/commercial bulk-print API.
+
+`web/src/layers/layerCatalog.ts` separates the retained native service catalogue
+from the web's `provinceLayerCatalog`. `layerParity.ts` projects the native
+catalogue. `layers/openDataSources.ts` replaces nine provincial controls and
+15 NSTDB infrastructure controls with explicitly identified OGL-NS datasets.
+`services/openDataOverlay.ts` queries bounded viewport areas, paginates by source row
+ID and fails closed on missing geometry, failed constituents, size limits, or a
+row that repeats within one part's pages (pagination shifted). A row returned by
+two parts of the same dataset is drawn once. `services/renderOpenData.ts` supplies
+the same project cartography to `OpenDataLayer` and the PDF compositor. Over NS
+aerial or Sentinel-2 imagery, roads draw cream-on-dark-edge (hybrid); the legend
+notes the tier zooms and switches swatches. Display geometry can be simplified
+within half a pixel, capped at 10 metres and converted to geographic degrees
+for Socrata. NSRN roads query three disjoint tiers of the same dataset: paved
+through and local roads from zoom 10, unpaved/resource/seasonal from 13, and
+tracks/trails/driveways from 14. Together the tiers equal the former single
+query. Loaded NSRN rows retain original geometry. Complete road
+collections up to 8 MiB are cached per source in memory for 60 seconds with a
+10% viewport margin per edge; zoom changes invalidate reuse. If the margin
+exceeds download limits, the exact viewport is retried. Parcel evidence never
+uses this path.
+Dataset links and licence credits remain attached to all constituent sources.
+
+The web's default-off `sentinel-2` context background uses EOX's CC BY 4.0 2016
+mosaic, explicitly dated 2016–2017. `ContextTileLayer` renders its WMTS tiles
+through native zoom 14 and overzooms beyond that. Its attribution is independent
+of OGL-NS and restricted-service credits, and PDF export uses the same tile
+identifier. NS Aerial and NSPRD keep their existing service/licence gates.
+`ArcGISExportTileLayer` remains for services without migrated replacements.
+The map stays online-only; source migration does not create offline downloads.
+
+Buildings and contours remain default-off at zoom 13. The contour replacement
+uses NSTDB elevations in metres with variable source intervals; it does not claim
+a uniform 5 m LiDAR interval. Original road/water parcel intersection queries and
+building-count queries remain separately attributed service evidence.
+
+The same catalog also owns a separate `resourceLayerCatalog`. These open-data
+overlays do not depend on the restricted-services acceptance gate. NovaROC
+exploration licences and mineral leases use the existing MapServer export
+adapter. Mineral occurrences and abandoned mine openings use
+`services/arcGISFeatureOverlay.ts`, which queries only the visible WGS84
+envelope, pages full ArcGIS responses, cancels stale requests after map
+movement, and deduplicates returned records. Occurrences begin at zoom 8; the
+denser mine-opening inventory waits until zoom 11. Each feature service reports
+loading, visible-record count, zoom, and failure state independently.
+
+`layers/contextLayerCatalog.ts` concatenates 77 default-off web-only research
+controls: the GeoNova land, infrastructure and Sentinel-2 subset (38), eight
+electoral layers, six Rhodena project layers, four fishing layers, and the
+September 2026 GIS expansion (21). The original GeoNova group is composed from
+the NSTDB infrastructure/place catalogue, the land/environment catalogues, and the EOX
+Sentinel-2 2016 mosaic. Fifteen infrastructure/place
+overlays now query identified OGL-NS open datasets for the viewport; the
+complete provincial topographic cartography and sixteen land/environment image
+entries still reuse the ArcGIS image adapter; four use `ContextFeatureLayer`
+with bounded, cancellable viewport queries and source-class legends; radon uses
+`ContextImageLayer` with a reproducible source-derived raster; Sentinel-2 uses
+`ContextTileLayer` for WMTS tiles through native zoom 14. Licence gates,
+source dates, coverage and scale caveats remain descriptor-specific. The
+catalogue participates in categories, share state, custom themes and browser
+print without extending the native parity/offline catalogue. See the
+[GeoNova source inventory](docs/geonova-layer-expansion.md) for the GeoNova
+subset, licence distinctions, source checks and the radon reproduction receipt;
+electoral and Rhodena layers are documented with those web-only themes.
+
+The September 2026 expansion adds 21 descriptors from `biodiversityLayers`,
+`waterResearchLayers` and `communityResearchLayers` to both maps.
+`contextVectorSource` extends the feature renderer with bounded Socrata point
+tables, OGC paging and a cached public GeoJSON snapshot. Context ArcGIS
+responses have a 20 MB pre-parse budget. Snapshot/table loaders preserve source
+IDs and reject malformed, partial or duplicate records. Popups display declared
+scalar fields as text, with publisher code labels where supplied. No parcel
+join or species-presence inference is introduced. The 3,660 public provincial
+habitat polygons are simplified by 20 m for display and fetched only when
+selected; `buildCoreHabitatSnapshot.py` reproduces them from the hash-pinned
+public ZIP. The sub-tertiary layer checks conservative published polygon
+envelopes before querying; outside views and successful empty responses within
+the envelopes have distinct states. Source receipts and exclusions are in
+`docs/gis-biodiversity-sources.md`, `docs/gis-water-sources.md` and
+`docs/gis-community-sources.md`.
+
+`layers/fishingLayers.ts` adds four Water & Terrain descriptors. They file
+under an existing category, so no category union, Swift `LayerCategoryID` or
+fixture filter changes. `stocked-waters` is a static GeoJSON snapshot served
+from `web/public/fishing/`, outside the bundle, through the cached GeoJSON
+path of `contextVectorSource`. The two DFO small craft harbour descriptors are
+viewport feature queries against layers 0 and 1 of DFO's open MapServer with
+`featureWhere: "Province = 'NS'"`; a feature-query descriptor queries one
+service layer, so each layer is its own id. `fishing-spots` reads
+`web/public/fishing/spots.geojson` through the page's shared
+`fishing/data.ts` cache, with the calendar and rules files. The descriptor
+type gains an optional `provenance: "project-derived"` field; with it,
+`ContextFeatureLayer` popups and `ContextLayerToggle` rows label the source
+link **Project source** instead of **Official source**. Only `fishing-spots`
+sets it, because the spots are the project's own screening notes, not a
+publisher's record. The Data & licences dialog in `App.tsx` does not branch on
+it yet.
+
+`fishing-spots` does not render through `ContextFeatureLayer`. `MapCanvas`
+gives it `fishing/FishingSpotsLayer.tsx` on every map, including print, so its
+descriptor's `popupFields` and `featureRenderer` no longer drive the map; its
+legend, attribution, caveat and coverage still do. `MapCanvas` takes an
+optional `fishingSpots` page state (the filters and the selection) for it; the
+full map passes none. The component builds each
+numbered, keyboard-focusable `L.marker` pin once per loaded file and keeps it.
+The /fishing page's filters only add or remove pins, and a selection only
+rings one pin and opens its popup. Returned-empty, outside-coverage, error and
+loading stay distinct, and a filter that hides every pin reports ready with
+the filter named rather than an empty source. `withheldFishingSources` lists
+the fishing sources reviewed and kept out; a catalogue test fails when any
+descriptor or shipped fishing file names one. Receipts are in
+`docs/gis-fishing-sources.md`.
+
+`MineralProximityParcelLayer` is the only derived resource renderer. It asks
+`mineralProximity.ts` for occurrence points around the viewport and submits the
+coordinates to NSPRD in multipoint batches of at most 500. The service pages at
+2,000 parcel features, caps each batch at ten pages, deduplicates by PID, and
+does not persist classifications. The component is rendered below the existing
+selected/current/historical parcel GeoJSON so selection styling remains the
+visual authority. Inspector proximity is queried independently from the exact
+selected parcel and never inferred from the viewport layer.
+
+`environmentalHealthLayerCatalog` is a separately controlled web catalog of
+provincial well-water and aquifer screens: arsenic (`h499ns`), uranium
+(`h529ns`), and manganese (`h535ns`) relative-risk zones, plus surficial
+aquifer extent (`h490ns`). All four reuse the MapServer export adapter and
+render at `ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX`, above aerial imagery but below
+contours, because the province classifies every bedrock unit and the result is
+a wall-to-wall wash rather than a sparse overlay.
+
+The `screening` discriminant separates the three `well-water-risk` layers from
+the `aquifer-context` layer, which carries no risk rating at all. Each risk
+layer publishes its `riskBands` using the province's own legend labels and
+renderer colours — the ramps differ per service — and a `guidance` string
+carrying the province's testing recommendation. Because these are raster tile
+overlays with no popup, the layer control row is the only place a reader meets
+that caveat, so the row renders the band legend and guidance together. A band
+describes the rock beneath a parcel, never a measurement at it: the high band
+means more than 15% of sampled wells in that unit exceeded the drinking-water
+guideline (10 µg/L arsenic, 20 µg/L uranium, 120 µg/L manganese).
+
+Licensing splits within the group. The uranium screen is published under the
+Open Government Licence – Nova Scotia and needs no acceptance gate. Arsenic,
+manganese, and surficial aquifers carry no open licence declaration — the
+manganese service names a departmental user agreement — so they are treated as
+restricted and gated. Unlike the flood-hazard group, this catalog is gated
+before it reaches the map: `effectiveEnvironmentalHealthLayers` in `App.tsx`
+clears restricted ids until the licence is accepted, so a crafted share URL
+cannot render them.
+
+Radon potential is deliberately absent. The province's only radon service
+(`fletcher.../radon/radon_cache`) returns an empty 0x0 image from `export` and
+serves tiles solely from a NAD83/MTM (wkid 2961) cache, which Leaflet cannot
+consume without a reprojection dependency. Adding it requires either a working
+Web Mercator service from the province or an approved proj4-based custom CRS.
+
+`zoningLayerCatalog` is a separately controlled web catalog for municipal
+zoning. Nova Scotia publishes no provincial zoning layer, so zoning is
+necessarily per-municipality and each descriptor carries its own field mapping,
+licence, and authoritative land use by-law link rather than assuming a shared
+convention. The three Eastern District Planning Commission counties share one
+schema on one ArcGIS Online organisation, so one adapter serves Inverness,
+Victoria, and Richmond; Cumberland and Halifax each use their own field names.
+`services/zoning.ts` normalizes the three ways municipalities encode a zone
+name — code-prefixed, code-suffixed, and bare — so a popup never repeats the
+code. `components/ZoningLayer.tsx` reuses the viewport-envelope query in
+`services/arcGISFeatureOverlay.ts`, which is generic over geometry and takes the
+ordering and identity fields explicitly because these services reject the
+provincial `geo_id` convention outright. Because zoning attributes come from
+third-party servers, the popup is built from DOM nodes assigned through
+`textContent` rather than an interpolated HTML string, so markup injection is
+impossible by construction. Zoning sits outside the Province licence gate
+entirely. It does not establish development permission, lot-specific rules,
+variances, or non-conforming rights, and it is not the municipality's official
+copy.
+
+Zoning layers whose publisher states no licence remain catalogued with official
+by-law links; app query, cached/retained display, and reproduction are held
+for Inverness, Victoria, Richmond, and Cumberland. Only Halifax publishes an
+explicit open licence, and Halifax/HRM zoning remains available. See
+[docs/licensing-locks.md](docs/licensing-locks.md). Because coverage is
+partial by nature, the group states that an area with no polygon is an area
+this map has no data for, not an area where no zoning applies, and that towns
+inside a county are separate zoning jurisdictions.
+
+`wellLogLayerCatalog` is a separately controlled web catalog for the default-off
+water well log overlay. It is a `feature-query` layer sourced from the DNRR
+ArcGIS service published with DP ME 430, so it reuses
+`services/arcGISFeatureOverlay.ts` rather than shipping the 125,517-record
+inventory in the bundle. That shared fetcher gained optional `where`,
+`orderByFields`, and `idField` parameters for it: the well service publishes no
+`geo_id`, and ordering by a field a service does not have fails the whole query.
+Its defaults are unchanged, so the mineral overlays keep their existing
+behaviour.
+
+`services/wellLogs.ts` owns the accuracy contract. `GEOREF_A` is the Province's
+estimated location error in metres, and `classifyWellAccuracy` bands it exactly
+as Appendix A of the Users Manual documents: surveyed to ±50 m, map-referenced
+to ±800 m, sheet-referenced to ±1,500 m, and community centroid beyond that. A
+zero estimate is treated as unknown, not as a precise location. Only the
+surveyed band renders as a filled point; every coarser band is hollow and
+dashed, and its popup leads with a sentence saying a well was reported nearby
+rather than that one sits there. The accuracy filter is pushed into the service
+`where` clause, so records the user has not asked for are never transferred. The
+`ADDRESS` column can contain a well owner's civic address and is omitted from
+`WELL_LOG_OUT_FIELDS`, which excludes it at the query instead of stripping it
+downstream. The published `-9999` no-data marker is mapped to null rather than
+displayed as a measurement, while small negative static levels are preserved as
+genuine flowing-well readings. Well points get their own Leaflet pane above the
+mineral proximity pane and below the established-parcel pane, so tax-sale
+selection remains the visual authority. The layer never states water quality,
+potability, yield reliability, or that a parcel has a usable supply.
+
+`forestryLayerCatalog` is a separate, default-off web catalog for the Province's
+Old Growth Forest Policy Layer. `services/oldGrowthPolicy.ts` queries the
+official Socrata GeoJSON resource with `within_box`, orders every page by the
+system `:id`, and stops with an error rather than presenting source or
+pagination failure as an empty result. `components/OldGrowthPolicyLayer.tsx`
+cancels stale viewport requests and preserves all three `old_growth` values:
+confirmed old growth, restoration opportunity, and unknown. Its dedicated pane
+sits between contours and NSPRD so policy context cannot cover parcel, water,
+road, or selected-parcel evidence. External attributes enter DOM popups only
+through `textContent`. The layer is Open Government Licence data and therefore
+does not inherit the restricted Province-services acceptance gate.
+
+`hydroPilotLayerCatalog` is a third, separately controlled web catalog for the
+default-off Inverness terrain-potential pilot. Its checked-in GeoJSON is
+generated by `web/scripts/generateInvernessHydroPilot.mjs` from the open
+Secondary Watersheds dataset and directed NSHN Spines/Wet Features. For every
+named secondary watershed centred inside the municipal boundary, the generator
+selects the longest connected route through official primary-flow segments,
+preserves the published watershed area and source plan lengths, derives mapped
+elevation range from source Z coordinates, and assigns a pilot-relative
+quartile. Display geometry is simplified independently of those measurements.
+
+`services/hydroPotential.ts` owns the shared calculation and symbology contract:
+line weight is logarithmically scaled by watershed area, colour is the relative
+terrain-potential class, and the screening value is
+`ln(1 + area km²) × (drop metres / route kilometres)`. The raw inputs remain
+visible in each Leaflet popup. The layer is share-link aware, fits to Inverness
+only when first enabled, and is independent of the restricted Province-services
+gate. It never exposes the score as flow, head, power, feasibility, rights, or
+approval. NSHN `LEVELPRIOR` is treated only as a primary-flow selector, not as
+Strahler stream order.
+
+After licence acceptance, the default web composition leaves the opaque modern
+map off, turns NS Aerial, NSPRD boundaries, complete Province water features,
+and roads on, and fits the first loaded view once to the visible tax-sale
+parcel geometries. Fletcher remains the final row in the layer list. The web
+layer fetches one precomposited XYZ pyramid
+`{base}/{revision}/{z}/{x}/{y}.png` from the immutable
+`fletcher-seams-20261009.2` revision at zooms 8–15, enlarging zoom 15
+at closer display scales. Sheet footprints remain coverage metadata, not
+24 bounded per-sheet XYZ trees. Edges are adjusted for visual continuity. Alignment remains approximate;
+geographic acceptance findings are unchanged. Attribution remains
+David Rumsey Map Collection, David Rumsey Map Center, Stanford University
+Libraries and
+[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The
+source receipt is `{base}/{revision}/source.json`. It is default-off and
+uses `https://tiles.kinnokilabs.com` by default.
+`VITE_FLETCHER_TILE_BASE_URL` can disable it with an empty value or name an
+authorized HTTPS host; opacity, share state, print/evidence provenance, and
+retry status use the normal web-layer contracts. This does not change native
+offline bundling. Geology & Resources is collapsed: its original
+three open source-backed overlays, separately licence-gated derived parcel row,
+and added context controls all start off. The Hydro terrain pilot is also collapsed and off by default.
+Forestry is collapsed and its open old-growth policy overlay starts off.
+Municipal zoning is collapsed and starts off. App query, cached/retained
+display, and reproduction are held for Inverness, Victoria, Richmond, and
+Cumberland; Halifax/HRM zoning remains available. Official by-law links stay
+on the catalog rows. See [docs/licensing-locks.md](docs/licensing-locks.md).
+The group is not on the Province licence gate because its sources are municipal
+rather than provincial.
+The Groundwater well-log group is also collapsed and off by default; when
+switched on it starts on its surveyed-only accuracy filter.
+The one-time fit does not compete with later selected-parcel fitting or user
+navigation.
+
+NS Aerial is an opaque context layer. NSPRD and Crown Lands use the native
+dynamic renderers, Watersheds is restricted to layers 24–26 (these layers are
+watershed context, not flood-risk mapping), and the
+Waterfalls layer is restricted to hydrography points whose `FEAT_DESC` is the
+Province's falls value. The Province publishes NSPRD with a 1:36,114 visibility
+floor; the web catalog respects that close-detail scale at zoom 14 rather than
+forcing authoritative outlines into regional views. Crown-land and flood detail
+layers begin at zoom 12. Waterfall points remain visible at the province
+overview scale so users can discover where to zoom in.
+
+Tax-sale parcel polygons are separate client-side NSPRD query results. The
+selected parcel remains translucent in the overview and becomes fully opaque at
+zoom 15 and closer; other listed parcels retain their lighter fill so the close
+selection remains unambiguous.
+
+The complete Province hydrography and transportation MapServers are available
+as separate overlays. Their official renderers retain road class, surface,
+trail, bridge, rail, ferry, culvert, and water-feature distinctions; increased
+export DPI makes line work legible without duplicating Province cartography.
+
+Municipal notices and NSPRD have deliberately separate authority:
+
+1. A municipality source module owns notice fields such as lien, location,
+   arrears, redeemable status, event details, and PIDs.
+2. `services/nsprd.ts` performs exact-PID and point-intersection ArcGIS Feature
+   Layer queries for geometry, the NSPRD update field, and `SHAPE.AREA`. A map
+   tap is eligible only while the visible NSPRD boundary layer is on.
+3. The UI joins notice records to returned geometry by PID. One PID may have
+   multiple polygons, so selection and map fitting operate across all matching
+   features.
+4. Province-licensed geometry and reference tiles are not requested until the
+   user accepts the versioned licence gate. The exact required attribution and
+   the not-a-survey caveat stay visible in the map footer after the gate closes.
+5. Browser geolocation is handled locally and drawn directly on the map; there
+   is no application server receiving a user's coordinates.
+
+Current notices and historical records also have separate lifecycle authority.
+Once an event is deliberately archived, its owner-free notice records can move
+to historical mode before parcel-level results are published. The historical
+event schema distinguishes `verified` results from
+`awaiting-official-results`; only the former can carry a result URL, result
+snapshot, result hash, winning bid, or specific outcome. Pending events link to
+the municipality's checked results page and keep every outcome unknown.
+
+`services/parcelContext.ts` sums the mapped area for every polygon belonging to
+the selected PID and converts square metres to acres. It POSTs that exact parcel
+geometry to each relevant Province road and water sublayer with
+`esriSpatialRelIntersects`, then performs a separate 20-metre road proximity
+query. Exact intersections win during deduplication; nearby roads are labelled
+as adjacent rather than intersecting. When an in-parcel civic point names a road
+that neither geometry query returned, the sheet includes that name with the
+separate relationship “Named by civic address.” These three signals are map
+context only and are never described as proof of frontage or legal access.
+Empty results remain distinct from live-service failures.
+
+`services/buildings.ts` independently reuses the exact selected NSPRD rings for
+three NSTDB intersection counts: classified building points, unclassified
+building points, and building polygons. The labelled polygon-callout layer is
+not a fourth building source and is deliberately excluded to prevent duplicate
+counts. The inspector preserves loading, returned zero, and source-error states
+instead of converting an unavailable service into zero.
+
+`services/civicAddresses.ts` owns the authoritative PID-to-civic-address lookup.
+It is intentionally separate from `parcelContext.ts`: Civic Points use the Nova
+Scotia Open Government Licence and have their own attribution, pagination, and
+failure boundary, while road and water intersections come from restricted map
+services.
+
+The web-only Poker theme uses `components/PokerMapTools.tsx` for bounded civic
+number queries at zoom 16 and above, address-point focus, and always-visible
+civic search over the map. Finish, Undo point, and Clear sit in a translucent
+button row; the distance total is the map label at the last vertex and the
+strip only announces it. Across all built-in and custom setups, the attribution
+footer is shown on entry and folds to its `Show licences` toggle after the first map interaction or five
+seconds, the collapse the OSMF attribution guidelines allow; on phones the
+toggle is a corner pill, the scale bar and screen-scale readout share its row
+(`attribution-folded` on the map region), and the civic status becomes a
+visually hidden live region in Poker. Shared footer and scale geometry lives in
+`styles.css`. General distance/area actions share the translucent mobile button
+row while retaining instructions above it during drawing. Finished totals
+remain on the map label and in the screen-reader status. Entering a setup
+resets the fold cycle; interacting with or reopening the footer cancels its
+pending timer and map listener so the credits stay open for reading.
+Viewport replies are capped at 500 source rows with truncation and
+unreadable-row notices; movement cancels stale work. Poker disables parcel
+rendering and lookups, including address-to-parcel identification and PID
+searches, so parcel paths cannot intercept measurement taps. It skips
+inspector evidence requests and reuses the distance tool, resetting it for
+each address. Defaults are NS Aerial (`ns-aerial`) and roads (street-name
+labels), subject to the Province licence gate; there are no quick aerial or
+next-address controls. A civic point is never promoted to a house location.
+
+The web-only Rhodena theme lives in `web/src/rhodena/` (theme id `rhodena`,
+category `rhodena-project`). It is a research-map setup, excluded from
+`buildMapPresentationFixture` and `layerParity.ts` with Poker and Electoral
+Districts. The six catalog
+ids are `rhodena-visibility`, `rhodena-turbines`, `rhodena-infrastructure`,
+`rhodena-study`, `rhodena-receptors`, and `rhodena-distance-rings`. Combined
+and per-turbine bare-earth viewsheds run in `visibility.worker.ts` against a
+fixed Mapzen terrain extract (`public/rhodena/terrain.bin`). A chosen
+viewpoint draws a sight line from eye level (1.7 m) to each assessed 200 m
+blade tip, coloured like the viewshed. Each line is solid until bare-earth
+obstruction, then a ridge mark and a dotted remainder; the result list
+gives that distance. `visibilityFromPoint` also returns `obstruction` from
+the same terrain samples, curvature and refraction as the verdict. Evidence
+is bare earth only: trees, buildings and final design are excluded; the
+screen is the tip, not the hub; near-threshold stays amber; unassessed or
+out-of-range turbines get no line. The viewpoint stays in memory; it is
+not written to share URLs or storage.
+Browser print omits interactive `rhodena-visibility` and the private
+viewpoint; static Rhodena geometry can still print. Product and source-prep
+detail live in `web/README.md` and `web/scripts/rhodena/README.md`.
+
+The web-only Fishing setup (theme id `fishing`, `themes/mapThemes.ts`) names
+12 layers: `modern`, the four fishing layers, `water-features`,
+`nshn-spines`, `wsc-hydrometric-stations`, `wharves-coastal-structures`,
+`protected-conservation-areas`, `roads` and `campgrounds`. It is
+excluded from `buildMapPresentationFixture` with Poker, Electoral Districts and
+Rhodena, because it names web-only context layers the native app does not
+have. It adds no category, so `layerParity.ts` needs no filter for it, and the
+native fixtures are unchanged. Every layer in it is open on the web, so
+`resolveTheme` returns an exact match and a first `?theme=fishing` visit
+raises no Province licence sheet. Three layers are left out on purpose, and
+tests pin each omission: `waterfalls`, whose discovery fit in
+`LayerZoomController` moves the map to the whole province, and `crown-lands`,
+whose zoom-12 floor makes the same controller zoom in to a few kilometres,
+either of which would move the view away from the spots; and `place-names`,
+whose thousands of GeoNAMES dots bury the spot pins at the opening zoom while
+the background already labels places. The DFO aquatic
+species-at-risk layers stay out of the setup and off the /fishing panel.
+
+The same civic service owns sidebar address discovery. It sends normalized user
+text through Socrata's full-text `$q` index, returns bounded labelled Civic
+Point candidates, and does not infer a PID from address text. The sidebar
+requests suggestions after a 300 ms typing pause once three characters are
+present and the Province licence is accepted. Suggestion queries match a final
+alphabetic word using word-prefix predicates over address fields, with completed
+terms in `$q` and an exact leading civic-number filter. Local relevance checks
+allow only that final term to be partial. Explicit submissions retain the
+whole-word path; typing a numeric PID does not select it. The accessible
+combobox keeps input focus during arrow-key navigation and requires Enter or a
+tap to select. Its timer and request are cancelled on editing, dismissal,
+selection, blur out of the search, and unmount. Punctuation-folded
+local relevance checks reject broad full-text false positives. When a compact
+possessive initialism omits its periods, such as `dr's` for `D.R.'s`, the service
+retries that official spelling only after the first response has no relevant
+match. The same bounded retry maps `hwy` and a numbered `route` to the Civic
+Address File's `Highway` spelling. Selecting a candidate sends its exact
+coordinate to the NSPRD point-intersection query; the returned parcel geometry
+then enters the same selected-PID, civic-containment, and inspector flow as PID
+search or a map tap. Address search and map-point lookup have independent
+cancellation controllers so stale requests cannot replace newer selection
+state.
+
+`services/mailingAddresses.ts` owns a separate, dated National Address Register
+(June 2026) mailing lookup. Sidebar postal-community search and inspector
+mailing evidence stay distinct from `civicAddresses.ts`; matching requires a
+normalized civic number, suffix, unit and road within 50 m, a postal candidate
+must resolve to one live provincial civic point, and NAR coordinates never
+become the selected geometry. See `web/README.md`.
+
+For a selected PID, the civic service reuses every Polygon or MultiPolygon part
+already returned by NSPRD. It calculates one bounding box per part, requests
+only address fields through Socrata `within_box` queries, follows stable
+`$limit`/`$offset` pages ordered by `pntid`, and deduplicates by `pntid`. A final
+client-side point-in-polygon test excludes bounding-box false positives and hole
+interiors across all parts. Points exactly on exterior or interior-ring
+boundaries count consistently as inside.
+
+The service returns zero, one, or every unique mapped point inside the parcel;
+it never substitutes a nearest point, municipal notice description, road label,
+or interpolated address. Changing or closing the selected PID aborts that PID's
+request. Civic loading, empty, and failure states remain independent of the
+road/water state.
+
+The parcel sheet links the official Civic Address File, displays `Contains
+information licensed under the Open Government Licence – Nova Scotia`, and
+explains that mapped physical-address points do not prove ownership, mailing
+address, access, occupancy, or legal parcel status. This open-data attribution
+is separate from the NSPRD restricted-services licence gate.
+
+`services/googleMaps.ts` converts each authoritative civic-point coordinate to
+a full 10-character Open Location Code (Plus Code) in the browser. The parcel
+sheet presents that code as a universal Google Maps directions link whose exact
+latitude/longitude destination comes from the same civic point. No Google API
+key or geocoding request is required, and Google receives the destination only
+after the user activates the external link.
+
+The public tax-sale dataset omits assessed-owner names and avoids describing a
+listed property as available. Fletcher is available to a configured web build
+only through the published 24-sheet mosaic revision
+`fletcher-seams-20261009.2`; builds without an authorized tile host show
+an honest disabled state. The scoped permission does not by itself clear
+native offline bundling, and this workflow does not change the existing
+native layer.
+
+Current-notice source rows and rendered parcel geometry are also separate
+evidence states. A municipal PID that returns no exact NSPRD feature remains in
+the owner-free source snapshot and is represented by a dated
+`TaxSaleGeometryException`; it is not passed to the map layer, counted as a
+mapped parcel, or replaced with another PID. Event controls disclose advertised,
+mapped, and unavailable counts, and the property browser shows each exception
+as non-interactive official notice evidence. Live acceptance requires every
+ordinary catalog PID to resolve and every declared exception PID to remain
+empty, so NSPRD changes fail closed for review in either direction.
+
+Historical outcomes use a second, default-off client-side catalog in
+`web/src/data/historicalTaxSales.json`. Municipal notice/result pairs are the
+authority for event, outcome, and financial fields. Two NSPRD match methods are
+supported: `exact-official-pid`, where the municipality publishes the PID, and
+`deterministic-reconciliation`, where the municipality publishes only an
+assessment account number and the PID is derived by matching that account's PVSC
+open-data coordinate against the NSPRD parcel layer. The derived path never
+guesses: an account that fails to resolve to exactly one PID is left unmatched
+and out of the rendered layer. A normalized listing remains one record when it
+covers several parcels, so listing-level amounts are never allocated by the UI.
+Filters derive matched PID sets by municipality, year, and outcome without
+altering the upcoming-notice layer.
+
+The supported slice spans eleven municipalities and carries 28 events, 504
+owner-free records, and 483 matched PIDs. Twenty-seven events have verified
+results; Colchester's June 9, 2026 notice-only event awaits official results,
+with seven exact-PID records retained outcome unknown and twelve opaque
+`REMOVED` rows outside the matched layer. Halifax Regional Municipality
+contributes eight tender events
+(March 8, 2022 through September 15, 2026) with 97 records and 104 exact
+official PIDs; the six September 15, 2026 notice rows absent from the official
+results remain outcome unknown. Victoria County, Cumberland County, and the two CBRM sales add
+result-backed events whose receipts are pinned to municipal or archive captures.
+Richmond County's June 12, 2026 archived result and Pictou County's dated April
+10, 2026 result PDF add 24 exact-PID records: 21 numeric outcomes and three
+Pictou rows printed `Removed`, retained as withdrawn without a selling price.
+Queens adds 16 account-coordinate-reconciled records. Clare adds 16 exact-PID
+records from a notice/result pair, preserving later redemptions and a
+buyer-forfeiture contradiction without completed-sale winning-bid claims.
+Middleton adds two exact-PID records whose unique official descriptions match
+result rows printed `NO BID`; seven additional `REMOVED` result rows publish no
+parcel identifier and remain opaque outside the mapped records.
+Six Municipality of the District of Lunenburg tender events (March 1, 2021
+through March 2, 2026) add 145 records whose PIDs are all derived by
+deterministic reconciliation; Lunenburg publishes winning bids only in
+per-property award documents, so selling prices are read from those documents
+(never reconstructed from surplus, which drifts from the award by accrued
+interest), the municipal surplus history serves only as an independent
+cross-check, and listings whose award and surplus records disagree are held
+outcome unknown. The infocard calculates comparisons in integer cents only when
+the same CAD event publishes both an opening bid and a selling price. It presents
+direct official notice and result links, source dates, match basis, multi-PID
+warnings, and a dated-outcome limitation. Researched events that cannot yet be
+reconciled fail-closed stay outside the matched layer; the complete ledger and
+per-document SHA-256 snapshot hashes live beside the dataset.
+
+Municipal events retain their source status, while the rendered lifecycle is
+derived from the current time. An advertised event becomes “verify results”
+after its scheduled start; the app does not manufacture a historical outcome.
+Rendered event controls include the source retrieval date. Inverness listings
+are generated from the owner-free book JSON snapshot, whose byte-for-byte
+SHA-256 is pinned by the web test suite.
+
+### User-loaded maps (`web/src/userMaps/`)
+
+A self-contained feature folder: `parsers/` (magic-byte sniffing; geotiff.js
+2.1.3 — pinned, the 3.x read API differs — decoding in a web worker with
+OffscreenCanvas and a main-thread fallback, overview-aware, capped at 4096 px),
+`transform/` (proj4 registry for NS CRSs plus WKT-citation best-effort,
+pixel→WGS84, mesh building, and the two solvers — `affine.ts` and `tps.ts` —
+over the shared point-cloud conditioning gate in `conditioning.ts`),
+`allmaps/` (`annotation.ts`: a pure IIIF Georeference Annotation serializer,
+no new dependency), `render/` (`WarpedRasterLayer`: a
+device-pixel-ratio-aware canvas layer drawing through a projected triangle
+mesh in `user-maps-pane`, z-160 — above aerial imagery, below all data
+overlays), `store/` (IndexedDB; metadata and blobs in separate object stores;
+save failures degrade to session-only maps), and `components/` (layer-list
+rows + react-leaflet bridge). `App.tsx`/`MapCanvas.tsx` hold mounting points
+only. Everything is client-side; nothing is uploaded.
+The PR-2 georeferencer (`useGeoreferenceSession.ts`, `components/Georeference*`)
+solves a least-squares affine from ground control points and drapes through the
+same mesh renderer. Control points are stored as WGS84 for portability but
+solved in Web Mercator **metres** — at Nova Scotia's latitude a degree of
+longitude is ~0.69 of a degree of latitude on the ground, so a degree-space fit
+would shear every map east-west. Pixel coordinates are always in the ORIGINAL
+raster's pixel space, never the downsampled preview's, so changing the preview
+cap never invalidates saved points. Accuracy is reported as per-point ground
+metres (not Mercator metres, which over-report by 1/cos φ — 1.44x here, so the
+figure is deliberately *not* the one QGIS shows for an EPSG:3857 target), and
+the worst-fitting row is flagged only from five points up: four points fitting
+three parameters leave a one-dimensional residual space (`I − H` has rank 1),
+so raw, leave-one-out and studentized residuals rank identically — a
+1104-trial sweep scored 24% correct against a 25% chance baseline at four
+points, rising to 60% against a 20% baseline at five. A solve is refused
+outright when the control points are too thin to determine a transform, when
+any coordinate comes out non-finite, or when the solved transform squashes one
+axis more than 50:1 — the last being what three map clicks down a meridian
+produce, complete with zero-area drape and a perfect 0 m residual. GCP markers
+get their own pane (`georeference-pane`, z-660: above every data overlay and
+above Leaflet's marker and tooltip panes, below its popup pane at 700) so a
+control point is never buried under a parcel line.
+
+PR 3 adds a second solver beside the affine one. `transform/tps.ts` is a
+hand-rolled thin-plate spline, pure and Leaflet-free, solving in the same Web
+Mercator metres; `UserMapRecord.georef.method` (`"affine" | "tps"`) already
+existed, so nothing migrates. Agreement between the solvers is one-directional
+and true **by construction**, not by matched constants: `solveTps`'s
+destination gate *is* a `solveAffine` call over the same inputs, so everything
+affine refuses TPS refuses, while TPS additionally refuses coincident control
+points and a singular interpolation matrix. An earlier revision matched two
+hand-tuned thresholds on two different quantities instead and drifted — a
+100:1-squashed drape was refused by one and accepted by the other. The
+source-side gate is the shared `conditionRatio` in `transform/conditioning.ts`,
+which rejects on a *ratio* rather than exact singularity, so thin clouds (five
+points along a road) are refused rather than solved into a drape a 1 px nudge
+moves 12 km.
+
+The spline reaches the screen through the same `WarpedRasterLayer` mesh at a
+**two-tier** density: `TPS_DRAG_GRID_SIZE = 16` while a control point is being
+dragged, `TPS_GRID_SIZE = 64` once the pointer settles (affine stays at 1 — a
+single cell represents it exactly). Both numbers are measured, and error is
+**not** monotone in grid size, so no test may assert that denser is always
+better. Accuracy under a spline needs a different statistic: an interpolating
+spline passes through its control points exactly, so the fit residual is ~0 by
+construction and carries no signal. `tpsResidualReport` reports **leave-one-out
+prediction error** instead, capped at 50 points to stay inside half a frame.
+That figure is a conservative upper bound — measured to overstate true warp
+error by 1.8x (n=12) to 3.7x (n=4) and never to be optimistic — so the UI reads
+"No worse than N m" rather than "RMS N m". The highlighted suspect row is
+ranked separately, by the **affine** fit residual even under a spline, because
+leave-one-out loses that job decisively (62.9% vs 46.8% at n=8, z = −18.3): an
+outlier left in a refit is absorbed into the spline's shape and corrupts its
+neighbours' scores. So the flagged row is often not the largest number in the
+column, which is what its copy ("Disagrees most with the other points") already
+claims. Finally, `allmaps/annotation.ts` serializes the control points as a
+IIIF Georeference Annotation — plain JSON, no `@allmaps/*` dependency, with
+`transformation` on the body FeatureCollection rather than the annotation root,
+and a `urn:uuid:` target because the extension has no provision for a local
+file with no IIIF service.
+
+### User vector data (`web/src/userMaps/vector/`)
+
+The parallel subsystem to the raster records: user-loaded vector layers
+("Your data"), with GeoJSON FeatureCollections in WGS84 as the canonical
+format everywhere past the parsers. It shares the raster store's IndexedDB
+database through one schema owner (`store/database.ts`, version 2 — a second
+open path with its own version constant would throw `VersionError` and take
+both UIs down); layer metadata lives in the `vectors` object store, geometry
+as JSON bytes under `${id}:vector` in the existing `blobs` store, and the
+as-imported original file under `${id}:vector-original` so provenance
+survives edits. The "Your maps" drop zone is the single import entry:
+`importRouting.ts` sniffs content only (raster magic bytes win; `{` / `<` /
+zip probes route the rest; extensions are never trusted) and calls BOTH
+pipelines every batch so stale outcomes clear. Imports are fail-closed with
+distinct states — malformed vs. valid-but-not-GeoJSON vs. empty vs. over the
+50 MB / 10,000-feature caps vs. a declared non-WGS84 CRS (refused, never
+reprojected silently; projected coordinates without a declared CRS are
+likewise refused rather than guessed).
+
+GeoJSON, KML, KMZ, and GPX import. KML and GPX convert through
+`@tmcw/togeojson` on the main thread — `DOMParser` has no worker equivalent,
+the same constraint `parsers/fletcherGcps.ts` lives with — dispatched by root
+element rather than namespace, since real-world exports frequently omit it.
+togeojson emits the simplestyle vocabulary `render/style.ts` already reads,
+so authored KML colours survive import unchanged; it also wraps a CDATA/HTML
+property as `{ "@type": "html", value }` while leaving a plain one a bare
+string, so `kmlSource.ts` flattens that to the string — every consumer reads
+string properties, and an unflattened object would make the description of a
+typical Google Earth file silently vanish rather than fail loudly. KMZ is
+unzipped with `fflate` (its own worker pool), preferring `doc.kml` and
+falling back to any single `.kml`; a zip holding neither is reported as a
+zipped shapefile awaiting a later phase, not as a damaged file.
+
+Zipped shapefiles import through `shpjs`, in a worker (inflating an archive
+and running every vertex through a proj4 transform is the heaviest parse in
+this subsystem). One `.shp` becomes one layer, named after the shapefile
+rather than the archive, because collapsing unrelated feature sets under a
+single name and style would misrepresent them; the archive itself is kept as
+every produced layer's original so removing one leaves the others'
+provenance intact. Since a KMZ and a shapefile zip share the same magic
+bytes, `classifyZipEntries` picks the reader from the entry names, skipping
+`__MACOSX` resource forks that would otherwise classify an archive by a file
+it does not contain.
+
+The `.prj` gate runs BEFORE shpjs is handed anything, and this ordering is
+the point: shpjs builds a proj4 transform when a `.prj` is present and
+otherwise passes raw coordinates through untouched, so a projected shapefile
+missing its `.prj` would silently arrive as though its eastings and
+northings were degrees — a Nova Scotia parcel landing in the Gulf of Guinea
+rather than failing. Every `.shp` must therefore have a readable sibling
+`.prj`: absent is `missing-crs`, present-but-unparseable is `unsupported-crs`
+(the first asks the user to include a projection, the second to fix it), and
+one bad shapefile refuses the whole archive rather than importing a partial
+result the UI could not explain.
+
+Drawing and editing (`vector/edit/`) run through Leaflet-Geoman. The layer
+under edit leaves the read-only list and is drawn instead by
+`EditableVectorLayer`, an imperative `L.geoJSON` the session owns for its
+whole lifetime — react-leaflet's `GeoJSON` never re-reads `data`, so the
+read-only list remounts on every revision, which mid-drag would destroy the
+very layer Geoman has handles attached to. That layer alone uses the SVG
+renderer: a browser spike confirmed Geoman attaches, enables and drags
+vertices on canvas perfectly well (its handles are DOM markers, independent
+of the shape's renderer), but `Edit.Line.disable()` reads
+`layer._path ? layer._path : layer._renderer._container`, and during map
+teardown the renderer is already gone — so the canvas branch throws on a
+layer still in edit mode. Only one layer is ever editable at a time, so the
+SVG node count that trades for is bounded; the unbounded case stays canvas.
+
+`useVectorEditSession` holds the working copy and owns the single write
+path: it recomputes feature count and bbox from the edited geometry, stamps
+`modifiedAt`, bumps `revision` (the read-only layer's remount key, so an
+un-bumped edit would leave the map showing pre-edit geometry), and debounces
+the IndexedDB write by 400 ms — the same figure and reason as the
+georeferencer's marker drag — flushing on close and unmount so the tail of a
+session is never lost. A failed write reports itself and leaves editing
+working rather than blocking it. The session seeds its draft when the named
+layer *becomes* available rather than only at `beginEdit`, because "New
+drawing layer" creates a record and asks to edit it in the same tick.
+
+Export is offered on user vector layers ONLY — never on official sources,
+whose redistribution terms belong to their publisher. GeoJSON export is a
+serialization of the canonical collection; `export/kmlWriter.ts` is
+hand-written (as `allmaps/annotation.ts` is) and builds through
+`createDocument` + `XMLSerializer` rather than string concatenation, so
+escaping is structural and no interpolation mistake can emit user text as
+live markup. `services/downloadFile.ts` is the one download primitive, shared
+with the georeference and evidence-note exports. Rendering is one react-leaflet
+`GeoJSON` per layer in `user-vector-pane` (z-425: above selected parcels,
+below active measurements) sharing one canvas renderer — user files are
+unbounded and SVG DOM nodes jank phones — with points as circle markers so
+nothing escapes to Leaflet's marker pane. Popups build DOM via `textContent`
+only (KML descriptions carry HTML; it must render as text), and every layer
+row and popup names its origin file. User vector layers are excluded from
+print capture and share links by construction — `PrintMap` takes no vector
+prop — per the print/export boundary above. Everything is client-side;
+nothing is uploaded.
+
+### Persistent Poker pocket app
+
+`web/src/poker/` is the dedicated `/poker` entry, separate from the research
+map's theme. It reuses civic parsing, conservative mailing-address matching,
+Atlas palette tokens, Leaflet and spherical path measurement. Its bounded
+open-data snapshot retains source IDs and provenance; postal records without
+one unique civic match remain visible and open only at their own NAR building
+coordinate, marked as postal points, never at a civic point. The shared matcher
+compares road names through `roadMatchKey`, which treats a numbered highway the
+same whether written `19 HWY` (register) or `Highway 19` (province), and looks
+the register shard up under both spellings. Search adds the pack’s
+remaining provincial civic addresses as separately identified civic-only entries,
+without constructing NAR records or assigning postal codes. Point ID plus civic
+label preserves units sharing a point. Postal filters retain civic-only entries
+with an explicit unknown-postal-code notice. `searchAddresses` expands a leading
+civic-number prefix against each record’s own number and suffix, so an incomplete
+house number such as `544` also suggests longer matches such as `5447`; postal
+filters, unit syntax, exact numbered-road terms, source identities and the shared
+research-map matcher keep their existing rules. Storage is local only. A tap-only
+**Use my location** control below zoom reuses `services/browserLocation.ts` for
+one fresh reading, centres the map and draws a last-reading marker with its
+accuracy circle. The fix is not uploaded, is not restored as a live position
+after reload, and does not follow or change the selected address or trace.
+Permission, signal, timeout, unsupported-browser and outside-pack failures have
+distinct notices; selecting another address cancels an in-flight locate.
+`pokerOfflinePlugin.ts` emits a versioned service worker with only the entry's
+asset dependency closure, manifest, icons and regional data. The worker scope is
+`/poker`; KinNoKi must set `Service-Worker-Allowed: /poker` on its script and
+rewrite both short-route spellings to the dedicated HTML. KinNoKi's sync step
+sets that shell's base URL to the pinned map directory. Aerial viewing keeps the
+provincial licence gate and is never written into the offline cache.
+
+### Focus page registry
+
+`web/src/focus/` holds what the focus pages share. `App({ focus })` looks up a
+`FocusDefinition` in `focus/registry.ts` (`focusDefinitions`, keyed by the id
+the HTML entry passes; `FocusId` is that key set) and reads every
+page-specific choice from it instead of branching on a page name. A
+definition carries:
+
+- `id` (the registry key and the `${id}-focus` class prefix), `themeId` (the
+  built-in setup a fresh visit opens) and `pageTitle`;
+- `categoryIds` (panel sections, in order), `allowLayerIds` and
+  `denyLayerIds`. A deny always wins. `contextLayerIdsInCategories` builds a
+  category-wide allow that includes layers added later;
+- `initialPosition`, `fitBounds` and an optional `fitOnOpen` (fit the area
+  when the link has no position). A full-map link that opens the page's
+  setup (`?theme=fishing`) borrows the same camera and fit;
+- `hiddenFeatures` (`tax-sale`, `my-maps`, `setup-picker`) and
+  `backgroundSwitch` (the Map/Aerial switch);
+- an optional `shareParams` (`month`, `spot`): the page state its links may
+  carry;
+- `chrome`: the `Hero`, an optional `Panel`, the phone `brand` button and the
+  `FooterNote`. These are component types that receive a
+  `FocusChromeContext`: context-layer visibility and its setter, the page
+  state (`FocusPageState`: month, species, selected spot, and counters that
+  ask the panel or the map to reveal the selection) and its setter, opening
+  and closing the phone sheet, `fitToFocus`, and Rhodena's
+  `startViewpointPick`.
+
+`focusOffersLayer`, `filterFocusLayerIds` (shared links keep their order) and
+`focusHides` apply a definition. App holds the page state and writes `month`
+and `spot` only for a page that lists them. The camera comes from the open
+page or, on the full map, from `focusForTheme(themeId)`: a `?theme=` link for a
+setup that has a page opens at that page's camera when it has no position,
+and choosing the setup fits its bounds. `MapCanvas` takes a `focusFit` request
+(`{ revision, bounds }`) and renders `focus/FocusFit.tsx`, which fits the
+bounds each time the revision rises; it replaced Rhodena's own fit component.
+In `vite.config.ts`, `focusRoute` serves each page's map-relative path
+(`/rhodena`, `/fishing`) in dev and preview and redirects its trailing-slash
+form. It routes only those two paths, so data files under the same name
+(`/fishing/spots.geojson`) are served as files. The public short URLs are
+KinNoKi site rewrites onto the published map's paths. Rhodena's short URL is
+the same `/rhodena` path; the fishing page's is `/fishmap`, which is not routed
+locally. `rollupOptions.input` lists each HTML entry. A page keeps its
+definition in a `.ts` module and its components in a sibling `.tsx` (React
+Refresh exports components only). `focus/registry.test.ts` checks every
+entry: the key equals the id, setups are unique, every setup layer is
+offered, every allowed or denied id exists, every offered id sits in one of
+the page's categories, a hidden feature has no panel section, and the
+opening camera lies inside the page's area.
+
+### Rhodena focused page
+
+`web/rhodena.html` is a dedicated HTML entry for `/rhodena`, not a separate
+pocket app like `/poker`. `web/src/rhodena/main.tsx` mounts the research map
+as `<App focus="rhodena" />`, and `web/src/rhodena/focusDefinition.ts`
+registers the page. Its categories and offered layer ids come from
+`web/src/rhodena/focus.ts`, which offers every context layer in those
+categories, including later additions; `denyLayerIds` removes the four
+fishing layers, which belong to `/fishing` (decided 2026-10-13; tests cover
+both pages). `RhodenaFocusChrome.tsx` holds the hero, brand mark and footer
+note. Tax sale, My Maps, the setup picker and reviewed Fletcher
+features are absent. A **Map | Aerial** switch under the 3D control swaps
+the opaque background; aerial imagery keeps the Province licence gate.
+Shared links drop layers outside that set, keep tax sale off, and keep map
+mode current. A full-map link carries the current layers and position to
+the main research map. There is no service worker and no offline pack. The
+selected viewpoint stays in memory, as on the research-map Rhodena theme;
+it is not written to share URLs or storage. While a viewpoint is being
+chosen, a capture-phase map picker takes the tap before any overlay can,
+so historical features, parcels and other popups cannot swallow it.
+Short-URL rewrite (`/rhodena` onto this HTML) and asset-base stamping are
+KinNoKi site publishing concerns. Vite answers `/rhodena` locally. Neither
+proves a live map pin was updated.
+
+### Fishing focused page
+
+`web/fishing.html` keeps `<base href="./" />` for the site's base stamping and
+loads `web/src/fishing/main.tsx`, which mounts `<App focus="fishing" />`.
+`fishing/focusDefinition.ts` fixes the Fishing setup, and `fishing/focus.ts`
+lists five panel categories: water and background layers are offered by
+category, and land, road and hazard layers one by one.
+`dfo-aquatic-critical-habitat`, `dfo-aquatic-sar-range` and
+`ns-sar-core-habitat` are denied, so they never sit one tap from the pins.
+The page hides tax sale, My Maps and the setup picker, has no Map/Aerial
+switch, fits the spots' coverage bounds on open when the link has no
+position, and shares `month` and `spot`.
+
+The chrome is `FishingHero.tsx` (purpose, rules stamp, this-month shortcut,
+zoom to all spots, and the dedication line, a page constant that the data
+files never carry) and `FishingPanel.tsx` (month and species filters, the
+summary line, `SpotCard.tsx` cards, the `SpeciesCalendar.tsx` table and
+`RuleList.tsx`). `fishing/data.ts` loads `spots.geojson`, `calendar.json` and
+`rules.json` once per page into a module cache that the hero, panel and spots
+layer share, and drops malformed spots. `filters.ts` holds the filter and
+month-strip logic, and `spotLinks.ts` builds destination-only directions
+links. Selection runs both ways through the page state: a card's
+**Show on the map** raises `mapReveal`, which closes the phone sheet and
+recentres at zoom 12 or closer, and a pin popup's **Open the spot card**
+raises `panelReveal`, which opens the sheet and focuses the card. Closing the
+popup clears the selection, and a filter change clears a selection it
+excludes. `services/mapShareState.ts` parses and writes `month` (1–12) and
+`spot` (`S` and two digits) the way it handles `electoral=`, outside
+`recognizedShareKeys`, so a month-only link is still a first visit. The
+full-map link strips both.
+
+`fishing/rules.ts` is the rules gate. It takes the date as an argument and
+fails closed: an entry shows only inside its own `validFrom`–`validUntil`
+window and, unless it is a standing regulation, on or before the file's
+`validUntil`. A malformed entry or a file that did not load leaves the
+official links instead of rule text, and nothing computes whether a season is
+open. This follows the BurnSafe decision in `web/README.md`: a stale "open" is
+worse than none. `scripts/checkFishing.mjs` (`check:fishing`, in `prebuild`)
+checks structure, receipt hashes and public-text hygiene, and never reads the
+clock, so expiry is a runtime state and never a build failure. Nothing warns
+before the date; the yearly refresh in `web/README.md` is the reminder.
+
+There is no service worker and no offline pack. The page's public short URL
+is `/fishmap` (its `og:url`); the site's own `/fishing/` is a separate static
+guide, which the page's footer links to. Rewriting `/fishmap` and `/fishmap/`
+onto `/apps/nsmarksthespot/map/fishing` and stamping its asset base are KinNoKi
+site publishing concerns, and that site rewrite PR must merge before this
+page's PR. Vite answers the map-relative `/fishing` locally.
+`fishing/main.tsx` drops a trailing slash from `/fishmap/` or `/fishing/`
+(`fishing/pagePath.ts`) and keeps the path the visitor arrived on, so share
+links carry `/fishmap` on the live site. Neither proves a live map pin was
+updated.

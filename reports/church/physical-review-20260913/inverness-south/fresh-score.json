@@ -1,0 +1,45 @@
+{
+  "frozen_fit_sha256": "4db2d28d0bddfded9d7942a7b337c1ea5c324c6c9269835d8c355ab3f232bc11",
+  "validation_status": "One fresh inland outlet on selected frozen affine; never used for model selection or repair. Sparse and generalized, not panel-wide validation.",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "IS15",
+        "east_ground_m": -166.84951863006123,
+        "north_ground_m": 238.04508919346188,
+        "error_ground_m": 290.6961065377491
+      }
+    ],
+    "rms_ground_m": 290.6961065377491,
+    "median_ground_m": 290.6961065377491,
+    "p95_ground_m": 290.6961065377491,
+    "max_ground_m": 290.6961065377491,
+    "mean_east_ground_m": -166.84951863006123,
+    "mean_north_ground_m": 238.04508919346188,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "historical_baseline_same_fresh_feature": {
+    "count": 1,
+    "points": [
+      {
+        "label": "IS15",
+        "east_ground_m": -177.49886243764766,
+        "north_ground_m": 345.6042209633787,
+        "error_ground_m": 388.5204289536946
+      }
+    ],
+    "rms_ground_m": 388.5204289536946,
+    "median_ground_m": 388.5204289536946,
+    "p95_ground_m": 388.5204289536946,
+    "max_ground_m": 388.5204289536946,
+    "mean_east_ground_m": -177.49886243764766,
+    "mean_north_ground_m": 345.6042209633787,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6042 x 4178 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 55.63 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          145
+        ],
+        [
+          5930,
+          145
+        ],
+        [
+          5930,
+          4045
+        ],
+        [
+          85,
+          4045
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Amet Island, Cape John and Westerly, John Bay, Marshville, River John, Seafoam, Toney River, McQuarry Point, all inland parcels and the full original ocean area. Amet Island is in place, with no displaced inset identified."
+    }
+  ]
+}

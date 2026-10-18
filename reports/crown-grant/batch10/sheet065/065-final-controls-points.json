@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Nicholson Lake northern narrow horn tip",
+    "role": "control",
+    "pixel_xy": [
+      1132,
+      310
+    ],
+    "lonlat": [
+      -63.76466089961224,
+      44.910151292371246
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 135074,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135074,
+    "nearest_unfiltered_distance_guide_px": 4.655841397757077,
+    "selected_distance_guide_px": 4.655841397757077,
+    "guide_reference_pixel_xy": [
+      1208.792306070507,
+      337.587930929265
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  },
+  {
+    "id": "C02",
+    "label": "Armand Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      3223,
+      197
+    ],
+    "lonlat": [
+      -63.637827851943086,
+      44.9541173549079
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 129713,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129713,
+    "nearest_unfiltered_distance_guide_px": 1.5805604548066619,
+    "selected_distance_guide_px": 1.5805604548066619,
+    "guide_reference_pixel_xy": [
+      3301.946266116516,
+      238.82194386632182
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  },
+  {
+    "id": "C03",
+    "label": "Horse Island in Grand Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4186,
+      345
+    ],
+    "lonlat": [
+      -63.574561146084385,
+      44.96585149865341
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 152997,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 152997,
+    "nearest_unfiltered_distance_guide_px": 0.63873578842523,
+    "selected_distance_guide_px": 0.63873578842523,
+    "guide_reference_pixel_xy": [
+      4261.379033486999,
+      383.51411771331914
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  },
+  {
+    "id": "C04",
+    "label": "Wilson Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      1185,
+      2450
+    ],
+    "lonlat": [
+      -63.70371498098644,
+      44.81594233194012
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 141064,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141064,
+    "nearest_unfiltered_distance_guide_px": 0.11375172419853662,
+    "selected_distance_guide_px": 0.11375172419853662,
+    "guide_reference_pixel_xy": [
+      1259.9247391824028,
+      2499.085295158671
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  },
+  {
+    "id": "C05",
+    "label": "Barrett Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      1453,
+      2519
+    ],
+    "lonlat": [
+      -63.68467465720286,
+      44.81768927335164
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 129410,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129410,
+    "nearest_unfiltered_distance_guide_px": 0.6330627693295188,
+    "selected_distance_guide_px": 0.6330627693295188,
+    "guide_reference_pixel_xy": [
+      1534.499507304281,
+      2577.3876538809855
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  },
+  {
+    "id": "C06",
+    "label": "Little Lake No Good southern tip",
+    "role": "control",
+    "pixel_xy": [
+      5197,
+      3207
+    ],
+    "lonlat": [
+      -63.43510215676763,
+      44.85632949350425
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 140646,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140646,
+    "nearest_unfiltered_distance_guide_px": 1.801473987392161,
+    "selected_distance_guide_px": 1.801473987392161,
+    "guide_reference_pixel_xy": [
+      5263.756238750182,
+      3295.6350570265204
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  },
+  {
+    "id": "C07",
+    "label": "Grand Lake Indian Point northern tip",
+    "role": "control",
+    "pixel_xy": [
+      3723,
+      1074
+    ],
+    "lonlat": [
+      -63.583467616599435,
+      44.92478777417521
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 142230,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142230,
+    "nearest_unfiltered_distance_guide_px": 1.1921749375727084,
+    "selected_distance_guide_px": 1.1921749375727084,
+    "guide_reference_pixel_xy": [
+      3801.1420705846394,
+      1118.3419881013688
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad lake/island identity and native paired crosshairs inspected before first fit and score"
+  }
+]

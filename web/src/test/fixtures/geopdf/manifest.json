@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "https://github.com/OSGeo/gdal",
+  "sourceLicence": "MIT",
+  "fixtures": [
+    {
+      "file": "test_iso32000.pdf",
+      "sha256": "c57b35f6820dcb7d08ae273ed39e935f91af1c9594f99bfb3b3da05ed0197da1",
+      "pageCount": 1,
+      "registration": "measure",
+      "gdalGeoTransform": [2, 0.05, 0, 49, 0, -0.05],
+      "expected": "manual-unsupported"
+    },
+    {
+      "file": "test_ogc_bp.pdf",
+      "sha256": "ec2a34f853a4d5bf86ccf6a7170439b5c89e9a6a674db965ba7d762cbea3a93b",
+      "pageCount": 1,
+      "registration": "lgidict",
+      "gdalGeoTransform": [2, 0.05, 0, 49, 0, -0.05],
+      "expected": "manual-unsupported"
+    },
+    {
+      "file": "adobe_style_geospatial.pdf",
+      "sha256": "8492c975c7dd68977566d95b0c1f0db2a24d464bf2105612e20799b04485766b",
+      "pageCount": 1,
+      "registration": "measure-multiple",
+      "expected": "manual-ambiguous"
+    },
+    {
+      "file": "byte_and_rgbsmall_2pages.pdf",
+      "sha256": "e483d8eec5820e0a828d41d804978e4090d46c806615fa961de0ec205777abb9",
+      "pageCount": 2,
+      "registration": "page-1-readable",
+      "expected": "page-1-only"
+    },
+    {
+      "file": "byte_enc.pdf",
+      "sha256": "8a621f1857597997c86079c8738bfac2e077bd15d8d8ce4959e8148971cc4678",
+      "pageCount": null,
+      "registration": "encrypted",
+      "expected": "password-protected"
+    },
+    {
+      "file": "corrupt.pdf",
+      "sha256": "cc5f70981143056f4d920a1fb15d5a0d649574c4e7eea6d5e00dc9081b6b2776",
+      "byteSize": 515,
+      "sourceInput": "plain.pdf",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; first half of source bytes",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "unreadable",
+      "expected": "invalid-pdf"
+    },
+    {
+      "file": "malformed-measure.pdf",
+      "sha256": "c546d702dfe021dd5fd0d0b0608f50bfba5f5a2e095e4657a1b6538f0f80cf53",
+      "byteSize": 1971,
+      "sourceInput": "fixed pdf-lib page and registration parameters",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; pdf-lib 1.17.1",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "measure-invalid-cardinality",
+      "expected": "manual-invalid"
+    },
+    {
+      "file": "ns-utm20-iso.pdf",
+      "sha256": "43e07add666de062d2dfb91eca17fc807d32eea7e9a1e5fc90b35d8441a82148",
+      "byteSize": 1878,
+      "sourceInput": "web/src/test/fixtures/utm20-8x6.tif",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; gdal_translate GEO_ENCODING=ISO32000 DPI=72",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "measure",
+      "expected": "manual-unsupported"
+    },
+    {
+      "file": "ns-utm20-lgidict.pdf",
+      "sha256": "92196cd8210c63aeb14977a6213045a90e97a630dd008bbc6e1136d94ecc101a",
+      "byteSize": 1896,
+      "sourceInput": "web/src/test/fixtures/utm20-8x6.tif",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; gdal_translate GEO_ENCODING=OGC_BP DPI=72",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "lgidict",
+      "expected": "manual-unsupported"
+    },
+    {
+      "file": "plain.pdf",
+      "sha256": "65b2f799cca6153964eab02498be32e1dc1362f1ed886e8803b9e9a8735880c4",
+      "byteSize": 1030,
+      "sourceInput": "fixed pdf-lib page parameters",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; pdf-lib 1.17.1",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "missing",
+      "expected": "manual-missing"
+    },
+    {
+      "file": "registration-page-2.pdf",
+      "sha256": "2aaf9e12c110eb3f09f85dbcf628d80dedcd63350b9d46f9d26ac524bd02992a",
+      "byteSize": 2377,
+      "sourceInput": "fixed two-page pdf-lib parameters",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; pdf-lib 1.17.1",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "page-2-only",
+      "expected": "manual-page-1-missing"
+    },
+    {
+      "file": "rotated-cropped.pdf",
+      "sha256": "c6be781d8862f45a449479157829adb5c3e1e5bf1303520cae212479b89c67b8",
+      "byteSize": 2020,
+      "sourceInput": "fixed pdf-lib crop, rotation, and registration parameters",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; pdf-lib 1.17.1",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "measure-rotated-cropped",
+      "expected": "manual-unsupported"
+    },
+    {
+      "file": "unsupported-crs.pdf",
+      "sha256": "4e78a7869df58cd43ec4aa608ddd0b61bb6ec9493434c7ba3cc247a4227a5d34",
+      "byteSize": 1345,
+      "sourceInput": "fixed pdf-lib EPSG 999999 registration parameters",
+      "generator": "web/scripts/generateGeoPdfFixtures.mjs; pdf-lib 1.17.1",
+      "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+      "registration": "measure-unsupported-crs",
+      "expected": "manual-unsupported-crs"
+    }
+  ]
+}

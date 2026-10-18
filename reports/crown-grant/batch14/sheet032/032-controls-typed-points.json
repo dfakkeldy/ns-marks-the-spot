@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Cameron or St Christopher Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1502,
+      437
+    ],
+    "lonlat": [
+      -64.97650141882781,
+      44.337642488540475
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 127385,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127385,
+    "nearest_unfiltered_distance_guide_px": 0.43424722766671053,
+    "selected_distance_guide_px": 0.43424722766671053,
+    "guide_reference_pixel_xy": [
+      1589.8374368198565,
+      428.40267091675196
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Molega Lake Round Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3342,
+      687
+    ],
+    "lonlat": [
+      -64.84958435464779,
+      44.36379741233085
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 151732,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151732,
+    "nearest_unfiltered_distance_guide_px": 0.2658056130532854,
+    "selected_distance_guide_px": 0.2658056130532854,
+    "guide_reference_pixel_xy": [
+      3400.0385702052736,
+      683.2629923253553
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Big Lamoner Island northwestern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2350,
+      1093
+    ],
+    "lonlat": [
+      -64.9023734993434,
+      44.32464282842017
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 314538,
+    "reference_feature_code": "WARVLKIS10",
+    "nearest_unfiltered_feature_code": "WARVLKIS10",
+    "nearest_unfiltered_objectid": 314538,
+    "nearest_unfiltered_distance_guide_px": 0.4039699597991899,
+    "selected_distance_guide_px": 0.4039699597991899,
+    "guide_reference_pixel_xy": [
+      2429.599598776549,
+      1081.9464221250964
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Sixteen Mile Lake central island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1224,
+      2011
+    ],
+    "lonlat": [
+      -64.94786135935256,
+      44.25718684582304
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 150713,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 150713,
+    "nearest_unfiltered_distance_guide_px": 1.3377250119955946,
+    "selected_distance_guide_px": 1.3377250119955946,
+    "guide_reference_pixel_xy": [
+      1333.067318741465,
+      2026.041034996626
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Black Lake northwestern lobe roof",
+    "role": "proposal",
+    "pixel_xy": [
+      311,
+      2673
+    ],
+    "lonlat": [
+      -64.98682213018431,
+      44.207173817833336
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 124720,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 244545,
+    "nearest_unfiltered_distance_guide_px": 2.260285961933417,
+    "selected_distance_guide_px": 3.2225814313443104,
+    "guide_reference_pixel_xy": [
+      452.8216330608702,
+      2695.5567331021884
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Long Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      4271,
+      2217
+    ],
+    "lonlat": [
+      -64.7445958711621,
+      44.31167016855172
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 132032,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132032,
+    "nearest_unfiltered_distance_guide_px": 0.6601913755126251,
+    "selected_distance_guide_px": 0.6601913755126251,
+    "guide_reference_pixel_xy": [
+      4332.129451004905,
+      2208.3526244601235
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Big Winnifred Lake northwestern horn tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3931,
+      3276
+    ],
+    "lonlat": [
+      -64.73629162593222,
+      44.2537348828894
+    ],
+    "guide_file": ".crown-grant-local/032-east-adjacent-guide.npy",
+    "reference_objectid": 140937,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140937,
+    "nearest_unfiltered_distance_guide_px": 1.769842657784086,
+    "selected_distance_guide_px": 1.769842657784086,
+    "guide_reference_pixel_xy": [
+      3993.9086803264217,
+      3289.518763674074
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

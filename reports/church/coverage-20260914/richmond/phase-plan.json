@@ -1,0 +1,13 @@
+{
+  "frozen_input_commit": "683ec77ce970db6f1a997795008c8694ce305b8d",
+  "candidate_csv": "../../target-refinement-20260913/richmond/candidate-controls.csv",
+  "candidate_csv_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "method": "tps",
+  "before_new_scores": true,
+  "previous_phase": "Six post-freeze checks: 292.00 m RMS; rejected as replacement, immutable",
+  "new_phase": "Additional northern mainland, southwestern mainland and edge checks against unchanged candidate14; no tuning. Keep this phase and an explicitly cumulative unchanged-fit view separate from previous phases.",
+  "selection_rule": "Physical identity and distributed coverage, never predicted or nearest-shore pixels. Preserve all first failures and unresolved candidates. Do not fill northern coverage with aliases of already audited islands.",
+  "working_rms_target_ground_m": 250,
+  "stretch_rms_target_ground_m": 200,
+  "geographic_acceptance": false
+}

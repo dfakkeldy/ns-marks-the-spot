@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T20:45:47.534617+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "077",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6130,
+        5107
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6044,
+        4133
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full original mapped frame and all islands inspected; failure status visible, northern shoreline visibly offset and retained as unvalidated."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T06:18:31.352478+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 7,
+  "reason": "Small northwest lake and Sherbrooke cove, northeastern Sunken/Rocky, southwest Rocky/Rhodenizer, central Church island and southeast Spenado distribute controls.",
+  "corrections": [
+    "Rocky Lake near Walden southern source crosshair moved from road onto actual lake shore before fitting."
+  ],
+  "rejected": {
+    "Q08": "Spenado southern end has a different modern outlet/basin connection; proposed endpoint not unambiguously matched."
+  },
+  "limitations": [
+    "Six checks share control lakes/island; Ashland Lake is a separate waterbody check.",
+    "Sherbrooke cove and Spenado have controls without local independent checks; northwest far edge and broad unsampled interior remain unvalidated."
+  ]
+}

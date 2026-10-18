@@ -1,0 +1,45 @@
+{
+  "sheet": "031",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL FAILED; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/031.pdf",
+    "pdf_sha256": "0fa36388c9b94caa2bae87c0249c749b28f736648834141ca2c9ba50928f5d1e",
+    "jpeg_sha256": "ed5ed3107b37c974bcfff7d47879297b4fdd7fd07ec160da1e631c5924187e01",
+    "dimensions": [
+      5551,
+      3892
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 130.8870923964516,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six checks share control lake bodies; Scott Lake is a separate nearby waterbody. They are excluded from fitting but not independent of shared historical mapping.",
+    "The southernmost strip, much of the western interior and northeastern corner lack independent checks.",
+    "Generalized outlines, broad lake roofs and river-connected shores carry 24 px working source uncertainty.",
+    "RMS 130.89 m, median 77.48 m, P95 219.15 m and maximum 225.36 m all exceed their respective 100/75/150/200 m criteria."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 130.89 m, median 77.48 m, P95 219.15 m, maximum 225.36 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame, including its lakes, islands and intervening interior, is retained. Controls span northern, eastern, southwestern and south-central lakes. Unsampled strips remain provisional."
+  }
+}

@@ -1,0 +1,314 @@
+import { act, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import type { MapLayerId, MapLayerStatus } from "../MapCanvas";
+import { PrintMap } from "./PrintMap";
+import type { PrintSnapshot } from "../../services/printSnapshot";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
+
+const mapCanvasProps = vi.hoisted(() => ({
+  current: undefined as Record<string, unknown> | undefined,
+}));
+
+vi.mock("../MapCanvas", () => ({
+  MapCanvas: (props: Record<string, unknown>) => {
+    mapCanvasProps.current = props;
+    return <div data-testid="map-canvas" />;
+  },
+}));
+
+const snapshot = {
+  pid: "",
+  mode: "current",
+  template: "research",
+  selectedParcelGeometry: { type: "FeatureCollection", features: [] },
+  mapParcels: { type: "FeatureCollection", features: [] },
+  taxSalePids: [],
+  historicalTaxSalePids: [],
+  viewport: {
+    position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
+    bounds: { north: 46.4, east: -61.1, south: 46.3, west: -61.2 },
+  },
+  layerIds: ["modern", "coastal-flood-current", "uranium-risk-wells"],
+} as unknown as PrintSnapshot;
+
+function reportLayerStatus(id: MapLayerId, status: MapLayerStatus) {
+  const handler = mapCanvasProps.current?.onLayerStatusChange as
+    | ((layerId: MapLayerId, layerStatus: MapLayerStatus) => void)
+    | undefined;
+  handler?.(id, status);
+}
+
+describe("PrintMap", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("restores every captured context layer and waits for its rendered status", () => {
+    const onReadinessChange = vi.fn();
+    const layerIds = contextLayerCatalog.map(({ id }) => id);
+    render(<PrintMap snapshot={{ ...snapshot, layerIds }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
+
+    expect(mapCanvasProps.current?.contextLayers).toEqual(
+      Object.fromEntries(layerIds.map((id) => [id, id !== "rhodena-visibility"])),
+    );
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "loading", renderedLayerIds: [], failedLayerIds: [], belowZoomLayerIds: [],
+    });
+    act(() => layerIds.forEach((id) => reportLayerStatus(id, { status: "ready" })));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready", renderedLayerIds: layerIds.filter(id => id !== "rhodena-visibility"), belowZoomLayerIds: [],
+    });
+  });
+
+  it("keeps a failed context layer out of the rendered print receipt", () => {
+    const onReadinessChange = vi.fn();
+    const id = contextLayerCatalog[0].id;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: [id] }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
+
+    act(() => {
+      reportLayerStatus(id, { status: "error" });
+      reportLayerStatus(id, { status: "ready" });
+    });
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error", renderedLayerIds: [], failedLayerIds: [id],
+      belowZoomLayerIds: [], timedOutLayerIds: [],
+    });
+  });
+
+  it("reports a context layer below display scale separately from a rendered layer", () => {
+    const onReadinessChange = vi.fn();
+    const { id, minZoom } = contextLayerCatalog[0];
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: [id] }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
+
+    act(() => reportLayerStatus(id, { status: "zoom", minZoom }));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready", renderedLayerIds: [], belowZoomLayerIds: [id],
+    });
+  });
+
+  /**
+   * Without this the printed sheet falls back to surveyed-only wells while the
+   * printed legend still advertises the approximate bands.
+   */
+  it("prints the well accuracy bands the capture was taken with", () => {
+    const wellSnapshot = {
+      ...snapshot,
+      layerIds: ["modern", "ns-well-logs"],
+      wellLogAccuracyFilter: "all",
+    } as unknown as PrintSnapshot;
+
+    render(
+      <PrintMap
+        snapshot={wellSnapshot}
+        bounds={wellSnapshot.viewport.bounds}
+        includeAerial={false}
+        onReadinessChange={vi.fn()}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(mapCanvasProps.current?.wellLogAccuracyFilter).toBe("all");
+    expect(mapCanvasProps.current?.wellLogLayers).toEqual({
+      "ns-well-logs": true,
+    });
+  });
+
+  it("refuses historical Fletcher reproduction before mounting a print map", () => {
+    mapCanvasProps.current = undefined;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: ["modern", "fletcher"] } as PrintSnapshot}
+      bounds={snapshot.viewport.bounds} includeAerial={false} onReadinessChange={vi.fn()} onResolvedPosition={vi.fn()} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(/Fletcher.*permission/i);
+    expect(mapCanvasProps.current).toBeUndefined();
+  });
+
+  it("keeps the position subscription stable when a layer status rerenders the map", () => {
+    const onResolvedPosition = vi.fn();
+    render(<PrintMap snapshot={snapshot} bounds={snapshot.viewport.bounds}
+      includeAerial={false} onReadinessChange={vi.fn()} onResolvedPosition={onResolvedPosition} />);
+    const positionCallback = mapCanvasProps.current?.onPositionChange;
+    act(() => (mapCanvasProps.current?.onLayerStatusChange as (id: string, status: MapLayerStatus) => void)("modern", { status: "ready" }));
+    expect(mapCanvasProps.current?.onPositionChange).toBe(positionCallback);
+  });
+
+  it("aggregates only printed layer readiness and reports the resolved position", () => {
+    const onReadinessChange = vi.fn();
+    const onResolvedPosition = vi.fn();
+
+    render(
+      <PrintMap
+        snapshot={snapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={onResolvedPosition}
+      />,
+    );
+
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "loading",
+      renderedLayerIds: [],
+      failedLayerIds: [],
+      belowZoomLayerIds: [],
+    });
+    act(() => {
+      reportLayerStatus("modern", { status: "ready" });
+      reportLayerStatus("coastal-flood-current", { status: "error" });
+      reportLayerStatus("uranium-risk-wells", { status: "zoom", minZoom: 13 });
+      reportLayerStatus("ns-aerial", { status: "ready" });
+    });
+
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error",
+      renderedLayerIds: ["modern"],
+      failedLayerIds: ["coastal-flood-current"],
+      belowZoomLayerIds: ["uranium-risk-wells"],
+      timedOutLayerIds: [],
+    });
+
+    const onPositionChange = mapCanvasProps.current?.onPositionChange as
+      | ((value: { latitude: number; longitude: number; zoom: number }) => void)
+      | undefined;
+    onPositionChange?.({ latitude: 46.35, longitude: -61.15, zoom: 15 });
+    expect(onResolvedPosition).toHaveBeenCalledWith({
+      latitude: 46.35,
+      longitude: -61.15,
+      zoom: 15,
+    });
+  });
+
+  it("passes a display-only print map without browser location or active identify work", () => {
+    render(
+      <PrintMap
+        snapshot={snapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={vi.fn()}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(mapCanvasProps.current).toMatchObject({
+      renderMode: "print",
+      fitBounds: { north: 46.4, east: -61.1, south: 46.3, west: -61.2 },
+      initialPosition: { latitude: 46.35, longitude: -61.15, zoom: 15 },
+    });
+    expect(mapCanvasProps.current).not.toHaveProperty("browserLocation");
+    expect(mapCanvasProps.current?.onIdentifyParcel).toBeTypeOf("function");
+    expect(mapCanvasProps.current?.onIdentifyParcel).not.toBe(
+      mapCanvasProps.current?.onSelectPid,
+    );
+  });
+
+  it("keeps user-loaded material out of the print capture", () => {
+    // The documented print/export boundary excludes uploads. Print gets no
+    // user raster or vector props at all, so MapCanvas falls back to its
+    // empty defaults — the exclusion is structural, not a runtime filter
+    // someone could accidentally invert.
+    render(
+      <PrintMap
+        snapshot={snapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={vi.fn()}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(mapCanvasProps.current).not.toHaveProperty("userVectorLayers");
+    expect(mapCanvasProps.current).not.toHaveProperty("userVectorFitRequest");
+    expect(mapCanvasProps.current).not.toHaveProperty("userMaps");
+  });
+
+  it("refuses retained derived parcel reproduction before mounting a print map", () => {
+    mapCanvasProps.current = undefined;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: ["mineral-proximity-parcels"] } as PrintSnapshot}
+      bounds={snapshot.viewport.bounds} includeAerial={false} onReadinessChange={vi.fn()} onResolvedPosition={vi.fn()} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(/permission/i);
+    expect(mapCanvasProps.current).toBeUndefined();
+  });
+
+  it("makes a captured open Halifax zoning layer visible so print readiness can resolve", () => {
+    // A captured layer the print map never makes visible reports "idle"
+    // forever, which is neither ready nor zoom, so the preview would hang.
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{ ...snapshot, layerIds: ["zoning-halifax"] } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    expect(
+      (mapCanvasProps.current?.zoningLayers as Record<string, boolean>)[
+        "zoning-halifax"
+      ],
+    ).toBe(true);
+    act(() => reportLayerStatus("zoning-halifax", { status: "ready", count: 3 }));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready",
+      renderedLayerIds: ["zoning-halifax"],
+      belowZoomLayerIds: [],
+    });
+  });
+
+  it("does not claim pending layers rendered when another layer has failed", () => {
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{ ...snapshot, layerIds: ["modern", "coastal-flood-current", "uranium-risk-wells"] } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    act(() => {
+      reportLayerStatus("modern", { status: "ready" });
+      reportLayerStatus("coastal-flood-current", { status: "error" });
+    });
+
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error",
+      renderedLayerIds: ["modern"],
+      failedLayerIds: ["coastal-flood-current"],
+      belowZoomLayerIds: [],
+      timedOutLayerIds: [],
+    });
+  });
+
+  it("keeps a current-attempt error sticky when a late load callback arrives", () => {
+    const onReadinessChange = vi.fn();
+    render(
+      <PrintMap
+        snapshot={{ ...snapshot, layerIds: ["coastal-flood-current"] } as PrintSnapshot}
+        bounds={{ north: 46.4, east: -61.1, south: 46.3, west: -61.2 }}
+        includeAerial={false}
+        onReadinessChange={onReadinessChange}
+        onResolvedPosition={vi.fn()}
+      />,
+    );
+
+    act(() => {
+      reportLayerStatus("coastal-flood-current", { status: "error" });
+      reportLayerStatus("coastal-flood-current", { status: "ready", count: 9 });
+    });
+
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error",
+      renderedLayerIds: [],
+      failedLayerIds: ["coastal-flood-current"],
+      belowZoomLayerIds: [],
+      timedOutLayerIds: [],
+    });
+  });
+});

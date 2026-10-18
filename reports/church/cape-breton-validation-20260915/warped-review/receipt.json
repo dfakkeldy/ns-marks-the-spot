@@ -1,0 +1,33 @@
+{
+  "raster_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "reviews": [
+    {
+      "id": "CB21",
+      "role": "fresh after TPS11 freeze",
+      "figure": "CB21.jpg",
+      "figure_sha256": "5cb704142319622a9930690437e2295ef38d530850a285c71024b41d23037617",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB22",
+      "role": "fresh after TPS11 freeze",
+      "figure": "CB22.jpg",
+      "figure_sha256": "5db9fd97a61a2583f9f5de1b4ba5416d1c176f0ca1538871f9e1b87e4c2f4ae9",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB23",
+      "role": "fresh after TPS11 freeze",
+      "figure": "CB23.jpg",
+      "figure_sha256": "2ae5a4c166a2879b1f5ab3a5098fb61e4d234acfb3f6cd340a31db2703b69e2e",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+      "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6"
+    }
+  ],
+  "geographic_acceptance": false
+}

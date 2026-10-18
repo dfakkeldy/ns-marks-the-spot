@@ -1,0 +1,27 @@
+{
+  "source_frame": "Original 5324 x 3606 JPEG, pixel-edge coordinates",
+  "components": [
+    {
+      "id": "main",
+      "status": "provisional; independent RMS/median/P95 gates failed",
+      "ring_pixel_xy": [
+        [
+          128,
+          129
+        ],
+        [
+          5224,
+          145
+        ],
+        [
+          5224,
+          3491
+        ],
+        [
+          126,
+          3464
+        ]
+      ]
+    }
+  ]
+}

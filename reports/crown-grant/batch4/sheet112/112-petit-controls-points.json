@@ -1,0 +1,90 @@
+[
+  {
+    "id": "IC01",
+    "label": "Fouger Point east tip in inset",
+    "role": "proposal",
+    "pixel_xy": [
+      4815,
+      1840
+    ],
+    "lonlat": [
+      -60.977150878648025,
+      45.52084948827511
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 6718,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4833.569201392704,
+      1845.6603128021816
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC02",
+    "label": "Heath Head southwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4910,
+      2883
+    ],
+    "lonlat": [
+      -60.94841632121724,
+      45.478865105264816
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 20925,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4911.401767062838,
+      2874.898820372182
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC03",
+    "label": "Flat Point east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5700,
+      2465
+    ],
+    "lonlat": [
+      -60.910882651036786,
+      45.50877792770592
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 20959,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5702.740200445056,
+      2468.4360697570955
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IC04",
+    "label": "Green Island southeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5645,
+      3205
+    ],
+    "lonlat": [
+      -60.895389636406485,
+      45.478354553632315
+    ],
+    "guide_file": ".crown-grant-local/112-inset-topology-guide.npy",
+    "reference_objectid": 18506,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5681.89432944986,
+      3184.239864337258
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

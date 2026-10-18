@@ -1,0 +1,45 @@
+{
+  "sheet": "106",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with regional limitations; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/106.pdf",
+    "pdf_sha256": "7ac22f987e6f82bdc93db34eb70b80d384789689273d01a71753542ead298f88",
+    "jpeg_sha256": "dd33d7b583994980292a07312a46c82142f8fa035357e5c967f18a6fecd18d35",
+    "dimensions": [
+      6013,
+      4118
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 42.67999436338826,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 42.68 m, median 35.89 m, P95 56.53 m and maximum 58.33 m. Numerical bounds pass, with regional qualifications.",
+    "Middle Lake control/check endpoints are spatially correlated. The northwestern extremity, central connected lakes and far southern coast remain incompletely checked.",
+    "Ragged Head and Bigsby Head are excluded coastal checks; Ragged Head tests extrapolation beyond the main inland control distribution. Rounded/generalized coast definitions use 18 px working source uncertainty.",
+    "East Halfway Cove lake channel equivalence was unresolved and one proposed check was excluded before fitting. All imagery in that area remains present."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 42.68 m, median 35.89 m, P95 56.53 m, maximum 58.33 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Roachvale and Salmon River, the northern Ragged Head shore fragment, Chedabucto Bay, Lundy and the lake interior, Bonnett Lake, Upper New Harbour and Charlo Cove. All lake islands, coastal water and parcel regions remain visible. No displaced inset identified."
+  }
+}

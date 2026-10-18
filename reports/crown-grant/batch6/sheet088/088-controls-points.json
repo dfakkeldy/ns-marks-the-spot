@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Lake west of Black Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3340,
+      1074
+    ],
+    "lonlat": [
+      -62.696997106180895,
+      45.37755935517857
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 128211,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128211,
+    "nearest_unfiltered_distance_guide_px": 0.46426453012831764,
+    "selected_distance_guide_px": 0.46426453012831764,
+    "guide_reference_pixel_xy": [
+      3395.4642346163746,
+      1047.9947298107436
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Black Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3635,
+      1148
+    ],
+    "lonlat": [
+      -62.679856447181955,
+      45.380375021122354
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 124436,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124436,
+    "nearest_unfiltered_distance_guide_px": 0.16335113563646403,
+    "selected_distance_guide_px": 0.16335113563646403,
+    "guide_reference_pixel_xy": [
+      3669.9126728584524,
+      1088.138049135683
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Sucker northern lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3548,
+      1518
+    ],
+    "lonlat": [
+      -62.677336161786656,
+      45.362898127744
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 129665,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129665,
+    "nearest_unfiltered_distance_guide_px": 4.665228800101801,
+    "selected_distance_guide_px": 4.665228800101801,
+    "guide_reference_pixel_xy": [
+      3555.3756447558408,
+      1464.6500807277625
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Hattie Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2039,
+      2784
+    ],
+    "lonlat": [
+      -62.734214173075976,
+      45.28521390830455
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 137975,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137975,
+    "nearest_unfiltered_distance_guide_px": 0.48851212267622923,
+    "selected_distance_guide_px": 0.48851212267622923,
+    "guide_reference_pixel_xy": [
+      2051.7430241027614,
+      2746.415460566408
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Dean Lake south shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1536,
+      3034
+    ],
+    "lonlat": [
+      -62.75733503128546,
+      45.26602827532744
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 127704,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127704,
+    "nearest_unfiltered_distance_guide_px": 0.6324005168107193,
+    "selected_distance_guide_px": 0.6324005168107193,
+    "guide_reference_pixel_xy": [
+      1547.487034545571,
+      3010.4033952963073
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Duck Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5415,
+      2233
+    ],
+    "lonlat": [
+      -62.54971394826439,
+      45.365123500814036
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 128218,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128218,
+    "nearest_unfiltered_distance_guide_px": 5.37002660946492,
+    "selected_distance_guide_px": 5.37002660946492,
+    "guide_reference_pixel_xy": [
+      5437.697571242752,
+      2150.1486076633446
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Cox Lake island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1408,
+      3538
+    ],
+    "lonlat": [
+      -62.753602897802175,
+      45.24299619365459
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 146270,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146270,
+    "nearest_unfiltered_distance_guide_px": 0.8744491494172169,
+    "selected_distance_guide_px": 0.8744491494172169,
+    "guide_reference_pixel_xy": [
+      1402.1737038142164,
+      3508.8570229284232
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "College Lake island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      690,
+      3470
+    ],
+    "lonlat": [
+      -62.79593892523039,
+      45.233768467933395
+    ],
+    "guide_file": ".crown-grant-local/088-adjacent-guide.npy",
+    "reference_objectid": 144227,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144227,
+    "nearest_unfiltered_distance_guide_px": 3.2009707696911636,
+    "selected_distance_guide_px": 3.2009707696911636,
+    "guide_reference_pixel_xy": [
+      703.1707800618606,
+      3455.4385973868193
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

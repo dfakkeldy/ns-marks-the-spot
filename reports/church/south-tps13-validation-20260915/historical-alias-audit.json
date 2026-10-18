@@ -1,0 +1,26 @@
+{
+  "new_feature": "IS35 Cranberry Island, WACOIS10 23467+23468",
+  "new_reference_centroid": [
+    -60.98465884117454,
+    45.907983194873744
+  ],
+  "older_withheld_candidates": [
+    {
+      "label": "island-45-911n-60-948w",
+      "lonlat": [
+        -60.947525,
+        45.910638
+      ]
+    },
+    {
+      "label": "island-45-912n-60-965w",
+      "lonlat": [
+        -60.965051,
+        45.912172
+      ]
+    }
+  ],
+  "source": "tools/church/checks/inverness-south-candidates.csv and the preserved eleven-check CSV comments",
+  "finding": "Those two eastern candidates were withheld after an old Round/Cranberry naming ambiguity. Neither supplied an adopted point or fitting input. IS35 uses the distinct western triangular coastal island, with its small western satellite and the Boom peninsula to the south. Original withheld candidates remain unchanged.",
+  "promoted_control_alias": false
+}

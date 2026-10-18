@@ -1,0 +1,14 @@
+[
+  {
+    "packet": "inset-controls0 IC02",
+    "reason": "Smooth Cape Mabou shore bend lacks a precise unique shared definition; not used in final two-control similarity"
+  },
+  {
+    "region": "Margaree Forks/Gillisdale main channel",
+    "reason": "Historic bank/island/channel configuration did not provide a secure fixed confluence; no main-river bank point adopted"
+  },
+  {
+    "region": "Main checks MQ07-MQ09",
+    "reason": "Ambiguous or misplaced source/reference definitions rejected before first scoring; individual reasons in checks-main-affine-01.json"
+  }
+]

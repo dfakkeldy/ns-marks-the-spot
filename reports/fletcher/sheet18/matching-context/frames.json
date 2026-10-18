@@ -1,0 +1,93 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1500,
+      1100,
+      4200,
+      3000
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  },
+  {
+    "name": "mountain",
+    "native_box": [
+      3000,
+      2800,
+      6500,
+      5500
+    ],
+    "source_image": "mountain-grid.jpg",
+    "modern_image": "mountain-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  },
+  {
+    "name": "northwest-detail",
+    "native_box": [
+      1800,
+      1800,
+      2900,
+      2350
+    ],
+    "source_image": "northwest-detail-grid.jpg",
+    "modern_image": "northwest-detail-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  },
+  {
+    "name": "east",
+    "native_box": [
+      7000,
+      2900,
+      8500,
+      4200
+    ],
+    "source_image": "east-grid.jpg",
+    "modern_image": "east-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      8100,
+      5700,
+      9800,
+      6650
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  },
+  {
+    "name": "north-islands",
+    "native_box": [
+      6000,
+      1100,
+      7600,
+      2000
+    ],
+    "source_image": "north-islands-grid.jpg",
+    "modern_image": "north-islands-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1500,
+      5100,
+      3400,
+      6600
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior four-control affine search guide only; not a new physical correspondence or proof of warped alignment."
+  }
+]

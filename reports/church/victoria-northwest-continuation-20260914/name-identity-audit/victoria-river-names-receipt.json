@@ -1,0 +1,7 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=county+%3D+%27Victoria%27+AND+concise_ds+%3D+%27River%27&%24limit=1000",
+  "retrieved_at": "2026-09-14T14:24:57.248768+00:00",
+  "sha256": "e2d347a95ea7187e8a2e63254fa8500d8c262d57aeb5ebf179992988001e12d6",
+  "count": 178,
+  "scope": "Official names for identity search only; no coordinates are GCP targets."
+}

@@ -1,0 +1,145 @@
+{
+  "date": "2026-07-31",
+  "lane": "desktop-safari",
+  "runtimeUnderTest": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+  "worktreeHead": "eb4c05b64da514b8053f292f5936229d46d359fb",
+  "origin": "http://127.0.0.1:4340",
+  "verdict": "SESSION_CREATE_FAILED_AUTOMATION_NOT_AUTHORIZED",
+  "acceptanceClaimed": false,
+  "casesRun": 0,
+
+  "host": {
+    "macOSProductVersion": "27.0",
+    "macOSBuildVersion": "26A5388g",
+    "safariVersion": "27.0",
+    "safaridriverVersion": "Included with Safari 27.0 (22625.1.24.11.2)",
+    "safaridriverPath": "/usr/bin/safaridriver -> /System/Cryptexes/App/usr/bin/safaridriver",
+    "safariTechnologyPreviewInstalled": false,
+    "cleanProfileUsed": null,
+    "cleanProfileNote": "No session was created, so no window — private or otherwise — was ever opened. The clean-profile requirement is UNEXERCISED, not satisfied."
+  },
+
+  "driverStatusEndpoint": {
+    "url": "http://127.0.0.1:4444/status",
+    "http": 200,
+    "body": { "value": { "message": "", "ready": true } },
+    "interpretation": "ready:true reports that the safaridriver HTTP server is listening. It does NOT report that Safari will accept an automation session. Necessary, not sufficient."
+  },
+
+  "sessionCreateAttempts": [
+    {
+      "at": "2026-07-31T01:38:53-0300",
+      "port": 4444,
+      "driverProcess": "pre-existing safaridriver -p 4444 (pid 17738, started 2026-07-30 19:54)",
+      "http": 500,
+      "seconds": 30.027,
+      "error": "session not created",
+      "message": "Could not create a session: The session timed out while connecting to a Safari instance. The following asynchronous operation timed out: Request creation of a new automation session",
+      "screenLockedAtTimeOfAttempt": true
+    },
+    {
+      "at": "2026-07-31T01:40:36-0300",
+      "port": 4455,
+      "driverProcess": "safaridriver -p 4455 --diagnose, started and terminated by this session",
+      "http": 500,
+      "seconds": 30.013,
+      "error": "session not created",
+      "message": "Could not create a session: The session timed out while connecting to a Safari instance. The following asynchronous operation timed out: Request creation of a new automation session",
+      "screenLockedAtTimeOfAttempt": true
+    }
+  ],
+
+  "inheritedAttemptForComparison": {
+    "at": "2026-07-30T19:52:23-0300",
+    "port": 4444,
+    "http": 500,
+    "seconds": 30.02,
+    "message": "identical",
+    "screenLockedAtTimeOfAttempt": false,
+    "source": "~/Library/Logs/com.apple.WebDriver/safaridriver.16836.olzndg.txt"
+  },
+
+  "screenLockRuledOut": {
+    "method": "loginwindow lock/unlock transitions from the unified log, 2026-07-30T12:00 to 2026-07-31T01:45",
+    "transitions": [
+      { "at": "2026-07-30T15:36:40.028", "event": "kScreenIsUnlocked" },
+      { "at": "2026-07-30T19:23:08.477", "event": "startScreenLock kLWLockFromDisplayDim (5)" },
+      { "at": "2026-07-30T19:27:35.596", "event": "kScreenIsUnlocked" },
+      { "at": "2026-07-31T00:20:44.340", "event": "startScreenLock kLWLockFromDisplayDim (5)" }
+    ],
+    "currentState": {
+      "kCGSSessionUserNameKey": "dfakkeldy",
+      "kCGSSessionUserIDKey": 501,
+      "kCGSSessionOnConsoleKey": true,
+      "CGSSessionScreenIsLocked": true,
+      "CGSSessionScreenLockedTime": 1785468044
+    },
+    "otherLoginSession": {
+      "kCGSSessionUserNameKey": "dmm",
+      "kCGSSessionUserIDKey": 505,
+      "kCGSSessionOnConsoleKey": false
+    },
+    "conclusion": "The inherited 2026-07-30T19:52:23 failure falls between an unlock at 19:27:35 and the next lock at 2026-07-31T00:20:44, so the screen was UNLOCKED for that attempt. This session's two attempts occurred while LOCKED. The same failure, with the same 30 s bound and the same message, reproduces in both states. Screen lock is therefore NOT the cause. It is an additional independent obstacle to any future attempt, not the explanation for this one."
+  },
+
+  "automationAuthorizationEvidence": {
+    "launchctlPrintGuiWebdriverd": "Could not find service \"com.apple.webdriverd\" in domain for user gui: 501",
+    "launchctlPrintSystemWebdriverd": "Could not find service \"com.apple.webdriverd\" in domain for system",
+    "launchctlListWebdriverMatches": 0,
+    "launchdPlistOnDisk": "not found at /System/Library/LaunchAgents, /Library/LaunchAgents, or /System/Cryptexes/App/System/Library/LaunchAgents",
+    "safariPrefsWebDriverKeys": ["DidMigrateWebDriverAllowRemoteAutomation = true"],
+    "allowRemoteAutomationKeyPresent": false,
+    "allowRemoteAutomationKeyInterpretation": "Absence of an AllowRemoteAutomation key is NOT evidence the Settings -> Developer toggle is off. That correction was made by a predecessor and is carried forward unchanged. The plist is not authoritative for this setting.",
+    "comAppleWebDriverDefaultsDomain": "not found",
+    "leadingCandidate": "sudo safaridriver --enable has not taken effect on this host",
+    "candidateStrength": "consistent with all observations, NOT proven — the diagnose log emits no internal reason and safaridriver does not distinguish 'not authorized' from 'no response' in its timeout message"
+  },
+
+  "diagnoseLog": {
+    "file": "safaridriver-diagnose.txt",
+    "content": "HTTP layer only: GET /status -> 200, POST /session -> 500 after 30.013 s. No internal step is logged between them.",
+    "conclusion": "The request never reaches a Safari instance. There is no further driver-side detail to extract from this lane without the authorization step."
+  },
+
+  "longTasksApi": {
+    "safariSupported": "UNMEASURED",
+    "reason": "no session could be created, so PerformanceObserver.supportedEntryTypes was never read in Safari",
+    "diagnosticState": "OPEN",
+    "note": "The 200 ms long-task threshold cannot be satisfied on any Firefox lane (no instrument) and Chromium is BLOCKED by the import hang. Safari was the remaining candidate instrument and could not be reached. The item stays OPEN."
+  },
+
+  "actionsTakenOnHost": [
+    "Started safaridriver -p 4455 --diagnose on a free port and terminated it after one bounded attempt. The pre-existing safaridriver -p 4444 (pid 17738) was not touched and still answers /status.",
+    "Invoked /usr/bin/safaridriver --enable ONCE without sudo. It cannot succeed without admin rights; the invoking shell was reaped, no SecurityAgent prompt was left on screen, and com.apple.webdriverd remained absent from every launchd domain afterwards. Recorded because it is a state-changing command this session issued, not because it changed anything. It was not repeated."
+  ],
+
+  "environmentAfterRun": {
+    "http4310": 200,
+    "http4320": 200,
+    "http4330": 200,
+    "http4340": 200,
+    "safaridriver4444Status": { "value": { "message": "", "ready": true } }
+  },
+
+  "claims": {
+    "safariAcceptance": "NOT_CLAIMED — zero cases run",
+    "safariChooser": "NOT_RUN",
+    "safariEmbeddedPlacement": "NOT_RUN",
+    "safariPersistenceReload": "NOT_RUN",
+    "chrome": "BLOCKED",
+    "chromium": "BLOCKED",
+    "physicalMobileSafari": "WAITING_FOR_USER",
+    "firefox": "extends the record; closes no Firefox line item",
+    "localTests": "NOT_CLAIMED",
+    "hostedCI": "NOT_CLAIMED",
+    "merge": "NOT_CLAIMED",
+    "deployment": "NOT_CLAIMED",
+    "geoPdfApprovedRules": "empty and unchanged"
+  },
+
+  "userActionRequired": [
+    "Unlock the Mac (locked since 2026-07-31T00:20:44 by display dim).",
+    "Run: sudo safaridriver --enable",
+    "Confirm Safari Settings -> Developer -> 'Allow remote automation and external agents' is enabled (Safari 27 location; the Develop menu and the plist are both non-authoritative)."
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "sheet": "sheet-02",
+  "fit_sha256": "415f7fe86b9861b0648a79e01d9a9d839e0d696468b0b6cbd9c0517f06eec8c8",
+  "points": [
+    {
+      "lonlat": [
+        -60.351002794715164,
+        46.88769122377082
+      ],
+      "guide_xy": [
+        3795.35764593957,
+        3464.507065917831
+      ],
+      "modern_objectid": 16918,
+      "modern_part": 0,
+      "modern_vertex": 105,
+      "modern_properties": {
+        "OBJECTID": 16918,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 517.6430557822308
+      },
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        3778,
+        3263
+      ],
+      "identity_evidence": "White Point largest offshore island northern tip, complete connected shoreline component",
+      "modern_component_ids": [
+        14622,
+        16918,
+        22162
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Fresh coordinates corrected onto physical feature after close and wide review, before scoring; final crosshair pending inspection.",
+      "original_pixel_xy": [
+        3771,
+        3267
+      ],
+      "identity_limitation": "Historical island width / channel simplification and shoreline generalization differ; 20 native pixel uncertainty."
+    },
+    {
+      "lonlat": [
+        -60.4057303,
+        46.8724744
+      ],
+      "source_guide_xy": [
+        2611.4351363994647,
+        3928.376649820246
+      ],
+      "objectids": [
+        2831,
+        2832,
+        174418
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        2696,
+        3728
+      ],
+      "modern_node_id": "J0194",
+      "identity_evidence": "Brook mouth immediately east of Black Head",
+      "source_uncertainty_px": 20,
+      "status": "Fresh coordinates corrected onto physical feature after close and wide review, before scoring; final crosshair pending inspection.",
+      "original_pixel_xy": [
+        2770,
+        3750
+      ],
+      "identity_limitation": "Historical island width / channel simplification and shoreline generalization differ; 20 native pixel uncertainty."
+    }
+  ],
+  "status": "Two prior coastal checks reused as diagnostics, not fresh validation."
+}

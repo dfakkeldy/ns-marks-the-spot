@@ -1,0 +1,105 @@
+{
+  "id": "VM21",
+  "role": "check",
+  "label": "Wreck Cove Brook open-coast outlet",
+  "pixel_xy": [
+    30801.81818181818,
+    4963.636363636364
+  ],
+  "lonlat": [
+    -60.41690350509983,
+    46.52214552399649
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      30100,
+      4500
+    ],
+    "extent": [
+      1200,
+      1000
+    ],
+    "display": [
+      1320,
+      1100
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    772,
+    510
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-wreck-cove-lower-course.jpg",
+  "source_crop_sha256": "3acb47eb7ca8642126266f26d480fb4b2b1ae5d86a71eedcca5711c742ab0a9f",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/reference-full/water-lines.geojson",
+  "reference_sha256": "673209e63acee749e37559280b5c808c5b9d67d903682d362ec0be64720b1538",
+  "reference_feature_ids": [
+    280390,
+    11578,
+    11579
+  ],
+  "reference_vertex": {
+    "feature_id": 280390,
+    "vertex": 223
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 11578,
+      "vertex": 1
+    },
+    {
+      "feature_id": 11579,
+      "vertex": 0
+    }
+  ],
+  "uncertainty_ground_m": 160,
+  "identity_evidence": "Follow the explicitly labelled Wreck Cove Brook from the old western lake system through its gorge/fall, southeast across the escarpment, and down the continuous lower channel that passes through the McLeod/McDonald lettering. Its road crossing precedes the selected coast junction on the small outward shoreline bow. The separate stream and sawmill to the south, and the village label Wreck Cove farther south again, are not this outlet. Original named modern Wreck Cove Brook280390 ends at the shared original coast11578/11579 node. Modern reservoir headwater geometry is not equated to the historical lakes or fitted. The mouth definition is a physical channel/coast junction; shoreline/channel mobility and historical generalization warrant160m uncertainty.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-northeast-coast.jpg",
+    "sha256": "d415c78db7c14438c7edfe49d9502e6ea55401db106e00637f5a0161eefa0a42",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        27800,
+        650
+      ],
+      "extent": [
+        5450,
+        6700
+      ],
+      "display": [
+        1362,
+        1674
+      ],
+      "rotation": 0
+    }
+  },
+  "additional_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-wreck-cove-outlet-context.jpg",
+    "sha256": "4709de1a6b6d9ee84fae06d9d7bd61e090610b079e5d2b56d6f45f9a212551b9",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        29100,
+        3600
+      ],
+      "extent": [
+        3400,
+        3500
+      ],
+      "display": [
+        1360,
+        1400
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh physical check after regional TPS11 freeze; no fitting or tuning",
+  "recorded_at": "2026-09-14T23:32:47.387564+00:00",
+  "freeze_sha256": "f81f905b0de4ecedf7a1193220925cc7896bcc65d782f6ac045d88f24b660379"
+}

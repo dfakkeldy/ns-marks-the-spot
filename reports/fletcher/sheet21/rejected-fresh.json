@@ -1,0 +1,47 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7272,
+        1615
+      ],
+      "lonlat": [
+        -60.9595277,
+        45.7303951
+      ],
+      "modern_node_id": "J0108",
+      "modern_objectids": [
+        140455,
+        140527,
+        194728
+      ],
+      "identity_evidence": "Pringle Lake western/southwestern outlet into downstream pond connection",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: proposed Pringle outlet J0108 is north-basin connection; original western outlet and modern basin/pond configuration do not establish an exact shared point."
+    },
+    {
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        5860,
+        4310
+      ],
+      "lonlat": [
+        -61.0300549,
+        45.6442431
+      ],
+      "modern_node_id": "J0697",
+      "modern_objectids": [
+        143051,
+        143144,
+        198081
+      ],
+      "identity_evidence": "False Bay Lake smaller eastern basin eastern outlet toward downstream tiny pond",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: J0697 is western inlet of small eastern basin; historical eastern outlet has no matching modern outlet in the reviewed geometry."
+    }
+  ]
+}

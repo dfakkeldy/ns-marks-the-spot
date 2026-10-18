@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5544 x 3981 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 61.47 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          135
+        ],
+        [
+          5465,
+          175
+        ],
+        [
+          5480,
+          3875
+        ],
+        [
+          125,
+          3820
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Camperdown, Italy Cross, Petite Riviere, Green Bay, LaHave and Riverport, Crooked/Beaver, Branch and Dolliver lakes, Great Island, Indian Island, Cape LaHave and LaHave Ironbound Island, all depicted small islands and Atlantic water. No displaced inset or internal crop."
+    }
+  ]
+}

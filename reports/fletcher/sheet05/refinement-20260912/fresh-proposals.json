@@ -1,0 +1,58 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "89bdc06179cd60084608457911fe4e8db9a673b9e78071084b6ddde6af5838b8",
+  "collected_at_utc": "2026-09-12T14:06:33.198664+00:00",
+  "history_identity_checked": true,
+  "points": [
+    {
+      "lonlat": [
+        -60.6182049,
+        46.7371945
+      ],
+      "source_guide_xy": [
+        6253.778959479649,
+        2791.782612639945
+      ],
+      "objectids": [
+        139421,
+        139423,
+        183828
+      ],
+      "id": "F05",
+      "role": "check",
+      "modern_node_id": "J1021",
+      "pixel_xy": [
+        6270,
+        2638
+      ],
+      "identity_evidence": "Sunday Lake northwestern stream inlet opposite fitted eastern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate pending close/wide native and modern inspection before scoring"
+    },
+    {
+      "lonlat": [
+        -60.7507397,
+        46.7340642
+      ],
+      "source_guide_xy": [
+        3386.602886439534,
+        2894.201650719857
+      ],
+      "objectids": [
+        159964,
+        159965,
+        179691
+      ],
+      "id": "F06",
+      "role": "check",
+      "modern_node_id": "J1055",
+      "pixel_xy": [
+        3450,
+        3150
+      ],
+      "identity_evidence": "MacKenzies River major eastern tributary in the western interior",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate pending close/wide native and modern inspection before scoring"
+    }
+  ]
+}

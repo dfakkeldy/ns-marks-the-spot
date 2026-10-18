@@ -1,0 +1,11 @@
+{
+  "stage": "recorded before first fit and score",
+  "model": "constrained reflected similarity in EPSG:32620",
+  "rationale": "Five controls occupy northwestern coast and southeastern harbour clusters. A similarity limits unsupported free affine shear across the broad unvalidated interior.",
+  "controls": 5,
+  "independent_checks": 5,
+  "coverage_qualification": "No validated central/western/southwestern interior; full original imagery retained.",
+  "not_adopted": [
+    "Ambiguous inland stream/parcel intersections at Maple Ridge, Glen Dhu and Groveland."
+  ]
+}

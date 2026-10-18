@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6188 x 4162 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 67.23 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          100,
+          130
+        ],
+        [
+          5990,
+          130
+        ],
+        [
+          5990,
+          4020
+        ],
+        [
+          100,
+          4020
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Hammonds Plains, French Village and Head of St Margarets Bay edge, Pockwock Lake, Island Lake, Ash Lake, Big Indian Lake, Cariboo Lake and all mapped inland water and land across Halifax and Hants counties. No inset or internal crop is introduced."
+    }
+  ]
+}

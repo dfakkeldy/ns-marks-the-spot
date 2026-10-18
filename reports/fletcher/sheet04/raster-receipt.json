@@ -1,0 +1,71 @@
+{
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "boundary_sha256": "2856d3476dfe640644cd10bafbd6151447833b2d1d44c895c29b015b1ff2ed15",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "3833002de91c9d8c5eca92d174ff217d2afd9e353f8cde5dab2d606f148e44e2",
+  "median_ground_m": 51.53466920807472,
+  "worst_ground_m": 76.57830897838524,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 26.491029437764194,
+      "predicted_lonlat": [
+        -60.43078344974708,
+        46.68797520595871
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 76.57830897838524,
+      "predicted_lonlat": [
+        -60.40640002651396,
+        46.716737706435026
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71737,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -30.31194039599473,
+      -21.941161277245843
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+    "sha256": "e62f084f1bb73de336d9e1740337701812c5c607155ec689b7e6aed82b54dd10",
+    "size": [
+      8691,
+      5714
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.4785375,
+            46.7928056
+          ],
+          [
+            -60.4785375,
+            46.6168071
+          ],
+          [
+            -60.0881746,
+            46.6168071
+          ],
+          [
+            -60.0881746,
+            46.7928056
+          ],
+          [
+            -60.4785375,
+            46.7928056
+          ]
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Derby Point western rounded apex",
+    "role": "proposal",
+    "pixel_xy": [
+      659,
+      358
+    ],
+    "lonlat": [
+      -60.801307261090635,
+      45.939568538180104
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 13722,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      639.0339316591853,
+      355.6510315297637
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 30,
+    "uncertainty_note": "Working digitization/definition estimate for a rounded or barrier-shore feature; not statistical confidence."
+  },
+  {
+    "id": "C02",
+    "label": "Christmas Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3394,
+      1434
+    ],
+    "lonlat": [
+      -60.610779005487956,
+      45.937745408117394
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 23683,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3419.464683836559,
+      1430.3722592360573
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "McPhee Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4411,
+      1680
+    ],
+    "lonlat": [
+      -60.543502015602215,
+      45.94344871303413
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 13674,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4453.991192102316,
+      1676.2165377183119
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Porphyry Point northern hook bend",
+    "role": "proposal",
+    "pixel_xy": [
+      5060,
+      1847
+    ],
+    "lonlat": [
+      -60.499853142847364,
+      45.94644295146672
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 14001,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5119.4857598043745,
+      1849.9368641915498
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Big Pond northern barrier apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3713,
+      2404
+    ],
+    "lonlat": [
+      -60.56928425797468,
+      45.901688857481986
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 23472,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3732.878412621445,
+      2405.6571527502965
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 30,
+    "uncertainty_note": "Working digitization/definition estimate for a rounded or barrier-shore feature; not statistical confidence."
+  },
+  {
+    "id": "C06",
+    "label": "Southern triangular pond eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2283,
+      3649
+    ],
+    "lonlat": [
+      -60.627195940977366,
+      45.826401876494224
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 134014,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2263.3721372074215,
+      3657.667744703591
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southern broad pond eastern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2885,
+      3444
+    ],
+    "lonlat": [
+      -60.59503040992836,
+      45.84479545948501
+    ],
+    "guide_file": ".crown-grant-local/124-physical-search-guide.npy",
+    "reference_objectid": 135270,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2887.512354939594,
+      3449.8192398693645
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

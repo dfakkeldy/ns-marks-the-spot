@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Stoney Lake northern roof",
+    [
+      687,
+      759
+    ],
+    [
+      680,
+      749
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Handsaw Lake northern tip",
+    [
+      695,
+      1318
+    ],
+    [
+      704,
+      1290
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Unnamed lake north of Cushing grant northern tip",
+    [
+      2590,
+      946
+    ],
+    [
+      2591,
+      937
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Small pond in central southern interior northern tip",
+    [
+      2225,
+      3013
+    ],
+    [
+      2235,
+      2987
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Wild Duck Lake southern tip",
+    [
+      4684,
+      2798
+    ],
+    [
+      4691,
+      2781
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Cranberry Lake northern tip",
+    [
+      4990,
+      3507
+    ],
+    [
+      5020,
+      3508
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Unnamed lake south of Skunk Lake northern tip",
+    [
+      4628,
+      554
+    ],
+    [
+      4609,
+      551
+    ],
+    "WALK20"
+  ]
+]

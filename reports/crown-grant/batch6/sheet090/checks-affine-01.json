@@ -1,0 +1,173 @@
+{
+  "status": "Six excluded natural-lake checks audited and reserved before first affine fit and score; all share a lake with a control and are spatially correlated",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Pond north of Lake Mulgrave south tip",
+      "role": "check",
+      "pixel_xy": [
+        1740,
+        622
+      ],
+      "lonlat": [
+        -62.61825998056007,
+        45.04842230015778
+      ],
+      "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+      "reference_objectid": 139031,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139031,
+      "nearest_unfiltered_distance_guide_px": 0.6142435377286949,
+      "selected_distance_guide_px": 0.6142435377286949,
+      "guide_reference_pixel_xy": [
+        1697.3889668009942,
+        609.0627180464799
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+      "review": "All physical decisions made before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q02",
+      "label": "Sam Northwest Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        1652,
+        2161
+      ],
+      "lonlat": [
+        -62.58398535097261,
+        44.9819702700416
+      ],
+      "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+      "reference_objectid": 141885,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141885,
+      "nearest_unfiltered_distance_guide_px": 0.6444140434774864,
+      "selected_distance_guide_px": 0.6444140434774864,
+      "guide_reference_pixel_xy": [
+        1639.4367873627925,
+        2178.3131469059736
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+      "review": "All physical decisions made before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q03",
+      "label": "Rabbit Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        5760,
+        552
+      ],
+      "lonlat": [
+        -62.38081946181686,
+        45.11661733012596
+      ],
+      "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+      "reference_objectid": 133579,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133579,
+      "nearest_unfiltered_distance_guide_px": 2.353428093041598,
+      "selected_distance_guide_px": 2.353428093041598,
+      "guide_reference_pixel_xy": [
+        5769.40965196403,
+        626.2781819474185
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+      "review": "All physical decisions made before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q04",
+      "label": "Moose Lake east projection",
+      "role": "check",
+      "pixel_xy": [
+        4976,
+        1025
+      ],
+      "lonlat": [
+        -62.417252668444284,
+        45.084428784931184
+      ],
+      "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+      "reference_objectid": 140429,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140429,
+      "nearest_unfiltered_distance_guide_px": 0.8065748208301133,
+      "selected_distance_guide_px": 0.8065748208301133,
+      "guide_reference_pixel_xy": [
+        4961.843382649298,
+        1070.7912230703514
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+      "review": "All physical decisions made before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q06",
+      "label": "Falls West Hill Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        2242,
+        2920
+      ],
+      "lonlat": [
+        -62.53158665330939,
+        44.9612716957889
+      ],
+      "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+      "reference_objectid": 125757,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125757,
+      "nearest_unfiltered_distance_guide_px": 2.171426305180258,
+      "selected_distance_guide_px": 2.171426305180258,
+      "guide_reference_pixel_xy": [
+        2237.099417653575,
+        2917.169149217778
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+      "review": "All physical decisions made before fitting; checks excluded from fit."
+    },
+    {
+      "id": "Q07",
+      "label": "Pond west of Falls West Hill Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        1930,
+        2974
+      ],
+      "lonlat": [
+        -62.54934303658305,
+        44.953469091345184
+      ],
+      "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+      "reference_objectid": 72651,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 72651,
+      "nearest_unfiltered_distance_guide_px": 1.2879516280649177,
+      "selected_distance_guide_px": 1.2879516280649177,
+      "guide_reference_pixel_xy": [
+        1909.1608457276598,
+        2970.9770565507933
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+      "review": "All physical decisions made before fitting; checks excluded from fit."
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "count": 7,
+  "rms_ground_m": 42.67999436338826,
+  "median_ground_m": 35.89472076969777,
+  "p95_ground_m": 56.531437481437045,
+  "max_ground_m": 58.33486658058201,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -1.9522559501998924,
+  "mean_north_ground_m": -4.000775868067743,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Middle Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        776,
+        522
+      ],
+      "lonlat": [
+        -61.650551433146546,
+        45.32634760596981
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 136400,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136400,
+      "nearest_unfiltered_distance_guide_px": 1.820453352992022,
+      "selected_distance_guide_px": 1.820453352992022,
+      "guide_reference_pixel_xy": [
+        795.2052687722025,
+        484.69505700469017
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.65049490387226,
+        45.32609112906604
+      ],
+      "error_ground_m": 28.84683393457633,
+      "east_ground_m": 4.431799739158421,
+      "north_ground_m": -28.5043677200709
+    },
+    {
+      "id": "Q02",
+      "label": "Loon Lake northwest lobe north end",
+      "role": "check",
+      "pixel_xy": [
+        1521,
+        1663
+      ],
+      "lonlat": [
+        -61.57936899653229,
+        45.29061258613343
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 131875,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WARV50",
+      "nearest_unfiltered_objectid": 204218,
+      "nearest_unfiltered_distance_guide_px": 1.816801665900738,
+      "selected_distance_guide_px": 2.5691893600005793,
+      "guide_reference_pixel_xy": [
+        1545.2687561750645,
+        1635.2340527602937
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.579526759061025,
+        45.29089441624461
+      ],
+      "error_ground_m": 33.67826889255628,
+      "east_ground_m": -12.375973059018278,
+      "north_ground_m": 31.321894681544695
+    },
+    {
+      "id": "Q03",
+      "label": "Cranberry Lake southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        1941,
+        3018
+      ],
+      "lonlat": [
+        -61.52235116524325,
+        45.241386964375046
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 128649,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128649,
+      "nearest_unfiltered_distance_guide_px": 0.689755276574205,
+      "selected_distance_guide_px": 0.689755276574205,
+      "guide_reference_pixel_xy": [
+        1981.0150384357548,
+        2983.6895913188346
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.52278872002017,
+        45.241293373809754
+      ],
+      "error_ground_m": 35.89472076969777,
+      "east_ground_m": -34.35469847959926,
+      "north_ground_m": -10.4012341340051
+    },
+    {
+      "id": "Q04",
+      "label": "Jessie Lake southern end",
+      "role": "check",
+      "pixel_xy": [
+        1473,
+        3700
+      ],
+      "lonlat": [
+        -61.53421298187901,
+        45.20458740739499
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 137146,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137146,
+      "nearest_unfiltered_distance_guide_px": 2.6362231941969374,
+      "selected_distance_guide_px": 2.6362231941969374,
+      "guide_reference_pixel_xy": [
+        1510.4425213710638,
+        3678.401183429756
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.5343372717264,
+        45.20499018424273
+      ],
+      "error_ground_m": 45.81563013873105,
+      "east_ground_m": -9.764854297194562,
+      "north_ground_m": 44.76292646335315
+    },
+    {
+      "id": "Q06",
+      "label": "Small elongated southeastern pond, east tip",
+      "role": "check",
+      "pixel_xy": [
+        5260,
+        3095
+      ],
+      "lonlat": [
+        -61.3245135499251,
+        45.293186697581476
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 68747,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 68747,
+      "nearest_unfiltered_distance_guide_px": 2.6485399498868323,
+      "selected_distance_guide_px": 2.6485399498868323,
+      "guide_reference_pixel_xy": [
+        5291.148743664089,
+        3042.6135482698446
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.32495557756676,
+        45.2932529416827
+      ],
+      "error_ground_m": 35.447231545320975,
+      "east_ground_m": -34.674237874599825,
+      "north_ground_m": 7.362299372021316
+    },
+    {
+      "id": "Q07",
+      "label": "Ragged Head south extremity",
+      "role": "check",
+      "pixel_xy": [
+        5447,
+        363
+      ],
+      "lonlat": [
+        -61.37861264203573,
+        45.41077987984375
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 3801,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3801,
+      "nearest_unfiltered_distance_guide_px": 1.40656512513957,
+      "selected_distance_guide_px": 1.40656512513957,
+      "guide_reference_pixel_xy": [
+        5444.666387603967,
+        293.55289438785985
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.37799312170768,
+        45.41060315324765
+      ],
+      "error_ground_m": 52.3234362500988,
+      "east_ground_m": 48.49707544276737,
+      "north_ground_m": -19.641172432334162
+    },
+    {
+      "id": "Q08",
+      "label": "Bigsby Head east extremity",
+      "role": "check",
+      "pixel_xy": [
+        3687,
+        755
+      ],
+      "lonlat": [
+        -61.473251759437474,
+        45.36543398876501
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 4136,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4136,
+      "nearest_unfiltered_distance_guide_px": 2.242950554229941,
+      "selected_distance_guide_px": 2.242950554229941,
+      "guide_reference_pixel_xy": [
+        3698.682128082146,
+        693.1850507453782
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Image-based corrections precede fitting; check observations excluded from all fitting.",
+      "predicted_lonlat": [
+        -61.47293808024446,
+        45.36495795545576
+      ],
+      "error_ground_m": 58.33486658058201,
+      "east_ground_m": 24.575096877086878,
+      "north_ground_m": -52.905777306983204
+    }
+  ],
+  "fit_sha256": "30445ead9bb06461f8a50586af6f191d1ab0f418d5bf9fc2148e58e7e021ea72",
+  "checks_sha256": "4d1345c7617628189341016eaf880ea0cacfcc3571b5bb7e84b3428e81139187",
+  "status": "Seven independent physical checks reserved and audited before first affine fit and score"
+}

@@ -1,0 +1,113 @@
+{
+  "status": "Reserved before first component fit and score",
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Prim Point western recess",
+      "role": "check",
+      "pixel_xy": [
+        1740,
+        870
+      ],
+      "lonlat": [
+        -65.79385489175914,
+        44.68762330225925
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4813,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4813,
+      "nearest_unfiltered_distance_guide_px": 1.2108414512682641,
+      "selected_distance_guide_px": 1.2108414512682641,
+      "guide_reference_pixel_xy": [
+        1742.8629458376672,
+        871.7969400776783
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry."
+    },
+    {
+      "id": "IQ02",
+      "label": "Caldwell Cove eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        644,
+        1184
+      ],
+      "lonlat": [
+        -65.85150079308089,
+        44.65251420554463
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4563,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4563,
+      "nearest_unfiltered_distance_guide_px": 0.7355192721489899,
+      "selected_distance_guide_px": 0.7355192721489899,
+      "guide_reference_pixel_xy": [
+        646.8358307731687,
+        1178.7169637819752
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry."
+    },
+    {
+      "id": "IQ03",
+      "label": "Broad Cove eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        1134,
+        1008
+      ],
+      "lonlat": [
+        -65.82706506893106,
+        44.66956762118094
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4560,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4560,
+      "nearest_unfiltered_distance_guide_px": 4.174673029403653,
+      "selected_distance_guide_px": 4.174673029403653,
+      "guide_reference_pixel_xy": [
+        1130.422431076353,
+        1007.716094802483
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry."
+    },
+    {
+      "id": "IQ04",
+      "label": "Victoria-side eastern coastal notch",
+      "role": "check",
+      "pixel_xy": [
+        2767,
+        719
+      ],
+      "lonlat": [
+        -65.73550873990992,
+        44.71427901461966
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4685,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4685,
+      "nearest_unfiltered_distance_guide_px": 0.6498034732961722,
+      "selected_distance_guide_px": 0.6498034732961722,
+      "guide_reference_pixel_xy": [
+        2774.350804103771,
+        728.0280934552429
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry."
+    }
+  ]
+}

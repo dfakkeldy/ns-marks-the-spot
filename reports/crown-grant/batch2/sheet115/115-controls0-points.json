@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Ainslie Point southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2139,
+      1213
+    ],
+    "lonlat": [
+      -61.21022493670699,
+      46.1564241189123
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131347,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2128.8438228695886,
+      1209.5159952203976
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Mason Point eastern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1769,
+      1100
+    ],
+    "lonlat": [
+      -61.236081307902175,
+      46.155136425178405
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 129835,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1769.368443421903,
+      1099.8523153904825
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "McIsaac Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2009,
+      2157
+    ],
+    "lonlat": [
+      -61.19458732589752,
+      46.111638605315186
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131550,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2002.3638004829409,
+      2157.1569659840316
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Long Point northwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2504,
+      2745
+    ],
+    "lonlat": [
+      -61.14771492144904,
+      46.09350935975969
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131551,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2500.4292429371853,
+      2751.664198672981
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Glenmore northwestern lake-shore shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      2788,
+      1559
+    ],
+    "lonlat": [
+      -61.15951317022318,
+      46.15183041299865
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131743,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2780.294834878703,
+      1561.989891029778
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "East-shore headland south of Trout River",
+    "role": "proposal",
+    "pixel_xy": [
+      2797,
+      2002
+    ],
+    "lonlat": [
+      -61.1476120328586,
+      46.13214346283789
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131549,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2792.981887581933,
+      2004.7029943891102
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Pearson Branch and Johnstone River confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      3756,
+      2945
+    ],
+    "lonlat": [
+      -61.06128116625587,
+      46.105814579774574
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 265468,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3764.0814951396897,
+      2962.1315734286327
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Mount Pleasant Brook upper northern confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      4926,
+      982
+    ],
+    "lonlat": [
+      -61.036921068767235,
+      46.21569281865409
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 279493,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4919.266252624802,
+      961.147448690841
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

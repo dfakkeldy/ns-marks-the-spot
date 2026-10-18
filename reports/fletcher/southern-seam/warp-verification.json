@@ -1,0 +1,10 @@
+{
+  "preserved_controls": 39,
+  "total_controls": 40,
+  "scipy_gdal_max_projected_m": 2.634178031930877e-09,
+  "local_jacobian_samples": 1995,
+  "nonnegative_jacobians": 0,
+  "min_jacobian": -27.47454049811983,
+  "max_jacobian": -24.02755208227346,
+  "note": "Same-input solver agreement and sampled orientation; not independent geography or a continuous no-fold proof."
+}

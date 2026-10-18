@@ -1,0 +1,88 @@
+{
+  "sheet": "sheet-03",
+  "source_sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "points": [
+    {
+      "lonlat": [
+        -60.48690580938019,
+        46.91435398740696
+      ],
+      "guide_xy": [
+        9067.902512256522,
+        2726.918687698664
+      ],
+      "modern_objectid": 20918,
+      "modern_part": 0,
+      "modern_vertex": 157,
+      "modern_properties": {
+        "OBJECTID": 20918,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 1253.32329005519
+      },
+      "id": "R10",
+      "pixel_xy": [
+        9172,
+        2510
+      ],
+      "role": "control",
+      "identity_evidence": "Northernmost tip of the long northern North Pond island. Distinct NW-to-SE island northeast of central island cluster; entire modern closed island shoreline 20918 checked before selecting its northern extreme.",
+      "source_uncertainty_px": 20,
+      "status": "Proposal pending personal crosshair review; not yet fitted."
+    },
+    {
+      "lonlat": [
+        -60.6682872,
+        46.9145565
+      ],
+      "source_guide_xy": [
+        5151.285286019789,
+        2693.49037181912
+      ],
+      "objectids": [
+        180737,
+        261823,
+        261959
+      ],
+      "id": "R11",
+      "modern_node_id": "J0376",
+      "pixel_xy": [
+        5585,
+        2095
+      ],
+      "role": "control",
+      "identity_evidence": "Blair River lower eastern tributary, before the river turns north towards the first large western tributary and the upper hairpin. Historical tributary much shorter; proposal requires wider branch-order review.",
+      "status": "Proposal pending personal crosshair review; not yet fitted.",
+      "source_uncertainty_px": 30
+    },
+    {
+      "lonlat": [
+        -60.675515,
+        46.8978756
+      ],
+      "source_guide_xy": [
+        4993.260844199918,
+        3213.805429799482
+      ],
+      "objectids": [
+        181016,
+        284878,
+        284879
+      ],
+      "id": "R12",
+      "modern_node_id": "J0537",
+      "pixel_xy": [
+        5875,
+        2570
+      ],
+      "role": "control",
+      "identity_evidence": "Historical South Branch / modern Polletts Cove River prominent northeastern tributary before the main river continues east/southeast. Tributary length and additional modern branches differ; wider review required.",
+      "status": "Proposal pending personal crosshair review; not yet fitted.",
+      "source_uncertainty_px": 30
+    }
+  ]
+}

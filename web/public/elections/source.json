@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-09-13T01:42:12.088337+00:00",
+  "purpose": "Project-derived NS display extracts; not official electoral records or a survey.",
+  "sources": [
+    {
+      "asset": "federal-ridings-2025.geojson",
+      "sha256": "d690df5e94cf504781a27c9a3d23a561eba27bb8e159f47fce337eae5a4cddce",
+      "featureCount": 11,
+      "inputs": [
+        {
+          "url": "https://www.elections.ca/res/cir/mapsCorner/vector/FederalElectoralDistricts_2025_KMZ.zip",
+          "sha256": "7e3835390b5693b2ca3f4fc49d20287d7aaefe13504c1a3c175343dc53a38929",
+          "fetchedAt": "2026-09-13T01:23:31.037872+00:00",
+          "licenceEvidenceUrl": "https://open.canada.ca/data/en/dataset/97a2a33c-54cc-4f2e-82c1-047ad8212f05"
+        }
+      ],
+      "licenceUrl": "https://open.canada.ca/en/open-government-licence-canada",
+      "attribution": "Elections Canada. Contains information licensed under the Open Government Licence – Canada.",
+      "sourceDate": "2025-04-28; 2023 Representation Order",
+      "transformation": "NS FED_NUM 12001–12011 only. KML description tables parsed. Multipart placemarks grouped by source ID. Coordinates preserved; EC simplified KMZ geometry. No inferred service areas for M/S polls."
+    },
+    {
+      "asset": "federal-polls-2025.geojson",
+      "sha256": "4985730e17cbabaa37a61bcaf98b0849f859477dbe8dcddb60c50261be70a4c0",
+      "featureCount": 2260,
+      "inputs": [
+        {
+          "url": "https://www.elections.ca/res/cir/mapsCorner/vector/PollingDivisionBoundaries_2025_KMZ.zip",
+          "sha256": "97b47ed516e271d9cce4ca96384f54c1c86a7eb2b2828e85d3335e8e9cda9ebf",
+          "fetchedAt": "2026-09-13T01:24:28.314432+00:00",
+          "licenceEvidenceUrl": "https://open.canada.ca/data/en/dataset/97a2a33c-54cc-4f2e-82c1-047ad8212f05"
+        }
+      ],
+      "licenceUrl": "https://open.canada.ca/en/open-government-licence-canada",
+      "attribution": "Elections Canada. Contains information licensed under the Open Government Licence – Canada.",
+      "sourceDate": "2025-04-28; 2023 Representation Order",
+      "transformation": "NS FED_NUM 12001–12011 only. KML description tables parsed. Multipart placemarks grouped by source ID. Coordinates preserved; EC simplified KMZ geometry. No inferred service areas for M/S polls."
+    },
+    {
+      "asset": "municipal-polling-districts.geojson",
+      "sha256": "0680bc0bdacac8b0d46720df424d085c91ca4f0ef6191452233509830910818e",
+      "featureCount": 238,
+      "inputs": [
+        {
+          "url": "https://data.novascotia.ca/resource/gcep-xeci.geojson?%24limit=1000&%24order=%3Aid&%24select=simplify_preserve_topology%28the_geom%2C0.00003%29+as+the_geom%2C%3Aid+as+source_row_id%2Cco_code%2Cmu_code%2Cpoll_dist%2Cmun%2Creg_num",
+          "sha256": "0072d287d2a1903d4a9863031c782ab364d9123e8c44f09c8e337cde0072518d",
+          "fetchedAt": "2026-09-13T01:40:03.036969+00:00"
+        }
+      ],
+      "licenceUrl": "https://novascotia.ca/opendata/licence.asp",
+      "attribution": "Contains information licensed under the Open Government Licence – Nova Scotia.",
+      "sourceDate": "Publisher regulations vary; current boundary-review parity unverified",
+      "transformation": "Complete gcep-xeci view, source topology-preserving simplification 0.00003 degrees (at most 3.4 metres). Source row IDs and five identity fields retained. No current councillor assertion."
+    },
+    {
+      "asset": "halifax-council-districts.geojson",
+      "sha256": "e6b6e5256920a80da49ea80195be8c064bae2d2633b03fa7892560a0a061192b",
+      "featureCount": 16,
+      "inputs": [
+        {
+          "url": "https://services2.arcgis.com/11XBiaBYA9Ep0yNJ/arcgis/rest/services/PollingDistrict/FeatureServer/0/query?f=geojson&where=1%3D1&outFields=OBJECTID%2CDIST_ID%2CDISTNAME%2CSOURCE%2CSDATE&outSR=4326&returnGeometry=true",
+          "sha256": "3eb943934ea1559657fce9d1e361c0914fc50c0e1f885de6d8d323ae9bcd90d6",
+          "fetchedAt": "2026-09-13T01:27:11.069937+00:00",
+          "licenceEvidenceUrl": "https://www.arcgis.com/sharing/rest/content/items/04c5bee564f84b4a8f1c8dd305896079?f=pjson"
+        }
+      ],
+      "licenceUrl": "https://data-hrm.hub.arcgis.com/pages/open-data-licence",
+      "attribution": "Contains information licenced under the Open Government Licence—Halifax.",
+      "sourceDate": "2024 districts; open-data item modified 2025-07-03",
+      "transformation": "Complete official PollingDistrict service; outSR 4326. Source district IDs and dates retained; council contacts excluded."
+    }
+  ]
+}

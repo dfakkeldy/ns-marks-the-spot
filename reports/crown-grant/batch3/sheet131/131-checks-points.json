@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q01",
+    "label": "Northwest Man of War Point southeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      425,
+      600
+    ],
+    "lonlat": [
+      -60.558404054781924,
+      46.17601375573531
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 2410,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      407.4264340598602,
+      597.4555396172218
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Little Young island west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2670,
+      1060
+    ],
+    "lonlat": [
+      -60.396097249266276,
+      46.19759129354966
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 21788,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2761.3713397693937,
+      1007.5869554604869
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Condor Point south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3753,
+      746
+    ],
+    "lonlat": [
+      -60.33371386355001,
+      46.22981300273613
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 10866,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3838.271409518202,
+      700.9058406427503
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Jessop Point northern shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      3725,
+      1075
+    ],
+    "lonlat": [
+      -60.32423838251692,
+      46.21297505012535
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 5985,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3845.50286305818,
+      1074.7194861039752
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Indian Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4535,
+      1320
+    ],
+    "lonlat": [
+      -60.2730563269541,
+      46.21577065173321
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 38656,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4558.980657597247,
+      1279.8302773771575
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Scotch Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3200,
+      1515
+    ],
+    "lonlat": [
+      -60.351633715911504,
+      46.1842691891621
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 141900,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3267.8036545821233,
+      1491.1303844760405
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Long Island Barachois north apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1880,
+      1755
+    ],
+    "lonlat": [
+      -60.429145736615176,
+      46.152388082512275
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 10630,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1987.53432506643,
+      1713.6632460447727
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "McAllister Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1530,
+      2700
+    ],
+    "lonlat": [
+      -60.43280459176096,
+      46.10236913295864
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 132380,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1576.888316692959,
+      2662.2553578589577
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Balls Lake northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1850,
+      2830
+    ],
+    "lonlat": [
+      -60.38555028863986,
+      46.11222038000657
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 136677,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2288.997014399385,
+      2712.4337318162434
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "South Bar west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5230,
+      1840
+    ],
+    "lonlat": [
+      -60.21255599718456,
+      46.20473026128765
+    ],
+    "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+    "reference_objectid": 12163,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5299.728731495736,
+      1799.3959009071114
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

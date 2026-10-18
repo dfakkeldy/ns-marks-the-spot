@@ -1,0 +1,226 @@
+[
+  {
+    "id": "C01",
+    "label": "Pond north of Lake Mulgrave north tip",
+    "role": "control",
+    "pixel_xy": [
+      1760,
+      578
+    ],
+    "lonlat": [
+      -62.61812558881233,
+      45.05068221507084
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 139032,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139032,
+    "nearest_unfiltered_distance_guide_px": 0.7181060490065071,
+    "selected_distance_guide_px": 0.7181060490065071,
+    "guide_reference_pixel_xy": [
+      1718.5222495276248,
+      563.4928810490528
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C02",
+    "label": "Sam Northwest Lake north lobe",
+    "role": "control",
+    "pixel_xy": [
+      1615,
+      2077
+    ],
+    "lonlat": [
+      -62.589292063821375,
+      44.98431288173686
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 141884,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141884,
+    "nearest_unfiltered_distance_guide_px": 1.116405568206847,
+    "selected_distance_guide_px": 1.116405568206847,
+    "guide_reference_pixel_xy": [
+      1581.0367193718557,
+      2098.414215326542
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C03",
+    "label": "Rabbit Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      5774,
+      420
+    ],
+    "lonlat": [
+      -62.38308765403092,
+      45.122746286624675
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 133579,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133579,
+    "nearest_unfiltered_distance_guide_px": 2.3394802320757773,
+    "selected_distance_guide_px": 2.3394802320757773,
+    "guide_reference_pixel_xy": [
+      5787.590620536823,
+      486.8673021408031
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C04",
+    "label": "Moose Lake south tip",
+    "role": "control",
+    "pixel_xy": [
+      4868,
+      1116
+    ],
+    "lonlat": [
+      -62.42127160614404,
+      45.078402713295965
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 140429,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140429,
+    "nearest_unfiltered_distance_guide_px": 0.6558883549608494,
+    "selected_distance_guide_px": 0.6558883549608494,
+    "guide_reference_pixel_xy": [
+      4851.874446516973,
+      1170.6437591607682
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C05",
+    "label": "Black Lake at Lochaber south shore",
+    "role": "control",
+    "pixel_xy": [
+      3660,
+      2164
+    ],
+    "lonlat": [
+      -62.468337054086305,
+      45.01409272771582
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 124618,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124618,
+    "nearest_unfiltered_distance_guide_px": 2.937770600261622,
+    "selected_distance_guide_px": 2.937770600261622,
+    "guide_reference_pixel_xy": [
+      3616.02692107833,
+      2210.82343029778
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C06",
+    "label": "Falls West Hill Lake south tip",
+    "role": "control",
+    "pixel_xy": [
+      2269,
+      3070
+    ],
+    "lonlat": [
+      -62.52675191963419,
+      44.95526813026953
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 125756,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125756,
+    "nearest_unfiltered_distance_guide_px": 0.9250289666212331,
+    "selected_distance_guide_px": 0.9250289666212331,
+    "guide_reference_pixel_xy": [
+      2257.6809121406986,
+      3069.3738712227205
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C07",
+    "label": "Pond west of Falls West Hill Lake south shore",
+    "role": "control",
+    "pixel_xy": [
+      1919,
+      3038
+    ],
+    "lonlat": [
+      -62.54790169100542,
+      44.950872618448436
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 72650,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 72650,
+    "nearest_unfiltered_distance_guide_px": 0.4728951751446548,
+    "selected_distance_guide_px": 0.4728951751446548,
+    "guide_reference_pixel_xy": [
+      1908.465052448446,
+      3032.9142324835993
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  },
+  {
+    "id": "C08",
+    "label": "Little Beaver Lake north projection",
+    "role": "control",
+    "pixel_xy": [
+      3249,
+      3172
+    ],
+    "lonlat": [
+      -62.46756301427646,
+      44.964343482271744
+    ],
+    "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+    "reference_objectid": 138850,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138850,
+    "nearest_unfiltered_distance_guide_px": 0.9299340645223542,
+    "selected_distance_guide_px": 0.9299340645223542,
+    "guide_reference_pixel_xy": [
+      3207.6916556086508,
+      3237.1226738914847
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+    "review": "All physical decisions made before fitting; checks excluded from fit."
+  }
+]

@@ -1,0 +1,106 @@
+{
+  "x": {
+    "01-03": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 950
+    },
+    "02-03": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 965
+    },
+    "05-07": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 1485
+    },
+    "07-08": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 1470
+    },
+    "16-19": {
+      "sampled_gaps": 6,
+      "max_projected_gap_m": 5
+    }
+  },
+  "y": {
+    "14-16": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 1225
+    },
+    "19-22": {
+      "sampled_gaps": 12,
+      "max_projected_gap_m": 45
+    },
+    "11-14": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 2405
+    },
+    "21-24": {
+      "sampled_gaps": 3,
+      "max_projected_gap_m": 50
+    },
+    "13-15": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 55
+    },
+    "11-13": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 10
+    },
+    "06-09": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 25
+    },
+    "03-06": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 1615
+    },
+    "05-06": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 60
+    },
+    "06-08": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 480
+    },
+    "08-10": {
+      "sampled_gaps": 7,
+      "max_projected_gap_m": 860
+    },
+    "01-03": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 2970
+    },
+    "03-05": {
+      "sampled_gaps": 7,
+      "max_projected_gap_m": 140
+    },
+    "05-08": {
+      "sampled_gaps": 5,
+      "max_projected_gap_m": 60
+    },
+    "04-05": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 120
+    },
+    "02-05": {
+      "sampled_gaps": 3,
+      "max_projected_gap_m": 220
+    },
+    "04-07": {
+      "sampled_gaps": 11,
+      "max_projected_gap_m": 275
+    },
+    "02-03": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 5
+    },
+    "07-10": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 2425
+    },
+    "01-02": {
+      "sampled_gaps": 5,
+      "max_projected_gap_m": 5
+    }
+  }
+}

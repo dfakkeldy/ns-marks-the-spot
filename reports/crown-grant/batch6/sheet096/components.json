@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6085 x 4117 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 75.02 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          40,
+          110
+        ],
+        [
+          5960,
+          110
+        ],
+        [
+          5960,
+          4005
+        ],
+        [
+          40,
+          4005
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Liscomb and its lake/river corridors, Melopseketch and Georges lakes, Maloy Lake, Yankee Lake, the Big Bog region, Cranberry Lakes, New Chester, Goldenville, Big Gaspereau, Sinclair Lake and all southern lake and parcel regions. No displaced inset identified."
+    }
+  ]
+}

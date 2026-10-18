@@ -1,0 +1,21 @@
+{
+  "status": "Unresolved; R04 remains excluded from fit. No new Hay River location accepted.",
+  "observations": [
+    "Northern trial R04 lies amid river, mill, road and railway ink. Its original376m discrepancy is retained as provisional, not survey truth.",
+    "C14 historical southern tributary extends through a small oval feature and farther south; modern198990 terminates after about318m in a swamp area. This difference is not enough to infer when or why drainage changed, or to identify a better modern point.",
+    "A second historical northern tributary occurs farther west near the mill/railway. It distinguishes the Schoolhouse Brook junction J0571 from the upstream northern tributary trial; shifting R04 to J0571 solely for proximity would confuse their order. The western source intersection is itself obscured by railway/mill detail and was not accepted as another precise point."
+  ],
+  "rejected_alternatives": [
+    {
+      "proposal": "Move R04 to J0571 / shift the entire Hay River point sequence west",
+      "reason": "Does not preserve the two northern tributaries and their order relative to southern arms; no fitting trial adopted."
+    },
+    {
+      "proposal": "Fit R04 with the existing two southern controls",
+      "reason": "Prior reproducible raster failure: severe compression and78496 missing interior cells; no new evidence justifies retrying the same constraint."
+    }
+  ],
+  "next_evidence_needed": "An independently dated reference or clearer native interpretation that identifies the northern tributary/mill channels and southern pond drainage. Do not infer real channel change from mismatch alone.",
+  "superseded_by": "hay-topology/changes.json",
+  "correction": "The initial rejection of a westward identity correction was premature: F05 south arm is the Hays main, not a second southern tributary. Native topology re-audit with the dated NRCan map resolves the sequence as MacKays, Schoolhouse, MacKinnons, unnamed northern tributary. Retained here as investigation history, not current interpretation."
+}

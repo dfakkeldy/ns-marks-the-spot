@@ -1,0 +1,72 @@
+{
+  "id": "VM25",
+  "role": "check",
+  "label": "MacPherson Point eastern mainland apex",
+  "pixel_xy": [
+    19652.0,
+    27536.85714285714
+  ],
+  "lonlat": [
+    -60.807354734508955,
+    45.97797163228745
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      19500,
+      27380
+    ],
+    "extent": [
+      300,
+      380
+    ],
+    "display": [
+      1050,
+      1330
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    532,
+    549
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-macpherson-tip-native.jpg",
+  "source_crop_sha256": "4e485ab358867a4757455eafbb7ee0c10a6b13830374bd6b4244f78994d4d506",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    7473
+  ],
+  "reference_vertex": {
+    "feature_id": 7473,
+    "vertex": 14
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "The source labels Macpherson Point on the rounded mainland bulge south of Lieutenant Pond and north of Plaster Cove, facing the Grand Narrows/Christmas Island shore. Original and modern geometry share the northern indentation, eastern bulge and southern cove/stream recess. Select the easternmost coast, separated from the lettering and dotted house leaders in native detail. Original WACO20 vertex7473v14 is the corresponding eastern apex; the official CAXCC representative cape point is not used. Broad rounded-tip definition and historical coast generalization warrant140m uncertainty.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-macpherson-context.jpg",
+    "sha256": "ec26b3df6182912c5ee19d983d27c105be569394e0899041e40bc729d0ac51ac",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        18500,
+        26200
+      ],
+      "extent": [
+        2800,
+        2500
+      ],
+      "display": [
+        1400,
+        1250
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh check after TPS14 freeze; no fitting or tuning",
+  "recorded_at": "2026-09-15T00:11:05.992726+00:00",
+  "freeze_sha256": "553da69eb097089171a6306dea790d90aee002d28c25585ff5bfcfc58e53dcd3"
+}

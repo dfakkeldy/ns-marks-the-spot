@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "path": "tools/fletcher/observations/sheet-02.json",
+      "sha256": "d71110b3cb19bc809672da0b782c69c1408793e98dc36d1e39cc0f8478a23eb3"
+    },
+    {
+      "path": "tools/fletcher/gcps/sheet-02.csv",
+      "sha256": "789b4145c8f451351d47810edc76d61a0e8a3d21943ac9f249d676b5e59c9995"
+    }
+  ],
+  "base_sha": "595595a2b116858a190c553466e6e6d9eb2e8264",
+  "search_scope": "Current repository report/observation filenames, local and remote sheet02 branch names, Downloads and knowledge-base filenames.",
+  "finding": "Two original grid-only files; no earlier physical Sheet02 packet found. Existing controls/checks retained unchanged."
+}

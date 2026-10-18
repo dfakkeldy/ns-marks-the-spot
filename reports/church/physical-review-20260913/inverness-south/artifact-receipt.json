@@ -1,0 +1,112 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "fit_csv_sha256": "4db2d28d0bddfded9d7942a7b337c1ea5c324c6c9269835d8c355ab3f232bc11",
+  "source_cutline": [
+    [
+      15904.0,
+      780.0
+    ],
+    [
+      17050.0,
+      780.0
+    ],
+    [
+      17050.0,
+      3550.0
+    ],
+    [
+      20100.0,
+      3550.0
+    ],
+    [
+      20100.0,
+      780.0
+    ],
+    [
+      33500.0,
+      780.0
+    ],
+    [
+      33500.0,
+      9850.0
+    ],
+    [
+      30380.0,
+      9850.0
+    ],
+    [
+      30380.0,
+      14120.0
+    ],
+    [
+      33500.0,
+      14120.0
+    ],
+    [
+      33500.0,
+      28100.0
+    ],
+    [
+      30120.0,
+      28100.0
+    ],
+    [
+      30120.0,
+      30330.0
+    ],
+    [
+      25580.0,
+      30330.0
+    ],
+    [
+      25580.0,
+      30900.0
+    ],
+    [
+      22620.0,
+      30900.0
+    ],
+    [
+      22620.0,
+      33750.0
+    ],
+    [
+      16920.0,
+      33750.0
+    ],
+    [
+      16920.0,
+      30440.0
+    ],
+    [
+      12680.0,
+      30440.0
+    ],
+    [
+      12680.0,
+      29520.0
+    ],
+    [
+      9225.0,
+      29520.0
+    ],
+    [
+      11833.0,
+      23928.0
+    ]
+  ],
+  "transform": "GDAL order 1 affine, exact -et 0",
+  "crs": "EPSG:3857",
+  "cell_size_projected_m": 20,
+  "orientation_determinant": -15.364130081044198,
+  "output": "/var/home/dan/nsmarks-church-20260912/south-physical-review/inverness-south-physical-review-20m.tif",
+  "output_sha256": "c0eac784812489786bf682c988756e337f1abd6c1a9f791f0f3d90331806d248",
+  "size": [
+    4757,
+    6466
+  ],
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false,
+  "scope": "Full existing content cutline research review at reduced resolution; not whole-panel geographic acceptance"
+}

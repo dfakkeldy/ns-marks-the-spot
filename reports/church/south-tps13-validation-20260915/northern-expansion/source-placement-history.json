@@ -1,0 +1,20 @@
+{
+  "IS40": {
+    "initial_unscored_display_xy": [
+      368,
+      246
+    ],
+    "corrected_before_first_score_display_xy": [
+      370,
+      240
+    ],
+    "reason": "Enlarged native crosshair showed the initial proposal below the apex; move to the visible centre of the northern tip. No fit or residual was consulted."
+  },
+  "IS39": {
+    "display_xy": [
+      1056,
+      589
+    ],
+    "reason": "Centre of the four-arm road meeting confirmed in the enlarged native crosshair."
+  }
+}

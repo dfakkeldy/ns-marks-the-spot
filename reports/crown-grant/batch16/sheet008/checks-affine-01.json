@@ -1,0 +1,221 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Brazil Lake central peninsula southern tip",
+      "role": "check",
+      "pixel_xy": [
+        955,
+        449
+      ],
+      "lonlat": [
+        -65.99982028804315,
+        44.004627553536054
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 124949,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124949,
+      "nearest_unfiltered_distance_guide_px": 0.11885616046436052,
+      "selected_distance_guide_px": 0.11885616046436052,
+      "guide_reference_pixel_xy": [
+        984.0276875494746,
+        400.1155862729065
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Back Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1781,
+        755
+      ],
+      "lonlat": [
+        -65.93738453678058,
+        44.00882421192804
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 125118,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125118,
+      "nearest_unfiltered_distance_guide_px": 0.404835083228588,
+      "selected_distance_guide_px": 0.404835083228588,
+      "guide_reference_pixel_xy": [
+        1817.6691581267514,
+        690.7666866923682
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q03",
+      "label": "Snare Lake eastern lobe southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3037,
+        1454
+      ],
+      "lonlat": [
+        -65.83717077932528,
+        44.00277781356868
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 137315,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137315,
+      "nearest_unfiltered_distance_guide_px": 3.3295062745405755,
+      "selected_distance_guide_px": 3.3295062745405755,
+      "guide_reference_pixel_xy": [
+        3052.449091169343,
+        1383.2990800465923
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q04",
+      "label": "Nepsepek Lake western cape",
+      "role": "check",
+      "pixel_xy": [
+        4025,
+        1432
+      ],
+      "lonlat": [
+        -65.77484441156898,
+        44.02300368997075
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 135070,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135070,
+      "nearest_unfiltered_distance_guide_px": 4.070350426693434,
+      "selected_distance_guide_px": 4.070350426693434,
+      "guide_reference_pixel_xy": [
+        4014.88099067047,
+        1386.390342579456
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q05",
+      "label": "Spark Lake southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        3744,
+        2305
+      ],
+      "lonlat": [
+        -65.76516145858986,
+        43.97471353449937
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 139475,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139475,
+      "nearest_unfiltered_distance_guide_px": 2.20544324284085,
+      "selected_distance_guide_px": 2.20544324284085,
+      "guide_reference_pixel_xy": [
+        3748.4776431155624,
+        2302.1530993826455
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q06",
+      "label": "Unnamed narrow south-central lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        2749,
+        2267
+      ],
+      "lonlat": [
+        -65.83079206381962,
+        43.95615583868204
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 127606,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127606,
+      "nearest_unfiltered_distance_guide_px": 2.741521611998156,
+      "selected_distance_guide_px": 2.741521611998156,
+      "guide_reference_pixel_xy": [
+        2756.534066877328,
+        2249.95384235878
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q07",
+      "label": "Paul Surette lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        1805,
+        3354
+      ],
+      "lonlat": [
+        -65.86065868804491,
+        43.88295998039194
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 127166,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127166,
+      "nearest_unfiltered_distance_guide_px": 0.7635363651516259,
+      "selected_distance_guide_px": 0.7635363651516259,
+      "guide_reference_pixel_xy": [
+        1780.1638291864656,
+        3377.7457531619584
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    },
+    {
+      "id": "Q08",
+      "label": "Lilly Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        3054,
+        810
+      ],
+      "lonlat": [
+        -65.85373587772578,
+        44.03043027954753
+      ],
+      "guide_file": ".crown-grant-local/008-frozen-south-guide.npy",
+      "reference_objectid": 135512,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135512,
+      "nearest_unfiltered_distance_guide_px": 0.38890100787655607,
+      "selected_distance_guide_px": 0.38890100787655607,
+      "guide_reference_pixel_xy": [
+        3064.3270347045036,
+        794.7895426504547
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad pairs, fourteen native detail pairs and all fifteen paired source/reference crosshairs inspected before first fit and score."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "sheet": "125",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; full raster and comparison controls browser-verified; fresh and diagnostic checks distinguished",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/125.pdf",
+    "pdf_sha256": "a491bef70b0a18e7baacf16e10daf6c57513cd25d3baa5da663964080dd46856",
+    "jpeg_sha256": "82e7ae3b439cd595bd2a067a81ae77907864ec8ad3d8a55aa8f26b2572858d2d",
+    "dimensions": [
+      5768,
+      3839
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-02.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 3,
+      "rms_ground_m": 53.32768567864609,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-02.json",
+      "checks": "checks-affine-02.json",
+      "scores": "scores-affine-02.json"
+    }
+  ],
+  "limitations": [
+    "Only three fresh checks after the control-definition audit: RMS 53.33 m, median 53.96 m, P95 54.73 m, maximum 54.81 m; sparse count and median bound prevent full acceptance",
+    "Nine original checks are reported separately as diagnostic reuse: RMS 76.77 m, P95 144.01 m and maximum 168.46 m; retained high-error observations were not removed",
+    "Fresh checks share lakes with other endpoint controls; this spatial correlation limits broad claims",
+    "The southern and far eastern margins and northwestern interior lack distributed validation; uncertain Fergusons Lake and southern Framboise pond candidates were not adopted"
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "Active affine-02: 3 fresh checks RMS 53.33 m, median 53.96 m, P95 54.73 m, max 54.81 m. Separate 9-check diagnostic reuse: RMS 76.77 m, max 168.46 m. Original affine-01 RMS 85.28 m retained. Six controls; sparse validation and regional limits remain.",
+    "coverage": "Complete original mapped rectangle, including all inland lakes, their islands and the southern Framboise drainage. No displaced inset identified."
+  },
+  "diagnostic_score": "scores-affine-02-diagnostic.json",
+  "prior_fit": "fit-affine-01.json"
+}

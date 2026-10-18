@@ -1,0 +1,48 @@
+{
+  "id": "R37",
+  "label": "Eastern Mill Brook branch at the River Inhabitants bank",
+  "role": "check",
+  "pixel_xy": [
+    5950.0,
+    15490.0
+  ],
+  "lonlat": [
+    -61.22207387291807,
+    45.64728231081436
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      5800,
+      15300
+    ],
+    "extent": [
+      650,
+      550
+    ],
+    "display": [
+      1300,
+      1100
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    300,
+    380
+  ],
+  "source_crop_sha256": "588c739d4ca7ae627a379885b6e6cc1671bfd851cd07a63242e3ad69d921b5aa",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    169149,
+    169150,
+    273659
+  ],
+  "reference_vertex": {
+    "feature_id": 169149,
+    "vertex": 63
+  },
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "Eastern tributary enters the outside bank immediately below the southern bend of the double-line River Inhabitants. Trace upstream via the broad southern U bend, northward turn and crossing below Kempt Road to the branch labelled Mill Brook; trace the main river north to the bridge and south past Long Point/Brule Point. The selected point is the tributary-to-bank entry, not the opposite inner bend, road crossing or lower eastern brook. Modern tributary 273659 vertex 92 exactly meets bank segments 169149 vertex 63 and 169150 vertex 0. Engraving thickness and generalized bank-mouth geometry remain uncertainty.",
+  "phase": "Additional post-freeze physical check; candidate14 unchanged, no tuning"
+}

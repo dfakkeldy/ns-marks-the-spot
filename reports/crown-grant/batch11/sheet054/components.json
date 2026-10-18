@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5704 x 3876 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 97.70 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          170,
+          0
+        ],
+        [
+          5640,
+          0
+        ],
+        [
+          5640,
+          3750
+        ],
+        [
+          170,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Windsor, Falmouth, Avon River, St Croix, Newport, Herbert River, Ellershouse, Hartville, Stillwater, Pigott Lake and all southern lakes. The mask extends to original y=0 to retain Dimock Point and the river geography drawn above the interrupted upper neatline. No inset or internal crop is introduced."
+    }
+  ]
+}

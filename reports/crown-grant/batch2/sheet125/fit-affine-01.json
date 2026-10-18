@@ -1,0 +1,175 @@
+{
+  "sheet": "125",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.8604093939875685,
+      1.9842480162771339
+    ],
+    [
+      2.089611266671208,
+      -4.912568147875825
+    ],
+    [
+      673404.1436938234,
+      5071900.248391281
+    ]
+  ],
+  "source_sha256": "82e7ae3b439cd595bd2a067a81ae77907864ec8ad3d8a55aa8f26b2572858d2d",
+  "source_dimensions": [
+    5768,
+    3839
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Bishops Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        388,
+        1708
+      ],
+      "lonlat": [
+        -60.70213674632279,
+        45.70884231357359
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 125691,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        445.4768552388414,
+        1707.066281557898
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Heifer Lake southwestern tip",
+      "role": "control",
+      "pixel_xy": [
+        4637,
+        1094
+      ],
+      "lonlat": [
+        -60.449710644355385,
+        45.80655176552448
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 138404,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4637.83193013171,
+        1087.518671533675
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "MacDonald Lake eastern southern hook",
+      "role": "control",
+      "pixel_xy": [
+        5041,
+        1981
+      ],
+      "lonlat": [
+        -60.40096771714992,
+        45.773412121209674
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 136190,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5065.804352257284,
+        1989.1903282139683
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Stirling McDonald Lake southern end",
+      "role": "control",
+      "pixel_xy": [
+        3686,
+        2530
+      ],
+      "lonlat": [
+        -60.47364531468361,
+        45.726858972555135
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 134233,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3723.8613609470194,
+        2531.9352178761037
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Island Lake western bay tip",
+      "role": "control",
+      "pixel_xy": [
+        4175,
+        1357
+      ],
+      "lonlat": [
+        -60.47063975837797,
+        45.78717119826364
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 124394,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4207.77397476125,
+        1361.3048259982606
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Grand Lake Uist southern bay apex",
+      "role": "control",
+      "pixel_xy": [
+        3104,
+        797
+      ],
+      "lonlat": [
+        -60.5532094495187,
+        45.794849710729125
+      ],
+      "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+      "reference_objectid": 139236,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3128.4721777421073,
+        785.9590551744914
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    12.804742039157189,
+    68.439408766237,
+    25.862635429785744,
+    32.33666885885095,
+    70.36314231133234,
+    21.839118364529423
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

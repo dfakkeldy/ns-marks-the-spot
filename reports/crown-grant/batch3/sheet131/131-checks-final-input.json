@@ -1,0 +1,106 @@
+[
+  [
+    "Q02",
+    "Little Island west end",
+    [
+      2662,
+      1040
+    ],
+    [
+      2735,
+      1000
+    ],
+    "WACO"
+  ],
+  [
+    "Q03",
+    "Condor Point south tip",
+    [
+      3888,
+      752
+    ],
+    [
+      3955,
+      720
+    ],
+    "WACO"
+  ],
+  [
+    "Q04",
+    "Jessop Point east tip",
+    [
+      3813,
+      1122
+    ],
+    [
+      3869,
+      1086
+    ],
+    "WACO"
+  ],
+  [
+    "Q05",
+    "Indian Lake east tip",
+    [
+      4505,
+      1310
+    ],
+    [
+      4562,
+      1282
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Scotch Lake east tip",
+    [
+      3198,
+      1530
+    ],
+    [
+      3263,
+      1490
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Long Island Barachois north apex",
+    [
+      1889,
+      1752
+    ],
+    [
+      1988,
+      1715
+    ],
+    "WACO"
+  ],
+  [
+    "Q08",
+    "McAuley southern lake south tip",
+    [
+      1467,
+      2710
+    ],
+    [
+      1514,
+      2660
+    ],
+    "WALK"
+  ],
+  [
+    "Q10",
+    "South Bar west tip",
+    [
+      5225,
+      1840
+    ],
+    [
+      5299,
+      1806
+    ],
+    "WACO"
+  ]
+]

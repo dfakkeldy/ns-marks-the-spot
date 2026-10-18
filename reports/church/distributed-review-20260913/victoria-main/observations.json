@@ -1,0 +1,50 @@
+{
+  "points": [
+    {
+      "id": "VM15",
+      "label": "East/West Branch Indian Brook northern confluence-bank apex",
+      "role": "check",
+      "pixel_xy": [
+        27084.5,
+        8379.5
+      ],
+      "lonlat": [
+        -60.557434497142445,
+        46.44362178086857
+      ],
+      "source_display_pixel_xy": [
+        429,
+        439
+      ],
+      "source_frame": {
+        "county": "victoria",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+        "origin": [
+          26870,
+          8160
+        ],
+        "extent": [
+          450,
+          450
+        ],
+        "display": [
+          900,
+          900
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "b08f0b78fcae7868fc5a020926b6484ab50010325638bcf8abe19e23d456fcaf",
+      "reference_feature_ids": [
+        155350,
+        176252
+      ],
+      "reference_vertex": {
+        "feature_id": 155350,
+        "vertex": 382
+      },
+      "uncertainty_ground_m": 100,
+      "identity_evidence": "Broad context and native lettering identify Indian Brook (initial search narration called it North River; corrected before measurement). West Branch runs through the distinctive west/east bends and northern East Branch approaches from the north before the downstream southwest elbow and southeast reach. Modern named bank segments East Branch Indian Brook 155350 and West Branch Indian Brook 176252 share the northern interfluve apex. Source point is on that bank junction, not the POOL text or channel centre.",
+      "validation_phase": "fresh northern-interior check against unchanged four-control physical affine"
+    }
+  ]
+}

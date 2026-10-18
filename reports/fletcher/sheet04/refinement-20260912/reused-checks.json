@@ -1,0 +1,104 @@
+{
+  "sheet": "sheet-04",
+  "fit_sha256": "cfd7390a4b70e2673d7507a9ac3fea9368034de3c34e102595334a0f1178e292",
+  "scope": "Previously scored diagnostics only, no fresh evidence.",
+  "points": [
+    {
+      "lonlat": [
+        -60.430528,
+        46.6878138
+      ],
+      "source_guide_xy": [
+        2006.0975807991344,
+        4282.387893600389
+      ],
+      "objectids": [
+        191511,
+        261648,
+        261766
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2155,
+        4237
+      ],
+      "modern_node_id": "J0602",
+      "identity_evidence": "Cameron Brook southern tributary just east of C05",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact corrected crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2155,
+        4245
+      ],
+      "limitation": "Historical tributary length differs; local tributary order supports identity."
+    },
+    {
+      "lonlat": [
+        -60.4054141,
+        46.7168695
+      ],
+      "source_guide_xy": [
+        2550.727661759127,
+        3369.2253540002275
+      ],
+      "objectids": [
+        141321,
+        141322,
+        282122
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        2629,
+        3353
+      ],
+      "modern_node_id": "J0470",
+      "identity_evidence": "Warren Brook inlet at Warren Lake northwestern lobe",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact corrected crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2626,
+        3346
+      ],
+      "limitation": "Historical lake shoreline and upstream meanders differ; named inlet is supported."
+    },
+    {
+      "lonlat": [
+        -60.34065358161873,
+        46.68132471304055
+      ],
+      "guide_xy": [
+        3955.1501675830223,
+        4486.32691856171
+      ],
+      "modern_objectid": 17819,
+      "modern_part": 0,
+      "modern_vertex": 144,
+      "modern_properties": {
+        "OBJECTID": 17819,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 1329.3762826399097
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        3987,
+        4407
+      ],
+      "identity_evidence": "Ingonish Island southernmost shoreline",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        3970,
+        4405
+      ],
+      "limitation": "Broad historical island outline differs from detailed modern shoreline."
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "date": "2026-07-31",
+  "runtimeUnderTest": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+  "worktree": "/Users/dfakkeldy/Developer/ns-marks-geopdf-acceptance",
+  "branch": "feature/web-geopdf-browser-acceptance-20260730",
+  "node": "v22.23.1",
+  "npm": "10.9.8",
+
+  "verdict": "ENVIRONMENT_ARTIFACT_NOT_A_DEPENDENCY_PROBLEM_AND_NOT_AN_INCOMPATIBILITY",
+  "rootCause": "NODE_ENV=production injected into the agent tool-execution shell, inherited by every agent-run command",
+  "npmCiRun": false,
+  "nodeModulesModified": false,
+  "vitePreviewServerStopped": false,
+  "distRebuilt": false,
+  "repositoryFilesChanged": false,
+
+  "runs": [
+    {
+      "label": "inherited agent shell",
+      "command": "npx vitest run",
+      "cwd": "web",
+      "NODE_ENV": "production",
+      "exitCode": 1,
+      "testFiles": { "failed": 33, "passed": 59, "skipped": 1, "total": 93 },
+      "tests": { "failed": 371, "passed": 495, "skipped": 1, "total": 867 },
+      "durationSeconds": 15.25,
+      "matchesInheritedReport": true,
+      "log": "vitest-NODE_ENV-production.log"
+    },
+    {
+      "label": "same tree, one variable changed",
+      "command": "NODE_ENV=test npx vitest run",
+      "cwd": "web",
+      "NODE_ENV": "test",
+      "exitCode": 0,
+      "testFiles": { "failed": 0, "passed": 92, "skipped": 1, "total": 93 },
+      "tests": { "failed": 0, "passed": 1057, "skipped": 1, "total": 1058 },
+      "durationSeconds": 24.96,
+      "log": "vitest-NODE_ENV-test.log"
+    }
+  ],
+
+  "errorClasses": {
+    "React.act is not a function": {
+      "occurrences": 370,
+      "origin": "node_modules/react-dom/cjs/react-dom-test-utils.production.js:20:16 via @testing-library/react/dist/act-compat.js:46:25",
+      "mechanism": "React 19 resolves its entry by export condition; `act` exists only in the development build. Under NODE_ENV=production, @testing-library/react loads the production build and receives undefined.",
+      "suiteFilesAffected": 19
+    },
+    "No such built-in module: node:": {
+      "occurrences": 1,
+      "effect": "14 suite files failed to LOAD (bare `node:` specifier with no module name)",
+      "suiteFilesAffected": 14,
+      "files": [
+        "scripts/cbrmTaxSaleResults.test.mjs",
+        "scripts/generateInvernessHydroPilot.test.mjs",
+        "scripts/refreshInvernessTaxSale.test.mjs",
+        "scripts/refreshPictouTaxSaleResults.test.mjs",
+        "scripts/taxSaleWatch/archive.test.mjs",
+        "scripts/taxSaleWatch/dataset.test.mjs",
+        "scripts/taxSaleWatch/watchTaxSaleSources.test.mjs",
+        "src/styles.test.ts",
+        "src/userMaps/browserAcceptanceReceipt.test.ts",
+        "src/userMaps/parsers/fletcherGcps.test.ts",
+        "src/userMaps/parsers/geoPdfMetadata.test.ts",
+        "src/userMaps/parsers/geoTiffSource.test.ts",
+        "src/userMaps/testFixtures.test.ts",
+        "src/userMaps/useUserMaps.test.ts"
+      ]
+    },
+    "note": "Both classes disappear together under NODE_ENV=test. One cause, two symptoms — not two independent problems. 19 + 14 = the 33 failing suite files."
+  },
+
+  "reactActProbe": {
+    "NODE_ENV=production": "undefined",
+    "NODE_ENV=test": "function",
+    "NODE_ENV=development": "function"
+  },
+
+  "dependencyStateRuledOut": {
+    "npmLsIncludeDevDepth0": "no UNMET, invalid, missing, or extraneous entries",
+    "versions": [
+      { "package": "react", "declared": "19.2.7", "installed": "19.2.7" },
+      { "package": "react-dom", "declared": "19.2.7", "installed": "19.2.7" },
+      { "package": "@testing-library/react", "declared": "16.3.2", "installed": "16.3.2" },
+      { "package": "@testing-library/dom", "declared": "transitive", "installed": "10.4.1" },
+      { "package": "vitest", "declared": "4.1.10", "installed": "4.1.10" },
+      { "package": "vite", "declared": "8.1.5", "installed": "8.1.5" },
+      { "package": "jsdom", "declared": "29.1.1", "installed": "29.1.1" },
+      { "package": "@vitejs/plugin-react", "declared": "6.0.3", "installed": "6.0.3" }
+    ],
+    "conclusion": "npm ci would not have changed any of this. The predecessor's incomplete-install hypothesis is ruled out, not merely doubted."
+  },
+
+  "environmentProvenance": {
+    "shellRcFilesScanned": [
+      "~/.zshenv", "~/.zprofile", "~/.zshrc", "~/.profile", "~/.bash_profile",
+      "/etc/zshenv", "/etc/zprofile", "/etc/zshrc"
+    ],
+    "nodeEnvFoundInRcFiles": false,
+    "launchctlGetenvNodeEnv": "",
+    "dotEnvFilesInRepo": "none",
+    "ciWorkflowNodeEnv": "none",
+    "cleanLoginShellTest": {
+      "command": "env -i HOME=$HOME TERM=xterm /bin/zsh -l -c 'echo [$NODE_ENV]'",
+      "result": "[]"
+    },
+    "parentChain": "zsh -> Claude Helper (Plugin) (node.mojom.NodeService) -> Claude.app",
+    "conclusion": "Injected by the agent tool-execution process chain. The user's own terminal, hosted CI, and the branch are all unaffected. Only agent-run shells inherit it.",
+    "sameCauseAsPriorTrap": "../2026-07-30/stop-rule-1-import-hang/findings.md §10 — a bare `npm ci` installing 57 packages and omitting devDependencies is the same variable"
+  },
+
+  "localGates": {
+    "claimed": true,
+    "shellPrefixRequired": "NODE_ENV=test (corrects the agent environment; does not patch the repository)",
+    "results": {
+      "nodeScriptTests": { "command": "NODE_ENV=test npm test", "tests": 12, "pass": 12, "fail": 0 },
+      "vitest": { "files": { "passed": 92, "skipped": 1 }, "tests": { "passed": 1057, "skipped": 1 } },
+      "npmTestExitCode": 0,
+      "lint": { "command": "NODE_ENV=test npm run lint", "exitCode": 0, "output": "clean" },
+      "checkPdfAssets": { "command": "NODE_ENV=test npm run check:pdf-assets", "exitCode": 0, "output": "checked 200 PDF.js assets" },
+      "build": { "run": false, "claimed": false, "reason": "npm run build overwrites web/dist/, the exact artifact served live by :4320 and :4340 that all committed Firefox evidence was measured against. Deliberate non-action." }
+    },
+    "agreementWithReceipt": "Every figure matches ../2026-07-30/stop-rule-1-import-hang/findings.md §10 for a75fef33c: 12/12 script tests, 1057 passed / 1 skipped, 92 files passed / 1 skipped, lint clean, 200 PDF.js assets."
+  },
+
+  "discardedAttempts": [
+    {
+      "command": "npx vitest run --reporter=basic",
+      "outcome": "died in loadCustomReporterModule; the `basic` reporter was removed in Vitest 4",
+      "attribution": "my harness mistake, not a repository fact",
+      "numbersUsed": false
+    }
+  ],
+
+  "claimsUnchangedByThisRun": {
+    "browserAcceptanceAnyBrowser": "NOT_CLAIMED",
+    "desktopSafari": "BLOCKED",
+    "chrome": "BLOCKED",
+    "chromium": "BLOCKED",
+    "physicalMobileSafari": "WAITING_FOR_USER",
+    "firefox": "extends the record; closes no Firefox line item",
+    "longTaskDiagnostic200ms": "OPEN — Firefox has no instrument, Chromium BLOCKED, Safari unreachable",
+    "receiptIntegrityQuestion": "OPEN",
+    "fixtureManifestDefect": "OPEN, unactioned (6 of 13 expected values wrong; its test asserts the manifest against itself)",
+    "byteEncNoTypedError": "OPEN, explicitly distinct from the Chrome hang",
+    "geoPdfApprovedRules": "empty and unchanged; standing recommendation is AGAINST a producer-specific rule",
+    "hostedCI": "NOT_CLAIMED",
+    "merge": "NOT_CLAIMED",
+    "deployment": "NOT_CLAIMED",
+    "corpusPdfInCommit": false
+  },
+
+  "recommendedNotActioned": "If the project wants agent runs robust against a hostile ambient NODE_ENV, pin it in the test entry point (test.env.NODE_ENV = 'test' in vite.config.ts, or NODE_ENV=test in the test script). No change is made in this commit; the repository is not at fault."
+}

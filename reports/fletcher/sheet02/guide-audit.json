@@ -1,0 +1,16 @@
+{
+  "source_sha256": "b4094db3ab94e60e3f30727c7edb97d6ac66e19a7e640c3a5ce3b339b91e1922",
+  "prior_encoding_sha256": "ecb32ff9ae2f4225abd248540ddfa14f829b5c96aafe30b69820a381b0d80eee",
+  "method": "Eight previously recorded slanted crossings retained for search only. This pass checked native latitude labels and outer retained longitude labels; it did not freshly measure all crossings.",
+  "longitude_labels": [
+    "60d25mW",
+    "60d20mW",
+    "60d15mW",
+    "60d10mW"
+  ],
+  "latitude_labels": [
+    "46d55mN",
+    "46d50mN"
+  ],
+  "physical_fitting_constraint": false
+}

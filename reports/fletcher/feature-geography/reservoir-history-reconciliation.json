@@ -1,0 +1,117 @@
+{
+  "reviewed_at": "2026-09-13",
+  "source": {
+    "title": "Little River Pumping and Transmission System Project Environmental Assessment Registration",
+    "prepared_by": "Stantec Consulting Ltd.",
+    "prepared_for": "Landrie Lake Water Utility c/o Town of Port Hawkesbury",
+    "date": "2026-01-05",
+    "file_number": "121418143",
+    "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121",
+    "pdf_page_one_based": 121,
+    "printed_page": "5-81",
+    "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/reservoir-history/little-river-ea-registration-document.pdf",
+    "sha256": "523afeff0eb8e9333d7ad8251fbdca21edc1626d1a83d4307d8059f161905575"
+  },
+  "source_summary": "The assessment describes damming of Sea Coal Brook and Little River, altered reservoir shorelines, and a flooded and realigned railway spur. It cites 1940/1953 photographs before flooding and water-utility construction during the 1950s/1960s.",
+  "review_method": "Read the complete relevant PDF page and inspect its rendered image. The cited aerial photographs were not independently inspected. Compare the already reviewed source paths against the frozen fit, NSTDB reservoir type and surrounding drainage/transport context. This corroborates historical change, not exact source-pixel or modern-site coordinates.",
+  "rendered_page": {
+    "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/reservoir-history/page-121.png",
+    "sha256": "5907b2d78c09175d65395d055f9933e496ac06170619bcd54e02875c0d46a460"
+  },
+  "prior_feature_evidence": {
+    "revision": "d0f8f1f01bf64fc6a0fa63779bf39932a7ba7db6",
+    "path": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+    "sha256": "aaa01558f6d06829041a4cbc1240f120cc4ab75a687247b4b5df6304029f771a"
+  },
+  "previous_placement_review_sha256": "bf9e9e6093c4478d1b2110a16c80dfa4e59d14b30ce1513a9861fd06d3255b32",
+  "current_placement_review_sha256": "15da9b72a7f1d0ba8977e3308cdf9f14953e4b912a5fa9139d6d20aa09039507",
+  "revisions": [
+    {
+      "annotation_id": "F22-HAW-243",
+      "previous_review": {
+        "annotation_id": "F22-HAW-243",
+        "status": "locality-unresolved",
+        "reviewed_at": "2026-09-13",
+        "reviewer": "Codex coordinator",
+        "scene": "hawkesbury-road-243-geography.jpg",
+        "scene_sha256": "f40825856a599339755f7561690fb30d08e86a8361fa9f55828a11486393f5f3",
+        "evidence": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+      },
+      "current_review": {
+        "annotation_id": "F22-HAW-243",
+        "status": "approximate-placement-reviewed",
+        "reviewed_at": "2026-09-13",
+        "reviewer": "Codex coordinator",
+        "scene": "hawkesbury-road-243-geography.jpg",
+        "scene_sha256": "f40825856a599339755f7561690fb30d08e86a8361fa9f55828a11486393f5f3",
+        "evidence": "The complete historical road remains in the Landrie basin, with its northern approach and adjacent source railway kept distinct. Documented reservoir changes explain the modern-water overlap. The frozen source projection is retained as approximate historical evidence; present alignment and exact pre-reservoir position are not established.",
+        "previous_reviews": [
+          {
+            "annotation_id": "F22-HAW-243",
+            "status": "locality-unresolved",
+            "reviewed_at": "2026-09-13",
+            "reviewer": "Codex coordinator",
+            "scene": "hawkesbury-road-243-geography.jpg",
+            "scene_sha256": "f40825856a599339755f7561690fb30d08e86a8361fa9f55828a11486393f5f3",
+            "evidence": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+          }
+        ],
+        "supporting_sources": [
+          {
+            "title": "Reservoir history assessment (2026)",
+            "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121"
+          }
+        ],
+        "reconciliation_receipt": "reservoir-history-reconciliation.json"
+      },
+      "geometry_unchanged": true,
+      "geometry_sha256": "060199bff820f306558df751dbc944e46dfc9d71558773a25198a0cc3414b2d5"
+    },
+    {
+      "annotation_id": "F22-HAW-278",
+      "previous_review": {
+        "annotation_id": "F22-HAW-278",
+        "status": "locality-unresolved",
+        "reviewed_at": "2026-09-13",
+        "reviewer": "Codex coordinator",
+        "scene": "hawkesbury-watercourse-278-geography.jpg",
+        "scene_sha256": "991231add5c47f3d6ddb8f9414789408f63147a9b10840e9e1525036d0f627f6",
+        "evidence": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
+      },
+      "current_review": {
+        "annotation_id": "F22-HAW-278",
+        "status": "approximate-placement-reviewed",
+        "reviewed_at": "2026-09-13",
+        "reviewer": "Codex coordinator",
+        "scene": "hawkesbury-watercourse-278-geography.jpg",
+        "scene_sha256": "991231add5c47f3d6ddb8f9414789408f63147a9b10840e9e1525036d0f627f6",
+        "evidence": "The complete historical brook remains in the Landrie basin and retains its eastern drainage/transport relationship. Documented reservoir changes explain the modern-water overlap. The frozen source projection is retained as approximate historical evidence; present alignment and exact pre-reservoir position are not established.",
+        "previous_reviews": [
+          {
+            "annotation_id": "F22-HAW-278",
+            "status": "locality-unresolved",
+            "reviewed_at": "2026-09-13",
+            "reviewer": "Codex coordinator",
+            "scene": "hawkesbury-watercourse-278-geography.jpg",
+            "scene_sha256": "991231add5c47f3d6ddb8f9414789408f63147a9b10840e9e1525036d0f627f6",
+            "evidence": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
+          }
+        ],
+        "supporting_sources": [
+          {
+            "title": "Reservoir history assessment (2026)",
+            "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121"
+          }
+        ],
+        "reconciliation_receipt": "reservoir-history-reconciliation.json"
+      },
+      "geometry_unchanged": true,
+      "geometry_sha256": "a9d111f5183dbe1b6238b37778235bffe29b40b231571961b6a746e66ce90b3c"
+    }
+  ],
+  "new_reviews_informed": [
+    "F22-HAW-233",
+    "F22-HAW-234"
+  ],
+  "limits": "No new transform, coordinate snapping, historical water level, precise inundation date, building match, current spring, access or navigational conclusion. Earlier holdback reviews remain preserved; unrelated geographic discrepancies remain open."
+}

@@ -1,0 +1,116 @@
+[
+  [
+    "Q01",
+    "Gillis Brook upper McLeod Brook confluence",
+    [
+      1590,
+      2551
+    ],
+    [
+      1593.38,
+      2529.92
+    ],
+    "WARV",
+    [
+      270362,
+      270503,
+      298850
+    ]
+  ],
+  [
+    "Q03",
+    "Northeast Baddeck branch northern bank bend",
+    [
+      3434,
+      3158
+    ],
+    [
+      3450,
+      3127
+    ],
+    "WARV10"
+  ],
+  [
+    "Q04",
+    "Central upper round pond southern tip",
+    [
+      3577,
+      1009
+    ],
+    [
+      3581,
+      972
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Northeastern angular lake northern corner",
+    [
+      5030,
+      582
+    ],
+    [
+      5042,
+      545
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Beaton Brook lower pond southern tip",
+    [
+      4086,
+      1694
+    ],
+    [
+      4090,
+      1665
+    ],
+    "WALK"
+  ],
+  [
+    "Q07",
+    "Beaton Brook upper pond northern tip",
+    [
+      4117,
+      1579
+    ],
+    [
+      4121,
+      1546
+    ],
+    "WALK"
+  ],
+  [
+    "Q08",
+    "Upper Middle River eastern large loop northern bank crest",
+    [
+      1788,
+      930
+    ],
+    [
+      1798,
+      910
+    ],
+    "WARV10"
+  ],
+  [
+    "Q09",
+    "North Baddeck western of two adjacent confluences",
+    [
+      3138,
+      1792
+    ],
+    [
+      3138.878,
+      1762.278
+    ],
+    "WARV",
+    [
+      177147,
+      177272,
+      184743
+    ]
+  ]
+]

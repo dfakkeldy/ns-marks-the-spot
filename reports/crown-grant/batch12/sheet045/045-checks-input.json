@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Caribou or Long Lake southwest tip",
+    [
+      426,
+      341
+    ],
+    [
+      429,
+      280
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Porcupine Lake southern tip",
+    [
+      2330,
+      820
+    ],
+    [
+      2348,
+      768
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Duck Pond southern tip",
+    [
+      3678,
+      764
+    ],
+    [
+      3720,
+      700
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Five Island Lake northern inlet",
+    [
+      5038,
+      1467
+    ],
+    [
+      5070,
+      1406
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Little Salter Lake western outlet",
+    [
+      4445,
+      1930
+    ],
+    [
+      4477,
+      1878
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Bill Lake southern tip",
+    [
+      4209,
+      2241
+    ],
+    [
+      4235,
+      2184
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Big Otter Lake southern tip",
+    [
+      3968,
+      3516
+    ],
+    [
+      3982,
+      3445
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Lawson Lake northern inlet",
+    [
+      1281,
+      3423
+    ],
+    [
+      1263,
+      3358
+    ],
+    "WALK20"
+  ],
+  [
+    "Q09",
+    "Little Otter Lake southern tip",
+    [
+      4063,
+      3166
+    ],
+    [
+      4080,
+      3104
+    ],
+    "WALK20"
+  ]
+]

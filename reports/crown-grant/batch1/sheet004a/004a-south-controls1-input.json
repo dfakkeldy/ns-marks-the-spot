@@ -1,0 +1,41 @@
+[
+  [
+    "SA01",
+    "Northern Southern-Seal island northern tip",
+    [
+      1000,
+      4030
+    ],
+    [
+      953,
+      4012
+    ],
+    "WACO"
+  ],
+  [
+    "SA03",
+    "Southern Seal island southern tip",
+    [
+      772,
+      4800
+    ],
+    [
+      752,
+      4810
+    ],
+    "WACO"
+  ],
+  [
+    "SA05",
+    "Southern Seal island western corner",
+    [
+      660,
+      4699
+    ],
+    [
+      622,
+      4708
+    ],
+    "WACO"
+  ]
+]

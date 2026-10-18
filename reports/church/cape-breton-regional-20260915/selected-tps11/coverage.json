@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-cape-breton-regional-20260915/rendered/cape-breton-tps11-review-20m.tif",
+  "raster_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "cutline_sha256": "651a3701cac4ea0e15de78b5c63ee5c0dda8ab351eefdb10dad092512c936021",
+  "expected_interior_cells": 23417439,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "C01",
+    "label": "Creeping Head outer shore tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2267,
+      784
+    ],
+    "lonlat": [
+      -61.89524002807166,
+      45.75758022512338
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 10949,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2312.284092813614,
+      727.9225012824754
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Lakevale western mouth bank at coastline",
+    "role": "proposal",
+    "pixel_xy": [
+      2867,
+      773
+    ],
+    "lonlat": [
+      -61.91033157945436,
+      45.782173004453824
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 10344,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2894.884804610512,
+      732.9487114477088
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Small stream mouth south of Ballantyne Cove",
+    "role": "proposal",
+    "pixel_xy": [
+      4515,
+      1479
+    ],
+    "lonlat": [
+      -61.90589254666233,
+      45.863242814307974
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 4464,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4483.136969212908,
+      1505.2306953428779
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Livingstone Cove beach creek mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5030,
+      457
+    ],
+    "lonlat": [
+      -61.98058313123807,
+      45.86692992523116
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 4419,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5014.317961786524,
+      497.9803525219904
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Cape George southwest shoreline corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4632,
+      1716
+    ],
+    "lonlat": [
+      -61.89548096839221,
+      45.871485297944766
+    ],
+    "guide_file": ".crown-grant-local/103-regional-similarity-guide.npy",
+    "reference_objectid": 22601,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4583.665699817706,
+      1722.3899252656847
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

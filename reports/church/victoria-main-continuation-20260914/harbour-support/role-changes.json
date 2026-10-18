@@ -1,0 +1,35 @@
+{
+  "promoted_unchanged": "VM26",
+  "original_observation_sha256": "ba94872de3ca64c9f73afc13a6600e550af9405e237fe299a1041e41f0fc1e20",
+  "preserved_first": "../central-river-support/VM26-first.json",
+  "prior_first_checks_now_diagnostic": [
+    "VM24",
+    "VM25"
+  ],
+  "previous_frozen_phase": "../central-river-support/freeze.json",
+  "correspondence_audit": "../VM08-identity-audit.json",
+  "excluded_from_checks": [
+    "VM01",
+    "VM02",
+    "VM06",
+    "VM11",
+    "VM17",
+    "VM18",
+    "VM08",
+    "VM19",
+    "VM10",
+    "VM12",
+    "VM15",
+    "VM23",
+    "VM07",
+    "VM20",
+    "VM26"
+  ],
+  "diagnostics": [
+    "VM21",
+    "VM22",
+    "VM24",
+    "VM25"
+  ],
+  "geographic_acceptance": false
+}

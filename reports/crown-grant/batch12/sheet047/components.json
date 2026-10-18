@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5593 x 3930 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 72.28 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          125,
+          110
+        ],
+        [
+          5510,
+          110
+        ],
+        [
+          5510,
+          3810
+        ],
+        [
+          125,
+          3810
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Chester, Chester Basin, Gold River, Western Shore, Martin and Indian Points, Lunenburg, East River, Mill Cove, Blandford, Bayswater and Aspotogan; Oak, Meisner, Snake, Rouse, Black, Mason, Rafuse, Big and Little Tancook, Gravel and all other depicted islands and Atlantic/Mahone Bay water remain included. Big and Little Tancook are in their mapped positions, not displaced insets."
+    }
+  ]
+}

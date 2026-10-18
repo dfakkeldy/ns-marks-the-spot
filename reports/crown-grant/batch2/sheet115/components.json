@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5590 x 3839 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 61.66 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          38,
+          115
+        ],
+        [
+          5530,
+          115
+        ],
+        [
+          5530,
+          3750
+        ],
+        [
+          38,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retained, including Lake Ainslie and eastern inland brooks. No separate inset identified. Shoreline and inland junction checks are reported by region."
+    }
+  ]
+}

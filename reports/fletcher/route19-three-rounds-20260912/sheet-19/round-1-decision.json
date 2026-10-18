@@ -1,0 +1,11 @@
+{
+  "sheet": "19",
+  "round": 1,
+  "before_rms_ground_m": 90.98568432530145,
+  "after_rms_ground_m": 90.98568432530145,
+  "proposal": null,
+  "accepted_pending_render": false,
+  "note": "Southern/eastern review of O09/O10/O11/D04 found source crosshairs on the stated junctions. Considered the next eastern Big Brook junction below O09; modern double-bank geometry and source single-line definition do not yet establish a unique shared point, so did not add it. Existing 20 check coordinates preserved.",
+  "trial_rms_ground_m": null,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

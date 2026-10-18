@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C02",
+    "label": "Inset northern lower headland northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      818,
+      527
+    ],
+    "lonlat": [
+      -64.9396273699128,
+      45.359608971309015
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 4148,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4148,
+    "nearest_unfiltered_distance_guide_px": 0.9789337124773656,
+    "selected_distance_guide_px": 0.9789337124773656,
+    "guide_reference_pixel_xy": [
+      831.277779992146,
+      484.9386956319213
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Inset southeastern southern coast bend",
+    "role": "proposal",
+    "pixel_xy": [
+      947,
+      1184
+    ],
+    "lonlat": [
+      -64.91333406026229,
+      45.333511888247386
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 1870,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1870,
+    "nearest_unfiltered_distance_guide_px": 1.1626607443431458,
+    "selected_distance_guide_px": 1.1626607443431458,
+    "guide_reference_pixel_xy": [
+      966.0690823710756,
+      1142.543006684631
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Inset middle western projecting thumb",
+    "role": "proposal",
+    "pixel_xy": [
+      602,
+      908
+    ],
+    "lonlat": [
+      -64.94284625302731,
+      45.338647520996204
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 4151,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4151,
+    "nearest_unfiltered_distance_guide_px": 0.17301226447418763,
+    "selected_distance_guide_px": 0.17301226447418763,
+    "guide_reference_pixel_xy": [
+      613.0060429543955,
+      867.8270933015738
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Inset south-central eastern projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      719,
+      1173
+    ],
+    "lonlat": [
+      -64.9289049183562,
+      45.32918033578688
+    ],
+    "guide_file": ".crown-grant-local/041-inset-continuation-guide.npy",
+    "reference_objectid": 1870,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1870,
+    "nearest_unfiltered_distance_guide_px": 1.2006217892126418,
+    "selected_distance_guide_px": 1.2006217892126418,
+    "guide_reference_pixel_xy": [
+      720.9781382912188,
+      1132.6962314011762
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

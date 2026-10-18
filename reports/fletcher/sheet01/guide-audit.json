@@ -1,0 +1,10 @@
+{
+  "source_sha256": "ee65feacee038b3f57804b3e88ceedba38bc810682faa79d305ea8000c9130a3",
+  "prior_encoding_sha256": "0df00e295c3f798c9ad4b72ca07768b06fd0267e02e491be1e556bef846609a1",
+  "method": "Native latitude and all four longitude labels personally inspected. Old meridians 60d45/40/35/30W were wrong; corrected search guide uses 60d40/35/30/25W. Eight original crossing pixels retained, not remeasured. Original files unchanged.",
+  "latitude_labels": [
+    "47d05mN",
+    "47d00mN"
+  ],
+  "physical_fitting_constraint": false
+}

@@ -1,0 +1,12 @@
+{
+  "stage": "Before first fit and score",
+  "rejected": [
+    "Lake Martin Q07 WALK20 nearest213.7guidepx rejected; initial checks-points not completed.",
+    "Lake Martin C07 WALK20 selected a neighbouring northern waterbody and is rejected."
+  ],
+  "resolution": "Lake Martin depicted widening on Jordan River uses the visible WARV20 bank outline; corrected typed packets inspected independently.",
+  "physical_corrections": [
+    "Grays northern source roof refined onto outline.",
+    "Beartrack southern reference refined to southern shore low point."
+  ]
+}

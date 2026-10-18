@@ -1,0 +1,195 @@
+{
+  "count": 6,
+  "rms_ground_m": 99.94387565080184,
+  "median_ground_m": 87.09371348335645,
+  "p95_ground_m": 150.69483832143567,
+  "max_ground_m": 162.19720981211017,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 56.676496738385204,
+  "mean_north_ground_m": 59.96738176734718,
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Point Gabion southern apex",
+      "role": "check",
+      "pixel_xy": [
+        552,
+        592
+      ],
+      "lonlat": [
+        -60.7353855831906,
+        45.57132356795279
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 2736,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        590.1273087399313,
+        575.4937606919557
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.734584700953675,
+        45.571454515085
+      ],
+      "error_ground_m": 64.18797675039657,
+      "east_ground_m": 62.516179779997806,
+      "north_ground_m": 14.554161776771789
+    },
+    {
+      "id": "MQ02",
+      "label": "Northern Basque Island north tip",
+      "role": "check",
+      "pixel_xy": [
+        1808,
+        839
+      ],
+      "lonlat": [
+        -60.64979637140444,
+        45.580740733621646
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 17356,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1837.2912487467402,
+        838.5243535134941
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.64892597821896,
+        45.58151916944521
+      ],
+      "error_ground_m": 109.99945021631632,
+      "east_ground_m": 67.93000848056131,
+      "north_ground_m": 86.51816569786209
+    },
+    {
+      "id": "MQ03",
+      "label": "Eastern Basque Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1904,
+        880
+      ],
+      "lonlat": [
+        -60.64235776662493,
+        45.58031643647555
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 18502,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1936.4062795444624,
+        885.55834403052
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.641849839060036,
+        45.581299096479796
+      ],
+      "error_ground_m": 116.1877238494122,
+      "east_ground_m": 39.64146223579548,
+      "north_ground_m": 109.21603199675069
+    },
+    {
+      "id": "MQ04",
+      "label": "Southwestern Basque Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        1775,
+        930
+      ],
+      "lonlat": [
+        -60.650482412082845,
+        45.57600404350834
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 17357,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1792.4685550390277,
+        927.3351204076316
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.64885025807271,
+        45.57690732740306
+      ],
+      "error_ground_m": 162.19720981211017,
+      "east_ground_m": 127.3922114650503,
+      "north_ground_m": 100.39501645439178
+    },
+    {
+      "id": "MQ05",
+      "label": "Red Head southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2271,
+        544
+      ],
+      "lonlat": [
+        -60.62720422333251,
+        45.60223893366877
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 9451,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2308.453172867943,
+        536.8504721262725
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.62654944873893,
+        45.602433720736855
+      ],
+      "error_ground_m": 55.481338224261364,
+      "east_ground_m": 51.08303579956212,
+      "north_ground_m": 21.649534513599605
+    },
+    {
+      "id": "MQ06",
+      "label": "St Esprit Island western tip",
+      "role": "check",
+      "pixel_xy": [
+        4235,
+        885
+      ],
+      "lonlat": [
+        -60.49345962763591,
+        45.61978575719141
+      ],
+      "guide_file": ".crown-grant-local/126-main-topology-guide.npy",
+      "reference_objectid": 22545,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4278.041779075225,
+        888.9707950477023
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and broader coastal geometry inspected before first scoring; not fitted.",
+      "predicted_lonlat": [
+        -60.493568663653015,
+        45.62003292663901
+      ],
+      "error_ground_m": 28.757491860739368,
+      "east_ground_m": -8.50391733065576,
+      "north_ground_m": 27.471380164707117
+    }
+  ],
+  "fit_sha256": "df5486d8368b3d85caad15cfe58160c1f50ba3539e89788742f552553dd5f4b4",
+  "checks_sha256": "7a5eaeb3d8cf4a6b2e23fbcb73664a2e973398c2fc8a5e37de28287ffa27c655",
+  "status": "Reserved excluded physical checks; narrow coastal distribution with sparse counts"
+}

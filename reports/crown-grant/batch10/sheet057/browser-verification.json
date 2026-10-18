@@ -1,0 +1,48 @@
+{
+  "verified_at_utc": "2026-09-25T03:13:14.204250+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "057",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6077,
+        5170
+      ],
+      "complete": true
+    },
+    {
+      "file": "peggy-cove-inset-3857.png",
+      "dimensions": [
+        1118,
+        1102
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5699,
+        3850
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Whole mapped frame and displaced inset inspected in actual browser at65% and modern-only. Both raster elements decoded and followed opacity values.",
+    "Inset additionally inspected after two zooms at500 m displayed scale in historical and modern-only views.",
+    "Native mask audit and exact source union retain full ocean and inset border. Numeric passes do not validate unsampled interiors."
+  ]
+}

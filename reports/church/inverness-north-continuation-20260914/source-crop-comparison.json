@@ -1,0 +1,22 @@
+{
+  "original_crop": "/Users/dfakkeldy/Downloads/church-north-continuation-20260914/IN2-north-context-mem.jpg",
+  "original_crop_sha256": "04e44c54619790b661d8fb7ebb3a56bbb840c41bd574aecdbb699fe8a365042b",
+  "working_tiff_crop": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/IN2-fast-search.jpg",
+  "working_crop_sha256": "e6f86b1e73d0c525100fa28d130f74829c6e8d55d3b3b25d08ef0cd48ab29b61",
+  "source_origin": [
+    11800,
+    800
+  ],
+  "source_extent": [
+    3900,
+    5400
+  ],
+  "display": [
+    1300,
+    1800
+  ],
+  "rotation": 0,
+  "pixels_equal": false,
+  "max_channel_difference": 128,
+  "scope": "Comparison of decoded JPEG review crops at one-third source resolution in this northern window only. Does not prove all native pixels or the entire working TIFF equal the original. New point observations still require native detail."
+}

@@ -1,0 +1,60 @@
+{
+  "reviewed_at": "2026-09-12",
+  "url": "http://127.0.0.1:4182/?basemap=fletcher&taxSale=off&layers=modern",
+  "browser": "Chromium via repository Playwright; Browser plugin/skill not available",
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "local_provincial_archive_sha256": "728ab9c9b5d20199ea6bdbf13815cab4d4168271dcc6454c037aeea142e3826e",
+  "checks": [
+    "keyboard shared-group selection exposes both records",
+    "toggle removes/restores geometry",
+    "mobile heading unobscured",
+    "source popup temporarily hides overlapping map tools and restores them on close",
+    "no framework overlay",
+    "clean console"
+  ],
+  "additional_checks": [
+    "Actual Atlas Fletcher basemap with NSRN Highway 19 and NSTDB water/woodland",
+    "Corrected church selection, local native excerpt, separate confidence text, details and source links",
+    "Shared Shop/P.O. group exposes both records",
+    "Existing theme-manager keyboard and phone-category browser tests"
+  ],
+  "final_console_errors": [],
+  "earlier_findings": [
+    "Local PMTiles archive initially absent; restored matching content-addressed bytes from existing checkout. Initial map had missing provincial roads/water and one transient React update warning. Repeated actual-source checks were clean.",
+    "Popup inherited feature pane and could be covered by markers. Explicit popup pane separates source evidence.",
+    "Phone map tools obscured popup text. While source popup is open, overlapping location/measure controls hide and restore on close; title/close remain visible.",
+    "Keyboard child-polygon selection did not propagate to GeoJSON group popup. Matching click propagation now exposes both service records."
+  ],
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-desktop.png",
+      "sha256": "637d80b18e517421e753eca5184cf831262db56b7a7bb968a04b89e170d057ae"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-church-popup.png",
+      "sha256": "8568538b5c2c9b44ac176858fb57c7c1b1663bdf163cc5ee170ac8ceb704344d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mobile-final.png",
+      "sha256": "7f2a4ea2e2d415eaf3caaa9f7cf48144eeb7f2a0b933327265ef8936c2c3e563"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-shared-group.png",
+      "sha256": "2877f79c9452dc4e1fe123b9e2411bf4deaf8d7cd6ee1de373de6cbe50d768d5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-interaction-review.json",
+      "sha256": "dc954521fcca03166f9b19c058cdd2e17f20b98bc95921be7aefed2043a1255e"
+    }
+  ],
+  "limits": "Local rendered integration only; not production publication, all-annotation completeness or geographic acceptance."
+}

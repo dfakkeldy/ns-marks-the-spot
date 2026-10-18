@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q05",
+    "label": "Hatchet Lake northern tip (lower in original scan)",
+    "role": "proposal",
+    "pixel_xy": [
+      1262,
+      371
+    ],
+    "lonlat": [
+      -63.72265954003452,
+      44.56852704370414
+    ],
+    "guide_file": ".crown-grant-local/056-upside-down-adjacent-guide.npy",
+    "reference_objectid": 137877,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137877,
+    "nearest_unfiltered_distance_guide_px": 0.27444436420848395,
+    "selected_distance_guide_px": 0.27444436420848395,
+    "guide_reference_pixel_xy": [
+      1254.0481607673573,
+      446.2701855835039
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Maryville coastal pond southern tip",
+    [
+      1838,
+      598
+    ],
+    [
+      1855,
+      624
+    ],
+    "WA"
+  ],
+  [
+    "C02",
+    "McKay Point southern hooked tip",
+    [
+      1734,
+      904
+    ],
+    [
+      1767,
+      940
+    ],
+    "WACO"
+  ],
+  [
+    "C03",
+    "Central stream west-tributary junction",
+    [
+      3935,
+      1800
+    ],
+    [
+      3931,
+      1824
+    ],
+    "WARV"
+  ],
+  [
+    "C04",
+    "Southwest Mabou River eastern tributary at McLeod Settlement",
+    [
+      4145,
+      1578
+    ],
+    [
+      4145,
+      1595
+    ],
+    "WARV"
+  ],
+  [
+    "C05",
+    "River Denys tributary confluence southeast of Melford",
+    [
+      5280,
+      3362
+    ],
+    [
+      5296,
+      3384
+    ],
+    "WARV"
+  ],
+  [
+    "C06",
+    "Long Point inland tributary confluence",
+    [
+      1729,
+      3075
+    ],
+    [
+      1699,
+      3094
+    ],
+    "WARV"
+  ]
+]

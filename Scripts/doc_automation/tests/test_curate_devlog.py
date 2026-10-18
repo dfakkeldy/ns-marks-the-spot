@@ -109,8 +109,8 @@ class ReviewChecklistTests(unittest.TestCase):
 
         body = render_pr_body(
             digest=digest,
-            project_name="NS Marks The Spot",
-            repo_url="https://github.com/example/ns-marks-the-spot",
+            project_name="Echo",
+            repo_url="https://github.com/example/Echo",
             curation=CurationResult(status="skipped", text="No key."),
             markdown_path="docs/guides/devlog.md",
             html_path="docs/devlog.html",

@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "unchanged_prior_controls": 9,
+  "verified_native_frames": 12,
+  "viewed_figures": 28,
+  "coverage_and_sampled_orientation": "pass",
+  "web_csv_and_solver": "pass",
+  "actual_browser_import_desktop_mobile_reload": "pass",
+  "fresh_check_scope": "One new coordinate on old V01 island; correlated extent only, no independent inland validation.",
+  "whole_sheet_geographically_accepted": false
+}

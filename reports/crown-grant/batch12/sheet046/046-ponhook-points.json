@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C08",
+    "label": "Long or Ponhook Lake central island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5319,
+      1895
+    ],
+    "lonlat": [
+      -64.1451296646528,
+      44.71473083261493
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 151389,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151389,
+    "nearest_unfiltered_distance_guide_px": 1.6202223789681882,
+    "selected_distance_guide_px": 1.6202223789681882,
+    "guide_reference_pixel_xy": [
+      5318.003927822865,
+      1769.6202176179504
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Long or Ponhook Lake central island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5381,
+      1809
+    ],
+    "lonlat": [
+      -64.14480483885407,
+      44.71855450890618
+    ],
+    "guide_file": ".crown-grant-local/046-south-provisional-guide.npy",
+    "reference_objectid": 151389,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 151389,
+    "nearest_unfiltered_distance_guide_px": 1.0950985013323085,
+    "selected_distance_guide_px": 1.0950985013323085,
+    "guide_reference_pixel_xy": [
+      5354.748276976286,
+      1698.065774951363
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-13",
+  "source_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+  "source_dimensions": [
+    10872,
+    7682
+  ],
+  "ring_pixel_xy": [
+    [
+      1516,
+      1107
+    ],
+    [
+      9727,
+      1136
+    ],
+    [
+      9737,
+      6596
+    ],
+    [
+      1542,
+      6579
+    ],
+    [
+      1516,
+      1107
+    ]
+  ],
+  "scope": "Full mapped neatline, including clipped lake/river/island geometry inside the map; thin frame margin retained. No separate mapped extension visible in full scan review.",
+  "review": "Native four-corner crops inspected; boundary lies just outside inner neatline. Draft pending full warped coverage review."
+}

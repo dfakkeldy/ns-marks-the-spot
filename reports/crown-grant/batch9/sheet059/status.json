@@ -1,0 +1,45 @@
+{
+  "sheet": "059",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; first fit retained; numerical pass with regional limitations; private browser and raster coverage verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/059.pdf",
+    "pdf_sha256": "b89e30006031a0a9aed62caa305f237ede2634fd8927a704d28d37ccf734686a",
+    "jpeg_sha256": "65eb234ebd12a0e9c1eeb6bf64eb46f75ef245406242d37d85846e5cfde729a5",
+    "dimensions": [
+      5653,
+      3895
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 6,
+      "rms_ground_m": 92.98986585858853,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 92.99 m, median 72.96 m, P95 146.61 m and maximum 156.14 m; the numerical criteria pass with limited regional coverage.",
+    "Five checks share physical lake or peninsula systems with controls. The sixth uses a separate pond northwest of Round Lake. This small sample has substantial geographic correlation.",
+    "Far southeastern and southern regions and northern and western tidal river corridors lack independent validation. Complete imagery does not imply geographic acceptance there.",
+    "Thick generalized source shores use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 92.99 m, median 72.96 m, P95 146.61 m, maximum 156.14 m. 5 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Amherst, Cumberland Basin, Minudie, Amherst Point, Nappan, Maccan, Truemansville, Hastings, Salem, Round Lake, Long Lake and Blairs Lake, including mapped northern border context, tidal channels, inland parcels and southern edge. No displaced inset identified."
+  }
+}

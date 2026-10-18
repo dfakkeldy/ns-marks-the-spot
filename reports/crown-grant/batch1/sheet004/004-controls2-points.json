@@ -1,0 +1,23 @@
+[
+  {
+    "id": "C07",
+    "label": "Arnold Point northern headland",
+    "role": "proposal",
+    "pixel_xy": [
+      4786,
+      707
+    ],
+    "lonlat": [
+      -65.99370763989889,
+      43.810937996339916
+    ],
+    "reference_objectid": 26868,
+    "reference_feature_code": "WACORV20",
+    "guide_reference_pixel_xy": [
+      4831.164471836819,
+      648.0629939794308
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

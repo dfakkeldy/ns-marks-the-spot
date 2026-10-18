@@ -1,0 +1,152 @@
+{
+  "sheet": "sheet-23",
+  "fit_sha256": "d90713b109ed4e9032f1837357f9f2bf983f3db000e8dbb5cff1159ec7f1405e",
+  "points": [
+    {
+      "lonlat": [
+        -61.0508564,
+        45.5550717
+      ],
+      "source_guide_xy": [
+        5092.698511119699,
+        1793.8802855804097
+      ],
+      "objectids": [
+        126132,
+        126210,
+        199175
+      ],
+      "id": "V01",
+      "modern_node_id": "J0291",
+      "role": "check",
+      "pixel_xy": [
+        5137,
+        1707
+      ],
+      "identity_evidence": "Grand Lake western lobe northern stream/shoreline junction",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate selected after twelve-control repair freeze; unreviewed."
+    },
+    {
+      "lonlat": [
+        -61.002239,
+        45.5415435
+      ],
+      "source_guide_xy": [
+        6152.6711811996065,
+        2232.5453803003766
+      ],
+      "objectids": [
+        142393,
+        142394,
+        197755
+      ],
+      "id": "V02",
+      "modern_node_id": "J0366",
+      "role": "check",
+      "pixel_xy": [
+        6324,
+        2088
+      ],
+      "identity_evidence": "Shaw Lake southern stream/shoreline junction, west of southeastern fitting control",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate selected after twelve-control repair freeze; unreviewed."
+    },
+    {
+      "lonlat": [
+        -61.136691099720245,
+        45.554071560252794
+      ],
+      "guide_xy": [
+        3210.8505023177713,
+        1804.6868651907425
+      ],
+      "modern_objectid": 3359,
+      "modern_part": 0,
+      "modern_vertex": 11,
+      "modern_properties": {
+        "OBJECTID": 3359,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 149.41117766028628
+      },
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        3274,
+        1722
+      ],
+      "identity_evidence": "Thorn Island westernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate selected after twelve-control repair freeze; unreviewed."
+    },
+    {
+      "lonlat": [
+        -61.059029944436396,
+        45.50730398866336
+      ],
+      "guide_xy": [
+        4893.478517147945,
+        3299.309589185985
+      ],
+      "modern_objectid": 16732,
+      "modern_part": 0,
+      "modern_vertex": 69,
+      "modern_properties": {
+        "OBJECTID": 16732,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 606.9790847688769
+      },
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        5030,
+        3321
+      ],
+      "identity_evidence": "Jerseyman Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate selected after twelve-control repair freeze; unreviewed."
+    },
+    {
+      "lonlat": [
+        -60.89587619530882,
+        45.47961649699896
+      ],
+      "guide_xy": [
+        8458.049428526312,
+        4212.494340178557
+      ],
+      "modern_objectid": 21730,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_properties": {
+        "OBJECTID": 21730,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 109.36790239925305
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        8470,
+        4149
+      ],
+      "identity_evidence": "Green Island southernmost main coast, excluding detached southeastern rock",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate selected after twelve-control repair freeze; unreviewed."
+    }
+  ]
+}

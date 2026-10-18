@@ -1,0 +1,211 @@
+{
+  "fit_sha256": "4f05ff0c0d63c823d31e664a72e02c221c1fd03d9c1f8e025364c7f861e4ec2a",
+  "collected_at_utc": "2026-09-12T13:12:35.498719+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.2259813,
+        46.2891991
+      ],
+      "source_guide_xy": [
+        1562.0409964392893,
+        5852.284918000689
+      ],
+      "objectids": [
+        272827,
+        272968,
+        288116
+      ],
+      "id": "F08",
+      "modern_node": "J1018",
+      "role": "check",
+      "pixel_xy": [
+        1517,
+        5757
+      ],
+      "identity_evidence": "Murdoch MacLeods Brook next eastern tributary below the paired W03 forks, along the long southern main reach; eastern arm follows historical road crossing and turns southeast.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original/corrected/final unrotated native crosshair close and wide with marked modern topology before first score. Never fitted.",
+      "original_proposal": {
+        "lonlat": [
+          -61.2259813,
+          46.2891991
+        ],
+        "source_guide_xy": [
+          1562.0409964392893,
+          5852.284918000689
+        ],
+        "objectids": [
+          272827,
+          272968,
+          288116
+        ],
+        "id": "F08",
+        "modern_node": "J1018",
+        "role": "check",
+        "pixel_xy": [
+          1450,
+          5695
+        ],
+        "identity_evidence": "Murdoch MacLeods Brook next eastern tributary below the paired W03 forks, along the long southern main reach; eastern arm follows historical road crossing and turns southeast.",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after twenty-eight-control freeze; native close/wide audit pending; unscored"
+      },
+      "correction": "Second native-only correction before any score: move twelve pixels down from the stem to the actual eastern fork. Original western-stub proposal and intermediate correction retained.",
+      "first_corrected_proposal": {
+        "lonlat": [
+          -61.2259813,
+          46.2891991
+        ],
+        "source_guide_xy": [
+          1562.0409964392893,
+          5852.284918000689
+        ],
+        "objectids": [
+          272827,
+          272968,
+          288116
+        ],
+        "id": "F08",
+        "modern_node": "J1018",
+        "role": "check",
+        "pixel_xy": [
+          1517,
+          5745
+        ],
+        "identity_evidence": "Murdoch MacLeods Brook next eastern tributary below the paired W03 forks, along the long southern main reach; eastern arm follows historical road crossing and turns southeast.",
+        "source_uncertainty_px": 20,
+        "status": "Corrected before scoring; final crosshair audit pending",
+        "original_proposal": {
+          "lonlat": [
+            -61.2259813,
+            46.2891991
+          ],
+          "source_guide_xy": [
+            1562.0409964392893,
+            5852.284918000689
+          ],
+          "objectids": [
+            272827,
+            272968,
+            288116
+          ],
+          "id": "F08",
+          "modern_node": "J1018",
+          "role": "check",
+          "pixel_xy": [
+            1450,
+            5695
+          ],
+          "identity_evidence": "Murdoch MacLeods Brook next eastern tributary below the paired W03 forks, along the long southern main reach; eastern arm follows historical road crossing and turns southeast.",
+          "source_uncertainty_px": 20,
+          "status": "Fresh proposal after twenty-eight-control freeze; native close/wide audit pending; unscored"
+        },
+        "correction": "Before scoring: original proposal was beside a WESTERN stub, not the eastern tributary. Move to the next downstream actual eastern junction, whose long eastern arm crosses the road. Modern node unchanged."
+      }
+    },
+    {
+      "lonlat": [
+        -61.2447867,
+        46.2837096
+      ],
+      "source_guide_xy": [
+        1164.3787979590707,
+        6023.040114400443
+      ],
+      "objectids": [
+        186885,
+        186886,
+        288117
+      ],
+      "id": "F09",
+      "modern_node": "J1053",
+      "role": "check",
+      "pixel_xy": [
+        1088,
+        6040
+      ],
+      "identity_evidence": "Coastal creek south of Marsh Point: main runs northwest to coast, northern/eastern upper arm joins southern arm, with another southwestern tributary separately downstream; road-crossing and shoreline context agree.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original/corrected/final unrotated native crosshair close and wide with marked modern topology before first score. Never fitted.",
+      "original_proposal": {
+        "lonlat": [
+          -61.2447867,
+          46.2837096
+        ],
+        "source_guide_xy": [
+          1164.3787979590707,
+          6023.040114400443
+        ],
+        "objectids": [
+          186885,
+          186886,
+          288117
+        ],
+        "id": "F09",
+        "modern_node": "J1053",
+        "role": "check",
+        "pixel_xy": [
+          1097,
+          6037
+        ],
+        "identity_evidence": "Coastal creek south of Marsh Point: northern arm joins eastward upper channel before the western reach and next southern fork; main eventually reaches coast northward.",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after twenty-eight-control freeze; native close/wide audit pending; unscored"
+      },
+      "correction": "Before scoring: move nine pixels west and three south from eastern reach to actual three-arm junction; clarify branch directions from close and wide review."
+    },
+    {
+      "lonlat": [
+        -61.13135,
+        46.3865862
+      ],
+      "source_guide_xy": [
+        3554.759035999188,
+        2817.24719440029
+      ],
+      "objectids": [
+        186771,
+        272776,
+        272777
+      ],
+      "id": "F10",
+      "modern_node": "J0504",
+      "role": "check",
+      "pixel_xy": [
+        3495,
+        2846
+      ],
+      "identity_evidence": "Mill Valley Brook major western tributary below W02 and the long intervening main reach, above next small western tributary; river continues south then southwest to coastal outlet.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original/corrected/final unrotated native crosshair close and wide with marked modern topology before first score. Never fitted.",
+      "original_proposal": {
+        "lonlat": [
+          -61.13135,
+          46.3865862
+        ],
+        "source_guide_xy": [
+          3554.759035999188,
+          2817.24719440029
+        ],
+        "objectids": [
+          186771,
+          272776,
+          272777
+        ],
+        "id": "F10",
+        "modern_node": "J0504",
+        "role": "check",
+        "pixel_xy": [
+          3495,
+          2846
+        ],
+        "identity_evidence": "Mill Valley Brook major western tributary below W02 and the long intervening main reach, above next small western tributary; river continues south then southwest to coastal outlet.",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after twenty-eight-control freeze; native close/wide audit pending; unscored"
+      }
+    }
+  ],
+  "corrected_at_utc": "2026-09-12T13:14:56.285028+00:00",
+  "review_completed_at_utc": "2026-09-12T13:15:58.361060+00:00"
+}

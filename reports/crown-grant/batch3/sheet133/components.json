@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5802 x 3879 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 46.38 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          170,
+          125
+        ],
+        [
+          5680,
+          125
+        ],
+        [
+          5680,
+          3770
+        ],
+        [
+          170,
+          3770
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Entire original mapped rectangle, including Grand Mira, northern inland lakes, Gabarus and Belfry lakes and their islands, the Fourchu coast, Green Island, Guyon Island and small offshore rocks. No displaced inset identified; the Gabarus wilderness marking is an area boundary in the main map."
+    }
+  ]
+}

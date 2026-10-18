@@ -1,0 +1,106 @@
+{
+  "promoted_observation": {
+    "id": "F02",
+    "label": "Western basin northern diamond islet",
+    "role": "check",
+    "pixel_xy": [
+      6228.536889653689,
+      17857.118412561842
+    ],
+    "lonlat": [
+      -61.21479464413768,
+      45.58945138890053
+    ],
+    "modern_feature_id": 218,
+    "modern_polygon": 0,
+    "modern_ring": 4,
+    "source_frame": {
+      "origin": [
+        6050,
+        17680
+      ],
+      "extent": [
+        350,
+        300
+      ],
+      "display": [
+        350,
+        300
+      ],
+      "rotation": 0
+    },
+    "source_outline_crop_pixels": [
+      [
+        119,
+        181
+      ],
+      [
+        131,
+        174
+      ],
+      [
+        142,
+        160
+      ],
+      [
+        161,
+        150
+      ],
+      [
+        186,
+        140
+      ],
+      [
+        205,
+        146
+      ],
+      [
+        212,
+        157
+      ],
+      [
+        227,
+        184
+      ],
+      [
+        214,
+        193
+      ],
+      [
+        205,
+        205
+      ],
+      [
+        179,
+        216
+      ],
+      [
+        164,
+        207
+      ],
+      [
+        147,
+        192
+      ],
+      [
+        128,
+        186
+      ]
+    ],
+    "feature_definition": "Shoelace centroid of corresponding island outline in original scan / frozen modern lon-lat ring",
+    "source_crop_sha256": "e17b48e48c712993439f37e49ca4a1cca49005971ed3a5c4e5109f583c23c053",
+    "placement_uncertainty_ground_m": 60,
+    "identity_evidence": "Small isolated northern islet in Inhabitants Basin, northwest of the long central island and northeast of F03. Surrounding shore projections and island order corroborate the identity.",
+    "reviewer": "Codex native outline and broad-context review; no user verification claimed"
+  },
+  "prior_fresh_scores_sha256": "f7cf7ed1ec5680ef78f6a2217695603411b695ffb42a52ddf58a985ec4f4a939",
+  "role_change": "F02 becomes a control because it is a verified physical islet beyond the prior western hull. Its original 324.8995 m validation discrepancy remains in refinement-02. All remaining earlier checks are now diagnostic, including F01/F03/F04. No coordinates changed.",
+  "objective": {
+    "rms_ground_m": 200,
+    "fixed_acceptance_gate_rms_ground_m": 400,
+    "fixed_p95_ground_m": 900,
+    "fixed_max_ground_m": 1500,
+    "fixed_minimum_fresh_checks": 6,
+    "coverage_required": true
+  }
+}

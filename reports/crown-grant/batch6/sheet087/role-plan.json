@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit or check score",
+  "model": "Constrained reflected similarity: uniform scale, rotation and translation",
+  "reason": "Only four reliable lake controls, three in the western half and one in the southeast; north/east urban river and parcel regions lack reliable points. Avoid estimating unsupported independent axis scales and shear from this sparse distribution.",
+  "controls": 4,
+  "checks": 4,
+  "rejected": [
+    {
+      "id": "C05",
+      "reason": "Forbes is coded WALK20, but its long southern lake-to-stream transition has no stable shared endpoint; reject before fitting despite feature type"
+    }
+  ],
+  "not_adopted": [
+    "Gair Loch lacks a clear matching closed modern outline",
+    "Manse Brook and Hopewell river candidates were not forced through ambiguous parcel/road overlap"
+  ],
+  "limitations": [
+    "All checks share lake systems with controls and are strongly correlated",
+    "Northern band, northeastern urban corridor and broad central region unvalidated",
+    "Mill Pond uses 18 px working uncertainty; other lake points 12 px"
+  ]
+}

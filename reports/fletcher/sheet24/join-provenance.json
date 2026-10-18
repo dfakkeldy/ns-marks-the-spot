@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "sha256": "977633cdaff7a3a71b11b796c9d014d1ed8876f4c780c6ef9155d104fb47926c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif",
+      "sha256": "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "sha256": "6355a23f84dd1a7017a6065f7b48e9552ce4cbd3dd1074cd441a936906293581"
+    }
+  ],
+  "status": "Four actual comparisons personally inspected. Northern Sheet22 edge gaps/overlap and physical discontinuities; eastern Sheet23 northern coast discontinuities and gaps, southern comparison is mapped sea/frame placement only. No seam accepted."
+}

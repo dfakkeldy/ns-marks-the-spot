@@ -1,0 +1,27 @@
+{
+  "observation_sha256": "0f691f5d727dbc68f0075522a23c1f3d29cc2afc9e2a5519da88d46b170296de",
+  "freeze_sha256": "939ebf91d16cf1e7fea63109f70771348968ed7623919a29d7f4587a14a952d0",
+  "affine4": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VM17",
+        "east_ground_m": -907.5351111015003,
+        "north_ground_m": 754.4748870695486,
+        "error_ground_m": 1180.1916510044548
+      }
+    ],
+    "rms_ground_m": 1180.1916510044548,
+    "median_ground_m": 1180.1916510044548,
+    "p95_ground_m": 1180.1916510044548,
+    "max_ground_m": 1180.1916510044548,
+    "mean_east_ground_m": -907.5351111015003,
+    "mean_north_ground_m": 754.4748870695486,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "inside_source_control_hull": false,
+  "phase": "First new check on unchanged affine4; no tuning",
+  "geographic_acceptance": false
+}

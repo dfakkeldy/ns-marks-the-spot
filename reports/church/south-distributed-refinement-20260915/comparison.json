@@ -1,0 +1,969 @@
+{
+  "compared_at": "2026-09-15T21:42:58.137967+00:00",
+  "selection_scope": "Explicit diagnostic comparison after closing affine4 fresh test at14; no new-fit fresh-validation claim.",
+  "promoted": [
+    "IS19",
+    "IS21",
+    "IS24",
+    "IS25",
+    "IS26",
+    "IS27",
+    "IS15"
+  ],
+  "control_selection_reason": "Retain four physical islands; add western coast and southwest support, central-west river junction, northeast lake and northern valley support, and the northern Ainslie outlet to constrain the intervening interior. All coordinates unchanged; no score-driven pixel adjustment.",
+  "source_observations": {
+    "IS21": "reports/church/south-validation-20260915/observations/IS21.json",
+    "IS24": "reports/church/south-validation-20260915/observations/IS24.json",
+    "IS25": "reports/church/south-validation-20260915/observations/IS25.json",
+    "IS26": "reports/church/south-validation-20260915/observations/IS26.json",
+    "IS27": "reports/church/south-validation-20260915/observations/IS27.json",
+    "IS19": "reports/church/inverness-south-continuation-20260915/observations/IS19.json"
+  },
+  "models": {
+    "retained-affine4": {
+      "all16": {
+        "count": 16,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -110.62737600616907,
+            "north_ground_m": 137.01152114270175,
+            "error_ground_m": 176.09819206297186
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -40.11581563576273,
+            "north_ground_m": 45.0658704336056,
+            "error_ground_m": 60.334163970846845
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 110.70136541082894,
+            "north_ground_m": -13.893107945082082,
+            "error_ground_m": 111.56975733681408
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 89.52222995820802,
+            "north_ground_m": 118.41358603081929,
+            "error_ground_m": 148.44529973484683
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -18.956461538599193,
+            "north_ground_m": 4.515523285797288,
+            "error_ground_m": 19.4868515827716
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -137.26710739416555,
+            "north_ground_m": 176.64882471914422,
+            "error_ground_m": 223.71201587535774
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 308.351270221282,
+            "north_ground_m": -299.1341535524865,
+            "error_ground_m": 429.606503289511
+          },
+          {
+            "label": "IS20",
+            "east_ground_m": -59.86656555890259,
+            "north_ground_m": 276.0076094338304,
+            "error_ground_m": 282.4255762801879
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 240.77056789907138,
+            "north_ground_m": -227.3432457835206,
+            "error_ground_m": 331.14259431523993
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": 21.635701227765765,
+            "north_ground_m": -284.8693991379755,
+            "error_ground_m": 285.6898285428593
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 35.5902232311918,
+            "north_ground_m": -106.19389253174509,
+            "error_ground_m": 111.99913749975886
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 387.4037015650289,
+            "north_ground_m": 12.21321338070413,
+            "error_ground_m": 387.59616944362153
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -19.76533605992584,
+            "north_ground_m": -244.0491793033691,
+            "error_ground_m": 244.84826000649832
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 98.10150145530308,
+            "north_ground_m": -36.697478358247785,
+            "error_ground_m": 104.74067741636435
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 119.72198405072726,
+            "north_ground_m": 120.5642681528545,
+            "error_ground_m": 169.9090822183323
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -104.50265385181265,
+            "north_ground_m": -450.40804623023985,
+            "error_ground_m": 462.37237457596194
+          }
+        ],
+        "rms_ground_m": 256.3584699435548,
+        "median_ground_m": 199.9051039691648,
+        "p95_ground_m": 437.79797111112373,
+        "max_ground_m": 462.37237457596194,
+        "mean_east_ground_m": 57.543576810879344,
+        "mean_north_ground_m": -48.25925539145059,
+        "scatter_rms_ground_m": 245.11108940371025,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "prior7": {
+        "count": 7,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -110.62737600616907,
+            "north_ground_m": 137.01152114270175,
+            "error_ground_m": 176.09819206297186
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -40.11581563576273,
+            "north_ground_m": 45.0658704336056,
+            "error_ground_m": 60.334163970846845
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 110.70136541082894,
+            "north_ground_m": -13.893107945082082,
+            "error_ground_m": 111.56975733681408
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 89.52222995820802,
+            "north_ground_m": 118.41358603081929,
+            "error_ground_m": 148.44529973484683
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -18.956461538599193,
+            "north_ground_m": 4.515523285797288,
+            "error_ground_m": 19.4868515827716
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -137.26710739416555,
+            "north_ground_m": 176.64882471914422,
+            "error_ground_m": 223.71201587535774
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 308.351270221282,
+            "north_ground_m": -299.1341535524865,
+            "error_ground_m": 429.606503289511
+          }
+        ],
+        "rms_ground_m": 208.43743612746533,
+        "median_ground_m": 148.44529973484683,
+        "p95_ground_m": 367.8381570652649,
+        "max_ground_m": 429.606503289511,
+        "mean_east_ground_m": 28.80115785937463,
+        "mean_north_ground_m": 24.089723444928513,
+        "scatter_rms_ground_m": 205.02766474234016,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "recent9": {
+        "count": 9,
+        "points": [
+          {
+            "label": "IS20",
+            "east_ground_m": -59.86656555890259,
+            "north_ground_m": 276.0076094338304,
+            "error_ground_m": 282.4255762801879
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 240.77056789907138,
+            "north_ground_m": -227.3432457835206,
+            "error_ground_m": 331.14259431523993
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": 21.635701227765765,
+            "north_ground_m": -284.8693991379755,
+            "error_ground_m": 285.6898285428593
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 35.5902232311918,
+            "north_ground_m": -106.19389253174509,
+            "error_ground_m": 111.99913749975886
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 387.4037015650289,
+            "north_ground_m": 12.21321338070413,
+            "error_ground_m": 387.59616944362153
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -19.76533605992584,
+            "north_ground_m": -244.0491793033691,
+            "error_ground_m": 244.84826000649832
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 98.10150145530308,
+            "north_ground_m": -36.697478358247785,
+            "error_ground_m": 104.74067741636435
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 119.72198405072726,
+            "north_ground_m": 120.5642681528545,
+            "error_ground_m": 169.9090822183323
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -104.50265385181265,
+            "north_ground_m": -450.40804623023985,
+            "error_ground_m": 462.37237457596194
+          }
+        ],
+        "rms_ground_m": 288.17268903154985,
+        "median_ground_m": 282.4255762801879,
+        "p95_ground_m": 432.46189252302577,
+        "max_ground_m": 462.37237457596194,
+        "mean_east_ground_m": 79.89879155093857,
+        "mean_north_ground_m": -104.53068337530098,
+        "scatter_rms_ground_m": 256.3845121013876,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    "accepted-baseline-tps": {
+      "all16": {
+        "count": 16,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -147.24126789391158,
+            "north_ground_m": 438.915830249941,
+            "error_ground_m": 462.9547461847666
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -93.4579214238653,
+            "north_ground_m": 276.4149050351052,
+            "error_ground_m": 291.7868790786104
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 42.44930360369197,
+            "north_ground_m": 143.6502465583695,
+            "error_ground_m": 149.79097673998513
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 15.649724434479602,
+            "north_ground_m": 274.81746588871243,
+            "error_ground_m": 275.2626989484205
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -107.86014995148811,
+            "north_ground_m": 151.56473479070317,
+            "error_ground_m": 186.0260217811844
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -230.91682845734405,
+            "north_ground_m": 328.8565025391936,
+            "error_ground_m": 401.8322795982288
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 255.71066702676538,
+            "north_ground_m": 17.9897683450777,
+            "error_ground_m": 256.3426944470679
+          },
+          {
+            "label": "IS20",
+            "east_ground_m": 36.03528851282584,
+            "north_ground_m": 587.7395651073662,
+            "error_ground_m": 588.843220569617
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 263.5803266854192,
+            "north_ground_m": 53.11985628346015,
+            "error_ground_m": 268.87972728929896
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": 26.625455313776516,
+            "north_ground_m": 18.45920461268184,
+            "error_ground_m": 32.398412084526065
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 11.096469300209705,
+            "north_ground_m": 190.01972198135445,
+            "error_ground_m": 190.34344320937808
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 382.7382639500573,
+            "north_ground_m": 333.7354731993208,
+            "error_ground_m": 507.80699558304457
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -76.78420975474276,
+            "north_ground_m": -16.032645714629055,
+            "error_ground_m": 78.44017208211075
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 36.04327096063833,
+            "north_ground_m": 170.6095259012004,
+            "error_ground_m": 174.37524970526744
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 154.3508808453103,
+            "north_ground_m": 407.0946011225712,
+            "error_ground_m": 435.37364261157165
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -127.60362380775373,
+            "north_ground_m": -156.54367186004313,
+            "error_ground_m": 201.96189246562233
+          }
+        ],
+        "rms_ground_m": 320.20884650298984,
+        "median_ground_m": 262.61121086818343,
+        "p95_ground_m": 528.0660518296877,
+        "max_ground_m": 588.843220569617,
+        "mean_east_ground_m": 27.525978084004286,
+        "mean_north_ground_m": 201.2756927525241,
+        "scatter_rms_ground_m": 247.51590134026895,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "prior7": {
+        "count": 7,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -147.24126789391158,
+            "north_ground_m": 438.915830249941,
+            "error_ground_m": 462.9547461847666
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -93.4579214238653,
+            "north_ground_m": 276.4149050351052,
+            "error_ground_m": 291.7868790786104
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 42.44930360369197,
+            "north_ground_m": 143.6502465583695,
+            "error_ground_m": 149.79097673998513
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 15.649724434479602,
+            "north_ground_m": 274.81746588871243,
+            "error_ground_m": 275.2626989484205
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -107.86014995148811,
+            "north_ground_m": 151.56473479070317,
+            "error_ground_m": 186.0260217811844
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -230.91682845734405,
+            "north_ground_m": 328.8565025391936,
+            "error_ground_m": 401.8322795982288
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 255.71066702676538,
+            "north_ground_m": 17.9897683450777,
+            "error_ground_m": 256.3426944470679
+          }
+        ],
+        "rms_ground_m": 306.9341503751835,
+        "median_ground_m": 275.2626989484205,
+        "p95_ground_m": 444.6180062088052,
+        "max_ground_m": 462.9547461847666,
+        "mean_east_ground_m": -37.95235323738172,
+        "mean_north_ground_m": 233.1727790581575,
+        "scatter_rms_ground_m": 195.95572626635956,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "recent9": {
+        "count": 9,
+        "points": [
+          {
+            "label": "IS20",
+            "east_ground_m": 36.03528851282584,
+            "north_ground_m": 587.7395651073662,
+            "error_ground_m": 588.843220569617
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 263.5803266854192,
+            "north_ground_m": 53.11985628346015,
+            "error_ground_m": 268.87972728929896
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": 26.625455313776516,
+            "north_ground_m": 18.45920461268184,
+            "error_ground_m": 32.398412084526065
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 11.096469300209705,
+            "north_ground_m": 190.01972198135445,
+            "error_ground_m": 190.34344320937808
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 382.7382639500573,
+            "north_ground_m": 333.7354731993208,
+            "error_ground_m": 507.80699558304457
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -76.78420975474276,
+            "north_ground_m": -16.032645714629055,
+            "error_ground_m": 78.44017208211075
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 36.04327096063833,
+            "north_ground_m": 170.6095259012004,
+            "error_ground_m": 174.37524970526744
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 154.3508808453103,
+            "north_ground_m": 407.0946011225712,
+            "error_ground_m": 435.37364261157165
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -127.60362380775373,
+            "north_ground_m": -156.54367186004313,
+            "error_ground_m": 201.96189246562233
+          }
+        ],
+        "rms_ground_m": 330.1648203540257,
+        "median_ground_m": 201.96189246562233,
+        "p95_ground_m": 556.428730574988,
+        "max_ground_m": 588.843220569617,
+        "mean_east_ground_m": 78.45356911174896,
+        "mean_north_ground_m": 176.46684784814255,
+        "scatter_rms_ground_m": 267.79338622074783,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    "distributed-affine11": {
+      "all16": {
+        "count": 16,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -101.00234715740214,
+            "north_ground_m": 238.69013858233092,
+            "error_ground_m": 259.1803549417986
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -34.53429432973082,
+            "north_ground_m": 142.43043689027203,
+            "error_ground_m": 146.5573158788269
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 119.89543365928186,
+            "north_ground_m": 80.67915683281777,
+            "error_ground_m": 144.5131182958892
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 95.37708750228317,
+            "north_ground_m": 211.9489493068359,
+            "error_ground_m": 232.4201926096136
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -19.858396770012916,
+            "north_ground_m": 95.16223272686481,
+            "error_ground_m": 97.21217238513519
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -144.1247443057104,
+            "north_ground_m": 265.7732792301474,
+            "error_ground_m": 302.3365308293596
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 306.35309929372465,
+            "north_ground_m": -197.68922222507476,
+            "error_ground_m": 364.60012346518164
+          },
+          {
+            "label": "IS20",
+            "east_ground_m": -184.728276461248,
+            "north_ground_m": 347.46423631286893,
+            "error_ground_m": 393.5173841659711
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 133.46628939168085,
+            "north_ground_m": -161.84687113839465,
+            "error_ground_m": 209.78002788938707
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": -82.96557126852497,
+            "north_ground_m": -221.18443548370539,
+            "error_ground_m": 236.2325983351115
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 49.19641693204474,
+            "north_ground_m": 0.6370282770210385,
+            "error_ground_m": 49.200541094354875
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 331.22590021310305,
+            "north_ground_m": 99.66550417960065,
+            "error_ground_m": 345.8956630190013
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -64.8693278616303,
+            "north_ground_m": -159.26115828594027,
+            "error_ground_m": 171.96553793071158
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 100.98092640937867,
+            "north_ground_m": 58.92965215970981,
+            "error_ground_m": 116.91813974811924
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 163.97541801133787,
+            "north_ground_m": 230.3459941014416,
+            "error_ground_m": 282.74938498708417
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -195.7319368463269,
+            "north_ground_m": -384.5476346135131,
+            "error_ground_m": 431.4949297366801
+          }
+        ],
+        "rms_ground_m": 260.2232871517311,
+        "median_ground_m": 234.32639547236255,
+        "p95_ground_m": 403.0117705586484,
+        "max_ground_m": 431.4949297366801,
+        "mean_east_ground_m": 29.54097977576553,
+        "mean_north_ground_m": 40.449830428330166,
+        "scatter_rms_ground_m": 255.3572025776039,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "prior7": {
+        "count": 7,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -101.00234715740214,
+            "north_ground_m": 238.69013858233092,
+            "error_ground_m": 259.1803549417986
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -34.53429432973082,
+            "north_ground_m": 142.43043689027203,
+            "error_ground_m": 146.5573158788269
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 119.89543365928186,
+            "north_ground_m": 80.67915683281777,
+            "error_ground_m": 144.5131182958892
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 95.37708750228317,
+            "north_ground_m": 211.9489493068359,
+            "error_ground_m": 232.4201926096136
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -19.858396770012916,
+            "north_ground_m": 95.16223272686481,
+            "error_ground_m": 97.21217238513519
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -144.1247443057104,
+            "north_ground_m": 265.7732792301474,
+            "error_ground_m": 302.3365308293596
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 306.35309929372465,
+            "north_ground_m": -197.68922222507476,
+            "error_ground_m": 364.60012346518164
+          }
+        ],
+        "rms_ground_m": 238.25182502141652,
+        "median_ground_m": 232.4201926096136,
+        "p95_ground_m": 345.921045674435,
+        "max_ground_m": 364.60012346518164,
+        "mean_east_ground_m": 31.729405413204773,
+        "mean_north_ground_m": 119.5707101920277,
+        "scatter_rms_ground_m": 203.6173426364618,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "recent9": {
+        "count": 9,
+        "points": [
+          {
+            "label": "IS20",
+            "east_ground_m": -184.728276461248,
+            "north_ground_m": 347.46423631286893,
+            "error_ground_m": 393.5173841659711
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 133.46628939168085,
+            "north_ground_m": -161.84687113839465,
+            "error_ground_m": 209.78002788938707
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": -82.96557126852497,
+            "north_ground_m": -221.18443548370539,
+            "error_ground_m": 236.2325983351115
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 49.19641693204474,
+            "north_ground_m": 0.6370282770210385,
+            "error_ground_m": 49.200541094354875
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 331.22590021310305,
+            "north_ground_m": 99.66550417960065,
+            "error_ground_m": 345.8956630190013
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -64.8693278616303,
+            "north_ground_m": -159.26115828594027,
+            "error_ground_m": 171.96553793071158
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 100.98092640937867,
+            "north_ground_m": 58.92965215970981,
+            "error_ground_m": 116.91813974811924
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 163.97541801133787,
+            "north_ground_m": 230.3459941014416,
+            "error_ground_m": 282.74938498708417
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -195.7319368463269,
+            "north_ground_m": -384.5476346135131,
+            "error_ground_m": 431.4949297366801
+          }
+        ],
+        "rms_ground_m": 276.1060629409139,
+        "median_ground_m": 236.2325983351115,
+        "p95_ground_m": 416.3039115083965,
+        "max_ground_m": 431.4949297366801,
+        "mean_east_ground_m": 27.83887094664611,
+        "mean_north_ground_m": -21.088631610101263,
+        "scatter_rms_ground_m": 273.8883438081316,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    "distributed-tps11": {
+      "all16": {
+        "count": 16,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -43.504859068648365,
+            "north_ground_m": 70.83916608869845,
+            "error_ground_m": 83.13158373762141
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -7.238804487788748,
+            "north_ground_m": 18.859653606684947,
+            "error_ground_m": 20.20115899092364
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 94.81872747742206,
+            "north_ground_m": 0.5842066784543016,
+            "error_ground_m": 94.82052719680894
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 74.14046057761577,
+            "north_ground_m": 130.97310863346888,
+            "error_ground_m": 150.5017045743185
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -39.47295518766319,
+            "north_ground_m": 25.73376201252196,
+            "error_ground_m": 47.12049128101685
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -155.2155172857223,
+            "north_ground_m": 196.2567416541736,
+            "error_ground_m": 250.21703669212334
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 291.5037027299741,
+            "north_ground_m": -424.7308669933945,
+            "error_ground_m": 515.1414544396963
+          },
+          {
+            "label": "IS20",
+            "east_ground_m": -215.72093528110705,
+            "north_ground_m": 375.90330621632296,
+            "error_ground_m": 433.4037581089004
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 204.50386974912067,
+            "north_ground_m": -49.6563426655287,
+            "error_ground_m": 210.44615726898346
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": -43.05609526639518,
+            "north_ground_m": 25.341924108460557,
+            "error_ground_m": 49.960388880670976
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 56.756660296587995,
+            "north_ground_m": -261.9884193672699,
+            "error_ground_m": 268.06575754949154
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 142.13469784739044,
+            "north_ground_m": -43.24371060622701,
+            "error_ground_m": 148.56746224918862
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -64.0157901466553,
+            "north_ground_m": -262.57998884866896,
+            "error_ground_m": 270.2707382086853
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 115.80855458625939,
+            "north_ground_m": -53.610764658424095,
+            "error_ground_m": 127.61557664571968
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 172.8984313098772,
+            "north_ground_m": 103.75912344416963,
+            "error_ground_m": 201.64281104794873
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -178.39435399917127,
+            "north_ground_m": -127.98343869976173,
+            "error_ground_m": 219.55479070199607
+          }
+        ],
+        "rms_ground_m": 233.97521072618642,
+        "median_ground_m": 176.07225781113362,
+        "p95_ground_m": 453.83818219159934,
+        "max_ground_m": 515.1414544396963,
+        "mean_east_ground_m": 25.371612115693512,
+        "mean_north_ground_m": -17.221408712269977,
+        "scatter_rms_ground_m": 231.9571158964068,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "prior7": {
+        "count": 7,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -43.504859068648365,
+            "north_ground_m": 70.83916608869845,
+            "error_ground_m": 83.13158373762141
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -7.238804487788748,
+            "north_ground_m": 18.859653606684947,
+            "error_ground_m": 20.20115899092364
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 94.81872747742206,
+            "north_ground_m": 0.5842066784543016,
+            "error_ground_m": 94.82052719680894
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 74.14046057761577,
+            "north_ground_m": 130.97310863346888,
+            "error_ground_m": 150.5017045743185
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -39.47295518766319,
+            "north_ground_m": 25.73376201252196,
+            "error_ground_m": 47.12049128101685
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -155.2155172857223,
+            "north_ground_m": 196.2567416541736,
+            "error_ground_m": 250.21703669212334
+          },
+          {
+            "label": "IS18",
+            "east_ground_m": 291.5037027299741,
+            "north_ground_m": -424.7308669933945,
+            "error_ground_m": 515.1414544396963
+          }
+        ],
+        "rms_ground_m": 229.6457727920346,
+        "median_ground_m": 94.82052719680894,
+        "p95_ground_m": 435.6641291154242,
+        "max_ground_m": 515.1414544396963,
+        "mean_east_ground_m": 30.71867925074133,
+        "mean_north_ground_m": 2.645110240086808,
+        "scatter_rms_ground_m": 227.56657728708458,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      },
+      "recent9": {
+        "count": 9,
+        "points": [
+          {
+            "label": "IS20",
+            "east_ground_m": -215.72093528110705,
+            "north_ground_m": 375.90330621632296,
+            "error_ground_m": 433.4037581089004
+          },
+          {
+            "label": "IS22",
+            "east_ground_m": 204.50386974912067,
+            "north_ground_m": -49.6563426655287,
+            "error_ground_m": 210.44615726898346
+          },
+          {
+            "label": "IS23",
+            "east_ground_m": -43.05609526639518,
+            "north_ground_m": 25.341924108460557,
+            "error_ground_m": 49.960388880670976
+          },
+          {
+            "label": "IS28",
+            "east_ground_m": 56.756660296587995,
+            "north_ground_m": -261.9884193672699,
+            "error_ground_m": 268.06575754949154
+          },
+          {
+            "label": "IS29",
+            "east_ground_m": 142.13469784739044,
+            "north_ground_m": -43.24371060622701,
+            "error_ground_m": 148.56746224918862
+          },
+          {
+            "label": "IS30",
+            "east_ground_m": -64.0157901466553,
+            "north_ground_m": -262.57998884866896,
+            "error_ground_m": 270.2707382086853
+          },
+          {
+            "label": "IS31",
+            "east_ground_m": 115.80855458625939,
+            "north_ground_m": -53.610764658424095,
+            "error_ground_m": 127.61557664571968
+          },
+          {
+            "label": "IS32",
+            "east_ground_m": 172.8984313098772,
+            "north_ground_m": 103.75912344416963,
+            "error_ground_m": 201.64281104794873
+          },
+          {
+            "label": "IS33",
+            "east_ground_m": -178.39435399917127,
+            "north_ground_m": -127.98343869976173,
+            "error_ground_m": 219.55479070199607
+          }
+        ],
+        "rms_ground_m": 237.2879453371784,
+        "median_ground_m": 210.44615726898346,
+        "p95_ground_m": 368.1505501488143,
+        "max_ground_m": 433.4037581089004,
+        "mean_east_ground_m": 21.21278212176743,
+        "mean_north_ground_m": -32.673145675214144,
+        "scatter_rms_ground_m": 234.0684780757128,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    }
+  },
+  "geographic_acceptance": false
+}

@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Porper Point southern tip in northwest coast fragment",
+    [
+      685,
+      245
+    ],
+    [
+      591,
+      272
+    ],
+    "WACO"
+  ],
+  [
+    "C02",
+    "Jerseymans Island north tip",
+    [
+      5139,
+      243
+    ],
+    [
+      5090,
+      226
+    ],
+    "WACOIS"
+  ],
+  [
+    "C03",
+    "Cape au Guet southeast corner",
+    [
+      5730,
+      1285
+    ],
+    [
+      5689,
+      1268
+    ],
+    "WACO"
+  ],
+  [
+    "C04",
+    "Fox Island west tip",
+    [
+      3288,
+      3110
+    ],
+    [
+      3290,
+      3075
+    ],
+    "WACOIS"
+  ],
+  [
+    "C05",
+    "Small western pond south tip",
+    [
+      154,
+      3112
+    ],
+    [
+      136,
+      3107
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Round inland pond north of Hayden Lake north tip",
+    [
+      2690,
+      3104
+    ],
+    [
+      2660,
+      3078
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Small pond northwest of Second Lake north tip",
+    [
+      969,
+      3602
+    ],
+    [
+      957,
+      3590
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Fogarty Point eastern cape",
+    [
+      2718,
+      2790
+    ],
+    [
+      2688,
+      2770
+    ],
+    "WACO"
+  ]
+]

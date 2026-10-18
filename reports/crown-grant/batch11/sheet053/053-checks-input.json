@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Shey Lake eastern outlet",
+    [
+      1771,
+      2853
+    ],
+    [
+      1787,
+      2790
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Lily Lake southern shore",
+    [
+      3458,
+      2289
+    ],
+    [
+      3482,
+      2213
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Smith Lake southern tip",
+    [
+      4687,
+      2754
+    ],
+    [
+      4702,
+      2674
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Wade Lake southern tip",
+    [
+      4642,
+      937
+    ],
+    [
+      4652,
+      860
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Woodward Sandford or Knox Lake southern tip",
+    [
+      4461,
+      1655
+    ],
+    [
+      4476,
+      1574
+    ],
+    "WALK20"
+  ]
+]

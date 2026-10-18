@@ -1,0 +1,33 @@
+{
+  "record": {
+    "id": "20d94584-8081-4c4a-b1a3-a984d70972cd",
+    "name": "sheet-05-full-sheet",
+    "source": "geotiff",
+    "createdAt": "2026-09-12T14:08:29.535Z",
+    "pixelSize": {
+      "width": 8559,
+      "height": 5687
+    },
+    "georef": {
+      "kind": "embedded",
+      "crs": "EPSG:3857",
+      "geotransform": [
+        -6774335,
+        5,
+        0,
+        5906815,
+        0,
+        -5
+      ]
+    }
+  },
+  "previewSize": [
+    4096,
+    2722
+  ],
+  "storedRasterSha256": "3affbba1a4d33c7b4e3a5ddc241fa20850473f170539426ee105dfd2c2d593c9",
+  "rasterBytes": 98947523,
+  "rasterMime": "image/tiff",
+  "transparentPixels": 758080,
+  "opaquePixels": 10391232
+}

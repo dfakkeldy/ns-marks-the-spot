@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Green Harbour Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      619,
+      2005
+    ],
+    "lonlat": [
+      -65.12922515305873,
+      43.82009400577868
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 125089,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125089,
+    "nearest_unfiltered_distance_guide_px": 1.1163791312488116,
+    "selected_distance_guide_px": 1.1163791312488116,
+    "guide_reference_pixel_xy": [
+      572.3539641635725,
+      1987.0895385440672
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Stewart Lake southeastern projecting tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4999,
+      2300
+    ],
+    "lonlat": [
+      -64.83519801763607,
+      43.89646591080858
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 140120,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140120,
+    "nearest_unfiltered_distance_guide_px": 2.278842928330537,
+    "selected_distance_guide_px": 2.278842928330537,
+    "guide_reference_pixel_xy": [
+      4997.725623056234,
+      2278.1425994728925
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Cameron Lake northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4465,
+      2670
+    ],
+    "lonlat": [
+      -64.85846749639842,
+      43.86832111342709
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 124445,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124445,
+    "nearest_unfiltered_distance_guide_px": 0.47923651534651257,
+    "selected_distance_guide_px": 0.47923651534651257,
+    "guide_reference_pixel_xy": [
+      4475.285911009472,
+      2653.615393015789
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Sinclair Island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3184,
+      2368
+    ],
+    "lonlat": [
+      -64.95103780565734,
+      43.855697920283006
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 20383,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20383,
+    "nearest_unfiltered_distance_guide_px": 1.0754612420321554,
+    "selected_distance_guide_px": 1.0754612420321554,
+    "guide_reference_pixel_xy": [
+      3171.236209714145,
+      2357.757126992219
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Port Hebert east-bank peninsula northern tip near Ensign Burgess grant",
+    "role": "proposal",
+    "pixel_xy": [
+      3222,
+      2215
+    ],
+    "lonlat": [
+      -64.95326864449956,
+      43.864420227815415
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 8546,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8546,
+    "nearest_unfiltered_distance_guide_px": 0.43948684400857824,
+    "selected_distance_guide_px": 0.43948684400857824,
+    "guide_reference_pixel_xy": [
+      3210.397454655322,
+      2188.187559278682
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Black Point southern tip at Little Port Joli",
+    "role": "proposal",
+    "pixel_xy": [
+      4909,
+      3455
+    ],
+    "lonlat": [
+      -64.80843606138635,
+      43.8433090820786
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 2373,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 2373,
+    "nearest_unfiltered_distance_guide_px": 0.832831346538447,
+    "selected_distance_guide_px": 0.832831346538447,
+    "guide_reference_pixel_xy": [
+      4932.172436097637,
+      3386.0935202613473
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

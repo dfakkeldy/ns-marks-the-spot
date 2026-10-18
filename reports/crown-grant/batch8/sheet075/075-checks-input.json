@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Griswold Lake southern bay tip",
+    [
+      827,
+      694
+    ],
+    [
+      902,
+      714
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Pond west of Elbow Lake southern tip",
+    [
+      940,
+      966
+    ],
+    [
+      1013,
+      992
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Duck Lake north of Island Lake southern tip",
+    [
+      4638,
+      806
+    ],
+    [
+      4721,
+      838
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Duck Pond east of Catamaran Lake southern tip",
+    [
+      3669,
+      1491
+    ],
+    [
+      3738,
+      1509
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Pond north of Flat Lake southern tip",
+    [
+      4932,
+      1298
+    ],
+    [
+      5016,
+      1327
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Western Arm Jeddore main island southeast tip",
+    [
+      3964,
+      3325
+    ],
+    [
+      3995,
+      3346
+    ],
+    "WACOIS10"
+  ]
+]

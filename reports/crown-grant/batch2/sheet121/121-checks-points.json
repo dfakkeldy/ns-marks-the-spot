@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Stewart Brook eastern confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      2646,
+      372
+    ],
+    "lonlat": [
+      -60.93988732743888,
+      46.45818027198214
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 188945,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      2646.86885204626,
+      399.36437960213516
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Rory Brook southern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3345,
+      1888
+    ],
+    "lonlat": [
+      -60.850282138326264,
+      46.405405212625425
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 201604,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3456.657044419495,
+      1878.4416976759676
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Southern Middle River upstream fork",
+    "role": "proposal",
+    "pixel_xy": [
+      2968,
+      3242
+    ],
+    "lonlat": [
+      -60.84844456743211,
+      46.333597884226826
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 273738,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      2938.052887292113,
+      3276.433007296524
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Southern North Branch eastern fork",
+    "role": "proposal",
+    "pixel_xy": [
+      4065,
+      3430
+    ],
+    "lonlat": [
+      -60.775873576441874,
+      46.34656749103855
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 201581,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4017.928622107196,
+      3396.779523497913
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Southeastern small pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5439,
+      3550
+    ],
+    "lonlat": [
+      -60.68147675474295,
+      46.362090563297855
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 134527,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5412.302902713534,
+      3577.790865652496
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Southeastern large pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5317,
+      3537
+    ],
+    "lonlat": [
+      -60.68890196346662,
+      46.360929633649015
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 134618,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5303.077932170476,
+      3562.454057199182
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Kinross Margaree River eastern bank bend",
+    "role": "proposal",
+    "pixel_xy": [
+      2866,
+      520
+    ],
+    "lonlat": [
+      -60.92013063329479,
+      46.4551306760831
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 159198,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      2890.297809444368,
+      559.5283017235342
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Frizzleton Margaree River northern bank bend",
+    "role": "proposal",
+    "pixel_xy": [
+      1484,
+      1840
+    ],
+    "lonlat": [
+      -60.9732385080427,
+      46.37287099954083
+    ],
+    "guide_file": ".crown-grant-local/121-adjacent-guide.npy",
+    "reference_objectid": 159068,
+    "reference_feature_code": "WARV10",
+    "guide_reference_pixel_xy": [
+      1548.7656247828272,
+      1877.016558336676
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

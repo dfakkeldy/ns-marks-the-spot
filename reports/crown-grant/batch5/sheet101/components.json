@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6046 x 4149 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 43.25 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          75,
+          115
+        ],
+        [
+          5920,
+          115
+        ],
+        [
+          5920,
+          4020
+        ],
+        [
+          75,
+          4020
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains St Marys River, Waternish, Stillwater and Sherbrooke, the lake interior and all lake islands, Country Harbour Mines, Middle Country Harbour, Stormont, Isaacs Harbour and Goldboro, Ragged Point, and the western/southern parcel regions. No displaced inset identified."
+    }
+  ]
+}

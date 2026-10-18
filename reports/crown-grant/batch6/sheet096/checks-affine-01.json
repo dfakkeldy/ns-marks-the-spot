@@ -1,0 +1,173 @@
+{
+  "status": "Six excluded physical checks reserved and audited before first affine fit and score; shared lakes and uneven regional coverage remain qualified",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northern pond east of Stillwater Brook southwest lobe",
+      "role": "check",
+      "pixel_xy": [
+        3306,
+        590
+      ],
+      "lonlat": [
+        -62.182680273645445,
+        45.17374902898106
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 143349,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 143349,
+      "nearest_unfiltered_distance_guide_px": 1.007581718455297,
+      "selected_distance_guide_px": 1.007581718455297,
+      "guide_reference_pixel_xy": [
+        3374.8188786967658,
+        578.9911690031877
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "All physical decisions precede first fit; checks excluded from fitting."
+    },
+    {
+      "id": "Q02",
+      "label": "Maloy Lake peninsula north tip",
+      "role": "check",
+      "pixel_xy": [
+        2363,
+        1511
+      ],
+      "lonlat": [
+        -62.21655460606941,
+        45.118467556999626
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 136685,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136685,
+      "nearest_unfiltered_distance_guide_px": 0.5310044421591539,
+      "selected_distance_guide_px": 0.5310044421591539,
+      "guide_reference_pixel_xy": [
+        2422.5541400124785,
+        1521.2884000504855
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "All physical decisions precede first fit; checks excluded from fitting."
+    },
+    {
+      "id": "Q04",
+      "label": "Pond west of Cranberry Lakes east projection",
+      "role": "check",
+      "pixel_xy": [
+        5045,
+        1065
+      ],
+      "lonlat": [
+        -62.06981199233211,
+        45.18212476692803
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 134419,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134419,
+      "nearest_unfiltered_distance_guide_px": 0.36767659030954897,
+      "selected_distance_guide_px": 0.36767659030954897,
+      "guide_reference_pixel_xy": [
+        5082.6748410117,
+        1067.8283675223356
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "All physical decisions precede first fit; checks excluded from fitting."
+    },
+    {
+      "id": "Q06",
+      "label": "Sinclair Lake north tip",
+      "role": "check",
+      "pixel_xy": [
+        4858,
+        3293
+      ],
+      "lonlat": [
+        -62.026913584644426,
+        45.086428297503446
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 142552,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142552,
+      "nearest_unfiltered_distance_guide_px": 0.7440157697000106,
+      "selected_distance_guide_px": 0.7440157697000106,
+      "guide_reference_pixel_xy": [
+        4912.5398698194185,
+        3296.511957072071
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "All physical decisions precede first fit; checks excluded from fitting."
+    },
+    {
+      "id": "Q07",
+      "label": "Southern pond east of Second Lake southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        4236,
+        2360
+      ],
+      "lonlat": [
+        -62.086111887332514,
+        45.11509920763689
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 134518,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134518,
+      "nearest_unfiltered_distance_guide_px": 0.4132036233526038,
+      "selected_distance_guide_px": 0.4132036233526038,
+      "guide_reference_pixel_xy": [
+        4289.635436641227,
+        2357.194501392776
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "All physical decisions precede first fit; checks excluded from fitting."
+    },
+    {
+      "id": "Q08",
+      "label": "Cranberry western lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        5656,
+        1145
+      ],
+      "lonlat": [
+        -62.03245672591005,
+        45.18927945164054
+      ],
+      "guide_file": ".crown-grant-local/096-adjacent-guide.npy",
+      "reference_objectid": 128659,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128659,
+      "nearest_unfiltered_distance_guide_px": 1.5453750124280337,
+      "selected_distance_guide_px": 1.5453750124280337,
+      "guide_reference_pixel_xy": [
+        5684.3391180731705,
+        1138.4922921829857
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake outlines and paired original native and modern crosshairs inspected before first fit and check scoring.",
+      "review": "All physical decisions precede first fit; checks excluded from fitting."
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C02",
+    "label": "Barren Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1836,
+      721
+    ],
+    "lonlat": [
+      -63.13808465093196,
+      45.266044173823865
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 129761,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129761,
+    "nearest_unfiltered_distance_guide_px": 1.4971684605406999,
+    "selected_distance_guide_px": 1.4971684605406999,
+    "guide_reference_pixel_xy": [
+      1846.5714090518304,
+      788.565488515771
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Flat Iron Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3614,
+      582
+    ],
+    "lonlat": [
+      -63.03802591158554,
+      45.30271951095847
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 127512,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127512,
+    "nearest_unfiltered_distance_guide_px": 0.9059960945887497,
+    "selected_distance_guide_px": 0.9059960945887497,
+    "guide_reference_pixel_xy": [
+      3605.230006096186,
+      623.4774288549088
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Twin Lakes eastern lobe northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3822,
+      410
+    ],
+    "lonlat": [
+      -63.0296820818955,
+      45.313734353819264
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 138833,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138833,
+    "nearest_unfiltered_distance_guide_px": 0.12459316005158652,
+    "selected_distance_guide_px": 0.12459316005158652,
+    "guide_reference_pixel_xy": [
+      3818.082920969522,
+      445.9070076973876
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Halfway Brook pond southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2745,
+      1556
+    ],
+    "lonlat": [
+      -63.064089881517326,
+      45.24714886000665
+    ],
+    "guide_file": ".crown-grant-local/081-adjacent-guide.npy",
+    "reference_objectid": 83834,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 83834,
+    "nearest_unfiltered_distance_guide_px": 1.6827142320767492,
+    "selected_distance_guide_px": 1.6827142320767492,
+    "guide_reference_pixel_xy": [
+      2763.6621631229646,
+      1613.2621849337593
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

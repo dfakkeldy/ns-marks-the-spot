@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-08-C03.jpg",
+    "point_record": "sheet08/reviewed-fit.json",
+    "point_id": "C03",
+    "native_box": [
+      2608,
+      2071,
+      2828,
+      2291
+    ],
+    "native_coordinates": [
+      2718,
+      2181
+    ],
+    "modern_lonlat": [
+      -60.8008441,
+      46.577578
+    ],
+    "rotation_degrees": 0
+  }
+]

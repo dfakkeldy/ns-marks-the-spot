@@ -1,0 +1,71 @@
+{
+  "id": "IS33",
+  "label": "Crandall / Long Stretch road junction",
+  "role": "check",
+  "phase": "Fresh expansion of unchanged affine4 validation; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T21:23:43.241054+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      19800,
+      29400
+    ],
+    "extent": [
+      2200,
+      1800
+    ],
+    "display": [
+      1320,
+      1080
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/IS6-long-stretch-native.jpg",
+  "source_crop_sha256": "1c82f536f417314603443fea0d3ffe2cb705f662133431c950e7363865ad0f24",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    487,
+    450
+  ],
+  "pixel_xy": [
+    20611.666666666668,
+    30150.0
+  ],
+  "lonlat": [
+    -61.32360811092793,
+    45.682389177584085
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+  "reference_sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc",
+  "reference_kind": "Road centreline junction",
+  "reference_vertices": [
+    {
+      "feature_id": 4451,
+      "vertex": 32,
+      "layer": 8,
+      "street": "Crandall Rd"
+    },
+    {
+      "feature_id": 154164,
+      "vertex": 0,
+      "layer": 8,
+      "street": "Crandall Rd"
+    },
+    {
+      "feature_id": 154232,
+      "vertex": 39,
+      "layer": 8,
+      "street": "Long Stretch Rd"
+    },
+    {
+      "feature_id": 293989,
+      "vertex": 0,
+      "layer": 8,
+      "street": "Long Stretch Rd"
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Centre of the compact northern four-road meeting; the lower crossing and loop are excluded.",
+  "identity_evidence": "The historical north-south Crandall route meets the west approach from Dorton Bridge and a northeastern route toward the Northwest River corridor. The compact northern road meeting is separated from the lower bridge/triangular road arrangement to the south. The original road and water network has the same northern meeting, western approach and nearby southern crossing. The drawn meeting is generalized; no independently measured bound on local engineering differences is claimed."
+}

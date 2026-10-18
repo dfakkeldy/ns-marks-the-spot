@@ -1,0 +1,85 @@
+{
+  "richmond": {
+    "control_count": 10,
+    "source_hull": {
+      "supply-08": true,
+      "supply-15": true,
+      "supply-18": true,
+      "supply-23": false,
+      "Blake Island corrected centroid": true,
+      "D01": false,
+      "F01": true,
+      "F03": false,
+      "F04": true,
+      "G01": false,
+      "G02": false,
+      "G03": false,
+      "G06": false,
+      "H01": false,
+      "H02": true,
+      "H03": false,
+      "H04": true,
+      "H05": false,
+      "H06": false,
+      "R21": true,
+      "R22": true,
+      "R23": true
+    },
+    "inside_count": 11,
+    "outside_count": 11,
+    "affine_orientation_determinant": null,
+    "limitation": "Control-hull membership describes interpolation/extrapolation only; does not establish accuracy or coverage. Constant affine determinant establishes no-fold behavior only for that affine model; Richmond retains prior sampled TPS evidence."
+  },
+  "inverness-north": {
+    "control_count": 4,
+    "source_hull": {
+      "N03": true,
+      "I12": false
+    },
+    "inside_count": 1,
+    "outside_count": 1,
+    "affine_orientation_determinant": -15.034755151656178,
+    "limitation": "Control-hull membership describes interpolation/extrapolation only; does not establish accuracy or coverage. Constant affine determinant establishes no-fold behavior only for that affine model; Richmond retains prior sampled TPS evidence."
+  },
+  "victoria-northwest": {
+    "control_count": 4,
+    "source_hull": {
+      "supply-04": false,
+      "supply-06": true
+    },
+    "inside_count": 1,
+    "outside_count": 1,
+    "affine_orientation_determinant": -14.198742631976014,
+    "limitation": "Control-hull membership describes interpolation/extrapolation only; does not establish accuracy or coverage. Constant affine determinant establishes no-fold behavior only for that affine model; Richmond retains prior sampled TPS evidence."
+  },
+  "victoria-main": {
+    "control_count": 4,
+    "source_hull": {
+      "VM10": false,
+      "VM08": true,
+      "VM07": false,
+      "VM12": false
+    },
+    "inside_count": 1,
+    "outside_count": 3,
+    "affine_orientation_determinant": -15.910046981754816,
+    "limitation": "Control-hull membership describes interpolation/extrapolation only; does not establish accuracy or coverage. Constant affine determinant establishes no-fold behavior only for that affine model; Richmond retains prior sampled TPS evidence."
+  },
+  "inverness-south": {
+    "control_count": 4,
+    "source_hull": {
+      "island-45-948n-61-096w": true,
+      "island-45-875n-61-085w": true,
+      "island-45-801n-61-038w": true,
+      "island-45-797n-61-049w": true,
+      "island-45-790n-61-057w": true,
+      "island-45-762n-61-068w": false,
+      "island-45-757n-61-084w": true,
+      "IS15": false
+    },
+    "inside_count": 6,
+    "outside_count": 2,
+    "affine_orientation_determinant": -15.364130081040356,
+    "limitation": "Control-hull membership describes interpolation/extrapolation only; does not establish accuracy or coverage. Constant affine determinant establishes no-fold behavior only for that affine model; Richmond retains prior sampled TPS evidence."
+  }
+}

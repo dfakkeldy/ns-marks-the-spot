@@ -1,0 +1,17 @@
+{
+  "timing": "Before any source point selection, fit or check score",
+  "initial_guide": "058-initial-west-guide/058-adjacent-ppi-guide.npy",
+  "revised_guide": "058-translated-guide.npy",
+  "translation_in_initial_140ppi_guide_pixels": [
+    2250,
+    -3370
+  ],
+  "reason": "Initial west-only neighbor spacing did not place the mapped Midgic/Jolicure lakes and Tidnish coastline inside the correct reference search window. Named authoritative NBHN Jolicure lake polygons identified the required coarse search translation. This guide is discovery only, not control observations.",
+  "initial_archive": "058-initial-west-guide",
+  "bbox": [
+    -64.4075713480829,
+    45.86781237118526,
+    -63.89078646548293,
+    46.195297735901555
+  ]
+}

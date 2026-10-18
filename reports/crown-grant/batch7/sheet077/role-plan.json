@@ -1,0 +1,19 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Reliable controls lie in a compact central harbour cluster; uniform scale and rotation avoid unsupported affine shear across large unvalidated regions.",
+  "not_adopted": [
+    "C02 McKenzie Point proposal lies on changed barrier/spit geometry; modern outer southern tip extends beyond candidate and historical correspondence is uncertain",
+    "Cape Cliff engineered shore and McLean generalized coast lack a confidently matched physical corner",
+    "Betts Point is changed by engineered access and marsh mapping"
+  ],
+  "corrections": [
+    "Oak Island is WACOIS10; original WACO20 filter failed distance guard before fitting"
+  ],
+  "discovery": "Initial west-only adjacent guide was one map row too far south. Original guide and reference pages archived; corrected northwest discovery offset from085[-5800,-3870] before any accepted points or fit.",
+  "limitations": [
+    "Northern coastline, western inland parcels and southern edge have no accepted checks",
+    "Fox and Oak opposite shore checks share islands with controls and are spatially correlated",
+    "Ocean coverage is retained but not independently geographically validated"
+  ]
+}

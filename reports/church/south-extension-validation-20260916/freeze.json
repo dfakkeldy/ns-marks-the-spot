@@ -1,0 +1,39 @@
+{
+  "input_commit": "c95312709514bd62c3e4e067c2324070e2137a2a",
+  "inputs": {
+    "controls": {
+      "path": "reports/church/south-southern-validation-20260916/controls.csv",
+      "sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527"
+    },
+    "prior_inventory": {
+      "path": "reports/church/south-southern-validation-20260916/fresh-validation.csv",
+      "sha256": "44f4adbcd72ae96e8d4c243bf7e33b3c0047167ee89c9d485479fbee91ce7c42"
+    },
+    "prior_accuracy": {
+      "path": "reports/church/south-southern-validation-20260916/accuracy-summary.json",
+      "sha256": "c7c9a8d75283893f229b42d3789251736a9652a2dc2c60bd55367fdf546d9ba3"
+    },
+    "prior_status": {
+      "path": "reports/church/south-southern-validation-20260916/status.json",
+      "sha256": "18085d2bc61607283cc2b9dc0089c1fd4f45513074e4fce962c065e6b329b864"
+    },
+    "selection_freeze": {
+      "path": "reports/church/south-distributed-refinement-20260915/selected-tps13/freeze.json",
+      "sha256": "cd15fd212b4f0b25c271d3c3109c65eff9f13cfc0fa6d3f2b13031199b9f3178"
+    },
+    "baseline_controls": {
+      "path": "tools/church/gcps/inverness-south.csv",
+      "sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847"
+    },
+    "baseline_checks": {
+      "path": "tools/church/checks/inverness-south.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    }
+  },
+  "method": "tps",
+  "raster": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "scope": "New southern-extension check against unchanged frozen TPS13; preceding thirteen first results retained"
+}

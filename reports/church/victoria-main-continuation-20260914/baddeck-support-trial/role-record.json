@@ -1,0 +1,17 @@
+{
+  "prospective_control": "VM19",
+  "never_fresh": true,
+  "observation_sha256": "aeb642b5fe94668004b1de9dc459a0ed606499fe44d51790bbb20d99c81dfcb9",
+  "diagnostics": [
+    "VM10",
+    "VM07",
+    "VM12",
+    "VM15"
+  ],
+  "excluded_from_checks": [
+    "VM19",
+    "VM18",
+    "VM17",
+    "VM08"
+  ]
+}

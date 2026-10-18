@@ -1,0 +1,70 @@
+{
+  "sheet": "sheet-18",
+  "source_sha256": "5df5fe1e6d33e61b2f7c3c3811e2152b3c5f3ff2f999806ba404460aff02f49c",
+  "source_dimensions": [
+    5416,
+    3842
+  ],
+  "points": [
+    {
+      "id": "P01",
+      "role": "control",
+      "pixel_xy": [
+        4095.0,
+        1316.0
+      ],
+      "lonlat": [
+        -60.918,
+        45.874
+      ],
+      "identity_evidence": "Big Harbour Island hooked peninsula northern tip",
+      "source_uncertainty_px": 1,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals."
+    },
+    {
+      "id": "P02",
+      "role": "control",
+      "pixel_xy": [
+        3830.0,
+        2917.0
+      ],
+      "lonlat": [
+        -60.9404,
+        45.7717
+      ],
+      "identity_evidence": "Black Pond headland northern tip",
+      "source_uncertainty_px": 1,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals."
+    },
+    {
+      "id": "P03",
+      "role": "control",
+      "pixel_xy": [
+        2544.0,
+        2565.0
+      ],
+      "lonlat": [
+        -61.0603,
+        45.7944
+      ],
+      "identity_evidence": "Calder Island northern tip",
+      "source_uncertainty_px": 1,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals."
+    },
+    {
+      "id": "P04",
+      "role": "control",
+      "pixel_xy": [
+        2245.0,
+        1628.0
+      ],
+      "lonlat": [
+        -61.0887,
+        45.854
+      ],
+      "identity_evidence": "River Denys estuary narrow crossing",
+      "source_uncertainty_px": 1,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "sheet": "sheet-23",
+  "source_sha256": "2ed268fb21d3ff991d2d79a4b0c7792ae4284a68b525993798534c321db865ba",
+  "method": "Full engraved map frame, including mapped sea and offshore islands. Native corner review; no control hull clipping.",
+  "ring_pixel_xy": [
+    [
+      1482,
+      1088
+    ],
+    [
+      9655,
+      1136
+    ],
+    [
+      9653,
+      6615
+    ],
+    [
+      1460,
+      6576
+    ],
+    [
+      1482,
+      1088
+    ]
+  ]
+}

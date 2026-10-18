@@ -1,0 +1,50 @@
+{
+  "id": "I15",
+  "role": "check",
+  "label": "Presquile western outer-shore extremum",
+  "pixel_xy": [
+    5149,
+    16391.666666666668
+  ],
+  "lonlat": [
+    -60.96183307872383,
+    46.68818138501545
+  ],
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      5080,
+      16270
+    ],
+    "extent": [
+      350,
+      350
+    ],
+    "display": [
+      1050,
+      1050
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    207,
+    365
+  ],
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-north-continuation-20260914/I15-original-detail.png",
+  "source_crop_sha256": "58e348fd09051f9375513988d08b2678b4e42c70cba75d85b09b2443424bd146",
+  "source_derivation": "Original native window [4700,15900,1300,2000], cropped locally at [380,370,350,350], enlarged3x. Exact original/working native array parity recorded separately.",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/reference-full/water-lines.geojson",
+  "reference_sha256": "8f1eaf5ef2d54e6782a8caf91d7ff95175e9c8f7d23a04570049f50817779cf5",
+  "reference_feature_ids": [
+    9882
+  ],
+  "reference_vertex": {
+    "feature_id": 9882,
+    "vertex": 161
+  },
+  "uncertainty_ground_m": 160,
+  "identity_evidence": "Outer west-facing shore of the Presquile projection, with elongated lagoon and road to its east, southern lagoon neck and nearby southern coastal indentation. Broader context preserves the order Corney Brook / Presquile / Riviere Brook / Cheticamp eastern harbour. Trace the outermost shore, not the road, lagoon boundary or label. The broad generalized coastal extremum is a coarse landform check, not a surveyed immutable bank; shoreline-change and engraving uncertainty retained. Modern vertex161 is the westernmost point of original coastal feature9882.",
+  "phase": "First fresh check selected after five-control TPS freeze; four-control affine comparison on identical feature; no tuning"
+}

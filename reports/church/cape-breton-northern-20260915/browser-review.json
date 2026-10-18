@@ -1,0 +1,49 @@
+{
+  "recorded_at": "2026-09-15T14:00:24.657822+00:00",
+  "web_code_commit": "865bfc5044bddc1ee88baf2c30cbf92e4115f3e4",
+  "artifact_sha256": "d866dbc0dcc4171d203e10bac811062f02a5287bb9e0c2bf4f5b8f5ec80c0299",
+  "native_raster_size": [
+    6680,
+    5353
+  ],
+  "actual_file_import": true,
+  "navigation_reload_verified": true,
+  "only_active_historical_import": "cape-breton-tps8-review-20m",
+  "opacity_percent": 70,
+  "full_2d_view": [
+    46,
+    -60.24,
+    10
+  ],
+  "regional_2d_view": [
+    45.91389,
+    -60.35521,
+    14
+  ],
+  "regional_3d_view": [
+    45.9139,
+    -60.3552,
+    14
+  ],
+  "exaggeration": 10,
+  "tilt_degrees": 50,
+  "direction_degrees": 0,
+  "separate_low_ground_scale": false,
+  "error_logs": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/browser/tps8-full-2d.png",
+      "sha256": "bd817ec2d211cd51d3d7777f6bff7ef90c3748bd300902398e537ecce5144537"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/browser/tps8-macadams-10x.png",
+      "sha256": "3fcb10d883505a163f29b21d32726b25a4f3504b3b564b52a7de464c8f78957c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/browser/tps8-macadams-2d.png",
+      "sha256": "dd1b7b12fdc8d67e455fb9915fce090526a98eef07ca231fe0dd61df621a1106"
+    }
+  ],
+  "finding": "At MacAdams the warped historical lake lies southwest of the modern lake and crosses raised relief in the10x scene. This visibly corroborates the mapped displacement; the 3D scene supplied no GCP coordinates.",
+  "geographic_acceptance": false
+}

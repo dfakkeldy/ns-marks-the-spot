@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T10:05:48.479728+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Gulliver Point, Delap/Wagner/Amirault/Mallett/Harris/Worcester lakes and the long Annapolis Basin island distribute controls across both source axes.",
+  "corrections": [
+    "Worcester eastern-lobe southern source and Gilbert Lake southern source refined from native crosshairs."
+  ],
+  "unadopted": [
+    "Andrews lake geometry/connectivity differs from modern water.",
+    "Ellison outline was inspected but not adopted; large Mistake Lake complex remains independently unsampled."
+  ],
+  "limitations": [
+    "Seven checks share control waterbodies or coastal localities; Gilbert Point and Gilbert Lake add two separate features. Shared historical cartography limits independence.",
+    "Open bay interiors, much of Digby town shoreline, northeastern river corridors and unsampled central land remain independently unvalidated.",
+    "Generalized lake tips, narrow shores and small coastal features carry 24 px working source uncertainty."
+  ]
+}

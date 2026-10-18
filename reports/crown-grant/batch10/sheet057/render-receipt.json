@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "51554d7e75d08c46c85ee5023fca804f610987829ea8ef6b7f34d85b69baf011",
+  "fit_sha256": "332ce4a3a888105f36ff455aae8267c8c79765b3f2fb6dac4b88fbfa7c540379",
+  "components_sha256": "d3505dfd953f89a71d569e94e26cba2643599d2235894fd43d65e8225f197ce6",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 59.36 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          44.34607878722342,
+          -63.88089956869309
+        ],
+        [
+          44.61117856757077,
+          -63.44417461016554
+        ]
+      ],
+      "dimensions": [
+        6077,
+        5170
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 16697715,
+      "source_mask_pixels": 19314400,
+      "affine_determinant": -28.13948208508139,
+      "png_sha256": "2fc251438c30ae1839d173fe0ecc48065c7e7358335d277078d2f4f5c641517e",
+      "tif_sha256": "39e8e9fa0a3f72500d8a15d8397d6b97e51fcb00095d9d54699f9e3007b4fced"
+    },
+    {
+      "id": "peggy-cove-inset",
+      "status": "RMS 35.66 m passes 100 m; limitations retained",
+      "png": "peggy-cove-inset-3857.png",
+      "tif": "peggy-cove-inset-3857.tif",
+      "bounds": [
+        [
+          44.45116453916344,
+          -63.93580361301363
+        ],
+        [
+          44.507670677715396,
+          -63.85545829400198
+        ]
+      ],
+      "dimensions": [
+        1118,
+        1102
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 715104,
+      "source_mask_pixels": 809600,
+      "affine_determinant": -28.755208636173247,
+      "png_sha256": "27f6f3f2433e020f077056961a23cd02c7002534cb7b9b078da08b6a92013365",
+      "tif_sha256": "80423384ce163f591197a23919303e8bcea3300a1f0470bf57b4d1575bce1772"
+    }
+  ]
+}

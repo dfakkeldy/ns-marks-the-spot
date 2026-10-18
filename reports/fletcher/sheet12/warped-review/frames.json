@@ -1,0 +1,167 @@
+[
+  {
+    "image": "northwest-rivers.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.195,
+      -60.72,
+      46.27
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "baddeck-forks.jpg",
+    "lonlat_bounds": [
+      -60.82,
+      46.13,
+      -60.71,
+      46.2
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "christopher-big-glen.jpg",
+    "lonlat_bounds": [
+      -60.735,
+      46.205,
+      -60.65,
+      46.26
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "st-anns-monroe.jpg",
+    "lonlat_bounds": [
+      -60.665,
+      46.218,
+      -60.55,
+      46.273
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "seal-otter.jpg",
+    "lonlat_bounds": [
+      -60.58,
+      46.2,
+      -60.46,
+      46.25
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "baddeck-kidston.jpg",
+    "lonlat_bounds": [
+      -60.85,
+      46.08,
+      -60.69,
+      46.145
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "port-bevis.jpg",
+    "lonlat_bounds": [
+      -60.66,
+      46.11,
+      -60.58,
+      46.18
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "island-point.jpg",
+    "lonlat_bounds": [
+      -60.61,
+      46.11,
+      -60.5,
+      46.17
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "kemp-coffin-extension.jpg",
+    "lonlat_bounds": [
+      -60.7,
+      46.063,
+      -60.58,
+      46.12
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "lockman-extension.jpg",
+    "lonlat_bounds": [
+      -60.55,
+      46.067,
+      -60.465,
+      46.12
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.87,
+      46.06,
+      -60.45,
+      46.28
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "sheet": "103",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; main RMS failed; inset numeric RMS pass has only two checks; full source/raster/browser verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/103.pdf",
+    "pdf_sha256": "2aa0e08f64b14809b6269748d2b8477ff9e8ecfdbb1409569ee9ca1e2f4df561",
+    "jpeg_sha256": "c85aaf6da0f79d8df12ec5ad3a11d6e6df000542060f81091aa96e152a84bb3e",
+    "dimensions": [
+      5992,
+      4111
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 4,
+      "rms_ground_m": 174.4338699571609,
+      "rms_gate_passed": false,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "coastal-inset",
+      "controls": 2,
+      "independent_checks": 2,
+      "rms_ground_m": 89.34312565496919,
+      "rms_gate_passed": true,
+      "fit": "fit-coastal-similarity-01.json",
+      "checks": "checks-coastal-similarity-01.json",
+      "scores": "scores-coastal-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main: five controls and only four independent coastal checks give RMS 174.43 m, failing the 100 m ceiling. Median 97.05 m, P95 285.41 m and maximum 311.28 m also exceed suggested companion bounds. Western Antigonish Harbour and interior lack secure local controls/checks.",
+    "Inset: two controls and only two independent southern-corridor checks give RMS 89.34 m, median 79.37 m, P95 116.29 m and maximum 120.39 m. RMS passes numerically, median exceeds suggested 75 m, and this extremely small sample does not establish whole-inset accuracy.",
+    "Doctors Brook/Malignant Cove northern inset, western main estuary, parcel interiors and harbour works remain unvalidated. Their complete imagery is retained as provisional extrapolation.",
+    "Near-zero inset fitting residual follows from the two-control similarity and provides no accuracy evidence. Two-point empirical P95 has little statistical support; no confidence interpretation is made.",
+    "Working source uncertainty is 12 px, raised to 18 px at generalized Creeping Head, Lakevale bank and Cape George corner."
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and inset",
+    "statistics": "main: 4 checks, RMS 174.43 m; coastal-inset: 2 checks, RMS 89.34 m. Gate: 100 m. No pooled score.",
+    "coverage": "Full original mapped frame retains Antigonish Harbour and its western shore fragment, the Creeping Head\u2013Lakevale coast, Cape George peninsula, all small islands and St Georges Bay. The true displaced Doctors Brook\u2013Malignant Cove\u2013Georgeville\u2013Morar coastal strip is fitted separately. Its angled native mask exactly fills the main-map hole; no coastline or northern inset fragment is cropped away.",
+    "focusBounds": [
+      [
+        45.65410651576575,
+        -62.20263917287577
+      ],
+      [
+        45.96443511339462,
+        -61.64906546947817
+      ]
+    ]
+  }
+}

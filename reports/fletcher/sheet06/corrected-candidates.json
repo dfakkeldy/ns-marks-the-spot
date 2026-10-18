@@ -1,0 +1,213 @@
+{
+  "sheet": "sheet-06",
+  "source_sha256": "f0eba470a9ff0ae9e89a2c211c2d6eab6b7a647cd71c706c8913708a625091e3",
+  "points": [
+    {
+      "lonlat": [
+        -60.9178107,
+        46.7432406
+      ],
+      "source_guide_xy": [
+        7927.627683579223,
+        2599.019287700532
+      ],
+      "objectids": [
+        11200,
+        11201,
+        275666
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        8085,
+        2398
+      ],
+      "modern_node_id": "J0154",
+      "identity_evidence": "Jumping Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -60.9291235,
+        46.7216248
+      ],
+      "source_guide_xy": [
+        7680.709902099101,
+        3273.909230300458
+      ],
+      "objectids": [
+        11203,
+        11230,
+        295927
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        7867,
+        2961
+      ],
+      "modern_node_id": "J0202",
+      "identity_evidence": "Corney Brook coastal mouth; modern terminal reach is indefinite",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -60.9079605,
+        46.7153999
+      ],
+      "source_guide_xy": [
+        8135.2029267989565,
+        3471.8533364003524
+      ],
+      "objectids": [
+        260761,
+        265498,
+        277724
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        8266,
+        3300
+      ],
+      "modern_node_id": "J0227",
+      "identity_evidence": "Corney Brook main southern branch confluence Corrected from smaller southeastern tributary J0223 to actual South Branch junction J0227 before scoring.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -60.9306141,
+        46.7105041
+      ],
+      "source_guide_xy": [
+        7646.860123239225,
+        3621.7569014003966
+      ],
+      "objectids": [
+        185569,
+        253901,
+        254040
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        7770,
+        3482
+      ],
+      "modern_node_id": "J0233",
+      "identity_evidence": "Historical Trout Brook large southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -60.9000206,
+        46.6740192
+      ],
+      "source_guide_xy": [
+        8299.510687239235,
+        4768.195031000301
+      ],
+      "objectids": [
+        189547,
+        285792,
+        285913
+      ],
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        8459,
+        4632
+      ],
+      "modern_node_id": "J0324",
+      "identity_evidence": "Robert Brook smaller northwestern tributary, west of the next northern/eastern junction; corrected from J0320 to J0324 before scoring.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -60.9247802,
+        46.6303683
+      ],
+      "source_guide_xy": [
+        7759.679227179382,
+        6130.784888900118
+      ],
+      "objectids": [
+        171096,
+        171254,
+        263446
+      ],
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        7817,
+        5956
+      ],
+      "modern_node_id": "J0511",
+      "identity_evidence": "Ch\u00e9ticamp River first major southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -60.9109982,
+        46.6319803
+      ],
+      "source_guide_xy": [
+        8056.560008379398,
+        6082.356854900019
+      ],
+      "objectids": [
+        171396,
+        171397,
+        265793
+      ],
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        8100,
+        5916
+      ],
+      "modern_node_id": "J0503",
+      "identity_evidence": "Ch\u00e9ticamp River next southern tributary east of first major",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    },
+    {
+      "lonlat": [
+        -61.02522789200965,
+        46.65064021460863
+      ],
+      "guide_xy": [
+        5601.006965555018,
+        5481.528422839474
+      ],
+      "modern_objectid": 3841,
+      "modern_part": 0,
+      "modern_vertex": 41,
+      "modern_properties": {
+        "OBJECTID": 3841,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 433.79183773452183
+      },
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        5757,
+        5448
+      ],
+      "identity_evidence": "Northern extremity of Ch\u00e9ticamp Island / Enrag\u00e9e Point",
+      "source_uncertainty_px": 20,
+      "status": "Corrected physical-control proposal; exact new crosshair pending review."
+    }
+  ]
+}

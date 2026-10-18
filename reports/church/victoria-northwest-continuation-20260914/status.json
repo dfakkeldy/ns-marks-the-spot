@@ -1,0 +1,23 @@
+{
+  "full_georeferencing_complete": false,
+  "panel": "Victoria northwest",
+  "selected_trial": "southwestern-support: fifteen-control TPS",
+  "controls": 15,
+  "diagnostics": [
+    "VN17",
+    "VN11",
+    "VN19",
+    "VN24"
+  ],
+  "diagnostic_rms_ground_m": 233.46389300139106,
+  "current_fresh_count": 2,
+  "next_check": "Additional distributed interior, western and edge checks. Two current fresh checks do not establish whole-panel accuracy.",
+  "geographic_acceptance": false,
+  "production_boundaries_and_gcp_inputs_unchanged": true,
+  "tiles": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_panel_after_northwest": "Victoria main",
+  "current_fresh_rms_ground_m": 185.25327726066052,
+  "browser_terrain": "TPS15 imported/reloaded; full sheet and northern drainage inspected at10x; no console errors"
+}

@@ -1,0 +1,42 @@
+{
+  "points": [
+    {
+      "id": "V07",
+      "role": "control",
+      "review": "2026-09-12 native enlarged crosshair audit before scoring. Original (5105,4356) sat on the northwestern incoming arm. Corrected (5113,4361) is the centre of the south-branch entry into eastbound stream. Modern target and feature identity unchanged.",
+      "pixel_xy": [
+        5113,
+        4361
+      ],
+      "lonlat": [
+        -61.4285647,
+        45.8175827
+      ],
+      "modern_objectids": [
+        195587,
+        253994,
+        254241
+      ],
+      "description": "Southern tributary joins just downstream of V06.",
+      "supersedes": {
+        "id": "V07",
+        "role": "control",
+        "review": "agent-proposed",
+        "pixel_xy": [
+          5105,
+          4356
+        ],
+        "lonlat": [
+          -61.4285647,
+          45.8175827
+        ],
+        "modern_objectids": [
+          195587,
+          253994,
+          254241
+        ],
+        "description": "Southern tributary joins just downstream of V06."
+      }
+    }
+  ]
+}

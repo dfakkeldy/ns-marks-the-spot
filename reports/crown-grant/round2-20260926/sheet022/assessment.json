@@ -1,0 +1,541 @@
+{
+  "sheet": "022",
+  "baseline_report": "reports/crown-grant/batch15/sheet022",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "ad14132eb4a18bd58c9d10bd60ee552bb40222d2fcf7ffe1ac59763fe42f5630",
+  "reference_sha256": "6593c083c31a07d20fe37158a2d1fc05b61e0cc38415bc4352b22ff852905d42",
+  "fit_sha256": "d99be8503bbaa232f742d3fcdd864ce04069c9a7a932fa800e7a0f911f2d1957",
+  "checks_sha256": "27a1003e2cddc146204dba89bd216568b748623471147897426022661189f6d2",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 101.95968066477984,
+    "median_ground_m": 76.12024801735143,
+    "p95_ground_m": 166.11745912143166,
+    "max_ground_m": 185.86083277409173,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 14.882214995144732,
+    "mean_north_ground_m": -2.234670178030605,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Hill Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          241,
+          891
+        ],
+        "lonlat": [
+          -65.57605352102239,
+          44.50444260872016
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 137801,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 137801,
+        "nearest_unfiltered_distance_guide_px": 1.1587631945963652,
+        "selected_distance_guide_px": 1.1587631945963652,
+        "guide_reference_pixel_xy": [
+          284.209586436511,
+          938.8603484450141
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.57648453218711,
+          44.505059392009834
+        ],
+        "error_ground_m": 76.63087916753243,
+        "east_ground_m": -34.27516462846588,
+        "north_ground_m": 68.5383449733105
+      },
+      {
+        "id": "Q02",
+        "label": "Upper Mink Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          2438,
+          814
+        ],
+        "lonlat": [
+          -65.45421516751375,
+          44.54832016110571
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 139076,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 139076,
+        "nearest_unfiltered_distance_guide_px": 0.2014399347242473,
+        "selected_distance_guide_px": 0.2014399347242473,
+        "guide_reference_pixel_xy": [
+          2455.1505949379643,
+          840.133787936531
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.4537348749466,
+          44.548784094345244
+        ],
+        "error_ground_m": 64.14359746301085,
+        "east_ground_m": 38.16559248063357,
+        "north_ground_m": 51.553745218936115
+      },
+      {
+        "id": "Q03",
+        "label": "Central Lake southeastern tip",
+        "role": "check",
+        "pixel_xy": [
+          2835,
+          2404
+        ],
+        "lonlat": [
+          -65.39024238430014,
+          44.4913637215313
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 137603,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 137603,
+        "nearest_unfiltered_distance_guide_px": 1.1376265116199282,
+        "selected_distance_guide_px": 1.1376265116199282,
+        "guide_reference_pixel_xy": [
+          2867.0601318753324,
+          2415.412691757665
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.38997995780477,
+          44.491812357869854
+        ],
+        "error_ground_m": 54.046841640086996,
+        "east_ground_m": 20.873584811120192,
+        "north_ground_m": 49.85333036419547
+      },
+      {
+        "id": "Q04",
+        "label": "Gull Lake southwestern prong",
+        "role": "check",
+        "pixel_xy": [
+          5242,
+          1315
+        ],
+        "lonlat": [
+          -65.2803785337576,
+          44.579988780033815
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 138548,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WARA50",
+        "nearest_unfiltered_objectid": 148358,
+        "nearest_unfiltered_distance_guide_px": 1.800364008914504,
+        "selected_distance_guide_px": 2.693210857076511,
+        "guide_reference_pixel_xy": [
+          5269.4463744295645,
+          1322.873662186088
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.28130268828022,
+          44.580152181265845
+        ],
+        "error_ground_m": 75.60961686717043,
+        "east_ground_m": -73.39683895268003,
+        "north_ground_m": 18.158144028359704
+      },
+      {
+        "id": "Q05",
+        "label": "Unnamed northeastern lake southwestern corner",
+        "role": "check",
+        "pixel_xy": [
+          4939,
+          249
+        ],
+        "lonlat": [
+          -65.32570834309696,
+          44.61807194490754
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 131812,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 131812,
+        "nearest_unfiltered_distance_guide_px": 0.30374543235010104,
+        "selected_distance_guide_px": 0.30374543235010104,
+        "guide_reference_pixel_xy": [
+          4956.267189060687,
+          253.85553099459503
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.32612751484375,
+          44.61771536573081
+        ],
+        "error_ground_m": 51.73931071952016,
+        "east_ground_m": -33.26939902790976,
+        "north_ground_m": -39.62452980229256
+      },
+      {
+        "id": "Q06",
+        "label": "Daniels Lake southeastern corner",
+        "role": "check",
+        "pixel_xy": [
+          445,
+          3523
+        ],
+        "lonlat": [
+          -65.49581853263818,
+          44.40321817721769
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 142676,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 142676,
+        "nearest_unfiltered_distance_guide_px": 2.0720549455771895,
+        "selected_distance_guide_px": 2.0720549455771895,
+        "guide_reference_pixel_xy": [
+          527.574677281722,
+          3521.9907681229524
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.49658976753999,
+          44.40247672077046
+        ],
+        "error_ground_m": 102.77561412016304,
+        "east_ground_m": -61.43812751613842,
+        "north_ground_m": -82.39043236376037
+      },
+      {
+        "id": "Q07",
+        "label": "Frozen Ocean Lake southwestern lobe south",
+        "role": "check",
+        "pixel_xy": [
+          2938,
+          3784
+        ],
+        "lonlat": [
+          -65.35000659900584,
+          44.43753519574916
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 126580,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 126580,
+        "nearest_unfiltered_distance_guide_px": 1.2723062872824356,
+        "selected_distance_guide_px": 1.2723062872824356,
+        "guide_reference_pixel_xy": [
+          2963.7358999531134,
+          3772.8557281728135
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.34845750979986,
+          44.43788920384812
+        ],
+        "error_ground_m": 129.4511937664916,
+        "east_ground_m": 123.32910543550693,
+        "north_ground_m": 39.33882713105933
+      },
+      {
+        "id": "Q08",
+        "label": "Charity Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1393,
+          2543
+        ],
+        "lonlat": [
+          -65.46997853092266,
+          44.46070757246685
+        ],
+        "guide_file": ".crown-grant-local/022-frozen-south-guide.npy",
+        "reference_objectid": 128697,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 128697,
+        "nearest_unfiltered_distance_guide_px": 1.7656991850452342,
+        "selected_distance_guide_px": 1.7656991850452342,
+        "guide_reference_pixel_xy": [
+          1427.75749714853,
+          2520.594958206988
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad lake/island context and native crosshair pairs inspected before first fit and score; Lower Mink southern source corrected from the scan.",
+        "predicted_lonlat": [
+          -65.46823109227476,
+          44.4595979170268
+        ],
+        "error_ground_m": 185.86083277409173,
+        "east_ground_m": 139.06896735909123,
+        "north_ground_m": -123.30479097405303
+      }
+    ]
+  },
+  "control_axis_ratio": 1.6115652732136772,
+  "affine_scale_ratio": 1.0051721908510374,
+  "metres_per_pixel_singular_values": [
+    4.964262445483231,
+    4.93871845109463
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.579281708476566,
+          1.9217693162880876
+        ],
+        [
+          1.9303091855918968,
+          -4.545008172941202
+        ],
+        [
+          292351.46365364385,
+          4934755.763316009
+        ]
+      ],
+      "diagnostic_rms_m": 103.08963036752176,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5730459213994425,
+          1.9137326730272333
+        ],
+        [
+          1.9178696825221024,
+          -4.555103999126151
+        ],
+        [
+          292404.67154400033,
+          4934804.698472282
+        ]
+      ],
+      "diagnostic_rms_m": 102.10911951841004,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5754146692651485,
+          1.91418029087085
+        ],
+        [
+          1.9267272307487053,
+          -4.553614905350808
+        ],
+        [
+          292372.7225733376,
+          4934795.396874588
+        ]
+      ],
+      "diagnostic_rms_m": 102.62022065477389,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.570108982355967,
+          1.9155259939287286
+        ],
+        [
+          1.9257405817884,
+          -4.5525319303533065
+        ],
+        [
+          292381.3396785404,
+          4934793.366646678
+        ]
+      ],
+      "diagnostic_rms_m": 102.79966351542201,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.569318142828158,
+          1.9095031691328044
+        ],
+        [
+          1.932753377072228,
+          -4.547241231441413
+        ],
+        [
+          292368.45001022524,
+          4934791.627626662
+        ]
+      ],
+      "diagnostic_rms_m": 105.08507896692204,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.583603101917264,
+          1.9165776900245342
+        ],
+        [
+          1.9119137487175377,
+          -4.556364207208463
+        ],
+        [
+          292359.0830179523,
+          4934791.615938862
+        ]
+      ],
+      "diagnostic_rms_m": 98.93788069199778,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.581004768659324,
+          1.9160180410951233
+        ],
+        [
+          1.9435539935698292,
+          -4.547712989727352
+        ],
+        [
+          292341.694895603,
+          4934786.405680812
+        ]
+      ],
+      "diagnostic_rms_m": 112.04318090287997,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C08",
+      "model": "affine",
+      "matrix": [
+        [
+          4.574599821510078,
+          1.9110018972041376
+        ],
+        [
+          1.924922872835014,
+          -4.558814380494616
+        ],
+        [
+          292378.4104308599,
+          4934822.63011717
+        ]
+      ],
+      "diagnostic_rms_m": 103.0503505537242,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.56624711325709,
+        1.9151033742840937
+      ],
+      [
+        1.9151033742840937,
+        -4.56624711325709
+      ],
+      [
+        292414.4474779553,
+        4934815.100107177
+      ]
+    ],
+    "rms_ground_m": 105.58973763038748,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.493415+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q08",
+    "Q07",
+    "Q06",
+    "Q01"
+  ],
+  "reviewed_control_ids": [
+    "C02",
+    "C05"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Charity retains Hope Lake immediately north and same elongated outline; Frozen Ocean southern peninsula and Daniels southeastern point are recognizable. Hill has more complex modern shore and western connectivity. Endpoint placements supported at map precision; retain original checks and failure.",
+  "baseline_limitations": [
+    "RMS 101.96 m, median 76.12 m and P95 166.12 m exceed their respective 100/75/150 m criteria.",
+    "Seven checks share control lakes or associated islands; Charity Lake adds one separate waterbody. Shared historical cartography limits independence.",
+    "Large connected lake interiors, the southeastern river corridors and regions between sampled features remain independently unvalidated.",
+    "Shoreline generalization, small islands and historical water-level differences carry 24 px working source uncertainty."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "8eb0a77b12e397aee780288de0b165372dd867bd183240cc8b6b33b2c8b54f48"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "81635498d07450b5e9800652b28b9e9b3da64fc5a0d79211e0ea6b022e68e5f9"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "b617e7994507155ee7f6c6ba0bbf3048fb21e3605c903e76ebcb75bea05f9bbd"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "d93927c74b857d46142b7adc8e530682976d06f1cc7f2440c368e3dbed967b60"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "7a3afc378b8db19d0a179c0f8ef1b62edb5661031691dfdd4e28a707d90a1c68"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "f756fa097199234432d659864667df1079f440c70a21e36a1523075afbcee4e4"
+    }
+  ],
+  "control_findings": "Upper Mink eastern triangular point and northeastern lake roof have corresponding adjacent lobes; the latter has more elaborate modern feeders.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

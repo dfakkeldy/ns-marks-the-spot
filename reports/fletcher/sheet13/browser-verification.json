@@ -1,0 +1,37 @@
+{
+  "app_url": "http://127.0.0.1:4198/",
+  "scope": "Isolated Chromium profile; actual GeoTIFF UI import and rendered desktop/mobile reload; user-owned records unchanged.",
+  "raster_sha256": "178cf532aee8967ee38cc3cc76a29a691e8310a08ac49afe3944916e442e5a91",
+  "raster_size": {
+    "width": 8695,
+    "height": 5806
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6816145,
+      5,
+      0,
+      5824485,
+      0,
+      -5
+    ]
+  },
+  "stored_raster_unchanged_after_reload": true,
+  "enabled_state_survived": true,
+  "transparent_preview_pixels": 492298,
+  "captured_browser_errors": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/browser/reload-desktop.png",
+      "sha256": "e8aedd90ca667765a5a81ecbe028f97322a0dd73bb0f5ec705cddec93c863ce5",
+      "visually_inspected": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/browser/reload-mobile.png",
+      "sha256": "d151d20b8d8cfe6725f10c01142803bd402b46466a7c11c73dc2ba04a0db55dc",
+      "visually_inspected": true
+    }
+  ]
+}

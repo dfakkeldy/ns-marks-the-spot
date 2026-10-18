@@ -1,0 +1,80 @@
+{
+  "sheet": "129",
+  "version": "inset-similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      5.018730413689451,
+      2.1209988442979264
+    ],
+    [
+      2.1209988442979264,
+      -5.018730413689451
+    ],
+    [
+      669443.3938689746,
+      5169944.243112644
+    ]
+  ],
+  "source_sha256": "37a9f69b0144d3e770cdd768cb81ad5ab4350910875634e645347b9bdc309e9c",
+  "source_dimensions": [
+    5705,
+    3877
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "IC01",
+      "label": "Smokey inset southern stream mouth",
+      "role": "control",
+      "pixel_xy": [
+        4792,
+        3474
+      ],
+      "lonlat": [
+        -60.3780325257912,
+        46.58756420924039
+      ],
+      "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+      "reference_objectid": 11298,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4784.285355982021,
+        3470.5701832802733
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "IC02",
+      "label": "Smokey inset northern coastal ledge",
+      "role": "control",
+      "pixel_xy": [
+        5354,
+        3035
+      ],
+      "lonlat": [
+        -60.35190784809748,
+        46.61751880513828
+      ],
+      "guide_file": ".crown-grant-local/129-inset-refined-guide.npy",
+      "reference_objectid": 10614,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        5354.209350065677,
+        3020.124227000866
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    4.005996123165606e-06,
+    2.368763186012727e-06
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before scoring: printed displaced component, narrow control distribution; constrained similarity avoids unsupported affine shear"
+}

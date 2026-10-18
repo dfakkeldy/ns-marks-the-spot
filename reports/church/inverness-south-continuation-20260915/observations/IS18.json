@@ -1,0 +1,59 @@
+{
+  "id": "IS18",
+  "label": "Ainslie Glen Brook / Skye River confluence",
+  "role": "check",
+  "phase": "Fresh check of frozen four-control physical affine; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T17:57:39.664450+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      24900,
+      15500
+    ],
+    "extent": [
+      2600,
+      2500
+    ],
+    "display": [
+      1560,
+      1500
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/IS2-skye-junction-mem.jpg",
+  "source_crop_sha256": "b02503d8dba4b7a2b47378ecfd369261f260ddf36f3cc9abe3ac3e8435618df7",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    377,
+    853
+  ],
+  "pixel_xy": [
+    25528.333333333332,
+    16921.666666666668
+  ],
+  "lonlat": [
+    -61.15695012726067,
+    46.00547877443053
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reference_vertices": [
+    {
+      "feature_id": 254259,
+      "vertex": 178
+    },
+    {
+      "feature_id": 277268,
+      "vertex": 161
+    },
+    {
+      "feature_id": 278677,
+      "vertex": 0
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Junction of engraved single-line streams and original NSTDB WARV50 centreline node; not the nearby road junction or bridge.",
+  "identity_evidence": "Broad source context traces Skye River southeast from Skye Glen toward Whycocomagh Bay. Ainslie Glen Brook approaches from the northeast valley and meets it just north of Indian Rear. Mullach Brook joins the Ainslie Glen branch farther northeast before that stream reaches Skye; its labelled east-side tributary and the intervening road crossings distinguish the two junctions. Modern named original network has the same order: Mullach/Ainslie node at [-61.14697976419124,46.00990235179478], then Ainslie/Skye at the recorded reference. MacDonalds Brook reaches Skye farther upstream from the west. Road crossings and labels corroborate locality only.",
+  "unscored_review_revision": "Initial filename IS16 conflicted with an earlier withheld Mabou search ID; renamed IS18 before scoring. Native source crosshair moved 10 display pixels down onto the thin-stream junction after comparison with the independently framed older IS17 context crop; no residual had been calculated. Preserve the original proposal in unscored-proposals. This is upstream Ainslie Glen/Skye, not the earlier downstream Skye/Indian search."
+}

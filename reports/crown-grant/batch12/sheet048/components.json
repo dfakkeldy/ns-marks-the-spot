@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5607 x 3896 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 79.54 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          110,
+          115
+        ],
+        [
+          5510,
+          115
+        ],
+        [
+          5510,
+          3820
+        ],
+        [
+          110,
+          3820
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Lunenburg, Battery Point, Blue Rocks, Stonehurst, Heckmans Island, East Points, the Ovens and Rose Point, Green/Flat, Ironbound, Pearl, Little Duck, Great Duck, Little Cross and Cross islands, plus every small depicted island and the entire Atlantic Ocean area. No inset or internal crop."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Brileys Lake",
+    "exterior_vertices": 211,
+    "exterior_edges": 211,
+    "exact_original_edges_verified": true,
+    "owners": {
+      "124540": {
+        "count": 111,
+        "feature_class": "WALK20"
+      },
+      "124541": {
+        "count": 100,
+        "feature_class": "WALK20"
+      }
+    }
+  },
+  {
+    "name": "Lake Murray",
+    "exterior_vertices": 214,
+    "exterior_edges": 214,
+    "exact_original_edges_verified": true,
+    "owners": {
+      "135963": {
+        "count": 83,
+        "feature_class": "WALK20"
+      },
+      "135964": {
+        "count": 131,
+        "feature_class": "WALK20"
+      }
+    }
+  },
+  {
+    "name": "Horton Lake",
+    "exterior_vertices": 542,
+    "exterior_edges": 542,
+    "exact_original_edges_verified": true,
+    "owners": {
+      "140453": {
+        "count": 24,
+        "feature_class": "WALK20"
+      },
+      "140521": {
+        "count": 178,
+        "feature_class": "WALK20"
+      },
+      "140522": {
+        "count": 152,
+        "feature_class": "WALK20"
+      },
+      "140523": {
+        "count": 39,
+        "feature_class": "WALK20"
+      },
+      "140524": {
+        "count": 149,
+        "feature_class": "WALK20"
+      }
+    }
+  },
+  {
+    "name": "Red Lake",
+    "exterior_vertices": 74,
+    "exterior_edges": 74,
+    "exact_original_edges_verified": true,
+    "owners": {
+      "134230": {
+        "count": 19,
+        "feature_class": "WALK20"
+      },
+      "134231": {
+        "count": 21,
+        "feature_class": "WALK20"
+      },
+      "134232": {
+        "count": 34,
+        "feature_class": "WALK20"
+      }
+    }
+  }
+]

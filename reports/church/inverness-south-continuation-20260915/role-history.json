@@ -1,0 +1,48 @@
+{
+  "selected_fit": "unchanged physical affine4",
+  "historical_six": "Previously audited selection diagnostics; IS06 withheld and original Cow/IS07 measurement preserved in the earlier audit.",
+  "first_validation": [
+    "IS15",
+    "IS18",
+    "IS19"
+  ],
+  "after_trial_comparisons": "All three are now diagnostics for future selection claims. Initial observations and first scores remain unchanged.",
+  "trials": [
+    {
+      "controls": 5,
+      "promoted": [
+        "IS18"
+      ],
+      "remaining_recent_checks": [
+        "IS15",
+        "IS19"
+      ]
+    },
+    {
+      "controls": 6,
+      "promoted": [
+        "IS18",
+        "IS19"
+      ],
+      "remaining_recent_checks": [
+        "IS15"
+      ]
+    },
+    {
+      "controls": 7,
+      "promoted": [
+        "IS18",
+        "IS19",
+        "IS15"
+      ],
+      "remaining_recent_checks": []
+    }
+  ],
+  "fresh_checks_after_selection": 0,
+  "unscored_proposal": "The initial IS16 filename conflicted with the prior withheld Mabou ID. It was renamed IS18 before scoring; source crosshair revision and original proposal retained.",
+  "prior_withheld": [
+    "IS16 Mabou search",
+    "IS17 downstream Skye/Indian search"
+  ],
+  "accepted_baseline_replaced": false
+}

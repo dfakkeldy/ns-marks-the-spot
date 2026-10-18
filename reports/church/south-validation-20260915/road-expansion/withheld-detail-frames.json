@@ -1,0 +1,92 @@
+[
+  {
+    "image": "IS5-mabou-junction-detail.jpg",
+    "parent_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/IS5-mabou-native.jpg",
+    "parent_sha256": "cc32be636de96e47df717c4f11ce968da5540023a5f4a6590063c0346e5887e4",
+    "parent_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        18400,
+        13400
+      ],
+      "extent": [
+        1800,
+        1600
+      ],
+      "display": [
+        1350,
+        1200
+      ],
+      "rotation": 0
+    },
+    "derived_crop_box": [
+      230,
+      340,
+      490,
+      550
+    ],
+    "source_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        18706.666666666668,
+        13853.333333333334
+      ],
+      "extent": [
+        346.66666666666663,
+        280.0
+      ],
+      "display": [
+        780,
+        630
+      ],
+      "rotation": 0
+    }
+  },
+  {
+    "image": "IS5-orangedale-junction-detail.jpg",
+    "parent_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/IS5-orangedale-native.jpg",
+    "parent_sha256": "7e5085b0905341a56886418b1ba09ea61793acd39672f1c61d91eaad8ec0d0e3",
+    "parent_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        26300,
+        20400
+      ],
+      "extent": [
+        1800,
+        1800
+      ],
+      "display": [
+        1350,
+        1350
+      ],
+      "rotation": 0
+    },
+    "derived_crop_box": [
+      410,
+      315,
+      740,
+      540
+    ],
+    "source_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        26846.666666666668,
+        20820.0
+      ],
+      "extent": [
+        440.0,
+        300.0
+      ],
+      "display": [
+        990,
+        675
+      ],
+      "rotation": 0
+    }
+  }
+]

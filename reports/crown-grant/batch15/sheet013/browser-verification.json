@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T10:12:44.500705+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "013",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6081,
+        5224
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5722,
+        3900
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-frame historical and modern-only screenshots inspected; decoded source/raster and opacity65/40/0/65 verified.",
+    "Full mapped frame and islands retained; open water, town shore and unsampled interior remain independently unvalidated.",
+    "Warning/error console empty."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "points": [
+    {
+      "id": "R2-A",
+      "role": "control",
+      "pixel_xy": [
+        5223,
+        6153
+      ],
+      "lonlat": [
+        -61.435269460958,
+        46.104570637425795
+      ],
+      "modern_objectids": [
+        195566,
+        196164,
+        210014
+      ],
+      "source_uncertainty_px": 6,
+      "identity_evidence": "Eastern arm above F04 divides into NE and SE arms below the 700 FT lettering. The westbound stem reaches F04 before main turns southwest and crosses the road. Both arms are continuous water ink, separate from lettering and the next southern catchment.",
+      "review": "Native enlarged crosshair inspected before scoring: at actual eastern NE/SE fork below lettering; 5223,6153 accepted as observed source pixel."
+    }
+  ]
+}

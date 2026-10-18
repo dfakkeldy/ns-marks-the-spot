@@ -1,0 +1,152 @@
+{
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "source_dimensions": [
+    36223,
+    35027
+  ],
+  "ring_pixel_xy": [
+    [
+      18000,
+      3700
+    ],
+    [
+      18150,
+      3700
+    ],
+    [
+      18150,
+      7900
+    ],
+    [
+      26800,
+      7900
+    ],
+    [
+      26800,
+      9300
+    ],
+    [
+      35450,
+      9300
+    ],
+    [
+      35450,
+      11200
+    ],
+    [
+      31600,
+      11200
+    ],
+    [
+      31600,
+      16200
+    ],
+    [
+      35450,
+      16200
+    ],
+    [
+      35450,
+      23800
+    ],
+    [
+      28600,
+      23800
+    ],
+    [
+      28600,
+      28000
+    ],
+    [
+      20700,
+      28000
+    ],
+    [
+      20700,
+      30600
+    ],
+    [
+      18400,
+      30600
+    ],
+    [
+      5500,
+      27750
+    ],
+    [
+      900,
+      27750
+    ],
+    [
+      900,
+      17300
+    ],
+    [
+      5200,
+      17300
+    ],
+    [
+      5200,
+      10550
+    ],
+    [
+      6500,
+      10550
+    ]
+  ],
+  "status": "Source-content boundary candidate based on full overview and native archival crops; geography still rejected pending physical controls/checks",
+  "evidence": "Excludes upper-left independent locator, top inset plans and directory, Cow Bay and Little Glace Bay plans, bottom Sydney Town/Sydney Harbour plan, and bottom town plans; retains the sloping southern main-map extension to Cape Chameau.",
+  "frames": [
+    {
+      "name": "overview",
+      "origin": [
+        0,
+        0
+      ],
+      "extent": [
+        36223,
+        35027
+      ],
+      "display": [
+        1800,
+        1741
+      ],
+      "rotation": 0,
+      "source_crop_sha256": "dc2649107c87e5b4474b219cc8838b3db1621f10935d06b8e4bf3f8ca88025e5"
+    },
+    {
+      "name": "top",
+      "origin": [
+        17000,
+        100
+      ],
+      "extent": [
+        18500,
+        9000
+      ],
+      "display": [
+        2400,
+        1168
+      ],
+      "rotation": 0,
+      "source_crop_sha256": "dae84e0d545a1cc764d20d4fcdef2e62200ceedc6c64408d388dc357f132ab90"
+    },
+    {
+      "name": "bottom",
+      "origin": [
+        900,
+        23500
+      ],
+      "extent": [
+        34500,
+        10500
+      ],
+      "display": [
+        2400,
+        730
+      ],
+      "rotation": 0,
+      "source_crop_sha256": "ea11b78bb55cd8cc150a0fb46115eea01ee793464c6c3390825a1feb21d38e30"
+    }
+  ]
+}

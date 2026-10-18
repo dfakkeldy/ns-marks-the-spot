@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "sha256": "7f27bdaa39bb8358f1cbdd7c70a0dd0614336c60edcac2a044ce3ed70c07883f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-full-sheet/result/judique-full-sheet.tif",
+      "sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4"
+    }
+  ],
+  "status": "All provisional; four actual geographic-window comparisons inspected. Northwestern gap and displaced stream/coast continuations remain. No seamless-join acceptance. Eastern Sheet17 join not yet available."
+}

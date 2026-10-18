@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q03",
+    "label": "Long Lake northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1165,
+      699
+    ],
+    "lonlat": [
+      -63.37054130295673,
+      45.57586404605503
+    ],
+    "guide_file": ".crown-grant-local/079-adjacent-guide.npy",
+    "reference_objectid": 137706,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137706,
+    "nearest_unfiltered_distance_guide_px": 2.9064999517165124,
+    "selected_distance_guide_px": 2.9064999517165124,
+    "guide_reference_pixel_xy": [
+      1071.0994278888102,
+      623.8144645664142
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

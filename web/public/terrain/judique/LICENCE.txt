@@ -1,0 +1,15 @@
+Judique inspection assets have separate data licences; they are not MIT code.
+
+contours.geojson, hydro.geojson, dem/: Contains information licensed under the
+Open Government Licence – Nova Scotia.
+https://novascotia.ca/opendata/licence.asp
+The terrain is a project-derived contour interpolation, not a provincial DEM.
+
+historical.webp: David Rumsey Map Collection, David Rumsey Map Center,
+Stanford Libraries. CC BY-NC-SA 3.0.
+https://creativecommons.org/licenses/by-nc-sa/3.0/
+Derived, downsampled preview of the project's georeferenced Judique full-sheet
+draft; the source raster identity and processing are recorded in source.json.
+https://www.davidrumsey.com/about/copyright-and-permissions
+
+Source identities, bounds, derivation and limitations are recorded in source.json.

@@ -1,0 +1,36 @@
+{
+  "recorded_at": "2026-09-16T04:27:32.965252+00:00",
+  "feature": "MacIvers Point northwestern shoreline corner",
+  "reference_lonlat": [
+    -60.925008415397436,
+    46.038431573009426
+  ],
+  "south_source_pixel_xy": [
+    32016,
+    15429
+  ],
+  "victoria_source_pixel_xy": [
+    16172.0,
+    25055.333333333332
+  ],
+  "south_prediction_lonlat": [
+    -60.92578686839685,
+    46.04045776623423
+  ],
+  "victoria_prediction_lonlat": [
+    -60.92516747068851,
+    46.039028329518935
+  ],
+  "south_minus_victoria": {
+    "east_ground_m": -47.80950782509366,
+    "north_ground_m": 158.9463302463737,
+    "distance_ground_m": 165.98097763679723
+  },
+  "original_reference_minus_corrected": {
+    "east_ground_m": -15.954242621564891,
+    "north_ground_m": -137.8945842077373,
+    "distance_ground_m": 138.81445966271852
+  },
+  "scope": "One corrected South diagnostic paired with existing Victoria diagnostic; not an independent seam RMS or whole-seam acceptance.",
+  "geographic_acceptance": false
+}

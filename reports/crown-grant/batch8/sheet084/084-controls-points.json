@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Mussell Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2150,
+      680
+    ],
+    "lonlat": [
+      -62.837665154179476,
+      44.79414546173203
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 11049,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 11049,
+    "nearest_unfiltered_distance_guide_px": 1.0520329699426652,
+    "selected_distance_guide_px": 1.0520329699426652,
+    "guide_reference_pixel_xy": [
+      2154.2083152710693,
+      650.6928265726892
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Cable Island northeast corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2371,
+      1957
+    ],
+    "lonlat": [
+      -62.794305397301876,
+      44.74444319113066
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 16893,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16893,
+    "nearest_unfiltered_distance_guide_px": 0.8831955401530668,
+    "selected_distance_guide_px": 0.8831955401530668,
+    "guide_reference_pixel_xy": [
+      2367.801965467341,
+      1924.3699807445519
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Western Long Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      227,
+      2510
+    ],
+    "lonlat": [
+      -62.906030997120084,
+      44.684944670248456
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 19223,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19223,
+    "nearest_unfiltered_distance_guide_px": 0.6156429177312367,
+    "selected_distance_guide_px": 0.6156429177312367,
+    "guide_reference_pixel_xy": [
+      195.72647264710395,
+      2469.4484576268587
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Egg Island main body northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      695,
+      3168
+    ],
+    "lonlat": [
+      -62.864254350994244,
+      44.66518199893406
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 18030,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18030,
+    "nearest_unfiltered_distance_guide_px": 0.35524867284683626,
+    "selected_distance_guide_px": 0.35524867284683626,
+    "guide_reference_pixel_xy": [
+      644.8605216707801,
+      3123.3267222294817
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Friar Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2645,
+      2740
+    ],
+    "lonlat": [
+      -62.76039719260933,
+      44.71545979786004
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 18559,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18559,
+    "nearest_unfiltered_distance_guide_px": 1.1458868894442076,
+    "selected_distance_guide_px": 1.1458868894442076,
+    "guide_reference_pixel_xy": [
+      2620.9336574766203,
+      2718.6643346142955
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Charles Island Borgle Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3528,
+      1772
+    ],
+    "lonlat": [
+      -62.73183997328478,
+      44.77163299295838
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 17217,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17217,
+    "nearest_unfiltered_distance_guide_px": 1.1968318944684824,
+    "selected_distance_guide_px": 1.1968318944684824,
+    "guide_reference_pixel_xy": [
+      3528.795577863464,
+      1742.1058733608807
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Tangier Island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4450,
+      2338
+    ],
+    "lonlat": [
+      -62.66466351315126,
+      44.76338313784346
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 22093,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22093,
+    "nearest_unfiltered_distance_guide_px": 0.45636681284380537,
+    "selected_distance_guide_px": 0.45636681284380537,
+    "guide_reference_pixel_xy": [
+      4454.377209141385,
+      2310.7431266235653
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Stoney Island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5710,
+      2122
+    ],
+    "lonlat": [
+      -62.59779593813437,
+      44.79312319696876
+    ],
+    "guide_file": ".crown-grant-local/084-adjacent-guide.npy",
+    "reference_objectid": 22086,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 22086,
+    "nearest_unfiltered_distance_guide_px": 1.1650245976534936,
+    "selected_distance_guide_px": 1.1650245976534936,
+    "guide_reference_pixel_xy": [
+      5701.980787137989,
+      2100.5643469279166
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

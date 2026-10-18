@@ -1,0 +1,210 @@
+[
+  {
+    "id": "Q01",
+    "label": "Ten Mile Lake middle elongated island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1758,
+      983
+    ],
+    "lonlat": [
+      -64.84693530734647,
+      44.159028168854384
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 150599,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 150599,
+    "nearest_unfiltered_distance_guide_px": 1.0524498872032129,
+    "selected_distance_guide_px": 1.0524498872032129,
+    "guide_reference_pixel_xy": [
+      1786.4377059091348,
+      933.9571124814684
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Little Bonnature Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      295,
+      2044
+    ],
+    "lonlat": [
+      -64.91192998841444,
+      44.07725781001655
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 132657,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132657,
+    "nearest_unfiltered_distance_guide_px": 0.9619016271724783,
+    "selected_distance_guide_px": 0.9619016271724783,
+    "guide_reference_pixel_xy": [
+      290.2316587434034,
+      2003.4212889721384
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Unnamed pond west of Green Brook northeastern outlet",
+    "role": "proposal",
+    "pixel_xy": [
+      1393,
+      1753
+    ],
+    "lonlat": [
+      -64.84757406147206,
+      44.11449807616965
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 129105,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129105,
+    "nearest_unfiltered_distance_guide_px": 0.42926816500162607,
+    "selected_distance_guide_px": 0.42926816500162607,
+    "guide_reference_pixel_xy": [
+      1421.3966961319093,
+      1714.835977634415
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Barnaby Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2859,
+      1127
+    ],
+    "lonlat": [
+      -64.77124718997409,
+      44.175955537514014
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 124959,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124959,
+    "nearest_unfiltered_distance_guide_px": 0.48737219533728976,
+    "selected_distance_guide_px": 0.48737219533728976,
+    "guide_reference_pixel_xy": [
+      2900.2180779585033,
+      1066.4358596801758
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Horse Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4844,
+      847
+    ],
+    "lonlat": [
+      -64.64942597446233,
+      44.23074137728215
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 137906,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137906,
+    "nearest_unfiltered_distance_guide_px": 0.5905819677867311,
+    "selected_distance_guide_px": 0.5905819677867311,
+    "guide_reference_pixel_xy": [
+      4911.958989663573,
+      791.5891563569894
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Crane Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3658,
+      2553
+    ],
+    "lonlat": [
+      -64.67801239066,
+      44.125483712421136
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 129062,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129062,
+    "nearest_unfiltered_distance_guide_px": 1.1259637181670716,
+    "selected_distance_guide_px": 1.1259637181670716,
+    "guide_reference_pixel_xy": [
+      3703.1480261560646,
+      2485.736162253772
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Eight Mile Lake north-central island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2338,
+      1098
+    ],
+    "lonlat": [
+      -64.80663933944047,
+      44.16607393183591
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 144282,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144282,
+    "nearest_unfiltered_distance_guide_px": 2.4162638205558347,
+    "selected_distance_guide_px": 2.4162638205558347,
+    "guide_reference_pixel_xy": [
+      2363.694404832553,
+      1039.2771156562958
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Port Medway Harbour small western island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4576,
+      2858
+    ],
+    "lonlat": [
+      -64.60034773151229,
+      44.12916961850562
+    ],
+    "guide_file": ".crown-grant-local/033-frozen-north-guide.npy",
+    "reference_objectid": 19130,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27742,
+    "nearest_unfiltered_distance_guide_px": 9.015931108397295,
+    "selected_distance_guide_px": 134.33200581930444,
+    "guide_reference_pixel_xy": [
+      4737.916595471383,
+      2860.9642763182055
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

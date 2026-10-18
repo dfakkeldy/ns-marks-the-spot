@@ -1,0 +1,554 @@
+{
+  "baseline_commit": "b8e14ed01e36fc9d91581b5e561085283dc570ad",
+  "prepared_at": "2026-09-05T19:22:26.152275+00:00",
+  "source": "Transcriptions and boxes copied from the two inventories committed before this pilot; all six crop images independently inspected by the coordinating agent.",
+  "independence_note": "Workers received no reference readings or inventory access. Worker summaries arrived during reference packaging, before candidate JSON was opened; no reference text or boxes were changed using those summaries. This is a project reference, not independent human ground truth.",
+  "scoring_policy": {
+    "detection": "A complete reference annotation is found when output refers to its visible lettering. Multiple output fragments can jointly detect one reference but are recorded as a grouping failure. Partial reconstruction does not count as complete detection.",
+    "transcription": "For clear references, compare full wording after case-folding, whitespace collapse and equivalent superscript/ASCII Mc typography. Do not forgive different words, omitted abbreviations, changed numerals or punctuation silently. Report typography/punctuation-only differences separately. Provisional readings are excluded from strict text accuracy.",
+    "geometry": "Bounds are checked mechanically; every emitted label-box excerpt is visually reviewed. A legal box can still miss ink or select unrelated content. Report clipping, excessive context and position errors separately; manual visual adequacy is not survey accuracy.",
+    "ambiguity": "Rev. Archd. Chisholm reading and Quartz Mill / Falls separation remain provisional; do not score one uncertain reference against another as objective truth.",
+    "review": "Track discrepancies and necessary corrections. Wall-clock runs can be reported; token cost, billing and active human/agent review minutes are not measured by this pilot."
+  },
+  "crops": [
+    {
+      "crop_id": "C01",
+      "complete_annotations": [
+        {
+          "source_annotation_id": "F19-JUD-008",
+          "source_text": "Stage\nStables",
+          "kind": "stables",
+          "label_boxes_xywh": [
+            [
+              265,
+              127,
+              113,
+              50
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Two-line label beside the coastal road near Shop and P.O.; site footprint unresolved.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-009",
+          "source_text": "Shop",
+          "kind": "shop",
+          "label_boxes_xywh": [
+            [
+              395,
+              140,
+              88,
+              34
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Shop label immediately above P.O.; these are separate annotations, not two proven buildings.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-010",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "label_boxes_xywh": [
+            [
+              395,
+              169,
+              80,
+              34
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Abbreviated post-office label below Shop; shared/separate premises not established.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-011",
+          "source_text": "Shop",
+          "kind": "shop",
+          "label_boxes_xywh": [
+            [
+              785,
+              236,
+              89,
+              40
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Shop at the inland road junction east of the coastal stables and post office.",
+          "reference_reading_status": "clear"
+        }
+      ],
+      "edge_fragments": []
+    },
+    {
+      "crop_id": "C02",
+      "complete_annotations": [
+        {
+          "source_annotation_id": "F19-JUD-003",
+          "source_text": "MᶜEachern",
+          "kind": "person-label",
+          "label_boxes_xywh": [
+            [
+              590,
+              3,
+              205,
+              47
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Surname beside buildings along the northern east-west road; superscript c retained.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-004",
+          "source_text": "School",
+          "kind": "school",
+          "label_boxes_xywh": [
+            [
+              210,
+              82,
+              125,
+              40
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Northern school, south of the road near a stream crossing.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-005",
+          "source_text": "Forge",
+          "kind": "forge",
+          "label_boxes_xywh": [
+            [
+              190,
+              285,
+              95,
+              43
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Northern forge near the road and stream, west of Sh. Mill.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-006",
+          "source_text": "Sh. Mill",
+          "kind": "mill",
+          "label_boxes_xywh": [
+            [
+              415,
+              277,
+              140,
+              47
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Mill abbreviation is preserved. The expansion and exact building association are not established.",
+          "reference_reading_status": "clear"
+        }
+      ],
+      "edge_fragments": []
+    },
+    {
+      "crop_id": "C03",
+      "complete_annotations": [
+        {
+          "source_annotation_id": "F19-JUD-015",
+          "source_text": "R.C. Church",
+          "kind": "church",
+          "label_boxes_xywh": [
+            [
+              190,
+              130,
+              170,
+              49
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Church label beside the coastal road and stream. Church-site continuity has not been established.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-016",
+          "source_text": "Rev. Archᵈ. Chisholm",
+          "kind": "person-label",
+          "label_boxes_xywh": [
+            [
+              220,
+              190,
+              286,
+              45
+            ]
+          ],
+          "text_scoring": "provisional-excluded",
+          "classification_note": "Abbreviated given name is tentative; elevated d retained. Do not silently expand it or identify a parcel.",
+          "reference_reading_status": "tentative"
+        },
+        {
+          "source_annotation_id": "F19-JUD-017",
+          "source_text": "Barytes",
+          "kind": "mineral-annotation",
+          "label_boxes_xywh": [
+            [
+              763,
+              142,
+              139,
+              48
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Mineral annotation near dark mapped marks. Does not establish a mine, extraction history, grade or current deposit.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-018",
+          "source_text": "Shop",
+          "kind": "shop",
+          "label_boxes_xywh": [
+            [
+              110,
+              230,
+              88,
+              49
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Shop south of the church, west of the main coastal road.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-019",
+          "source_text": "School",
+          "kind": "school",
+          "label_boxes_xywh": [
+            [
+              625,
+              264,
+              114,
+              46
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "School along the diagonal road south of the church district.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-020",
+          "source_text": "Rory Chisholm's Brook",
+          "kind": "watercourse",
+          "label_boxes_xywh": [
+            [
+              5,
+              365,
+              159,
+              63
+            ],
+            [
+              313,
+              347,
+              330,
+              128
+            ],
+            [
+              750,
+              468,
+              139,
+              54
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Name is printed in three separated parts along the brook north of Graham River.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-021",
+          "source_text": "Mill",
+          "kind": "mill",
+          "label_boxes_xywh": [
+            [
+              833,
+              443,
+              83,
+              39
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Mill beside the brook and the diagonal road. Mill type and exact modern site remain unresolved.",
+          "reference_reading_status": "clear"
+        }
+      ],
+      "edge_fragments": [
+        {
+          "visible_text": "River",
+          "source_annotation_id": "F19-JUD-022",
+          "note": "Denys Road is outside this crop. Full-name reconstruction would be unsupported by assigned pixels."
+        }
+      ]
+    },
+    {
+      "crop_id": "C04",
+      "complete_annotations": [
+        {
+          "source_annotation_id": "F19-JUD-048",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "label_boxes_xywh": [
+            [
+              305,
+              36,
+              73,
+              44
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Post-office abbreviation north of the River Denys Road place lettering; nearby multiple building marks remain unresolved.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-057",
+          "source_text": "School",
+          "kind": "school",
+          "label_boxes_xywh": [
+            [
+              185,
+              189,
+              101,
+              46
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "School west of the main north-south road, near Church.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-058",
+          "source_text": "Church",
+          "kind": "church",
+          "label_boxes_xywh": [
+            [
+              281,
+              162,
+              125,
+              49
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Church beside a cross-like map symbol at the road junction; denomination not printed here.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-059",
+          "source_text": "River Denys Road",
+          "kind": "named-place",
+          "label_boxes_xywh": [
+            [
+              108,
+              227,
+              563,
+              86
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Large upright place-style lettering, unlike the smaller italic road lettering. Classification as a named place is provisional; it does not establish a settlement boundary.",
+          "reference_reading_status": "tentative"
+        },
+        {
+          "source_annotation_id": "F19-JUD-060",
+          "source_text": "Forge",
+          "kind": "forge",
+          "label_boxes_xywh": [
+            [
+              667,
+              204,
+              102,
+              45
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Forge on a short road spur east of the large place label.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-061",
+          "source_text": "Gold Mine",
+          "kind": "mine-annotation",
+          "label_boxes_xywh": [
+            [
+              957,
+              126,
+              174,
+              51
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Explicit historical mine label. No claim of operation, present resource, accessibility or exact modern site.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-062",
+          "source_text": "Quartz\nMill",
+          "kind": "mill",
+          "label_boxes_xywh": [
+            [
+              1159,
+              156,
+              116,
+              49
+            ],
+            [
+              1171,
+              183,
+              88,
+              48
+            ]
+          ],
+          "text_scoring": "provisional-excluded",
+          "classification_note": "Quartz and Mill are legible; nearby Falls lettering overlaps or adjoins the first line. Separation into two annotations is tentative.",
+          "reference_reading_status": "tentative"
+        },
+        {
+          "source_annotation_id": "F19-JUD-070",
+          "source_text": "Falls",
+          "kind": "waterfall-annotation",
+          "label_boxes_xywh": [
+            [
+              1225,
+              150,
+              125,
+              50
+            ]
+          ],
+          "text_scoring": "provisional-excluded",
+          "classification_note": "Small lettering beside Quartz/Mill. This separation is tentative and could be revised on human review.",
+          "reference_reading_status": "tentative"
+        }
+      ],
+      "edge_fragments": [
+        {
+          "visible_text": "…st Branch",
+          "source_annotation_id": "F19-JUD-056",
+          "note": "Top of West is cut off; Branch is readable. Treat as an edge fragment."
+        }
+      ]
+    },
+    {
+      "crop_id": "C05",
+      "complete_annotations": [
+        {
+          "source_annotation_id": "F19-JUD-037",
+          "source_text": "River Inhabitants Road",
+          "kind": "road-name",
+          "label_boxes_xywh": [
+            [
+              328,
+              421,
+              99,
+              85
+            ],
+            [
+              477,
+              495,
+              191,
+              108
+            ],
+            [
+              675,
+              637,
+              73,
+              103
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Three-part lettering follows the curved north-south road; not a river-name annotation.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-038",
+          "source_text": "Southwest Mabou River",
+          "kind": "watercourse",
+          "label_boxes_xywh": [
+            [
+              69,
+              550,
+              256,
+              318
+            ],
+            [
+              316,
+              865,
+              109,
+              145
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Western instance of this river name. Separate annotation from F19-JUD-039; connection and modern identity need tracing.",
+          "reference_reading_status": "clear"
+        },
+        {
+          "source_annotation_id": "F19-JUD-039",
+          "source_text": "Southwest Mabou River",
+          "kind": "watercourse",
+          "label_boxes_xywh": [
+            [
+              866,
+              5,
+              203,
+              249
+            ],
+            [
+              1058,
+              335,
+              87,
+              190
+            ],
+            [
+              1172,
+              567,
+              66,
+              193
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Eastern instance, partly along a vertical graticule. Do not infer two independent rivers from two printed names.",
+          "reference_reading_status": "clear"
+        }
+      ],
+      "edge_fragments": [
+        {
+          "visible_text": "…s",
+          "source_annotation_id": "F19-JUD-031",
+          "note": "Only the tail of Barrens reaches the upper edge; exclude from complete-label scoring."
+        },
+        {
+          "visible_text": "Old …",
+          "source_annotation_id": "F19-JUD-055",
+          "note": "Old Road extends beyond the right edge; exclude from complete-label scoring."
+        }
+      ]
+    },
+    {
+      "crop_id": "C06",
+      "complete_annotations": [
+        {
+          "source_annotation_id": "F19-JUD-032",
+          "source_text": "Don. MᶜEachern",
+          "kind": "person-label",
+          "label_boxes_xywh": [
+            [
+              155,
+              208,
+              265,
+              53
+            ]
+          ],
+          "text_scoring": "clear-reference",
+          "classification_note": "Abbreviated given name retained; beside a short side road.",
+          "reference_reading_status": "clear"
+        }
+      ],
+      "edge_fragments": []
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+[
+  [
+    "Q01",
+    "Main Cape d Or southeast corner",
+    [
+      1701,
+      1652
+    ],
+    [
+      1670,
+      1671
+    ],
+    "WACO20"
+  ],
+  [
+    "Q02",
+    "Main Cape Spencer southern tip",
+    [
+      2628,
+      1600
+    ],
+    [
+      2610,
+      1622
+    ],
+    "WACO20"
+  ],
+  [
+    "Q03",
+    "Main Spencer Island southern tip",
+    [
+      3000,
+      1408
+    ],
+    [
+      2984,
+      1428
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q04",
+    "Main Horseshoe Cove eastern projecting tip",
+    [
+      1806,
+      1492
+    ],
+    [
+      1784,
+      1508
+    ],
+    "WACO20"
+  ]
+]

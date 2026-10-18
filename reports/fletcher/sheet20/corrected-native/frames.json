@@ -1,0 +1,222 @@
+[
+  {
+    "image": "sheet-20-C01.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C01",
+    "native_box": [
+      5320,
+      3363,
+      5540,
+      3583
+    ],
+    "native_coordinates": [
+      5430,
+      3473
+    ],
+    "modern_lonlat": [
+      -60.6586398,
+      45.6774393
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C05.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C05",
+    "native_box": [
+      1568,
+      4306,
+      1788,
+      4526
+    ],
+    "native_coordinates": [
+      1678,
+      4416
+    ],
+    "modern_lonlat": [
+      -60.837974,
+      45.6406735
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C06.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C06",
+    "native_box": [
+      2756,
+      4304,
+      2976,
+      4524
+    ],
+    "native_coordinates": [
+      2866,
+      4414
+    ],
+    "modern_lonlat": [
+      -60.7811876,
+      45.6404474
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C07.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C07",
+    "native_box": [
+      6746,
+      4115,
+      6966,
+      4335
+    ],
+    "native_coordinates": [
+      6856,
+      4225
+    ],
+    "modern_lonlat": [
+      -60.5996981,
+      45.6465712
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C02.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C02",
+    "native_box": [
+      2010,
+      1309,
+      2230,
+      1529
+    ],
+    "native_coordinates": [
+      2120,
+      1419
+    ],
+    "modern_lonlat": [
+      -60.81539930647283,
+      45.73724478893603
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C04.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C04",
+    "native_box": [
+      2090,
+      5758,
+      2310,
+      5978
+    ],
+    "native_coordinates": [
+      2200,
+      5868
+    ],
+    "modern_lonlat": [
+      -60.811033025299906,
+      45.59478487384901
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C08.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C08",
+    "native_box": [
+      9186,
+      4965,
+      9406,
+      5185
+    ],
+    "native_coordinates": [
+      9296,
+      5075
+    ],
+    "modern_lonlat": [
+      -60.49065088772981,
+      45.622466249093534
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C09.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C09",
+    "native_box": [
+      8493,
+      4854,
+      8713,
+      5074
+    ],
+    "native_coordinates": [
+      8603,
+      4964
+    ],
+    "modern_lonlat": [
+      -60.519080002362756,
+      45.62675552000971
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C11.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C11",
+    "native_box": [
+      6815,
+      1555,
+      7035,
+      1775
+    ],
+    "native_coordinates": [
+      6925,
+      1665
+    ],
+    "modern_lonlat": [
+      -60.5938789,
+      45.7323726
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C12.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C12",
+    "native_box": [
+      6138,
+      1774,
+      6358,
+      1994
+    ],
+    "native_coordinates": [
+      6248,
+      1884
+    ],
+    "modern_lonlat": [
+      -60.6227189,
+      45.727847
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-20-C10.jpg",
+    "point_record": "sheet20/candidate-corrected-v1.json",
+    "point_id": "C10",
+    "native_box": [
+      4945,
+      6545,
+      5165,
+      6765
+    ],
+    "native_coordinates": [
+      5055,
+      6655
+    ],
+    "modern_lonlat": [
+      -60.68630974860301,
+      45.56615932702436
+    ],
+    "rotation_degrees": 0
+  }
+]

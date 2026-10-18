@@ -1,0 +1,16 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained similarity",
+  "reason": "Four controls occupy southern region, mostly near bottom edge, with broad east-west separation but limited north-south support. Uniform scale avoids unsupported affine shear.",
+  "corrections": [
+    "Gamble Lake southeast modern observation corrected to the corresponding southern extremity before fitting"
+  ],
+  "not_adopted": [
+    "Northern-edge Dewar Lake partial/generalized shore, complex Westchester-area connections and changed southern-central pond not forced"
+  ],
+  "limitations": [
+    "Northern half and central river corridors unvalidated",
+    "Four checks reuse control lakes; fifth is a separate nearby pond",
+    "18 px working source uncertainty; southern lake fit is not whole-sheet acceptance"
+  ]
+}

@@ -1,0 +1,152 @@
+[
+  {
+    "image": "west-bay.jpg",
+    "lonlat_bounds": [
+      -61.2,
+      45.695,
+      -61.105,
+      45.755
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "north-central.jpg",
+    "lonlat_bounds": [
+      -61.105,
+      45.7,
+      -61.02,
+      45.755
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "sporting-mountain.jpg",
+    "lonlat_bounds": [
+      -61.04,
+      45.68,
+      -60.94,
+      45.751
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "eastern-lakes.jpg",
+    "lonlat_bounds": [
+      -60.94,
+      45.665,
+      -60.825,
+      45.75
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "black-river.jpg",
+    "lonlat_bounds": [
+      -61.19,
+      45.65,
+      -61.025,
+      45.69
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "central-lakes.jpg",
+    "lonlat_bounds": [
+      -61.125,
+      45.625,
+      -60.995,
+      45.665
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southwest-islands.jpg",
+    "lonlat_bounds": [
+      -61.23,
+      45.56,
+      -61.075,
+      45.625
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "lennox-passage.jpg",
+    "lonlat_bounds": [
+      -61.08,
+      45.565,
+      -60.94,
+      45.63
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "river-bourgeois.jpg",
+    "lonlat_bounds": [
+      -60.95,
+      45.59,
+      -60.825,
+      45.665
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "isle-madame.jpg",
+    "lonlat_bounds": [
+      -61.06,
+      45.56,
+      -60.87,
+      45.592
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

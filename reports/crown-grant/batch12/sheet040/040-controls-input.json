@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Beaver Lake northern tip",
+    [
+      960,
+      310
+    ],
+    [
+      965,
+      230
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Branch Lake northern tip",
+    [
+      1350,
+      1049
+    ],
+    [
+      1360,
+      907
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Dolliver\u2019s Lake western projecting point",
+    [
+      439,
+      2453
+    ],
+    [
+      422,
+      2300
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Indian Island northern tip",
+    [
+      2547,
+      3664
+    ],
+    [
+      2545,
+      3540
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "LaHave Ironbound Island northern tip",
+    [
+      4863,
+      3000
+    ],
+    [
+      4870,
+      2927
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Cape LaHave southern tip",
+    [
+      3453,
+      3688
+    ],
+    [
+      3445,
+      3580
+    ],
+    "WACO20"
+  ]
+]

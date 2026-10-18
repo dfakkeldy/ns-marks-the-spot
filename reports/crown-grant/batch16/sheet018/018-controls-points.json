@@ -1,0 +1,210 @@
+[
+  {
+    "id": "C01",
+    "label": "Harper Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1267,
+      581
+    ],
+    "lonlat": [
+      -65.45501357723795,
+      43.79554877786664
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 138575,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138575,
+    "nearest_unfiltered_distance_guide_px": 0.556482358564086,
+    "selected_distance_guide_px": 0.556482358564086,
+    "guide_reference_pixel_xy": [
+      1257.5485469680862,
+      592.3253656026209
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Courtney Lake northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      2543,
+      405
+    ],
+    "lonlat": [
+      -65.37674892418451,
+      43.83106437377251
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 128829,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128829,
+    "nearest_unfiltered_distance_guide_px": 19.168800268092205,
+    "selected_distance_guide_px": 19.168800268092205,
+    "guide_reference_pixel_xy": [
+      2551.147750550066,
+      413.2498335421551
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Dirty Creek Lake northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      380,
+      1424
+    ],
+    "lonlat": [
+      -65.48567695233471,
+      43.736970557392944
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 127724,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127724,
+    "nearest_unfiltered_distance_guide_px": 1.8983783841837938,
+    "selected_distance_guide_px": 1.8983783841837938,
+    "guide_reference_pixel_xy": [
+      389.92915862140944,
+      1455.1029438625555
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Morris Lake central large island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      820,
+      2021
+    ],
+    "lonlat": [
+      -65.44032115097093,
+      43.718314431657234
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 144749,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144749,
+    "nearest_unfiltered_distance_guide_px": 0.16064451714941977,
+    "selected_distance_guide_px": 0.16064451714941977,
+    "guide_reference_pixel_xy": [
+      823.9194015775574,
+      2048.8610375763383
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Lake George central island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3397,
+      1417
+    ],
+    "lonlat": [
+      -65.29446460443943,
+      43.80120678530772
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 153671,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 153671,
+    "nearest_unfiltered_distance_guide_px": 0.5521047746985885,
+    "selected_distance_guide_px": 0.5521047746985885,
+    "guide_reference_pixel_xy": [
+      3370.5703178786207,
+      1417.6533114411868
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Church Over Lake island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1410,
+      2537
+    ],
+    "lonlat": [
+      -65.38724961645156,
+      43.706245548088795
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 152569,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 152569,
+    "nearest_unfiltered_distance_guide_px": 10.65895672897309,
+    "selected_distance_guide_px": 10.65895672897309,
+    "guide_reference_pixel_xy": [
+      1410.9697029138915,
+      2570.0117589473957
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Rodney Lake southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      3262,
+      2825
+    ],
+    "lonlat": [
+      -65.26156449857254,
+      43.732383269722554
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 142785,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142785,
+    "nearest_unfiltered_distance_guide_px": 0.8774575333159151,
+    "selected_distance_guide_px": 0.8774575333159151,
+    "guide_reference_pixel_xy": [
+      3242.1541445271578,
+      2830.233367182431
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Veitch Lake northwestern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      5005,
+      969
+    ],
+    "lonlat": [
+      -65.20353421623425,
+      43.85648410746228
+    ],
+    "guide_file": ".crown-grant-local/018-frozen-north-guide.npy",
+    "reference_objectid": 139264,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139264,
+    "nearest_unfiltered_distance_guide_px": 0.6747456491830661,
+    "selected_distance_guide_px": 0.6747456491830661,
+    "guide_reference_pixel_xy": [
+      4985.135980516148,
+      957.3390983504942
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

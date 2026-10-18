@@ -1,0 +1,36 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -61.043956338212745,
+        45.5371827522019
+      ],
+      "guide_xy": [
+        5236.428987371735,
+        2360.070246185176
+      ],
+      "modern_objectid": 116839,
+      "modern_part": 0,
+      "modern_vertex": 47,
+      "modern_properties": {
+        "OBJECTID": 116839,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 20.9,
+        "FID": null,
+        "SHAPE_Length": 234.83651755644217
+      },
+      "id": "Q03",
+      "role": "rejected",
+      "pixel_xy": [
+        5210,
+        2268
+      ],
+      "identity_evidence": "Lac Le Blanc northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unscored: proposed modern northern extremum belongs to a separate northern pond; historical Lac Le Blanc neck/basin configuration differs and does not support this identity."
+    }
+  ]
+}

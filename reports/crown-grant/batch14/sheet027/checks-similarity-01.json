@@ -1,0 +1,140 @@
+{
+  "status": "Reserved before first fit and score",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Clam Island southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        549,
+        324
+      ],
+      "lonlat": [
+        -65.08526108570244,
+        43.739173951758744
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 16726,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16726,
+      "nearest_unfiltered_distance_guide_px": 1.5059420462924364,
+      "selected_distance_guide_px": 1.5059420462924364,
+      "guide_reference_pixel_xy": [
+        629.5623996183276,
+        357.60301463282667
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score."
+    },
+    {
+      "id": "Q02",
+      "label": "Ram Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        865,
+        1789
+      ],
+      "lonlat": [
+        -65.02738514214418,
+        43.68139711548134
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 20228,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20228,
+      "nearest_unfiltered_distance_guide_px": 0.3710132386346385,
+      "selected_distance_guide_px": 0.3710132386346385,
+      "guide_reference_pixel_xy": [
+        940.3440309651778,
+        1827.1389011095744
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score."
+    },
+    {
+      "id": "Q03",
+      "label": "Green Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2779,
+        897
+      ],
+      "lonlat": [
+        -64.93598138519694,
+        43.75577198169332
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 23868,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23868,
+      "nearest_unfiltered_distance_guide_px": 9.502233269569166,
+      "selected_distance_guide_px": 9.502233269569166,
+      "guide_reference_pixel_xy": [
+        2814.983859551139,
+        944.7071673645405
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score."
+    },
+    {
+      "id": "Q05",
+      "label": "Joli Point southern shore",
+      "role": "check",
+      "pixel_xy": [
+        4646,
+        385
+      ],
+      "lonlat": [
+        -64.83539159184814,
+        43.81335016280155
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 9790,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 9790,
+      "nearest_unfiltered_distance_guide_px": 1.1903503313662656,
+      "selected_distance_guide_px": 1.1903503313662656,
+      "guide_reference_pixel_xy": [
+        4673.391346264863,
+        440.1241805959726
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score."
+    },
+    {
+      "id": "Q06",
+      "label": "Potter Ledge northern tip",
+      "role": "check",
+      "pixel_xy": [
+        730,
+        1850
+      ],
+      "lonlat": [
+        -65.0337110714058,
+        43.67574199020558
+      ],
+      "guide_file": ".crown-grant-local/027-southwest-guide.npy",
+      "reference_objectid": 23418,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23418,
+      "nearest_unfiltered_distance_guide_px": 0.7364200189536746,
+      "selected_distance_guide_px": 0.7364200189536746,
+      "guide_reference_pixel_xy": [
+        806.2673041561502,
+        1897.9260321372421
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad coastal/island context and all native paired crosshairs inspected; Black Point source and Hemeon reference corrections before first fit and score."
+    }
+  ]
+}

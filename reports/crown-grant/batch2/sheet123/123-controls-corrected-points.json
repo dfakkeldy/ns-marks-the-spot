@@ -1,0 +1,178 @@
+[
+  {
+    "id": "C01",
+    "label": "Cow Point western cape",
+    "role": "proposal",
+    "pixel_xy": [
+      377,
+      1084
+    ],
+    "lonlat": [
+      -60.8909711211985,
+      46.06497804073361
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 7896,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      363.0533776868833,
+      1134.6789483858738
+    ],
+    "source_uncertainty_px": 10,
+    "modern_uncertainty_m": 30
+  },
+  {
+    "id": "C02",
+    "label": "Birch Point eastern cape corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1258,
+      1738
+    ],
+    "lonlat": [
+      -60.82376656554328,
+      46.05141849015536
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10212,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1222.0387469049892,
+      1781.3369819034124
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Murphy Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1715,
+      1713
+    ],
+    "lonlat": [
+      -60.7961507584431,
+      46.05961055888686
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10368,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1684.1610390731366,
+      1761.9132993337698
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Upper Kempt Head northern small cape",
+    "role": "proposal",
+    "pixel_xy": [
+      4082,
+      1680
+    ],
+    "lonlat": [
+      -60.65378981486987,
+      46.09830647918863
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 4774,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4037.6252967105247,
+      1732.085518905078
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Point Clear eastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4841,
+      2135
+    ],
+    "lonlat": [
+      -60.59809806882472,
+      46.091087298547315
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 3655,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4782.173303999763,
+      2182.4623642736115
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "McNeils Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4498,
+      2925
+    ],
+    "lonlat": [
+      -60.600838178830834,
+      46.05237424940689
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 10898,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4438.354046791908,
+      2969.988995089545
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Big Beach small cape northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2835,
+      3238
+    ],
+    "lonlat": [
+      -60.69302292656354,
+      46.012717619889465
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 6495,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2798.2792209350155,
+      3292.8353785885265
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Red Point southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3151,
+      1425
+    ],
+    "lonlat": [
+      -60.71575021592234,
+      46.09405116988132
+    ],
+    "guide_file": ".crown-grant-local/123-adjacent-guide.npy",
+    "reference_objectid": 9447,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3112.814999809081,
+      1484.9581073134905
+    ],
+    "source_uncertainty_px": 10,
+    "modern_uncertainty_m": 30
+  }
+]

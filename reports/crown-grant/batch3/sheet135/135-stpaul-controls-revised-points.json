@@ -1,0 +1,90 @@
+[
+  {
+    "id": "SC01",
+    "label": "St Paul southwest coastal tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4675,
+      1090
+    ],
+    "lonlat": [
+      -60.16159346559739,
+      47.182946297517574
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 21456,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4729.056684420269,
+      1101.2128026488936
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SC02",
+    "label": "St Paul northwest cape west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4739,
+      751
+    ],
+    "lonlat": [
+      -60.16676003205533,
+      47.19793932197121
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 20843,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      4770.989277255547,
+      780.4868594502332
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SC03",
+    "label": "St Paul north island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5340,
+      301
+    ],
+    "lonlat": [
+      -60.14047412004826,
+      47.227650236735535
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 20821,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5335.616136948636,
+      325.6225409664912
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "SC04",
+    "label": "St Paul east projecting cape",
+    "role": "proposal",
+    "pixel_xy": [
+      5260,
+      604
+    ],
+    "lonlat": [
+      -60.13799411586491,
+      47.21259727159004
+    ],
+    "guide_file": ".crown-grant-local/135-stpaul-bounds-guide.npy",
+    "reference_objectid": 22405,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      5257.891696093953,
+      634.2495057723718
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

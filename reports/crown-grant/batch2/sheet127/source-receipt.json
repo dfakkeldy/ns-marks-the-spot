@@ -1,0 +1,158 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/127.pdf",
+  "source_dimensions": [
+    6088,
+    4110
+  ],
+  "ppi": 160,
+  "reference": {
+    "retrieved_at_utc": "2026-09-23T06:25:35.439212+00:00",
+    "bbox": [
+      -60.9974841191323,
+      46.62422773937824,
+      -60.42588096783314,
+      46.9967105228016
+    ],
+    "reference_count": 18272,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "127-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 2000,
+        "sha256": "97ee90901e978524e03eb9cdf6e2ef44ff304aeb15b7572a5022159c6efeb165"
+      },
+      {
+        "file": "127-water-page1.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=2000",
+        "count": 2000,
+        "sha256": "0fb06b5dcf76aa4d94957335d7a77392397e670dfb66b9da1ce37ff4ec1f89d5"
+      },
+      {
+        "file": "127-water-page2.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=4000",
+        "count": 2000,
+        "sha256": "011be07755bc7837007aefb6d1057c0904895e0be30379ad5d74b8a8a266cc86"
+      },
+      {
+        "file": "127-water-page3.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=6000",
+        "count": 2000,
+        "sha256": "7f92e7fd7354f39fbbf547d3e971ee8a2148aea8d05b96dc7564d707c878108a"
+      },
+      {
+        "file": "127-water-page4.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=8000",
+        "count": 2000,
+        "sha256": "875604c6aa5a41878e289721c37473c23d9d0face5f74a4a12ba23e7d203edef"
+      },
+      {
+        "file": "127-water-page5.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=10000",
+        "count": 2000,
+        "sha256": "8d5ab101a8019c0d0e2680ec663afdc67da0f7314dd2ef4ee2c51e56fb8487b2"
+      },
+      {
+        "file": "127-water-page6.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=12000",
+        "count": 2000,
+        "sha256": "fca90387a4cf011bb174a0a9086d39c0903c436db31d9b988cf5667537fc21e7"
+      },
+      {
+        "file": "127-water-page7.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=14000",
+        "count": 2000,
+        "sha256": "04085df13b06c126923604ec18c08ff7bffde214c06109cb1017f4040442f269"
+      },
+      {
+        "file": "127-water-page8.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=16000",
+        "count": 2000,
+        "sha256": "45e6ac3f0923e40fca2d6aa99875c41297adf673097a4bde5d2e1320a5e8d52c"
+      },
+      {
+        "file": "127-water-page9.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-60.9974841191323%2C46.62422773937824%2C-60.42588096783314%2C46.9967105228016&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=18000",
+        "count": 272,
+        "sha256": "f87cb5156e236a0293aa85c750be33952b2d8c68956ac2eece927c4d254e450b"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "127.pdf",
+      "bytes": 2598975,
+      "sha256": "7d8490b06575c0097b43b6741a9e28f3667413f256b837a4da3e84a6b05ca5eb"
+    },
+    {
+      "name": "127-000.jpg",
+      "bytes": 2597803,
+      "sha256": "523c73432e10a14f8d6d16b88924c766eaf8913bc91765bcbe98931bc6b5e5b1"
+    },
+    {
+      "name": "127-water-tight.geojson",
+      "bytes": 33927575,
+      "sha256": "f387fd887c4d7442f67420d2470d839c5f899ade4cdea6386ae0fd1ae3b597db"
+    },
+    {
+      "name": "127-reference-receipt.json",
+      "bytes": 5387,
+      "sha256": "7f6eb5961f6051b3d9dc6003248bbb07186e7fd05011f2245f96d766e026bdd2"
+    },
+    {
+      "name": "127-water-page0.geojson",
+      "bytes": 2805114,
+      "sha256": "97ee90901e978524e03eb9cdf6e2ef44ff304aeb15b7572a5022159c6efeb165"
+    },
+    {
+      "name": "127-water-page1.geojson",
+      "bytes": 1570015,
+      "sha256": "0fb06b5dcf76aa4d94957335d7a77392397e670dfb66b9da1ce37ff4ec1f89d5"
+    },
+    {
+      "name": "127-water-page2.geojson",
+      "bytes": 1656982,
+      "sha256": "011be07755bc7837007aefb6d1057c0904895e0be30379ad5d74b8a8a266cc86"
+    },
+    {
+      "name": "127-water-page3.geojson",
+      "bytes": 1646132,
+      "sha256": "7f92e7fd7354f39fbbf547d3e971ee8a2148aea8d05b96dc7564d707c878108a"
+    },
+    {
+      "name": "127-water-page4.geojson",
+      "bytes": 1730227,
+      "sha256": "875604c6aa5a41878e289721c37473c23d9d0face5f74a4a12ba23e7d203edef"
+    },
+    {
+      "name": "127-water-page5.geojson",
+      "bytes": 4249501,
+      "sha256": "8d5ab101a8019c0d0e2680ec663afdc67da0f7314dd2ef4ee2c51e56fb8487b2"
+    },
+    {
+      "name": "127-water-page6.geojson",
+      "bytes": 5969052,
+      "sha256": "fca90387a4cf011bb174a0a9086d39c0903c436db31d9b988cf5667537fc21e7"
+    },
+    {
+      "name": "127-water-page7.geojson",
+      "bytes": 6862048,
+      "sha256": "04085df13b06c126923604ec18c08ff7bffde214c06109cb1017f4040442f269"
+    },
+    {
+      "name": "127-water-page8.geojson",
+      "bytes": 6302011,
+      "sha256": "45e6ac3f0923e40fca2d6aa99875c41297adf673097a4bde5d2e1320a5e8d52c"
+    },
+    {
+      "name": "127-water-page9.geojson",
+      "bytes": 372495,
+      "sha256": "f87cb5156e236a0293aa85c750be33952b2d8c68956ac2eece927c4d254e450b"
+    },
+    {
+      "name": "127-adjacent-guide.npy",
+      "bytes": 176,
+      "sha256": "b13e53038a6d69ae1d7d248800217f89c14c1d9424622ba73e7590efd616b89b"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "image": "cheticamp-harbour.jpg",
+    "lonlat_bounds": [
+      -61.06792939352159,
+      46.5922181791636,
+      -61.0122535458462,
+      46.61576810198122
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "faribault.jpg",
+    "lonlat_bounds": [
+      -60.9169773,
+      46.5852935,
+      -60.8869298,
+      46.6111433
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "fiset-aucoin.jpg",
+    "lonlat_bounds": [
+      -60.9769361,
+      46.5805015,
+      -60.9311439,
+      46.60997
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "grand-etang.jpg",
+    "lonlat_bounds": [
+      -61.047003600000004,
+      46.5531644,
+      -61.0129697,
+      46.572704
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "west-basile.jpg",
+    "lonlat_bounds": [
+      -61.0878228,
+      46.4880208,
+      -61.0468128,
+      46.5231668
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "farm-interior.jpg",
+    "lonlat_bounds": [
+      -60.9801646,
+      46.5350136,
+      -60.941516899999996,
+      46.5618543
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "first-second-fork.jpg",
+    "lonlat_bounds": [
+      -60.9074978,
+      46.4605954,
+      -60.869645399999996,
+      46.4929496
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "stewart.jpg",
+    "lonlat_bounds": [
+      -60.9518873,
+      46.446033899999996,
+      -60.9121152,
+      46.4671803
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "unsupported-southwest.jpg",
+    "lonlat_bounds": [
+      -61.079,
+      46.438,
+      -61.009,
+      46.487
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "rocky-eastern-interior.jpg",
+    "lonlat_bounds": [
+      -60.949,
+      46.515,
+      -60.845,
+      46.556
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "western-coast.jpg",
+    "lonlat_bounds": [
+      -61.13,
+      46.445,
+      -61.05,
+      46.515
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -61.25,
+      46.435,
+      -60.82,
+      46.635
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet09/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

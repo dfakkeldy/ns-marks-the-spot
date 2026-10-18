@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C01",
+    "label": "Nicholson Lake northern narrow horn tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1132,
+      310
+    ],
+    "lonlat": [
+      -63.76466089961224,
+      44.910151292371246
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 135074,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135074,
+    "nearest_unfiltered_distance_guide_px": 4.655841397757077,
+    "selected_distance_guide_px": 4.655841397757077,
+    "guide_reference_pixel_xy": [
+      1208.792306070507,
+      337.587930929265
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Barrett Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1453,
+      2519
+    ],
+    "lonlat": [
+      -63.68530186088406,
+      44.81714448745286
+    ],
+    "guide_file": ".crown-grant-local/065-adjacent-ppi-guide.npy",
+    "reference_objectid": 129410,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129934,
+    "nearest_unfiltered_distance_guide_px": 1.1921184305715333,
+    "selected_distance_guide_px": 11.154972976386276,
+    "guide_reference_pixel_xy": [
+      1521.4230366356787,
+      2584.1400419828715
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

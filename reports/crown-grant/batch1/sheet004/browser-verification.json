@@ -1,0 +1,23 @@
+{
+  "url": "http://127.0.0.1:8842/",
+  "date": "2026-09-19",
+  "tool": "Codex in-app browser via cua_repl",
+  "raster": {
+    "path": "/sheet004/main-3857.png",
+    "complete": true,
+    "naturalWidth": 5982,
+    "naturalHeight": 5266
+  },
+  "verified": [
+    "Actual complete raster inspected at overview and 1 km scale",
+    "Detached island groups and western offshore content remain visible",
+    "Opacity changed to 50 percent",
+    "Sheet selection loads the intended raster and status",
+    "NSTDB and OSM reference load",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Rendering does not validate Gannet Rock or untested components",
+    "No production activation"
+  ]
+}

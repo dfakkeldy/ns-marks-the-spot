@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5298 x 3682 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 56.82 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          50,
+          120
+        ],
+        [
+          5200,
+          145
+        ],
+        [
+          5190,
+          3520
+        ],
+        [
+          45,
+          3500
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The entire mapped frame retains Molega, Ponhook, Sixteen Mile and other lake islands, full intervening land and the Big Winnifred portion at the southern edge. Geographic support is limited to sampled physical features."
+    }
+  ]
+}

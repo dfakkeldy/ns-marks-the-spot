@@ -1,0 +1,95 @@
+"""Compare the exact current raster and independent modern vectors at one extent."""
+import argparse
+import math
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+sys.path.insert(0,str(Path(__file__).resolve().parents[3]))
+from tools.fletcher.project_labels import ROOT,read,write,digest,require,mercator
+
+
+def paths(geometry):
+    if geometry['type']=='Point': return [[geometry['coordinates']]]
+    if geometry['type']=='LineString': return [geometry['coordinates']]
+    if geometry['type'] in ('MultiLineString','Polygon'): return geometry['coordinates']
+    if geometry['type']=='MultiPolygon': return [ring for polygon in geometry['coordinates'] for ring in polygon]
+    raise ValueError(geometry['type'])
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--sheet',type=int,choices=(16,19,22),default=19)
+    parser.add_argument('--scenes',type=Path,help='JSON object mapping scene names to source annotation numbers; required outside Judique')
+    parser.add_argument('--raster',type=Path,required=True)
+    parser.add_argument('--references',type=Path,required=True)
+    args=parser.parse_args()
+    directory=ROOT/'reports/fletcher/feature-geography'
+    prefix,title={16:('mabou','Port Hood/Mabou'),19:('judique','Judique'),22:('hawkesbury','Hawkesbury')}[args.sheet]
+    data=read(directory/f'sheet-{args.sheet}-features.geojson')
+    active=next(s for s in read(ROOT/'reports/fletcher/full-sheets/inputs.json')['sheets'] if s['sheet']==str(args.sheet))
+    require(digest(args.raster)==active['raster_sha256'],'Wrong current raster')
+    require(data['provenance']['fit_sha256']==active['fit_sha256'],'Feature/raster fit mismatch')
+    refs=(read(ROOT/'reports/fletcher/matching-benchmark/reference-receipts.json')+read(ROOT/'reports/fletcher/placement-pilot/road-context-receipts.json')) if args.sheet==19 else read(directory/f'{prefix}-reference-receipts.json')
+    vectors={}
+    for ref in refs:
+        file=args.references/(ref['name']+'.geojson')
+        require(digest(file)==ref['sha256'],f"Reference mismatch: {ref['name']}")
+        vectors[ref['name']]=read(file)['features']
+    groups={'north-inland-name':[3], 'judique-clergy-name':[16,15], 'rory-chisholm-name':[23], 'allan-mcdonald-name':[28], 'northern-name-spurs':[30,32], 'squire-name':[33], 'doug-mcdonald-name':[63], 'mcpherson-names':[75,76], 'western-mcdougall-name':[88], 'rough-brook-names':[114,115,116], 'glendale-north-name':[97], 'smith-mctaggart-names':[105,106], 'eastern-road-names':[107,127,128], 'buchanan-name':[108], 'eastern-border-names':[152,153], 'southern-mcisaac-name':[160], 'southern-mcarthur-name':[166], 'settlement-judique':[14,15], 'settlement-dennistown':[49,50], 'settlement-river-denys-road':[59,57,58], 'settlement-glendale':[98,99,100,102], 'settlement-kingsville':[121,122,123,124,125], 'settlement-river-denys-crossroads':[145,146,147,148], 'macpherson-brook-trace':[96], 'rough-brook-west-trace':[113], 'river-inhabitants-east-trace':[126], 'mclennan-brook-trace':[150], 'big-brook-south-trace':[157], 'diogenes-east-trace':[64], 'middle-branch-traces':[65,66], 'chisholm-brook-trace':[77,78,79,81], 'glendale-brook-trace':[94,95], 'coastal-named-waterways':[15,20,25], 'southwest-mabou-waterways':[38,39], 'diogenes-brook-trace':[47], 'graham-inland-trace':[54], 'north-victoria-road':[67], 'coastal-inland-roads':[86,89,92], 'wood-road':[93], 'glendale-road-caption':[104], 'southern-victoria-proposal':[131,133], 'princeville-old-road':[163], 'western-named-roads':[15,22,27], 'northern-inland-road':[37], 'dennistown-named-roads':[52,53], 'old-road-alternative':[55], 'northeast-falls-reaches':[135,136,137,138], 'mclennan-tributary-falls':[151], 'big-brook-falls':[154], 'princeville-fall':[162], 'upper-diogenes-falls':[41,42,43], 'diogenes-fall':[44], 'dennistown-falls':[51], 'west-branch-fall':[69], 'quartz-falls':[70], 'glendale-falls':[109,110,111], 'coal-marks':[112], 'barytes':[17], 'northern-falls':[35], 'western-falls':[36], 'underground-brook-note':[40], 'colin-chisholm-mill':[46], 'river-denys-post':[48], 'glendale-services':[99,100,102], 'kingsville-approach':[118,119,120], 'kingsville-crossing':[122,123,124,125], 'river-denys-crossroads':[146,147,148], 'southern-school':[158], 'eastern-forge-mill':[60,62], 'mclennan-mill':[68], 'central-schools':[71,72,73], 'long-point-north':[74,82], 'long-point-south':[87,89], 'western-school':[91], 'central-coastal-services':[18,19,24], 'dennistown-school':[50], 'river-denys-services':[57,58], 'north-services':[4,5,6,7,8,9,10,11], 'church-brook':[13,15,21], 'chisholm-mills':[77,78,79], 'northeast-mine':[61], 'glendale':[94,103,117]}
+    require(args.sheet==19 or args.scenes is not None,'Explicit scenes required for this sheet')
+    if args.scenes: groups=read(args.scenes)
+    require(isinstance(groups,dict) and groups,'Invalid geographic review scenes')
+    known={int(f['id'].split('-')[-1]):f for f in data['features']}
+    for name,ids in groups.items():
+        require(isinstance(name,str) and name.replace('-','').isalnum(),'Invalid scene name')
+        require(isinstance(ids,list) and ids and len(set(ids))==len(ids),'Invalid scene IDs')
+        require(all(type(n) is int and n in known and known[n]['geometry'] is not None for n in ids),'Scene needs supported non-null feature geometry')
+    receipt={'fit_sha256':data['provenance']['fit_sha256'],'raster_sha256':digest(args.raster),'reference_receipts':refs,'coordinate_convention':'North up; identical EPSG:3857 extent in raster and independent-vector panels. Extent is in projected metres, not ground metres.','scenes':[]}
+    font=ImageFont.load_default(size=18)
+    for name,ids in groups.items():
+        features=[f for f in data['features'] if int(f['id'].split('-')[-1]) in ids]
+        points=[mercator(p) for f in features for ring in paths(f['geometry']) for p in ring]
+        x0,y0=map(min,zip(*points));x1,y1=map(max,zip(*points));cx,cy=(x0+x1)/2,(y0+y1)/2
+        span=max(2600,x1-x0+1500,y1-y0+1500); west,north=cx-span/2,cy+span/2
+        def pixel(ll):
+            x,y=mercator(ll);return ((x-west)*800/span,(north-y)*800/span)
+        png=directory/f'.{name}.png'
+        subprocess.run([shutil.which('gdal_translate'),'-q','-of','PNG','-projwin',str(west),str(north),str(west+span),str(north-span),'-outsize','800','800',str(args.raster),str(png)],check=True,capture_output=True)
+        hist=Image.new('RGB',(800,800),'#cccac3');warped=Image.open(png).convert('RGBA');hist.paste(warped,mask=warped.getchannel('A'))
+        modern=Image.new('RGB',(800,800),'#faf3e5');draw=ImageDraw.Draw(modern)
+        seen={k:[] for k in vectors};h19=[]
+        for key,color,width in [('water-polygons','#abd6dc',1),('water-lines','#498eaa',2),('rail','#888888',1),('roads','#a17443',2),('highways','#a34d1f',4),('bridges','#6c481f',4)]:
+            for feature in vectors[key]:
+                rings=[[pixel(p) for p in ring] for ring in paths(feature['geometry'])]
+                allp=[p for ring in rings for p in ring]
+                if not allp or max(p[0] for p in allp)<0 or min(p[0] for p in allp)>800 or max(p[1] for p in allp)<0 or min(p[1] for p in allp)>800:continue
+                seen[key].append(feature['properties']['OBJECTID'])
+                for ring in rings:
+                    if key=='water-polygons' and len(ring)>2:draw.polygon(ring,fill=color)
+                    elif len(ring)>1:draw.line(ring,fill=color,width=width)
+                    if key=='highways' and feature['properties'].get('RTE_NO')==19:h19 += [p for p in ring if 50<p[0]<650 and 50<p[1]<750]
+        if h19:
+            x,y=min(h19,key=lambda p:abs(p[1]-120));draw.text((x+8,y),'Highway 19',fill='#893e16',font=font,stroke_width=2,stroke_fill='#faf3e5')
+        for image in (hist,modern):
+            ink=ImageDraw.Draw(image)
+            for feature in features:
+                g=feature['properties']['map_derived_geometry'] if image is hist else feature['geometry']
+                if g is None:continue
+                rings=[[pixel(p) for p in ring] for ring in paths(g)]
+                for ring in rings:
+                    if len(ring)==1:
+                        x,y=ring[0];ink.ellipse((x-7,y-7,x+7,y+7),outline='#00665d',width=3)
+                    else:ink.line(ring,fill='#00665d',width=3)
+                x,y=rings[0][0];ink.text((x+10,y-20),feature['id'][-3:],fill='#00665d',font=font,stroke_width=2,stroke_fill='#faf3e5')
+        panel=Image.new('RGB',(1600,880),'white');panel.paste(hist,(0,80));panel.paste(modern,(800,80));ink=ImageDraw.Draw(panel)
+        ink.text((10,6),f'{title} {name}: current historical raster / NSTDB roads, highways, bridges and water',fill='black',font=font)
+        ink.text((10,31),'Teal: source mark/group projection; church modern panel keeps east-side correction. Group outlines are not property boundaries.' if args.sheet==19 else 'Teal: source mark/group projection. Group outlines are not property boundaries or individual building footprints.',fill='black',font=font)
+        ink.text((10,56),'Source: David Rumsey / Stanford, CC BY-NC-SA 3.0. Modern: Province of Nova Scotia NSTDB; corrected church © OSM contributors, ODbL.' if args.sheet==19 else 'Source: David Rumsey / Stanford, CC BY-NC-SA 3.0. Modern: Province of Nova Scotia NSTDB.',fill='black',font=font)
+        output=directory/f'{prefix}-{name}-geography.jpg';panel.save(output,quality=90)
+        warped.close();png.unlink();Path(str(png)+'.aux.xml').unlink(missing_ok=True)
+        receipt['scenes'].append({'name':name,'annotation_ids':[f['id'] for f in features],'extent_epsg3857':[west,north-span,west+span,north],'panel_pixels':[800,800],'image_path':output.name,'image_sha256':digest(output),'context_object_ids':seen,'highway19_label_drawn':bool(h19),'meaning':'Context objects are drawn features, not accepted correspondences. Visual review is recorded separately.'})
+    write(directory/f'{prefix}-geographic-review-frames.json',receipt)
+
+if __name__=='__main__':main()

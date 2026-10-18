@@ -1,0 +1,119 @@
+{
+  "sheet": "sheet-18",
+  "fit_sha256": "1687c94ff4a10bb039e9ec2801b6ee323546134cbabb6508b17a2775db4561dc",
+  "purpose": "Prior Crane reused; other checks selected after initial eleven-control freeze, before scoring.",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        4638.0,
+        6021.216293597085
+      ],
+      "lonlat": [
+        -61.0805,
+        45.7652
+      ],
+      "identity_evidence": "Crane Island northern tip",
+      "source_uncertainty_px": 20,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2319.0,
+        3011.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit.",
+      "review": "Diagnostic annotation corrects native uncertainty to reflect half-resolution rounding and near-tip placement; original check record remains unchanged."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        5410,
+        3570
+      ],
+      "lonlat": [
+        -61.0415157,
+        45.8444992
+      ],
+      "modern_node_id": "J0614",
+      "modern_objectids": [
+        125319,
+        125320,
+        194483
+      ],
+      "identity_evidence": "McKenzie Brook western-arm small lake northern outlet",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        2657,
+        5872
+      ],
+      "lonlat": [
+        -61.1676266,
+        45.7704048
+      ],
+      "modern_node_id": "J0758",
+      "modern_objectids": [
+        198344,
+        198517,
+        198518
+      ],
+      "identity_evidence": "Ross Brook major western Beaver Lakes tributary junction",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        1920,
+        5640
+      ],
+      "lonlat": [
+        -61.2063705,
+        45.7795174
+      ],
+      "modern_node_id": "J0744",
+      "modern_objectids": [
+        198424,
+        280823,
+        280824
+      ],
+      "identity_evidence": "Southwest interior west-draining brook: major northeastern branch junction",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -60.982318246420604,
+        45.90967889548603
+      ],
+      "guide_xy": [
+        6813.5097691589035,
+        1512.9267054852098
+      ],
+      "modern_objectid": 23467,
+      "modern_part": 0,
+      "modern_vertex": 41,
+      "modern_properties": {
+        "OBJECTID": 23467,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 948.6066122453084
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        6758,
+        1499
+      ],
+      "identity_evidence": "Cranberry Island northern tip, northeast hook",
+      "source_uncertainty_px": 12
+    }
+  ]
+}

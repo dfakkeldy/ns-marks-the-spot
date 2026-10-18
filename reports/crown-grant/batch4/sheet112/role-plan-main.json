@@ -1,0 +1,34 @@
+{
+  "sheet": "112",
+  "component": "main",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q08",
+    "Q09"
+  ],
+  "notes": [
+    "Full original content retained; all initial and revised proposals remain available.",
+    "Main controls span northwest Porper coast fragment, northeast Jerseymans/Cape au Guet and southern mainland with inland ponds. Northwest coast only has one control and one excluded check; Fox and Jerseymans control/check endpoints are correlated.",
+    "Working source uncertainty12px, increased18px for generalized rounded Jerseymans shore, Grady corner, Fox east point and Birch Point harbour shore.",
+    "Guide values are discovery only; no check result informed placement or model selection."
+  ]
+}

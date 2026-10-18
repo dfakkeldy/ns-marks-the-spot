@@ -1,0 +1,95 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "Historical proposal packet retained for native crosshair audit. See draft-fit.json, draft-checks.json and point-review-index.json for current points and status.",
+  "points": [
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        5253,
+        1694
+      ],
+      "lonlat": [
+        -61.05592939352159,
+        46.6012181791636
+      ],
+      "modern_objectids": [
+        3808
+      ],
+      "modern_part": 0,
+      "modern_vertex": 41,
+      "identity_evidence": "Southernmost rounded shoreline tip of Cheticamp Point, west of the south-facing bay and its narrow connecting neck. Avoid modern projecting breakwater on western shore.",
+      "definition": "Minimum-latitude shoreline vertex within visually isolated headland",
+      "source_uncertainty_px": 15,
+      "review": "Awaiting exact native and modern crosshair review."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        5898,
+        1525
+      ],
+      "lonlat": [
+        -61.0242535458462,
+        46.60676810198122
+      ],
+      "modern_objectids": [
+        4144
+      ],
+      "modern_part": 0,
+      "modern_vertex": 16,
+      "identity_evidence": "Southern tip of long narrow peninsula within Cheticamp harbour; outer peninsula and harbour bay distinguish it from the mainland point farther southeast.",
+      "definition": "Minimum-latitude shoreline vertex within visually isolated headland",
+      "source_uncertainty_px": 15,
+      "review": "Awaiting exact native and modern crosshair review."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7232,
+        2136
+      ],
+      "lonlat": [
+        -60.9649361,
+        46.5895015
+      ],
+      "modern_node": "J0343",
+      "modern_objectids": [
+        223377,
+        262234,
+        264332
+      ],
+      "identity_evidence": "Fiset major eastern arm at the end of the long north/south reach; below Aucoin area and small western tributary, south arm bends west then southeast; east arm has an extended cascade reach.",
+      "source_uncertainty_px": 12,
+      "review": "Awaiting exact native crosshair review."
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        7517,
+        1704
+      ],
+      "lonlat": [
+        -60.945519,
+        46.60097
+      ],
+      "modern_node": "J0224",
+      "modern_objectids": [
+        183933,
+        267772,
+        267773
+      ],
+      "identity_evidence": "Aucoin major northeast/southeast headwater fork, east of several short northern spurs; northeast arm climbs toward lake country, southeast arm has a further southern fork before its headwaters.",
+      "source_uncertainty_px": 12,
+      "review": "Awaiting exact native crosshair review."
+    }
+  ]
+}

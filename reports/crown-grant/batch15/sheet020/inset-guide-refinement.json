@@ -1,0 +1,10 @@
+{
+  "timing": "Before any inset points, fit or score",
+  "reason": "Prim Point coast and westward cove sequence are displaced about170guide pixels from initial paper-offset estimate; refine only the search window using physical geography.",
+  "translation_in_old_guide_pixels": [
+    -170,
+    30
+  ],
+  "old_guide": "020-inset-discovery-guide.npy",
+  "new_guide": "020-inset-refined-guide.npy"
+}

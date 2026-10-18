@@ -1,0 +1,356 @@
+{
+  "working_target_rms_ground_m": 250,
+  "stretch_target_rms_ground_m": 200,
+  "new_whole_panel_acceptance": false,
+  "rows": [
+    {
+      "panel": "Richmond",
+      "check_status": "regional diagnostics",
+      "controls": 10,
+      "metrics": {
+        "count": 9,
+        "points": [
+          {
+            "label": "H01",
+            "east_ground_m": -47.257006973639776,
+            "north_ground_m": 95.97553525941072,
+            "error_ground_m": 106.97910111997122
+          },
+          {
+            "label": "H02",
+            "east_ground_m": 239.67479489876663,
+            "north_ground_m": 16.670421104137805,
+            "error_ground_m": 240.25384544176424
+          },
+          {
+            "label": "H03",
+            "east_ground_m": -286.66628268584793,
+            "north_ground_m": 353.60569549350726,
+            "error_ground_m": 455.20824411951224
+          },
+          {
+            "label": "H04",
+            "east_ground_m": 90.40100764442923,
+            "north_ground_m": 44.941769757067604,
+            "error_ground_m": 100.95595501021933
+          },
+          {
+            "label": "H05",
+            "east_ground_m": 77.46249505265853,
+            "north_ground_m": 126.42447876823353,
+            "error_ground_m": 148.26863111124578
+          },
+          {
+            "label": "H06",
+            "east_ground_m": 96.11721449126861,
+            "north_ground_m": 133.8504312481328,
+            "error_ground_m": 164.78609427640325
+          },
+          {
+            "label": "R21",
+            "east_ground_m": 379.4147299237858,
+            "north_ground_m": 343.05228260121197,
+            "error_ground_m": 511.50797245110573
+          },
+          {
+            "label": "R22",
+            "east_ground_m": -58.80740898756772,
+            "north_ground_m": 136.87232954544425,
+            "error_ground_m": 148.97095672320745
+          },
+          {
+            "label": "R23",
+            "east_ground_m": -249.00745771279253,
+            "north_ground_m": 37.92204242300024,
+            "error_ground_m": 251.8785328250901
+          }
+        ],
+        "rms_ground_m": 275.4766938432058,
+        "median_ground_m": 164.78609427640325,
+        "p95_ground_m": 488.9880811184683,
+        "max_ground_m": 511.50797245110573,
+        "mean_east_ground_m": 26.8146761834512,
+        "mean_north_ground_m": 143.2572206889051,
+        "scatter_rms_ground_m": 233.76430589901946,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Inverness north",
+      "check_status": "fresh inland check",
+      "controls": 4,
+      "metrics": {
+        "count": 1,
+        "points": [
+          {
+            "label": "I12",
+            "east_ground_m": 1699.2571215995372,
+            "north_ground_m": 633.8596862357958,
+            "error_ground_m": 1813.6297491885398
+          }
+        ],
+        "rms_ground_m": 1813.6297491885398,
+        "median_ground_m": 1813.6297491885398,
+        "p95_ground_m": 1813.6297491885398,
+        "max_ground_m": 1813.6297491885398,
+        "mean_east_ground_m": 1699.2571215995372,
+        "mean_north_ground_m": 633.8596862357958,
+        "scatter_rms_ground_m": 0.0,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Victoria northwest",
+      "check_status": "North Pond diagnostics",
+      "controls": 4,
+      "metrics": {
+        "count": 2,
+        "points": [
+          {
+            "label": "supply-04",
+            "east_ground_m": -39.393309712608904,
+            "north_ground_m": 372.853181608398,
+            "error_ground_m": 374.92843035120524
+          },
+          {
+            "label": "supply-06",
+            "east_ground_m": 47.277151896093145,
+            "north_ground_m": 341.5150459533092,
+            "error_ground_m": 344.77188937600056
+          }
+        ],
+        "rms_ground_m": 360.16592258951687,
+        "median_ground_m": 359.8501598636029,
+        "p95_ground_m": 373.420603302445,
+        "max_ground_m": 374.92843035120524,
+        "mean_east_ground_m": 3.9419210917421204,
+        "mean_north_ground_m": 357.18411378085364,
+        "scatter_rms_ground_m": 46.08103639731383,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Victoria main",
+      "check_status": "physical diagnostics",
+      "controls": 4,
+      "metrics": {
+        "count": 4,
+        "points": [
+          {
+            "label": "VM10",
+            "east_ground_m": 104.78052995737619,
+            "north_ground_m": 346.2141665347889,
+            "error_ground_m": 361.7225574491134
+          },
+          {
+            "label": "VM08",
+            "east_ground_m": -149.0762022853894,
+            "north_ground_m": -919.1040713579438,
+            "error_ground_m": 931.1154644159781
+          },
+          {
+            "label": "VM07",
+            "east_ground_m": 53.40400980571146,
+            "north_ground_m": 101.37039395343115,
+            "error_ground_m": 114.57724483335404
+          },
+          {
+            "label": "VM12",
+            "east_ground_m": 546.1798681396715,
+            "north_ground_m": -383.9496975081341,
+            "error_ground_m": 667.6300012564269
+          }
+        ],
+        "rms_ground_m": 603.4643693403465,
+        "median_ground_m": 514.6762793527702,
+        "p95_ground_m": 891.5926449420454,
+        "max_ground_m": 931.1154644159781,
+        "mean_east_ground_m": 138.82205140434243,
+        "mean_north_ground_m": -213.86730209446443,
+        "scatter_rms_ground_m": 546.953800793145,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Inverness south",
+      "check_status": "historical baseline replay",
+      "controls": 12,
+      "metrics": {
+        "count": 11,
+        "points": [
+          {
+            "label": "island-46-359n-61-262w",
+            "east_ground_m": 434.21627097749194,
+            "north_ground_m": 38.034848167230734,
+            "error_ground_m": 435.87890480809347
+          },
+          {
+            "label": "island-45-956n-61-116w",
+            "east_ground_m": -37.944111168590496,
+            "north_ground_m": 466.1984309271859,
+            "error_ground_m": 467.74002669361585
+          },
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -147.24126789391158,
+            "north_ground_m": 438.915830249941,
+            "error_ground_m": 462.9547461847666
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -93.4579214238653,
+            "north_ground_m": 276.4149050351052,
+            "error_ground_m": 291.7868790786104
+          },
+          {
+            "label": "island-45-814n-61-013w",
+            "east_ground_m": -175.03143843786026,
+            "north_ground_m": 109.91929736020964,
+            "error_ground_m": 206.68395286956522
+          },
+          {
+            "label": "island-45-801n-61-038w",
+            "east_ground_m": 43.58589470400637,
+            "north_ground_m": 179.47206998743812,
+            "error_ground_m": 184.68880345793735
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": -50.53836956157839,
+            "north_ground_m": 192.99061135738154,
+            "error_ground_m": 199.49812748504323
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 15.649724434479602,
+            "north_ground_m": 274.81746588871243,
+            "error_ground_m": 275.2626989484205
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -107.86014995148811,
+            "north_ground_m": 151.56473479070317,
+            "error_ground_m": 186.0260217811844
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -230.91682845734405,
+            "north_ground_m": 328.8565025391936,
+            "error_ground_m": 401.8322795982288
+          },
+          {
+            "label": "island-45-750n-61-095w",
+            "east_ground_m": -177.17319526174867,
+            "north_ground_m": 301.71841793241407,
+            "error_ground_m": 349.89190450608686
+          }
+        ],
+        "rms_ground_m": 332.9119874668139,
+        "median_ground_m": 291.7868790786104,
+        "p95_ground_m": 465.3473864391912,
+        "max_ground_m": 467.74002669361585,
+        "mean_east_ground_m": -47.88285382185536,
+        "mean_north_ground_m": 250.80937402141046,
+        "scatter_rms_ground_m": 213.61713791727274,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Inverness south",
+      "check_status": "physical diagnostics",
+      "controls": 4,
+      "metrics": {
+        "count": 7,
+        "points": [
+          {
+            "label": "island-45-948n-61-096w",
+            "east_ground_m": -110.62737600616907,
+            "north_ground_m": 137.01152114270175,
+            "error_ground_m": 176.09819206297186
+          },
+          {
+            "label": "island-45-875n-61-085w",
+            "east_ground_m": -40.11581563576273,
+            "north_ground_m": 45.0658704336056,
+            "error_ground_m": 60.334163970846845
+          },
+          {
+            "label": "island-45-801n-61-038w",
+            "east_ground_m": 105.40994465122814,
+            "north_ground_m": 21.355450440256757,
+            "error_ground_m": 107.55143743754076
+          },
+          {
+            "label": "island-45-797n-61-049w",
+            "east_ground_m": 17.96126655760554,
+            "north_ground_m": 34.89083269018172,
+            "error_ground_m": 39.24254454246835
+          },
+          {
+            "label": "island-45-790n-61-057w",
+            "east_ground_m": 89.52222995820802,
+            "north_ground_m": 118.41358603081929,
+            "error_ground_m": 148.44529973484683
+          },
+          {
+            "label": "island-45-762n-61-068w",
+            "east_ground_m": -18.956461538599193,
+            "north_ground_m": 4.515523285797288,
+            "error_ground_m": 19.4868515827716
+          },
+          {
+            "label": "island-45-757n-61-084w",
+            "east_ground_m": -137.26710739416555,
+            "north_ground_m": 176.64882471914422,
+            "error_ground_m": 223.71201587535774
+          }
+        ],
+        "rms_ground_m": 131.0511808590996,
+        "median_ground_m": 107.55143743754076,
+        "p95_ground_m": 209.42786873164195,
+        "max_ground_m": 223.71201587535774,
+        "mean_east_ground_m": -13.439045629664975,
+        "mean_north_ground_m": 76.84308696321523,
+        "scatter_rms_ground_m": 105.30405520725189,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Inverness south",
+      "check_status": "fresh inland check",
+      "controls": 4,
+      "metrics": {
+        "count": 1,
+        "points": [
+          {
+            "label": "IS15",
+            "east_ground_m": -166.84951863006123,
+            "north_ground_m": 238.04508919346188,
+            "error_ground_m": 290.6961065377491
+          }
+        ],
+        "rms_ground_m": 290.6961065377491,
+        "median_ground_m": 290.6961065377491,
+        "p95_ground_m": 290.6961065377491,
+        "max_ground_m": 290.6961065377491,
+        "mean_east_ground_m": -166.84951863006123,
+        "mean_north_ground_m": 238.04508919346188,
+        "scatter_rms_ground_m": 0.0,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "panel": "Cape Breton",
+      "check_status": "One prospective control and one nearby reserved check; no transform",
+      "controls": 1,
+      "metrics": null
+    }
+  ]
+}

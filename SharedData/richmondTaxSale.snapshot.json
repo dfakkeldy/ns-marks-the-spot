@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "richmond",
+  "landingPage": "https://www.richmondcounty.ca/tax-sales.html",
+  "retrievedDate": "2026-07-28",
+  "observedSale": {
+    "saleDate": "2026-06-12",
+    "heading": "June 12, 2026 PROPERTY TAX SALE - RESULTS",
+    "rowCount": 3
+  },
+  "livePageSha256": "b626a3630b28b39528965f2ccd997c49201bcd7f2d449e33f5b2aacfb84925e8",
+  "archive": {
+    "captureTimestamp": "20260729005936",
+    "captureUrl": "https://web.archive.org/web/20260729005936id_/https://www.richmondcounty.ca/tax-sales.html",
+    "captureSha256": "01209ab715c583f0bb671ff5beb2867a2acb5ed56bfa6cb099d5bc5143c99b04"
+  },
+  "pendingCapture": false,
+  "ingestedEventId": "richmond-2026-06-12",
+  "status": "Richmond publishes its current result table at a reusable page. The watcher archives a new dated result before ingestion and excludes assessed-owner and successful-bidder names."
+}

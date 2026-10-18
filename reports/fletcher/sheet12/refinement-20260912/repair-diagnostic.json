@@ -1,0 +1,322 @@
+{
+  "sheet": "sheet-12",
+  "fit_sha256": "0f9c3ba0d0f266d1817c9eeca0c7e37a4fae3363146f7516e6251e4373424f29",
+  "points": [
+    {
+      "lonlat": [
+        -60.59869789483884,
+        46.22417270916442
+      ],
+      "guide_xy": [
+        6835.458286207868,
+        2234.571764109889
+      ],
+      "modern_objectid": 10910,
+      "modern_part": 0,
+      "modern_vertex": 37,
+      "modern_properties": {
+        "OBJECTID": 10910,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 838.0291924317437
+      },
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        6927,
+        2230
+      ],
+      "identity_evidence": "McLeod Point northernmost coast of peninsula between North/South Gut",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern physical context personally inspected before first diagnostic score.",
+      "original_candidate": {
+        "lonlat": [
+          -60.59869789483884,
+          46.22417270916442
+        ],
+        "guide_xy": [
+          6835.458286207868,
+          2234.571764109889
+        ],
+        "modern_objectid": 10910,
+        "modern_part": 0,
+        "modern_vertex": 37,
+        "modern_properties": {
+          "OBJECTID": 10910,
+          "FEAT_CODE": "WACO20",
+          "FEAT_DESC": "Coast - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.4,
+          "FID": null,
+          "SHAPE_Length": 838.0291924317437
+        },
+        "id": "Q02",
+        "role": "check",
+        "pixel_xy": [
+          6950,
+          2220
+        ],
+        "identity_evidence": "McLeod Point northernmost coast of peninsula between North/South Gut",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    },
+    {
+      "lonlat": [
+        -60.7797388,
+        46.195576
+      ],
+      "source_guide_xy": [
+        2906.5085624002386,
+        3125.416447999887
+      ],
+      "objectids": [
+        159476,
+        159477,
+        177269
+      ],
+      "id": "V01",
+      "role": "check",
+      "modern_node_id": "J0703",
+      "pixel_xy": [
+        3020,
+        3125
+      ],
+      "identity_evidence": "Small western tributary mouth on Baddeck immediately south of Sam Brook",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before first fresh score; never used in any fit.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7797388,
+          46.195576
+        ],
+        "source_guide_xy": [
+          2906.5085624002386,
+          3125.416447999887
+        ],
+        "objectids": [
+          159476,
+          159477,
+          177269
+        ],
+        "id": "V01",
+        "role": "check",
+        "modern_node_id": "J0703",
+        "pixel_xy": [
+          3020,
+          3125
+        ],
+        "identity_evidence": "Small western tributary mouth on Baddeck immediately south of Sam Brook",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+      }
+    },
+    {
+      "lonlat": [
+        -60.49708438498129,
+        46.23461852899517
+      ],
+      "guide_xy": [
+        9040.674677136354,
+        1909.1635847424623
+      ],
+      "modern_objectid": 20527,
+      "modern_part": 0,
+      "modern_vertex": 72,
+      "modern_properties": {
+        "OBJECTID": 20527,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1143.9270577842126
+      },
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        9115,
+        1866
+      ],
+      "identity_evidence": "Seal Island northernmost coast of larger island",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before first fresh score; never used in any fit.",
+      "original_candidate": {
+        "lonlat": [
+          -60.49603106580725,
+          46.23811419296403
+        ],
+        "guide_xy": [
+          9063.53380985139,
+          1800.2666607848369
+        ],
+        "modern_objectid": 4708,
+        "modern_part": 0,
+        "modern_vertex": 131,
+        "modern_properties": {
+          "OBJECTID": 4708,
+          "FEAT_CODE": "WACO20",
+          "FEAT_DESC": "Coast - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.2,
+          "FID": null,
+          "SHAPE_Length": 1015.2915182810075
+        },
+        "id": "V03",
+        "role": "check",
+        "pixel_xy": [
+          9120,
+          1865
+        ],
+        "identity_evidence": "Seal Island northernmost coast of larger island",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+      },
+      "modern_coast_component_ids": [
+        20527
+      ]
+    },
+    {
+      "lonlat": [
+        -60.74206388830512,
+        46.09819695574995
+      ],
+      "guide_xy": [
+        3724.1294960028026,
+        6158.968434477691
+      ],
+      "modern_objectid": 17422,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 17422,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1113.597779140307
+      },
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        3846,
+        6107
+      ],
+      "identity_evidence": "Kidston Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before first fresh score; never used in any fit.",
+      "original_candidate": {
+        "lonlat": [
+          -60.746969709635955,
+          46.10071606212428
+        ],
+        "guide_xy": [
+          3617.6633614809252,
+          6080.493232704466
+        ],
+        "modern_objectid": 10535,
+        "modern_part": 0,
+        "modern_vertex": 6,
+        "modern_properties": {
+          "OBJECTID": 10535,
+          "FEAT_CODE": "WACO20",
+          "FEAT_DESC": "Coast - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.2,
+          "FID": null,
+          "SHAPE_Length": 168.58020206840976
+        },
+        "id": "V04",
+        "role": "check",
+        "pixel_xy": [
+          3820,
+          6110
+        ],
+        "identity_evidence": "Kidston Island northernmost coast",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+      },
+      "modern_coast_component_ids": [
+        17422,
+        18000,
+        18001,
+        18002
+      ]
+    },
+    {
+      "lonlat": [
+        -60.652961148419145,
+        46.1000283481585
+      ],
+      "guide_xy": [
+        5657.837157008238,
+        6101.916898166295
+      ],
+      "modern_objectid": 17044,
+      "modern_part": 0,
+      "modern_vertex": 3,
+      "modern_properties": {
+        "OBJECTID": 17044,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 365.6620223782465
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        5768,
+        6008
+      ],
+      "identity_evidence": "Fraser Point northern hooked projection; now an isolated island with similar outline, historic neck no longer continuous",
+      "source_uncertainty_px": 25,
+      "status": "Native crosshair and modern topology personally inspected before first fresh score; never used in any fit.",
+      "original_candidate": {
+        "lonlat": [
+          -60.652961148419145,
+          46.1000283481585
+        ],
+        "guide_xy": [
+          5657.837157008238,
+          6101.916898166295
+        ],
+        "modern_objectid": 17044,
+        "modern_part": 0,
+        "modern_vertex": 3,
+        "modern_properties": {
+          "OBJECTID": 17044,
+          "FEAT_CODE": "WACOIS10",
+          "FEAT_DESC": "Coastal Island - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.2,
+          "FID": null,
+          "SHAPE_Length": 365.6620223782465
+        },
+        "id": "V05",
+        "role": "check",
+        "pixel_xy": [
+          5750,
+          6010
+        ],
+        "identity_evidence": "Fraser Point northernmost hooked coast near Kemp peninsula",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+      }
+    }
+  ],
+  "status": "Reused old diagnostics and validation excluding fitted V02. No longer fresh evidence; old failed V02 preserved inside C16 promotion record."
+}

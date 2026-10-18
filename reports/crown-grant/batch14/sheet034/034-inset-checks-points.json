@@ -1,0 +1,80 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Inset southern islet northeastern horn tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4880,
+      1515
+    ],
+    "lonlat": [
+      -64.52285279608107,
+      44.10216307271917
+    ],
+    "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+    "reference_objectid": 18597,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18597,
+    "nearest_unfiltered_distance_guide_px": 0.4174042764710308,
+    "selected_distance_guide_px": 0.4174042764710308,
+    "guide_reference_pixel_xy": [
+      4867.386091326131,
+      1543.841381533537
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Inset southern islet southwestern low shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4856,
+      1537
+    ],
+    "lonlat": [
+      -64.524039611333,
+      44.10056309584306
+    ],
+    "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+    "reference_objectid": 18597,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18597,
+    "nearest_unfiltered_distance_guide_px": 8.141042326715336,
+    "selected_distance_guide_px": 8.141042326715336,
+    "guide_reference_pixel_xy": [
+      4839.880165779672,
+      1565.8598396867746
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Inset mainland southeast rounded shore turn",
+    "role": "proposal",
+    "pixel_xy": [
+      4667,
+      1422
+    ],
+    "lonlat": [
+      -64.53909628469343,
+      44.1027176449287
+    ],
+    "guide_file": ".crown-grant-local/034-inset-sheet040-guide.npy",
+    "reference_objectid": 8900,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8900,
+    "nearest_unfiltered_distance_guide_px": 1.4205108249571796,
+    "selected_distance_guide_px": 1.4205108249571796,
+    "guide_reference_pixel_xy": [
+      4665.197838399676,
+      1440.763566743699
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Loch Ban eastern lake-shore shoulder",
+    [
+      1903,
+      782
+    ],
+    [
+      1905,
+      820
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "McIsaac Point western inner cove",
+    [
+      1931,
+      2208
+    ],
+    [
+      1935,
+      2212
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Long Point southern lip",
+    [
+      2499,
+      2805
+    ],
+    [
+      2497,
+      2804
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Trout River lake-mouth western cusp",
+    [
+      2885,
+      1808
+    ],
+    [
+      2890,
+      1808
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Mount Pleasant Brook lower junction",
+    [
+      4909,
+      1010
+    ],
+    [
+      4900,
+      982
+    ],
+    "WARV"
+  ],
+  [
+    "Q06",
+    "Johnstone River lower southwestern tributary junction",
+    [
+      3838,
+      3031
+    ],
+    [
+      3850,
+      3034
+    ],
+    "WARV"
+  ],
+  [
+    "Q07",
+    "Pearson Branch upper western junction",
+    [
+      3595,
+      2858
+    ],
+    [
+      3612,
+      2839
+    ],
+    "WARV"
+  ],
+  [
+    "Q08",
+    "Mount Pleasant Brook eastern southern tributary",
+    [
+      5007,
+      1088
+    ],
+    [
+      5001,
+      1059
+    ],
+    "WARV"
+  ]
+]

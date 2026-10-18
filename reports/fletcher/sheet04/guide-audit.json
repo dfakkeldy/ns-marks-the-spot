@@ -1,0 +1,16 @@
+{
+  "source_sha256": "6f6a3436e048c23cc5c8d8aef1382be9803801bac401c2cdae285e0ed30399cf",
+  "prior_encoding_sha256": "35f9a3cb29a34e18dffa182fb4f7de52f7eb73ebd819824bf10de8cb7d2203bc",
+  "method": "Eight Cartesian crossings reconstructed from prior meridian/parallel coordinates for search only. This pass checked native latitude labels and outer retained longitude labels; it did not freshly measure all crossings.",
+  "longitude_labels": [
+    "60d25mW",
+    "60d20mW",
+    "60d15mW",
+    "60d10mW"
+  ],
+  "latitude_labels": [
+    "46d45mN",
+    "46d40mN"
+  ],
+  "physical_fitting_constraint": false
+}

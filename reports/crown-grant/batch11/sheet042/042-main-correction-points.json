@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C02",
+    "label": "Main Cape Spencer southeast turning corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2691,
+      1580
+    ],
+    "lonlat": [
+      -64.7056685055794,
+      45.316398043811475
+    ],
+    "guide_file": ".crown-grant-local/042-west-adjacent-guide.npy",
+    "reference_objectid": 8371,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8371,
+    "nearest_unfiltered_distance_guide_px": 1.5223805779524129,
+    "selected_distance_guide_px": 1.5223805779524129,
+    "guide_reference_pixel_xy": [
+      2677.3746024650754,
+      1595.6543016789947
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,260 @@
+{
+  "count": 7,
+  "rms_ground_m": 69.77838936108445,
+  "median_ground_m": 37.7471062622779,
+  "p95_ground_m": 128.14229412247707,
+  "max_ground_m": 155.9336552608936,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -25.497551045859133,
+  "mean_north_ground_m": -12.77467530220837,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Green Island south end",
+      "role": "check",
+      "pixel_xy": [
+        514,
+        1989
+      ],
+      "lonlat": [
+        -61.54131722835973,
+        45.099368421661524
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 16600,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16600,
+      "nearest_unfiltered_distance_guide_px": 2.2577550543024123,
+      "selected_distance_guide_px": 2.2577550543024123,
+      "guide_reference_pixel_xy": [
+        500.2399889078806,
+        1979.414149511489
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.54185518004108,
+        45.09801802494754
+      ],
+      "error_ground_m": 155.9336552608936,
+      "east_ground_m": -42.34340649132585,
+      "north_ground_m": -150.0744507560616
+    },
+    {
+      "id": "Q02",
+      "label": "Sheep Pen Point east end",
+      "role": "check",
+      "pixel_xy": [
+        543,
+        1310
+      ],
+      "lonlat": [
+        -61.55630491514946,
+        45.12693684020403
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 18396,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18396,
+      "nearest_unfiltered_distance_guide_px": 3.061813076792222,
+      "selected_distance_guide_px": 3.061813076792222,
+      "guide_reference_pixel_xy": [
+        507.9878823235631,
+        1322.6687739063054
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.55600104981928,
+        45.12688052723007
+      ],
+      "error_ground_m": 24.711474474212565,
+      "east_ground_m": 23.9058822718072,
+      "north_ground_m": -6.258255627261753
+    },
+    {
+      "id": "Q03",
+      "label": "Small islet southeast of Big Coddle, south tip",
+      "role": "check",
+      "pixel_xy": [
+        1267,
+        1034
+      ],
+      "lonlat": [
+        -61.519237468666006,
+        45.150479644354505
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 17340,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17340,
+      "nearest_unfiltered_distance_guide_px": 3.2267165863843768,
+      "selected_distance_guide_px": 3.2267165863843768,
+      "guide_reference_pixel_xy": [
+        1244.8482255603303,
+        1053.4836520563113
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.51969595053973,
+        45.15058019629228
+      ],
+      "error_ground_m": 37.7471062622779,
+      "east_ground_m": -36.055032053802734,
+      "north_ground_m": 11.174913636129691
+    },
+    {
+      "id": "Q04",
+      "label": "Triangular pond inland of Tor Bay, south outlet",
+      "role": "check",
+      "pixel_xy": [
+        3228,
+        957
+      ],
+      "lonlat": [
+        -61.405025958589185,
+        45.18626774186374
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 126629,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126629,
+      "nearest_unfiltered_distance_guide_px": 2.0808304872904366,
+      "selected_distance_guide_px": 2.0808304872904366,
+      "guide_reference_pixel_xy": [
+        3211.4237956502475,
+        980.4825477064587
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.40559377572815,
+        45.18667164766705
+      ],
+      "error_ground_m": 63.29578479950539,
+      "east_ground_m": -44.62497111795541,
+      "north_ground_m": 44.88839856919539
+    },
+    {
+      "id": "Q05",
+      "label": "Largest western Sugar Island south end",
+      "role": "check",
+      "pixel_xy": [
+        5336,
+        1136
+      ],
+      "lonlat": [
+        -61.27646608657604,
+        45.214337146219464
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 22514,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22514,
+      "nearest_unfiltered_distance_guide_px": 2.3503324299841726,
+      "selected_distance_guide_px": 2.3503324299841726,
+      "guide_reference_pixel_xy": [
+        5323.878616347851,
+        1146.9344344028505
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.276708037830616,
+        45.21438583426537
+      ],
+      "error_ground_m": 19.761076488212648,
+      "east_ground_m": -19.00581463716136,
+      "north_ground_m": 5.411021525632077
+    },
+    {
+      "id": "Q06",
+      "label": "Berry Head southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        4656,
+        1403
+      ],
+      "lonlat": [
+        -61.31045890814683,
+        45.19161290852903
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 11352,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 11352,
+      "nearest_unfiltered_distance_guide_px": 0.4891495981698039,
+      "selected_distance_guide_px": 0.4891495981698039,
+      "guide_reference_pixel_xy": [
+        4640.139448017173,
+        1419.5311486590654
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.31075855920062,
+        45.191876372227895
+      ],
+      "error_ground_m": 37.57417034267334,
+      "east_ground_m": -23.547547418132172,
+      "north_ground_m": 29.280220073132128
+    },
+    {
+      "id": "Q07",
+      "label": "Western islet north of Forsters Island, south end",
+      "role": "check",
+      "pixel_xy": [
+        4590,
+        246
+      ],
+      "lonlat": [
+        -61.34107299900487,
+        45.23938956709261
+      ],
+      "guide_file": ".crown-grant-local/107-adjacent-guide.npy",
+      "reference_objectid": 21220,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 21220,
+      "nearest_unfiltered_distance_guide_px": 1.2888746714295287,
+      "selected_distance_guide_px": 1.2888746714295287,
+      "guide_reference_pixel_xy": [
+        4583.13535014668,
+        254.61006390082184
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad shoreline and lake topology traced; original pixel crosshair and modern feature inspected before first fit or score.",
+      "review": "All image-based corrections completed before fitting; checks excluded from every fit.",
+      "predicted_lonlat": [
+        -61.341541833096784,
+        45.239175013895164
+      ],
+      "error_ground_m": 43.85983029609938,
+      "east_ground_m": -36.81196787444362,
+      "north_ground_m": -23.84457453622455
+    }
+  ],
+  "fit_sha256": "a597489d40c873de984825964dd3621ad09e7dbf2a01ca17d5faea0ae09f355c",
+  "checks_sha256": "44c2f169c37b863d7ef1d52f7286001fe091011c0dc9e4a45535425944a18de3",
+  "status": "Seven independent checks reserved and audited before first affine fit and score; endpoint checks on controlled islands have spatial correlation"
+}

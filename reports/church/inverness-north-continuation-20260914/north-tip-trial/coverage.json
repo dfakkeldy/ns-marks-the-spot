@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-north-continuation-20260914/tps5-rendered/inverness-north-tps5-review-20m.tif",
+  "raster_sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "cutline_sha256": "7932c6b28436ad24f2787d85b42d41de4d5760a4a0f06473195fb3e4cc439999",
+  "expected_interior_cells": 10084453,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

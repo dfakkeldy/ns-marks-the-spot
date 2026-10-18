@@ -1,0 +1,488 @@
+{
+  "sheet": "117",
+  "baseline_report": "reports/crown-grant/batch2/sheet117",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "e7fe29685eac6908d19b6c231c896f4c8022bd1af59364563849101e3f23ecbc",
+  "reference_sha256": "cf608964fad83b53cce2cea638612a74c19241aebc732a2cb18d18a2b026b067",
+  "fit_sha256": "a87f4cf61be5532dc39bc73778f8d4daf6beccdc1e0d2daf6370e32f726d8297",
+  "checks_sha256": "eadf022461e7bce18e23a88288ef50e02e6999d0588e6f9f8e37f72f4253b75a",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 106.78540876468259,
+    "median_ground_m": 110.2010881109093,
+    "p95_ground_m": 143.72556140636462,
+    "max_ground_m": 152.09426310270166,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -8.922176850872644,
+    "mean_north_ground_m": -38.49547594236647,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Pellier Point southeastern corner",
+        "role": "check",
+        "pixel_xy": [
+          3793,
+          1545
+        ],
+        "lonlat": [
+          -60.93151078380115,
+          45.84485069633375
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 13709,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3816.0439842414926,
+          1528.580853633117
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -60.932611351143954,
+          45.84465956528571
+        ],
+        "error_ground_m": 88.09161177402203,
+        "east_ground_m": -85.49183764813824,
+        "north_ground_m": -21.24329919031854
+      },
+      {
+        "id": "Q02",
+        "label": "Robert Island western tip",
+        "role": "check",
+        "pixel_xy": [
+          2768,
+          1525
+        ],
+        "lonlat": [
+          -60.99348808764859,
+          45.82953889942103
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 23894,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          2791.1882751637604,
+          1507.0913177160546
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -60.99396992125525,
+          45.829139906595444
+        ],
+        "error_ground_m": 58.03755262808888,
+        "east_ground_m": -37.43913860348029,
+        "north_ground_m": -44.34713537183185
+      },
+      {
+        "id": "Q03",
+        "label": "Clark Island southern apex",
+        "role": "check",
+        "pixel_xy": [
+          2064,
+          1952
+        ],
+        "lonlat": [
+          -61.02427076688419,
+          45.79994179556656
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 23385,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          2107.6181825681706,
+          1952.2046142284526
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -61.025867709664446,
+          45.79965475223344
+        ],
+        "error_ground_m": 128.18368682745304,
+        "east_ground_m": -124.15016592873972,
+        "north_ground_m": -31.902881821944455
+      },
+      {
+        "id": "Q04",
+        "label": "Floda Island southern apex",
+        "role": "check",
+        "pixel_xy": [
+          1165,
+          2549
+        ],
+        "lonlat": [
+          -61.066931083224205,
+          45.759745913605684
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 23535,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          1166.1406716475612,
+          2551.4290374590782
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -61.06535102447656,
+          45.75978178587626
+        ],
+        "error_ground_m": 122.9898311965805,
+        "east_ground_m": 122.92514824853876,
+        "north_ground_m": 3.9882961071280536
+      },
+      {
+        "id": "Q05",
+        "label": "Dumpling Island western tip",
+        "role": "check",
+        "pixel_xy": [
+          541,
+          2255
+        ],
+        "lonlat": [
+          -61.1102584321553,
+          45.76279952515155
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 23941,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          558.256071927899,
+          2249.6911986714695
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -61.10917992450422,
+          45.762314415927655
+        ],
+        "error_ground_m": 99.73277139748961,
+        "east_ground_m": 83.90176309462322,
+        "north_ground_m": -53.91771360357969
+      },
+      {
+        "id": "Q06",
+        "label": "Isle Madelaine northern apex",
+        "role": "check",
+        "pixel_xy": [
+          2308,
+          2944
+        ],
+        "lonlat": [
+          -60.98934219884682,
+          45.76208859522644
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 23895,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          2317.1323036638787,
+          2928.967706623138
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -60.988402443294085,
+          45.76122485973301
+        ],
+        "error_ground_m": 120.66940482432896,
+        "east_ground_m": 73.10906181349362,
+        "north_ground_m": -96.0008871907367
+      },
+      {
+        "id": "Q07",
+        "label": "Cameron Island southern apex",
+        "role": "check",
+        "pixel_xy": [
+          2415,
+          1826
+        ],
+        "lonlat": [
+          -61.008315235347176,
+          45.81055474591444
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 24159,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          2424.4932008580654,
+          1819.6039715823717
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -61.007953642314384,
+          45.81064851462988
+        ],
+        "error_ground_m": 29.97576777735844,
+        "east_ground_m": 28.105581541908624,
+        "north_ground_m": 10.422232967711185
+      },
+      {
+        "id": "Q08",
+        "label": "Eastern Cow Island eastern tip",
+        "role": "check",
+        "pixel_xy": [
+          1935,
+          1870
+        ],
+        "lonlat": [
+          -61.03372416041873,
+          45.801762877409104
+        ],
+        "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+        "reference_objectid": 23629,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          1984.1945285578258,
+          1862.555352712865
+        ],
+        "source_uncertainty_px": 6,
+        "modern_uncertainty_m": 20,
+        "review": "Paired native crosshair and broad island/shore context inspected before first fit scoring; never fitted.",
+        "predicted_lonlat": [
+          -61.03542646469344,
+          45.801088423461614
+        ],
+        "error_ground_m": 152.09426310270166,
+        "east_ground_m": -132.3378273251871,
+        "north_ground_m": -74.96241943535972
+      }
+    ]
+  },
+  "control_axis_ratio": 2.743751450192749,
+  "affine_scale_ratio": 1.0264437916059124,
+  "metres_per_pixel_singular_values": [
+    5.074504917534136,
+    4.943772819352212
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.563160537159621,
+          1.897303246609278
+        ],
+        [
+          1.9453464901326907,
+          -4.720224617530802
+        ],
+        [
+          640177.1296329345,
+          5078998.52460941
+        ]
+      ],
+      "diagnostic_rms_m": 116.8802043418815,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.584844111674568,
+          1.8985547537699365
+        ],
+        [
+          1.9232987966092603,
+          -4.694900145679261
+        ],
+        [
+          640199.5710734404,
+          5078931.071470417
+        ]
+      ],
+      "diagnostic_rms_m": 100.56841101901747,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.554086536771824,
+          1.9083512314319473
+        ],
+        [
+          1.8971899553939926,
+          -4.671410507794555
+        ],
+        [
+          640330.9510614248,
+          5078838.195240764
+        ]
+      ],
+      "diagnostic_rms_m": 116.7323610997526,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.531193878649637,
+          1.8931706902452878
+        ],
+        [
+          1.8917129665673216,
+          -4.695738073899118
+        ],
+        [
+          640404.9105096823,
+          5078941.060188563
+        ]
+      ],
+      "diagnostic_rms_m": 120.8715636009879,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.597704883306455,
+          1.893801698339654
+        ],
+        [
+          1.9476100146506903,
+          -4.694980913397869
+        ],
+        [
+          640083.2442114443,
+          5078937.314292675
+        ]
+      ],
+      "diagnostic_rms_m": 112.1962658322796,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5868724900127145,
+          1.8373219043793294
+        ],
+        [
+          1.9496963115618187,
+          -4.786192685800936
+        ],
+        [
+          640139.6735550691,
+          5079230.089912587
+        ]
+      ],
+      "diagnostic_rms_m": 126.36855550755553,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.5662519222876385,
+          1.8964931627294146
+        ],
+        [
+          1.8927183898092104,
+          -4.645643780140126
+        ],
+        [
+          640280.7708753084,
+          5078858.847031918
+        ]
+      ],
+      "diagnostic_rms_m": 95.90788190492087,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.60367164018309,
+        1.9470071237099034
+      ],
+      [
+        1.9470071237099034,
+        -4.60367164018309
+      ],
+      [
+        640094.6403341929,
+        5078624.512564506
+      ]
+    ],
+    "rms_ground_m": 115.47988224360626,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.185232+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q08",
+    "Q03",
+    "Q04",
+    "Q06"
+  ],
+  "reviewed_control_ids": [
+    "C05",
+    "C03"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Cow, Clark and Floda extremities match distinct island arrangements. Clark is drawn as separated lobes but modern has connecting bank lines; Isle Madeleine is a clear triangular island with crescent inlet. Moderate dispersed discrepancies are not a point-placement blunder. Shared control islands limit independence.",
+  "baseline_limitations": [
+    "Independent RMS 106.79 m exceeds 100 m; median, P95 and maximum also exceed companion bounds",
+    "Eight checks are predominantly islands and coastal points; River Denys, the northwest interior and eastern frame fragment are insufficiently validated",
+    "Nearby points on Cameron Island and small islands are spatially correlated; tiny rocks are retained but not individually certified"
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "3c753991637f894db570a5744ec209289144809016d6098deb6b9642bddd276d"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "288f7ff68cc534dafd7fa7098e4a035c2edd7286692ab786e505e4b08f5b4e3f"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "fb77d68acf8232ab7e73aa970eb9bf3868d3edb75671034a328ae94f9b014b53"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "d3509760b633681a84b9829ce582ed4d22060de6d4c1da8860d9c475a0959317"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "ade28c8dd9c486002fe0947646b913eeeab578b9a00925e229b1fa470645d45f"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "c7611e09ca614dc3ed7c21dcbe8459fbcb96c78be5ab82993b0ec1313499e766"
+    }
+  ],
+  "control_findings": "Tailor south apex and Cameron northwest tip match island arrangements; connected lobes and banks differ between dates.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

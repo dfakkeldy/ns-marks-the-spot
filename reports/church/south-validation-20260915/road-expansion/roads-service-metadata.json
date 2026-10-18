@@ -1,0 +1,2740 @@
+{
+  "currentVersion": 11.5,
+  "cimVersion": "3.5.0",
+  "id": 8,
+  "name": "Roads",
+  "type": "Feature Layer",
+  "description": "",
+  "geometryType": "esriGeometryPolyline",
+  "sourceSpatialReference": {
+    "wkid": 2038,
+    "latestWkid": 2961,
+    "vcsWkid": 5713,
+    "latestVcsWkid": 5713,
+    "xyTolerance": 0.002,
+    "zTolerance": 0.002,
+    "mTolerance": 0.002,
+    "falseX": -5120900,
+    "falseY": -9998100,
+    "xyUnits": 1000,
+    "falseZ": -589.4357610000002,
+    "zUnits": 8000,
+    "falseM": -212781.4442532837,
+    "mUnits": 8000
+  },
+  "spatialReference": {
+    "wkid": 2038,
+    "latestWkid": 2961,
+    "xyTolerance": 0.001,
+    "zTolerance": 0.001,
+    "mTolerance": 0.001,
+    "falseX": -5120900,
+    "falseY": -9998100,
+    "xyUnits": 10000,
+    "falseZ": -100000,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "sourceHeightModelInfo": {
+    "heightModel": "gravity_related_height",
+    "vertCRS": "CGVD_1928",
+    "heightUnit": "meter"
+  },
+  "copyrightText": "",
+  "parentLayer": {
+    "id": 4,
+    "name": "Road Lines (Group Layer)"
+  },
+  "subLayers": [],
+  "minScale": 150000,
+  "maxScale": 0,
+  "referenceScale": 0.0,
+  "drawingInfo": {
+    "renderer": {
+      "type": "uniqueValue",
+      "field1": "FEAT_DESC",
+      "uniqueValueGroups": [
+        {
+          "heading": "",
+          "classes": [
+            {
+              "label": "DRIVEWAY",
+              "description": "DRIVEWAY",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  51,
+                  51,
+                  51,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "DRIVEWAY"
+                ]
+              ]
+            },
+            {
+              "label": "FOOT BRIDGE line",
+              "description": "FOOT BRIDGE line",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  89,
+                  64,
+                  25,
+                  255
+                ],
+                "width": 0.25
+              },
+              "values": [
+                [
+                  "FOOT BRIDGE line"
+                ]
+              ]
+            },
+            {
+              "label": "RAMP - 1 Lane - Paved",
+              "description": "RAMP - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "RAMP - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "RAMP - 1 Lane - Unpaved",
+              "description": "RAMP - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "RAMP - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "RAMP - 2 Lanes - Paved",
+              "description": "RAMP - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "RAMP - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "RAMP - 3 Lanes - Paved",
+              "description": "RAMP - 3 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "RAMP - 3 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Abandoned - 1 Lane - Unpaved",
+              "description": "ROAD - Abandoned - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  89,
+                  89,
+                  89,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Abandoned - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Abandoned - Dry Weather - 1 Lane - Unpaved",
+              "description": "ROAD - Abandoned - Dry Weather - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  89,
+                  89,
+                  89,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Abandoned - Dry Weather - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Abandoned - Local - 1 Lane - Unpaved",
+              "description": "ROAD - Abandoned - Local - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  89,
+                  89,
+                  89,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Abandoned - Local - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Abandoned - TRACK",
+              "description": "ROAD - Abandoned - TRACK",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  89,
+                  89,
+                  89,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Abandoned - TRACK"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - 1 Lane - Paved",
+              "description": "ROAD - Local - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - 1 Lane - Unpaved",
+              "description": "ROAD - Local - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - 2 Lanes - Paved",
+              "description": "ROAD - Local - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - 2 Lanes - Unpaved",
+              "description": "ROAD - Local - 2 Lanes - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - 2 Lanes - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - 3 Lanes - Paved",
+              "description": "ROAD - Local - 3 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - 3 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - 4 Lanes - Paved",
+              "description": "ROAD - Local - 4 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - 4 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - Divided - 1 Lane - Paved",
+              "description": "ROAD - Local - Divided - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - Divided - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - Divided - 2 Lanes - Paved",
+              "description": "ROAD - Local - Divided - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - Divided - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - Driveway - 1 Lane - Unpaved",
+              "description": "ROAD - Local - Driveway - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - Driveway - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Local - Dry Weather - 1 Lane - Unpaved",
+              "description": "ROAD - Local - Dry Weather - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  204,
+                  77,
+                  77,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Local - Dry Weather - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Median Crossover - 1 Lane - Paved",
+              "description": "ROAD - Median Crossover - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  242,
+                  179,
+                  115,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Median Crossover - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Median Crossover - 1 Lane - Unpaved",
+              "description": "ROAD - Median Crossover - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  242,
+                  179,
+                  115,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Median Crossover - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Median Crossover - 2 Lanes - Paved",
+              "description": "ROAD - Median Crossover - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  242,
+                  179,
+                  115,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Median Crossover - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Resource Access - 1 Lane - Paved",
+              "description": "ROAD - Resource Access - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  230,
+                  102,
+                  0,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Resource Access - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Resource Access - 1 Lane - Unpaved",
+              "description": "ROAD - Resource Access - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  230,
+                  102,
+                  0,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Resource Access - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Resource Access - 2 Lanes - Paved",
+              "description": "ROAD - Resource Access - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  230,
+                  102,
+                  0,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Resource Access - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Resource Access - 2 Lanes - Unpaved",
+              "description": "ROAD - Resource Access - 2 Lanes - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  230,
+                  102,
+                  0,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Resource Access - 2 Lanes - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Resource Access - Dry Weather - 1 Lane - Unpaved",
+              "description": "ROAD - Resource Access - Dry Weather - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  230,
+                  102,
+                  0,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Resource Access - Dry Weather - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Resource Access - Dry Weather - 2 Lanes - Unpaved",
+              "description": "ROAD - Resource Access - Dry Weather - 2 Lanes - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  230,
+                  102,
+                  0,
+                  255
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "ROAD - Resource Access - Dry Weather - 2 Lanes - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD - Unknown Hrm Capture - Status Unknown",
+              "description": "ROAD - Unknown Hrm Capture - Status Unknown",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  153,
+                  153,
+                  153,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD - Unknown Hrm Capture - Status Unknown"
+                ]
+              ]
+            },
+            {
+              "label": "ROAD FEATURE - Attribute Placeholder - Status Unknown",
+              "description": "ROAD FEATURE - Attribute Placeholder - Status Unknown",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  153,
+                  153,
+                  153,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "ROAD FEATURE - Attribute Placeholder - Status Unknown"
+                ]
+              ]
+            },
+            {
+              "label": "SERVICE LANE - 1 Lane - Paved",
+              "description": "SERVICE LANE - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  242,
+                  179,
+                  115,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "SERVICE LANE - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "SERVICE LANE - 1 Lane - Unpaved",
+              "description": "SERVICE LANE - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  242,
+                  179,
+                  115,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "SERVICE LANE - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "SERVICE LANE - 2 Lanes - Paved",
+              "description": "SERVICE LANE - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [
+                  242,
+                  179,
+                  115,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "SERVICE LANE - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "TRACK",
+              "description": "TRACK",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  127,
+                  127,
+                  127,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "TRACK"
+                ]
+              ]
+            },
+            {
+              "label": "TRACK - Indefinite/Approximate",
+              "description": "TRACK - Indefinite/Approximate",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  127,
+                  127,
+                  127,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "TRACK - Indefinite/Approximate"
+                ]
+              ]
+            },
+            {
+              "label": "TRAIL  - No Vehicular Traffic - No Vehicular Traffic",
+              "description": "TRAIL  - No Vehicular Traffic - No Vehicular Traffic",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  127,
+                  127,
+                  127,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "TRAIL  - No Vehicular Traffic - No Vehicular Traffic"
+                ]
+              ]
+            },
+            {
+              "label": "TRAIL - Addressed Feature - No Vehicular Traffic",
+              "description": "TRAIL - Addressed Feature - No Vehicular Traffic",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  127,
+                  127,
+                  127,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "TRAIL - Addressed Feature - No Vehicular Traffic"
+                ]
+              ]
+            },
+            {
+              "label": "TUNNEL - Local - 1 Lane - Paved",
+              "description": "TUNNEL - Local - 1 Lane - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ],
+                "width": 0.5
+              },
+              "values": [
+                [
+                  "TUNNEL - Local - 1 Lane - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "TUNNEL - Local - 1 Lane - Unpaved",
+              "description": "TUNNEL - Local - 1 Lane - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ],
+                "width": 0.5
+              },
+              "values": [
+                [
+                  "TUNNEL - Local - 1 Lane - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "TUNNEL - Local - 2 Lanes - Paved",
+              "description": "TUNNEL - Local - 2 Lanes - Paved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ],
+                "width": 0.5
+              },
+              "values": [
+                [
+                  "TUNNEL - Local - 2 Lanes - Paved"
+                ]
+              ]
+            },
+            {
+              "label": "TUNNEL - Resource Access - Dry Weather - Unpaved",
+              "description": "TUNNEL - Resource Access - Dry Weather - Unpaved",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ],
+                "width": 0.5
+              },
+              "values": [
+                [
+                  "TUNNEL - Resource Access - Dry Weather - Unpaved"
+                ]
+              ]
+            },
+            {
+              "label": "TUNNEL - Track",
+              "description": "TUNNEL - Track",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ],
+                "width": 0.5
+              },
+              "values": [
+                [
+                  "TUNNEL - Track"
+                ]
+              ]
+            },
+            {
+              "label": "TUNNEL line",
+              "description": "TUNNEL line",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ],
+                "width": 0.5
+              },
+              "values": [
+                [
+                  "TUNNEL line"
+                ]
+              ]
+            },
+            {
+              "label": "WALK - Urban Addressed Feature - No Vehicular Traffic",
+              "description": "WALK - Urban Addressed Feature - No Vehicular Traffic",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  127,
+                  127,
+                  127,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "WALK - Urban Addressed Feature - No Vehicular Traffic"
+                ]
+              ]
+            },
+            {
+              "label": "WATER ACCESS",
+              "description": "WATER ACCESS",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  224,
+                  222,
+                  227,
+                  0
+                ],
+                "width": 1
+              },
+              "values": [
+                [
+                  "WATER ACCESS"
+                ]
+              ]
+            },
+            {
+              "label": "TRAIL -  Indefinite/Approximate - No Vehicular Traffic",
+              "description": "TRAIL -  Indefinite/Approximate - No Vehicular Traffic",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSDash",
+                "color": [
+                  127,
+                  127,
+                  127,
+                  255
+                ],
+                "width": 0.6
+              },
+              "values": [
+                [
+                  "TRAIL -  Indefinite/Approximate - No Vehicular Traffic"
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "uniqueValueInfos": [
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              51,
+              51,
+              51,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "DRIVEWAY",
+          "label": "DRIVEWAY"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              89,
+              64,
+              25,
+              255
+            ],
+            "width": 0.25
+          },
+          "value": "FOOT BRIDGE line",
+          "label": "FOOT BRIDGE line"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "RAMP - 1 Lane - Paved",
+          "label": "RAMP - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "RAMP - 1 Lane - Unpaved",
+          "label": "RAMP - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "RAMP - 2 Lanes - Paved",
+          "label": "RAMP - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "RAMP - 3 Lanes - Paved",
+          "label": "RAMP - 3 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              89,
+              89,
+              89,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Abandoned - 1 Lane - Unpaved",
+          "label": "ROAD - Abandoned - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              89,
+              89,
+              89,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Abandoned - Dry Weather - 1 Lane - Unpaved",
+          "label": "ROAD - Abandoned - Dry Weather - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              89,
+              89,
+              89,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Abandoned - Local - 1 Lane - Unpaved",
+          "label": "ROAD - Abandoned - Local - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              89,
+              89,
+              89,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Abandoned - TRACK",
+          "label": "ROAD - Abandoned - TRACK"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - 1 Lane - Paved",
+          "label": "ROAD - Local - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - 1 Lane - Unpaved",
+          "label": "ROAD - Local - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - 2 Lanes - Paved",
+          "label": "ROAD - Local - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - 2 Lanes - Unpaved",
+          "label": "ROAD - Local - 2 Lanes - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - 3 Lanes - Paved",
+          "label": "ROAD - Local - 3 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - 4 Lanes - Paved",
+          "label": "ROAD - Local - 4 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - Divided - 1 Lane - Paved",
+          "label": "ROAD - Local - Divided - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - Divided - 2 Lanes - Paved",
+          "label": "ROAD - Local - Divided - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - Driveway - 1 Lane - Unpaved",
+          "label": "ROAD - Local - Driveway - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              204,
+              77,
+              77,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Local - Dry Weather - 1 Lane - Unpaved",
+          "label": "ROAD - Local - Dry Weather - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              242,
+              179,
+              115,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Median Crossover - 1 Lane - Paved",
+          "label": "ROAD - Median Crossover - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              242,
+              179,
+              115,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Median Crossover - 1 Lane - Unpaved",
+          "label": "ROAD - Median Crossover - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              242,
+              179,
+              115,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Median Crossover - 2 Lanes - Paved",
+          "label": "ROAD - Median Crossover - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              230,
+              102,
+              0,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Resource Access - 1 Lane - Paved",
+          "label": "ROAD - Resource Access - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              230,
+              102,
+              0,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Resource Access - 1 Lane - Unpaved",
+          "label": "ROAD - Resource Access - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              230,
+              102,
+              0,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Resource Access - 2 Lanes - Paved",
+          "label": "ROAD - Resource Access - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              230,
+              102,
+              0,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Resource Access - 2 Lanes - Unpaved",
+          "label": "ROAD - Resource Access - 2 Lanes - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              230,
+              102,
+              0,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Resource Access - Dry Weather - 1 Lane - Unpaved",
+          "label": "ROAD - Resource Access - Dry Weather - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              230,
+              102,
+              0,
+              255
+            ],
+            "width": 1
+          },
+          "value": "ROAD - Resource Access - Dry Weather - 2 Lanes - Unpaved",
+          "label": "ROAD - Resource Access - Dry Weather - 2 Lanes - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              153,
+              153,
+              153,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD - Unknown Hrm Capture - Status Unknown",
+          "label": "ROAD - Unknown Hrm Capture - Status Unknown"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              153,
+              153,
+              153,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "ROAD FEATURE - Attribute Placeholder - Status Unknown",
+          "label": "ROAD FEATURE - Attribute Placeholder - Status Unknown"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              242,
+              179,
+              115,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "SERVICE LANE - 1 Lane - Paved",
+          "label": "SERVICE LANE - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              242,
+              179,
+              115,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "SERVICE LANE - 1 Lane - Unpaved",
+          "label": "SERVICE LANE - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [
+              242,
+              179,
+              115,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "SERVICE LANE - 2 Lanes - Paved",
+          "label": "SERVICE LANE - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              127,
+              127,
+              127,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "TRACK",
+          "label": "TRACK"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              127,
+              127,
+              127,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "TRACK - Indefinite/Approximate",
+          "label": "TRACK - Indefinite/Approximate"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              127,
+              127,
+              127,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "TRAIL  - No Vehicular Traffic - No Vehicular Traffic",
+          "label": "TRAIL  - No Vehicular Traffic - No Vehicular Traffic"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              127,
+              127,
+              127,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "TRAIL - Addressed Feature - No Vehicular Traffic",
+          "label": "TRAIL - Addressed Feature - No Vehicular Traffic"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "width": 0.5
+          },
+          "value": "TUNNEL - Local - 1 Lane - Paved",
+          "label": "TUNNEL - Local - 1 Lane - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "width": 0.5
+          },
+          "value": "TUNNEL - Local - 1 Lane - Unpaved",
+          "label": "TUNNEL - Local - 1 Lane - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "width": 0.5
+          },
+          "value": "TUNNEL - Local - 2 Lanes - Paved",
+          "label": "TUNNEL - Local - 2 Lanes - Paved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "width": 0.5
+          },
+          "value": "TUNNEL - Resource Access - Dry Weather - Unpaved",
+          "label": "TUNNEL - Resource Access - Dry Weather - Unpaved"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "width": 0.5
+          },
+          "value": "TUNNEL - Track",
+          "label": "TUNNEL - Track"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "width": 0.5
+          },
+          "value": "TUNNEL line",
+          "label": "TUNNEL line"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              127,
+              127,
+              127,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "WALK - Urban Addressed Feature - No Vehicular Traffic",
+          "label": "WALK - Urban Addressed Feature - No Vehicular Traffic"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              224,
+              222,
+              227,
+              0
+            ],
+            "width": 1
+          },
+          "value": "WATER ACCESS",
+          "label": "WATER ACCESS"
+        },
+        {
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSDash",
+            "color": [
+              127,
+              127,
+              127,
+              255
+            ],
+            "width": 0.6
+          },
+          "value": "TRAIL -  Indefinite/Approximate - No Vehicular Traffic",
+          "label": "TRAIL -  Indefinite/Approximate - No Vehicular Traffic"
+        }
+      ],
+      "fieldDelimiter": ",",
+      "authoringInfo": {
+        "colorRamp": {
+          "type": "multipart",
+          "colorRamps": [
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                210,
+                202,
+                252,
+                255
+              ],
+              "toColor": [
+                210,
+                202,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                201,
+                252,
+                179,
+                255
+              ],
+              "toColor": [
+                201,
+                252,
+                179,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                205,
+                182,
+                255
+              ],
+              "toColor": [
+                252,
+                205,
+                182,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                184,
+                252,
+                249,
+                255
+              ],
+              "toColor": [
+                184,
+                252,
+                249,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                179,
+                229,
+                255
+              ],
+              "toColor": [
+                252,
+                179,
+                229,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                252,
+                212,
+                255
+              ],
+              "toColor": [
+                252,
+                252,
+                212,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                210,
+                230,
+                255
+              ],
+              "toColor": [
+                252,
+                210,
+                230,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                182,
+                228,
+                252,
+                255
+              ],
+              "toColor": [
+                182,
+                228,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                202,
+                252,
+                216,
+                255
+              ],
+              "toColor": [
+                202,
+                252,
+                216,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                183,
+                182,
+                255
+              ],
+              "toColor": [
+                252,
+                183,
+                182,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                250,
+                252,
+                179,
+                255
+              ],
+              "toColor": [
+                250,
+                252,
+                179,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                223,
+                184,
+                252,
+                255
+              ],
+              "toColor": [
+                223,
+                184,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                250,
+                207,
+                252,
+                255
+              ],
+              "toColor": [
+                250,
+                207,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                227,
+                215,
+                255
+              ],
+              "toColor": [
+                252,
+                227,
+                215,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                250,
+                179,
+                252,
+                255
+              ],
+              "toColor": [
+                250,
+                179,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                210,
+                245,
+                252,
+                255
+              ],
+              "toColor": [
+                210,
+                245,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                230,
+                252,
+                194,
+                255
+              ],
+              "toColor": [
+                230,
+                252,
+                194,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                187,
+                217,
+                255
+              ],
+              "toColor": [
+                252,
+                187,
+                217,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                179,
+                252,
+                194,
+                255
+              ],
+              "toColor": [
+                179,
+                252,
+                194,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                202,
+                206,
+                255
+              ],
+              "toColor": [
+                252,
+                202,
+                206,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                207,
+                219,
+                252,
+                255
+              ],
+              "toColor": [
+                207,
+                219,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                231,
+                197,
+                255
+              ],
+              "toColor": [
+                252,
+                231,
+                197,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                212,
+                252,
+                241,
+                255
+              ],
+              "toColor": [
+                212,
+                252,
+                241,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                184,
+                199,
+                255
+              ],
+              "toColor": [
+                252,
+                184,
+                199,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                184,
+                202,
+                252,
+                255
+              ],
+              "toColor": [
+                184,
+                202,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                182,
+                252,
+                224,
+                255
+              ],
+              "toColor": [
+                182,
+                252,
+                224,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                182,
+                179,
+                252,
+                255
+              ],
+              "toColor": [
+                182,
+                179,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                223,
+                252,
+                179,
+                255
+              ],
+              "toColor": [
+                223,
+                252,
+                179,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                192,
+                250,
+                255
+              ],
+              "toColor": [
+                252,
+                192,
+                250,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                229,
+                179,
+                255
+              ],
+              "toColor": [
+                252,
+                229,
+                179,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                222,
+                215,
+                252,
+                255
+              ],
+              "toColor": [
+                222,
+                215,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                215,
+                252,
+                202,
+                255
+              ],
+              "toColor": [
+                215,
+                252,
+                202,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                192,
+                189,
+                252,
+                255
+              ],
+              "toColor": [
+                192,
+                189,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                221,
+                194,
+                252,
+                255
+              ],
+              "toColor": [
+                221,
+                194,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                225,
+                252,
+                215,
+                255
+              ],
+              "toColor": [
+                225,
+                252,
+                215,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                212,
+                232,
+                252,
+                255
+              ],
+              "toColor": [
+                212,
+                232,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                243,
+                192,
+                255
+              ],
+              "toColor": [
+                252,
+                243,
+                192,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                182,
+                242,
+                252,
+                255
+              ],
+              "toColor": [
+                182,
+                242,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                212,
+                245,
+                255
+              ],
+              "toColor": [
+                252,
+                212,
+                245,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                239,
+                197,
+                252,
+                255
+              ],
+              "toColor": [
+                239,
+                197,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                239,
+                215,
+                252,
+                255
+              ],
+              "toColor": [
+                239,
+                215,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                197,
+                252,
+                203,
+                255
+              ],
+              "toColor": [
+                197,
+                252,
+                203,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                199,
+                182,
+                252,
+                255
+              ],
+              "toColor": [
+                199,
+                182,
+                252,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                252,
+                219,
+                197,
+                255
+              ],
+              "toColor": [
+                252,
+                219,
+                197,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                197,
+                252,
+                235,
+                255
+              ],
+              "toColor": [
+                197,
+                252,
+                235,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                247,
+                252,
+                202,
+                255
+              ],
+              "toColor": [
+                247,
+                252,
+                202,
+                255
+              ]
+            },
+            {
+              "type": "algorithmic",
+              "algorithm": "esriCIELabAlgorithm",
+              "fromColor": [
+                189,
+                218,
+                252,
+                255
+              ],
+              "toColor": [
+                189,
+                218,
+                252,
+                255
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "scaleSymbols": true,
+    "transparency": 0,
+    "labelingInfo": null
+  },
+  "defaultVisibility": true,
+  "extent": {
+    "xmin": 222794.03000000026,
+    "ymin": 4808881.18,
+    "xmax": 830225.9979999997,
+    "ymax": 5233931.598999999,
+    "zmin": -136.8878860000002,
+    "zmax": 1105.499989,
+    "mmin": -122.34487828370766,
+    "mmax": 124236.01149671632,
+    "spatialReference": {
+      "wkid": 2038,
+      "latestWkid": 2961,
+      "xyTolerance": 0.001,
+      "zTolerance": 0.001,
+      "mTolerance": 0.001,
+      "falseX": -5120900,
+      "falseY": -9998100,
+      "xyUnits": 10000,
+      "falseZ": -100000,
+      "zUnits": 10000,
+      "falseM": -100000,
+      "mUnits": 10000
+    }
+  },
+  "hasAttachments": false,
+  "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+  "displayField": "FEAT_CODE",
+  "typeIdField": null,
+  "subtypeFieldName": null,
+  "subtypeField": null,
+  "defaultSubtypeCode": null,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "SHAPE",
+      "type": "esriFieldTypeGeometry",
+      "alias": "SHAPE",
+      "domain": null
+    },
+    {
+      "name": "FEAT_CODE",
+      "type": "esriFieldTypeString",
+      "alias": "FEAT_CODE",
+      "length": 12,
+      "domain": null
+    },
+    {
+      "name": "FEAT_DESC",
+      "type": "esriFieldTypeString",
+      "alias": "FEAT_DESC",
+      "length": 154,
+      "domain": null
+    },
+    {
+      "name": "RTE_NO",
+      "type": "esriFieldTypeInteger",
+      "alias": "RTE_NO",
+      "domain": null
+    },
+    {
+      "name": "ROADSEGID",
+      "type": "esriFieldTypeInteger",
+      "alias": "ROADSEGID",
+      "domain": null
+    },
+    {
+      "name": "IDS",
+      "type": "esriFieldTypeInteger",
+      "alias": "IDS",
+      "domain": null
+    },
+    {
+      "name": "SEGID",
+      "type": "esriFieldTypeInteger",
+      "alias": "SEGID",
+      "domain": null
+    },
+    {
+      "name": "STREET",
+      "type": "esriFieldTypeString",
+      "alias": "STREET",
+      "length": 50,
+      "domain": null
+    },
+    {
+      "name": "MUN_ID",
+      "type": "esriFieldTypeInteger",
+      "alias": "MUN_ID",
+      "domain": null
+    },
+    {
+      "name": "TRAFFICDIR",
+      "type": "esriFieldTypeInteger",
+      "alias": "TRAFFICDIR",
+      "domain": null
+    },
+    {
+      "name": "TRAFF_DESC",
+      "type": "esriFieldTypeString",
+      "alias": "TRAFF_DESC",
+      "length": 30,
+      "domain": null
+    },
+    {
+      "name": "DATE_ACT",
+      "type": "esriFieldTypeInteger",
+      "alias": "DATE_ACT",
+      "domain": null
+    },
+    {
+      "name": "DATE_REV",
+      "type": "esriFieldTypeInteger",
+      "alias": "DATE_REV",
+      "domain": null
+    },
+    {
+      "name": "STRUCTID",
+      "type": "esriFieldTypeString",
+      "alias": "STRUCTID",
+      "length": 32,
+      "domain": null
+    },
+    {
+      "name": "ROADCLASS",
+      "type": "esriFieldTypeString",
+      "alias": "ROADCLASS",
+      "length": 2,
+      "domain": null
+    },
+    {
+      "name": "ROADC_DESC",
+      "type": "esriFieldTypeString",
+      "alias": "ROADC_DESC",
+      "length": 100,
+      "domain": null
+    },
+    {
+      "name": "ANUM",
+      "type": "esriFieldTypeString",
+      "alias": "ANUM",
+      "length": 6,
+      "domain": null
+    },
+    {
+      "name": "OWNER",
+      "type": "esriFieldTypeString",
+      "alias": "OWNER",
+      "length": 4,
+      "domain": null
+    },
+    {
+      "name": "OWNER_DESC",
+      "type": "esriFieldTypeString",
+      "alias": "OWNER_DESC",
+      "length": 50,
+      "domain": null
+    },
+    {
+      "name": "Shape_Length",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape_Length",
+      "domain": null
+    }
+  ],
+  "geometryField": {
+    "name": "SHAPE",
+    "type": "esriFieldTypeGeometry",
+    "alias": "SHAPE"
+  },
+  "indexes": [
+    {
+      "name": "FDO_OBJECTID",
+      "fields": "OBJECTID",
+      "isAscending": true,
+      "isUnique": true,
+      "description": ""
+    },
+    {
+      "name": "FDO_Shape",
+      "fields": "SHAPE",
+      "isAscending": true,
+      "isUnique": false,
+      "description": ""
+    }
+  ],
+  "subtypes": [],
+  "relationships": [],
+  "canModifyLayer": true,
+  "canScaleSymbols": false,
+  "hasLabels": false,
+  "capabilities": "Map,Query,Data",
+  "maxRecordCount": 2000,
+  "maxSelectionCount": 2000,
+  "supportsStatistics": true,
+  "supportsExceedsLimitStatistics": true,
+  "supportsAdvancedQueries": true,
+  "hasZ": true,
+  "hasM": true,
+  "supportedQueryFormats": "JSON, geoJSON, PBF",
+  "isDataVersioned": false,
+  "ownershipBasedAccessControlForFeatures": {
+    "allowOthersToQuery": true
+  },
+  "useStandardizedQueries": true,
+  "supportedSpatialRelationships": [
+    "esriSpatialRelIntersects",
+    "esriSpatialRelContains",
+    "esriSpatialRelCrosses",
+    "esriSpatialRelEnvelopeIntersects",
+    "esriSpatialRelIndexIntersects",
+    "esriSpatialRelOverlaps",
+    "esriSpatialRelTouches",
+    "esriSpatialRelWithin",
+    "esriSpatialRelRelation"
+  ],
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": true,
+    "supportsStatistics": true,
+    "supportsPercentileStatistics": true,
+    "supportsHavingClause": true,
+    "supportsOrderBy": true,
+    "supportsDistinct": true,
+    "supportsCountDistinct": true,
+    "supportsAdvancedQueryRelated": true,
+    "supportsQueryRelatedPagination": true,
+    "supportsPagination": true,
+    "supportsLod": false,
+    "supportsQueryWithLodSR": false,
+    "supportsTrueCurve": true,
+    "supportsQueryWithDatumTransformation": true,
+    "supportsReturningQueryExtent": true,
+    "supportsQueryWithDistance": true,
+    "supportsSqlExpression": true,
+    "supportsTimeRelation": true,
+    "supportsSqlFormat": false,
+    "supportsQueryAnalytic": false,
+    "supportsCurrentUserQueries": true
+  },
+  "supportsDatumTransformation": true,
+  "dateFieldsTimeReference": null,
+  "preferredTimeReference": null,
+  "datesInUnknownTimezone": false,
+  "hasGeometryProperties": true,
+  "geometryProperties": {
+    "shapeLengthFieldName": "Shape_Length",
+    "units": "esriMeters",
+    "mapUnits": {
+      "uwkid": 9001
+    }
+  },
+  "hasMetadata": true,
+  "isDataArchived": false,
+  "archivingInfo": {
+    "supportsQueryWithHistoricMoment": false,
+    "startArchivingMoment": -1
+  },
+  "supportsCoordinatesQuantization": true,
+  "supportsDynamicLegends": true
+}

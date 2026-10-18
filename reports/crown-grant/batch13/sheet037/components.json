@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5682 x 3917 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 46.23 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          210,
+          100
+        ],
+        [
+          5620,
+          140
+        ],
+        [
+          5605,
+          3800
+        ],
+        [
+          195,
+          3735
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped frame retains Crossburn, Dalhousie East, Dale, Dalhousie Road, Fraxville, Forties Settlement, Falkland Ridge, Springfield, Cherryfield, Sartys, Stanburn and Parkdale; Sixty, Lower Thirty, Long, Black Duck, Triangle or Birch, Butler, Owl, Rocky, Molly or Upper Gully, Clear, Brown and Sherbrooke lakes, all rivers and intervening land. No inset or internal crop."
+    }
+  ]
+}

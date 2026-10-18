@@ -1,0 +1,37 @@
+{
+  "sheet": "138",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08"
+  ],
+  "checks": [
+    "Q01",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q09",
+    "Q10",
+    "Q11"
+  ],
+  "rejected_before_fit": {
+    "Q02": "Initial Petrie coast shoulder was in water beside a generalized stretch, without a precise adopted shared feature",
+    "Q08": "Lingan Little Head natural corner versus engineered modern harbour edge unresolved"
+  },
+  "notes": [
+    "Corrected original Inglis spur, Cranberry/North Head, Brian Point, Table Head and lake placements before fitting",
+    "MacRae source pixel independently inspected; exact modern reference7476 from139Q09 reused as physical reference, excluded from both fits",
+    "All mapped coast fragments and full ocean rectangle retained; no inset",
+    "Historical Grand Lake and other uncertain urban geometry not fitted solely from names"
+  ]
+}

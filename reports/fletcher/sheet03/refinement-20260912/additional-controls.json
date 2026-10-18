@@ -1,0 +1,68 @@
+{
+  "sheet": "sheet-03",
+  "source_sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "points": [
+    {
+      "lonlat": [
+        -60.48690580938019,
+        46.91435398740696
+      ],
+      "guide_xy": [
+        9067.902512256522,
+        2726.918687698664
+      ],
+      "modern_objectid": 20918,
+      "modern_part": 0,
+      "modern_vertex": 157,
+      "modern_properties": {
+        "OBJECTID": 20918,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 1253.32329005519
+      },
+      "id": "R10",
+      "pixel_xy": [
+        9187,
+        2507
+      ],
+      "role": "control",
+      "identity_evidence": "Northernmost tip of the long northern North Pond island. Distinct NW-to-SE island northeast of central island cluster; entire modern closed island shoreline 20918 checked before selecting its northern extreme.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected proposal pending exact crosshair inspection.",
+      "original_pixel_xy": [
+        9172,
+        2510
+      ],
+      "correction": "Move from northwestern shoulder to the northernmost historical island shoreline after close native inspection."
+    },
+    {
+      "lonlat": [
+        -60.565557,
+        46.8117269
+      ],
+      "source_guide_xy": [
+        7357.548523500329,
+        5922.983070899965
+      ],
+      "objectids": [
+        125020,
+        125021,
+        178955
+      ],
+      "id": "R13",
+      "modern_node_id": "J1378",
+      "pixel_xy": [
+        7700,
+        5675
+      ],
+      "role": "control",
+      "identity_evidence": "Northwestern outlet of westernmost Chain Lake. Four connected basins extend east to the largest eastern lake; western outlet drains north. NRCan Chain Lakes CAGRY establishes locality only; world coordinate is the NSTDB shoreline/channel node.",
+      "source_uncertainty_px": 20,
+      "status": "Proposal pending close and wide native/modern inspection."
+    }
+  ]
+}

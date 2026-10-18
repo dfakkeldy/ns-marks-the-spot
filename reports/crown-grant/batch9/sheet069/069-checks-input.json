@@ -1,0 +1,54 @@
+[
+  [
+    "Q01",
+    "Fishing Point western tip",
+    [
+      4778,
+      503
+    ],
+    [
+      4727,
+      468
+    ],
+    "WACO20"
+  ],
+  [
+    "Q02",
+    "Victoria Island southwest lobe southern tip",
+    [
+      4670,
+      1176
+    ],
+    [
+      4619,
+      1147
+    ],
+    "WACORVIS10"
+  ],
+  [
+    "Q03",
+    "Big or Pugwash Lake south-central bay tip",
+    [
+      3103,
+      3434
+    ],
+    [
+      3066,
+      3430
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Bergman Point western shoulder",
+    [
+      4226,
+      562
+    ],
+    [
+      4175,
+      530
+    ],
+    "WACO20"
+  ]
+]

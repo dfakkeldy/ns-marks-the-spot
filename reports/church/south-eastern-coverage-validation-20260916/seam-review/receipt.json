@@ -1,0 +1,14 @@
+{
+  "south_figure": {
+    "path": "warped-review/IS52.jpg",
+    "sha256": "d65b3a9ca67f580098362199e647aaf517d060dfec91ffec94744236147fbb04"
+  },
+  "victoria_figure": {
+    "path": "seam-review/victoria.jpg",
+    "sha256": "9abf55c5c213c40176938335317d62530d2c4d18bd61af0852748baef9663728"
+  },
+  "combined_sha256": "14a8dfcf8307b0dedfa99b84d5086d0acb280e46a4094b7120dbc8b0e8935c15",
+  "victoria_raster_sha256": "3fb0ece4147593efc8f5dbd6dfae8f4159b5ed6e668779ce8e862e078ead3ac3",
+  "victoria_source_pixel_alpha": 255,
+  "scope": "Actual frozen raster windows at one shared corner; no whole-seam acceptance."
+}

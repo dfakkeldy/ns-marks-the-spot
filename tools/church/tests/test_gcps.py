@@ -1,0 +1,152 @@
+import unittest
+
+from tools.church.gcps import (
+    CHECK_ROLE,
+    CONTROL_ROLE,
+    GroundControlPoint,
+    combine_control_and_checks,
+    parse_check_csv,
+    parse_gcp_csv,
+    split_roles,
+)
+from tools.church.geometry import lonlat_to_mercator
+
+VALID_CSV = """pixel_x,pixel_y,lon,lat,role,label
+1000,2000,-61.5,46.1,control,Port Hood wharf
+5000,7000,-61.2,46.3,control,Mabou bridge
+9000,9000,-61.0,46.5,check,Inverness station
+"""
+
+
+class ParseTests(unittest.TestCase):
+    def test_parses_every_row(self) -> None:
+        points = parse_gcp_csv(VALID_CSV)
+        self.assertEqual(len(points), 3)
+        self.assertEqual(points[0].label, "Port Hood wharf")
+        self.assertEqual(points[0].pixel_x, 1000.0)
+        self.assertEqual(points[2].role, CHECK_ROLE)
+
+    def test_mercator_matches_the_geometry_module(self) -> None:
+        point = parse_gcp_csv(VALID_CSV)[0]
+        self.assertEqual(point.mercator, lonlat_to_mercator(-61.5, 46.1))
+
+    def test_blank_lines_and_comments_are_skipped(self) -> None:
+        text = "# a comment\n" + VALID_CSV + "\n\n# trailing note\n"
+        self.assertEqual(len(parse_gcp_csv(text)), 3)
+
+    def test_rejects_unknown_role(self) -> None:
+        text = VALID_CSV.replace("control,Port Hood wharf", "bogus,Port Hood wharf")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("bogus", str(caught.exception))
+
+    def test_rejects_out_of_range_latitude(self) -> None:
+        text = VALID_CSV.replace(",46.1,", ",946.1,")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("latitude", str(caught.exception).lower())
+
+    def test_rejects_out_of_range_longitude(self) -> None:
+        text = VALID_CSV.replace("-61.5,", "-361.5,")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("longitude", str(caught.exception).lower())
+
+    def test_rejects_negative_pixel_coordinates(self) -> None:
+        text = VALID_CSV.replace("1000,2000,", "-1000,2000,")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("pixel", str(caught.exception).lower())
+
+    def test_error_names_the_offending_line_number(self) -> None:
+        # Header is line 1, so the second data row ("Mabou bridge") is line 3.
+        text = VALID_CSV.replace(",46.3,", ",946.3,")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("line 3", str(caught.exception))
+
+    def test_line_numbers_account_for_skipped_comment_lines(self) -> None:
+        # Reported numbers must match what an editor shows, or they are useless
+        # for finding one bad point among several hundred.
+        text = "# note\n# another\n" + VALID_CSV.replace(",46.3,", ",946.3,")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("line 5", str(caught.exception))
+
+    def test_empty_input_is_rejected(self) -> None:
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv("# only a comment\n\n")
+        self.assertIn("empty", str(caught.exception).lower())
+
+    def test_rejects_missing_required_column(self) -> None:
+        text = VALID_CSV.replace("pixel_x,pixel_y,lon,lat,role,label", "pixel_x,pixel_y,lon,lat,role")
+        with self.assertRaises(ValueError) as caught:
+            parse_gcp_csv(text)
+        self.assertIn("label", str(caught.exception))
+
+
+class SplitTests(unittest.TestCase):
+    def test_splits_control_from_check(self) -> None:
+        control, check = split_roles(parse_gcp_csv(VALID_CSV))
+        self.assertEqual(len(control), 2)
+        self.assertEqual(len(check), 1)
+        self.assertTrue(all(p.role == CONTROL_ROLE for p in control))
+        self.assertTrue(all(p.role == CHECK_ROLE for p in check))
+
+    def test_split_of_empty_input_is_two_empty_lists(self) -> None:
+        self.assertEqual(split_roles([]), ([], []))
+
+    def test_point_is_hashable_and_frozen(self) -> None:
+        point = GroundControlPoint(1.0, 2.0, -61.0, 46.0, CONTROL_ROLE, "x")
+        self.assertIsInstance(hash(point), int)
+        with self.assertRaises(Exception):
+            point.lat = 0.0  # type: ignore[misc]
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+CHECK_CSV = """pixel_x,pixel_y,lon,lat,role,label
+14200,9100,-61.06,46.60,check,cheticamp-island-west-tip
+15300,11800,-61.08,46.52,check,grand-etang-west-point
+"""
+
+
+class CheckFileTests(unittest.TestCase):
+    """A check file is loaded separately from the generated control CSV.
+
+    `emit_gcps --check` asserts in CI that the control CSV still matches the
+    detected linework byte-for-byte, so a check row cannot be appended to it.
+    The two files are loaded apart and concatenated, and the check file is
+    refused if it carries anything that could enter the fit.
+    """
+
+    def test_loads_held_out_points(self) -> None:
+        points = parse_check_csv(CHECK_CSV)
+        self.assertEqual(len(points), 2)
+        self.assertEqual(points[0].label, "cheticamp-island-west-tip")
+        self.assertTrue(all(point.role == CHECK_ROLE for point in points))
+
+    def test_refuses_a_control_row_hiding_in_the_check_file(self) -> None:
+        text = CHECK_CSV.replace("check,grand-etang", "control,grand-etang")
+        with self.assertRaises(ValueError) as caught:
+            parse_check_csv(text)
+        message = str(caught.exception)
+        self.assertIn("grand-etang-west-point", message)
+        self.assertIn("control", message)
+
+    def test_combining_keeps_control_and_check_apart(self) -> None:
+        control, check = combine_control_and_checks(
+            parse_gcp_csv(VALID_CSV), parse_check_csv(CHECK_CSV)
+        )
+        self.assertEqual([p.label for p in control], ["Port Hood wharf", "Mabou bridge"])
+        self.assertEqual(
+            [p.label for p in check],
+            ["Inverness station", "cheticamp-island-west-tip", "grand-etang-west-point"],
+        )
+
+    def test_combining_without_a_check_file_still_splits_roles(self) -> None:
+        control, check = combine_control_and_checks(parse_gcp_csv(VALID_CSV), None)
+        self.assertEqual(len(control), 2)
+        self.assertEqual([p.label for p in check], ["Inverness station"])

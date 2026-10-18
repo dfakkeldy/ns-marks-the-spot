@@ -1,0 +1,28 @@
+{
+  "status": "Diagnostic regional breakdown of the same frozen first affine score; no new independent test or changed fitting",
+  "groups": [
+    {
+      "region": "Pictou Island",
+      "check_ids": [
+        "Q01",
+        "Q02",
+        "Q03"
+      ],
+      "count": 3,
+      "rms_ground_m": 129.54786682515555,
+      "maximum_ground_m": 197.31409131310403
+    },
+    {
+      "region": "Mainland coast",
+      "check_ids": [
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07"
+      ],
+      "count": 4,
+      "rms_ground_m": 86.86865837909913,
+      "maximum_ground_m": 112.76071949540393
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "CB10",
+  "role": "control",
+  "label": "Rouses Point eastern mainland apex at Gabarus",
+  "pixel_xy": [
+    21499.5,
+    25231.5
+  ],
+  "lonlat": [
+    -60.131603180058896,
+    45.843081757390856
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      21100,
+      24880
+    ],
+    "extent": [
+      750,
+      750
+    ],
+    "display": [
+      1500,
+      1500
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    799,
+    703
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/CB2-rouses-point-native.jpg",
+  "source_crop_sha256": "d8f9f16f9626767a4af4c5447e3a1902c4974d8d5d61659bf865d259b0cde15a",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    4688
+  ],
+  "reference_vertex": {
+    "feature_id": 4688,
+    "vertex": 77
+  },
+  "uncertainty_ground_m": 150,
+  "identity_evidence": "The original Rouse Point label and Gabarus village identify the hooked mainland promontory at the village harbour, northwest of Cape Gabarus. Its narrow southern neck, western sheltered inlet and rounded eastern head agree with the original reference coastline. Select the innermost land/water line on the eastern tip, excluding successive offshore engraving contours and house dots. WACO20 vertex4688v77 is the corresponding eastern apex. The official Rouses Point record corroborates identity only; its interior representative point is not used. Historical outline generalization and shoreline mobility warrant150m uncertainty.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-cape-breton-continuation-20260915/CB2-gabarus-context.jpg",
+    "sha256": "9cfca0062529272965e6b787d13a579843b1b13785ff01b45a123c5f0cced07d",
+    "frame": {
+      "county": "cape-breton",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+      "origin": [
+        20400,
+        24600
+      ],
+      "extent": [
+        5000,
+        4300
+      ],
+      "display": [
+        1500,
+        1290
+      ],
+      "rotation": 0
+    }
+  },
+  "official_identity_key": "CBGRS",
+  "phase": "Prospective southern mainland control selected before scoring/model comparison; never a fresh check",
+  "recorded_at": "2026-09-15T12:21:00.271251+00:00"
+}

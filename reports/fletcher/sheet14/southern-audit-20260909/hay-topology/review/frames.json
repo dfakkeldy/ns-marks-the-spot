@@ -1,0 +1,102 @@
+[
+  {
+    "image": "sheet-14-C14.jpg",
+    "point_record": "sheet14/southern-audit-20260909/hay-topology/fit.json",
+    "point_id": "C14",
+    "native_box": [
+      9154,
+      5836,
+      9374,
+      6056
+    ],
+    "native_coordinates": [
+      9264,
+      5946
+    ],
+    "modern_lonlat": [
+      -61.2489105,
+      46.1081554
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-14-F05.jpg",
+    "point_record": "sheet14/southern-audit-20260909/hay-topology/fit.json",
+    "point_id": "F05",
+    "native_box": [
+      8838,
+      6005,
+      9058,
+      6225
+    ],
+    "native_coordinates": [
+      8948,
+      6115
+    ],
+    "modern_lonlat": [
+      -61.261503,
+      46.1037737
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-14-R04.jpg",
+    "point_record": "sheet14/southern-audit-20260909/hay-topology/checks.json",
+    "point_id": "R04",
+    "native_box": [
+      8957,
+      5948,
+      9177,
+      6168
+    ],
+    "native_coordinates": [
+      9067,
+      6058
+    ],
+    "modern_lonlat": [
+      -61.2568236,
+      46.1058868
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-14-H01.jpg",
+    "point_record": "sheet14/southern-audit-20260909/hay-topology/checks.json",
+    "point_id": "H01",
+    "native_box": [
+      9292,
+      5788,
+      9512,
+      6008
+    ],
+    "native_coordinates": [
+      9402,
+      5898
+    ],
+    "modern_lonlat": [
+      -61.2402308,
+      46.1109067
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-14-H02.jpg",
+    "point_record": "sheet14/southern-audit-20260909/hay-topology/checks.json",
+    "point_id": "H02",
+    "native_box": [
+      9154,
+      6156,
+      9374,
+      6376
+    ],
+    "native_coordinates": [
+      9264,
+      6266
+    ],
+    "modern_lonlat": [
+      -61.2463104,
+      46.0996021
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5687 x 3887 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 139.25 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          120,
+          130
+        ],
+        [
+          5585,
+          115
+        ],
+        [
+          5585,
+          3755
+        ],
+        [
+          120,
+          3755
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The complete mapped frame retains Barrios islands, Tobeatic lakes, river corridors and southern extensions. Eight controls and nine excluded checks sample northern, western, central and southern lakes; far southeastern coverage remains provisional."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "Q03",
+    "label": "Barren Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5144,
+      1974
+    ],
+    "lonlat": [
+      -62.971167480468644,
+      44.68908020208891
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 17342,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17342,
+    "nearest_unfiltered_distance_guide_px": 1.4996972028061066,
+    "selected_distance_guide_px": 1.4996972028061066,
+    "guide_reference_pixel_xy": [
+      5102.410999415268,
+      2036.6208082035882
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Jeddore Rock northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4398,
+      2251
+    ],
+    "lonlat": [
+      -63.010775051438266,
+      44.66322472533006
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 23957,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23957,
+    "nearest_unfiltered_distance_guide_px": 1.9830741283942412,
+    "selected_distance_guide_px": 1.9830741283942412,
+    "guide_reference_pixel_xy": [
+      4301.762237488467,
+      2328.830731277354
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

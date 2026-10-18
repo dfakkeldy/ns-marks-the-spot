@@ -1,0 +1,142 @@
+{
+  "distance": "equirectangular ground distance; mean latitude cosine; radius 6371008.8 m",
+  "geographic_acceptance": false,
+  "north": {
+    "affine": {
+      "points": [
+        {
+          "label": "Polletts Cove River",
+          "error_ground_m": 2268.2123991287103
+        },
+        {
+          "label": "Red River at Pleasant Bay",
+          "error_ground_m": 1959.0930890987624
+        },
+        {
+          "label": "Fishing Cove River",
+          "error_ground_m": 1399.5616284846951
+        }
+      ],
+      "rms_ground_m": 1909.7649044880266,
+      "max_ground_m": 2268.2123991287103
+    },
+    "tps": {
+      "points": [
+        {
+          "label": "Polletts Cove River",
+          "error_ground_m": 2292.975757995479
+        },
+        {
+          "label": "Red River at Pleasant Bay",
+          "error_ground_m": 2012.5478956936577
+        },
+        {
+          "label": "Fishing Cove River",
+          "error_ground_m": 1350.906179855041
+        }
+      ],
+      "rms_ground_m": 1926.3985712538351,
+      "max_ground_m": 2292.975757995479
+    }
+  },
+  "richmond_same_four_diagnostics": {
+    "affine": {
+      "graticule_baseline": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 497.0624129274552
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 836.1260354003945
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 466.1538850519521
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 1017.6447203444268
+          }
+        ],
+        "rms_ground_m": 741.4644311788599,
+        "max_ground_m": 1017.6447203444268
+      },
+      "physical_draft": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 73.6165908277644
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 270.41987975358154
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 104.21427411918863
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 616.5013843683363
+          }
+        ],
+        "rms_ground_m": 342.59337620176944,
+        "max_ground_m": 616.5013843683363
+      }
+    },
+    "tps": {
+      "graticule_baseline": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 520.0871344003252
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 796.8243956521278
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 537.886860913889
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 1046.0081541911036
+          }
+        ],
+        "rms_ground_m": 756.4514324550515,
+        "max_ground_m": 1046.0081541911036
+      },
+      "physical_draft": {
+        "points": [
+          {
+            "label": "supply-08",
+            "error_ground_m": 62.25060866034764
+          },
+          {
+            "label": "supply-15",
+            "error_ground_m": 275.71838985848973
+          },
+          {
+            "label": "supply-18",
+            "error_ground_m": 98.2194215035336
+          },
+          {
+            "label": "supply-23",
+            "error_ground_m": 605.0985065499667
+          }
+        ],
+        "rms_ground_m": 337.5229718753343,
+        "max_ground_m": 605.0985065499667
+      }
+    }
+  },
+  "input_hashes": {
+    "tools/church/gcps/inverness-north.csv": "f38cddd943a59b5428cd00f087638ccac5c8d53bba575dfce1d0f767508aba98",
+    "tools/church/gcps/richmond-main.csv": "8ac5f97b8f970e03fa65ebd12cd6ae3a9fd30dcfd3700662c8d90ecf0cf6c155",
+    "reports/church/physical-review-20260912/north-diagnostic-checks.csv": "fe664a68b4ad367d07dffda067d529775c558de3efa55a9ae726bc05c0e86372",
+    "reports/church/physical-review-20260912/richmond/physical-draft.csv": "35a42079afca0341fcfb61d42bcb6792879c722bca89a4e21db7e22ac42fb347"
+  }
+}

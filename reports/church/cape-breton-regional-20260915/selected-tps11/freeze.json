@@ -1,0 +1,23 @@
+{
+  "frozen_at": "2026-09-15T14:18:09.163240+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "aac3fcd0896c8eccc5ffaa8296462b0b5ad5907b1ec4ffe9f83a48a643ff93d3",
+  "boundary_sha256": "96ce252e8e00633611e38e4406eff15edeba339cb8d93246b6dd067d7ac6e48e",
+  "baseline_input_commit": "75b1b75cae8e91de5d794a7ff7f751ac47842dbc",
+  "selection": "Eleven control coordinates add verified interior, northwestern and Louisbourg coastal support. Same remaining Hay/North Head diagnostics210.28m RMS versus419.11m affine11. Ten-point TPS left Lighthouse490.13m off; retain the separate eleven-point trial for new validation.",
+  "diagnostics": [
+    "CB04",
+    "CB13"
+  ],
+  "newly_promoted_excluded_features": [
+    "CB15",
+    "CB17",
+    "CB16"
+  ],
+  "Scatarie_aliases": [
+    "CB01",
+    "CB14"
+  ],
+  "fresh_checks": 0,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-05-Q03.jpg",
+    "point_record": "sheet05/candidate-diagnostic-south.json",
+    "point_id": "Q03",
+    "native_box": [
+      3665,
+      5830,
+      4365,
+      6530
+    ],
+    "native_coordinates": [
+      4015,
+      6180
+    ],
+    "modern_lonlat": [
+      -60.7261999,
+      46.6235927
+    ],
+    "rotation_degrees": 0
+  }
+]

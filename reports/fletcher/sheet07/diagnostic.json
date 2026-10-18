@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "606f269ad100a7901a3b9afad6fd5a0920135cf40d46f7765a9e1a7636e9d4f2",
+  "points": [
+    {
+      "lonlat": [
+        -60.4475692,
+        46.5560073
+      ],
+      "source_guide_xy": [
+        1789.5782039994374,
+        3013.1630136002786
+      ],
+      "objectids": [
+        184779,
+        271881,
+        272023
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        1858,
+        2924
+      ],
+      "modern_node_id": "J0349",
+      "identity_evidence": "Ferry Brook smaller western tributary upstream of fitted southwestern tributary; initial direction description corrected before scoring.",
+      "source_uncertainty_px": 20,
+      "status": "Reviewed diagnostic; Q01 exact corrected crosshair pending inspection before first score."
+    },
+    {
+      "lonlat": [
+        -60.4581103,
+        46.5238144
+      ],
+      "source_guide_xy": [
+        1561.5742109993007,
+        4022.9899008001667
+      ],
+      "objectids": [
+        190705,
+        269081,
+        269082
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        1558,
+        3974
+      ],
+      "modern_node_id": "J0427",
+      "identity_evidence": "Mill Brook second southern tributary just downstream of fitted southwestern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Reviewed diagnostic; Q01 exact corrected crosshair pending inspection before first score."
+    }
+  ]
+}

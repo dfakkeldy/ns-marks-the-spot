@@ -1,0 +1,106 @@
+[
+  [
+    "MC01",
+    "Stewart Lake northeast tip",
+    [
+      574,
+      643
+    ],
+    [
+      580,
+      670
+    ],
+    "WALK"
+  ],
+  [
+    "MC02",
+    "Grand Lake south tip",
+    [
+      1515,
+      859
+    ],
+    [
+      1510,
+      804
+    ],
+    "WALK"
+  ],
+  [
+    "MC03",
+    "Mitchell Lake north end",
+    [
+      2475,
+      302
+    ],
+    [
+      2475,
+      274
+    ],
+    "WALK"
+  ],
+  [
+    "MC04",
+    "Louisbourg White Point south tip",
+    [
+      403,
+      2140
+    ],
+    [
+      381,
+      2130
+    ],
+    "WACO"
+  ],
+  [
+    "MC05",
+    "Lorraine Head east tip",
+    [
+      1740,
+      1630
+    ],
+    [
+      1750,
+      1590
+    ],
+    "WACO"
+  ],
+  [
+    "MC06",
+    "Cape Breton east tip",
+    [
+      3762,
+      1690
+    ],
+    [
+      3741,
+      1650
+    ],
+    "WACO"
+  ],
+  [
+    "MC07",
+    "Scatarie Point Howe south tip",
+    [
+      5280,
+      1320
+    ],
+    [
+      5230,
+      1300
+    ],
+    "WACO"
+  ],
+  [
+    "MC08",
+    "Scatarie northwest head",
+    [
+      4050,
+      585
+    ],
+    [
+      4010,
+      570
+    ],
+    "WACO"
+  ]
+]

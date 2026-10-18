@@ -1,0 +1,812 @@
+# Handoff — field-review follow-ups (artifact 20c8ef7f), PRs A–I
+
+Review text (plain): scratchpad `review.txt`; regenerate from the artifact
+with the Artifact tool (`action: read`) if the scratchpad is gone.
+
+## 2026-09-03 — PR C (#297) rebased onto nightly after G (#301)
+
+Done: `feature/ios-vertex-drag-handles` rebased onto origin/nightly
+(`d11a92e4`, #301). Only conflict was this handoff note (add/add); the iOS
+drag-handle commit applied cleanly, including `VectorHandleViewTests` and
+the UserVectorEditing coverage.
+
+## 2026-09-02 — PR G opened (web mark and locate parity)
+
+Done: #301 to nightly from feature/web-mark-locate-parity (4 commits). Closes
+review 2.3 and 2.9: the browser one-shot names its failure by
+GeolocationPositionError code, is held to the mark's own 10 s / 50 m rule,
+stamps nsmts:capturedAt from the position's timestamp, and reports a write
+that did not reach the device; the locate keeps a zoom already closer than 14
+and flies only to a fix off screen; Reduce Motion is honoured. Four Codex
+rounds also brought: one shared fix rule for both paths, a moved point giving
+up its fix provenance, the popup naming the device rather than GPS and staying
+silent for a malformed pair, the watch telling timeout from unavailable, and a
+mark keeping the session it was aimed at. Gates: npm test 1826, lint, build,
+all clean; verified in the running app (zoom kept from 16, fly to 14 from 9,
+the three failure sentences, "±7.4 m").
+Deferred to PR I: an edit write that fails after Done has no always-mounted
+place to be shown, and a late failure can appear in the next layer's panel.
+Next: PR H (web evidence-contract highs, section 11), then PR I, then PR J.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git fetch origin && git checkout -b feature/web-evidence-contract origin/nightly
+# PR H: review section 11, web/src/userMaps and web/src/services evidence states
+```
+
+## 2026-09-02 — PR A written, tests not yet run
+
+Done: branch `feature/ios-location-button-follow` from origin/nightly
+(c131013e9, #292 merged). MapController: locate keeps zoom when closer than
+5 km (`keepsZoom`/`locateZoom`), centre offset by half the bottom card
+(`setBottomCardHeight` → layoutMargins), fix gate (`isFixGoodEnoughToCentreOn`
+100 m / 30 s), 10 s deadline (`locateDeadlineElapsed`), `.follow` armed after
+the flight settles, second tap `.followWithHeading`, `didChange mode` mirror,
+`didFailToLocateUserWithError`, message lifetimes (`lifetime(of:)`),
+`dismissLocationMessage`. Container: `LocationButtonIcon` states, layers
+panel closed on locate, `OpenSettingsButton` on locate banner, mark toast,
+recorder HUD; `coversMapBottom` on parcel/edit/callout cards. 16 new tests in
+`MapOpeningAndLocationTests`.
+Next: 09:00 build window → run `MapOpeningAndLocationTests`,
+`MapControllerTests`, `MarkLocationTests` via the build slot; simulator check
+of follow + margins with `simctl location`; Codex review; commit; PR to nightly.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e,
+branch feature/ios-location-button-follow. Run
+/Users/dfakkeldy/.claude/bin/xcode-build-slot.sh -- xcodebuild test -scheme ns-marks-the-spot
+-destination 'platform=iOS Simulator,id=24FBD923-387E-4B7E-9063-FCF166239B1C'
+-only-testing:ns-marks-the-spotTests/MapOpeningAndLocationTests
+-only-testing:ns-marks-the-spotTests/MapControllerTests (nohup, log to scratchpad),
+fix failures, then Codex review and PR A to nightly.
+```
+
+## 2026-09-02 — PR B written (stacked on A), tests not yet run
+
+Done: branch `feature/ios-drawing-drafts-points-snapping` from PR A's branch.
+`VectorEditSession.settleDraft(droppingPartial:)`/`discardDraft()`; Done, tool
+switch, re-tap and Erase finish a finishable draft; panel confirms a partial
+one (`pendingDraftAction` alert), prominent "Finish line · n"; `snapNotice`
++ `noteSnap`; `isOwnFeatureSnapTarget` excludes points under the Point tool
+(container `snapHit` uses it); `layerIsHidden`/`showLayer`, `end()` switches an
+edited hidden layer on; `recentlyCommittedFeatureID` halo; `UserVectorMarkerImage`
+20 pt solid disc + white casing + camera badge on a 30 pt canvas; layers
+button disabled while editing; mark into a hidden layer switches it on
+(`Outcome.marked(layerShown:)`). Doc row in field-capture-design snap table.
+11 new tests in `UserVectorEditingTests`.
+Next: build window → run A's suites on A's branch, then B's suites
+(UserVectorEditingTests, FieldCaptureSnapTests, MarkLocationTests) here;
+simulator look at the new marker; Codex; PRs A then B (B based on A's branch).
+
+## 2026-09-02 — A and B green locally; PR C written (stacked on B)
+
+Done: A `MapOpeningAndLocationTests`+`MapControllerTests`+`MarkLocationTests`
+37/37 (slot, XBG_ALLOW_NOW typed by user); MapKit centres `setCenter` inside
+layoutMargins (measured: manual offset double-counted, removed). B: 59/59 in
+UserVectorEditingTests, FieldCaptureSnapTests, MarkLocationTests,
+UserVectorShapeTests, MapOpeningAndLocationTests. C on
+`feature/ios-vertex-drag-handles`: `VectorHandleAnnotationView` (drag-state
+contract), 44 pt `VectorVertexHandleImage`/move handle, corner stepper +
+"Move corner to map centre" (`visibleCentre`/`pan(to:)`), hint text, line/area
+Finish → Select; `VectorHandleViewTests`.
+Next: run C suites, simulator drag check with temp prints, Codex A/B/C, PRs.
+
+## 2026-09-02 — A, B green after Codex round 1 fixes; C fixed after round 1; PRs not yet opened
+
+Done: A (`feature/ios-location-button-follow`, 42/42) and B (stacked, 66/66)
+re-tested after their Codex round-1 fixes; C rebased and fixed (GPS provenance
+stripped on hand moves, whole-feature move button, handle accessibility,
+non-animated corner pan). Simulator evidence for A (keep zoom, follow, pan
+releases, deadline with stale fix) and C (two drags, full drag-state contract)
+in scratchpad `drag-check-evidence.log` and `pr/pr*-body.md`. This file lives
+only on the tip branch of the stack; A and B carry none.
+Next: C suites → Codex round 2 for C; read A/B round-2 verdicts; open PRs A
+(→ nightly), B (→ A), C (→ B) with `scratchpad/open-prs.sh`; then PR D from
+`scratchpad/apply_prD.py` (drafted, unapplied).
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e,
+branch feature/ios-vertex-drag-handles. Run C's suites (VectorHandleViewTests,
+UserVectorEditingTests, UserVectorShapeTests) via the build slot, then Codex round 2 on C,
+then open PRs A/B/C with scratchpad/open-prs.sh A|B|C.
+```
+
+## 2026-09-02 09:35 — A/B/C green after Codex rounds; final Codex rounds running; PRs next
+
+Done: stack A 2ca392093 (49/49) → B a2ee0542a (75/75) → C ad42f96b4 (43/43),
+all via the build slot. Codex round-1 and round-2 claims fixed/refuted/deferred
+(tables in scratchpad `pr/pr*-body.md`). Round 3 (A, B) and round 2 (C) launched
+09:35 with `scratchpad/codex/round.sh`; outputs `codex/out-*-r3-*.md`,
+`out-C-r2-*.md`. Handoff lives only on the tip branch.
+Next: read those verdicts, fix Highs, then `scratchpad/open-prs.sh A|B|C`;
+then PR D (`apply_prD.py`, drafted) on a branch from C.
+
+## 2026-09-02 09:50 — D green (53/53); C round-2 fixes applied
+
+Done: D `feature/ios-photo-map-states` 53/53 (PhotoMapViewModelTests etc.);
+merged Info.plist moved to `Config/NSMarksTheSpot-Info.plist` (a plist inside
+the synced folder is copied twice). C round 2: photo-location offer routed
+through `moveVertex` (GPS keys stripped), no-op moves ignored, whole-feature
+move button independent of the corner cap, ordinal handle labels, lone point
+gets one handle. PR E script drafted (`apply_prE.py`, unapplied).
+Next: C suites → rebase D → D suites; read A r3 / B r3 verdicts; open PRs.
+## 2026-09-02 09:37 — PR D applied (stacked on C), not yet built
+
+Done: `feature/ios-photo-map-states`: PhotoMapViewModel rewritten (State
+off/requestingAccess/indexing/on, intent counter, single-flight refresh,
+`snapshotGeneration`, incremental `PhotoKitIndexer.applyChanges`, awaited
+`imageData` with progress + cancellation, limited-library picker, cluster
+callout); PhotoMapIndex bucketed + most-recent cap + width/height; PhotoMapRow
+lines + Open Settings; MapController cluster inseparable → `.clusterSelected`,
+`.defaultHigh`, annotation-level diff for points-only layers; container wiring;
+Info.plist merged file with PHPhotoLibraryPreventAutomaticLimitedAccessAlert;
+purpose string; PhotoMapViewModelTests + PhotoMapIndexBucketTests (package).
+Next: build+test D (PhotoMapViewModelTests, UserVectorShapeTests, MapControllerTests)
+and `swift test --filter PhotoMapIndex` via the slot once Codex runs finish; Codex D.
+
+## 2026-09-02 10:05 — stack green after Codex round 3 (A, B) / round 2 (C); D green; final rounds launched
+
+Done: A 2c867c55b 53/53, B 5e74f7f10 80/80, C 22b6d4e2a 44/44, D bf378c5dc
+91/91 (all via the slot). Dispositions for every Codex claim so far are in
+`scratchpad/pr/pr{A,B,C}-body.md`. Final Codex rounds launched 10:05 (A r4,
+B r4, C r3, D r1; outputs `codex/out-*-r4-*`, `out-C-r3-*`, `out-D-r1-*`).
+Next: read verdicts, fix only Highs that hold, then `open-prs.sh A|B|C|D`
+(D's base is C's branch); then PR E from `apply_prE.py` on a branch from D.
+
+## 2026-09-02 10:07 — PR E applied (stacked on D), not yet built
+
+Done: `feature/ios-crosshair-placement`: `MapController.reticlePoint`/
+`reticleCoordinate` (armed while a drawing tool is up; the middle of the map
+above the bottom layout margin, the same spot `visibleCentre()` now uses),
+`PlacementReticle` overlay with "Place here" and a coordinate readout, a
+press-and-hold recognizer (`handlePlaceLongPress`, refused over annotation
+views via `longPressMayBegin`) → `.mapLongPressed` → `handleEditTap`;
+`PlacementReticleTests`; provenance test for reticle-placed points.
+Next: build+test E (PlacementReticleTests, UserVectorEditingTests,
+MapControllerTests), Codex E, then open PRs A–E.
+
+## 2026-09-02 10:50 — Codex rounds addressed on A–D, E rebased, F applied; nothing rebuilt yet
+
+Done: A r4 (Precise-Location-off message, stale-fix deadline leaves the map,
+camera taken by search/link/frame, rotated keep-zoom, follow-time failures,
+refusals persist with Dismiss), B r4 (Done drains photo attachments,
+per-vertex snap provenance, lines may revisit corners, stale parcel catches
+guarded, drafts settle only on .background, mark refused while ending,
+Finish 44 pt, traced note in panel), C r3 (altitude and photo capture date
+kept on move, moves refused while ending, exact snap-back records the trace,
+handle reinstall, move outcomes announced), D r2 (PhotoKit id folding,
+per-layer clusters + merged stored-layer card, scope-aware index with
+downgrade clear, continuation owned by the request, MultiPoint diff guard,
+restricted/unavailable access, album-only changes, notices yield, copy),
+F on `feature/ios-field-review-highs` (§3.1 recorder refusals at start,
+§3.2 sealed library, §7.1 never-asked PVSC evidence, §6.2 cards clear of the
+rail and rail at 16 pt, §7.2 KMZ inflation caps).
+Stack: A 67c97f5b1 → B f9a8e8dfe → C 4fb6c5646 → D 7e8d31714 → E c096804b0 → F.
+Next: `queue.sh` in the scratchpad runs each branch's suites through the
+slot (logs/queue-*.log); fix failures; `swift test` for NSMarksCore on F;
+Codex rounds A r5, B r5, C r4, D r2, E r1, F r1 (round.sh now passes
+`-c mcp_servers={}` so Codex no longer holds the build slot); then open PRs
+A→nightly, B→A, C→B, D→C, E→D, F→E with `open-prs.sh`.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git checkout feature/ios-field-review-highs
+# read scratchpad logs/queue-*.log; fix red suites on the owning branch and
+# rebase the branches above it; then Codex rounds, then open-prs.sh A..F
+```
+
+## 2026-09-02 11:46 — Whole stack green on its final commits; one more Codex round running
+
+Done: two more review rounds folded in (A r5, B r5, C r4, D r2, E r1, F r1:
+camera ownership for the automatic parcel fit, signal-recovery caveats,
+session operations drained by Done, GPS-mark predicate, scope-tagged photo
+index, reticle margins and snap preview, KMZ referenced-only inflation,
+sealed-library gating and set-aside). Per-branch suites pass through the
+slot: A 67/3, B 50/4, C 49/4, D 74/4, E 58/3, F 153/5; `swift test`
+NSMarksCore 24/2 + 35/6. PR bodies drafted in the scratchpad `pr/` with
+every round's disposition table (`RESULT_ROUND_FINAL` awaits this round).
+Stack: A a6368badd → B 5a40ee299 → C f3768a2e3 → D 392c7dbd6 → E 6d5a7f229 → F (this commit).
+Next: read `codex/out-{A-r6,B-r6,C-r5,D-r3,E-r2,F-r2}-*.md`; fix only Highs
+that hold (then rerun the owning branch's suites and rebase above), fill
+`RESULT_ROUND_FINAL`, then `open-prs.sh A B C D E F` (bases: nightly, A, B,
+C, D, E). Web clusters G/H/I follow.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git checkout feature/ios-field-review-highs
+# triage the latest Codex verdicts in the scratchpad, then open-prs.sh A..F
+```
+
+## 2026-09-02 12:35 — Second full review pass folded in; whole stack green; final Codex round running
+
+Done: A r6, B r6, C r5, D r3, E r2, F r2 addressed (camera-claim generation,
+refusal reclassification, suspension drains, shared GPS predicate and the
+contract-true `nsmts:traced` retention, scope-tagged photo index with
+synchronous persistence, reticle candidate committed as shown, streaming KMZ
+assets with archive caps, refused recording is not a recording). Per-branch
+suites through the slot: A 70/3, B 51/4, C 50/4, D 77/4, E 61/3, F 161/5;
+`swift test` 24/2 + 38/6. Stack: A b96470aec → B 46841083c → C 1d7c4b37b →
+D 509f17387 → E a6a3b2881 → F (this commit).
+Next: triage `codex/out-{A-r7,B-r7,C-r6,D-r4,E-r3,F-r3}-*.md` (fix only Highs
+that hold), fill `RESULT_ROUND_FINAL` in the six bodies, then
+`open-all.sh` (pushes and opens A→nightly, B→A, C→B, D→C, E→D, F→E and
+rewrites the #PR_X placeholders). Web clusters G/H/I follow.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git checkout feature/ios-field-review-highs
+# triage the latest Codex verdicts in the scratchpad, then open-all.sh
+```
+
+## 2026-09-02 — Ten review rounds landed, stack rebased on nightly, PRs opened
+Done: applied Codex rounds through A r10, B r10, C r8, D r6, E r5, F r5 plus a
+three-agent triage pass over the last verdicts (`apply_pr*.py` in the
+scratchpad). Rebased the stack onto origin/nightly df7763dd5. Suites through the
+build slot: A 77/3, B 58/4, C 56/4, D 89/4, E 69/3, F 179/5; `swift test`
+NSMarksCore 25/2 + 42/6. Stack: A 45c85f7a7 -> B f05646032 -> C 10cd9771f ->
+D 132a7d33f -> E a74fca0f2 -> F (this commit). PRs #295-#300, A to nightly.
+CI's first run found two things the focused suites could not: unit tests asking
+CoreLocation for permission left a system alert that hung the UI suite
+(`MapController.isRunningUnitTests` now suppresses it in a test host only), and
+`UIColor(featureHex:)` had lost bare-hex parsing. The full bundle — 859 unit
+tests in 82 suites plus the UI suite — now passes on the tip against a freshly
+installed app. Everything raised is fixed,
+refuted with a citation, or deferred in the PR bodies to PR K (iOS HIG and
+concurrency mediums), PR L (performance) or PR G/H (web).
+Next: PR G (web mark/locate parity, section 2.3 and 2.9) from origin/nightly:
+keep the zoom on the first fix, gate flyTo on reduced motion, classify one-shot
+geolocation errors, apply the age and accuracy gate to the one-shot, stamp
+nsmts:capturedAt from position.timestamp, surface the storage failure, and keep
+the layer's own points out of the Geoman snap targets while Marker is armed.
+Then H, I, J.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git fetch origin && git checkout -b feature/web-mark-locate-parity origin/nightly
+# PR G: web/src/components/MapCanvas.tsx ~1913-1984, web/src/location/browserLocation.ts, web/src/App.tsx:1517-1550
+```
+
+## 2026-09-03 — PR H ready (web evidence contract, section 11)
+Done: 12 commits on feature/web-evidence-contract, rebased onto nightly after
+PR G merged as d11a92e47. Closes review 11.2-11.7, 11.9, 11.11, 11.12: an
+unreadable civic row is no longer an absence, a coastal scenario that sampled
+nothing is not a miss, a dwelling dataset that was never asked does not answer,
+a point reply gives three states instead of two, the coastal licence's three
+notices reach every surface and the parity fixture, a partial civic answer no
+longer completes a road list, and print keeps unavailable, unanswered and
+not-asked apart. Four Codex rounds also brought: containment before counting,
+canonical PIDs only, a parcel with no queryable polygon asking nothing at all,
+traced provenance only for the value the spec declares, and a receipt that can
+say partly. Gates: npm test 1879, lint, build, NSMarksCore swift test 671, all
+clean; verified in the running app at 1024x768 and 375x812.
+Next: open the PR, then PR I (web correctness/mobile, section 8 and 10, plus
+PR G's and PR H's deferrals), then PR J.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git fetch origin && git checkout -b feature/web-correctness-mobile origin/nightly
+# PR I: review sections 8 and 10, plus the deferrals listed in PR G and PR H
+```
+
+## 2026-09-03 — PR I round-1 fixes landed (web correctness/mobile, sections 8 and 10)
+Done: 14 commits on feature/web-quick-wins (stacked on feature/web-evidence-contract,
+PR H #304). Latest f223395a1 closes Codex round 1: a failed draft read is no longer an
+empty device, Record waits for that read, a refused track save is retried onto the same
+layer, this tab's own removal is not blamed on another tab, a `storage` listener merges
+cross-tab UI state, a pre-fix POSITION_UNAVAILABLE run ends a non-recording watch, a
+refused clear() is reported with a retry, the alert stack clears the home indicator, and
+Escape from a text field closes the inspector. Gates: npm test 1980, lint, build all
+clean; Escape-from-search verified in the running app; fresh-tab console clean.
+Codex round 2 launched (logs in scratchpad/codex/out-I-r2-*.md).
+Uncommitted and NOT part of PR I: the PR J iOS quick wins under ns-marks-the-spot*/
+(patch also saved at scratchpad/prj/ios-quick-wins.patch).
+Next: read Codex round 2, fix or defer, re-run gates, push and open PR I to nightly.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+cat /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ns-marks-follow-ups-98d95e/77e085cc-8a4d-4472-812b-39b4fa75268b/scratchpad/codex/out-I-r2-correctness.md
+```
+
+## 2026-09-03 — PR I open (#305), web correctness/mobile
+Done: 17 commits on feature/web-quick-wins, stacked on feature/web-evidence-contract (PR H #304,
+all five checks green). Closes review §8, §10.1, §10.2, §10.5 and §13.3/13.7/13.11. Two Codex
+rounds (31 findings) fixed or deferred by name; round 3 running. Gates: npm test 2010, lint,
+build, swift test 675, all clean. CI on #305: Change classification, Core package tests and Web
+tests + build green; Native build + tests running.
+Next: read Codex round 3, fix or defer, push. Then PR J (iOS §13 quick wins) on a branch from
+origin/nightly — the patch is uncommitted in this worktree and saved at
+scratchpad/prj/ios-quick-wins.patch. PR M's six plans are already written and adversarially
+verified in scratchpad/plans-m/ and must branch from PR I's head, not nightly, because their
+anchors are in PR I's commits.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+cat /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ns-marks-follow-ups-98d95e/77e085cc-8a4d-4472-812b-39b4fa75268b/scratchpad/codex/out-I-r3-correctness.md
+```
+
+## 2026-09-03 — PR H and PR I merged; round 4 and PR J opened
+Done: #304 and #305 both merged into nightly (21:28 and 22:08 UTC) while round 4 was running, so
+the round-4 fixes missed #305's squash. They are re-applied on feature/web-review-round4 from the
+new nightly and open as #307 (Change classification green; Core package tests and Native build +
+tests skip on a web-only change). Gates: npm test 2029, lint, build clean. PR J's four iOS
+quick-win commits (13.9, 13.4, 13.2, 13.8, one per item) are on feature/ios-quick-wins from
+nightly; the app-target and UI test run is going through the build slot now (XBG_ALLOW_NOW=1,
+XBG_QUIT_CHROME=0, iPhone 17 24FBD923). User picks recorded: Liquid Glass YES behind
+#available(iOS 26); PR N is all four of §12.2, §12.7, §12.4 and §12.11.
+Plans already written and adversarially verified, in scratchpad/: plans-m (six §10 a11y, 84 of 87
+anchors still match), plans-k4 (six §4 iOS), plans-k6 (§11.8 licences plus six §6 HIG groups).
+Next: when the native run passes, open PR J to nightly; then PR K (§4 + §6 + §11.8 + Liquid
+Glass), PR L (§5 perf, measured first), PR M (§10 a11y — branch from nightly now that PR I is in),
+PR N (the four §12 items).
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+tail -40 /tmp/ios-quick-wins-test.log
+```
+
+## 2026-09-03 — PR J open (#308) with its round-1 fixes
+Done: four per-item commits plus a Codex round-1 fix commit and a comment correction on
+feature/ios-quick-wins. #308 was fully green before the round-1 fixes; CI is re-running on
+b4ae16425. Local, through the build slot on iPhone 17 / iOS 26.5: TileStoreTests 11 passed; the
+three UI suites 12 tests, 1 failure — testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt cannot
+determine the licence lock's hittability. That failure reproduces on origin/nightly on the same
+simulator, in isolation as well as in the suite, and passes in CI on both: pre-existing, and
+recorded for PR K's §6.6 target work rather than fixed here.
+Known local hazards confirmed again: the whole app-target bundle hangs after building (use focused
+-only-testing suites); a failing focused run hangs in teardown and holds the slot (kill xcodebuild);
+the gate's runningBuilds counts Codex's xcodebuildmcp processes; and a booted simulator can push
+pressure to 2 and refuse admission — shut it down and retry rather than bypassing.
+Next: PR K (§4 + §6 + §11.8 + Liquid Glass behind #available(iOS 26)) stacked on PR J; PR M (§10
+a11y) stacked on the round-4 branch, not nightly, because four of its anchors are in round 4; PR L
+(§5 perf, measured first); PR N (§12.2, §12.7, §12.4, §12.11).
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+gh pr checks 308
+```
+
+## 2026-09-03 — PR M complete (web accessibility), pushed
+
+Done: `feature/web-a11y` (6 commits on top of `feature/web-review-round4`)
+closes §10.3 dialog focus trap, §10.4 sheet focus, §10.6 HUD live region,
+§10.7 corner mover + photo Remove target, §10.8 landmarks, §10.9 reduced
+motion, §13.5 44px targets. Web gates green locally: 2075 passed / 1 skipped
+in 184 files, lint clean, build clean. Browser-verified at 375×812. Found a
+pre-existing "Maximum update depth exceeded" loop at startup — bisected to
+`88fac4a1a` on nightly, filed as its own task, NOT from this branch.
+PRs #307 (web round 4) and #308 (PR J, iOS) are both green and CLEAN.
+
+Next: fold in the Codex round-1 verdict for PR M, open the PR to `nightly`
+stacked on #307, then start PR K (iOS §4/§6/§11.8 + Liquid Glass behind
+`#available(iOS 26)`) — its 13 plans are already written and adversarially
+verified under `scratchpad/plans-k4/` and `scratchpad/plans-k6/`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e, branch feature/web-a11y (pushed).
+Read scratchpad/codex/out-M-r1-correctness.md and out-M-r1-contract.md, fix or refute every claim with file:line evidence, then open PR M to nightly with the verdict table in the body.
+```
+
+## 2026-09-03 — PR M in adversarial round 3; PR K substantially built
+
+Done: PR M is [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309),
+rebased onto the merged #307/#308 and pushed; two Codex rounds folded in (7+7
+then 6+5 findings). Web gates green: 2098 passed, 1 skipped, 184 files. Round 3
+is running. PR K lives in a SEPARATE worktree,
+`.claude/worktrees/ns-marks-k-hig` on `feature/ios-hig`, branched from
+`feature/ios-quick-wins`; §4 (all five), §11.8 iOS licences, §6.4/6.9
+destructive semantics, §6.2 rail width and §6.10 layers panel are committed
+(687d6286c) and passed 873 tests in 82 suites. The evidence-caveat typography
+(§6.5) and touch targets (§6.6) are applied and building.
+
+Build-slot notes: Codex's own runs were launching `xcodebuildmcp` and holding
+the Apple slot — `scratchpad/codex/round.sh` now nulls that server. A focused
+`xcodebuild` run hangs after its summary line and keeps the slot; kill both the
+wrapper and the `xcodebuild` child. A changed NSMarksCore source can leave a
+stale `MapCatalog.swiftmodule` in DerivedData; delete it if a public symbol
+reads as private.
+
+Next: finish §6 (a11y + haptics, 23 edits) and Liquid Glass behind
+`#available(iOS 26)`, run the whole native bundle, then PR L and PR N.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
+Apply scratchpad/plans-k6/plan.af3ad887.9.json (§6.1/6.7/6.11 accessibility and haptics, 23 edits) with the corrections in verify.a9b10da2.13.json, then build through xcode-build-slot.sh.
+```
+
+## 2026-09-03 — PR M through three adversarial rounds; PR K pushed
+
+Done: PR M [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309) has
+had three Codex rounds (7+7, 6+5, 4+4); every finding fixed or named. Round 3's
+shared first finding was real and serious — the Geoman gesture guard was inert
+because its listeners never landed. Web gates: 2102 passed, 1 skipped, 185
+files; lint and build clean. PR K is pushed as `feature/ios-hig` and its round 1
+is running; the app target's 875 tests in 82 suites pass.
+
+Known local-only native failure:
+`MapChromeUITests.testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt` cannot
+determine hittability of the licence lock. It fails identically on the parent
+branch on this simulator and passes in CI.
+
+Tooling learned tonight: `/tmp/ios-run.sh <log> <xcodebuild args…>` clears the
+hung wrapper and its child before asking for the build slot, which otherwise
+has to be killed by hand after every focused run. `#expect` compares a CGFloat
+against an inferred Double by identity — convert both sides.
+
+Next: fold PR K's Codex rounds in, open its PR to `nightly` stacked on the
+merged #308, then PR N (§12.2 test seams, §12.4 walk-the-line, §12.7 dark
+colour scheme, §12.11 background recording) and PR L (§5 performance, measured
+first).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig (pushed).
+Read scratchpad/codex/out-K-r1-*.md, fix or refute each with file:line evidence, re-run through /tmp/ios-run.sh, then open the PR to nightly with the verdict table.
+```
+
+## 2026-09-03 — PR M green, PR K and the dark scheme opened
+
+Done: **PR M [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309) is
+fully green** on all four checks after three adversarial rounds. **PR K is
+[#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310)** with round 1
+(4+7 findings) folded in and round 2 running; 876 tests in 82 suites pass.
+**§12.7 is [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311)**,
+the dark colour scheme, stacked on #309.
+
+Next: PR N's remaining three — §12.2 (injection seams for TrackRecorder,
+MarkLocation and PhotoMapViewModel, plus the doc paragraph that claims they
+already exist), §12.4 (walk-the-line distance and bearing chip), §12.11
+(background recording — flag to the owner: it reopens approved decision 3 and
+adds a background-location entitlement). Then PR L, §5 performance, measured
+first.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
+Read scratchpad/codex/out-K-r2-*.md, fold in, re-run /tmp/ios-run.sh, then start §12.2's LocationFixSource seam.
+```
+
+## 2026-09-04 — PR M merged; K, N and L in flight
+
+Done: **PR M merged** (#309). **PR K is
+[#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310)** with two
+adversarial rounds folded in and rebased onto the new nightly — 877 tests in 82
+suites. **§12.7 is [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311)**.
+**PR N** is `feature/ios-field-seams` (pushed, not yet opened): §12.2's injected
+fix source with eleven tests that could not be written before, the corrected
+design-doc paragraph, and §12.4's measuring half. Its round 1 found six things,
+listed below, not yet applied.
+
+**PR L is started, measured first.** `feature/ios-performance` carries two
+measurement suites. §5.15 measured at **15.8 ms per body evaluation at 400
+marks** — the review estimated 1–3 ms — and the conversion plans are now cached
+on the commit counter. §5.11's install-cost measurement is running.
+
+Rebase note: the remote rebases these branches onto `nightly` by itself. When a
+push is rejected as behind, `git reset --hard origin/<branch>` then cherry-pick
+your own commits; check the tree afterwards, because the remote's automatic
+resolution took my 44pt photo badge over nightly's reasoned 32 and I put it back.
+
+Next, in order:
+1. Apply PR N's round 1 (six findings): nil accuracy reads as "within" at zero
+   distance; a segment endpoint is labelled `.edge`; vertex and edge distances
+   are measured with two different rulers; a queued fix after `stop()`
+   repopulates `lastFix`; cross-target ties are decided by array order; the
+   doc's earlier "App N1, present" paragraph and its "Remaining tests: none".
+2. Open PR N and PR L.
+3. §12.11 background recording — needs the owner's go: it reopens approved
+   decision 3 and adds a background-location entitlement.
+4. The other thirteen §5 items are named and unmeasured.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+git checkout feature/ios-field-seams, then apply scratchpad/codex/out-N-r1-*.md, rebuild with /tmp/ios-run.sh.
+```
+
+## 2026-09-04 — all seven clusters have a PR
+
+| PR | What | State |
+|---|---|---|
+| #304 H, #305 I, #308 J, #309 M | evidence contract, device/watch/layer, iOS quick wins, web accessibility | merged |
+| [#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310) K | iOS §4, §11.8, §6 + Liquid Glass | open, 2 rounds folded in, 877 tests |
+| [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311) | §12.7 dark colour scheme | open |
+| [#312](https://github.com/dfakkeldy/ns-marks-the-spot/pull/312) N | §12.2 seam + §12.4 measuring half | open, round 1 folded in, 890 + 688 tests |
+| [#313](https://github.com/dfakkeldy/ns-marks-the-spot/pull/313) L | §5.11 and §5.15, measured first | open, round 1 running, 879 tests |
+
+Owed, and NOT done:
+
+- **§12.11 background recording.** Needs the owner's go before the entitlement
+  is touched: it reopens approved decision 3, adds `UIBackgroundModes` and
+  changes the App Store privacy posture. The smallest form is
+  `CLBackgroundActivitySession` with the existing When-In-Use string and no
+  Live Activity.
+- **§12.4's UI.** Only the measuring half is in #312; no chip is drawn.
+- **Thirteen of the fifteen §5 findings**, listed in #313's body. Several want
+  Instruments on a device rather than a unit-level benchmark.
+- A pre-existing "Maximum update depth exceeded" at map startup, bisected to
+  `88fac4a1a` on nightly and filed as its own task.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+Read scratchpad/codex/out-L-r1-*.md, fold into feature/ios-performance, re-run /tmp/ios-run.sh, then ask the owner about §12.11.
+```
+
+## 2026-09-04 — §12.4's UI landed; PR L's round 1 folded in
+
+Done:
+- #312 gained the `WalkToLineChip` and the `walkToLineReading` that feeds it —
+  distance, compass point in degrees *true*, the fix-accuracy caveat and the
+  parcel caveat. 896 tests in 85 suites, app target. §12.4 is now whole.
+- #313 rewritten after round 1: both wall-clock suites deleted,
+  `OverlayInstallOrderTests` asserts batch/loop equivalence **by object
+  identity** against a scene below/level/above the parcels, and
+  `VectorEditSessionPlanTests` covers the cache's real risk — a second layer
+  being handed the first one's plans. Numbers moved to the PR body with the
+  machine, the date and a reproduction snippet.
+- Worktree `ns-marks-l-perf` added for `feature/ios-performance`; L rebased
+  onto the new K tip and force-pushed.
+
+Next:
+- Codex round 2 running on both (`out-L-r2-*.md`, `out-N-r2-*.md`).
+- #310 is green and clean. #311/#312/#313 native builds in progress.
+- **§12.11 is a question, not work.** The review's own verifier note says
+  "Present as a product question to the owner (reopen decision 3), not as an
+  improvement to implement." Ask; do not touch `UIBackgroundModes`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-l-perf.
+Read scratchpad/codex/out-{L,N}-r2-*.md, fold anything real into the two branches, then put §12.11 to the owner.
+```
+
+## 2026-09-04 — round 2 folded in, and a regression the tests could not see
+
+Done:
+- #312 round 2, both lenses: the walk-to-line reading now picks the **freshest
+  usable fix** rather than `recorder.lastFix ?? map` (a paused recording kept
+  its last fix for ever); `MapController.lastUserFix` is observed, because
+  `userLocationFix()` reaches into `MKUserLocation` and publishes nothing;
+  accuracy is **three-way**, so a `horizontalAccuracy` of −1 no longer looks
+  like a good fix; the parcel targets pass the licence gate, not just the
+  toggle; and the readout names NSPRD.
+- Then a regression of my own: putting the chip in the top notice stack fixed
+  the overlap and made it **invisible** — the edit panel is bottom-anchored and
+  its top edge is above that slot exactly when a reading exists. Found by
+  driving the simulator, not by a test. It is panel content now, pinned above
+  the scroll area. Verified live: 141 m → 110 m along a simulated walk.
+- #313 round 2: `planComputations` counts the passes, because every other
+  assertion in that suite passes with the cache deleted.
+- #311 is fully green.
+
+Next:
+- CI on #312/#313 after the last pushes.
+- **§12.11 is a product question, not work.** The review's own verifier note:
+  "Present as a product question to the owner (reopen decision 3), not as an
+  improvement to implement." Ask; do not touch `UIBackgroundModes`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+Watch CI on #312 and #313, then put §12.11 to the owner as a question.
+```
+
+## 2026-09-04 — §12.11 answered, and it is two PRs
+
+Done:
+- **The owner reopened approved decision 3 in full**, with the Live Activity.
+  Recorded in the memory file `background-recording-decision.md`.
+- [#314](https://github.com/dfakkeldy/ns-marks-the-spot/pull/314) — the walk
+  continues off screen. `CLBackgroundActivitySession` +
+  `allowsBackgroundLocationUpdates` + `UIBackgroundModes = location`, all held
+  for exactly the length of a running recording. **When In Use only**; no new
+  prompt, no Always string, zero-collection label intact.
+- Round 1 on #314 found the defect that would have shipped:
+  `pausesLocationUpdatesAutomatically` defaults to **true**, and for a
+  when-in-use app CoreLocation's automatic pause ends location access until the
+  app is reopened — a forester standing still would have come back to a
+  recorder still counting and taking nothing in. Also: the session's
+  `diagnostics` were discarded (merging *blocked* into *running*), the reader
+  was never told before backgrounding, and a grant arriving from Settings lit
+  the idle timer for an app that was off screen. All fixed; 900 tests.
+- PR P (`feature/ios-live-activity`, not yet opened) has the widget extension:
+  a new Xcode target added by hand to the pbxproj, `SharedActivity/` compiled
+  into both targets, Pause/Resume/Stop `LiveActivityIntent`s that perform in
+  the app process, and a presenter behind the same kind of seam.
+
+Next:
+- Finish PR P's build (ActivityKit's `Activity` is a non-Sendable class whose
+  methods are `@concurrent`; the handle is boxed `@unchecked Sendable` in one
+  named place), test, open it, and run a Codex round.
+- **Not covered anywhere: process termination loses an in-progress walk**, and
+  background recording makes that easier to reach. Said in the design document;
+  its own piece of work.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Build feature/ios-live-activity, run the app-target suite, open the PR stacked on #314.
+```
+
+## 2026-09-04 — §12.11 is two open PRs; the original seven are merged
+
+Merged: #310 (K), #311 (dark scheme), #312 (N), #313 (L). The four earlier
+clusters merged before them.
+
+Open:
+- [#314](https://github.com/dfakkeldy/ns-marks-the-spot/pull/314) — the walk
+  continues off screen. Round 1 folded in; 900 tests.
+- [#315](https://github.com/dfakkeldy/ns-marks-the-spot/pull/315) — the Live
+  Activity, stacked on #314. New `NSMarksLiveActivity` target added to the
+  pbxproj by hand; 904 tests. Round 1 running.
+
+Two things worth remembering from #315:
+- `INFOPLIST_KEY_NSExtensionPointIdentifier` does **not** generate the nested
+  `NSExtension` dictionary. Without an explicit Info.plist the *whole app*
+  fails to install with "Invalid placeholder attributes".
+- Every recorder test must inject a `TrackActivityPresenter`. The default is
+  the real one, so the tests were reaching ActivityKit and blocking the main
+  actor long enough to starve the bundle — an unrelated deadlock-detector test
+  began timing out at sixty seconds, which is how it surfaced.
+
+Owed, and NOT done:
+- **Device verification of both.** The simulator does not background
+  faithfully and does not present Live Activities as a device does. Nothing
+  about §12.11 is device-verified.
+- **Process termination loses an in-progress walk**, and background recording
+  makes that easier to reach. Recorded in the design document; its own work.
+- Thirteen of the fifteen §5 findings, listed in #313's body.
+- A pre-existing "Maximum update depth exceeded" at web map startup, bisected
+  to `88fac4a1a` and filed as its own task.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Read scratchpad/codex/out-P-r1-*.md, fold into #315, and watch CI on #314 and #315.
+```
+
+## 2026-09-04 — #314 green; #315 round 1 folded in
+
+Done:
+- **#314 is fully green** (Build gate, Native, Core, Change classification).
+- #315 round 1, and it was the sharpest round yet. Both lenses opened with the
+  same finding: **Stop from the Lock Screen could lose the walk.** The map's
+  Stop shows the save sheet while the reader watches; a locked phone's cannot,
+  so the stopped walk waited in `@State` — and iOS terminates backgrounded
+  apps. `PendingTrackSaveStore` writes it before the recorder is cleared.
+  Also fixed: orphaned activities ended at launch ("Recording stopped", never
+  "finished"); intents that reached no recorder reporting success; unordered
+  activity updates (Pause then Resume could land backwards); a blocked
+  background session invisible on the Lock Screen; a refused walk losing its
+  Stop button; and 44-pt targets. 916 tests in 89 suites.
+
+Two traps worth remembering:
+- `INFOPLIST_KEY_NSExtensionPointIdentifier` does not generate the nested
+  `NSExtension` dictionary; without an explicit Info.plist the *whole app*
+  fails to install with "Invalid placeholder attributes".
+- **Anything that reaches ActivityKit from a test host blocks the main actor
+  long enough to starve the bundle.** It surfaced twice as an unrelated
+  deadlock-detector test timing out at sixty seconds: once from the default
+  `LiveActivityPresenter` in recorder tests, once from the launch-time orphan
+  sweep. Both are now skipped or injected.
+
+Owed, and NOT done:
+- **Device verification of #314 and #315.** Nothing about §12.11 has been on a
+  device or a Lock Screen.
+- An in-progress (not yet stopped) walk is still lost on termination. Only the
+  *stopped* one is durable now.
+- Thirteen of the fifteen §5 findings, listed in #313's body.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Watch CI on #315, run a round 2 on the revision, then hand both to the owner for a device walk.
+```
+
+## 2026-09-04 — #314 merged; #315 round 2, and a false claim of mine corrected
+
+Done:
+- **#314 merged into nightly.** Background continuation is in.
+- #315 round 2. The critical finding was that **round 1's fix did not do what
+  its commit message said**: the write happened *after* `stop()` cleared the
+  recorder, and its failure was ignored — on a full disk the recorder was
+  cleared, the activity ended, a success haptic fired and the walk was
+  nowhere. Both lenses found it. Stopping is a transaction now:
+  `stop(now:keeping:)` puts the recording back untouched if the walk cannot be
+  set aside.
+- Six more fixed: a cleared restriction can unsay itself; pause no longer
+  carries the off-screen warning; orphan ids are named synchronously so a walk
+  started in between is not swept up; the running clock is banked before an
+  orphan is ended; an unreadable pending file is neither reported as "no walk"
+  nor deleted; the pending file is excluded from backups; and the Lock Screen's
+  actions report what happened rather than whether a closure existed.
+- 918 tests in 89 suites.
+
+**Two findings left open, deliberately, and they need a decision:**
+1. A cold-launched `LiveActivityIntent` has no recorder — Apple launches the
+   process *without opening the app*, so the view's `onAppear` never installs
+   the registry. Needs the recorder and the pending store moved into
+   `AppContainer`.
+2. A save that completes, then a termination before the pending file is
+   cleared, offers the same walk again and can duplicate the layer. Needs a
+   stable identifier reconciled against the library.
+
+Eighteen findings over two rounds on #315, nearly all tracing to Stop being
+reachable from a Lock Screen. #314 had none of this: it adds no artefact that
+can be lost.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+#315 is open with two known gaps in its body. Ask the owner: land it without Stop, do the AppContainer + identifier work, or hold.
+```
+
+## 2026-09-04 — #315 narrowed: the Lock Screen pauses, the map stops
+
+The owner's call, after two rounds and eighteen findings on this PR: **land the
+Live Activity without Stop.**
+
+Done:
+- `StopTrackIntent`, the Stop button, `PendingTrackSaveStore`, the transactional
+  `stop(keeping:)` and the `Codable` conformances added to carry a walk to disk
+  are all gone. Every one of them existed to make Stop survivable from a locked
+  phone; none is needed by a readout with Pause and Resume.
+- The Lock Screen says "Open the app to stop and save".
+- Everything the rounds found that was NOT about Stop stays: serialized
+  presenter, honest `@unchecked Sendable` invariant, background notice on the
+  Lock Screen that can unsay itself, pause not carrying it, orphan ids named
+  synchronously with the clock banked, actions reporting what happened, 44-pt
+  targets.
+- Filed as its own task: **checkpoint an in-progress recording**, which is what
+  Stop-from-the-Lock-Screen and cold-launched intents both need.
+
+**A correction.** I earlier attributed a timing-out `LayerLoadProgressTests`
+deadlock detector to unit tests reaching ActivityKit, and said so in a commit
+message and a PR body. That was too confident: the test has a 60-second limit,
+fails intermittently on this machine after hours of building, passes in 0.034 s
+in isolation, and CI has passed the same bundle on every branch in this stack.
+Injecting the presenter and skipping the launch sweep under a test host are
+still right — a unit test must not reach a system service — but they were not
+the cause. The PR body now says so.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Watch CI on #315; a round 3 on the narrowed diff would be cheap and worth it.
+```
+
+## 2026-09-04 — #315 green; the whole field review is landed or filed
+
+- **#315 is fully green** (Build gate, Native, Core, Change classification) with
+  the narrowed scope: the Live Activity as a readout with Pause and Resume.
+  That also settles the local flake — CI ran the same bundle, including
+  `LayerLoadProgressTests`, and passed. It is this machine after many hours of
+  building, not the code.
+- Merged: #307–#314. Every cluster of the 2026-09-02 field review is landed
+  except what is listed below.
+- **The four entries above this one were stranded**: they were committed to
+  `feature/web-dark-scheme` after #311 had already merged, so `nightly` never
+  got them. Moved here, onto the open PR, which is where the remaining work is.
+  Lesson for next time: once a PR merges, its branch is not a place to keep
+  writing.
+
+Still owed, none of it started:
+- **A device walk.** Nothing about §12.11 has been on a real phone or a real
+  Lock Screen — not the fixes arriving in a pocket, not the indicator, not the
+  update budget, not the battery cost.
+- **Checkpointing an in-progress recording** (filed as its own task). It is what
+  Stop-from-the-Lock-Screen and cold-launched intents both need, and it fixes
+  something true today: a walk in progress is lost if iOS kills the app.
+- **Thirteen of the fifteen §5 findings**, listed by name in #313's body.
+- A pre-existing "Maximum update depth exceeded" at web map startup, bisected to
+  `88fac4a1a` and filed as its own task.
+- **PR #316** is a Cursor agent's docs audit over the same privacy wording #314
+  touched. Not mine; left open as its body asks.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+#315 is green and ready. Delete this file in the commit that closes the task.
+```

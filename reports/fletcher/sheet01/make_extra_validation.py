@@ -1,0 +1,2 @@
+exec(open('reports/fletcher/sheet01/point_tools.py').read())
+p=json.loads((D/'validation-candidates.json').read_text());q=nodes['J0091'].copy();q.update(id='V03',role='check',pixel_xy=[3500,5045],modern_node_id='J0091',identity_evidence='Low Fall stream shoreline mouth on western coast south of Lowland Cove',source_uncertainty_px=20,status='Additional fresh post-repair-freeze proposal; no fresh scores inspected yet.');p['points']=[q];(D/'validation-extra-candidates.json').write_text(json.dumps(p,indent=2)+'\n')

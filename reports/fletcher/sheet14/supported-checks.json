@@ -1,0 +1,111 @@
+{
+  "fit_sha256": "ee8c2de3f9c471f3c7e812e9372d40e51c5dee113954cfc08b7c5939c4d2cccc",
+  "points": [
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7218,
+        3590
+      ],
+      "lonlat": [
+        -61.3386802,
+        46.1855246
+      ],
+      "modern_node": "J0204",
+      "modern_objectids": [
+        191453,
+        269171,
+        269173
+      ],
+      "identity_evidence": "Northwestern thin arm joins main above loop with a separate southern arm at its base; eastbound main continues to C07. Same catchment as C06/C07, limited independence.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        6400,
+        4940
+      ],
+      "lonlat": [
+        -61.3800562,
+        46.1431433
+      ],
+      "modern_node": "J0418",
+      "modern_objectids": [
+        195895,
+        196370,
+        196371
+      ],
+      "identity_evidence": "Eastern arm above successive northwestern and western tributaries C17; entire fork order is identifiable on native scan. Same catchment as C17.",
+      "source_uncertainty_px": 5,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        6449,
+        6363
+      ],
+      "lonlat": [
+        -61.367183,
+        46.1026316
+      ],
+      "modern_node": "J0584",
+      "modern_objectids": [
+        195713,
+        196050,
+        196696
+      ],
+      "identity_evidence": "Northern tributary enters the main at the crest of tight eastward loop upstream of C13, separate from the longer northwestern C13 branch. Boundary check near control; limited independence.",
+      "source_uncertainty_px": 7,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "F06",
+      "role": "check",
+      "pixel_xy": [
+        8570,
+        1806
+      ],
+      "lonlat": [
+        -61.2784062,
+        46.2431588
+      ],
+      "modern_node": "J0059",
+      "modern_objectids": [
+        191037,
+        191038,
+        191164
+      ],
+      "identity_evidence": "Northern tributary joins east\u2013west stream before diagonal-road crossing eastward; western reach continues to western stem and lower C05 junction. Thin channel distinguished from diagonal double-line road.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    },
+    {
+      "id": "F07",
+      "role": "check",
+      "pixel_xy": [
+        5853,
+        3855
+      ],
+      "lonlat": [
+        -61.4043153,
+        46.1792191
+      ],
+      "modern_node": "J0236",
+      "modern_objectids": [
+        277455,
+        277456,
+        315956
+      ],
+      "identity_evidence": "Eastern tributary enters north\u2013south Cove Brook above lower major eastward branch. Eastern arm rises northeast to a further north/east fork, separate from lower Cove Brook junctions.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    }
+  ],
+  "status": "Five retained unfitted diagnostic checks; F03/F04/F05 consumed after failed first fresh test. Not fresh validation of the revised fit."
+}

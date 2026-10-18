@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C02",
+    "label": "Costley Lake north lobe",
+    "role": "proposal",
+    "pixel_xy": [
+      5516,
+      371
+    ],
+    "lonlat": [
+      -61.718577195644976,
+      45.314953136674546
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 128642,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128642,
+    "nearest_unfiltered_distance_guide_px": 0.56566378205857,
+    "selected_distance_guide_px": 0.56566378205857,
+    "guide_reference_pixel_xy": [
+      5545.407630862959,
+      386.3921894872328
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Monument Lake north end",
+    "role": "proposal",
+    "pixel_xy": [
+      1530,
+      1446
+    ],
+    "lonlat": [
+      -61.9286842395332,
+      45.20412304845972
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 135584,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135584,
+    "nearest_unfiltered_distance_guide_px": 0.26324011299686756,
+    "selected_distance_guide_px": 0.26324011299686756,
+    "guide_reference_pixel_xy": [
+      1559.2008583033457,
+      1460.1701508127153
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Small pond south of Cains Lake, north edge",
+    "role": "proposal",
+    "pixel_xy": [
+      3219,
+      3306
+    ],
+    "lonlat": [
+      -61.78509384103944,
+      45.155084966709886
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 134913,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 134913,
+    "nearest_unfiltered_distance_guide_px": 1.3323247452515177,
+    "selected_distance_guide_px": 1.3323247452515177,
+    "guide_reference_pixel_xy": [
+      3241.7062735318905,
+      3300.7004562382353
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Archibald Big Lake west upper lobe extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      4025,
+      338
+    ],
+    "lonlat": [
+      -61.80787127740657,
+      45.29154871978391
+    ],
+    "guide_file": ".crown-grant-local/101-adjacent-guide.npy",
+    "reference_objectid": 129804,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 129804,
+    "nearest_unfiltered_distance_guide_px": 0.867754136228285,
+    "selected_distance_guide_px": 0.867754136228285,
+    "guide_reference_pixel_xy": [
+      4050.484793397365,
+      355.71970313519705
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

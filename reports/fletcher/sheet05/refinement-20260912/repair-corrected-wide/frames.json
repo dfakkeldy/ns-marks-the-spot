@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-05-R01.jpg",
+    "point_record": "sheet05/refinement-20260912/repair-corrected.json",
+    "point_id": "R01",
+    "native_box": [
+      6010,
+      2297,
+      6810,
+      3097
+    ],
+    "native_coordinates": [
+      6410,
+      2697
+    ],
+    "modern_lonlat": [
+      -60.6126044,
+      46.7363776
+    ],
+    "rotation_degrees": 0
+  }
+]

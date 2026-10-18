@@ -1,0 +1,50 @@
+{
+  "reviewed_at": "2026-09-13",
+  "reference_receipt": "hawkesbury-reference-receipts.json",
+  "selected_properties": [
+    {
+      "OBJECTID": 434,
+      "FEAT_CODE": "WARS40",
+      "FEAT_DESC": "Reservoir Water polygon",
+      "ZVALUE": 16.2,
+      "FID": null,
+      "SHAPE_Length": 21316.214046463825,
+      "SHAPE_Area": 2669788.3454352533
+    },
+    {
+      "OBJECTID": 4276,
+      "FEAT_CODE": "WASW40",
+      "FEAT_DESC": "Swamp Area polygon",
+      "ZVALUE": 9999,
+      "FID": null,
+      "SHAPE_Length": 2153.8160755270615,
+      "SHAPE_Area": 217137.89345099116
+    },
+    {
+      "OBJECTID": 6476,
+      "FEAT_CODE": "WASW40",
+      "FEAT_DESC": "Swamp Area polygon",
+      "ZVALUE": 9999,
+      "FID": null,
+      "SHAPE_Length": 2117.370982414217,
+      "SHAPE_Area": 140024.22651197916
+    },
+    {
+      "OBJECTID": 28625,
+      "FEAT_CODE": "WASW40",
+      "FEAT_DESC": "Swamp Area polygon",
+      "ZVALUE": 9999,
+      "FID": null,
+      "SHAPE_Length": 1358.4078037401493,
+      "SHAPE_Area": 22854.567965324335
+    }
+  ],
+  "note": "The paired figures render the water-polygons extract in one fill. Its FEAT_CODE/FEAT_DESC distinguish reservoir water from swamp areas; polygon overlap alone is not proof of open water. OBJECTID434 also intersects the previously withheld New Road243; this metadata clarifies its context without changing that decision.",
+  "seacoal_reservoir_check": {
+    "annotation_id": "F22-HAW-278",
+    "reservoir_object_id": 434,
+    "projected_vertices_inside": 84,
+    "projected_vertices_total": 110,
+    "method": "Ray crossing containment against native GeoJSON rings, excluding holes; diagnostic vertex count, not length or a fit-accuracy measure."
+  }
+}

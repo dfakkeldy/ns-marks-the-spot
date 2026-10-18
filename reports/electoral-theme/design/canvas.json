@@ -1,0 +1,273 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Electoral Districts \u00b7 desktop",
+      "page": "page-elections"
+    },
+    {
+      "file": "DirectionA.dc.html",
+      "x": 0,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "title": "Direction A \u00b7 Atlas lines",
+      "page": "page-elections"
+    },
+    {
+      "file": "DirectionB.dc.html",
+      "x": 720,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "title": "Direction B \u00b7 Winner wash",
+      "page": "page-elections"
+    },
+    {
+      "file": "DirectionC.dc.html",
+      "x": 1440,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "title": "Direction C \u00b7 Margin & turnout",
+      "page": "page-elections"
+    },
+    {
+      "file": "Inspector.dc.html",
+      "x": 0,
+      "y": 1960,
+      "w": 390,
+      "h": 820,
+      "title": "District inspector",
+      "page": "page-elections"
+    },
+    {
+      "file": "Mobile.dc.html",
+      "x": 480,
+      "y": 1960,
+      "w": 390,
+      "h": 844,
+      "title": "Phone sheet",
+      "page": "page-elections"
+    },
+    {
+      "file": "DataInventory.dc.html",
+      "x": 960,
+      "y": 1960,
+      "w": 880,
+      "h": 1700,
+      "print": "flow",
+      "title": "Data inventory",
+      "page": "page-elections"
+    },
+    {
+      "file": "ResultsOverTime.dc.html",
+      "x": 0,
+      "y": 3800,
+      "w": 1440,
+      "h": 560,
+      "page": "page-elections",
+      "title": "Results over time \u00b7 2003\u20132024"
+    },
+    {
+      "file": "Swing.dc.html",
+      "x": 1520,
+      "y": 3800,
+      "w": 640,
+      "h": 610,
+      "page": "page-elections",
+      "title": "Swing 2021 \u2192 2024"
+    },
+    {
+      "file": "PollsProvincial.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 720,
+      "page": "page-polls",
+      "title": "Provincial poll by poll \u00b7 Annapolis 2024"
+    },
+    {
+      "file": "PollsFederal.dc.html",
+      "x": 0,
+      "y": 880,
+      "w": 1440,
+      "h": 720,
+      "page": "page-polls",
+      "title": "Federal poll by poll \u00b7 Acadie\u2014Annapolis 2025"
+    },
+    {
+      "file": "CensusMain.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-census",
+      "title": "People & Housing \u00b7 desktop"
+    },
+    {
+      "file": "CensusHomes.dc.html",
+      "x": 0,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "page": "page-census",
+      "title": "Census 1 \u00b7 Homes not lived in year-round"
+    },
+    {
+      "file": "CensusChange.dc.html",
+      "x": 720,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "page": "page-census",
+      "title": "Census 3 \u00b7 Population change"
+    },
+    {
+      "file": "CensusEras.dc.html",
+      "x": 1440,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "page": "page-census",
+      "title": "Census 4 \u00b7 Period of construction"
+    },
+    {
+      "file": "CensusLanguage.dc.html",
+      "x": 2160,
+      "y": 1080,
+      "w": 640,
+      "h": 610,
+      "page": "page-census",
+      "title": "Census 7 \u00b7 Mother tongue"
+    },
+    {
+      "file": "CensusProfile.dc.html",
+      "x": 0,
+      "y": 1830,
+      "w": 390,
+      "h": 900,
+      "page": "page-census",
+      "title": "Neighbourhood profile card"
+    },
+    {
+      "file": "Representatives.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1180,
+      "page": "page-reps",
+      "title": "Your representatives"
+    },
+    {
+      "file": "RoundTwoNotes.dc.html",
+      "x": 0,
+      "y": 1320,
+      "w": 880,
+      "h": 1750,
+      "page": "page-reps",
+      "print": "flow",
+      "title": "Round-two data notes"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "note-read-me",
+      "x": 1540,
+      "y": 0,
+      "w": 300,
+      "text": "Electoral theme, first pass.\n\nMain shows the leading candidate: a new 'Elections & Districts' category with the level of government as sub-groups, an 'Electoral Districts' map setup, and Direction A's line hierarchy with Direction B's wash switched on. Annapolis is selected because its 2024 result was decided by 8 votes.\n\nThe three tiles below are the open decision: how results should look on the map. Everything drawn uses the official geometries and the 2024 official counts.",
+      "page": "page-elections"
+    },
+    {
+      "id": "note-open",
+      "x": 1540,
+      "y": 420,
+      "w": 300,
+      "text": "Open decisions\n\n1. Default look: lines only (A), wash (B), or magnitude (C)? My lean: A by default, B and C as modes of the results row.\n2. Level switcher vs. stacking: sub-groups let all three levels stack; a segmented control would force one at a time.\n3. Licence: provincial services have no licence text. Gate them like other GeoNOVA layers until Elections NS confirms.\n4. Federal poll results in the first cut or later?",
+      "page": "page-elections"
+    },
+    {
+      "id": "note-a",
+      "x": 0,
+      "y": 1740,
+      "w": 640,
+      "text": "Direction A \u00b7 Atlas lines. Reference cartography: the theme is a boundary layer first, so it composes with parcels, flood zones and aerial imagery. Results live in the inspector and the optional wash.",
+      "page": "page-elections"
+    },
+    {
+      "id": "note-b",
+      "x": 720,
+      "y": 1740,
+      "w": 640,
+      "text": "Direction B \u00b7 Winner wash. Drag the wash tweak above the tile: at 0.3 the basemap still reads; past 0.5 it becomes a poster. Party hues are conventional, so the legend and labels are mandatory rather than decorative.",
+      "page": "page-elections"
+    },
+    {
+      "id": "note-c",
+      "x": 1440,
+      "y": 1740,
+      "w": 640,
+      "text": "Direction C \u00b7 Margin & turnout. One teal hue, light to dark, stepped from the deep-water hue. Closest races are palest, which is the honest reading of an 8-vote seat. Turnout uses the same ramp with a different legend.",
+      "page": "page-elections"
+    },
+    {
+      "id": "note-history",
+      "x": 2240,
+      "y": 3800,
+      "w": 320,
+      "page": "page-elections",
+      "text": "Round two, on this page: results over time and the 2021\u21922024 swing. Direction A now draws each level in its own ink and Direction B's wash renders (it had been bound to its tweak in a way the runtime ignored)."
+    },
+    {
+      "id": "note-polls",
+      "x": 1520,
+      "y": 0,
+      "w": 320,
+      "page": "page-polls",
+      "text": "Poll by poll, both levels.\n\nProvincial 2024 joins cleanly to the 2020-release divisions (in force for that election) for 54 of 56 districts; Inverness was renumbered in 2026 and cannot be shaded from 2024 numbers.\n\nFederal 2025 joins 203 of 203 divisions exactly.\n\nThe ledger beside each map is not optional: in Annapolis the unmapped ballots reversed what the polls show."
+    },
+    {
+      "id": "note-census",
+      "x": 1540,
+      "y": 0,
+      "w": 320,
+      "page": "page-census",
+      "text": "People & Housing is its own map setup, not a sub-theme of Elections; the two share the provincial-district polygons as their province-zoom rung.\n\nThe main board shows the top-ranked wash (homes not lived in year-round) at county zoom with the inspector profile for one dissemination area. The four tiles below: the same measure at province scale, a diverging map, an ink-tint map, and proportional symbols.\n\nAll DA values here are real 2021 Census Profile values for the Annapolis area; the province-wide file is the first implementation step."
+    },
+    {
+      "id": "note-reps",
+      "x": 1520,
+      "y": 0,
+      "w": 320,
+      "page": "page-reps",
+      "text": "Representatives at every level for a tapped location, resolved on the device. Two sample locations: a town (Annapolis Royal) and an HRM district (North End Halifax).\n\nEvery contact on these cards was read from the official page on September 12, 2026. Personal-domain e-mails are linked, not printed."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-census"
+  },
+  "pages": [
+    {
+      "id": "page-elections",
+      "name": "Elections"
+    },
+    {
+      "id": "page-polls",
+      "name": "Poll level"
+    },
+    {
+      "id": "page-census",
+      "name": "People & Housing"
+    },
+    {
+      "id": "page-reps",
+      "name": "Representatives"
+    }
+  ]
+}

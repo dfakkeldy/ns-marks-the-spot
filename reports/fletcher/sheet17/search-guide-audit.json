@@ -1,0 +1,7 @@
+{
+  "observation_file": "tools/fletcher/observations/sheet-17.json",
+  "observation_sha256": "ecefd62cd8e6c947103781f035a9a6bad180991bbc0be8e3efde86e68f0c9844",
+  "source_sha256": "a8a3f35cbf6addc45abc8cb2934ddea9a6eec4edc8346efc6de783d35355cd7e",
+  "status": "Existing coordinate-label guide preserved; 45\u00b055\u2032/45\u00b050\u2032 and 60\u00b050\u2032/60\u00b030\u2032 edge labels inspected on current native source. Used only for candidate search; not a physical control fit.",
+  "physical_prior_controls_found": false
+}

@@ -1,0 +1,532 @@
+{
+  "status": "does-not-meet-trial-gate",
+  "input_sha256": "1ec224bbc4b214e5d130fdc3978cad0506cc2b06d0a82078034eb26a7a9021ef",
+  "proposal_sha256": "f67a0060efa04429aee70601676b541dffb287470280c6903922c9a558204b55",
+  "target_count": 64,
+  "accepted_count": 0,
+  "coverage": 0.0,
+  "precision_within_100m": null,
+  "accepted_median_improvement": null,
+  "baseline_all": {
+    "n": 64,
+    "median_m": 319.9054716678976,
+    "rms_m": 450.4300187767673,
+    "max_m": 1014.2515658008241
+  },
+  "baseline_accepted": null,
+  "proposals_accepted": null,
+  "rows": [
+    {
+      "id": "c23",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 152.14080943934525,
+      "proposal_error_m": 293.68226789926064
+    },
+    {
+      "id": "c02",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 105.59972408657904,
+      "proposal_error_m": 55.63668392812904
+    },
+    {
+      "id": "c03",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 81.79957494298526,
+      "proposal_error_m": 89.04646778155659
+    },
+    {
+      "id": "c04",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 172.2317130922856,
+      "proposal_error_m": 47.24192345738662
+    },
+    {
+      "id": "c05",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 205.65978471191272,
+      "proposal_error_m": 117.0841827538938
+    },
+    {
+      "id": "c07",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 243.24208936553646,
+      "proposal_error_m": 58.96394342644568
+    },
+    {
+      "id": "c08",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 657.719715076264,
+      "proposal_error_m": 588.5707600824826
+    },
+    {
+      "id": "c10",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 245.8144220413421,
+      "proposal_error_m": 488.94578397902046
+    },
+    {
+      "id": "c12",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 376.30403898010815,
+      "proposal_error_m": 381.26741705888253
+    },
+    {
+      "id": "c18",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 340.27845658488144,
+      "proposal_error_m": 176.52530524642927
+    },
+    {
+      "id": "c21",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 365.85112844696533,
+      "proposal_error_m": 249.48339106647074
+    },
+    {
+      "id": "n02",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 695.9373682458324,
+      "proposal_error_m": 454.6158436913857
+    },
+    {
+      "id": "n03",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 1014.2515658008241,
+      "proposal_error_m": 900.3068038942013
+    },
+    {
+      "id": "n05",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 365.74003524691517,
+      "proposal_error_m": 341.6200565308652
+    },
+    {
+      "id": "g01",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 298.75691714117926,
+      "proposal_error_m": 60.39862574158968
+    },
+    {
+      "id": "g04",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 744.0617079833027,
+      "proposal_error_m": 637.078057318304
+    },
+    {
+      "id": "cand-0001",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 408.99385235730585,
+      "proposal_error_m": 456.04217789079735
+    },
+    {
+      "id": "cand-0004",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 525.8503547523974,
+      "proposal_error_m": 138.67590967818498
+    },
+    {
+      "id": "cand-0005",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 194.99367551432644,
+      "proposal_error_m": 167.1018444476436
+    },
+    {
+      "id": "cand-0011",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 645.7584089098524,
+      "proposal_error_m": 268.7596896100898
+    },
+    {
+      "id": "cand-0017",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 234.53640163028805,
+      "proposal_error_m": 160.03884893985887
+    },
+    {
+      "id": "cand-0030",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 48.8445432728063,
+      "proposal_error_m": 363.0817528413492
+    },
+    {
+      "id": "cand-0054",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 424.45025543519273,
+      "proposal_error_m": 637.8466620901949
+    },
+    {
+      "id": "cand-0059",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 35.65845150674515,
+      "proposal_error_m": 107.33006448815439
+    },
+    {
+      "id": "cand-0063",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 218.54312551627325,
+      "proposal_error_m": 64.59849781823978
+    },
+    {
+      "id": "cand-0106",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 332.8762259485499,
+      "proposal_error_m": 209.0542946806126
+    },
+    {
+      "id": "cand-0141",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 192.88449182066304,
+      "proposal_error_m": 202.61824133200471
+    },
+    {
+      "id": "cand-0169",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 231.4326345182005,
+      "proposal_error_m": 114.19094834325142
+    },
+    {
+      "id": "cand-0173",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 526.7277378659517,
+      "proposal_error_m": 202.63417517632172
+    },
+    {
+      "id": "cand-0179",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 132.29256939640368,
+      "proposal_error_m": 149.4491899997314
+    },
+    {
+      "id": "cand-0303",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 488.4028901434749,
+      "proposal_error_m": 439.86589540100925
+    },
+    {
+      "id": "cand-1041",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 223.19075266068057,
+      "proposal_error_m": 484.6598328489967
+    },
+    {
+      "id": "cand-1179",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 298.82653595337297,
+      "proposal_error_m": 277.68130051476123
+    },
+    {
+      "id": "cand-1214",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 367.21957361770137,
+      "proposal_error_m": 109.47878750850249
+    },
+    {
+      "id": "cand-1643",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 298.20630708378707,
+      "proposal_error_m": 346.53906571429434
+    },
+    {
+      "id": "cand-1872",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 349.9701617186955,
+      "proposal_error_m": 23.292797528391837
+    },
+    {
+      "id": "cand-2018",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 79.51591539568346,
+      "proposal_error_m": 223.21517940820146
+    },
+    {
+      "id": "cand-0413",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 242.49823367197297,
+      "proposal_error_m": 53.06770329772938
+    },
+    {
+      "id": "cand-1344",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 385.4869253907496,
+      "proposal_error_m": 393.44462735898816
+    },
+    {
+      "id": "cand-1394",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 220.71033141586844,
+      "proposal_error_m": 30.914572799494774
+    },
+    {
+      "id": "cand-0286",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 304.7308912062515,
+      "proposal_error_m": 397.12375008065374
+    },
+    {
+      "id": "gcp-2",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 404.89526698398976,
+      "proposal_error_m": 554.9870201131909
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 347.9062937453299,
+      "proposal_error_m": 331.8749380711564
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 305.708267952708,
+      "proposal_error_m": 19.297490516591857
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 310.903222034173,
+      "proposal_error_m": 64.53070309173275
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 278.8607256772458,
+      "proposal_error_m": 15.713847847910461
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 952.4213196693324,
+      "proposal_error_m": 887.5401228376434
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 832.1356039201485,
+      "proposal_error_m": 709.158503573231
+    },
+    {
+      "id": "gcp-11",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 855.986785446765,
+      "proposal_error_m": 887.1540393453588
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 822.6953838277561,
+      "proposal_error_m": 793.900002336606
+    },
+    {
+      "id": "gcp-13",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 12.31578082785232,
+      "proposal_error_m": 359.06379626452707
+    },
+    {
+      "id": "gcp-14",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 97.28609349211338,
+      "proposal_error_m": 438.3696579379292
+    },
+    {
+      "id": "gcp-15",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 229.31692784703588,
+      "proposal_error_m": 606.7526277338695
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 619.495627819905,
+      "proposal_error_m": 903.2492101792357
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 721.4385073980106,
+      "proposal_error_m": 604.784889936689
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 913.0285429431259,
+      "proposal_error_m": 957.7538147034395
+    },
+    {
+      "id": "cand-0497",
+      "role": "check",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 691.2285103662379,
+      "proposal_error_m": 460.20657713082096
+    },
+    {
+      "id": "cand-0691",
+      "role": "check",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 371.5713740647659,
+      "proposal_error_m": 146.44177385538623
+    },
+    {
+      "id": "cand-0899",
+      "role": "check",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 324.10903472747196,
+      "proposal_error_m": 320.4904810873367
+    },
+    {
+      "id": "cand-0016",
+      "role": "check",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 625.7754254206758,
+      "proposal_error_m": 474.3644096123685
+    },
+    {
+      "id": "cand-0315",
+      "role": "check",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 238.31965403584775,
+      "proposal_error_m": 96.7114921289965
+    },
+    {
+      "id": "cand-1554",
+      "role": "check",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 453.76407195846986,
+      "proposal_error_m": 243.18100191465908
+    },
+    {
+      "id": "cand-0026",
+      "role": "check",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 201.72447250841122,
+      "proposal_error_m": 64.92995117969497
+    },
+    {
+      "id": "cand-2020",
+      "role": "check",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 315.70190860832327,
+      "proposal_error_m": 194.83924413116492
+    }
+  ]
+}

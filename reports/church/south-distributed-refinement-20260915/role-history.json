@@ -1,0 +1,61 @@
+{
+  "original_affine_first_validation": [
+    "IS20",
+    "IS21",
+    "IS22",
+    "IS23",
+    "IS24",
+    "IS25",
+    "IS26",
+    "IS27",
+    "IS28",
+    "IS29",
+    "IS30",
+    "IS31",
+    "IS32",
+    "IS33"
+  ],
+  "current_role": "All used for distributed-control diagnosis/selection; first results retained as historical validation",
+  "controls13": [
+    "IS01",
+    "IS02",
+    "IS05",
+    "IS11",
+    "IS19",
+    "IS21",
+    "IS24",
+    "IS25",
+    "IS26",
+    "IS27",
+    "IS15",
+    "IS18",
+    "IS20"
+  ],
+  "excluded_from_candidate_checks": [
+    "IS01",
+    "IS02",
+    "IS05",
+    "IS11",
+    "IS19",
+    "IS21",
+    "IS24",
+    "IS25",
+    "IS26",
+    "IS27",
+    "IS15",
+    "IS18",
+    "IS20"
+  ],
+  "candidate_recent_diagnostics": [
+    "IS22",
+    "IS23",
+    "IS28",
+    "IS29",
+    "IS30",
+    "IS31",
+    "IS32",
+    "IS33"
+  ],
+  "candidate_fresh_checks": 0,
+  "geographic_acceptance": false
+}

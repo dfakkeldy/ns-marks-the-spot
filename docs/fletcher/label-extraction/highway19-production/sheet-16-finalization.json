@@ -1,0 +1,3514 @@
+{
+  "sheet": 16,
+  "status": "finalized-source-only",
+  "sheet_finalized": true,
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_dimensions_px": [
+    10822,
+    7531
+  ],
+  "reviewed_inventory_sha256": "0d6f46fea0302620c3358e8a0966b488cf3dffb9f882ebd280762bb14b0a5307",
+  "source_crop_coverage": {
+    "planned": 40,
+    "source_reviewed": 40,
+    "crop_ids": [
+      "F16-R01C01",
+      "F16-R01C02",
+      "F16-R01C03",
+      "F16-R01C04",
+      "F16-R01C05",
+      "F16-R01C06",
+      "F16-R01C07",
+      "F16-R01C08",
+      "F16-R02C01",
+      "F16-R02C02",
+      "F16-R02C03",
+      "F16-R02C04",
+      "F16-R02C05",
+      "F16-R02C06",
+      "F16-R02C07",
+      "F16-R02C08",
+      "F16-R03C01",
+      "F16-R03C02",
+      "F16-R03C03",
+      "F16-R03C04",
+      "F16-R03C05",
+      "F16-R03C06",
+      "F16-R03C07",
+      "F16-R03C08",
+      "F16-R04C01",
+      "F16-R04C02",
+      "F16-R04C03",
+      "F16-R04C04",
+      "F16-R04C05",
+      "F16-R04C06",
+      "F16-R04C07",
+      "F16-R04C08",
+      "F16-R05C01",
+      "F16-R05C02",
+      "F16-R05C03",
+      "F16-R05C04",
+      "F16-R05C05",
+      "F16-R05C06",
+      "F16-R05C07",
+      "F16-R05C08"
+    ]
+  },
+  "reviewed_annotations": 256,
+  "printed_spot_height_labels": 41,
+  "partial_or_tentative_readings": [
+    {
+      "id": "F16-PHM-137",
+      "issue": "Native lettering supports McGeen; ornate capital and crossed strokes leave McGreen/McKean alternatives. Preserve qualified reading, no identity inference."
+    },
+    {
+      "id": "F16-PHM-241",
+      "issue": "Fall and 8 are clear; tiny trailing mark is not confidently resolved. Do not supply a unit or a modern measured height."
+    },
+    {
+      "id": "F16-PHM-242",
+      "issue": "Falls and 35 are clear; tiny trailing mark is not confidently resolved. Do not supply a unit or a modern measured height."
+    },
+    {
+      "id": "F16-PHM-253",
+      "issue": "Falls 15 is readable; no unit resolved or supplied. Not a modern measured height."
+    }
+  ],
+  "placement_status": "deferred",
+  "all_annotation_geometry_null": true,
+  "first_pass_audit_note": "All 341 structurally valid candidates plus 43 readable candidates in the two original invalid responses reconciled. Invalid responses and receipts remain unchanged.",
+  "first_pass_candidate_dispositions": [
+    {
+      "raw_candidate_id": "F16-R01C02-01",
+      "model_text": "Lay\ncoas\nand\nMab",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-004"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C02-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-017"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C02-03",
+      "model_text": "300 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-018"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-01",
+      "model_text": "Observation Station",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-001"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-02",
+      "model_text": "Mabou Harbour",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-002"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-03",
+      "model_text": "Breakwater",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-003"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-04",
+      "model_text": "Layers and streaks of broken\ncoal and peat in the drift sand\nand gravel at the mouth of\nMabou River have been mistaken\nfor coal measures.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-004"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-05",
+      "model_text": "Plaster Quarry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-005"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-06",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-006"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-07",
+      "model_text": "Mabou Factory",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-007"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-08",
+      "model_text": "35 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-008"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-09",
+      "model_text": "20 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-009"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-10",
+      "model_text": "M A",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-010"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-11",
+      "model_text": "Hog's Back",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-011"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-12",
+      "model_text": "150 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-012"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-13",
+      "model_text": "30 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-013"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-14",
+      "model_text": "40 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-15",
+      "model_text": "50 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-015"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-16",
+      "model_text": "250 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-016"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-17",
+      "model_text": "85 FT",
+      "disposition": "rejected-unsupported-reading",
+      "note": "Native source does not support this additional height/Point reading.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-18",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-017"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C03-19",
+      "model_text": "300 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-018"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-01",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-019"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-02",
+      "model_text": "Mabon Harbour",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-020"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-03",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-021"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-04",
+      "model_text": "Stuart",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-022"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-023"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-06",
+      "model_text": "R.R.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-024"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-07",
+      "model_text": "Dr. Cameron M.D.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-025"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-08",
+      "model_text": "ABOU RIVER",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-010"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-09",
+      "model_text": "HughesPoint",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-026"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-10",
+      "model_text": "IndianPoint",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-027"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-11",
+      "model_text": "GoosePoint",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-12",
+      "model_text": "Murphy Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-029"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-13",
+      "model_text": "Larrabey Island",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-030"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-14",
+      "model_text": "30 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-031"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-15",
+      "model_text": "40 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-032"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-16",
+      "model_text": "40 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-033"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-17",
+      "model_text": "35 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-034"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-18",
+      "model_text": "25 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-035"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-19",
+      "model_text": "20 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-036"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-20",
+      "model_text": "360 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-21",
+      "model_text": "322 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-038"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-22",
+      "model_text": "60 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-039"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-23",
+      "model_text": "50 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-040"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-24",
+      "model_text": "30 FT",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-25",
+      "model_text": "400 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-041"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-26",
+      "model_text": "Road",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-115"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-27",
+      "model_text": "Point",
+      "disposition": "rejected-unsupported-reading",
+      "note": "Native source does not support this additional height/Point reading.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R01C04-28",
+      "model_text": "Point",
+      "disposition": "rejected-unsupported-reading",
+      "note": "Native source does not support this additional height/Point reading.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-01",
+      "model_text": "Weaving Mills",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-042"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-02",
+      "model_text": "700 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-043"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-03",
+      "model_text": "Cheese Factory",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-044"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-04",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-045"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-05",
+      "model_text": "Tannery Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-046",
+        "F16-PHM-047"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-06",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-048"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-049"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-08",
+      "model_text": "Stage Stables",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-050"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-09",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-051"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-10",
+      "model_text": "T. & P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-052"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-11",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-053"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-12",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-054"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-13",
+      "model_text": "Po.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-055"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-14",
+      "model_text": "Saw Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-056"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-15",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-16",
+      "model_text": "300 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-058"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-17",
+      "model_text": "50 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-040"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C05-18",
+      "model_text": "300 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-059"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-01",
+      "model_text": "Hillsboro",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-060"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-02",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-061"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-03",
+      "model_text": "T. b. Fraser",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-062"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-04",
+      "model_text": "Elgin",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-05",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-06",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-054"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-07",
+      "model_text": "Slope",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-056"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-08",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C06-09",
+      "model_text": "B. V",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-01",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-064"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-02",
+      "model_text": "McQuarrie Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-065"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-03",
+      "model_text": "McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-066"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-04",
+      "model_text": "James McLean",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-067"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-05",
+      "model_text": "Piers McQuarrie",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-068"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-06",
+      "model_text": "Village River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C07-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-069"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C08-01",
+      "model_text": "McLean",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-067"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R01C08-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-069"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-01",
+      "model_text": "Cape Linzee",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-070"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-02",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-071"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-03",
+      "model_text": "Coal 4",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-072"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-04",
+      "model_text": "Coal 10",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-073"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-05",
+      "model_text": "Coal 3",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-074"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-06",
+      "model_text": "Streaks of coal\nand black shale",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-07",
+      "model_text": "The gray sandstone on this point\nis probably the same as that at\nthe base of Port Hood Wharf.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-076"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-08",
+      "model_text": "Isthmus Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-077"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-09",
+      "model_text": "Point Vertical",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-078"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-10",
+      "model_text": "Rock 10 ft. high",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-079"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-11",
+      "model_text": "100 FEET",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-080"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-12",
+      "model_text": "70 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-081"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C01-13",
+      "model_text": "Smith P...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-01",
+      "model_text": "Black shale 2",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-083"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-02",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-071"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-03",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-072"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-04",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-073",
+        "F16-PHM-074"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-05",
+      "model_text": "Little Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-084"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-06",
+      "model_text": "Quarry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-085"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-07",
+      "model_text": "Pit",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-086"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-08",
+      "model_text": "Black shale",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-087"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-09",
+      "model_text": "120 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-088"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-10",
+      "model_text": "Pt'36",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-089"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-11",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-090"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-12",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-090"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-13",
+      "model_text": "ice",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-070"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-14",
+      "model_text": "of coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-15",
+      "model_text": "k shale",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-16",
+      "model_text": "us point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-077"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-17",
+      "model_text": "Beds of peaty soil below H.W.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-093"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-18",
+      "model_text": "Port Hood",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-094"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-19",
+      "model_text": "230 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-095"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-20",
+      "model_text": "370 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-21",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-097"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-22",
+      "model_text": "Court Ho.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-098"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-23",
+      "model_text": "Pits",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-099"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-24",
+      "model_text": "probably Coal measures",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-25",
+      "model_text": "dark bituminous calcareous shale (shells)",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-26",
+      "model_text": "Coal reported",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-102"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-27",
+      "model_text": "Wharf",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-28",
+      "model_text": "H.Ch.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-104"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-29",
+      "model_text": "Smith Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C02-30",
+      "model_text": "N",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-01",
+      "model_text": "John McPherson",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-105"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-02",
+      "model_text": "Mossy Barren",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-106"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-03",
+      "model_text": "Sam Campbell",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-107"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-04",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-108"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-06",
+      "model_text": "Coal measures",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-07",
+      "model_text": "Spring",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-110"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-08",
+      "model_text": "John Doyle",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-112"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-09",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-10",
+      "model_text": "South",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-11",
+      "model_text": "g.v.s.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-111"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C03-12",
+      "model_text": "g.v.s.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-113"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-01",
+      "model_text": "322 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-038"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-02",
+      "model_text": "Post Road",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-115"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-03",
+      "model_text": "Allan McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-116"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-04",
+      "model_text": "Southwest",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-05",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-06",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-117"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-118"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-08",
+      "model_text": "John Campbell",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-119"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-09",
+      "model_text": "Miss",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-120"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C04-10",
+      "model_text": "hoot",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-108"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-01",
+      "model_text": "300 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-059"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-02",
+      "model_text": "John Rankin",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-121"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-03",
+      "model_text": "Tom McLeod",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-04",
+      "model_text": "Miss Jenna Mc Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-120"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-05",
+      "model_text": "John Mc Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-123"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-06",
+      "model_text": "Forge School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-117",
+        "F16-PHM-118"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-124"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C05-08",
+      "model_text": "Shingle Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-01",
+      "model_text": "Brook Vil",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-02",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-03",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-04",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-129"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-06",
+      "model_text": "Tannery",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-07",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-132"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-08",
+      "model_text": "East",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-09",
+      "model_text": "Road to",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-134"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-10",
+      "model_text": "Widow F. McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-135"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-11",
+      "model_text": "Mutt",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-136"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-12",
+      "model_text": "Robert McNee",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-13",
+      "model_text": "Alex McLeod",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-138"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C06-14",
+      "model_text": "GurgleMill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-01",
+      "model_text": "ook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-02",
+      "model_text": "Village River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-03",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-04",
+      "model_text": "Wha...erhaugh",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-134"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-05",
+      "model_text": "Peter McQuarrie",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-068"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-06",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-140"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-07",
+      "model_text": "er McNeer",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C07-08",
+      "model_text": "Rory Mc Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-141"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C08-01",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-140"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R02C08-02",
+      "model_text": "Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-141"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-01",
+      "model_text": "Point Vertical",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-078"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-02",
+      "model_text": "Rock 70 ft high",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-079"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-03",
+      "model_text": "Smith P",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-04",
+      "model_text": "Observation Station",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-142"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-05",
+      "model_text": "trac\ned",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-06",
+      "model_text": "ypsum",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-07",
+      "model_text": "Galena",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-08",
+      "model_text": "Susannah Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-144"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-09",
+      "model_text": "Intricate Channel",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-146"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-10",
+      "model_text": "Henry Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-147"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-11",
+      "model_text": "Portsmouth",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-148"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-12",
+      "model_text": "100 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-080"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-13",
+      "model_text": "210 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-143"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-14",
+      "model_text": "210 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-145"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-15",
+      "model_text": "70 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-081"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-16",
+      "model_text": "90 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-149"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C01-17",
+      "model_text": "195 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-150"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-01",
+      "model_text": "Coal reported\nWharf",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-102",
+        "F16-PHM-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-02",
+      "model_text": "Smith Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-03",
+      "model_text": "Station",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-142"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-04",
+      "model_text": "R.C.Ch.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-104"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-05",
+      "model_text": "Post",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-06",
+      "model_text": "Road",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-07",
+      "model_text": "Vgys.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-08",
+      "model_text": "Pits",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-153"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-09",
+      "model_text": "Mill Creek",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-154"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-10",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-155"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-11",
+      "model_text": "Slope",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-156"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-12",
+      "model_text": "150 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-157"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-13",
+      "model_text": "Tremaire's Mine",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-158"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-14",
+      "model_text": "Light F.\n64 Ft.\nvis 10 m.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-159"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-15",
+      "model_text": "Adit",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-160"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-16",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-162"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-17",
+      "model_text": "Cape Breton Coal Mine",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-163"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-18",
+      "model_text": "150 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-161"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-19",
+      "model_text": "200 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-164"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-20",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-165"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-21",
+      "model_text": "60 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-166"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-22",
+      "model_text": "30 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-168"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-23",
+      "model_text": "Portsmouth Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-148"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-24",
+      "model_text": "Glengarry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-167"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-25",
+      "model_text": "Judge",
+      "disposition": "rejected-unsupported-reading",
+      "note": "No Judge name visible. The nearby vertical mining text reads LEVEL and Four feet seam, recorded from native review.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R03C02-26",
+      "model_text": "tle",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-01",
+      "model_text": "GYS",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-113"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-02",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-03",
+      "model_text": "Road 50°",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-04",
+      "model_text": "gys",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-05",
+      "model_text": "marks",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-170"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-06",
+      "model_text": "Archie Gillis",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-171"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-172"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-08",
+      "model_text": "Mr.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-174"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-09",
+      "model_text": "Mad...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-174"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-10",
+      "model_text": "garry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-167"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-11",
+      "model_text": "Judique",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-12",
+      "model_text": "e",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C03-13",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-01",
+      "model_text": "ellis",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-171"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-02",
+      "model_text": "A & D. M. Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-176"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-03",
+      "model_text": "Harren",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-177"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-04",
+      "model_text": "Alex M. Don",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-178"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-172"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-06",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-173"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-07",
+      "model_text": "Middle Bridge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-174"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C04-08",
+      "model_text": "Pins",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-179"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-01",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-124"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-02",
+      "model_text": "Shingle Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-03",
+      "model_text": "Mull River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-180"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-04",
+      "model_text": "Alex McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-178"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-05",
+      "model_text": "Mull River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-181"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-06",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-182"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C05-07",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-183"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C06-01",
+      "model_text": "Jungle Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C06-02",
+      "model_text": "Mississagi River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-139"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C06-03",
+      "model_text": "Angus Gillis",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-184"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C06-04",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-181"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C06-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-186"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C06-06",
+      "model_text": "C.I.M.",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-01",
+      "model_text": "Rory McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-141"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-02",
+      "model_text": "John McLean",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-187"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-188"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-04",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-192"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-05",
+      "model_text": "George McKinnon",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-191"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-06",
+      "model_text": "Dougald Adams",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-190"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-07",
+      "model_text": "Bridge Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-189"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-08",
+      "model_text": "Old Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-193"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C07-09",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-194"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C08-01",
+      "model_text": "Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-141"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C08-02",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-189"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R03C08-03",
+      "model_text": "d Min",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-193"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-01",
+      "model_text": "195 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-150"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-02",
+      "model_text": "Justaucorps\nPoint",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-200"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-03",
+      "model_text": "Fishery Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-201"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-04",
+      "model_text": "10",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-05",
+      "model_text": "11",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-06",
+      "model_text": "10",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-07",
+      "model_text": "10",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C01-08",
+      "model_text": "Ca",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-210"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-01",
+      "model_text": "30 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-168"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-02",
+      "model_text": "Glengarry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-167"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-03",
+      "model_text": "Little",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-04",
+      "model_text": "Judiqu",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-05",
+      "model_text": "Ragged Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-202"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-06",
+      "model_text": "150 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-203"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-07",
+      "model_text": "10",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-08",
+      "model_text": "50 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-204"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-09",
+      "model_text": "M Livingston",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-207"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-10",
+      "model_text": "60 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-206"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-11",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-212"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-12",
+      "model_text": "Harbour",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-205"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-13",
+      "model_text": "25 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-208"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-14",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-209"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-15",
+      "model_text": "10",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-16",
+      "model_text": "150 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-211"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-17",
+      "model_text": "1",
+      "disposition": "excluded-source-apparatus",
+      "note": "Marginal legend, report reference, geological unit code or bare dip/strike numeral excluded from inventory scope.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-18",
+      "model_text": "Cape Susan",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-210"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-19",
+      "model_text": "Kate Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-214"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-20",
+      "model_text": "Little Judique",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-213"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C02-21",
+      "model_text": "John McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-215"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-01",
+      "model_text": "perry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-167"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-02",
+      "model_text": "Judique Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-03",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-216"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-04",
+      "model_text": "Archie Gillis",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-217"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-05",
+      "model_text": "kingston",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-207"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-06",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-212"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-07",
+      "model_text": "dique",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-213"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-08",
+      "model_text": "P.O",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-218"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C03-09",
+      "model_text": "Mr",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-225"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-01",
+      "model_text": "Southwest",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-220"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-02",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-220"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-03",
+      "model_text": "This region was",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-219"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-04",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-221"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-05",
+      "model_text": "P.O",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-222"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-06",
+      "model_text": "Rear Judique",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-223"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-224"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-08",
+      "model_text": "Mrs McIntyre",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-225"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-09",
+      "model_text": "John McIsaac",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-226"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-10",
+      "model_text": "Upper B",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-229"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C04-11",
+      "model_text": "Hon",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-230"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-01",
+      "model_text": "region was not surveyed.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-219"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-02",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-220"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-03",
+      "model_text": "A. McInnes",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-228"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-04",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-220"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-05",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-182"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-06",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-183"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-07",
+      "model_text": "Glencoe",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-227"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-08",
+      "model_text": "Upper Bridge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-229"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-09",
+      "model_text": "Ronald McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-230"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-10",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-231"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-11",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-232"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C05-12",
+      "model_text": "Hector McIsaac",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-233"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-01",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-181"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-02",
+      "model_text": "P°",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-183"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-186"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-04",
+      "model_text": "...encoe",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-227"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-05",
+      "model_text": "R. Mills",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-234"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-06",
+      "model_text": "Mills",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-234"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-07",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-234"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-08",
+      "model_text": "R. Creek",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-235"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-09",
+      "model_text": "Mill River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-236"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C06-10",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-241"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C07-01",
+      "model_text": "W. Judson",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-239"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C07-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-240"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C07-03",
+      "model_text": "Kewstoke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-238"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C07-04",
+      "model_text": "John McDonald (Gray)",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-243"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C07-05",
+      "model_text": "Falls 8'",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-241"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C07-06",
+      "model_text": "Falls 35'",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-242"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R04C08-01",
+      "model_text": "stoke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-238"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C02-01",
+      "model_text": "Kate Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-214"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C02-02",
+      "model_text": "John McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-215"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C02-03",
+      "model_text": "Emersion Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-245"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C02-04",
+      "model_text": "Catharine Pond",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-244"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C02-05",
+      "model_text": "John McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-246"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-01",
+      "model_text": "ald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-215"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-02",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-218"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-03",
+      "model_text": "Pond",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-244"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-04",
+      "model_text": "uald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-246"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-05",
+      "model_text": "Jadiquer",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-06",
+      "model_text": "Intervale",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-07",
+      "model_text": "Old Stonehouse",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-248"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-08",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-09",
+      "model_text": "Hugh...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-249"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C03-10",
+      "model_text": "Mr...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-225"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C04-01",
+      "model_text": "Mrs McIntyre",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-225"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C04-02",
+      "model_text": "John McIsaac",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-226"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C04-03",
+      "model_text": "Hugh McInnes",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-249"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C04-04",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-247"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C05-01",
+      "model_text": "Hector McIsaac",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-233"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C05-02",
+      "model_text": "Widow Campbell",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-250"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C05-03",
+      "model_text": "Mc Leod Settlement",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-251"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C06-01",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-252"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C06-02",
+      "model_text": "Fall 8",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-241"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C06-03",
+      "model_text": "...ent",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-251"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-01",
+      "model_text": "Fall 8",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-241"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-02",
+      "model_text": "Falls 35'",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-242"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-03",
+      "model_text": "John McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-243"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-04",
+      "model_text": "(Gray)",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-243"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-05",
+      "model_text": "Falls 15",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-253"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-06",
+      "model_text": "15",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-253"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-07",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-254"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-08",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-255"
+      ]
+    },
+    {
+      "raw_candidate_id": "F16-R05C07-09",
+      "model_text": "River Denys",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native printed occurrence reconciled; raw transcription and pixel boxes are not automatically accepted.",
+      "reviewed_ids": [
+        "F16-PHM-256"
+      ]
+    }
+  ],
+  "detail_audit_files": [
+    "sheet-16-review-evidence.json"
+  ],
+  "detail_candidate_count": 94,
+  "unresolved_region_disposition_count": 42,
+  "limitations": "Finalized means the initial source inventory and crop audit are complete with qualified readings. It does not certify infallibility, geographic placement, georeferencing acceptance, feature survival or current property/site conditions."
+}

@@ -1,0 +1,80 @@
+{
+  "sheet": "sheet-11",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "source_dimensions": [
+    10771,
+    7551
+  ],
+  "fit_sha256": "8d6161c4d5b8bcd5583376bcef5fb9cd0b23ca2161a274326576655d1675d45c",
+  "status": "Fresh checks selected after 24-control western-fit freeze; excluded from fit; crosshair review before first scoring.",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        2609,
+        5702
+      ],
+      "lonlat": [
+        -61.1768653,
+        46.2924538
+      ],
+      "modern_node": "J1004",
+      "modern_objectids": [
+        186626,
+        260482,
+        260485
+      ],
+      "identity_evidence": "Southwest Margaree major western tributary follows historical road westward; northern main approaches from northwest, downstream runs southeast past C14. Junction beside road crossing and historical mill.",
+      "source_uncertainty_px": 12,
+      "review": "Broad native topology and enlarged native/modern crosshairs inspected by agent before first validation score."
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        9540,
+        2511
+      ],
+      "lonlat": [
+        -60.858284,
+        46.4006729
+      ],
+      "modern_node": "J0429",
+      "modern_objectids": [
+        200423,
+        274907,
+        274908
+      ],
+      "identity_evidence": "Ranalds eastern large northern tributary, east of Black Brook and long southern tributaries; northern arm has a fork immediately upstream, main Ranalds approaches from west and bends southeast downstream.",
+      "source_uncertainty_px": 12,
+      "review": "Broad native topology and enlarged native/modern crosshairs inspected by agent before first validation score."
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        4613,
+        3834
+      ],
+      "lonlat": [
+        -61.081042,
+        46.3572813
+      ],
+      "modern_node": "J0645",
+      "modern_objectids": [
+        173277,
+        175486,
+        283126
+      ],
+      "identity_evidence": "Tompkins Brook outlet through east bank of Northeast Margaree, below elongated river island and above historical mill. Road crosses brook immediately east of bank. Definition is brook centre at river bank, not river centreline. Bank changes remain possible.",
+      "source_uncertainty_px": 15,
+      "pre_crosshair_pixel_xy": [
+        4594,
+        3834
+      ],
+      "pixel_review": "Moved from opposite bank to brook-mouth centre through east bank, observed on native crosshair before scoring.",
+      "review": "Broad native topology and enlarged native/modern crosshairs inspected by agent before first validation score."
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Grays Lake northeastern roof",
+    [
+      1124,
+      410
+    ],
+    [
+      1128,
+      346
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Handsled Lake northwestern horn",
+    [
+      526,
+      646
+    ],
+    [
+      532,
+      678
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "First Beaver Lake northern roof",
+    [
+      1201,
+      575
+    ],
+    [
+      1218,
+      606
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Black Duck Lake northeastern roof",
+    [
+      1320,
+      2833
+    ],
+    [
+      1305,
+      2847
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Beartrack Lake northern tip",
+    [
+      1123,
+      1814
+    ],
+    [
+      1131,
+      1841
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Second Porcupine Lake western lobe northwestern roof",
+    [
+      1583,
+      2556
+    ],
+    [
+      1559,
+      2571
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Lake Martin northern roof",
+    [
+      564,
+      3581
+    ],
+    [
+      550,
+      3598
+    ],
+    "WALK20"
+  ]
+]

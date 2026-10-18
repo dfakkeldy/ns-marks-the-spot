@@ -1,0 +1,364 @@
+{
+  "sheet": "sheet-08",
+  "source_sha256": "aa324565b0b25bdd1ae102f14e4bad8b542547d6e5bba76dd620a52dafa1d4aa",
+  "points": [
+    {
+      "lonlat": [
+        -60.8502393,
+        46.5644902
+      ],
+      "source_guide_xy": [
+        1364.3552054394968,
+        2665.5100745602977
+      ],
+      "objectids": [
+        271011,
+        271193,
+        271195
+      ],
+      "id": "C01",
+      "modern_node_id": "J1478",
+      "role": "control",
+      "pixel_xy": [
+        1637,
+        2621
+      ],
+      "identity_evidence": "North Branch joins Northeast Margaree at The Two Brooks; modern northern bank confluence, braided-width uncertainty remains.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.8224424,
+        46.592876
+      ],
+      "source_guide_xy": [
+        1963.95638783928,
+        1780.313248640392
+      ],
+      "objectids": [
+        183999,
+        270953,
+        270954
+      ],
+      "id": "C02",
+      "modern_node_id": "J0932",
+      "role": "control",
+      "pixel_xy": [
+        2470,
+        1519
+      ],
+      "identity_evidence": "Northern branch joins east-west North Branch headwater stream. Original modern J0931 was the nearby southern tributary.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.8008441,
+        46.577578
+      ],
+      "source_guide_xy": [
+        2430.5660457594786,
+        2259.656171360286
+      ],
+      "objectids": [
+        184189,
+        271196,
+        271324
+      ],
+      "id": "C03",
+      "modern_node_id": "J1256",
+      "role": "control",
+      "pixel_xy": [
+        2718,
+        2181
+      ],
+      "identity_evidence": "Major northwest and northeast arms join above the southward Northeast Margaree reach; original modern J1209 was a smaller northern tributary upstream on the eastern arm. J1250 was the nearby southwest bank/tributary junction; corrected to eastern arm confluence J1256 before any scoring.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.6243848,
+        46.603381
+      ],
+      "source_guide_xy": [
+        6239.897498879349,
+        1464.4370148805901
+      ],
+      "objectids": [
+        185895,
+        276739,
+        276742
+      ],
+      "id": "C04",
+      "modern_node_id": "J0744",
+      "role": "control",
+      "pixel_xy": [
+        6412,
+        1358
+      ],
+      "identity_evidence": "Upper Ingonish northwest and southwest arms join into eastern reach; original modern J0734 was a smaller northern tributary.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.5444981,
+        46.613151
+      ],
+      "source_guide_xy": [
+        7964.495722559746,
+        1164.152432960458
+      ],
+      "objectids": [
+        185073,
+        281367,
+        281368
+      ],
+      "id": "C05",
+      "modern_node_id": "J0598",
+      "role": "control",
+      "pixel_xy": [
+        8105,
+        1243
+      ],
+      "identity_evidence": "Long southern tributary joins Ingonish River west of a short northern tributary. Original pixel lay north of the river.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.4951989,
+        46.6054415
+      ],
+      "source_guide_xy": [
+        9029.033192639705,
+        1408.1166562405415
+      ],
+      "objectids": [
+        191214,
+        274258,
+        274260
+      ],
+      "id": "C06",
+      "modern_node_id": "J0708",
+      "role": "control",
+      "pixel_xy": [
+        9180,
+        1230
+      ],
+      "identity_evidence": "McKinnon Brook long southern tributary; close and wide river geometry agree.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.4982369,
+        46.4929531
+      ],
+      "source_guide_xy": [
+        8965.601334719919,
+        4922.694636080414
+      ],
+      "objectids": [
+        189762,
+        263944,
+        263946
+      ],
+      "id": "C07",
+      "modern_node_id": "J2671",
+      "role": "control",
+      "pixel_xy": [
+        8998,
+        5090
+      ],
+      "identity_evidence": "Southern tributary joins French River above Cascades; original modern J2665 was a northern tributary. This is not the French/Little River confluence.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.5672062,
+        46.4750837
+      ],
+      "source_guide_xy": [
+        7476.869652479887,
+        5476.731076400494
+      ],
+      "objectids": [
+        170719,
+        170720,
+        201595
+      ],
+      "id": "C08",
+      "modern_node_id": "J2933",
+      "role": "control",
+      "pixel_xy": [
+        7697,
+        5728
+      ],
+      "identity_evidence": "Major eastern tributary joins Indian Brook, above a smaller eastern tributary. Modern bank intersection; historical bank width adds uncertainty.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.498975,
+        46.461201
+      ],
+      "source_guide_xy": [
+        8950.275100799976,
+        5914.761994400527
+      ],
+      "objectids": [
+        189427,
+        189561,
+        190547
+      ],
+      "id": "C11",
+      "modern_node_id": "J3097",
+      "role": "control",
+      "pixel_xy": [
+        8866,
+        5916
+      ],
+      "identity_evidence": "Little River major western tributary above the lower western tributary; native crosshair moved to printed junction.",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wider context personally reviewed; proposed physical control, geographic performance not yet tested."
+    },
+    {
+      "lonlat": [
+        -60.792662,
+        46.504338
+      ],
+      "source_guide_xy": [
+        2608.627065599663,
+        4548.594478400424
+      ],
+      "objectids": [
+        190148,
+        260361,
+        260365
+      ],
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        2262,
+        4486
+      ],
+      "modern_node_id": "J2486",
+      "identity_evidence": "Coulmeach Brook major northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Promoted after initial 1855.418102 m TPS diagnostic failure; coordinates unchanged. No longer independent.",
+      "promoted_from": "Q01"
+    },
+    {
+      "lonlat": [
+        -60.8521388,
+        46.524402
+      ],
+      "source_guide_xy": [
+        1324.113934079418,
+        3917.9714076803066
+      ],
+      "objectids": [
+        182919,
+        182920,
+        279462
+      ],
+      "id": "C13",
+      "modern_node": "J2180",
+      "pixel_xy": [
+        1644,
+        3989
+      ],
+      "role": "control",
+      "identity_evidence": "South Branch joins main Northeast Margaree at The Three Brooks, upstream of next eastern Coulmeach arm and downstream of large western main bend.",
+      "status": "Personally inspected original and corrected native close/wide crosshairs before fitting. Three Brooks mouth supported by northern main bends, eastern South Branch and next eastern Coulmeach mouth; bank width uncertainty retained.",
+      "source_uncertainty_px": 20,
+      "original_proposal": {
+        "lonlat": [
+          -60.8521388,
+          46.524402
+        ],
+        "source_guide_xy": [
+          1324.113934079418,
+          3917.9714076803066
+        ],
+        "objectids": [
+          182919,
+          182920,
+          279462
+        ],
+        "id": "R01",
+        "modern_node": "J2180",
+        "pixel_xy": [
+          1640,
+          3985
+        ],
+        "role": "control",
+        "identity_evidence": "South Branch joins main Northeast Margaree at The Three Brooks, upstream of next eastern Coulmeach arm and downstream of large western main bend.",
+        "status": "Unscored identity proposal only; not accepted into fit",
+        "source_uncertainty_px": 20
+      },
+      "correction": "Moved from original crosshair to actual native channel merger by close inspection before any fit or score.",
+      "reviewed_proposal": {
+        "lonlat": [
+          -60.8521388,
+          46.524402
+        ],
+        "source_guide_xy": [
+          1324.113934079418,
+          3917.9714076803066
+        ],
+        "objectids": [
+          182919,
+          182920,
+          279462
+        ],
+        "id": "R01",
+        "modern_node": "J2180",
+        "pixel_xy": [
+          1644,
+          3989
+        ],
+        "role": "control",
+        "identity_evidence": "South Branch joins main Northeast Margaree at The Three Brooks, upstream of next eastern Coulmeach arm and downstream of large western main bend.",
+        "status": "Corrected candidate awaiting final native close/wide inspection.",
+        "source_uncertainty_px": 20,
+        "original_proposal": {
+          "lonlat": [
+            -60.8521388,
+            46.524402
+          ],
+          "source_guide_xy": [
+            1324.113934079418,
+            3917.9714076803066
+          ],
+          "objectids": [
+            182919,
+            182920,
+            279462
+          ],
+          "id": "R01",
+          "modern_node": "J2180",
+          "pixel_xy": [
+            1640,
+            3985
+          ],
+          "role": "control",
+          "identity_evidence": "South Branch joins main Northeast Margaree at The Three Brooks, upstream of next eastern Coulmeach arm and downstream of large western main bend.",
+          "status": "Unscored identity proposal only; not accepted into fit",
+          "source_uncertainty_px": 20
+        },
+        "correction": "Moved from original crosshair to actual native channel merger by close inspection before any fit or score."
+      }
+    }
+  ],
+  "source_width": 10812,
+  "source_height": 7622,
+  "method": "Ten controls: original nine unchanged plus Coulmeach Q01 promoted after failed diagnostic.",
+  "prior_control_count": 0,
+  "status": "Provisional eleven-control TPS. Original ten controls preserved; C12 remains explicitly uncertain pending broader topology resolution."
+}

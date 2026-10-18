@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/tps15-rendered/victoria-main-tps15-review-20m.tif",
+  "raster_sha256": "9238d67757df4c4b21d520bf8d993391fe62743f4b3f4f1da8ff6c7e519caa2d",
+  "cutline_sha256": "4a97eaf5204a6cdffc38221de509d5587b2f4351447b3956cfc8d96161d32346",
+  "expected_interior_cells": 17919124,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

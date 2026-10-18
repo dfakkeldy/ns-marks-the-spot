@@ -1,0 +1,29 @@
+{
+  "sheet": "sheet-13",
+  "rumsey_id": "RUMSEY~8~1~2638~290006",
+  "source_sha256": "63d94f38d485932b5e2f4ff00f6e129f381565832495822458892b01a97542a3",
+  "retrieved": "2026-07-25",
+  "method": "The full-resolution direct-Rumsey scan was opened in QGIS. Four engraved meridians and two engraved parallels were read and measured at all eight crossings. Dense geological hatching, roads, brooks, formation contacts, lettering and the frame were excluded before opposite corner checks were withheld.",
+  "qa_review": "The top labels read 61d10mW, 61d05mW, 61d00mW and 60d55mW. The left labels read 46d15mN and 46d10mN. Crossing crops show the thin graticule separately from diagonal and vertical lithology patterns, roads, drainage and annotation.",
+  "meridians": [
+    {"lon": -61.166666666666664, "label": "61d10mW"},
+    {"lon": -61.083333333333336, "label": "61d05mW"},
+    {"lon": -61.0, "label": "61d00mW"},
+    {"lon": -60.916666666666664, "label": "60d55mW"}
+  ],
+  "parallels": [
+    {"lat": 46.25, "label": "46d15mN"},
+    {"lat": 46.166666666666664, "label": "46d10mN"}
+  ],
+  "check_intersections": [[0, 0], [3, 1]],
+  "intersections": [
+    {"meridian_index": 0, "parallel_index": 0, "pixel_x": 2710.0, "pixel_y": 1814.0},
+    {"meridian_index": 1, "parallel_index": 0, "pixel_x": 4519.0, "pixel_y": 1814.0},
+    {"meridian_index": 2, "parallel_index": 0, "pixel_x": 6320.0, "pixel_y": 1815.0},
+    {"meridian_index": 3, "parallel_index": 0, "pixel_x": 8128.0, "pixel_y": 1816.0},
+    {"meridian_index": 0, "parallel_index": 1, "pixel_x": 2716.0, "pixel_y": 4408.0},
+    {"meridian_index": 1, "parallel_index": 1, "pixel_x": 4518.0, "pixel_y": 4409.0},
+    {"meridian_index": 2, "parallel_index": 1, "pixel_x": 6319.0, "pixel_y": 4411.0},
+    {"meridian_index": 3, "parallel_index": 1, "pixel_x": 8132.0, "pixel_y": 4412.0}
+  ]
+}

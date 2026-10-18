@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {parseFletcherGcps,serializeFletcherGcps} from '../../../web/src/userMaps/parsers/fletcherGcps';
+import {solveAffineFromGcps,applyAffine} from '../../../web/src/userMaps/transform/affine';
+import {toMercator} from '../../../web/src/userMaps/transform/webMercator';
+const root='reports/church/physical-review-20260913/';
+const files=[['richmond/diagnostic-review.csv',35735,30429,10,22],['inverness-north/affine-review.csv',34427,34543,4,2],['victoria-northwest/four-control-trial.csv',33711,31468,4,2],['victoria-main/physical-trial.csv',33711,31468,4,4],['cape-breton/island-observations.csv',36223,35027,1,1],['inverness-south/physical-trial.csv',34427,34543,4,7],['inverness-south/fresh-validation-review.csv',34427,34543,4,1]] as const;
+for(const [name,width,height,controls,checks] of files){const p=parseFletcherGcps(readFileSync(root+name,'utf8'),{pixelSize:{width,height}});assert.equal(p.gcps.length,controls,name);assert.equal(p.checks.length,checks,name);assert.deepEqual(parseFletcherGcps(serializeFletcherGcps(p)).rows,p.rows);}
+const p=parseFletcherGcps(readFileSync(root+'inverness-south/physical-trial.csv','utf8'));const model=solveAffineFromGcps(p.gcps);assert.ok(model);const args=['-order','1'];for(const c of p.gcps){const xy=toMercator(c.map);args.push('-gcp',String(c.pixel.x),String(c.pixel.y),String(xy.x),String(xy.y));}const gdal=execFileSync('gdaltransform',args,{encoding:'utf8',input:p.checks.map(c=>`${c.pixel.x} ${c.pixel.y}\n`).join('')}).trim().split('\n').map(line=>line.split(/\s+/).map(Number));let difference=0;for(const [i,c] of p.checks.entries()){const xy=applyAffine(model,c.pixel.x,c.pixel.y);difference=Math.max(difference,Math.hypot(xy.x-gdal[i][0],xy.y-gdal[i][1]));}assert.ok(difference<0.001);
+console.log(JSON.stringify({semantic_csv_roundtrips:files.map(([file,,,controls,checks])=>({file,controls,checks})),south_web_gdal_affine_max_difference_projected_m:difference,south_affine_params:model,scope:'Production CSV parser and affine computation. A single Cape Breton control is parsed as an inventory only; no usable transform is asserted. No raw-scan browser mesh acceptance.'},null,2));

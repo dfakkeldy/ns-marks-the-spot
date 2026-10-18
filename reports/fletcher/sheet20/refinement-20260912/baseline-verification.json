@@ -1,0 +1,30 @@
+{
+  "base_commit": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/regional-fit.json",
+      "sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-main.json",
+      "sha256": "ff6f1f8aa0d030ab67688cb6c274694cd6a758c395a1ceba8431be67a5a2342d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-southeast-islet.json",
+      "sha256": "53b52a2154a7a7baa538ab4a8c673da74b6f1d2a6a1b30e8c03488ad966a268f"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-southwest-islet.json",
+      "sha256": "2e400a86ab0d728012bcc141cba4213ab9b7ca874af34560feb3ac32725dd9be"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/native/sheet20.png",
+      "sha256": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "sha256": "5fa544e6c2b48f399dc93d6ab5a16970ed80363b03dec45bb589b0518b497f9b"
+    }
+  ],
+  "reference_hashes_verified": true
+}

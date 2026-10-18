@@ -1,0 +1,10 @@
+{
+  "candidates": [
+    {
+      "name": "Northside/Southside River Denys road meeting west of Chisholm Bridge",
+      "status": "Unscored road candidate",
+      "reason": "Enlargement leaves the closely spaced road/water lines insufficiently clear for an exact matching road node. The separate named McLennan Brook water confluence was adopted as IS30 after tracing its southwest approach. MacPhail Brook joins River Denys farther upstream and is not the adopted point."
+    }
+  ],
+  "fit_unchanged": true
+}

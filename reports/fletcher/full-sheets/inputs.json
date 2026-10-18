@@ -1,0 +1,231 @@
+{
+  "scope": "Four complete inner neatlines; approximate georeferencing, joins remain imperfect",
+  "sheets": [
+    {
+      "sheet": "19",
+      "fit": "judique-full-sheet/revised-fit.json",
+      "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+      "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
+      "dimensions": [
+        8379,
+        5757
+      ],
+      "bounds": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.5958171,
+              45.9251653
+            ],
+            [
+              -61.5958171,
+              45.7450061
+            ],
+            [
+              -61.219468,
+              45.7450061
+            ],
+            [
+              -61.219468,
+              45.9251653
+            ],
+            [
+              -61.5958171,
+              45.9251653
+            ]
+          ]
+        ]
+      },
+      "orientation": {
+        "samples": 71285,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -48.26117366214812,
+          -20.11952293080937
+        ]
+      }
+    },
+    {
+      "sheet": "16",
+      "fit": "mabou-full-sheet/north-audit-20260909/candidate36/fit.json",
+      "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+      "raster_sha256": "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c",
+      "dimensions": [
+        8497,
+        5560
+      ],
+      "bounds": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.6018359,
+              46.0946815
+            ],
+            [
+              -61.6018359,
+              45.9212285
+            ],
+            [
+              -61.2201866,
+              45.9212285
+            ],
+            [
+              -61.2201866,
+              46.0946815
+            ],
+            [
+              -61.6018359,
+              46.0946815
+            ]
+          ]
+        ]
+      },
+      "orientation": {
+        "samples": 71062,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -40.38313911295963,
+          -20.85218553899207
+        ]
+      }
+    },
+    {
+      "sheet": "22",
+      "fit": "hawkesbury-full-sheet/boundary-fit.json",
+      "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+      "raster_sha256": "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1",
+      "dimensions": [
+        8379,
+        5702
+      ],
+      "bounds": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.596446,
+              45.7496449
+            ],
+            [
+              -61.596446,
+              45.5706467
+            ],
+            [
+              -61.2200968,
+              45.5706467
+            ],
+            [
+              -61.2200968,
+              45.7496449
+            ],
+            [
+              -61.596446,
+              45.7496449
+            ]
+          ]
+        ]
+      },
+      "orientation": {
+        "samples": 70595,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -35.42977644689221,
+          -21.61352376840596
+        ]
+      }
+    },
+    {
+      "sheet": "14",
+      "fit": "sheet14/southern-audit-20260909/hay-topology/fit.json",
+      "fit_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+      "raster_sha256": "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7",
+      "dimensions": [
+        8724,
+        5734
+      ],
+      "bounds": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.6149513,
+              46.2701678
+            ],
+            [
+              -61.6149513,
+              46.091847
+            ],
+            [
+              -61.2231061,
+              46.091847
+            ],
+            [
+              -61.2231061,
+              46.2701678
+            ],
+            [
+              -61.6149513,
+              46.2701678
+            ]
+          ]
+        ]
+      },
+      "orientation": {
+        "samples": 70997,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -34.73829661566929,
+          -10.263134541606268
+        ]
+      }
+    }
+  ],
+  "composite_order_bottom_to_top": [
+    "22",
+    "16",
+    "19",
+    "14"
+  ],
+  "geographic_quality": "Approximate geography, not survey accuracy. Mabou36 controls:14 excluded diagnostics median107m/worst151m; Glendyer locally improved while some estuary/Elgin errors slightly worsen. Sheet14:26 controls,13 diagnostics112m/241m. Judique fresh median118m. Working100m median target not met uniformly. Gaps retained; no full-sheet geographic acceptance.",
+  "composite": {
+    "sha256": "01b72d49d32fc00f1e7fec0d0ad06602558b82bedc36edba8e4a7a8f1257c35f",
+    "dimensions": [
+      8805,
+      22388
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.6149513,
+            46.2701678
+          ],
+          [
+            -61.6149513,
+            45.5706467
+          ],
+          [
+            -61.219468,
+            45.5706467
+          ],
+          [
+            -61.219468,
+            46.2701678
+          ],
+          [
+            -61.6149513,
+            46.2701678
+          ]
+        ]
+      ]
+    },
+    "method": "gdalwarp -srcalpha -dstalpha -r near -tr5 5 -tap; four individual rasters in order22,16,19,14; complete neatlines and transparent gaps"
+  }
+}

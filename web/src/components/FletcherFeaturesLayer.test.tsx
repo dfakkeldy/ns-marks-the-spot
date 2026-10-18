@@ -1,0 +1,126 @@
+import { readFileSync } from 'node:fs';
+import { createRef } from 'react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { MapContainer } from 'react-leaflet';
+import L from 'leaflet';
+import { FletcherFeaturesLayer } from './FletcherFeaturesLayer';
+
+const fixture = JSON.parse(readFileSync('public/fletcher-features/reviewed.geojson', 'utf8'));
+const svgDescriptor = Object.getOwnPropertyDescriptor(L.Browser, 'svg')!;
+beforeEach(() => { Object.defineProperty(L.Browser, 'svg', { ...svgDescriptor, value: true }); vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => fixture })); });
+afterEach(() => { cleanup(); Object.defineProperty(L.Browser, 'svg', svgDescriptor); vi.unstubAllGlobals(); });
+function layer(onStatus = vi.fn()) {
+  return <MapContainer center={[45.8787475, -61.4906198]} zoom={15}><FletcherFeaturesLayer onStatus={onStatus} /></MapContainer>;
+}
+describe('reviewed Fletcher features', () => {
+  it('selects the corrected church and exposes separate reading and placement evidence', async () => {
+    const status = vi.fn(); render(layer(status));
+    const marker = await screen.findByTitle('R.C. Church · approximate Fletcher location');
+    fireEvent.click(marker);
+    expect(await screen.findByText('Approximate location · locally corrected')).toBeVisible();
+    expect(screen.getByText(/Reading: clear/)).toBeVisible();
+    expect(screen.getByRole('img', { name: /Original Fletcher lettering.*R.C. Church/ })).toHaveAttribute('src', '/fletcher-features/excerpts/F19-JUD-015.jpg');
+    fireEvent.click(screen.getByText('Placement and source evidence'));
+    expect(screen.getByText(/east of Highway 19, not either TPS prediction/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Corrected church reference' })).toHaveAttribute('href', 'https://www.openstreetmap.org/node/1325630467');
+    expect(status).toHaveBeenLastCalledWith(`${fixture.features.length} reviewed annotations · digitization in progress`);
+  });
+  it('opens both ambiguous services through one keyboard-accessible group', async () => {
+    render(layer());
+    const group = await screen.findByRole('button', { name: 'Shop / P.O. · approximate Fletcher group' });
+    fireEvent.keyDown(group, { key: 'Enter' });
+    await waitFor(() => expect(document.querySelectorAll('.fletcher-feature-evidence')).toHaveLength(2));
+    expect(screen.getByRole('heading', { name: 'Shop' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'P.O.' })).toBeVisible();
+  });
+  it('opens a group from its visible label without relying on an exposed polygon edge', async () => {
+    render(layer());
+    fireEvent.click(await screen.findByRole('tooltip', { name: 'Shop / P.O.' }));
+    await waitFor(() => expect(document.querySelectorAll('.fletcher-feature-evidence')).toHaveLength(2));
+    expect(screen.getByRole('heading', { name: 'Shop' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'P.O.' })).toBeVisible();
+  });
+  it('switches between hover and permanent labels when crossing zoom15', async () => {
+    const data = { ...fixture, features: [fixture.features[0]] };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => data }));
+    const map = createRef<L.Map>();
+    render(<MapContainer ref={map} center={[45.88, -61.49]} zoom={14}><FletcherFeaturesLayer onStatus={vi.fn()} /></MapContainer>);
+    await screen.findByTitle(`${data.features[0].properties.source_text} · approximate Fletcher location`);
+    expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
+    act(() => { map.current!.setZoom(15); });
+    await waitFor(() => expect(screen.queryAllByRole('tooltip')).toHaveLength(1));
+    act(() => { map.current!.setZoom(14); });
+    await waitFor(() => expect(screen.queryAllByRole('tooltip')).toHaveLength(0));
+  });
+  it('does not restart popup auto-pan when the parent reports an unchanged viewport', async () => {
+    const status = vi.fn();
+    const view = render(layer(status));
+    fireEvent.click(await screen.findByTitle('R.C. Church · approximate Fletcher location'));
+    await screen.findByText('Approximate location · locally corrected');
+    const update = vi.spyOn(L.Popup.prototype, 'update');
+    try {
+      view.rerender(layer(status));
+      expect(update).not.toHaveBeenCalled();
+    } finally { update.mockRestore(); }
+  });
+  it('selects a traced reach as a line without calling it an exact falls site or group', async () => {
+    const data = structuredClone(fixture);
+    const reach = structuredClone(data.features[0]);
+    reach.id = 'test-stream-reach';
+    reach.geometry = { type: 'LineString', coordinates: [[-61.49, 45.88], [-61.485, 45.878]] };
+    Object.assign(reach.properties, { annotation_id: reach.id, source_text: 'Falls on reviewed stream reach', geographic_role: 'reviewed-source-line' });
+    data.features.push(reach);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok:true,json:async()=>data}));
+    render(layer());
+    const line = await screen.findByRole('button', { name: 'Falls on reviewed stream reach · approximate Fletcher reach' });
+    expect(line).toHaveAttribute('fill', 'none');
+    fireEvent.keyDown(line, { key: 'Enter' });
+    expect(await screen.findByText('Approximate historical reach')).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Falls on reviewed stream reach' })).toBeVisible();
+  });
+  it('keeps source failure distinct from empty coverage', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
+    const status=vi.fn(); render(layer(status));
+    await waitFor(() => expect(status).toHaveBeenLastCalledWith('Historical features unavailable. Toggle off and on to retry.'));
+    expect(document.querySelector('.fletcher-feature-marker')).toBeNull();
+  });
+  it('identifies a historical shoreline and links its corroborating placement source', async () => {
+    const data = structuredClone(fixture);
+    const shoreline = structuredClone(data.features[0]);
+    shoreline.id = 'test-historical-shoreline';
+    shoreline.geometry = { type: 'LineString', coordinates: [[-61.49, 45.88], [-61.485, 45.878]] };
+    const url = 'https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121';
+    Object.assign(shoreline.properties, { annotation_id: shoreline.id, source_text: 'Historical lake bank', kind: 'waterbody', geographic_role: 'reviewed-source-line', placement_references: [{ title: 'Reservoir history assessment (2026)', url }] });
+    data.features.push(shoreline);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => data }));
+    render(layer());
+    const line = await screen.findByRole('button', { name: 'Historical lake bank · approximate Fletcher shoreline' });
+    expect(line).toHaveAttribute('fill', 'none');
+    fireEvent.keyDown(line, { key: 'Enter' });
+    expect(await screen.findByText('Approximate historical shoreline')).toBeVisible();
+    fireEvent.click(screen.getByText('Placement and source evidence'));
+    expect(screen.getByRole('link', { name: 'Reservoir history assessment (2026)' })).toHaveAttribute('href', url);
+  });
+  it('keeps a printed railway proposal distinct from a built railway', async () => {
+    const data = structuredClone(fixture);
+    const proposal = structuredClone(data.features[0]);
+    proposal.id = 'test-railway-proposal';
+    proposal.geometry = { type: 'LineString', coordinates: [[-61.49, 45.88], [-61.485, 45.878]] };
+    Object.assign(proposal.properties, { annotation_id: proposal.id, source_text: 'PROPOSED TEST RAILWAY', kind: 'railway-annotation', geographic_role: 'reviewed-source-line' });
+    data.features.push(proposal);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok:true,json:async()=>data}));
+    render(layer());
+    const line = await screen.findByRole('button', { name: 'PROPOSED TEST RAILWAY · approximate Fletcher railway proposal' });
+    fireEvent.keyDown(line, { key: 'Enter' });
+    expect(await screen.findByText('Approximate historical railway proposal')).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'PROPOSED TEST RAILWAY' })).toBeVisible();
+  });
+  it('rejects lettering or unreviewed placement instead of drawing a site', async () => {
+    const unreviewed=structuredClone(fixture);unreviewed.features[0].properties.placement_status='deferred';
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok:true,json:async()=>unreviewed}));
+    const status=vi.fn();render(layer(status));
+    await waitFor(() => expect(status).toHaveBeenLastCalledWith('Historical features unavailable. Toggle off and on to retry.'));
+    expect(document.querySelector('.fletcher-feature-marker')).toBeNull();
+  });
+});

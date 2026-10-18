@@ -1,0 +1,24 @@
+[
+  {
+    "derived": "IS4-first-measure.jpg",
+    "parent_path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/IS4-olaw-native.jpg",
+    "parent_sha256": "f34efcaf28aaccb46d9399cd60b7a6136a426a886a9f0973aa33bcfb3410916a",
+    "parent_frame": {
+      "county": "inverness",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "origin": [
+        30750,
+        4650
+      ],
+      "extent": [
+        1600,
+        2500
+      ],
+      "display": [
+        960,
+        1500
+      ],
+      "rotation": 0
+    }
+  }
+]

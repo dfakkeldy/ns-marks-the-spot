@@ -1,0 +1,45 @@
+{
+  "observation_sha256": "d96ff5e4578d7182f8647b26219a0141c2b9c4bf9276df375d77c3117354af0d",
+  "tps14_first": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VN24",
+        "east_ground_m": 869.6866083999514,
+        "north_ground_m": 1331.2422857976408,
+        "error_ground_m": 1590.1449054491663
+      }
+    ],
+    "rms_ground_m": 1590.1449054491663,
+    "median_ground_m": 1590.1449054491663,
+    "p95_ground_m": 1590.1449054491663,
+    "max_ground_m": 1590.1449054491663,
+    "mean_east_ground_m": 869.6866083999514,
+    "mean_north_ground_m": 1331.2422857976408,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "tps15_diagnostic": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VN24",
+        "east_ground_m": -154.6305959214443,
+        "north_ground_m": -211.22758735719648,
+        "error_ground_m": 261.77798772196843
+      }
+    ],
+    "rms_ground_m": 261.77798772196843,
+    "median_ground_m": 261.77798772196843,
+    "p95_ground_m": 261.77798772196843,
+    "max_ground_m": 261.77798772196843,
+    "mean_east_ground_m": -154.6305959214443,
+    "mean_north_ground_m": -211.22758735719648,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "scope": "First measurement evaluation; reserved Curtis point is not fitted. Its comparison informs southwestern-trial selection, so it is diagnostic after selection, not subsequent fresh validation.",
+  "geographic_acceptance": false
+}

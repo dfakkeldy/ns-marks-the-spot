@@ -1,0 +1,95 @@
+{
+  "fit_sha256": "4f096b8ccf363047e5c1bbb523cf3c5b07d0b8bcb5f460637e49ccf5b6301b04",
+  "selected_at_utc": "2026-09-12T12:50:31.405117+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.7126792,
+        46.887396
+      ],
+      "source_guide_xy": [
+        4189.533294719877,
+        3535.8139555193484
+      ],
+      "objectids": [
+        179074,
+        271254,
+        271374
+      ],
+      "id": "U04",
+      "modern_node_id": "J0618",
+      "pixel_xy": [
+        4669,
+        3058
+      ],
+      "role": "check",
+      "identity_evidence": "Otter Brook first eastern tributary upstream of its coast mouth. Trace the downstream mouth and successive E/W/E tributary order. Same drainage as R14; tests upstream alignment, not independent watershed identity.",
+      "source_uncertainty_px": 20,
+      "status": "Selected after ten-control freeze, pending personal close/wide review; unscored."
+    },
+    {
+      "lonlat": [
+        -60.830191659465974,
+        46.82379859271249
+      ],
+      "guide_xy": [
+        1644.5988558344543,
+        5506.121753660962
+      ],
+      "modern_objectid": 269093,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_properties": {
+        "OBJECTID": 269093,
+        "FEAT_CODE": "WARV50",
+        "FEAT_DESC": "River - Single Line",
+        "RIVNAME_1": "MacKenzies River",
+        "RIVNAME_2": " ",
+        "ZVALUE": 9999,
+        "FID": null,
+        "SHAPE_Length": 71.98621857075041
+      },
+      "id": "U05",
+      "pixel_xy": [
+        1970,
+        5090
+      ],
+      "role": "check",
+      "identity_evidence": "MacKenzies River open shoreline mouth east of McKenzie Point. Main broad river traced from southern bends and valley; modern named terminal line 269093 ends at coast. Historical mouth/bank detail differs.",
+      "source_uncertainty_px": 30,
+      "status": "Selected after ten-control freeze, pending personal close/wide review; unscored."
+    },
+    {
+      "lonlat": [
+        -60.55805944446946,
+        46.811054107638576
+      ],
+      "guide_xy": [
+        7519.367522387067,
+        5945.132676537149
+      ],
+      "modern_objectid": 124807,
+      "modern_part": 0,
+      "modern_vertex": 34,
+      "modern_properties": {
+        "OBJECTID": 124807,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 398.9,
+        "FID": null,
+        "SHAPE_Length": 337.38872682161883
+      },
+      "id": "U06",
+      "pixel_xy": [
+        7872,
+        5691
+      ],
+      "role": "check",
+      "identity_evidence": "Northernmost shoreline of second prominent Chain Lake from west. Modern complete shoreline 124807/125022/125023. A tiny additional modern waterbody occurs between first and second prominent basins; historical map shows four prominent basins, not every small pond. Shares lake-group identity with R13/U02 but uses a different basin.",
+      "source_uncertainty_px": 25,
+      "status": "Selected after ten-control freeze, pending personal close/wide review; unscored."
+    }
+  ]
+}

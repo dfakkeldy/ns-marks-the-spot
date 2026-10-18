@@ -1,0 +1,541 @@
+{
+  "sheet": "sheet-16",
+  "source_dimensions": [
+    10822,
+    7531
+  ],
+  "points": [
+    {
+      "id": "cand-0168",
+      "role": "candidate-not-fitted",
+      "pixel_xy": [
+        5858,
+        3571.50540275468
+      ],
+      "lonlat": [
+        -61.3999276,
+        46.0119063
+      ],
+      "review": "earlier candidate row, retained pending native review",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "cand-0465",
+      "role": "candidate-not-fitted",
+      "pixel_xy": [
+        1643,
+        4754.004716216792
+      ],
+      "lonlat": [
+        -61.59120082855225,
+        45.973094781569465
+      ],
+      "review": "earlier candidate row, retained pending native review",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "cand-0418",
+      "role": "candidate-not-fitted",
+      "pixel_xy": [
+        2876,
+        5710.002865549443
+      ],
+      "lonlat": [
+        -61.53283596038819,
+        45.94416719876414
+      ],
+      "review": "earlier candidate row, retained pending native review",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "cand-1018",
+      "role": "candidate-not-fitted",
+      "pixel_xy": [
+        8958,
+        6213.505999744148
+      ],
+      "lonlat": [
+        -61.2572295,
+        45.9276443
+      ],
+      "review": "earlier candidate row, retained pending native review",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "cand-0458",
+      "role": "candidate-not-fitted",
+      "pixel_xy": [
+        2383,
+        4281.998925418959
+      ],
+      "lonlat": [
+        -61.55783414840699,
+        45.98891893950546
+      ],
+      "review": "earlier candidate row, retained pending native review",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "cand-0179",
+      "role": "candidate-not-fitted",
+      "pixel_xy": [
+        4970.885740711375,
+        3235.846048860726
+      ],
+      "lonlat": [
+        -61.44039630889893,
+        46.02280356359734
+      ],
+      "review": "earlier candidate row, retained pending native review",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-1",
+      "role": "control",
+      "pixel_xy": [
+        2815.5009765625,
+        3069.8764189160374
+      ],
+      "lonlat": [
+        -61.53739571571351,
+        46.02701628119886
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "pixel_xy": [
+        6360.5009765625,
+        3823.8892541895866
+      ],
+      "lonlat": [
+        -61.37701034545899,
+        46.0034604901647
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "pixel_xy": [
+        6922.0009765625,
+        3488.88635879067
+      ],
+      "lonlat": [
+        -61.35259151458741,
+        46.01556185354673
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "pixel_xy": [
+        7179.0009765625,
+        3299.3872244253976
+      ],
+      "lonlat": [
+        -61.34177684783936,
+        46.021224143730045
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "pixel_xy": [
+        7752.5009765625,
+        1631.887582619078
+      ],
+      "lonlat": [
+        -61.31641387939454,
+        46.07317092041352
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "pixel_xy": [
+        6917.5009765625,
+        994.3840603812205
+      ],
+      "lonlat": [
+        -61.358213424682624,
+        46.0945431794409
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-8",
+      "role": "control",
+      "pixel_xy": [
+        7975.5009765625,
+        1117.8902093727347
+      ],
+      "lonlat": [
+        -61.307272911071784,
+        46.088382420343684
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "pixel_xy": [
+        8241.0009765625,
+        1711.887582619078
+      ],
+      "lonlat": [
+        -61.29319667816163,
+        46.07105717830346
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-10",
+      "role": "control",
+      "pixel_xy": [
+        8907.0009765625,
+        2218.887015479084
+      ],
+      "lonlat": [
+        -61.263542175292976,
+        46.05578142820199
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-11",
+      "role": "control",
+      "pixel_xy": [
+        9538.5009765625,
+        2905.389343738007
+      ],
+      "lonlat": [
+        -61.23350143432618,
+        46.03344088343077
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "pixel_xy": [
+        9440.0009765625,
+        4554.389701931687
+      ],
+      "lonlat": [
+        -61.238822937011726,
+        45.981575935563015
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-14",
+      "role": "control",
+      "pixel_xy": [
+        9463.5009765625,
+        6316.887343823291
+      ],
+      "lonlat": [
+        -61.232342720031745,
+        45.92649814697973
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-15",
+      "role": "control",
+      "pixel_xy": [
+        3294.0009765625,
+        6269.885045413842
+      ],
+      "lonlat": [
+        -61.51279449462891,
+        45.927513068214864
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-16",
+      "role": "control",
+      "pixel_xy": [
+        4873.0009765625,
+        5507.886657285404
+      ],
+      "lonlat": [
+        -61.443099975585945,
+        45.9512689537714
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "pixel_xy": [
+        5441.0009765625,
+        5181.887493070658
+      ],
+      "lonlat": [
+        -61.418402194976814,
+        45.9612637549562
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "pixel_xy": [
+        6673.0009765625,
+        5447.886597586456
+      ],
+      "lonlat": [
+        -61.36229038238526,
+        45.95356638277311
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "pixel_xy": [
+        5783.0009765625,
+        1239.889761630634
+      ],
+      "lonlat": [
+        -61.40902519226075,
+        46.08439397537928
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-21",
+      "role": "control",
+      "pixel_xy": [
+        3861.0009765625,
+        1837.8894631359003
+      ],
+      "lonlat": [
+        -61.49597167968751,
+        46.0652511327084
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-22",
+      "role": "control",
+      "pixel_xy": [
+        4749.0009765625,
+        1761.3881497590721
+      ],
+      "lonlat": [
+        -61.45528793334962,
+        46.06837755174853
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-23",
+      "role": "control",
+      "pixel_xy": [
+        4441.5009765625,
+        2976.8865677369836
+      ],
+      "lonlat": [
+        -61.466574668884284,
+        46.03093822075027
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-24",
+      "role": "control",
+      "pixel_xy": [
+        4145.0009765625,
+        4959.385134962262
+      ],
+      "lonlat": [
+        -61.47743225097657,
+        45.96931793426444
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-25",
+      "role": "control",
+      "pixel_xy": [
+        4572.0009765625,
+        6234.886627435931
+      ],
+      "lonlat": [
+        -61.456103324890144,
+        45.92858768522428
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-26",
+      "role": "control",
+      "pixel_xy": [
+        5041.5009765625,
+        6322.888478103279
+      ],
+      "lonlat": [
+        -61.437349319458015,
+        45.92497573066294
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-27",
+      "role": "control",
+      "pixel_xy": [
+        5874.5009765625,
+        6298.887612468551
+      ],
+      "lonlat": [
+        -61.39778137207032,
+        45.92628919589703
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-28",
+      "role": "control",
+      "pixel_xy": [
+        5338.0009765625,
+        5793.887254274871
+      ],
+      "lonlat": [
+        -61.42224311828614,
+        45.942287093650165
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-29",
+      "role": "control",
+      "pixel_xy": [
+        5575.0009765625,
+        4317.386746833824
+      ],
+      "lonlat": [
+        -61.41383171081544,
+        45.98903065958274
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json"
+    },
+    {
+      "id": "gcp-30",
+      "role": "control",
+      "pixel_xy": [
+        7432.5,
+        4667.9
+      ],
+      "lonlat": [
+        -61.33006096,
+        45.97683403
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees"
+    },
+    {
+      "id": "gcp-32",
+      "role": "control",
+      "pixel_xy": [
+        7727.5,
+        5206.4
+      ],
+      "lonlat": [
+        -61.31555557,
+        45.96236755
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees"
+    },
+    {
+      "id": "gcp-33",
+      "role": "control",
+      "pixel_xy": [
+        7567.5,
+        5492.4
+      ],
+      "lonlat": [
+        -61.32040501,
+        45.95291009
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees"
+    },
+    {
+      "id": "gcp-34",
+      "role": "control",
+      "pixel_xy": [
+        8007.5,
+        5631.9
+      ],
+      "lonlat": [
+        -61.3022089,
+        45.94956826
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees"
+    },
+    {
+      "id": "gcp-35",
+      "role": "control",
+      "pixel_xy": [
+        8733.5,
+        4915.4
+      ],
+      "lonlat": [
+        -61.27203941,
+        45.9689003
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees"
+    },
+    {
+      "id": "gcp-36",
+      "role": "control",
+      "pixel_xy": [
+        9237.0,
+        5629.9
+      ],
+      "lonlat": [
+        -61.24792099,
+        45.946644
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees"
+    }
+  ]
+}

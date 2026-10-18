@@ -1,0 +1,11 @@
+{
+  "verified_at_utc": "2026-09-11T16:51:56.134807+00:00",
+  "initial_eleven_controls_unchanged": true,
+  "promotion": "Q02 to C13, coordinates unchanged",
+  "failed_initial_fit_and_scores_preserved": true,
+  "fresh_validation_disjoint_from_fit": true,
+  "original_observations_unchanged": true,
+  "source_sha256_verified": "2ed268fb21d3ff991d2d79a4b0c7792ae4284a68b525993798534c321db865ba",
+  "reference_files_verified": 4,
+  "fit_sha256": "d90713b109ed4e9032f1837357f9f2bf983f3db000e8dbb5cff1159ec7f1405e"
+}

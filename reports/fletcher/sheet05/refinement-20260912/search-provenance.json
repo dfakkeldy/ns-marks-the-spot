@@ -1,0 +1,9 @@
+{
+  "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/search/all-modern-nodes-anchored.json",
+  "sha256": "4b183ee43574a262a9bbf46a6c06f98dec4e849f221969ab0c8f1059716aea86",
+  "guide": {
+    "path": "reports/fletcher/sheet05/search-guide.json",
+    "sha256": "13b251e7b1d82201fd209effb6b85e4c7b1bf1c386c10ffe77cb7d61a380fe67"
+  },
+  "scope": "Approximate printed graticule search guide only. Modern coordinates are NSTDB node geometry, never fit-derived."
+}

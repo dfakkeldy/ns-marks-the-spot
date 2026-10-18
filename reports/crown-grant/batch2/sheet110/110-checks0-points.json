@@ -1,0 +1,222 @@
+[
+  {
+    "id": "Q01",
+    "label": "North Harbour northern lobe tip",
+    "role": "proposal",
+    "pixel_xy": [
+      631,
+      2425
+    ],
+    "lonlat": [
+      -61.44619438861574,
+      45.65639919308747
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 13790,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      625.1135439554346,
+      2432.7376406687545
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Long Pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      920,
+      2125
+    ],
+    "lonlat": [
+      -61.43480431971862,
+      45.674956643638886
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 13583,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      923.8782756102155,
+      2135.2068900401937
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Lexington Harbour eastern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1591,
+      2398
+    ],
+    "lonlat": [
+      -61.387468140994486,
+      45.673849012571615
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 140522,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1559.7298864693148,
+      2409.6307320182677
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Sugar Camp small elongated pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2655,
+      1933
+    ],
+    "lonlat": [
+      -61.32861133783229,
+      45.71375544261399
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 62770,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2669.161573604215,
+      1952.3775994249154
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "River Inhabitants east-facing bend north of Askilton",
+    "role": "proposal",
+    "pixel_xy": [
+      3350,
+      2020
+    ],
+    "lonlat": [
+      -61.28376830816414,
+      45.7213190499975
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 168757,
+    "reference_feature_code": "WARV20",
+    "guide_reference_pixel_xy": [
+      3337.833209736622,
+      2044.8796743600396
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Beaver Lakes northwestern shore point",
+    "role": "proposal",
+    "pixel_xy": [
+      5237,
+      1522
+    ],
+    "lonlat": [
+      -61.175081640380654,
+      45.77752499143187
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 198414,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      5249.256932488061,
+      1534.747996876249
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "West Bay north-shore hook southern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4958,
+      2850
+    ],
+    "lonlat": [
+      -61.161432902523295,
+      45.71244679238255
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 63501,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4935.420691047853,
+      2865.9857414187863
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "West Bay western spit southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      4873,
+      2996
+    ],
+    "lonlat": [
+      -61.16007323732562,
+      45.705802024550735
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 275477,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4902.937710478494,
+      3001.7378402027534
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "West Bay northeast headland southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5136,
+      2733
+    ],
+    "lonlat": [
+      -61.14887038213157,
+      45.72091174249643
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 13397,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5171.509362602723,
+      2768.778946420527
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q10",
+    "label": "North Harbour southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      706,
+      2596
+    ],
+    "lonlat": [
+      -61.43745847489711,
+      45.65003694678237
+    ],
+    "guide_file": ".crown-grant-local/110-frozen-guide.npy",
+    "reference_objectid": 3122,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      694.7974157669814,
+      2602.396908634575
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,191 @@
+[
+  {
+    "id": "Q01",
+    "label": "Cook Lake southeast corner",
+    "role": "check",
+    "pixel_xy": [
+      976,
+      535
+    ],
+    "lonlat": [
+      -64.67758184092855,
+      44.426996765423716
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 128530,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128530,
+    "nearest_unfiltered_distance_guide_px": 2.469058046163148,
+    "selected_distance_guide_px": 2.469058046163148,
+    "guide_reference_pixel_xy": [
+      1037.5318019184633,
+      513.9348396928981
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "Q02",
+    "label": "Wiles Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1218,
+      1221
+    ],
+    "lonlat": [
+      -64.64208372849598,
+      44.399145915328994
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 132493,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132493,
+    "nearest_unfiltered_distance_guide_px": 0.53174337140761,
+    "selected_distance_guide_px": 0.53174337140761,
+    "guide_reference_pixel_xy": [
+      1268.3086328163045,
+      1217.4330090042204
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "Q03",
+    "label": "Oak Hill Lake southeast corner",
+    "role": "check",
+    "pixel_xy": [
+      2110,
+      2160
+    ],
+    "lonlat": [
+      -64.55590470447804,
+      44.37412831579746
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 140968,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140968,
+    "nearest_unfiltered_distance_guide_px": 2.0168996816910387,
+    "selected_distance_guide_px": 2.0168996816910387,
+    "guide_reference_pixel_xy": [
+      2159.4210600538645,
+      2158.067977002007
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "Q04",
+    "label": "Fancy Lake central island southern tip",
+    "role": "check",
+    "pixel_xy": [
+      1869,
+      3211
+    ],
+    "lonlat": [
+      -64.54231356775205,
+      44.31950223984241
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 146778,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146778,
+    "nearest_unfiltered_distance_guide_px": 2.4463545072865562,
+    "selected_distance_guide_px": 2.4463545072865562,
+    "guide_reference_pixel_xy": [
+      1909.1380305215134,
+      3219.188896910753
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "Q05",
+    "label": "Lake Randall southern tip",
+    "role": "check",
+    "pixel_xy": [
+      3128,
+      1214
+    ],
+    "lonlat": [
+      -64.51519019394621,
+      44.439356353406154
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 133693,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133693,
+    "nearest_unfiltered_distance_guide_px": 0.29055053922184837,
+    "selected_distance_guide_px": 0.29055053922184837,
+    "guide_reference_pixel_xy": [
+      3174.8311096867546,
+      1214.2364226679783
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "Q06",
+    "label": "Langille Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      4107,
+      1505
+    ],
+    "lonlat": [
+      -64.44238539009254,
+      44.44596638655062
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 132732,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132732,
+    "nearest_unfiltered_distance_guide_px": 0.7139089065914722,
+    "selected_distance_guide_px": 0.7139089065914722,
+    "guide_reference_pixel_xy": [
+      4141.537155089027,
+      1507.4564555995166
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  },
+  {
+    "id": "Q07",
+    "label": "Dares Lake southern prong",
+    "role": "check",
+    "pixel_xy": [
+      4483,
+      2945
+    ],
+    "lonlat": [
+      -64.37643864548401,
+      44.386278820054585
+    ],
+    "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+    "reference_objectid": 128480,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128480,
+    "nearest_unfiltered_distance_guide_px": 1.0113881880791402,
+    "selected_distance_guide_px": 1.0113881880791402,
+    "guide_reference_pixel_xy": [
+      4513.004995335825,
+      2956.1813057783293
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Broad context and native paired crosshairs inspected before first fit and score."
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "count": 1,
+  "points": [
+    {
+      "label": "I16",
+      "east_ground_m": -93.10173818195307,
+      "north_ground_m": 17.44811407484337,
+      "error_ground_m": 94.72259676164757
+    }
+  ],
+  "rms_ground_m": 94.72259676164757,
+  "median_ground_m": 94.72259676164757,
+  "p95_ground_m": 94.72259676164757,
+  "max_ground_m": 94.72259676164757,
+  "mean_east_ground_m": -93.10173818195307,
+  "mean_north_ground_m": 17.44811407484337,
+  "scatter_rms_ground_m": 0.0,
+  "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+  "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+}

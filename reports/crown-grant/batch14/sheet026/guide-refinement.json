@@ -1,0 +1,18 @@
+{
+  "reason": "New south-adjacent sheet027 constrained similarity gives a direct discovery guide after its first frozen fit; original eastern guide retained.",
+  "guide": "026-frozen-south-guide.npy",
+  "original": "026-east-adjacent-guide.npy",
+  "bounds": [
+    -65.22229042631272,
+    43.729302201840376,
+    -64.76581624188572,
+    44.012463300829175
+  ],
+  "reference_bbox": [
+    -65.27080178590985,
+    43.70351394463253,
+    -64.73727950640681,
+    44.03741170924203
+  ],
+  "status": "Discovery before adopted observations, fit or score"
+}

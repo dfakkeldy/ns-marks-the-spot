@@ -1,0 +1,26 @@
+{
+  "sheet": "135",
+  "component": "stpaul",
+  "stage": "Before first fit or score",
+  "model": "similarity",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "SC01",
+    "SC02",
+    "SC03",
+    "SC04"
+  ],
+  "checks": [
+    "SQ02",
+    "SQ03",
+    "SQ04",
+    "SQ05"
+  ],
+  "rejected_before_fit": {
+    "SQ01": "Atlantic Cove proposed source crosshair fell inside water; precise corresponding bend unresolved"
+  },
+  "notes": [
+    "Whole component source coverage retained, including unvalidated features. No score informed point selection.",
+    "Four controls span both ends and two opposing coasts of narrow St Paul Island; constrained similarity avoids unsupported shear. Four excluded coastal checks provide sparse regional evidence. Original SC02 source point retained after revised proposal was seen off shore."
+  ]
+}

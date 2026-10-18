@@ -1,0 +1,69 @@
+{
+  "id": "VN18",
+  "role": "check",
+  "label": "Snipe Brook entry into Black Brook",
+  "pixel_xy": [
+    4143.2,
+    14905.4
+  ],
+  "lonlat": [
+    -60.576408336556845,
+    46.74262254231036
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      4070,
+      14840
+    ],
+    "extent": [
+      200,
+      200
+    ],
+    "display": [
+      1000,
+      1000
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    366,
+    327
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN18-native-detail.png",
+  "source_crop_sha256": "bee297f7998651f924f9ced88566a04cfb6193a752d56e8e439a45652f738258",
+  "source_derivation": "Crop native VN2-snipe.jpg at local[40,220,200,200], enlarge5x; parent source origin[4030,14620].",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+  "reference_sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e",
+  "reference_feature_ids": [
+    156069,
+    156070,
+    277363
+  ],
+  "reference_vertex": {
+    "feature_id": 277363,
+    "vertex": 714
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 156069,
+      "vertex": 26,
+      "code": "WARV10"
+    },
+    {
+      "feature_id": 156070,
+      "vertex": 0,
+      "code": "WARV10"
+    },
+    {
+      "feature_id": 277363,
+      "vertex": 714,
+      "code": "WARV50"
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "Historical Snip Brook joins the southeast side of Black Brook, whose main course runs southwest\u2013northeast here. Both sources preserve this junction after a separate northwestern tributary entry a short distance to the southwest, followed by the northeast main-river bend. The named Snipe Brook original reference line277363 joins banks156069/156070 at the selected endpoint. Provincial GeoNames CBJHH corroborates the brook identity but its name point was not used as the GCP. Exact source placement is the branch stroke meeting the southeast edge of the main stroke, excluding Cascades lettering and the preceding northwest tributary.",
+  "phase": "First fresh western-interior check after nine-control TPS freeze; no tuning"
+}

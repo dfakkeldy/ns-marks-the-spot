@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C04",
+    "label": "Rouse Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      934,
+      2403
+    ],
+    "lonlat": [
+      -64.30408576843479,
+      44.44836807678369
+    ],
+    "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+    "reference_objectid": 19996,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19996,
+    "nearest_unfiltered_distance_guide_px": 1.9807050414218548,
+    "selected_distance_guide_px": 1.9807050414218548,
+    "guide_reference_pixel_xy": [
+      950.8008174228598,
+      2311.9706645483384
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

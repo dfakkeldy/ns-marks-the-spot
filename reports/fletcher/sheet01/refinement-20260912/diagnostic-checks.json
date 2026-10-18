@@ -1,0 +1,38 @@
+{
+  "fit_sha256": "41f3defeab5ada5b71e1ec2493cb5955fb1f5787cf85969a32f28e586e8043b8",
+  "selected_at": "2026-09-12T15:46:39.135144+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.6386215,
+        47.0051259
+      ],
+      "source_guide_xy": [
+        3378.287118000211,
+        5281.290069399169
+      ],
+      "objectids": [
+        8937,
+        9469,
+        283999
+      ],
+      "id": "F01",
+      "modern_node_id": "J0110",
+      "role": "check",
+      "pixel_xy": [
+        3389,
+        5170
+      ],
+      "identity_evidence": "Next distinct stream mouth south of Low Fall; coastal order check near repair C11.",
+      "source_uncertainty_px": 25,
+      "status": "Personally accepted local mouth identity for scoring after final close/wide inspection; historical channel much shorter, not survey precision.",
+      "original_pixel_xy": [
+        3398,
+        5167
+      ],
+      "correction_reason": "Pre-score native close inspection: shift 9px west and 3px south from coast segment onto actual stream/coast join."
+    }
+  ],
+  "reviewed_at": "2026-09-12T15:48:38.231531+00:00",
+  "status": "Personally inspected exact corrected unrotated native close/wide and direct NSTDB node. One new mouth; nearby C11 repair creates local spatial correlation. No independent inland validation."
+}

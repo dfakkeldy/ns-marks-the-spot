@@ -1,0 +1,151 @@
+{
+  "count": 4,
+  "rms_ground_m": 38.3320328739047,
+  "median_ground_m": 28.841205785348436,
+  "p95_ground_m": 57.89617074864515,
+  "max_ground_m": 62.19118066988718,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -11.825030074376944,
+  "mean_north_ground_m": -0.30399273594600373,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Prim Point western recess",
+      "role": "check",
+      "pixel_xy": [
+        1740,
+        870
+      ],
+      "lonlat": [
+        -65.79385489175914,
+        44.68762330225925
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4813,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4813,
+      "nearest_unfiltered_distance_guide_px": 1.2108414512682641,
+      "selected_distance_guide_px": 1.2108414512682641,
+      "guide_reference_pixel_xy": [
+        1742.8629458376672,
+        871.7969400776783
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.79401169565953,
+        44.687514198730554
+      ],
+      "error_ground_m": 17.36414565636694,
+      "east_ground_m": -12.430508710293461,
+      "north_ground_m": -12.124191007190761
+    },
+    {
+      "id": "IQ02",
+      "label": "Caldwell Cove eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        644,
+        1184
+      ],
+      "lonlat": [
+        -65.85150079308089,
+        44.65251420554463
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4563,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4563,
+      "nearest_unfiltered_distance_guide_px": 0.7355192721489899,
+      "selected_distance_guide_px": 0.7355192721489899,
+      "guide_reference_pixel_xy": [
+        646.8358307731687,
+        1178.7169637819752
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.85158163675698,
+        44.65272348997496
+      ],
+      "error_ground_m": 24.124630375756492,
+      "east_ground_m": -6.412655337384657,
+      "north_ground_m": 23.256733267825574
+    },
+    {
+      "id": "IQ03",
+      "label": "Broad Cove eastern headland",
+      "role": "check",
+      "pixel_xy": [
+        1134,
+        1008
+      ],
+      "lonlat": [
+        -65.82706506893106,
+        44.66956762118094
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4560,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4560,
+      "nearest_unfiltered_distance_guide_px": 4.174673029403653,
+      "selected_distance_guide_px": 4.174673029403653,
+      "guide_reference_pixel_xy": [
+        1130.422431076353,
+        1007.716094802483
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.82682075765906,
+        44.6698141947579
+      ],
+      "error_ground_m": 33.557781194940375,
+      "east_ground_m": 19.373485516775897,
+      "north_ground_m": 27.400597396019826
+    },
+    {
+      "id": "IQ04",
+      "label": "Victoria-side eastern coastal notch",
+      "role": "check",
+      "pixel_xy": [
+        2767,
+        719
+      ],
+      "lonlat": [
+        -65.73550873990992,
+        44.71427901461966
+      ],
+      "guide_file": ".crown-grant-local/020-inset-refined-guide.npy",
+      "reference_objectid": 4685,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4685,
+      "nearest_unfiltered_distance_guide_px": 0.6498034732961722,
+      "selected_distance_guide_px": 0.6498034732961722,
+      "guide_reference_pixel_xy": [
+        2774.350804103771,
+        728.0280934552429
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected before the first component fits and scores. Delap check corrected to the western bank using reference geometry.",
+      "predicted_lonlat": [
+        -65.73611236844427,
+        44.71392131957367
+      ],
+      "error_ground_m": 62.19118066988718,
+      "east_ground_m": -47.83044176660555,
+      "north_ground_m": -39.749110600438655
+    }
+  ],
+  "fit_sha256": "941d1027b7ddf0a71b4f0afb9dc74ae25e87d81ee2034e21b2417ab134c0e4e4",
+  "checks_sha256": "cea479e8db67299a274906e0a6214b9e5ff008e25986c6130c272a5cc1fad5ab",
+  "status": "Reserved before first component fit and score"
+}

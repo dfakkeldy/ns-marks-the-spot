@@ -1,0 +1,77 @@
+{
+  "count": 2,
+  "rms_ground_m": 89.34312565496919,
+  "median_ground_m": 79.37032009408999,
+  "p95_ground_m": 116.28728876526692,
+  "max_ground_m": 120.38917417317548,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 15.918557365156918,
+  "mean_north_ground_m": -77.31729255119505,
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Middle coastal creek at shore",
+      "role": "check",
+      "pixel_xy": [
+        1430,
+        2563
+      ],
+      "lonlat": [
+        -62.06082516808721,
+        45.8093916655716
+      ],
+      "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+      "reference_objectid": 13221,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1354.4824229750084,
+        2591.5205671355943
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Continuous original coastal creek trace and modern shoreline junction reviewed in broad context and native paired crosshair before fitting.",
+      "review": "Audited before first fit/score; check observations excluded.",
+      "predicted_lonlat": [
+        -62.06063840738954,
+        45.809072289535415
+      ],
+      "error_ground_m": 38.35146601500451,
+      "east_ground_m": 14.516778813846441,
+      "north_ground_m": -35.49786019424136
+    },
+    {
+      "id": "IQ03",
+      "label": "Georgeville coastal creek mouth",
+      "role": "check",
+      "pixel_xy": [
+        1745,
+        3421
+      ],
+      "lonlat": [
+        -62.018825171880614,
+        45.8366464249375
+      ],
+      "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+      "reference_objectid": 4501,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1638.8833026177017,
+        3415.953994677984
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Continuous original coastal creek trace and modern shoreline junction reviewed in broad context and native paired crosshair before fitting.",
+      "review": "Audited before first fit/score; check observations excluded.",
+      "predicted_lonlat": [
+        -62.01860223721845,
+        45.83557455118203
+      ],
+      "error_ground_m": 120.38917417317548,
+      "east_ground_m": 17.320335916467393,
+      "north_ground_m": -119.13672490814875
+    }
+  ],
+  "fit_sha256": "3dab72adfe14ad03a317ecd52406097dde1ab7d9aaaf786dfb99cc3c99532bce",
+  "checks_sha256": "6607c256cb7a9251195e59c0ecf1d120de6023e2d647e625b15822993bd5fb1b",
+  "status": "Two excluded coastal creek checks; extremely sparse local validation, not whole-inset accuracy"
+}

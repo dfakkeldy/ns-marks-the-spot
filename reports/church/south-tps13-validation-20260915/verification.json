@@ -1,0 +1,28 @@
+{
+  "metric_sets_replayed": 24,
+  "fresh_observations_audited": 7,
+  "original_exteriors_verified": 2,
+  "exact_water_confluences_verified": 1,
+  "inside_control_hull": [
+    "IS34",
+    "IS36",
+    "IS39",
+    "IS40"
+  ],
+  "outside_control_hull": [
+    "IS35",
+    "IS37",
+    "IS38"
+  ],
+  "controls_and_raster_unchanged": true,
+  "accepted_baseline_inputs_unchanged": true,
+  "actual_raster_windows": 7,
+  "editable_inventories": 4,
+  "northern_road_junction_verified": true,
+  "northern_headland_verified": true,
+  "coastal_extrema_verified": 2,
+  "first_three_preserved": true,
+  "first_five_preserved": true,
+  "browser_2d_and_10x_terrain_verified": true,
+  "geographic_acceptance": false
+}

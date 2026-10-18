@@ -1,0 +1,70 @@
+{
+  "sheet": "sheet-12",
+  "fit_sha256": "2b4a15579de38102ce6950f95f954c401e6d4b1f4266d2516e6757c8a671a997",
+  "points": [
+    {
+      "lonlat": [
+        -60.59869789483884,
+        46.22417270916442
+      ],
+      "guide_xy": [
+        6835.458286207868,
+        2234.571764109889
+      ],
+      "modern_objectid": 10910,
+      "modern_part": 0,
+      "modern_vertex": 37,
+      "modern_properties": {
+        "OBJECTID": 10910,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 838.0291924317437
+      },
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        6927,
+        2230
+      ],
+      "identity_evidence": "McLeod Point northernmost coast of peninsula between North/South Gut",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern physical context personally inspected before first diagnostic score.",
+      "original_candidate": {
+        "lonlat": [
+          -60.59869789483884,
+          46.22417270916442
+        ],
+        "guide_xy": [
+          6835.458286207868,
+          2234.571764109889
+        ],
+        "modern_objectid": 10910,
+        "modern_part": 0,
+        "modern_vertex": 37,
+        "modern_properties": {
+          "OBJECTID": 10910,
+          "FEAT_CODE": "WACO20",
+          "FEAT_DESC": "Coast - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.4,
+          "FID": null,
+          "SHAPE_Length": 838.0291924317437
+        },
+        "id": "Q02",
+        "role": "check",
+        "pixel_xy": [
+          6950,
+          2220
+        ],
+        "identity_evidence": "McLeod Point northernmost coast of peninsula between North/South Gut",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    }
+  ]
+}

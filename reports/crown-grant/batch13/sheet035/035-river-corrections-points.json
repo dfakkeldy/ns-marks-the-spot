@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C04",
+    "label": "Annapolis north tributary junction at Middleton",
+    "role": "proposal",
+    "pixel_xy": [
+      323,
+      3041
+    ],
+    "lonlat": [
+      -65.05558835739407,
+      44.94725339916005
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 272556,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 272556,
+    "nearest_unfiltered_distance_guide_px": 1.307222263986822,
+    "selected_distance_guide_px": 1.307222263986822,
+    "guide_reference_pixel_xy": [
+      377.27377132873517,
+      3065.913067635731
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Annapolis north tributary east of the western river bridge",
+    "role": "proposal",
+    "pixel_xy": [
+      855,
+      3178
+    ],
+    "lonlat": [
+      -65.01979515716482,
+      44.950850353773966
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 249016,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 249016,
+    "nearest_unfiltered_distance_guide_px": 1.2351015259743863,
+    "selected_distance_guide_px": 1.2351015259743863,
+    "guide_reference_pixel_xy": [
+      917.7804917767062,
+      3223.80435881624
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Northern brook junction with Annapolis east of Auburn",
+    "role": "proposal",
+    "pixel_xy": [
+      3740,
+      3082
+    ],
+    "lonlat": [
+      -64.85562465382338,
+      45.008112141784885
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 254158,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV20",
+    "nearest_unfiltered_objectid": 166914,
+    "nearest_unfiltered_distance_guide_px": 1.4529745075837959,
+    "selected_distance_guide_px": 2.1113846891239643,
+    "guide_reference_pixel_xy": [
+      3763.921551559062,
+      3111.8900731890462
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

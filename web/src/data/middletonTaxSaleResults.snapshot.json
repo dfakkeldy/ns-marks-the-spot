@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "eventId": "middleton-2026-08-20",
+  "municipality": "Town of Middleton",
+  "source": "https://www.discovermiddleton.ca/property-tax-sale-information",
+  "retrievedDate": "2026-08-20",
+  "saleDate": "2026-08-20",
+  "sourceFactsSha256": "90493cfbf6858f0a99d383b88a548c436b9b2c727337823f7d148d9d4e750cb2",
+  "sourceHashPolicy": "The overwrite-prone official HTML contains an identity column. This receipt hashes normalized result facts after discarding that column; the external Wayback receipt preserves the full official page bytes.",
+  "ownerNamesExcluded": true,
+  "identityNamesExcluded": true,
+  "resultRowCount": 9,
+  "matchedNoticeListingCount": 2,
+  "opaqueRemovedRowCount": 7,
+  "archiveReceipt": {
+    "timestamp": "20260820200525",
+    "url": "https://web.archive.org/web/20260820200525id_/https://www.discovermiddleton.ca/property-tax-sale-information",
+    "sha256": "d81652aee056a28dc013741a0b9f6d13e82df0305099a8ba6639240b5655b982"
+  },
+  "results": [
+    {
+      "rowNumber": 1,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 2,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 3,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 4,
+      "description": "LAND, 50 SCHOOL STREET, MIDDLETON",
+      "openingBidCents": 8461612,
+      "winningBidCents": null,
+      "outcome": "unsold"
+    },
+    {
+      "rowNumber": 5,
+      "description": "LAND, SENATOR ROAD, MIDDLETON",
+      "openingBidCents": 1581351,
+      "winningBidCents": null,
+      "outcome": "unsold"
+    },
+    {
+      "rowNumber": 6,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 7,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 8,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    },
+    {
+      "rowNumber": 9,
+      "description": null,
+      "openingBidCents": null,
+      "winningBidCents": null,
+      "outcome": "withdrawn"
+    }
+  ]
+}

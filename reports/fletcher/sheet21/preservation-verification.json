@@ -1,0 +1,13 @@
+{
+  "verified_at_utc": "2026-09-11T16:06:28.149216+00:00",
+  "initial_fourteen_other_controls_unchanged": true,
+  "retired_wrong_identity": "C07/J0499",
+  "replacement": "C16/J0495",
+  "failed_initial_fit_and_scores_preserved": true,
+  "diagnostics_not_promoted": true,
+  "fresh_validation_disjoint_from_fit": true,
+  "original_observations_unchanged": true,
+  "source_sha256_verified": "1f135b06b54b9fb4a3083d39b326b7d45ad76a096336c4806c7696a10a3b74be",
+  "reference_files_verified": 4,
+  "fit_sha256": "82e1c9490d3b0ea8ca239a17a0b012d9a9036c9fe2cf7018c891433ea9631618"
+}

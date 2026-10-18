@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C07",
+    "label": "Eastern Gull Rock northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      5095,
+      1825
+    ],
+    "lonlat": [
+      -65.09902143773151,
+      43.65606538949082
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 23415,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23415,
+    "nearest_unfiltered_distance_guide_px": 0.3864688904106503,
+    "selected_distance_guide_px": 0.3864688904106503,
+    "guide_reference_pixel_xy": [
+      5117.905657234427,
+      1834.3747767946916
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

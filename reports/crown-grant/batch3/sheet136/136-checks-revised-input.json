@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Sheep Island south tip",
+    [
+      1311,
+      1174
+    ],
+    [
+      1309,
+      1117
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q02",
+    "Western chain small northern pond south tip",
+    [
+      470,
+      2738
+    ],
+    [
+      443,
+      2704
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Western chain central rounded pond south tip",
+    [
+      478,
+      2834
+    ],
+    [
+      465,
+      2810
+    ],
+    "WALK"
+  ],
+  [
+    "Q04",
+    "Western horizontal pond east tip",
+    [
+      635,
+      2800
+    ],
+    [
+      616,
+      2775
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "Small pond southeast of Ellen Brook kidney lake east tip",
+    [
+      650,
+      2590
+    ],
+    [
+      642,
+      2571
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Island north of White Point south tip",
+    [
+      2876,
+      2318
+    ],
+    [
+      2860,
+      2279
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q07",
+    "East coastal cape below White Point",
+    [
+      3025,
+      2600
+    ],
+    [
+      2980,
+      2572
+    ],
+    "WACO"
+  ],
+  [
+    "Q08",
+    "Small stream mouth south of Cape Egmont",
+    [
+      3150,
+      3410
+    ],
+    [
+      3130,
+      3390
+    ],
+    "WACO"
+  ]
+]

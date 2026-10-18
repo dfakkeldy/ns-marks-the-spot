@@ -1,0 +1,222 @@
+[
+  {
+    "image": "sheet-12-C02.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C02",
+    "native_box": [
+      4678,
+      1988,
+      4898,
+      2208
+    ],
+    "native_coordinates": [
+      4788,
+      2098
+    ],
+    "modern_lonlat": [
+      -60.6963965,
+      46.229795
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C03.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C03",
+    "native_box": [
+      6948,
+      1184,
+      7168,
+      1404
+    ],
+    "native_coordinates": [
+      7058,
+      1294
+    ],
+    "modern_lonlat": [
+      -60.590816861445845,
+      46.255555563202485
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C04.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C04",
+    "native_box": [
+      8963,
+      1880,
+      9183,
+      2100
+    ],
+    "native_coordinates": [
+      9073,
+      1990
+    ],
+    "modern_lonlat": [
+      -60.499387922168744,
+      46.23120573711263
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C05.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C05",
+    "native_box": [
+      8320,
+      2477,
+      8540,
+      2697
+    ],
+    "native_coordinates": [
+      8430,
+      2587
+    ],
+    "modern_lonlat": [
+      -60.52757429866172,
+      46.21215509910506
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C06.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C06",
+    "native_box": [
+      2860,
+      3538,
+      3080,
+      3758
+    ],
+    "native_coordinates": [
+      2970,
+      3648
+    ],
+    "modern_lonlat": [
+      -60.7817217,
+      46.1777278
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C07.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C07",
+    "native_box": [
+      2987,
+      4858,
+      3207,
+      5078
+    ],
+    "native_coordinates": [
+      3097,
+      4968
+    ],
+    "modern_lonlat": [
+      -60.774752,
+      46.1373863
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C09.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C09",
+    "native_box": [
+      3585,
+      6175,
+      3805,
+      6395
+    ],
+    "native_coordinates": [
+      3695,
+      6285
+    ],
+    "modern_lonlat": [
+      -60.74983807459437,
+      46.092382139551376
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C10.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C10",
+    "native_box": [
+      5540,
+      6804,
+      5760,
+      7024
+    ],
+    "native_coordinates": [
+      5650,
+      6914
+    ],
+    "modern_lonlat": [
+      -60.654391491343134,
+      46.07161528896575
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C11.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C11",
+    "native_box": [
+      8356,
+      4674,
+      8576,
+      4894
+    ],
+    "native_coordinates": [
+      8466,
+      4784
+    ],
+    "modern_lonlat": [
+      -60.528392783013715,
+      46.139112050184494
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C12.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C12",
+    "native_box": [
+      8483,
+      6145,
+      8703,
+      6365
+    ],
+    "native_coordinates": [
+      8593,
+      6255
+    ],
+    "modern_lonlat": [
+      -60.520258835000504,
+      46.09341585419211
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-12-C13.jpg",
+    "point_record": "sheet12/corrected-candidates.json",
+    "point_id": "C13",
+    "native_box": [
+      4272,
+      6153,
+      4492,
+      6373
+    ],
+    "native_coordinates": [
+      4382,
+      6263
+    ],
+    "modern_lonlat": [
+      -60.71532638084902,
+      46.09391399713029
+    ],
+    "rotation_degrees": 0
+  }
+]

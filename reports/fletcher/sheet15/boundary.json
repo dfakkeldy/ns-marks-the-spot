@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-15",
+  "source_sha256": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+  "source_dimensions": [
+    10832,
+    7582
+  ],
+  "ring_pixel_xy": [
+    [
+      1535,
+      1054
+    ],
+    [
+      9740,
+      1077
+    ],
+    [
+      9761,
+      6556
+    ],
+    [
+      1546,
+      6528
+    ],
+    [
+      1535,
+      1054
+    ]
+  ],
+  "scope": "Entire mapped inner neatline, including all visible channel islands, lake and shoreline geometry; thin frame margin retained. No separate mapped extension visible outside the rectangle.",
+  "review": "Full-source overview and four native corners inspected; provisional boundary lies just outside inner neatline."
+}

@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "Fishing Cove inner coastal bend",
+    "role": "proposal",
+    "pixel_xy": [
+      709,
+      1479
+    ],
+    "lonlat": [
+      -60.87624805115169,
+      46.79643396210389
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 4943,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      598.7454214948812,
+      1444.5067523486214
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Red Cape coastal shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      2738,
+      752
+    ],
+    "lonlat": [
+      -60.769212551320884,
+      46.859080004988876
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 5571,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2613.318442772026,
+      739.0642971090274
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Northeastern plateau pond southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5530,
+      703
+    ],
+    "lonlat": [
+      -60.59964953956157,
+      46.90601235835868
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 32460,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5384.960609764734,
+      694.1429993431084
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Western ridge compact pond northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1892,
+      1938
+    ],
+    "lonlat": [
+      -60.79367029670932,
+      46.79622469788638
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 139710,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1766.2584108299925,
+      1901.5362720015692
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "South-central round pond western end",
+    "role": "proposal",
+    "pixel_xy": [
+      3627,
+      3254
+    ],
+    "lonlat": [
+      -60.65744727980402,
+      46.767965636766654
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 125906,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3471.8038543522125,
+      3228.8353299959563
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Southeastern lobed lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5380,
+      3459
+    ],
+    "lonlat": [
+      -60.54193258021979,
+      46.78577441730137
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 32361,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5251.006574500992,
+      3489.903076600982
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southeastern vertical lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5134,
+      3000
+    ],
+    "lonlat": [
+      -60.57038558813497,
+      46.80231025453687
+    ],
+    "guide_file": ".crown-grant-local/127-adjacent-guide.npy",
+    "reference_objectid": 140110,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4978.352258134109,
+      2993.9148697465425
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

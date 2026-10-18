@@ -1,0 +1,25 @@
+{
+  "points": [
+    {
+      "id": "V04",
+      "role": "rejected",
+      "pixel_xy": [
+        9160,
+        5133
+      ],
+      "lonlat": [
+        -60.8752779,
+        45.9651459
+      ],
+      "modern_node": "J1050",
+      "modern_objectids": [
+        193682,
+        274497,
+        274635
+      ],
+      "identity_evidence": "MacKinnon Brook larger northern arm downstream of C09 small northern tributary, southwest-flowing confluence beside road bend.",
+      "source_uncertainty_px": 10,
+      "rejection_reason": "Modern pair of closely spaced northern branches cannot be confidently distinguished on the native scan. Excluded before scoring."
+    }
+  ]
+}

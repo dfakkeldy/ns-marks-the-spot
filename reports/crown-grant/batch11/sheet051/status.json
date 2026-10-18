@@ -1,0 +1,46 @@
+{
+  "sheet": "051",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; scores, alpha coverage and browser assessed; no geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/051.pdf",
+    "pdf_sha256": "062efd3ae3948d61f47ab72c1a6e44ca3d704127c2a503522f56d6058eb84c8b",
+    "jpeg_sha256": "c7f1482ade9eefd4e358a264d220a61cbefbc885b96a9365985808c769507b3f",
+    "dimensions": [
+      5626,
+      3932
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 49.77692931992484,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Five checks share control lakes or islands; Cape Sharp and the smaller Two Brothers island provide separate feature checks.",
+    "Northwestern mainland and much northern interior lack independent validation; water-area retention does not establish positional accuracy there.",
+    "Source uncertainty 18 px; historical shoreline generalization remains.",
+    "Cape Split control is the mainland tip. Separate modern offshore stacks are not assumed to be represented by the historical cape outline.",
+    "Numerical passes do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 49.78 m, median 38.27 m, P95 82.83 m, maximum 88.14 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Port Greville and Fox River, Diligent River, Parrsboro, Lakelands and Jeffers, Moose River and Two Islands, Cape Sharp, Partridge Island, both Two Brothers islands, Cape Split, Scotsman Bay and the full original Minas Channel water area. No inset or internal crop is introduced."
+  }
+}

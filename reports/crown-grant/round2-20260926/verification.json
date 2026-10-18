@@ -1,0 +1,277 @@
+{
+  "sheets": 36,
+  "main_score_replays": 36,
+  "candidate_comparison_score_replays": 3,
+  "diagnostic_trial_replays": 261,
+  "frozen_batch1_files_unchanged": 48,
+  "private_hashes_verified": 411,
+  "accepted_improvements": 0,
+  "retained_failures": 36,
+  "rows": [
+    {
+      "sheet": "004a",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 101.95600982886253
+    },
+    {
+      "sheet": "005",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 123.45814689513249
+    },
+    {
+      "sheet": "008",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 136.55326733516887
+    },
+    {
+      "sheet": "010",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 101.25945336625703
+    },
+    {
+      "sheet": "011",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 142.86475263080376
+    },
+    {
+      "sheet": "015",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 139.25205310372968
+    },
+    {
+      "sheet": "019",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 103.4403508678554
+    },
+    {
+      "sheet": "022",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 101.95968066477984
+    },
+    {
+      "sheet": "024",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 155.1936308224329
+    },
+    {
+      "sheet": "026",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 103.52941962631171
+    },
+    {
+      "sheet": "031",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 130.8870923964516
+    },
+    {
+      "sheet": "043",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 129.31830269537113
+    },
+    {
+      "sheet": "044",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 103.25700421444355
+    },
+    {
+      "sheet": "049",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 424.2597356082433
+    },
+    {
+      "sheet": "052",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 141.3227388784321
+    },
+    {
+      "sheet": "056",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 103.05652311467188
+    },
+    {
+      "sheet": "058",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 106.17997510793715
+    },
+    {
+      "sheet": "060",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 235.59208581379104
+    },
+    {
+      "sheet": "067",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 100.17459813305791
+    },
+    {
+      "sheet": "076",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 131.8263871369466
+    },
+    {
+      "sheet": "077",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 164.7098820520001
+    },
+    {
+      "sheet": "087",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 117.04764688698587
+    },
+    {
+      "sheet": "090",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 105.24248474377777
+    },
+    {
+      "sheet": "092",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 107.25976787432812
+    },
+    {
+      "sheet": "097",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 107.9189301421114
+    },
+    {
+      "sheet": "103",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 174.4338699571609
+    },
+    {
+      "sheet": "109",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 141.1876082582987
+    },
+    {
+      "sheet": "111",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 175.20614129354308
+    },
+    {
+      "sheet": "112",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 105.23991735118904
+    },
+    {
+      "sheet": "114",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 168.84910065357266
+    },
+    {
+      "sheet": "117",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 106.78540876468259
+    },
+    {
+      "sheet": "118",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 104.53576946596525
+    },
+    {
+      "sheet": "119",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 128.15367108852973
+    },
+    {
+      "sheet": "120",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 248.9544224830488
+    },
+    {
+      "sheet": "130",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 110.15749385625024
+    },
+    {
+      "sheet": "131",
+      "baseline_replayed": true,
+      "baseline_files_unchanged": true,
+      "retained_rms_ground_m": 158.1710764742942
+    }
+  ],
+  "verified_at_utc": "2026-09-26T15:00:22.421849+00:00",
+  "baseline_merge_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "frozen_batch1_basis": "57765b8d5edc54798491ef524463b98330601633",
+  "existing_tool_tests": "5 scorer/frame/review tests passed",
+  "candidate_render_coverage": {
+    "edge_tolerance_output_cells": 1,
+    "method": "Independent dense source polygons projected to EPSG:3857 and GDAL-rasterized; compared to actual alpha",
+    "components": [
+      {
+        "component": "main",
+        "missing_interior_cells": 0,
+        "excess_cells_outside_tolerance": 0,
+        "expected_cells": 13336082,
+        "actual_alpha_cells": 13336083,
+        "passed": true
+      },
+      {
+        "component": "brier-long-inset",
+        "missing_interior_cells": 0,
+        "excess_cells_outside_tolerance": 0,
+        "expected_cells": 3493834,
+        "actual_alpha_cells": 3493843,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "candidate_source_union": {
+    "method": "Union of all original-frame alpha masks compared with independently sampled full-neatline polygon at pixel centres",
+    "original_dimensions": [
+      5762,
+      3894
+    ],
+    "edge_tolerance_native_pixels": 1,
+    "missing_interior_source_pixels": 0,
+    "excess_source_pixels": 0,
+    "overlapping_source_pixels": 0,
+    "union_source_pixels": 19794288,
+    "passed": true
+  },
+  "independent_local_copy": {
+    "path": "/Users/dfakkeldy/Documents/NS Marks The Spot/Crown Grant/round2-20260926-copy",
+    "regular_files_verified": 386,
+    "bytes_verified": 178358813,
+    "manifest_sha256": "a13722b5955fa1127876197c342777a1dc0ba74607c7f8df8cb9ec159c515e7d"
+  },
+  "no_active_fit_or_first_round_measurement_changed": true,
+  "no_public_imagery_uploaded": true,
+  "no_production_activation": true
+}

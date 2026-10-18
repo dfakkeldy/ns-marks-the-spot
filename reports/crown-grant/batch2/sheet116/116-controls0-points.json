@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "McDonald Island northeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2147,
+      2198
+    ],
+    "lonlat": [
+      -61.0942309152946,
+      45.9497399778839
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 20139,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2152.993008857069,
+      2159.0650978661142
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "MacIvor Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2774,
+      2370
+    ],
+    "lonlat": [
+      -61.050395544400345,
+      45.95194168440846
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 19515,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2765.2658221267047,
+      2346.288042480359
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "McIvor Point southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      5073,
+      1448
+    ],
+    "lonlat": [
+      -60.9239514901305,
+      46.03321638633487
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10117,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5090.889975592087,
+      1447.2558144608047
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "McLean Point eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2622,
+      3614
+    ],
+    "lonlat": [
+      -61.02898125455079,
+      45.89415288908427
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 13837,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2623.672221441986,
+      3566.114221564727
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Island south of Whycocomagh northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1873,
+      1830
+    ],
+    "lonlat": [
+      -61.12029648651791,
+      45.96152605090156
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 17734,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1887.2960628048168,
+      1796.6446522180922
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Bucklaw eastern headland hook",
+    "role": "proposal",
+    "pixel_xy": [
+      4538,
+      1365
+    ],
+    "lonlat": [
+      -60.96195823040604,
+      46.02779658080156
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 10375,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4534.27216351789,
+      1353.4113506047288
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Southside northern peninsula apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2256,
+      2452
+    ],
+    "lonlat": [
+      -61.080475380240365,
+      45.94016166220593
+    ],
+    "guide_file": ".crown-grant-local/116-adjacent-guide.npy",
+    "reference_objectid": 11320,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2268.100350780238,
+      2414.671748139779
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

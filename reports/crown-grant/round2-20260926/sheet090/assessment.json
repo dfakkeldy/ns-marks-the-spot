@@ -1,0 +1,479 @@
+{
+  "sheet": "090",
+  "baseline_report": "reports/crown-grant/batch6/sheet090",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "5596ab9acc59282068bc454e735b5ec2dc87c562d2a28da0353340b809dc06e1",
+  "reference_sha256": "497a04f012f26a1c7109a2c555cd54dd378cc40e6ca85f5ce862cea016e2eec9",
+  "fit_sha256": "1ba956ac6fce036dc39818f3e0bf2fdea53915f5fc1eea60dbf4be21f1ef36ca",
+  "checks_sha256": "b148d61c24736b5b5781c81cfc8176702191517d50c35a31fc0f98b7cb5caf87",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 6,
+    "rms_ground_m": 105.24248474377777,
+    "median_ground_m": 85.68643715772612,
+    "p95_ground_m": 155.45717905741265,
+    "max_ground_m": 162.8525464086134,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -33.148711634820735,
+    "mean_north_ground_m": -43.60542866946286,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Pond north of Lake Mulgrave south tip",
+        "role": "check",
+        "pixel_xy": [
+          1740,
+          622
+        ],
+        "lonlat": [
+          -62.61825998056007,
+          45.04842230015778
+        ],
+        "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+        "reference_objectid": 139031,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 139031,
+        "nearest_unfiltered_distance_guide_px": 0.6142435377286949,
+        "selected_distance_guide_px": 0.6142435377286949,
+        "guide_reference_pixel_xy": [
+          1697.3889668009942,
+          609.0627180464799
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+        "review": "All physical decisions made before fitting; checks excluded from fit.",
+        "predicted_lonlat": [
+          -62.61766116427027,
+          45.0485309803974
+        ],
+        "error_ground_m": 48.69652244239936,
+        "east_ground_m": 47.174894410158345,
+        "north_ground_m": 12.078105620233512
+      },
+      {
+        "id": "Q02",
+        "label": "Sam Northwest Lake south tip",
+        "role": "check",
+        "pixel_xy": [
+          1652,
+          2161
+        ],
+        "lonlat": [
+          -62.58398535097261,
+          44.9819702700416
+        ],
+        "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+        "reference_objectid": 141885,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 141885,
+        "nearest_unfiltered_distance_guide_px": 0.6444140434774864,
+        "selected_distance_guide_px": 0.6444140434774864,
+        "guide_reference_pixel_xy": [
+          1639.4367873627925,
+          2178.3131469059736
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+        "review": "All physical decisions made before fitting; checks excluded from fit.",
+        "predicted_lonlat": [
+          -62.585594646312266,
+          44.98233585785306
+        ],
+        "error_ground_m": 133.27107700381035,
+        "east_ground_m": -126.92682600214603,
+        "north_ground_m": 40.62955582794985
+      },
+      {
+        "id": "Q03",
+        "label": "Rabbit Lake south tip",
+        "role": "check",
+        "pixel_xy": [
+          5760,
+          552
+        ],
+        "lonlat": [
+          -62.38081946181686,
+          45.11661733012596
+        ],
+        "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+        "reference_objectid": 133579,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 133579,
+        "nearest_unfiltered_distance_guide_px": 2.353428093041598,
+        "selected_distance_guide_px": 2.353428093041598,
+        "guide_reference_pixel_xy": [
+          5769.40965196403,
+          626.2781819474185
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+        "review": "All physical decisions made before fitting; checks excluded from fit.",
+        "predicted_lonlat": [
+          -62.38175901424796,
+          45.11647687121218
+        ],
+        "error_ground_m": 75.56036372740273,
+        "east_ground_m": -73.9304882823014,
+        "north_ground_m": -15.609339158269757
+      },
+      {
+        "id": "Q04",
+        "label": "Moose Lake east projection",
+        "role": "check",
+        "pixel_xy": [
+          4976,
+          1025
+        ],
+        "lonlat": [
+          -62.417252668444284,
+          45.084428784931184
+        ],
+        "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+        "reference_objectid": 140429,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 140429,
+        "nearest_unfiltered_distance_guide_px": 0.8065748208301133,
+        "selected_distance_guide_px": 0.8065748208301133,
+        "guide_reference_pixel_xy": [
+          4961.843382649298,
+          1070.7912230703514
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+        "review": "All physical decisions made before fitting; checks excluded from fit.",
+        "predicted_lonlat": [
+          -62.416734348363654,
+          45.083915990507045
+        ],
+        "error_ground_m": 70.09275770687765,
+        "east_ground_m": 40.80819929402295,
+        "north_ground_m": -56.98846859965936
+      },
+      {
+        "id": "Q06",
+        "label": "Falls West Hill Lake north tip",
+        "role": "check",
+        "pixel_xy": [
+          2242,
+          2920
+        ],
+        "lonlat": [
+          -62.53158665330939,
+          44.9612716957889
+        ],
+        "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+        "reference_objectid": 125757,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 125757,
+        "nearest_unfiltered_distance_guide_px": 2.171426305180258,
+        "selected_distance_guide_px": 2.171426305180258,
+        "guide_reference_pixel_xy": [
+          2237.099417653575,
+          2917.169149217778
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+        "review": "All physical decisions made before fitting; checks excluded from fit.",
+        "predicted_lonlat": [
+          -62.532463751090056,
+          44.95994517970227
+        ],
+        "error_ground_m": 162.8525464086134,
+        "east_ground_m": -69.20455112667656,
+        "north_ground_m": -147.41669503528013
+      },
+      {
+        "id": "Q07",
+        "label": "Pond west of Falls West Hill Lake north tip",
+        "role": "check",
+        "pixel_xy": [
+          1930,
+          2974
+        ],
+        "lonlat": [
+          -62.54934303658305,
+          44.953469091345184
+        ],
+        "guide_file": ".crown-grant-local/090-adjacent-guide.npy",
+        "reference_objectid": 72651,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 72651,
+        "nearest_unfiltered_distance_guide_px": 1.2879516280649177,
+        "selected_distance_guide_px": 1.2879516280649177,
+        "guide_reference_pixel_xy": [
+          1909.1608457276598,
+          2970.9770565507933
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 20,
+        "identity_evidence": "Whole lake shapes and paired original native crosshairs inspected before first fit and check scoring. Modern feature type WALK20 verified.",
+        "review": "All physical decisions made before fitting; checks excluded from fit.",
+        "predicted_lonlat": [
+          -62.54955610358001,
+          44.952620310431236
+        ],
+        "error_ground_m": 95.81251058804952,
+        "east_ground_m": -16.813498101981725,
+        "north_ground_m": -94.32573067175127
+      }
+    ]
+  },
+  "control_axis_ratio": 1.8493538549152289,
+  "affine_scale_ratio": 1.0218853755506114,
+  "metres_per_pixel_singular_values": [
+    5.071951047885623,
+    4.963326777382207
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.60920641518588,
+          1.8228921111932082
+        ],
+        [
+          1.8829596354308489,
+          -4.66877072408758
+        ],
+        [
+          521046.6243066767,
+          4988153.294180818
+        ]
+      ],
+      "diagnostic_rms_m": 117.76730338144804,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.646919345485102,
+          1.8081756068567638
+        ],
+        [
+          1.9340455642678802,
+          -4.674562597434104
+        ],
+        [
+          520799.1216482558,
+          4988228.043135499
+        ]
+      ],
+      "diagnostic_rms_m": 107.60931009945241,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.615316776999812,
+          1.807926936444487
+        ],
+        [
+          1.9482665067379392,
+          -4.653670440172878
+        ],
+        [
+          520853.02823294693,
+          4988152.541376325
+        ]
+      ],
+      "diagnostic_rms_m": 131.873925236732,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.644041634883211,
+          1.8240502389047633
+        ],
+        [
+          1.9292381721228893,
+          -4.665323644098108
+        ],
+        [
+          520829.74614812835,
+          4988140.273384245
+        ]
+      ],
+      "diagnostic_rms_m": 105.1676300709818,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.646668290559655,
+          1.8291357937743387
+        ],
+        [
+          1.9375576065280555,
+          -4.660971299220794
+        ],
+        [
+          520815.5912820801,
+          4988127.28084145
+        ]
+      ],
+      "diagnostic_rms_m": 96.00598764476513,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.640987246664107,
+          1.8269206332885015
+        ],
+        [
+          1.9243695293529397,
+          -4.687149719379164
+        ],
+        [
+          520837.3203159098,
+          4988152.3621706525
+        ]
+      ],
+      "diagnostic_rms_m": 126.31161980689066,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.64365876078461,
+          1.8318177399451272
+        ],
+        [
+          1.9227751179458767,
+          -4.682216716775792
+        ],
+        [
+          520828.4194115076,
+          4988128.453191605
+        ]
+      ],
+      "diagnostic_rms_m": 127.3480682317836,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C08",
+      "model": "affine",
+      "matrix": [
+        [
+          4.645205395291213,
+          1.8404234696499222
+        ],
+        [
+          1.9430193822594917,
+          -4.625471203840334
+        ],
+        [
+          520802.71892408916,
+          4988039.684183941
+        ]
+      ],
+      "diagnostic_rms_m": 84.33573575199772,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.625133896747294,
+        1.8674678296744502
+      ],
+      [
+        1.8674678296744502,
+        -4.625133896747294
+      ],
+      [
+        521004.878349694,
+        4987926.635294862
+      ]
+    ],
+    "rms_ground_m": 132.18399677218565,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.906643+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q06",
+    "Q02",
+    "Q07",
+    "Q03"
+  ],
+  "reviewed_control_ids": [
+    "C08",
+    "C06"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Falls West Hill northern endpoint coincides with narrow feeder, Sam Northwest southern lobe retains Rocky Lake connection, and Rabbit southern outlet is recognizable. Generalized lake shapes and thick shoreline strokes preclude a justified small adjustment for a 105 m RMS. No switch to similarity: same-controls diagnostic is worse.",
+  "baseline_limitations": [
+    "Six excluded checks give RMS 105.24 m, exceeding the 100 m ceiling. Median 85.69 m exceeds 75 m and P95 155.46 m exceeds 150 m; maximum is 162.85 m. The failed first result remains authoritative.",
+    "All retained checks share natural lake systems with controls and are strongly spatially correlated. Separate observations do not supply independent regional validation.",
+    "The far western edge, central river corridors and southernmost band remain insufficiently checked. Complex large-lake and changed river shorelines remain visible without local acceptance.",
+    "All retained observations use modern WALK20 lake boundaries and 12 px working source uncertainty. No reservoir or stream boundary was substituted to force a correspondence."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "a8312f489e9a6b16a9978ac311cf251166bfaa022630bd67eaebdbfde37f1f5d"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "ff33d377b854849c06a5d08dd94080251d113c6ba787dbe81ea8fcb6414082b5"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "79f1fbefb6f267f1dde34c57b4958083f611dc236330a342fc982c39632c28e2"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "be8fa3a5d82ad91a2c56e5fcfe3b4648b1c92319457fc90d04fdeae7e3618d16"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "5ba3b70067dfa07226606928909c089fe9e0a220581cd429a3e2866eaf0c20a0"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "6bbcef0eeda394bcb9a12e2a0788d9bfe37441abbe5a7841b70ceada0c31f57f"
+    }
+  ],
+  "control_findings": "Little Beaver northern shore is nearly flat; Falls West Hill southern outlet is clear. A small residual is not sufficient to certify the flat-shore definition.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

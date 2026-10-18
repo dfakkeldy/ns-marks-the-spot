@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "file": "controls.csv",
+      "controls": 11,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 8.586369880747876e-9
+    },
+    {
+      "file": "new-checks.csv",
+      "controls": 11,
+      "checks": 3,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 8.586369880747876e-9
+    },
+    {
+      "file": "cumulative-fresh.csv",
+      "controls": 11,
+      "checks": 6,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 8.586369880747876e-9
+    }
+  ],
+  "scope": "Production parser and TPS solver at checks and content vertices only; not raw-scan browser mesh acceptance."
+}

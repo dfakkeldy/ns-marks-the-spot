@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "Northwestern plateau triangular lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2338,
+      1278
+    ],
+    "lonlat": [
+      -60.69099557702545,
+      46.66916032249362
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 128753,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2369.6830521735246,
+      1244.455072900164
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Sunday Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3955,
+      277
+    ],
+    "lonlat": [
+      -60.61796588680621,
+      46.737391141694765
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 139421,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3950.7140327480156,
+      226.37907781091053
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Lake of Islands northeastern outlet bend",
+    "role": "proposal",
+    "pixel_xy": [
+      5406,
+      576
+    ],
+    "lonlat": [
+      -60.52170767978913,
+      46.74757550145952
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 137137,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5410.802695594786,
+      526.2169432862429
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Dundas western hooked lake southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4235,
+      1225
+    ],
+    "lonlat": [
+      -60.57697104941977,
+      46.70278119377632
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 140956,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4268.968581430847,
+      1157.3581740549998
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Southern large horizontal lake eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3250,
+      3463
+    ],
+    "lonlat": [
+      -60.58363902349099,
+      46.592202574443135
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 76978,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3311.1413027885137,
+      3401.886751283775
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Southwestern triangular lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2577,
+      3679
+    ],
+    "lonlat": [
+      -60.61957815397209,
+      46.572089418400175
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 38050,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2637.2827205715585,
+      3625.364370210911
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Roper Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5509,
+      1463
+    ],
+    "lonlat": [
+      -60.49318558029395,
+      46.71264613535419
+    ],
+    "guide_file": ".crown-grant-local/128-adjacent-guide.npy",
+    "reference_objectid": 143082,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5548.550109490345,
+      1397.4726578186965
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

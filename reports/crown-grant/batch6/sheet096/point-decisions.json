@@ -1,0 +1,18 @@
+{
+  "timing": "All decisions before any fit or check score",
+  "rejected": [
+    {
+      "id": "Q03",
+      "reason": "Georges Lake northeastern generalized shoreline turn has an imprecise common apex; initial source point lay off shore"
+    },
+    {
+      "id": "Q05",
+      "reason": "Smiths northeastern lobe is represented by modern WARV50 near target, while the nearest WALK20 proposal falls on a different shore. Stream/lake transition identity is uncertain; do not change type to force adoption"
+    }
+  ],
+  "limitations": [
+    "Checks cluster in northern and eastern lake systems; southwestern triangular pond is a control without a local independent check",
+    "Large lake and river corridors including Melopseketch, Yankee and Big Gaspereau remain visible but insufficiently checked",
+    "Several controls/checks use separate points on the same lake and are spatially correlated"
+  ]
+}

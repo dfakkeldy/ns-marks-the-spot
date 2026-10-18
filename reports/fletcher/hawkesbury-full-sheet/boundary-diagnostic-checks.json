@@ -1,0 +1,681 @@
+{
+  "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+  "points": [
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        8711,
+        1907
+      ],
+      "lonlat": [
+        -61.2646434,
+        45.7205251
+      ],
+      "label": "Askilton fork",
+      "identity_evidence": "Northwest tributary joins east-west main stream before the southwest bend, south of school/road crossing.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          197910,
+          269271,
+          269378
+        ],
+        "node": "J0175"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          8571,
+          1817,
+          8851,
+          1997
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          8703,
+          1910
+        ],
+        "reason": "Small correction to centre of visible junction before any scoring."
+      }
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        6995,
+        2522
+      ],
+      "lonlat": [
+        -61.3447544,
+        45.7006944
+      ],
+      "label": "Sugar Camp Brook upper fork",
+      "identity_evidence": "Northwest and southwest arms join the eastbound stream, followed by the downstream road crossing.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          195335,
+          295461,
+          295610
+        ],
+        "node": "J0217"
+      },
+      "native_uncertainty_px": 5,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6855,
+          2432,
+          7135,
+          2612
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "pixel_xy": [
+        3234,
+        2923
+      ],
+      "lonlat": [
+        -61.51721218413218,
+        45.683684452946956
+      ],
+      "label": "Havre Boucher harbour island",
+      "identity_evidence": "Northernmost apex of the isolated triangular island inside the harbour, west of the east mainland shore.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          16884
+        ],
+        "part": 0,
+        "vertex": 62
+      },
+      "native_uncertainty_px": 10,
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          3094,
+          2833,
+          3374,
+          3013
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge coordinates, matching saved controls"
+      }
+    },
+    {
+      "id": "C04",
+      "role": "check",
+      "pixel_xy": [
+        6168,
+        4520
+      ],
+      "lonlat": [
+        -61.3810428,
+        45.6351224
+      ],
+      "label": "Northern Hawkesbury coastal brook mouth",
+      "identity_evidence": "Brook with two upstream northern tributaries crosses the coastal road and reaches the sloping shore, south of the separate pond outlet and north of the tannery creek.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0613",
+        "objectids": [
+          13065,
+          13067,
+          211158
+        ]
+      },
+      "uncertainty_native_px": 10,
+      "review": "agent native/topology review; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6068,
+          4440,
+          6268,
+          4600
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "C05",
+      "role": "check",
+      "pixel_xy": [
+        6687,
+        4682
+      ],
+      "lonlat": [
+        -61.3582892,
+        45.6298056
+      ],
+      "label": "Emery Brook upper confluence",
+      "identity_evidence": "Northwestern and northeastern streams unite above the pond; the next southern eastern tributary and the diagonal road separate this from the smaller forks farther north.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0639",
+        "objectids": [
+          196572,
+          265354,
+          265355
+        ]
+      },
+      "uncertainty_native_px": 6,
+      "review": "agent native/topology review; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6587,
+          4602,
+          6787,
+          4762
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        4434,
+        1412
+      ],
+      "lonlat": [
+        -61.4631956,
+        45.7344294
+      ],
+      "label": "Craignish church creek mouth",
+      "identity_evidence": "Small creek immediately west of the church reaches straight shoreline north of the next creek mouth; the coastal road crossing and sequence distinguish it.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          10130,
+          10131,
+          212208
+        ],
+        "node": "J0135"
+      },
+      "uncertainty_native_px": 8,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4334,
+          1332,
+          4534,
+          1492
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "F02",
+      "role": "check",
+      "pixel_xy": [
+        4918,
+        2830
+      ],
+      "lonlat": [
+        -61.43880234935148,
+        45.68828561612321
+      ],
+      "label": "Troy northern creek road crossing",
+      "identity_evidence": "Same creek as N02, at the centre of the paired coastal road lines rather than the mouth. Road follows the coast past the school and the small coastal pond to its south.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211914
+        ],
+        "node": null,
+        "highway_layer": "highways",
+        "highway_objectid": 314719,
+        "definition": "Exact piecewise-linear water/highway centreline intersection in EPSG:4326"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4818,
+          2750,
+          5018,
+          2910
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        6254,
+        4507
+      ],
+      "lonlat": [
+        -61.3755651,
+        45.6352696
+      ],
+      "label": "Northern Hawkesbury first inland tributary",
+      "identity_evidence": "North tributary bends southwest into the west-flowing main, east of its coastal road crossing and west of the next larger northern tributary. The separate narrow tributary at the road is not this confluence.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211158,
+          211159,
+          211160
+        ],
+        "node": "J0612"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6154,
+          4427,
+          6354,
+          4587
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          6254,
+          4504
+        ],
+        "reason": "Move 3 pixels down to centre of visible junction before any scoring."
+      }
+    },
+    {
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        6678,
+        4789
+      ],
+      "lonlat": [
+        -61.3577455,
+        45.6268086
+      ],
+      "label": "Emery Brook eastern tributary",
+      "identity_evidence": "Eastern tributary joins the north-south brook below C05 and above Emery Pond; the tributary crosses the diagonal road upstream.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          196727,
+          265355,
+          265356
+        ],
+        "node": "J0651"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6578,
+          4709,
+          6778,
+          4869
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "G01",
+      "role": "check",
+      "pixel_xy": [
+        4429,
+        1651
+      ],
+      "lonlat": [
+        -61.4628667,
+        45.7271145
+      ],
+      "label": "Craignish post-office creek mouth",
+      "identity_evidence": "Creek reaches the sloping coast beside the historical post office, south of the road junction and the preceding creek; continuous stream bends inland across the coastal road.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0150",
+        "objectids": [
+          10153,
+          10154,
+          212064
+        ]
+      },
+      "uncertainty_native_px": 8,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4329,
+          1571,
+          4529,
+          1731
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "G02",
+      "role": "check",
+      "pixel_xy": [
+        4493,
+        1426
+      ],
+      "lonlat": [
+        -61.46017419946802,
+        45.7344194891566
+      ],
+      "label": "Craignish church creek road crossing",
+      "identity_evidence": "Creek beside the church crosses the centre of the paired north-south road lines before reaching F01 mouth. Modern trail crossing is west of this road and is not selected.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          212208
+        ],
+        "highway_layer": "highways",
+        "highway_objectid": 259867
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4393,
+          1346,
+          4593,
+          1506
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "G03",
+      "role": "check",
+      "pixel_xy": [
+        6226,
+        4507
+      ],
+      "lonlat": [
+        -61.379904957419875,
+        45.63540204763919
+      ],
+      "label": "Northern Hawkesbury brook coastal-road crossing",
+      "identity_evidence": "Main brook crosses the centre of the coastal road south of its junction with the northeast road, downstream of F03 and upstream of C04. Separate tributary crosses the road farther north.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211158
+        ],
+        "highway_layer": "highways",
+        "highway_objectid": 287217
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6126,
+          4427,
+          6326,
+          4587
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "G04",
+      "role": "check",
+      "pixel_xy": [
+        6913,
+        5057
+      ],
+      "lonlat": [
+        -61.3475302,
+        45.6185999
+      ],
+      "label": "Emery Brook southeastern confluence",
+      "identity_evidence": "Northeastern tributary crosses road near school and joins the northwest-southeast main southeast of Emery Pond; next southern road crossing and tributary fork lie downstream.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0712",
+        "objectids": [
+          196571,
+          196573,
+          196574
+        ]
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6813,
+          4977,
+          7013,
+          5137
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "H04",
+      "role": "check",
+      "pixel_xy": [
+        9488,
+        5041
+      ],
+      "lonlat": [
+        -61.22955544129869,
+        45.62008045969098
+      ],
+      "modern_objectids": [
+        27661
+      ],
+      "identity_evidence": "Southernmost apex of the isolated island in River Inhabitants southeast of Macmillan Creek, opposite Brule Point. Complete closed coast outline separates island from adjacent mainland. Southern tip avoids lettering on northern shoreline.",
+      "source_uncertainty_px": 12,
+      "source_crop": {
+        "native_box": [
+          9398,
+          4961,
+          9578,
+          5121
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent full coast topology and native crosshair before scoring; shoreline changes possible, not independently user audited."
+    },
+    {
+      "id": "H05",
+      "role": "check",
+      "pixel_xy": [
+        9380,
+        6072
+      ],
+      "lonlat": [
+        -61.233302032195354,
+        45.5871280063675
+      ],
+      "modern_objectids": [
+        2210
+      ],
+      "identity_evidence": "Southernmost apex of Fort Richmond promontory, west of the small eastern inlet separating it from Indian Point. Modern local coast extremum on western promontory; do not select farther-south Indian Point to east. Coast shape and northern cove establish identity.",
+      "source_uncertainty_px": 12,
+      "source_crop": {
+        "native_box": [
+          9290,
+          5992,
+          9470,
+          6152
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent full coast topology and native crosshair before scoring; shoreline changes possible, not independently user audited."
+    },
+    {
+      "id": "H06",
+      "role": "check",
+      "pixel_xy": [
+        2579,
+        3973
+      ],
+      "lonlat": [
+        -61.5487243,
+        45.6494581
+      ],
+      "modern_node": "J0521",
+      "modern_objectids": [
+        210059,
+        273560,
+        273685
+      ],
+      "identity_evidence": "Next southern tributary east of Q06, entering western-eastbound main at beginning of the northward bend. First southern arm Q06 and then this longer southern arm distinguish close forks. Same catchment and near control: limited independence.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          2489,
+          3893,
+          2669,
+          4053
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          2600,
+          3955
+        ],
+        "final_xy": [
+          2579,
+          3973
+        ],
+        "reason": "Moved from bend crest to observed thin-arm junction on 4x native crop before scoring"
+      },
+      "review": "Agent topology and crosshair review, not user audited"
+    },
+    {
+      "id": "J22-E01",
+      "role": "check",
+      "pixel_xy": [
+        8983,
+        1116
+      ],
+      "lonlat": [
+        -61.2545114,
+        45.7460043
+      ],
+      "modern_objectids": [
+        195750,
+        195853,
+        197273
+      ],
+      "modern_node": "J0110",
+      "source_uncertainty_px": 5,
+      "identity_evidence": "Eastern arm crosses the curved north\u2013south road east of the confluence, joins north\u2013south main below its northern road crossing. Main then curves southwest to downstream forks. NSTDB 195853 connects upstream to Judique D04; these are different junctions on the same stream, not coincident tie points.",
+      "source_crop": {
+        "native_box": [
+          8920,
+          1050,
+          9050,
+          1190
+        ],
+        "display_size": [
+          650,
+          700
+        ],
+        "rotation_degrees": 0
+      },
+      "review": "Native crosshair inspected at 5x before scoring; agent reviewed, not user audited."
+    }
+  ],
+  "status": "Previously inspected diagnostics; C01 consumed as control. Eastern new check and H06 are now diagnostics after revision."
+}

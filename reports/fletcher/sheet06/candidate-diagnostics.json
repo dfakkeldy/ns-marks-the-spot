@@ -1,0 +1,88 @@
+{
+  "sheet": "sheet-06",
+  "fit_sha256": "3adf65c3c5c3e314071b94592694767dd442d9b1a084f8b5058082495628bc05",
+  "points": [
+    {
+      "lonlat": [
+        -60.9051569,
+        46.7157275
+      ],
+      "source_guide_xy": [
+        8195.595776559087,
+        3462.0119132003747
+      ],
+      "objectids": [
+        185572,
+        260640,
+        260761
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        8392,
+        3340
+      ],
+      "modern_node_id": "J0223",
+      "identity_evidence": "Corney Brook smaller southeastern tributary east of fitted South Branch",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal."
+    },
+    {
+      "lonlat": [
+        -60.9328095,
+        46.6218254
+      ],
+      "source_guide_xy": [
+        7585.509493899299,
+        6396.988808900118
+      ],
+      "objectids": [
+        190203,
+        190204,
+        292066
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7730,
+        6158
+      ],
+      "modern_node_id": "J0534",
+      "identity_evidence": "Faribault Brook main western/eastern-arm junction south of Ch\u00e9ticamp River",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal."
+    },
+    {
+      "lonlat": [
+        -61.01363728514968,
+        46.646349074780744
+      ],
+      "guide_xy": [
+        5849.784669526853,
+        5617.540627520764
+      ],
+      "modern_objectid": 4141,
+      "modern_part": 0,
+      "modern_vertex": 27,
+      "modern_properties": {
+        "OBJECTID": 4141,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 282.01401935178455
+      },
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        6048,
+        5600
+      ],
+      "identity_evidence": "Eastern extremity of northern Ch\u00e9ticamp Island headland",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal."
+    }
+  ]
+}

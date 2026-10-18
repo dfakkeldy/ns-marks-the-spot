@@ -1,0 +1,35 @@
+{
+  "sheet": "sheet-03",
+  "whole_sheet_geographically_accepted": false,
+  "recommended_whole_sheet_replacement": false,
+  "production_eligible": false,
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "whole_sheet_geographic_review_required": true,
+    "full_boundary_required": true
+  },
+  "nine": {
+    "control_count": 9,
+    "raw_median_ground_m": 216.89215930689537,
+    "raw_worst_ground_m": 839.5492554595136,
+    "accepted": false
+  },
+  "ten": {
+    "control_count": 10,
+    "raw_median_ground_m": 159.78450484787805,
+    "raw_worst_ground_m": 281.1734464044364,
+    "U06_secure_validation": false,
+    "remaining_U04_ground_m": 281.1734464044364,
+    "accepted": false
+  },
+  "blockers": [
+    "Fresh distributed checks absent from this continuation; recovered historical results retained.",
+    "U06 precise shoreline definition uncertain; 38.4 m is not secure validation.",
+    "Otter upstream check exceeds worst-case limit.",
+    "Northern coast and inland branch hierarchy unresolved.",
+    "North Pond and Aspy valley wider geography unresolved.",
+    "All reviewed provisional neighboring seams unaccepted."
+  ],
+  "technical_verification": "Full alpha coverage, sampled orientation, actual web parser/TPS agreement and actual desktop/mobile raster import/reload pass separately from geographic acceptance."
+}

@@ -1,0 +1,10 @@
+{
+  "fit_sha256": "e80fc52c43f502eedf2e88de6234d8b9f2e7af765ea11be2c000e898aeeb9c5f",
+  "control_count": 9,
+  "frozen_at_utc": "2026-09-11T12:32:57.811692+00:00",
+  "stage": "Nine reviewed physical controls frozen before diagnostic point selection. Affine and TPS comparison uses diagnostic checks; final acceptance requires replacement checks after model/repair freeze.",
+  "excluded_candidates": [
+    "C03",
+    "C06"
+  ]
+}

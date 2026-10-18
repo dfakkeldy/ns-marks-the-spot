@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5650 x 3845 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 175.21 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          90,
+          75
+        ],
+        [
+          5550,
+          75
+        ],
+        [
+          5550,
+          3730
+        ],
+        [
+          90,
+          3730
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Entire original mapped frame includes the Strait of Canso shores, western inland ponds, River Inhabitants, McNamara/McLeod and surrounding islands, Janvrin Island, West Arichat, Louisdale and eastern interiors. No displaced inset identified; all mapped islands and original edges remain present."
+    }
+  ]
+}

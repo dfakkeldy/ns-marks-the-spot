@@ -1,0 +1,27 @@
+{
+  "observation_sha256": "beafbcc38ed931aa7e8318622ba738c2fdb191ca433bbd102f03b65e477a987c",
+  "freeze_sha256": "cb10a5a3b04686cb9f9fad584ed280b6162387bd234827d10f3dcd7bae6b8058",
+  "affine4": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VN11",
+        "east_ground_m": 58.73030830485634,
+        "north_ground_m": 545.8639184900218,
+        "error_ground_m": 549.0142681414251
+      }
+    ],
+    "rms_ground_m": 549.0142681414251,
+    "median_ground_m": 549.0142681414251,
+    "p95_ground_m": 549.0142681414251,
+    "max_ground_m": 549.0142681414251,
+    "mean_east_ground_m": 58.73030830485634,
+    "mean_north_ground_m": 545.8639184900218,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "inside_source_control_hull": false,
+  "cross_panel_reference_reuse": "Inverness I14 ground reference reused; independent Victoria source observation, not two independent world references",
+  "geographic_acceptance": false
+}

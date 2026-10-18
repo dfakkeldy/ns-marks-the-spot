@@ -1,0 +1,12 @@
+{
+  "at_utc": "2026-09-12T12:42:54.250717+00:00",
+  "point": "F01",
+  "prior_scores_preserved": {
+    "twelve_ground_m": 622.7781874452847,
+    "thirteen_ground_m": 894.1446392405404
+  },
+  "frame": "postscore-topology/sheet-10-F01.jpg",
+  "finding": "Wider 1000 px / 4000 m context inspected after scoring. The native northern main channel turns west with a short southeastern branch; modern southeastern reach is long and connects a larger network. Local junction connectivity and northern pools are plausible, but broader branch hierarchy is unresolved. This is not a confirmed 894 m map error or evidence to promote F01. Preserve every coordinate and score; future revised identity is diagnostic, never fresh.",
+  "coordinates_changed_after_score": false,
+  "promoted": false
+}

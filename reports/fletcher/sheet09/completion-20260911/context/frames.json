@@ -1,0 +1,116 @@
+[
+  {
+    "image": "gallant-south-grid.jpg",
+    "native_box": [
+      5400,
+      5850,
+      6360,
+      6690
+    ],
+    "original_display_size": [
+      960,
+      840
+    ],
+    "saved_display_size": [
+      960,
+      840
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native labelled pixel grid"
+  },
+  {
+    "image": "gallant-south-modern.jpg",
+    "native_box": [
+      5400,
+      5850,
+      6360,
+      6690
+    ],
+    "original_display_size": [
+      960,
+      840
+    ],
+    "saved_display_size": [
+      960,
+      840
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Printed-graticule guide ONLY; not warped geographic evidence"
+  },
+  {
+    "image": "campbell-broad-grid.jpg",
+    "native_box": [
+      8400,
+      2400,
+      9850,
+      3300
+    ],
+    "original_display_size": [
+      1450,
+      900
+    ],
+    "saved_display_size": [
+      1450,
+      900
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native labelled pixel grid"
+  },
+  {
+    "image": "campbell-broad-modern.jpg",
+    "native_box": [
+      8400,
+      2400,
+      9850,
+      3300
+    ],
+    "original_display_size": [
+      1450,
+      900
+    ],
+    "saved_display_size": [
+      1450,
+      900
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Printed-graticule guide ONLY; not warped geographic evidence"
+  },
+  {
+    "image": "rocky-broad-grid.jpg",
+    "native_box": [
+      7400,
+      3600,
+      9750,
+      5150
+    ],
+    "original_display_size": [
+      2350,
+      1550
+    ],
+    "saved_display_size": [
+      1500,
+      989
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native labelled pixel grid"
+  },
+  {
+    "image": "rocky-broad-modern.jpg",
+    "native_box": [
+      7400,
+      3600,
+      9750,
+      5150
+    ],
+    "original_display_size": [
+      2350,
+      1550
+    ],
+    "saved_display_size": [
+      1500,
+      989
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Printed-graticule guide ONLY; not warped geographic evidence"
+  }
+]

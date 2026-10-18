@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C01",
+    "label": "Moydart Point western coastal corner",
+    "role": "proposal",
+    "pixel_xy": [
+      1986,
+      326
+    ],
+    "lonlat": [
+      -62.203638814761746,
+      45.7425551070771
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 13090,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13090,
+    "nearest_unfiltered_distance_guide_px": 1.534947904836589,
+    "selected_distance_guide_px": 1.534947904836589,
+    "guide_reference_pixel_xy": [
+      1995.2157620617072,
+      356.93700996786356
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Harbour Centre island northeast tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5788,
+      3196
+    ],
+    "lonlat": [
+      -61.91025303675451,
+      45.6855063112363
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 17976,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17976,
+    "nearest_unfiltered_distance_guide_px": 0.19030015721458632,
+    "selected_distance_guide_px": 0.19030015721458632,
+    "guide_reference_pixel_xy": [
+      5772.140335959673,
+      3212.1285300286254
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Coastal creek mouth east of Knoydart Point",
+    "role": "proposal",
+    "pixel_xy": [
+      1570,
+      526
+    ],
+    "lonlat": [
+      -62.223148709085926,
+      45.727739133183015
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 13185,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13185,
+    "nearest_unfiltered_distance_guide_px": 4.726813943986107,
+    "selected_distance_guide_px": 4.726813943986107,
+    "guide_reference_pixel_xy": [
+      1590.6820391849615,
+      548.6490601910045
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Coastal creek mouth east of Moydart corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2120,
+      294
+    ],
+    "lonlat": [
+      -62.19648492418269,
+      45.74596401321407
+    ],
+    "guide_file": ".crown-grant-local/098-adjacent-guide.npy",
+    "reference_objectid": 13261,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 13261,
+    "nearest_unfiltered_distance_guide_px": 0.2562771463882244,
+    "selected_distance_guide_px": 0.2562771463882244,
+    "guide_reference_pixel_xy": [
+      2126.7968409345485,
+      328.1562189805554
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

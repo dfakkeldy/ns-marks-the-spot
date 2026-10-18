@@ -1,0 +1,24 @@
+[
+  {
+    "id": "9f38838e-df03-4b51-a725-c59cc8f70226",
+    "name": "sheet-11-exact",
+    "source": "geotiff",
+    "createdAt": "2026-09-12T13:14:30.796Z",
+    "pixelSize": {
+      "width": 9369,
+      "height": 5975
+    },
+    "georef": {
+      "kind": "embedded",
+      "crs": "EPSG:3857",
+      "geotransform": [
+        -6820570,
+        5,
+        0,
+        5853230,
+        0,
+        -5
+      ]
+    }
+  }
+]

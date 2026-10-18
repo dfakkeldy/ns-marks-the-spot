@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Clear Lake northwestern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      346,
+      2214
+    ],
+    "lonlat": [
+      -65.30721042963528,
+      44.71787567397779
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 141290,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141290,
+    "nearest_unfiltered_distance_guide_px": 3.582904590243047,
+    "selected_distance_guide_px": 3.582904590243047,
+    "guide_reference_pixel_xy": [
+      490.94638634001603,
+      2236.4174965627026
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Godfrey Lake northern notch roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1724,
+      3425
+    ],
+    "lonlat": [
+      -65.19682604316505,
+      44.69347588214309
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 126189,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126189,
+    "nearest_unfiltered_distance_guide_px": 0.7809245378190817,
+    "selected_distance_guide_px": 0.7809245378190817,
+    "guide_reference_pixel_xy": [
+      1840.7075271595968,
+      3454.330527536222
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Spectacle western detached lake eastern end",
+    "role": "proposal",
+    "pixel_xy": [
+      2335,
+      3368
+    ],
+    "lonlat": [
+      -65.16358590669044,
+      44.707200111648795
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 124660,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124660,
+    "nearest_unfiltered_distance_guide_px": 5.326038603544342,
+    "selected_distance_guide_px": 5.326038603544342,
+    "guide_reference_pixel_xy": [
+      2438.6741375767742,
+      3390.9566796200816
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Eel Ware Lake northwestern lobe northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3538,
+      1357
+    ],
+    "lonlat": [
+      -65.14581250861963,
+      44.81221010160708
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 126971,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126971,
+    "nearest_unfiltered_distance_guide_px": 0.6575419577488719,
+    "selected_distance_guide_px": 0.6575419577488719,
+    "guide_reference_pixel_xy": [
+      3643.6331970124156,
+      1364.5457261167467
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Unnamed pond west of Roxbury northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3632,
+      1688
+    ],
+    "lonlat": [
+      -65.13200131162908,
+      44.80006657621192
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 128331,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 128331,
+    "nearest_unfiltered_distance_guide_px": 1.4145909766838916,
+    "selected_distance_guide_px": 1.4145909766838916,
+    "guide_reference_pixel_xy": [
+      3729.983082460065,
+      1701.9833343013888
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Small lake southwest of Godfrey northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      1339,
+      3600
+    ],
+    "lonlat": [
+      -65.21493098843659,
+      44.67912648183845
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 140759,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140759,
+    "nearest_unfiltered_distance_guide_px": 3.9291607129866803,
+    "selected_distance_guide_px": 3.9291607129866803,
+    "guide_reference_pixel_xy": [
+      1452.5334249089356,
+      3628.901360223419
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Scrogg Lake elongated southeastern island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5730,
+      3146
+    ],
+    "lonlat": [
+      -64.97466834588954,
+      44.77847439966753
+    ],
+    "guide_file": ".crown-grant-local/029-east-adjacent-guide.npy",
+    "reference_objectid": 149584,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 149584,
+    "nearest_unfiltered_distance_guide_px": 1.5281095113939784,
+    "selected_distance_guide_px": 1.5281095113939784,
+    "guide_reference_pixel_xy": [
+      5773.786183933786,
+      3162.486923211254
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

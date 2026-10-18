@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 103.4403508678554,
+  "median_ground_m": 96.22291162554168,
+  "p95_ground_m": 143.33752908142674,
+  "max_ground_m": 144.55901448269165,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -14.591855969251059,
+  "mean_north_ground_m": 6.960641937153422,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Pettits or Grey Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        1743,
+        1666
+      ],
+      "lonlat": [
+        -65.30400615017919,
+        43.59758549488558
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 312572,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 312572,
+      "nearest_unfiltered_distance_guide_px": 1.0089220657182607,
+      "selected_distance_guide_px": 1.0089220657182607,
+      "guide_reference_pixel_xy": [
+        1753.927591048472,
+        1657.0063203657046
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.3048069058628,
+        43.59753272313251
+      ],
+      "error_ground_m": 64.92338127068857,
+      "east_ground_m": -64.65811850149514,
+      "north_ground_m": -5.862861713003868
+    },
+    {
+      "id": "Q02",
+      "label": "Blue or Green Island southern end",
+      "role": "check",
+      "pixel_xy": [
+        4210,
+        958
+      ],
+      "lonlat": [
+        -65.17571845399593,
+        43.67752896336812
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 17153,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17153,
+      "nearest_unfiltered_distance_guide_px": 1.1233263385660022,
+      "selected_distance_guide_px": 1.1233263385660022,
+      "guide_reference_pixel_xy": [
+        4231.393815478601,
+        950.9457284964155
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.17588509441588,
+        43.67771673036515
+      ],
+      "error_ground_m": 24.81526622010389,
+      "east_ground_m": -13.437728929584237,
+      "north_ground_m": 20.86204397439628
+    },
+    {
+      "id": "Q03",
+      "label": "Western Gull Rock southwestern end",
+      "role": "check",
+      "pixel_xy": [
+        1293,
+        2090
+      ],
+      "lonlat": [
+        -65.32074125298799,
+        43.56855352197789
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 23424,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23424,
+      "nearest_unfiltered_distance_guide_px": 0.4346681370552942,
+      "selected_distance_guide_px": 0.4346681370552942,
+      "guide_reference_pixel_xy": [
+        1270.265819119988,
+        2099.656086370116
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.3203082151932,
+        43.569777614152585
+      ],
+      "error_ground_m": 140.4284466335131,
+      "east_ground_m": 34.982299829008774,
+      "north_ground_m": 136.0014239725995
+    },
+    {
+      "id": "Q04",
+      "label": "Cape Negro Island northern shore",
+      "role": "check",
+      "pixel_xy": [
+        412,
+        2803
+      ],
+      "lonlat": [
+        -65.35467797276434,
+        43.52056119364379
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 16761,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16761,
+      "nearest_unfiltered_distance_guide_px": 2.4185311300094066,
+      "selected_distance_guide_px": 2.4185311300094066,
+      "guide_reference_pixel_xy": [
+        382.6350519034313,
+        2791.6663329486037
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.35378384370338,
+        43.52064108282451
+      ],
+      "error_ground_m": 72.83246350214918,
+      "east_ground_m": 72.28954913997069,
+      "north_ground_m": 8.876306942172292
+    },
+    {
+      "id": "Q05",
+      "label": "Dexter Lake southwestern shore",
+      "role": "check",
+      "pixel_xy": [
+        1384,
+        569
+      ],
+      "lonlat": [
+        -65.35592009157598,
+        43.638146666694986
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 127720,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127720,
+      "nearest_unfiltered_distance_guide_px": 0.39615469839417483,
+      "selected_distance_guide_px": 0.39615469839417483,
+      "guide_reference_pixel_xy": [
+        1378.8943932803813,
+        566.3818190223537
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.3560425068334,
+        43.6392195670576
+      ],
+      "error_ground_m": 119.6133597489342,
+      "east_ground_m": -9.877761712151553,
+      "north_ground_m": 119.2048054987126
+    },
+    {
+      "id": "Q06",
+      "label": "Little Lake southern shore",
+      "role": "check",
+      "pixel_xy": [
+        368,
+        1057
+      ],
+      "lonlat": [
+        -65.40400476586133,
+        43.597315248005586
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 132889,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132889,
+      "nearest_unfiltered_distance_guide_px": 1.6998095889323233,
+      "selected_distance_guide_px": 1.6998095889323233,
+      "guide_reference_pixel_xy": [
+        355.8200141295674,
+        1034.3097462542355
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.40371493142406,
+        43.597401032136126
+      ],
+      "error_ground_m": 25.269490507562825,
+      "east_ground_m": 23.40313112325554,
+      "north_ground_m": 9.531033739291638
+    },
+    {
+      "id": "Q07",
+      "label": "Eastern Gull Rock southern end",
+      "role": "check",
+      "pixel_xy": [
+        5060,
+        1882
+      ],
+      "lonlat": [
+        -65.09868066015137,
+        43.65425738192037
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 23415,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 23415,
+      "nearest_unfiltered_distance_guide_px": 0.4061480983108602,
+      "selected_distance_guide_px": 0.4061480983108602,
+      "guide_reference_pixel_xy": [
+        5107.1857594479225,
+        1870.6388217818458
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.09990460465657,
+        43.65330706339088
+      ],
+      "error_ground_m": 144.55901448269165,
+      "east_ground_m": -98.73775058302817,
+      "north_ground_m": -105.58487239188563
+    },
+    {
+      "id": "Q08",
+      "label": "Blue Gull Island northern end",
+      "role": "check",
+      "pixel_xy": [
+        3666,
+        887
+      ],
+      "lonlat": [
+        -65.20972629777975,
+        43.671301206477445
+      ],
+      "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+      "reference_objectid": 17931,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17931,
+      "nearest_unfiltered_distance_guide_px": 0.5149177198113946,
+      "selected_distance_guide_px": 0.5149177198113946,
+      "guide_reference_pixel_xy": [
+        3703.4894636582467,
+        856.1598924183054
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Four broad and ten detail pairs plus all fifteen initial and one correction native crosshairs inspected before first fit and score.",
+      "predicted_lonlat": [
+        -65.21047892110758,
+        43.67015506466731
+      ],
+      "error_ground_m": 141.06905619336334,
+      "east_ground_m": -60.698468119984376,
+      "north_ground_m": -127.34274452505545
+    }
+  ],
+  "fit_sha256": "0f95c49ac95af928179ac3f36fd3f82565fb0810c2eb46dd9e50b218b6a56759",
+  "checks_sha256": "428207ab31c5c66587cafe12409d1acf4ff0df7ce5dcd1a3d722f5c8404dc6e0",
+  "status": "Reserved before first fit and score"
+}

@@ -1,0 +1,125 @@
+{
+  "associations": [
+    {
+      "annotation_id": "F19-JUD-077",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4760,
+          4170,
+          80,
+          80
+        ]
+      ],
+      "note": "The singular Mill label points toward a brook bend, but the reviewed native pixels do not separate a facility mark from the stream line. A marks this ambiguous bend only.",
+      "crosshair_image": "mills-ABC-review.png"
+    },
+    {
+      "annotation_id": "F19-JUD-078",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4065,
+          4375,
+          190,
+          105
+        ]
+      ],
+      "note": "Plural Mills lies among several building-like dots and branching lines. Region B bounds the candidate cluster; no unique printed mill symbol is supported.",
+      "crosshair_image": "mills-ABC-review.png"
+    },
+    {
+      "annotation_id": "F19-JUD-079",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4365,
+          4340,
+          90,
+          100
+        ]
+      ],
+      "note": "Plural Mills lies beside a dense group of four building-like dots near a junction. Region C bounds that cluster; the source does not identify one dot as the anchor.",
+      "crosshair_image": "mills-ABC-review.png"
+    },
+    {
+      "annotation_id": "F19-JUD-021",
+      "status": "candidate",
+      "source_anchor_xy": [
+        4440,
+        2792
+      ],
+      "candidate_symbol_regions_xywh": [
+        [
+          4415,
+          2760,
+          65,
+          65
+        ]
+      ],
+      "note": "D is the road/brook junction immediately beside the singular Mill label on a separate brook. The association is plausible, but no discrete mill pictogram is separable from the junction, so independent audit is required.",
+      "crosshair_image": "mill021-D-crosshair.png"
+    },
+    {
+      "annotation_id": "F19-JUD-061",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8235,
+          2760,
+          105,
+          100
+        ],
+        [
+          8395,
+          2760,
+          145,
+          120
+        ]
+      ],
+      "note": "Gold Mine is printed in a crowded road, Quartz Mill, Falls, and geology context. These regions bound plausible nearby marks, but no unique mine symbol is supported.",
+      "crosshair_image": "mine061-candidates.png"
+    },
+    {
+      "annotation_id": "F19-JUD-094",
+      "status": "supported",
+      "source_anchor_xy": [
+        6955,
+        3930
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The anchor is the centre of the printed oval or circled mine mark immediately before Gold Mine. Corrected downward from the first overlay and rechecked on the native crop.",
+      "crosshair_image": "mine094-crosshair-corrected.png"
+    },
+    {
+      "annotation_id": "F19-JUD-103",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6940,
+          4690,
+          100,
+          100
+        ]
+      ],
+      "note": "Several small black marks occur south-east of Plumbago Mine near a boundary. The bounded cluster is plausible, but none is uniquely associated with the label.",
+      "crosshair_image": "mine103-candidates.png"
+    },
+    {
+      "annotation_id": "F19-JUD-117",
+      "status": "supported",
+      "source_anchor_xy": [
+        7214,
+        4882
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The anchor is the native-pixel intersection of the road and watercourse beside Red Bridge. It is west of the label centre and was corrected eastward from the first overlay.",
+      "crosshair_image": "bridge117-crosshair-corrected.png"
+    }
+  ]
+}

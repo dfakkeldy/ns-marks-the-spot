@@ -1,0 +1,26 @@
+{
+  "stage": "Before first fit or score",
+  "excluded_controls": [
+    "C04",
+    "C05"
+  ],
+  "excluded_checks": [
+    "Q03",
+    "Q04"
+  ],
+  "evidence": [
+    {
+      "location": "Summers Lake northern shore",
+      "objectid": 311465,
+      "feat_code": "WARS20",
+      "description": "Reservoir - Water to the right line"
+    },
+    {
+      "location": "Mattie/Clyne Lake east shore",
+      "objectid": 161981,
+      "feat_code": "WARS20",
+      "description": "Reservoir - Water to the right line"
+    }
+  ],
+  "reason": "Modern reservoir shorelines may differ from historical lake levels; the original lake-code filter selected a distant unrelated natural lake or failed the150px guard. No such proposal adopted."
+}

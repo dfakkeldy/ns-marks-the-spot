@@ -1,0 +1,72 @@
+{
+  "directory": "/Users/dfakkeldy/Downloads/fletcher-sheet14/digitization-handoff-southern-20260909",
+  "files": [
+    {
+      "name": "README.md",
+      "sha256": "6869935570e843a7623a523fd63b31c14157cb2b16664b6d94b21ff98d0045b5",
+      "bytes": 1518
+    },
+    {
+      "name": "boundary.json",
+      "sha256": "03983c1d7ed4bdfefde19d469abba2b60cd9e05fb36567508e17411c5b606ec5",
+      "bytes": 2306
+    },
+    {
+      "name": "checks.json",
+      "sha256": "79ab5b655f89c033578aac7fd307f053318a40ddca8ca9b6e9cc20327df8865b",
+      "bytes": 11020
+    },
+    {
+      "name": "coverage-verification.json",
+      "sha256": "6c3ceb3d8a2fa972c349a2ace257b7a1698432e9bc9a3795961ddc2c77bc9558",
+      "bytes": 499
+    },
+    {
+      "name": "fit.json",
+      "sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+      "bytes": 20720
+    },
+    {
+      "name": "handoff.json",
+      "sha256": "976b17792c9206a81031bdaca7ef418a427fb6f9aaa8c7309611e3d93f97adf6",
+      "bytes": 1998
+    },
+    {
+      "name": "import-verification.json",
+      "sha256": "0f3680cf7bc76e0d262666404ec8d2efdc87d71e5c36b2059cc2390ac7bae1b0",
+      "bytes": 227
+    },
+    {
+      "name": "reference-receipt.json",
+      "sha256": "03d518e64e3765f1e26f864f817eea1818dba1a0b181fd8c12af5a47821db756",
+      "bytes": 2155
+    },
+    {
+      "name": "render-receipt.json",
+      "sha256": "30772562d593ae886f6fc8ca96b5553a549a97af46c215dc99ec2b083bed7932",
+      "bytes": 3735
+    },
+    {
+      "name": "scores.json",
+      "sha256": "342f0d9de06a136fe6cba6534d4a6149a00514902fa24fb0fc58d6ecbfff94f3",
+      "bytes": 2546
+    },
+    {
+      "name": "sheet-14-checks.csv",
+      "sha256": "870bc03dbaa45e9f6427f61139ee745b0cfe3066ed0d070594f5933a819258b2",
+      "bytes": 677
+    },
+    {
+      "name": "sheet-14-controls.csv",
+      "sha256": "ef7b79692654f107bb508ebd2d4ff6d7fce0e8a15b790a5a2597925d63c522d1",
+      "bytes": 1301
+    },
+    {
+      "name": "sheet-14-review.csv",
+      "sha256": "9a1427c40c237fa89de405a5ee1cb9d4c8de62e0feb686113c563537911dafe4",
+      "bytes": 1858
+    }
+  ],
+  "raster_hash_verified": true,
+  "tile_archive_crc_verified": true
+}

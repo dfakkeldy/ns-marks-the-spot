@@ -1,0 +1,178 @@
+{
+  "sheet": "sheet-15",
+  "source_sha256": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+  "source_dimensions": [
+    10832,
+    7582
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        2740,
+        1902
+      ],
+      "lonlat": [
+        -61.1668017,
+        46.0659799
+      ],
+      "modern_node": "J0263",
+      "modern_objectids": [
+        287033,
+        299827,
+        299828
+      ],
+      "identity_evidence": "Lake Ainslie western tributary major northern fork, downstream northeast to lake.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        8135,
+        1347
+      ],
+      "lonlat": [
+        -60.9195995,
+        46.0873326
+      ],
+      "modern_node": "J0168",
+      "modern_objectids": [
+        193118,
+        193413,
+        193414
+      ],
+      "identity_evidence": "Nyanza river western tributary junction upstream of delta.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        7990,
+        1965
+      ],
+      "lonlat": [
+        -60.9303947,
+        46.0687078
+      ],
+      "modern_node": "J0248",
+      "modern_objectids": [
+        193234,
+        274042,
+        274043
+      ],
+      "identity_evidence": "Creek west of Cranberry Point, northern tributary above eastern lower reach.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        6370,
+        3100
+      ],
+      "lonlat": [
+        -60.9991354,
+        46.0289731
+      ],
+      "modern_node": "J0467",
+      "modern_objectids": [
+        136006,
+        136007,
+        269517
+      ],
+      "identity_evidence": "Lake McPhedran eastern outlet to long brook draining east to Bucklaw.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        5890,
+        3945
+      ],
+      "lonlat": [
+        -61.0235119,
+        46.0018243
+      ],
+      "modern_node": "J0646",
+      "modern_objectids": [
+        193099,
+        274177,
+        274303
+      ],
+      "identity_evidence": "Brook northwest of Little Narrows, major western fork with long northern and southwestern arms.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2635,
+        5555
+      ],
+      "lonlat": [
+        -61.1733183,
+        45.9536826
+      ],
+      "modern_node": "J1123",
+      "modern_objectids": [
+        198858,
+        198859,
+        294596
+      ],
+      "identity_evidence": "Cave Brook and McAskill Brook major fork, west and northeast arms, southeast downstream.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        2145,
+        6290
+      ],
+      "lonlat": [
+        -61.1911804,
+        45.9288435
+      ],
+      "modern_node": "J1388",
+      "modern_objectids": [
+        198356,
+        261169,
+        261317
+      ],
+      "identity_evidence": "Blues Brook northern tributary junction before coastal lowland.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4020,
+        2035
+      ],
+      "lonlat": [
+        -61.1174323,
+        46.0684433
+      ],
+      "modern_node": "J0249",
+      "modern_objectids": [
+        130765,
+        130766,
+        275249
+      ],
+      "identity_evidence": "Lake Ainslie eastern shore brook first major eastern fork inland of mouth.",
+      "source_uncertainty_px": 10,
+      "review": "Candidate pending native crosshair and modern topology review; not yet fitted."
+    }
+  ]
+}

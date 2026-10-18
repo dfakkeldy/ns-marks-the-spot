@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "Dunbar Lake southwestern tip",
+    [
+      503,
+      1009
+    ],
+    [
+      521,
+      1008
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "McKeen Lake southwestern lobe south",
+    [
+      2748,
+      443
+    ],
+    [
+      2770,
+      410
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Dugas Lake southern tip",
+    [
+      2376,
+      1414
+    ],
+    [
+      2396,
+      1393
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Little Uniacke Lake southern tip",
+    [
+      3679,
+      1074
+    ],
+    [
+      3715,
+      1040
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Colibri Lake eastern corner",
+    [
+      1625,
+      2826
+    ],
+    [
+      1628,
+      2806
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Cranberry Lake southeastern tip",
+    [
+      5194,
+      3635
+    ],
+    [
+      5255,
+      3587
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Unnamed northeastern lake southern tip",
+    [
+      4580,
+      901
+    ],
+    [
+      4599,
+      851
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Prevost Lake western tip",
+    [
+      447,
+      2195
+    ],
+    [
+      439,
+      2197
+    ],
+    "WALK20"
+  ],
+  [
+    "Q09",
+    "Wright Lake eastern tip",
+    [
+      1535,
+      300
+    ],
+    [
+      1562,
+      268
+    ],
+    "WALK20"
+  ]
+]

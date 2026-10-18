@@ -1,0 +1,126 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "points": [
+    {
+      "lonlat": [
+        -60.6887621,
+        46.7643107
+      ],
+      "source_guide_xy": [
+        4725.661076919641,
+        1945.5247393597383
+      ],
+      "objectids": [
+        179131,
+        272090,
+        272091
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        4748,
+        1655
+      ],
+      "modern_node_id": "J0733",
+      "identity_evidence": "North Aspy River western tributary southwest of Big Southwest Brook",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        4748,
+        1655
+      ],
+      "limitation": "Local tributary order supports identity; modern tributary lengths and extra branches differ from historical depiction."
+    },
+    {
+      "lonlat": [
+        -60.5644481,
+        46.747879
+      ],
+      "source_guide_xy": [
+        7416.1555061198305,
+        2455.594272160204
+      ],
+      "objectids": [
+        156070,
+        156506,
+        179601
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7471,
+        2134
+      ],
+      "modern_node_id": "J0888",
+      "identity_evidence": "Black Brook eastern tributary between Snipe and Doherty brooks",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        7470,
+        2119
+      ],
+      "limitation": "Local tributary order supports identity; modern tributary lengths and extra branches differ from historical depiction."
+    },
+    {
+      "lonlat": [
+        -60.4874953,
+        46.7735022
+      ],
+      "source_guide_xy": [
+        9079.476551559987,
+        1651.104990880005
+      ],
+      "objectids": [
+        180930,
+        281429,
+        281430
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        9190,
+        1357
+      ],
+      "modern_node_id": "J0605",
+      "identity_evidence": "Donovan Brook eastern tributary upstream of Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        9200,
+        1340
+      ],
+      "limitation": "Local tributary order supports identity; modern tributary lengths and extra branches differ from historical depiction."
+    },
+    {
+      "lonlat": [
+        -60.5051358,
+        46.67872
+      ],
+      "source_guide_xy": [
+        8703.514794160146,
+        4618.001442880137
+      ],
+      "objectids": [
+        191190,
+        265938,
+        266047
+      ],
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        9043,
+        4527
+      ],
+      "modern_node_id": "J1889",
+      "identity_evidence": "Dauphiney Brook eastern tributary upstream of Curtis Brook",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        9038,
+        4515
+      ],
+      "limitation": "Local tributary order supports identity; modern tributary lengths and extra branches differ from historical depiction."
+    }
+  ]
+}

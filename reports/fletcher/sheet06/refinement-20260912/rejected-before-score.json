@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.8703199,
+        46.6372877
+      ],
+      "source_guide_xy": [
+        8932.906664559385,
+        5922.220252400031
+      ],
+      "objectids": [
+        156110,
+        156111,
+        189669
+      ],
+      "id": "F05",
+      "modern_node_id": "J0474",
+      "role": "check",
+      "pixel_xy": [
+        8948,
+        5787
+      ],
+      "identity_evidence": "Cheticamp River northern tributary near the Roch gorge label",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact close and wide review, unscored."
+    }
+  ],
+  "reason": "Rejected without score or fit: native short vertical mark at rough-gorge annotation does not securely establish proposed long modern northern tributary; crosshair is above bank. Cannot infer identity from approximate location."
+}

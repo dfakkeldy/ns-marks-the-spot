@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Stoney Lake western projecting bend",
+    [
+      630,
+      838
+    ],
+    [
+      631,
+      807
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Handsaw Lake southern tip",
+    [
+      754,
+      1431
+    ],
+    [
+      750,
+      1407
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Unnamed lake north of Cushing grant southern tip",
+    [
+      2585,
+      1082
+    ],
+    [
+      2570,
+      1072
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Small pond in central southern interior southern tip",
+    [
+      2220,
+      3035
+    ],
+    [
+      2220,
+      3015
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Wild Duck Lake northern small island northern tip",
+    [
+      4600,
+      2664
+    ],
+    [
+      4603,
+      2645
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q06",
+    "Cranberry Lake southeast tip",
+    [
+      5072,
+      3627
+    ],
+    [
+      5095,
+      3610
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Unnamed lake south of Skunk Lake southern tip",
+    [
+      4641,
+      666
+    ],
+    [
+      4627,
+      633
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Skunk Lake southern tip",
+    [
+      4710,
+      420
+    ],
+    [
+      4719,
+      434
+    ],
+    "WALK20"
+  ]
+]

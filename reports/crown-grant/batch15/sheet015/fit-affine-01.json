@@ -1,0 +1,255 @@
+{
+  "sheet": "015",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.886679125955112,
+      2.01881424135647
+    ],
+    [
+      2.011124270580691,
+      -4.907085488123923
+    ],
+    [
+      272551.77949970606,
+      4905822.6572644
+    ]
+  ],
+  "source_sha256": "ddfe3e80e7381fe870649989a7b6fd06037566b4c39167d89ea8fe538df7bfa6",
+  "source_dimensions": [
+    5687,
+    3887
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Granit Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3348,
+        450
+      ],
+      "lonlat": [
+        -65.63747911296775,
+        44.315519848414105
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 126397,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 126397,
+      "nearest_unfiltered_distance_guide_px": 0.9450317033344577,
+      "selected_distance_guide_px": 0.9450317033344577,
+      "guide_reference_pixel_xy": [
+        3300.3913281616406,
+        474.8602018310921
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Whitesand Lake northeastern roof",
+      "role": "control",
+      "pixel_xy": [
+        5106,
+        310
+      ],
+      "lonlat": [
+        -65.53223926458438,
+        44.35749794244748
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 141250,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141250,
+      "nearest_unfiltered_distance_guide_px": 3.205502689081106,
+      "selected_distance_guide_px": 3.205502689081106,
+      "guide_reference_pixel_xy": [
+        5106.117228415387,
+        345.20335839211475
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Flagstaff Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4150,
+        1623
+      ],
+      "lonlat": [
+        -65.55304214510898,
+        44.279914943163156
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 127409,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 127409,
+      "nearest_unfiltered_distance_guide_px": 1.1796628539687002,
+      "selected_distance_guide_px": 1.1796628539687002,
+      "guide_reference_pixel_xy": [
+        4147.387682218803,
+        1676.9916987633333
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "East Clearwater Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        3466,
+        2482
+      ],
+      "lonlat": [
+        -65.57453268215573,
+        44.23002369911638
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 129120,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129120,
+      "nearest_unfiltered_distance_guide_px": 1.133192028859965,
+      "selected_distance_guide_px": 1.133192028859965,
+      "guide_reference_pixel_xy": [
+        3419.2328551640967,
+        2482.1659658430144
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Lost Lake northeastern horn",
+      "role": "control",
+      "pixel_xy": [
+        4251,
+        2516
+      ],
+      "lonlat": [
+        -65.5260607887717,
+        44.24419493859673
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 131883,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 131883,
+      "nearest_unfiltered_distance_guide_px": 1.2346651674695748,
+      "selected_distance_guide_px": 1.2346651674695748,
+      "guide_reference_pixel_xy": [
+        4207.152762679267,
+        2519.8981018862687
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Harlow Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        617,
+        1656
+      ],
+      "lonlat": [
+        -65.76718576879362,
+        44.21062368919312
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 138468,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138468,
+      "nearest_unfiltered_distance_guide_px": 0.4181004022274669,
+      "selected_distance_guide_px": 0.4181004022274669,
+      "guide_reference_pixel_xy": [
+        608.6561202132143,
+        1631.76218780817
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Solomon Churchill Lake southern tip",
+      "role": "control",
+      "pixel_xy": [
+        723,
+        3365
+      ],
+      "lonlat": [
+        -65.71421104086075,
+        44.13783657108761
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 140644,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140644,
+      "nearest_unfiltered_distance_guide_px": 0.5768258931003974,
+      "selected_distance_guide_px": 0.5768258931003974,
+      "guide_reference_pixel_xy": [
+        699.9123058275436,
+        3337.57012090215
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Barrios Lake northeastern island north",
+      "role": "control",
+      "pixel_xy": [
+        335,
+        1358
+      ],
+      "lonlat": [
+        -65.7926148683866,
+        44.217583922252786
+      ],
+      "guide_file": ".crown-grant-local/015-frozen-north-guide.npy",
+      "reference_objectid": 145937,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 145937,
+      "nearest_unfiltered_distance_guide_px": 5.8417053928482865,
+      "selected_distance_guide_px": 5.8417053928482865,
+      "guide_reference_pixel_xy": [
+        320.97696504724445,
+        1339.759432367282
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    169.19249158668495,
+    116.84451733012256,
+    207.21098444654413,
+    94.42792812370038,
+    88.76406168007294,
+    57.12832808499873,
+    40.45613438859263,
+    3.1382305778367465
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

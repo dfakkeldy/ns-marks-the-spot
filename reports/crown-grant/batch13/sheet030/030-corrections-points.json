@@ -1,0 +1,106 @@
+[
+  {
+    "id": "C07",
+    "label": "Unnamed lake south of Skunk Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4628,
+      547
+    ],
+    "lonlat": [
+      -64.98962063150944,
+      44.70875411992596
+    ],
+    "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+    "reference_objectid": 127988,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127988,
+    "nearest_unfiltered_distance_guide_px": 1.9517938246879138,
+    "selected_distance_guide_px": 1.9517938246879138,
+    "guide_reference_pixel_xy": [
+      4610.340741409047,
+      552.4184186998755
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Stoney Lake western projecting bend",
+    "role": "proposal",
+    "pixel_xy": [
+      630,
+      838
+    ],
+    "lonlat": [
+      -65.22542233517238,
+      44.61919427378493
+    ],
+    "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+    "reference_objectid": 127685,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127685,
+    "nearest_unfiltered_distance_guide_px": 0.48032611203600917,
+    "selected_distance_guide_px": 0.48032611203600917,
+    "guide_reference_pixel_xy": [
+      631.4609683355666,
+      819.8650134543423
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Unnamed lake south of Skunk Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4643,
+      660
+    ],
+    "lonlat": [
+      -64.98636307552086,
+      44.705527706064615
+    ],
+    "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+    "reference_objectid": 127988,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127988,
+    "nearest_unfiltered_distance_guide_px": 0.7038188867453568,
+    "selected_distance_guide_px": 0.7038188867453568,
+    "guide_reference_pixel_xy": [
+      4627.59320538817,
+      633.3787722175475
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Skunk Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4710,
+      413
+    ],
+    "lonlat": [
+      -64.98622470007183,
+      44.716094330214325
+    ],
+    "guide_file": ".crown-grant-local/030-frozen-north-discovery-guide.npy",
+    "reference_objectid": 142561,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 142561,
+    "nearest_unfiltered_distance_guide_px": 0.5293694821995494,
+    "selected_distance_guide_px": 0.5293694821995494,
+    "guide_reference_pixel_xy": [
+      4718.662923774973,
+      433.5918190754019
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

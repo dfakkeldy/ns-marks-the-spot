@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-11-C18.jpg",
+    "point_record": "sheet11/coastal-fit.json",
+    "point_id": "C18",
+    "native_box": [
+      744,
+      3281,
+      964,
+      3501
+    ],
+    "native_coordinates": [
+      854,
+      3391
+    ],
+    "modern_lonlat": [
+      -61.25431668223287,
+      46.3679652002784
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-11-C19.jpg",
+    "point_record": "sheet11/coastal-fit.json",
+    "point_id": "C19",
+    "native_box": [
+      462,
+      3737,
+      682,
+      3957
+    ],
+    "native_coordinates": [
+      572,
+      3847
+    ],
+    "modern_lonlat": [
+      -61.26611860040565,
+      46.35212099990494
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-11-C20.jpg",
+    "point_record": "sheet11/coastal-fit.json",
+    "point_id": "C20",
+    "native_box": [
+      3497,
+      988,
+      3717,
+      1208
+    ],
+    "native_coordinates": [
+      3607,
+      1098
+    ],
+    "modern_lonlat": [
+      -61.12786591642733,
+      46.44188862504196
+    ],
+    "rotation_degrees": 0
+  }
+]

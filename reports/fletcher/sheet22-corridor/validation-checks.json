@@ -1,0 +1,184 @@
+{
+  "frozen_utc": "2026-09-07T01:01:01.362785+00:00",
+  "fit_commit": "fbff74f4b",
+  "fit_observations_sha256": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241",
+  "role": "fresh validation of frozen 19-control affine; never fitted",
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "limitations": [
+    "Same-agent visual interpretation, not independent surveying.",
+    "F02 shares a creek with N02 and is only about 280 m inland; weak spatial independence.",
+    "F03/F04 are in northern Hawkesbury; southern town and mountainous eastern sheet remain unvalidated."
+  ],
+  "rejections": [
+    "Northern Hawkesbury pond/outlet: multiple small historic streams do not establish an unambiguous modern counterpart."
+  ],
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        4434,
+        1412
+      ],
+      "lonlat": [
+        -61.4631956,
+        45.7344294
+      ],
+      "label": "Craignish church creek mouth",
+      "identity_evidence": "Small creek immediately west of the church reaches straight shoreline north of the next creek mouth; the coastal road crossing and sequence distinguish it.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          10130,
+          10131,
+          212208
+        ],
+        "node": "J0135"
+      },
+      "uncertainty_native_px": 8,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4334,
+          1332,
+          4534,
+          1492
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "F02",
+      "role": "check",
+      "pixel_xy": [
+        4918,
+        2830
+      ],
+      "lonlat": [
+        -61.43880234935148,
+        45.68828561612321
+      ],
+      "label": "Troy northern creek road crossing",
+      "identity_evidence": "Same creek as N02, at the centre of the paired coastal road lines rather than the mouth. Road follows the coast past the school and the small coastal pond to its south.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211914
+        ],
+        "node": null,
+        "highway_layer": "highways",
+        "highway_objectid": 314719,
+        "definition": "Exact piecewise-linear water/highway centreline intersection in EPSG:4326"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4818,
+          2750,
+          5018,
+          2910
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        6254,
+        4507
+      ],
+      "lonlat": [
+        -61.3755651,
+        45.6352696
+      ],
+      "label": "Northern Hawkesbury first inland tributary",
+      "identity_evidence": "North tributary bends southwest into the west-flowing main, east of its coastal road crossing and west of the next larger northern tributary. The separate narrow tributary at the road is not this confluence.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211158,
+          211159,
+          211160
+        ],
+        "node": "J0612"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6154,
+          4427,
+          6354,
+          4587
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "initial_pixel_xy": [
+          6254,
+          4504
+        ],
+        "reason": "Move 3 pixels down to centre of visible junction before any scoring."
+      }
+    },
+    {
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        6678,
+        4789
+      ],
+      "lonlat": [
+        -61.3577455,
+        45.6268086
+      ],
+      "label": "Emery Brook eastern tributary",
+      "identity_evidence": "Eastern tributary joins the north-south brook below C05 and above Emery Pond; the tributary crosses the diagonal road upstream.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          196727,
+          265355,
+          265356
+        ],
+        "node": "J0651"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and modern topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6578,
+          4709,
+          6778,
+          4869
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    }
+  ]
+}

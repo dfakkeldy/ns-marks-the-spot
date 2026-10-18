@@ -1,0 +1,198 @@
+{
+  "sheet": 22,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "purpose": "Independent DeepSeek detail passes plus coordinator source adjudication; model confidence never overrides source imagery.",
+  "detail_manifest": {
+    "sheet": 22,
+    "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+    "source_dimensions_px": [
+      10790,
+      7687
+    ],
+    "purpose": "New close-up/context crops for second-pass source transcription; no earlier model answers supplied",
+    "crops": [
+      {
+        "crop_id": "F22-DETAIL-GENERAL",
+        "source_xywh": [
+          5480,
+          1800,
+          1500,
+          1400
+        ],
+        "sha256": "32e560d0c4628b9cf95ca68fcc6e9f8fa1e924e21b82c9ab1a634139a4c9770b"
+      },
+      {
+        "crop_id": "F22-DETAIL-SCHOOL-MILL",
+        "source_xywh": [
+          6300,
+          1320,
+          1050,
+          700
+        ],
+        "sha256": "79ca06f9711437927923e1fb285771779964ed478ba67d9ac2cadc7a20189064"
+      },
+      {
+        "crop_id": "F22-DETAIL-STRIPES",
+        "source_xywh": [
+          7480,
+          1260,
+          1500,
+          1060
+        ],
+        "sha256": "cfb9d969cc0cf3f383d3cb36839073c1af5704df7090c3c1c2bc2d761f34a2ca"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "crop_id": "F22-DETAIL-GENERAL",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "32e560d0c4628b9cf95ca68fcc6e9f8fa1e924e21b82c9ab1a634139a4c9770b",
+      "prompt_sha256": "82c7c417e4c9a74547ffff0ada998b15331467c8f35cf665e556e3a01fd6b9d0",
+      "started_unix": 1788719533.015243,
+      "elapsed_s": 67.18,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f8801d1ddffe4cVBe9pkWTSzVt"
+      ],
+      "tokens_reported": [
+        {
+          "total": 8886,
+          "input": 965,
+          "output": 1361,
+          "reasoning": 5280,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "4c321d361b49d0535462bc18abbd421091faf84515a7caedcc2a36707d27e57d"
+    },
+    {
+      "crop_id": "F22-DETAIL-SCHOOL-MILL",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "79ca06f9711437927923e1fb285771779964ed478ba67d9ac2cadc7a20189064",
+      "prompt_sha256": "0a82c05bfe6281308820aaf54325349e54c6640147a2597906ea7da601f3ffc5",
+      "started_unix": 1788719533.013408,
+      "elapsed_s": 31.64,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f8801f143ffeltGN2GyC76dEt1"
+      ],
+      "tokens_reported": [
+        {
+          "total": 5625,
+          "input": 917,
+          "output": 489,
+          "reasoning": 2939,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "1f1c9da6a5c86c8d9772e5979241c501ca6f3341ac9ad42ec7bc35b139e26284"
+    },
+    {
+      "crop_id": "F22-DETAIL-STRIPES",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "cfb9d969cc0cf3f383d3cb36839073c1af5704df7090c3c1c2bc2d761f34a2ca",
+      "prompt_sha256": "b2208cfd71d850caa3490b228fea1fc6bc251cce3668201acfb9250330c73436",
+      "started_unix": 1788719533.015182,
+      "elapsed_s": 27.68,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f8801e18cffeGtDbw9qJXF2i3i"
+      ],
+      "tokens_reported": [
+        {
+          "total": 4495,
+          "input": 976,
+          "output": 427,
+          "reasoning": 1812,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "e90fc6dd6413a6ef2ccf1a1d0a535f9bb2f0f6e3526c411560ebc05437763d08"
+    }
+  ],
+  "adjudication": [
+    {
+      "issue": "General Arm / General Icegrooves",
+      "decision": "Reject both model groupings. Native rotated context shows General Line Road, Northwest Arm, and Ice grooves as separate annotations.",
+      "ids": [
+        "F22-HAW-013",
+        "F22-HAW-014",
+        "F22-HAW-016"
+      ]
+    },
+    {
+      "issue": "McMinisters Mill",
+      "decision": "Correct to McMaster's Mill, supported by native source and independent close-up.",
+      "ids": [
+        "F22-HAW-025"
+      ]
+    },
+    {
+      "issue": "McIlreaths School / McIntosh School",
+      "decision": "Reject these first/detail-pass guesses. Retain source-reviewed tentative McInnesHill School, supported by rotated source and school-specific detail.",
+      "ids": [
+        "F22-HAW-026"
+      ]
+    },
+    {
+      "issue": "Ashillton",
+      "decision": "Correct to printed Askilton; independent detail agrees.",
+      "ids": [
+        "F22-HAW-029"
+      ]
+    },
+    {
+      "issue": "Lt.Ho",
+      "decision": "Complete from eastern source context as Lt F. Red 107 ft.; no abbreviation expansion.",
+      "ids": [
+        "F22-HAW-047"
+      ]
+    }
+  ]
+}

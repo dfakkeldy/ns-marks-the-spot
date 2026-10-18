@@ -1,0 +1,28 @@
+{
+  "base_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "prior_fit": "reports/fletcher/sheet07/repaired-fit.json",
+  "prior_fit_sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a",
+  "source": "/Users/dfakkeldy/Downloads/fletcher-sheet07/native/sheet07.png",
+  "boundary": "reports/fletcher/sheet07/boundary.json",
+  "boundary_sha256": "ebf62db3000ce6fd6393ac213d6125fe87ac4d469128ea2fe8ca7b0f0b7c593d",
+  "source_sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61",
+  "source_hash_matches_prior": true,
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/native/sheet07.png",
+      "sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet07/repaired-fit.json",
+      "sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet07/boundary.json",
+      "sha256": "ebf62db3000ce6fd6393ac213d6125fe87ac4d469128ea2fe8ca7b0f0b7c593d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd"
+    }
+  ]
+}

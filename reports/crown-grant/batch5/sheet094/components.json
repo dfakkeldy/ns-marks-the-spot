@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6031 x 4193 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 41.14 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          125
+        ],
+        [
+          5915,
+          125
+        ],
+        [
+          5915,
+          4040
+        ],
+        [
+          95,
+          4040
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Blue Mountain, Blanchard Road, Sunny Brae, Kerrowgare, Lowmoor, Garden of Eden and Eden Lake with its islands, Greens Brook, Rocky Mountain, Willowdale, East River St Marys and all parcel regions. No displaced inset identified."
+    }
+  ]
+}

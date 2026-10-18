@@ -1,0 +1,46 @@
+{
+  "sheet": "014",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; median companion limit failed; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/014.pdf",
+    "pdf_sha256": "3cbd9a1eb15fd063d878c14820488adaacbaf1a0190c3d5592b3da97f965a4a8",
+    "jpeg_sha256": "b6d1d337b1ce281425126c810b15c2d84fc56102e7610d7154f7025626b05912",
+    "dimensions": [
+      5700,
+      3912
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 96.0136398958437,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "RMS passes 100 m, but median 102.63 m fails the 75 m companion limit.",
+    "Seven checks share control waterbodies; Prevost and Wright are separate lakes. Shared historical cartography limits independence.",
+    "The large connected Sissiboo/Fourth/Long lake complex and much of the south-central interior are independently unvalidated. Historical and modern outlines differ; no forced matches were adopted there.",
+    "Eastern and southeastern support is sparse; Cranberry supplies the only far-southeastern control/check pair.",
+    "Generalized lake shores, islands and changed water connections carry 24 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 96.01 m, median 102.63 m, P95 133.21 m, maximum 138.82 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame retains all lake islands, Sissiboo River and lake reaches, and southeastern extensions. Eight controls and nine excluded checks sample isolated lakes; the large connected southern complex remains provisional."
+  }
+}

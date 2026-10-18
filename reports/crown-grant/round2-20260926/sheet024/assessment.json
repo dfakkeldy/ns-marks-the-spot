@@ -1,0 +1,523 @@
+{
+  "sheet": "024",
+  "baseline_report": "reports/crown-grant/batch14/sheet024",
+  "baseline_fit": "fit-similarity-01.json",
+  "baseline_checks": "checks-similarity-01.json",
+  "baseline_score": "scores-similarity-01.json",
+  "source_sha256": "635a354ad1b6ae14b7eab1cf887abee20f4e25eb26f113f75cff3f507ee5076d",
+  "reference_sha256": "2085933ab8f41f8c47506fb08da0967d57b992da750a9c70514943c89ad3ae3d",
+  "fit_sha256": "5310d512a82893454d9e764dc542dd68b3341d7d09b4127330105e4b8f8ca8ca",
+  "checks_sha256": "84fe9f16a3ec577164623b18d0b67a36a867abb37be26c8d75a365cb4ca8736e",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 155.1936308224329,
+    "median_ground_m": 83.1000303985347,
+    "p95_ground_m": 285.42537616790446,
+    "max_ground_m": 342.0567381465598,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 1.6764091177446758,
+    "mean_north_ground_m": -6.633875941540024,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Grays Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          1097,
+          444
+        ],
+        "lonlat": [
+          -65.34760784027434,
+          44.22604669884746
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 110501,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 110501,
+        "nearest_unfiltered_distance_guide_px": 0.9977933748432373,
+        "selected_distance_guide_px": 0.9977933748432373,
+        "guide_reference_pixel_xy": [
+          1091.1261064820574,
+          386.48156176984776
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.34502571518416,
+          44.223591364746
+        ],
+        "error_ground_m": 342.0567381465598,
+        "east_ground_m": 206.3230837250323,
+        "north_ground_m": -272.82521370587705
+      },
+      {
+        "id": "Q02",
+        "label": "Handsled Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          552,
+          799
+        ],
+        "lonlat": [
+          -65.3673042292493,
+          44.19583752712958
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 138467,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 138467,
+        "nearest_unfiltered_distance_guide_px": 0.7439411114651847,
+        "selected_distance_guide_px": 0.7439411114651847,
+        "guide_reference_pixel_xy": [
+          561.343679794285,
+          833.3502744137077
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.36871094664278,
+          44.197105323652174
+        ],
+        "error_ground_m": 180.25284677897332,
+        "east_ground_m": -112.45325421270248,
+        "north_ground_m": 140.87354041443461
+      },
+      {
+        "id": "Q03",
+        "label": "First Beaver Lake southern prong",
+        "role": "check",
+        "pixel_xy": [
+          1188,
+          704
+        ],
+        "lonlat": [
+          -65.33263357792677,
+          44.21324082656598
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 127108,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 127108,
+        "nearest_unfiltered_distance_guide_px": 0.5885379302552185,
+        "selected_distance_guide_px": 0.5885379302552185,
+        "guide_reference_pixel_xy": [
+          1183.9583817849052,
+          721.4129354213364
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.3322716895645,
+          44.21390858143843
+        ],
+        "error_ground_m": 79.63583745003459,
+        "east_ground_m": 28.921201596349203,
+        "north_ground_m": 74.19858964017887
+      },
+      {
+        "id": "Q04",
+        "label": "Black Duck Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1266,
+          3010
+        ],
+        "lonlat": [
+          -65.2648235741126,
+          44.113872874284816
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 125412,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 125412,
+        "nearest_unfiltered_distance_guide_px": 1.0754997772599875,
+        "selected_distance_guide_px": 1.0754997772599875,
+        "guide_reference_pixel_xy": [
+          1248.0731342147337,
+          3018.9287067460828
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.26407584641461,
+          44.11355406738393
+        ],
+        "error_ground_m": 69.55438023582022,
+        "east_ground_m": 59.85789194647095,
+        "north_ground_m": -35.423785536185534
+      },
+      {
+        "id": "Q05",
+        "label": "Beartrack Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1123,
+          1957
+        ],
+        "lonlat": [
+          -65.30018746679227,
+          44.157039735597884
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 143461,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 143461,
+        "nearest_unfiltered_distance_guide_px": 1.2469141257672387,
+        "selected_distance_guide_px": 1.2469141257672387,
+        "guide_reference_pixel_xy": [
+          1139.3134364200523,
+          1983.9591228277422
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.30177829651684,
+          44.15725984616568
+        ],
+        "error_ground_m": 129.5860893116112,
+        "east_ground_m": -127.25689567192296,
+        "north_ground_m": 24.458884827853236
+      },
+      {
+        "id": "Q06",
+        "label": "Second Porcupine Lake eastern waist corner",
+        "role": "check",
+        "pixel_xy": [
+          1643,
+          2590
+        ],
+        "lonlat": [
+          -65.25319409329605,
+          44.139565479327814
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 132450,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 132450,
+        "nearest_unfiltered_distance_guide_px": 2.3946393729358477,
+        "selected_distance_guide_px": 2.3946393729358477,
+        "guide_reference_pixel_xy": [
+          1628.6456073244335,
+          2606.5628125623334
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.25247074260962,
+          44.13957157953062
+        ],
+        "error_ground_m": 57.88499798884821,
+        "east_ground_m": 57.88102626952737,
+        "north_ground_m": 0.6780782810592909
+      },
+      {
+        "id": "Q07",
+        "label": "Lake Martin southern shore",
+        "role": "check",
+        "pixel_xy": [
+          593,
+          3642
+        ],
+        "lonlat": [
+          -65.28708199301973,
+          44.0727216092176
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 174699,
+        "reference_feature_code": "WARV20",
+        "nearest_unfiltered_feature_code": "WARV20",
+        "nearest_unfiltered_objectid": 174699,
+        "nearest_unfiltered_distance_guide_px": 1.5974940593848368,
+        "selected_distance_guide_px": 1.5974940593848368,
+        "guide_reference_pixel_xy": [
+          588.7093868108932,
+          3656.5708377523115
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.28799993983402,
+          44.072310571156734
+        ],
+        "error_ground_m": 86.56422334703483,
+        "east_ground_m": -73.53554145828043,
+        "north_ground_m": -45.671532776039484
+      },
+      {
+        "id": "Q08",
+        "label": "First Porcupine Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          1616,
+          2320
+        ],
+        "lonlat": [
+          -65.26121247695357,
+          44.15042581342055
+        ],
+        "guide_file": ".crown-grant-local/024-frozen-south-guide.npy",
+        "reference_objectid": 139250,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 139250,
+        "nearest_unfiltered_distance_guide_px": 2.676459502756843,
+        "selected_distance_guide_px": 2.676459502756843,
+        "guide_reference_pixel_xy": [
+          1613.2015573295648,
+          2351.668859328027
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad waterbody context and native paired crosshairs inspected before first fit and score; Martin reference type and Grays/Beartrack positions corrected using physical imagery.",
+        "predicted_lonlat": [
+          -65.2615415445195,
+          44.150971556820316
+        ],
+        "error_ground_m": 66.10849252652771,
+        "east_ground_m": -26.326239252516512,
+        "north_ground_m": 60.64043132225586
+      }
+    ]
+  },
+  "control_axis_ratio": 3.2685588235154652,
+  "affine_scale_ratio": 1.0000000000000002,
+  "metres_per_pixel_singular_values": [
+    5.380166443467757,
+    5.380166443467756
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.914544024942796,
+          2.0300676135837503
+        ],
+        [
+          2.0300676135837503,
+          -4.914544024942796
+        ],
+        [
+          306474.02761712036,
+          4899200.444269597
+        ]
+      ],
+      "diagnostic_rms_m": 187.670908569848,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.998420080462947,
+          2.063852044594958
+        ],
+        [
+          2.063852044594958,
+          -4.998420080462947
+        ],
+        [
+          306275.9272094086,
+          4899404.730398521
+        ]
+      ],
+      "diagnostic_rms_m": 160.99543865399696,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.98357973073357,
+          2.0780255094348035
+        ],
+        [
+          2.0780255094348035,
+          -4.98357973073357
+        ],
+        [
+          306265.5444436602,
+          4899353.089651387
+        ]
+      ],
+      "diagnostic_rms_m": 155.09545315048067,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.972880421388436,
+          2.066506597484213
+        ],
+        [
+          2.066506597484213,
+          -4.972880421388436
+        ],
+        [
+          306324.0609643001,
+          4899324.128664072
+        ]
+      ],
+      "diagnostic_rms_m": 154.85347656649458,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.968923655694476,
+          2.061172548715095
+        ],
+        [
+          2.061172548715095,
+          -4.968923655694476
+        ],
+        [
+          306316.35675736354,
+          4899331.970305867
+        ]
+      ],
+      "diagnostic_rms_m": 155.49511764829285,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.974021619967323,
+          2.0724736944046844
+        ],
+        [
+          2.0724736944046844,
+          -4.974021619967323
+        ],
+        [
+          306322.9741660149,
+          4899326.489464953
+        ]
+      ],
+      "diagnostic_rms_m": 155.0399534722744,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          4.972979459747903,
+          2.0514159842785773
+        ],
+        [
+          2.0514159842785773,
+          -4.972979459747903
+        ],
+        [
+          306334.37079791364,
+          4899342.505283525
+        ]
+      ],
+      "diagnostic_rms_m": 158.23149643467366,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.969639238136832,
+        2.061280379805937
+      ],
+      [
+        2.061280379805937,
+        -4.969639238136832
+      ],
+      [
+        306328.74439538986,
+        4899326.575507644
+      ]
+    ],
+    "rms_ground_m": 155.19363072405883,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.524733+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q01",
+    "Q02",
+    "Q05",
+    "Q07"
+  ],
+  "reviewed_control_ids": [
+    "C01",
+    "C02"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Grays historical outline is dramatically smaller than modern enclosing water boundary; exact shore equivalence is uncertain. Handsled and Beartrack retain recognizable lobes but generalized ends; Lake Martin sits within a changed/complex river margin. The Grays control-detail audit also shows no secure equivalence between the small historical lake and the enclosing modern water boundary. Retain the uncertainty and failure; no automatic deletion.",
+  "baseline_limitations": [
+    "RMS155.19m, median83.10m, P95285.43m and maximum342.06m exceed their respective100/75/150/200m criteria.",
+    "All adopted observations are in the western strip. Roughly the eastern two-thirds, including the Rossignol lake/island complex, remain independently unvalidated.",
+    "Seven checks share control waterbodies; First Porcupine provides one separate nearby lake. Independence is limited by shared historical cartography.",
+    "Bear/Coombs islands, Cataract/Mills lake connections and other Rossignol outlines differ substantially from modern water geometry. Neither old nested contours nor red boundary lines were treated as modern shorelines.",
+    "Generalized lake tips, river-connected shore corners and narrow reaches carry 24 px working source uncertainty.",
+    "The full map is retained under a constrained similarity; numerical statistics do not establish geographic accuracy in the extrapolated eastern area."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "134ac958efde4f74ec4cafa4ee45ec4773db41980aff882c117257486cc578cd"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "59b0e66e63abebeb66ace8ed6c6410a3f72e947b21a26d8de0ddf9921b00b300"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "8c4a0fbb3ce1110e1e304efda13a63fac2f302b9ef4d2593ec85703f57bc0f94"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "b8527d3f3d70a31ea7a4b19abe820896e03df296443b8fce2ba2fa523fa9e02e"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "57b5a38f41c9567d035fce1bdb42f78b6cf29c3a93f0fe973758f30851450d76"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "2d7749d44fcc1a25b30c9a387edb97a9e8a53c0d454bf18be2c3367b6cd27442"
+    }
+  ],
+  "control_findings": "Grays small historical lake corresponds to a small southern lobe within much larger modern water geometry; northern shore equivalence is uncertain. Handsled northwestern horn is identifiable, but one uncertain lake does not justify deleting control/check pairs to reduce RMS.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

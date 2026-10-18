@@ -1,0 +1,231 @@
+{
+  "sheet": "131",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.840460837072983,
+      2.03662944004847
+    ],
+    [
+      2.061731148453948,
+      -4.951310513519972
+    ],
+    [
+      685739.3381598291,
+      5119020.412942193
+    ]
+  ],
+  "source_sha256": "08fdf945386ec7262181d5afcf0e5abc285b35192ebb53c2c107ab1c71bd58f4",
+  "source_dimensions": [
+    5773,
+    3984
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C02",
+      "label": "Long Island southwest tip",
+      "role": "control",
+      "pixel_xy": [
+        2054,
+        1599
+      ],
+      "lonlat": [
+        -60.422874183825726,
+        46.16199896240723
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 19224,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2141.8875180308823,
+        1559.738761235727
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Groves Point southwest outer-shore elbow",
+      "role": "control",
+      "pixel_xy": [
+        3574,
+        785
+      ],
+      "lonlat": [
+        -60.34593424787471,
+        46.22451999983212
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 6085,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3634.7053593693417,
+        741.3522141193971
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Small lake northeast of George River northwest corner",
+      "role": "control",
+      "pixel_xy": [
+        4437,
+        1107
+      ],
+      "lonlat": [
+        -60.283643340693736,
+        46.22451439295677
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 38657,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4478.332049356832,
+        1057.035257145064
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Point Edward northeast corner",
+      "role": "control",
+      "pixel_xy": [
+        4914,
+        2110
+      ],
+      "lonlat": [
+        -60.22906524870785,
+        46.18756228924633
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 5084,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4952.879378895857,
+        2048.3221091522137
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Cowan Lake northwest corner",
+      "role": "control",
+      "pixel_xy": [
+        5595,
+        3404
+      ],
+      "lonlat": [
+        -60.15282845070888,
+        46.13974881713416
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 128640,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5644.894602496934,
+        3359.1719790099887
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "McIsaac Lake west end",
+      "role": "control",
+      "pixel_xy": [
+        2310,
+        2448
+      ],
+      "lonlat": [
+        -60.386437859020205,
+        46.1284292439101
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 136306,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2393.7760231338907,
+        2394.408776637283
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C09",
+      "label": "Campbell northern lake east tip",
+      "role": "control",
+      "pixel_xy": [
+        1023,
+        3595
+      ],
+      "lonlat": [
+        -60.43885512585888,
+        46.054620230076765
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 125828,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1150.048896509339,
+        3554.6906352657825
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C11",
+      "label": "McLean Point northwest shoulder",
+      "role": "control",
+      "pixel_xy": [
+        1145,
+        247
+      ],
+      "lonlat": [
+        -60.51317260191018,
+        46.207442741412486
+      ],
+      "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+      "reference_objectid": 11687,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1247.3526855557575,
+        220.98583340540063
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    15.723116603773459,
+    17.788925729768653,
+    21.001869228946358,
+    59.55173097702129,
+    78.3896652089343,
+    73.31452941197111,
+    14.820660217323132,
+    53.82324157064166
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

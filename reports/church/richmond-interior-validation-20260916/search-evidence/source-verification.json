@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-09-16T05:17:44.493639+00:00",
+  "method": "Remote sha256sum of the original archival Richmond TIFF during this continuation",
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "dimensions": [
+    35735,
+    30429
+  ]
+}

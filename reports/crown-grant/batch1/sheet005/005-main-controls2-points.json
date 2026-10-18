@@ -1,0 +1,23 @@
+[
+  {
+    "id": "MA02",
+    "label": "East Ferry peninsula southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1588,
+      3098
+    ],
+    "lonlat": [
+      -66.20245186476583,
+      44.375419890448484
+    ],
+    "reference_objectid": 4803,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1507.4655222983565,
+      3000.064390336862
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

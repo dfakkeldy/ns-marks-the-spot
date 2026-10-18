@@ -1,0 +1,24 @@
+{
+  "timing": "Before first fit and score",
+  "rejected": [
+    {
+      "id": "Q03",
+      "reason": "Small Hattie southern lobe lacks a stable common extremity in modern connected shore"
+    },
+    {
+      "id": "Q05",
+      "reason": "Battery northern transition into stream is gradual; precise common tip uncertain"
+    }
+  ],
+  "corrections": [
+    "C03 Sucker northeast corner rather than middle of north shore",
+    "C07 Cox island actual north tip",
+    "C08 College island north edge rather than eastern face",
+    "Q01 Black Lake east extremity"
+  ],
+  "limitations": [
+    "Northernmost band and most eastern river/parcel area unvalidated; Duck Lake eastern control has no local independent check",
+    "Only five checks; several share lakes with controls",
+    "Battery supplies a fresh southern lake, but broad southern/eastern interiors remain underchecked"
+  ]
+}

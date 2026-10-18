@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5626 x 3932 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 49.78 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          55,
+          135
+        ],
+        [
+          5485,
+          135
+        ],
+        [
+          5485,
+          3815
+        ],
+        [
+          55,
+          3815
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Port Greville and Fox River, Diligent River, Parrsboro, Lakelands and Jeffers, Moose River and Two Islands, Cape Sharp, Partridge Island, both Two Brothers islands, Cape Split, Scotsman Bay and the full original Minas Channel water area. No inset or internal crop is introduced."
+    }
+  ]
+}

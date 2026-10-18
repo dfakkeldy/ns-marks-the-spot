@@ -1,0 +1,53 @@
+{
+  "status": "Two excluded coastal creek checks; extremely sparse local validation, not whole-inset accuracy",
+  "points": [
+    {
+      "id": "IQ01",
+      "label": "Middle coastal creek at shore",
+      "role": "check",
+      "pixel_xy": [
+        1430,
+        2563
+      ],
+      "lonlat": [
+        -62.06082516808721,
+        45.8093916655716
+      ],
+      "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+      "reference_objectid": 13221,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1354.4824229750084,
+        2591.5205671355943
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Continuous original coastal creek trace and modern shoreline junction reviewed in broad context and native paired crosshair before fitting.",
+      "review": "Audited before first fit/score; check observations excluded."
+    },
+    {
+      "id": "IQ03",
+      "label": "Georgeville coastal creek mouth",
+      "role": "check",
+      "pixel_xy": [
+        1745,
+        3421
+      ],
+      "lonlat": [
+        -62.018825171880614,
+        45.8366464249375
+      ],
+      "guide_file": ".crown-grant-local/103-inset-locality-guide.npy",
+      "reference_objectid": 4501,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1638.8833026177017,
+        3415.953994677984
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Continuous original coastal creek trace and modern shoreline junction reviewed in broad context and native paired crosshair before fitting.",
+      "review": "Audited before first fit/score; check observations excluded."
+    }
+  ]
+}

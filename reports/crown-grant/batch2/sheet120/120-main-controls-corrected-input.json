@@ -1,0 +1,93 @@
+[
+  [
+    "MC01",
+    "Cheticamp La Pointe southern cape",
+    [
+      2195,
+      600
+    ],
+    [
+      2158,
+      580
+    ],
+    "WACO"
+  ],
+  [
+    "MC02",
+    "Grand Etang upper lake northern tip",
+    [
+      2363,
+      1499
+    ],
+    [
+      2324,
+      1486
+    ],
+    "WALK"
+  ],
+  [
+    "MC03",
+    "St Joseph pond northern apex",
+    [
+      1567,
+      2105
+    ],
+    [
+      1527,
+      2106
+    ],
+    "WALK"
+  ],
+  [
+    "MC04",
+    "Pembroke lake northern tip",
+    [
+      2316,
+      2812
+    ],
+    [
+      2173,
+      2715
+    ],
+    "WALK"
+  ],
+  [
+    "MC05",
+    "LeBlanc lake northeastern neck tip",
+    [
+      4848,
+      1357
+    ],
+    [
+      4836,
+      1339
+    ],
+    "WALK"
+  ],
+  [
+    "MC06",
+    "Park long lake southern tip",
+    [
+      4830,
+      1745
+    ],
+    [
+      4819,
+      1744
+    ],
+    "WALK"
+  ],
+  [
+    "MC07",
+    "Belle Cote coastal notch",
+    [
+      515,
+      3144
+    ],
+    [
+      519,
+      3150
+    ],
+    "WACO"
+  ]
+]

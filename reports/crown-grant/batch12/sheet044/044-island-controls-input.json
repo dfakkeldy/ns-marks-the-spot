@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Gaspereau northwestern fingered island northern tip",
+    [
+      1183,
+      1706
+    ],
+    [
+      1158,
+      1682
+    ],
+    "WALKIS"
+  ],
+  [
+    "C02",
+    "Gaspereau central star island eastern horn",
+    [
+      1412,
+      1737
+    ],
+    [
+      1402,
+      1746
+    ],
+    "WALKIS"
+  ],
+  [
+    "C03",
+    "Gaspereau eastern heart island southern tip",
+    [
+      1918,
+      2114
+    ],
+    [
+      1912,
+      2113
+    ],
+    "WALKIS"
+  ],
+  [
+    "C04",
+    "River Lake large island northern corner",
+    [
+      3060,
+      2367
+    ],
+    [
+      3054,
+      2381
+    ],
+    "WALKIS"
+  ],
+  [
+    "C05",
+    "Morton Flowage northern large island northwest corner",
+    [
+      3359,
+      3315
+    ],
+    [
+      3370,
+      3317
+    ],
+    "WALKIS"
+  ]
+]

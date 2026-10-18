@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5680 x 3877 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.62 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          110,
+          120
+        ],
+        [
+          5575,
+          120
+        ],
+        [
+          5575,
+          3750
+        ],
+        [
+          110,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Middle or Long Island, Birch or Diamond Island, Moose Island, Five Islands, Red Head, Lower Economy, Carrs Brook, Economy Point, Pleasant Hills, Upper Economy, Little Bass River, Bass River, Walton, East Walton, Tennycape, Cape Tenny, Moose Brook, Minasville, Burntcoat Head and Noel Head, including the entire original Minas Basin and Cobequid Bay water frame. No displaced inset identified."
+    }
+  ]
+}

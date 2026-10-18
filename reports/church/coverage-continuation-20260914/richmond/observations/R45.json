@@ -1,0 +1,47 @@
+{
+  "id": "R45",
+  "label": "Southern outer-shore extremum at Ragged Head",
+  "role": "check",
+  "pixel_xy": [
+    1423.0,
+    24940.5
+  ],
+  "lonlat": [
+    -61.381871724459266,
+    45.410098800828365
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      1200,
+      24650
+    ],
+    "extent": [
+      750,
+      600
+    ],
+    "display": [
+      1500,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    446,
+    581
+  ],
+  "source_crop_sha256": "e1e91210a2475d7577f27a7b04e8066402a1ef3f48c288d0db5e120a383ab1a0",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    9385
+  ],
+  "reference_vertex": {
+    "feature_id": 9385,
+    "vertex": 4
+  },
+  "reference_extract": "../reference-receipt.json",
+  "uncertainty_ground_m": 160,
+  "identity_evidence": "Southern end of the long Ragged Head coastal barrier/headland, south of the distinct Ragged Pond with its narrow northern finger, and southwest along the coast from Hooper Point and Grady Head. Use the southern extremum of the outer shore, not the inner pond tip, map label or a tidal-channel midpoint. Modern coast vertex 4 of feature 9385 is the southern extremum in this headland. The source western shore is partly dotted, and modern throat/internal-shore details differ; 160 m uncertainty retains the broad tip, generalization and possible shoreline change. This is a coarse headland-shape check, not a stable surveyed bank junction.",
+  "phase": "Additional fresh check against unchanged affine14; first-six phase preserved; no tuning"
+}

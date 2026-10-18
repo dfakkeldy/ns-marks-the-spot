@@ -1,0 +1,41 @@
+[
+  [
+    "C02",
+    "Central eastern river fork east of Springhill Junction",
+    [
+      3643,
+      1897
+    ],
+    [
+      3707,
+      1902
+    ],
+    "WARV50"
+  ],
+  [
+    "C03",
+    "Maccan River principal fork east of Mapleton",
+    [
+      1944,
+      3336
+    ],
+    [
+      2017,
+      3327
+    ],
+    "WARV50"
+  ],
+  [
+    "Q02",
+    "Maccan River next southern tributary west of principal Mapleton fork",
+    [
+      1918,
+      3344
+    ],
+    [
+      2004,
+      3334
+    ],
+    "WARV50"
+  ]
+]

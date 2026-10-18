@@ -1,0 +1,90 @@
+{
+  "id": "VN22",
+  "role": "check",
+  "label": "Mary Ann Brook mouth centre at Black Brook",
+  "pixel_xy": [
+    10892.666666666666,
+    14047.666666666666
+  ],
+  "lonlat": [
+    -60.355411044273495,
+    46.765666377654235
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      10750,
+      13930
+    ],
+    "extent": [
+      400,
+      400
+    ],
+    "display": [
+      1200,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    428,
+    353
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-mary-ann-junction.jpg",
+  "source_crop_sha256": "5324e1576b5dfddafdc0d1629a6919cc2d5c10ef324923ccf0a541816091de7e",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+  "reference_sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4",
+  "reference_feature_ids": [
+    156201,
+    156507,
+    159986,
+    159987
+  ],
+  "reference_mouth_midpoint": {
+    "method": "Midpoint in EPSG3857 of the two original bank junctions, transformed back to longitude/latitude. Project-derived centre, not an official point or the GeoNames location.",
+    "bank_vertices": [
+      {
+        "feature_id": 159986,
+        "vertex": 0,
+        "lonlat": [
+          -60.35550438764673,
+          46.76570729787765
+        ]
+      },
+      {
+        "feature_id": 159987,
+        "vertex": 23,
+        "lonlat": [
+          -60.35531770090025,
+          46.765625457399686
+        ]
+      }
+    ]
+  },
+  "uncertainty_ground_m": 120,
+  "identity_evidence": "The source labels Mary Ann Brook approaching Black Brook from the southwest, crossing the north\u2013south road before meeting the main river farther northeast. This river junction is distinct from the road/main-river crossing farther west. Original Mary Ann bank lines159986/159987 meet the Black Brook south-bank segments156201/156507. Their mouth-centre midpoint is used because the historic tributary is drawn as one line and the dark mouth symbol overlaps the main bank; the choice and120m uncertainty are explicit. The provincial CAXSV name point identifies the reach but is not used as a GCP. Minor branch/bank details are generalized.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-black-lower.jpg",
+    "sha256": "7edc977b9f9883d6e6597098fcc07f3647c6af7cab12b7b8b1523c6218ef913c",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        8000,
+        13000
+      ],
+      "extent": [
+        4500,
+        2800
+      ],
+      "display": [
+        1800,
+        1120
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh eastern-interior check after North Pond-supported TPS11 freeze; no tuning"
+}

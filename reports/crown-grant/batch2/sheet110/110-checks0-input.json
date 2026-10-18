@@ -1,0 +1,132 @@
+[
+  [
+    "Q01",
+    "North Harbour northern lobe tip",
+    [
+      631,
+      2425
+    ],
+    [
+      624,
+      2434
+    ],
+    "WA"
+  ],
+  [
+    "Q02",
+    "Long Pond northern tip",
+    [
+      920,
+      2125
+    ],
+    [
+      921,
+      2132
+    ],
+    "WA"
+  ],
+  [
+    "Q03",
+    "Lexington Harbour eastern end",
+    [
+      1591,
+      2398
+    ],
+    [
+      1560,
+      2410
+    ],
+    "WA"
+  ],
+  [
+    "Q04",
+    "Sugar Camp small elongated pond northern tip",
+    [
+      2655,
+      1933
+    ],
+    [
+      2691,
+      1940
+    ],
+    "WALK"
+  ],
+  [
+    "Q05",
+    "River Inhabitants east-facing bend north of Askilton",
+    [
+      3350,
+      2020
+    ],
+    [
+      3336,
+      2048
+    ],
+    "WA"
+  ],
+  [
+    "Q06",
+    "Beaver Lakes northwestern shore point",
+    [
+      5237,
+      1522
+    ],
+    [
+      5250,
+      1540
+    ],
+    "WA"
+  ],
+  [
+    "Q07",
+    "West Bay north-shore hook southern corner",
+    [
+      4958,
+      2850
+    ],
+    [
+      4939,
+      2863
+    ],
+    "WA"
+  ],
+  [
+    "Q08",
+    "West Bay western spit southern end",
+    [
+      4873,
+      2996
+    ],
+    [
+      4900,
+      3007
+    ],
+    "WA"
+  ],
+  [
+    "Q09",
+    "West Bay northeast headland southern tip",
+    [
+      5136,
+      2733
+    ],
+    [
+      5167,
+      2754
+    ],
+    "WACO"
+  ],
+  [
+    "Q10",
+    "North Harbour southern tip",
+    [
+      706,
+      2596
+    ],
+    [
+      695,
+      2602
+    ],
+    "WA"
+  ]
+]

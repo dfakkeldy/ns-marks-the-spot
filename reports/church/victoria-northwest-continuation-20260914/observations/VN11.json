@@ -1,0 +1,55 @@
+{
+  "id": "VN11",
+  "role": "check",
+  "label": "Cape St Lawrence western northern tip, shared-sheet context",
+  "pixel_xy": [
+    3653.6666666666665,
+    2481.0
+  ],
+  "lonlat": [
+    -60.59836641693324,
+    47.041967210032965
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      3500,
+      2350
+    ],
+    "extent": [
+      500,
+      450
+    ],
+    "display": [
+      1500,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    461,
+    393
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-cape-detail.jpg",
+  "source_crop_sha256": "258ddce2a4323a0769a92e46ba58a79121ea6c4c46b18eafa138419c00d945d9",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/reference-full/water-lines.geojson",
+  "reference_sha256": "5b1725ed4a77195ee24d2d25dcec0f36c03f4a85688c57582da3c2160eb1e59a",
+  "reference_feature_ids": [
+    10488
+  ],
+  "reference_vertex": {
+    "feature_id": 10488,
+    "vertex": 93
+  },
+  "uncertainty_ground_m": 200,
+  "identity_evidence": "Western of two northern bumps on the Cape St Lawrence outline above the inset. Both the paired northern bumps and the southeast coast toward Meat Cove distinguish this headland from Cape North across St Lawrence Bay. Place on western shoreline bump, not text or the slightly more northern eastern bump. This out-of-county context is generalized and fainter than the main county engraving; paired-tip spacing differs, so retain200m uncertainty and do not imply detailed coastline accuracy.",
+  "phase": "New physical check of unchanged Victoria northwest affine4; selected after preserved VN08 first phase",
+  "shared_reference": {
+    "other_panel": "Inverness north",
+    "other_id": "I14",
+    "other_current_role": "control in TPS5",
+    "scope": "Same original ground reference, independent Victoria source pixel. Not two independent ground observations or a fully validated seam."
+  }
+}

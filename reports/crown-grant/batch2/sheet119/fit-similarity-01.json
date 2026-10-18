@@ -1,0 +1,105 @@
+{
+  "sheet": "119",
+  "version": "similarity-01",
+  "crs": "EPSG:32620",
+  "transform": "similarity (uniform scale, rotation and translation; mirrored y-down image frame), row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.94611640748438,
+      2.0735939511063353
+    ],
+    [
+      2.0735939511063353,
+      -4.94611640748438
+    ],
+    [
+      629429.6562960228,
+      5178924.538393869
+    ]
+  ],
+  "source_sha256": "9e47cf45020f5c516c4820b9583f5b6eba18b58f3d12fb30881320127afd526e",
+  "source_dimensions": [
+    5577,
+    3823
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Enrage Cape northern apex",
+      "role": "control",
+      "pixel_xy": [
+        2941,
+        3400
+      ],
+      "lonlat": [
+        -61.02634125002933,
+        46.65035614537742
+      ],
+      "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+      "reference_objectid": 3806,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2929.4345821785973,
+        3372.4117756196065
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "uncertainty_note": "Northern outline is generalized beside a printed survey symbol; working digitization estimate, not confidence bound",
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C02",
+      "label": "Eastern Caveau cape northern apex",
+      "role": "control",
+      "pixel_xy": [
+        3446,
+        3473
+      ],
+      "lonlat": [
+        -60.99141989713441,
+        46.65600023488401
+      ],
+      "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+      "reference_objectid": 10022,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3443.0942943836562,
+        3444.081762810005
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    },
+    {
+      "id": "C03",
+      "label": "Jumping Brook shoreline mouth",
+      "role": "control",
+      "pixel_xy": [
+        5083,
+        2168
+      ],
+      "lonlat": [
+        -60.917651572641695,
+        46.74326383255486
+      ],
+      "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+      "reference_objectid": 275666,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        5073.779509867774,
+        2109.7776847876376
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native crosshair and contextual shape inspected; selected before check scoring"
+    }
+  ],
+  "fitting_residual_projected_m": [
+    5.083102459170384,
+    5.99972626702964,
+    1.2388954725460728
+  ],
+  "status": "provisional pending independent checks",
+  "model_choice": "Chosen before first scoring: mapped land is a narrow southeastern coastal strip plus an island fragment; three controls constrain uniform scale and rotation without unsupported affine shear."
+}

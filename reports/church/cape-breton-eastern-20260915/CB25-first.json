@@ -1,0 +1,48 @@
+{
+  "observation_sha256": "778e57da0be0221c4701541e806df2f877cfde6f5ad827d60cb4f33fc0538b6d",
+  "fit_freeze_sha256": "b3646e69768a0cccb286a5fd9c8f2b4cef30800344c8ecc2766fa3eacd5ceedd",
+  "scored_at": "2026-09-15T17:36:07.353258+00:00",
+  "phase": "First fresh result against unchanged frozen TPS11 after native crosshair and reference review",
+  "tps11": {
+    "count": 1,
+    "points": [
+      {
+        "label": "CB25",
+        "east_ground_m": -554.7056981176135,
+        "north_ground_m": -377.0319785379429,
+        "error_ground_m": 670.7097169151382
+      }
+    ],
+    "rms_ground_m": 670.7097169151382,
+    "median_ground_m": 670.7097169151382,
+    "p95_ground_m": 670.7097169151382,
+    "max_ground_m": 670.7097169151382,
+    "mean_east_ground_m": -554.7056981176135,
+    "mean_north_ground_m": -377.0319785379429,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "baseline_affine3": {
+    "count": 1,
+    "points": [
+      {
+        "label": "CB25",
+        "east_ground_m": -626.590470494652,
+        "north_ground_m": 307.0959836941201,
+        "error_ground_m": 697.7990834873378
+      }
+    ],
+    "rms_ground_m": 697.7990834873378,
+    "median_ground_m": 697.7990834873378,
+    "p95_ground_m": 697.7990834873378,
+    "max_ground_m": 697.7990834873378,
+    "mean_east_ground_m": -626.590470494652,
+    "mean_north_ground_m": 307.0959836941201,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "inside_control_hull": true,
+  "geographic_acceptance": false
+}

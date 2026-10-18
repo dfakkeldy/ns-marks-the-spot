@@ -1,0 +1,362 @@
+{
+  "revision": "fletcher-seams-20261009.2",
+  "method": "cf CLI uploads and remote listing; MD5/size equality for every tile, fresh public SHA-256 samples",
+  "remote_tile_count": 44340,
+  "all_remote_tiles_match": true,
+  "manifests": [
+    {
+      "path": "tile-inventory.json",
+      "bytes": 6335189,
+      "sha256": "ba8740f45e32be8c7f473062f1964d59720c248e7e19da0d98d4bfbf47b291c1",
+      "etag": "60910232c7c54a771c716de7180b8788"
+    },
+    {
+      "path": "source.json",
+      "bytes": 58325,
+      "sha256": "b884bcc11427176311658d437edc47d5b7d9c5a0184806a724e760a22295801e",
+      "etag": "d5ef8f604fdbf0e15791033ad5916a67"
+    }
+  ],
+  "public_samples": [
+    {
+      "path": "10/336/359.png",
+      "status": 200,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "10/338/363.png",
+      "status": 200,
+      "sha256": "dcaff4d8407c1c61391e81276d96ba40c24365e5540519033def2b5d1c9e4b55",
+      "bytes": 155320,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "11/673/719.png",
+      "status": 200,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "11/676/727.png",
+      "status": 200,
+      "sha256": "a28571124ec0cad164c64d7fe8369d000f71795c7fb757ad39784269ac0ca4c3",
+      "bytes": 164618,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1346/1438.png",
+      "status": 200,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1349/1454.png",
+      "status": 200,
+      "sha256": "412daf25d9ff833321de73e725d4078f3fe02e0e5c0e147a0b010bcfd2f73edf",
+      "bytes": 118197,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1349/1457.png",
+      "status": 200,
+      "sha256": "d6ec3366eb8c149b9d42ec91848e3ff4c7b1b1f2c74157bc94eb44cade701026",
+      "bytes": 136518,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1349/1459.png",
+      "status": 200,
+      "sha256": "7935000aa5868c83308096266d79831dd6afcec54b414981a169c72657e74c94",
+      "bytes": 138158,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1349/1462.png",
+      "status": 200,
+      "sha256": "2926eb0f5b5fa286390e0100a8e5a1f201fb6a401402eb781a8f2a1d1fb031dd",
+      "bytes": 131436,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1349/1465.png",
+      "status": 200,
+      "sha256": "e0fbc39591806fa651ffc8c05501c1b84ce6e700d04bdeb44e05df526f7aa20a",
+      "bytes": 108246,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1352/1452.png",
+      "status": 200,
+      "sha256": "46132d4489835ad73d6d4bad4a3e2fd07c3d32866208e92791be78935808f78e",
+      "bytes": 160916,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1445.png",
+      "status": 200,
+      "sha256": "1a71940b86ad4f50d76323a3daca5d1840c60ab15380a8e80a027605f9bafb58",
+      "bytes": 76331,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1448.png",
+      "status": 200,
+      "sha256": "fb9bc147f38ead675ecfe65bc962944de0691d81a0293b043c138ef0302ba9e0",
+      "bytes": 128796,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1451.png",
+      "status": 200,
+      "sha256": "6c5452a494c4b7e1ecf36ae57180bee9ca6067f460a4952592f27145cb59ede4",
+      "bytes": 151973,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1454.png",
+      "status": 200,
+      "sha256": "7e9db292a8866ee8dcd37912ee0d17259f3f093cc3ccab23d2d4007ceadb630e",
+      "bytes": 133951,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1457.png",
+      "status": 200,
+      "sha256": "1e54c084b8294927b85895c1f02628af63c10e1e43e84333b6f4679c2f566a47",
+      "bytes": 126945,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1459.png",
+      "status": 200,
+      "sha256": "1a39e18e6576d3aaeae6f5ad22c7dacdf6c80d343a7539ac9203cf0e4a5116be",
+      "bytes": 120020,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1462.png",
+      "status": 200,
+      "sha256": "312d22d26d7ebe5c536192012f2b72c60f126d402badbd587da6ae2926b6c1c0",
+      "bytes": 129501,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1353/1465.png",
+      "status": 200,
+      "sha256": "13aff08525fb5fd68895a4d9d90eae883ec2cd06b1e5157714f41a2b16dfe482",
+      "bytes": 113822,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1442.png",
+      "status": 200,
+      "sha256": "e9845ae541fe48ebdfe16e9adfa21a076ee7a62f1b1d9d72e8379a94662e93d7",
+      "bytes": 102785,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1445.png",
+      "status": 200,
+      "sha256": "16e2433a5900389c713508cb48f7d6c73ad943b0cfd303ba6917ddfb03542771",
+      "bytes": 104812,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1448.png",
+      "status": 200,
+      "sha256": "5c7be2dafc5291b9fcf8d9bd309b68af0289de1d206e1915f4ab706fa1cc23d6",
+      "bytes": 111151,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1451.png",
+      "status": 200,
+      "sha256": "f48858e2fc3f7efbb7c60ac65a88062f614652364353fbf665d3e2bcde4a6513",
+      "bytes": 112947,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1454.png",
+      "status": 200,
+      "sha256": "6b218d71bc67a09d64b991e164447b471a7a31a681d6821c9ecef63e33880e48",
+      "bytes": 118701,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1459.png",
+      "status": 200,
+      "sha256": "bfd92be413f91de3a906362959c737bb07f55d7709f3394e65b8002f923298dc",
+      "bytes": 80840,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1357/1462.png",
+      "status": 200,
+      "sha256": "1b90c2c99c02cb09d488ed7d2f1ac1a26a7a0dd2748585c08101434ea860f7e5",
+      "bytes": 118456,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1359/1439.png",
+      "status": 200,
+      "sha256": "6956644fb2ad9b35184d04a45a1a4c7fcf8c0cd8de2109da283d61157a1bf4cf",
+      "bytes": 77669,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1361/1448.png",
+      "status": 200,
+      "sha256": "ce53c2f6d2a22bbbb75fef4ec5165494dcad710a97b15beedcc681ee1acceb42",
+      "bytes": 73961,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1362/1442.png",
+      "status": 200,
+      "sha256": "67e145a6c51d1554aa90157fd2c012e79ddf2c1d2453962f4d7aab823def28b9",
+      "bytes": 70908,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "12/1362/1445.png",
+      "status": 200,
+      "sha256": "6bd3e3f1d41547834483bdbc9e83a11a42543dfe9a91f9a889a0c841f21c7b2b",
+      "bytes": 78670,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "13/2693/2876.png",
+      "status": 200,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "13/2705/2905.png",
+      "status": 200,
+      "sha256": "af0ca5563b7177a631df89c43acb0025ae89e9f18472306467079dddc35efe49",
+      "bytes": 168248,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "14/5387/5753.png",
+      "status": 200,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "14/5411/5810.png",
+      "status": 200,
+      "sha256": "32fe5ff704a399bb477ad1752195777596832b1b1c38448538e86b01411e5a00",
+      "bytes": 153253,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "15/10775/11507.png",
+      "status": 200,
+      "sha256": "44ae23104855fe174c127ad93d1edbe96b77c439bf4d7881c01cd5e70e4002b7",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "15/10819/11687.png",
+      "status": 200,
+      "sha256": "dd4d6177ae8df7b26c3a65a3ca97ce44d27d162b0c1119d2624c58320487957e",
+      "bytes": 132459,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "8/84/90.png",
+      "status": 200,
+      "sha256": "1edb49e9a9d8e3a5155a0a19917acc03d0a4402c50e45320834fc52d10f4dd91",
+      "bytes": 68528,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "8/85/91.png",
+      "status": 200,
+      "sha256": "505efed1cc4f4d7813b052b8e903a2b79abb89cb47bfae743a39bad5a63cb23b",
+      "bytes": 451,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "9/168/179.png",
+      "status": 200,
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163",
+      "bytes": 334,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "9/169/181.png",
+      "status": 200,
+      "sha256": "6cd2b86eccacd117c9282bc43e1565df1020ae4bcbb90a456f7773197dc56a29",
+      "bytes": 129725,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "source.json",
+      "status": 200,
+      "sha256": "b884bcc11427176311658d437edc47d5b7d9c5a0184806a724e760a22295801e",
+      "bytes": 58325,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    },
+    {
+      "path": "tile-inventory.json",
+      "status": 200,
+      "sha256": "ba8740f45e32be8c7f473062f1964d59720c248e7e19da0d98d4bfbf47b291c1",
+      "bytes": 6335189,
+      "cache_control": "public, max-age=31536000, immutable",
+      "cors_origin": "https://kinnokilabs.ca"
+    }
+  ],
+  "public_sample_count": 42,
+  "previous_revision_retained": "fletcher-full-sheets-20260913.1",
+  "verified_at_utc": "2026-10-09T16:28:17.558316+00:00",
+  "remote_object_count": 44342
+}

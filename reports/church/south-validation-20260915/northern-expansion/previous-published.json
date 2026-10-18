@@ -1,0 +1,59 @@
+{
+  "input_commit": "a1d362790e69f7379ecbd89b0692eee033c5dae9",
+  "stable_files": [
+    {
+      "path": "freeze.json",
+      "sha256": "ca02d605c4ed7b72205c9fa3cdf2b18fd6293d3c839cc5b12a05185d3b4bffdc"
+    },
+    {
+      "path": "controls.csv",
+      "sha256": "a912847fb7909862674185661d60a7941fa3d68922b90edca13924b0276aa637"
+    },
+    {
+      "path": "snapshots/first-five-accuracy.json",
+      "sha256": "f813e3bdda0ad0baca1a492701a1fa6b217fe712e722a1c52fa3ff45ed1ab4a6"
+    },
+    {
+      "path": "observations/IS20.json",
+      "sha256": "29ade27409e15102a8d9e70cbed74c31dae8a8775073d9dae8a017a67d4861e8"
+    },
+    {
+      "path": "observations/IS21.json",
+      "sha256": "287c887747906a8124e02686f39970870bcdc41a4233410455e3593133b60407"
+    },
+    {
+      "path": "observations/IS22.json",
+      "sha256": "5b5f600dc84f91a9147fdb595683f260c7425a9514c8eb53738e20bb81732289"
+    },
+    {
+      "path": "observations/IS23.json",
+      "sha256": "79fc0671c1327ae319c1be2f06c23ce3b38b7f797a820572c9f632c539cd5436"
+    },
+    {
+      "path": "observations/IS24.json",
+      "sha256": "a7541ed1f6f798ce918827352d3a152d46c3962f3ae7548c995f2b03a2af6ea7"
+    },
+    {
+      "path": "IS20-first.json",
+      "sha256": "78af108c264e02c5e1908999b700b164203529e34789838c135d5aca3dc0f0fa"
+    },
+    {
+      "path": "IS21-first.json",
+      "sha256": "4f688374d19351c574d2dd8d1ca789acb0f4174df0bb6f4882a7f919a331c890"
+    },
+    {
+      "path": "IS22-first.json",
+      "sha256": "de0453d2e491f7776230d4a197ee4ce7158a86f3c1d8dad69aff9dd56f2b69f8"
+    },
+    {
+      "path": "IS23-first.json",
+      "sha256": "4361106b9b657bd4f868c0eddb381640a6b7aceb4e2345bf6aaf3c2146cb7ae0"
+    },
+    {
+      "path": "IS24-first.json",
+      "sha256": "b31572e5462256c18d5d6aad67adc18d2a303b1f8b0ef5cc0d2936d5e7eab322"
+    }
+  ],
+  "previous_csv_path": "reports/church/south-validation-20260915/fresh-validation.csv",
+  "previous_accuracy_path": "reports/church/south-validation-20260915/accuracy-summary.json"
+}

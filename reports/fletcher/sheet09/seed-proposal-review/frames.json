@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-09-C01.jpg",
+    "point_record": "sheet09/seed-proposals.json",
+    "point_id": "C01",
+    "native_box": [
+      5789,
+      2853,
+      6009,
+      3073
+    ],
+    "native_coordinates": [
+      5899,
+      2963
+    ],
+    "modern_lonlat": [
+      -61.0249697,
+      46.5621644
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C02.jpg",
+    "point_record": "sheet09/seed-proposals.json",
+    "point_id": "C02",
+    "native_box": [
+      5556,
+      2799,
+      5776,
+      3019
+    ],
+    "native_coordinates": [
+      5666,
+      2909
+    ],
+    "modern_lonlat": [
+      -61.0350036,
+      46.563704
+    ],
+    "rotation_degrees": 0
+  }
+]

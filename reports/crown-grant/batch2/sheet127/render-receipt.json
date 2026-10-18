@@ -1,0 +1,34 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "523c73432e10a14f8d6d16b88924c766eaf8913bc91765bcbe98931bc6b5e5b1",
+  "fit_sha256": "abab4fda7d78d229e952b5a7f99cc80262b96f9a7fb0feed8569e1a4f4849091",
+  "components_sha256": "fef05e34cbed3887afb8a8cb5e5f0d5626ecb87b68e1ee316aed6fb67fc271a6",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 48.50 m passes 100 m; regional limitations remain",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          46.680432362120065,
+          -60.942266348633595
+        ],
+        [
+          46.937924224885194,
+          -60.49361176313293
+        ]
+      ],
+      "dimensions": [
+        6243,
+        5235
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 19093378,
+      "source_mask_pixels": 22717400,
+      "affine_determinant": -25.206715668245625,
+      "png_sha256": "d0be278117d428dc3f125b393c8ef712fea0f16e31ad0a5ae39255eace1aedb8",
+      "tif_sha256": "d029b2b2277abe1906471cb67143d1c67f12fd3c138dd0dc4090c72c37de09df"
+    }
+  ]
+}

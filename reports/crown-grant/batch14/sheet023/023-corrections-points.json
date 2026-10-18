@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C05",
+    "label": "Central Lake northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      3575,
+      239
+    ],
+    "lonlat": [
+      -65.31133698527807,
+      44.43362259088779
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 304667,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304667,
+    "nearest_unfiltered_distance_guide_px": 1.3792928765448456,
+    "selected_distance_guide_px": 1.3792928765448456,
+    "guide_reference_pixel_xy": [
+      3568.6316632138914,
+      363.7738473082427
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Central Lake southern lobe south",
+    "role": "proposal",
+    "pixel_xy": [
+      3494,
+      532
+    ],
+    "lonlat": [
+      -65.30816129076766,
+      44.420109004348916
+    ],
+    "guide_file": ".crown-grant-local/023-east-adjacent-guide.npy",
+    "reference_objectid": 304669,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304669,
+    "nearest_unfiltered_distance_guide_px": 1.3758062689255024,
+    "selected_distance_guide_px": 1.3758062689255024,
+    "guide_reference_pixel_xy": [
+      3495.9964850022225,
+      651.3758017787477
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

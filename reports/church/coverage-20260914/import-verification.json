@@ -1,0 +1,33 @@
+{
+  "results": [
+    {
+      "file": "additional-validation-review.csv",
+      "controls": 14,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": null
+    },
+    {
+      "file": "affine14-controls.csv",
+      "controls": 14,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 7.273861836555093e-9
+    },
+    {
+      "file": "affine14-diagnostic-review.csv",
+      "controls": 14,
+      "checks": 28,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 7.273861836555093e-9
+    },
+    {
+      "file": "affine14-fresh-validation.csv",
+      "controls": 14,
+      "checks": 6,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 7.273861836555093e-9
+    }
+  ],
+  "scope": "Current production parser/serializer and affine solver at checks and full content vertices. No raw-scan browser mesh or geographic acceptance."
+}

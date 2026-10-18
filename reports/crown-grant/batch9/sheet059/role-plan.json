@@ -1,0 +1,14 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine",
+  "reason": "Five controls span northeastern Round/Long lakes, central Blairs lake cluster and western Amherst Point with non-collinear support.",
+  "corrections": [],
+  "not_adopted": [
+    "Minudie broad marsh coast, engineered tidal river bends/dikes and northwestern New Brunswick shore not forced into precise point matches"
+  ],
+  "limitations": [
+    "Five checks reuse physical lake/cape regions with controls; sixth is a separate nearby northern pond",
+    "Far southeast, southern edge, western and northern tidal/river regions lack independent validation",
+    "18 px working source uncertainty for thick generalized lake/coastal outlines"
+  ]
+}

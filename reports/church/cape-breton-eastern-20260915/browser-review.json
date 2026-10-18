@@ -1,0 +1,43 @@
+{
+  "reviewed_at": "2026-09-15T17:40:52.042584+00:00",
+  "artifact_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "active_raster": "cape-breton-tps11-review-20m",
+  "opacity_percent": 70,
+  "terrain_exaggeration": 10,
+  "tilt_degrees": 50,
+  "bearing_degrees": 0,
+  "locations": [
+    "Morrisons Lake",
+    "Cape Breton headland"
+  ],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/browser/cape-headland-10x.png",
+      "sha256": "c53a2731b55fa60ce02968d84b32f450f6b1e48bc019afe10b0a456eafce3ce2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/browser/cape-headland-2d.png",
+      "sha256": "7c02865e0f39fd0e10def90e812231568438dbbad8f85d63905a2b4a373555d1"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/browser/morrisons-10x.png",
+      "sha256": "07fbab5895a1f2f897f756bd052ec047fcbf40023ce70aad5e629a807d686087"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/browser/morrisons-2d.png",
+      "sha256": "3ae4b6a926ad75f1546b1536e2112a68b01b812a7943de249a376a849abd4bc9"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/browser/cape-headland-state.txt",
+      "sha256": "fc08f3eccf37909221916b82df3b239c11f7b043ea33ff983285ecb95b82dc0c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/browser/morrisons-state.txt",
+      "sha256": "02606c556722bb0e029d62eac2c691bef8e9283697fe3eb88af117ebafcbb099"
+    }
+  ],
+  "console_errors": [],
+  "scope": "Existing imported raster restored and viewed in 2D/10x terrain. No new import or raw-scan mesh acceptance."
+}

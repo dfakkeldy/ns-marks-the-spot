@@ -1,0 +1,46 @@
+{
+  "sheet": "056",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; first RMS failure retained, coverage and browser assessed; no geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/056.pdf",
+    "pdf_sha256": "6086218ed9f023350afb60abd17fbf302a34e30084069f99f6627444902ea722",
+    "jpeg_sha256": "641dc452dc86ce4c1f2134762a7c62804bb8897f5c126b41447a05fcf7b73a51",
+    "dimensions": [
+      5729,
+      3827
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 6,
+      "rms_ground_m": 103.05652311467188,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "First RMS 103.06 m exceeds the 100 m ceiling; P95 168.22 m also exceeds the 150 m companion bound. Shut In Island north check is 184.24 m and remains retained.",
+    "All six checks are paired with control islands or lakes; sample correlation and source generalization remain.",
+    "Western bay shoreline, northwestern mainland and much northern interior lack independent validation.",
+    "Source uncertainty 18 px; original scan is upside down, and all source coordinates retain that original unrotated pixel-edge frame.",
+    "Numerical assessment does not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 103.06 m, median 72.09 m, P95 168.22 m, maximum 184.24 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains St Margarets Bay, the western shoreline slivers, Shut In and other offshore islands, Indian Harbour, Peggy Cove edge, Glen Margaret, Seabright, French Village, Tantallon, Hubbards edge and the Five Bridge and eastern inland lakes. No internal inset or ocean area is removed."
+  }
+}

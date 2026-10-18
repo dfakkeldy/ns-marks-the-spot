@@ -1,0 +1,158 @@
+[
+  {
+    "id": "C01",
+    "label": "Main Pudsey Point northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1767,
+      1487
+    ],
+    "lonlat": [
+      -64.86545299303339,
+      45.46242682474882
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3886,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3886,
+    "nearest_unfiltered_distance_guide_px": 0.9077503259036529,
+    "selected_distance_guide_px": 0.9077503259036529,
+    "guide_reference_pixel_xy": [
+      1773.2161227973993,
+      1449.1183529103873
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Main Sword Point western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1961,
+      1334
+    ],
+    "lonlat": [
+      -64.85736165214541,
+      45.47295337657919
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3998,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3998,
+    "nearest_unfiltered_distance_guide_px": 2.9130775109673985,
+    "selected_distance_guide_px": 2.9130775109673985,
+    "guide_reference_pixel_xy": [
+      1969.29823331855,
+      1295.2099876541179
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Main Apple Head northeast projecting corner",
+    "role": "proposal",
+    "pixel_xy": [
+      2425,
+      1192
+    ],
+    "lonlat": [
+      -64.83216676328728,
+      45.48833576709599
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3925,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3925,
+    "nearest_unfiltered_distance_guide_px": 0.7180709423921161,
+    "selected_distance_guide_px": 0.7180709423921161,
+    "guide_reference_pixel_xy": [
+      2434.755573771661,
+      1149.6751901193056
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Main Squally Point northwest corner",
+    "role": "proposal",
+    "pixel_xy": [
+      845,
+      1830
+    ],
+    "lonlat": [
+      -64.91391097946841,
+      45.43012756326446
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 3923,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3923,
+    "nearest_unfiltered_distance_guide_px": 1.5769977586254709,
+    "selected_distance_guide_px": 1.5769977586254709,
+    "guide_reference_pixel_xy": [
+      854.7942768075736,
+      1780.4364783663768
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Main Howard Lake northeastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5358,
+      2810
+    ],
+    "lonlat": [
+      -64.60319309604692,
+      45.47392597868409
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 141083,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141083,
+    "nearest_unfiltered_distance_guide_px": 4.541941198804631,
+    "selected_distance_guide_px": 4.541941198804631,
+    "guide_reference_pixel_xy": [
+      5382.530606611923,
+      2781.93130335724
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Main Refugee Cove southern shore bend",
+    "role": "proposal",
+    "pixel_xy": [
+      173,
+      3657
+    ],
+    "lonlat": [
+      -64.90661892292651,
+      45.33648758173213
+    ],
+    "guide_file": ".crown-grant-local/041-west-adjacent-guide.npy",
+    "reference_objectid": 1824,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 1824,
+    "nearest_unfiltered_distance_guide_px": 1.1330666494097408,
+    "selected_distance_guide_px": 1.1330666494097408,
+    "guide_reference_pixel_xy": [
+      171.0064454759122,
+      3620.52048778662
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

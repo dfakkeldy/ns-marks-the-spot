@@ -1,0 +1,305 @@
+import { describe, expect, it } from "vitest";
+import {
+  buildMapShareUrl,
+  DEFAULT_MAP_POSITION,
+  hasRecognizedMapShareState,
+  isShareLayerId,
+  parseMapShareState,
+  type MapShareState,
+} from "./mapShareState";
+import {
+  buildPrintMapShareUrl,
+  type PrintSnapshot,
+} from "./printSnapshot";
+
+describe("map share state", () => {
+  const state: MapShareState = {
+    taxSaleEnabled: true,
+    mode: "current",
+    pid: "15234636",
+    eventIds: ["cbrm-2026-07-21"],
+    layerIds: [
+      "fletcher",
+      "nsprd",
+      "roads",
+      "mineral-occurrences",
+      "inverness-hydro-potential",
+      "coastal-flood-2050",
+      "ns-well-logs",
+    ],
+    position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+  };
+
+  it("recognizes only layer IDs that can appear in shared map state", () => {
+    expect(isShareLayerId("modern")).toBe(true);
+    expect(isShareLayerId("not-a-layer")).toBe(false);
+    expect(isShareLayerId(42)).toBe(false);
+  });
+
+  it("keeps Tax Sale off on a first visit", () => {
+    expect(parseMapShareState("https://example.test/").taxSaleEnabled).toBe(false);
+  });
+
+  it("restores the explicit Tax Sale field", () => {
+    expect(
+      parseMapShareState("https://example.test/?taxSale=on").taxSaleEnabled,
+    ).toBe(true);
+    expect(
+      parseMapShareState("https://example.test/?taxSale=off&mode=historical")
+        .taxSaleEnabled,
+    ).toBe(false);
+  });
+
+  it("enables Tax Sale for legacy mode and event links", () => {
+    expect(
+      parseMapShareState("https://example.test/?mode=current").taxSaleEnabled,
+    ).toBe(true);
+    expect(
+      parseMapShareState("https://example.test/?event=cbrm-2026-07-21")
+        .taxSaleEnabled,
+    ).toBe(true);
+  });
+
+  it("writes the explicit field for every new link", () => {
+    expect(buildMapShareUrl("https://example.test/", {
+      taxSaleEnabled: false,
+      mode: "current",
+      pid: null,
+      eventIds: [],
+      layerIds: ["modern"],
+      position: DEFAULT_MAP_POSITION,
+    })).toContain("taxSale=off");
+  });
+
+  it("omits stale event IDs while Tax Sale is off", () => {
+    const url = new URL(buildMapShareUrl("https://example.test/", {
+      taxSaleEnabled: false,
+      mode: "current",
+      pid: null,
+      eventIds: ["cbrm-2026-07-21"],
+      layerIds: ["modern"],
+      position: DEFAULT_MAP_POSITION,
+    }));
+
+    expect(url.searchParams.has("event")).toBe(false);
+  });
+
+  it("reads the built-in setup a link names, and only a real value", () => {
+    expect(parseMapShareState("https://example.test/?theme=poker").themeId)
+      .toBe("poker");
+    expect(parseMapShareState("https://example.test/").themeId).toBeUndefined();
+    expect(parseMapShareState("https://example.test/?theme=%20").themeId)
+      .toBeUndefined();
+  });
+
+  it("names the setup in a link when asked, and leaves it out otherwise", () => {
+    const withTheme = new URL(buildMapShareUrl("https://example.test/", {
+      ...state,
+      themeId: "poker",
+    }));
+    const withoutTheme = new URL(buildMapShareUrl("https://example.test/", state));
+
+    expect(withTheme.searchParams.get("theme")).toBe("poker");
+    expect(withoutTheme.searchParams.has("theme")).toBe(false);
+  });
+
+  it("treats a link that only names a setup as a first visit", () => {
+    // The named setup supplies the layers; there is no shared layer list to
+    // restore, and treating one as shared would open the map empty.
+    expect(hasRecognizedMapShareState("https://example.test/?theme=poker"))
+      .toBe(false);
+  });
+
+  it("distinguishes a first visit from recognized shared state", () => {
+    expect(hasRecognizedMapShareState("https://example.test/")).toBe(false);
+    expect(
+      hasRecognizedMapShareState("https://example.test/?layers=modern"),
+    ).toBe(true);
+    expect(
+      hasRecognizedMapShareState("https://example.test/?taxSale=off"),
+    ).toBe(true);
+  });
+
+  it("puts PID, event, layers, and position into one shareable URL", () => {
+    const url = new URL(buildMapShareUrl("https://example.com/map/", state));
+
+    expect(url.searchParams.get("pid")).toBe("15234636");
+    expect(url.searchParams.get("event")).toBe("cbrm-2026-07-21");
+    expect(url.searchParams.get("layers")).toBe(
+      "fletcher,nsprd,roads,mineral-occurrences,inverness-hydro-potential,coastal-flood-2050,ns-well-logs",
+    );
+    expect(url.searchParams.get("position")).toBe("46.18845,-60.02123,15");
+  });
+
+  it("round-trips a historical map state", () => {
+    const historicalState: MapShareState = {
+      ...state,
+      mode: "historical",
+      eventIds: ["hrm-2022-03-08"],
+    };
+
+    expect(parseMapShareState(buildMapShareUrl("https://example.com/map/", historicalState)))
+      .toEqual(historicalState);
+  });
+
+  it("round-trips the derived mineral-proximity layer", () => {
+    const proximityState: MapShareState = {
+      ...state,
+      layerIds: ["nsprd", "mineral-proximity-parcels"],
+    };
+
+    expect(
+      parseMapShareState(buildMapShareUrl("https://example.com/map/", proximityState)),
+    ).toEqual(proximityState);
+  });
+
+  it("round-trips independently selected flood-hazard layers", () => {
+    const floodState: MapShareState = {
+      ...state,
+      layerIds: ["published-river-flood-zones", "coastal-flood-current", "coastal-flood-2100"],
+    };
+
+    expect(parseMapShareState(buildMapShareUrl("https://example.com/map/", floodState)))
+      .toEqual(floodState);
+  });
+
+  it("round-trips independently selected environmental health screens", () => {
+    const screeningState: MapShareState = {
+      ...state,
+      layerIds: [
+        "arsenic-risk-wells",
+        "uranium-risk-wells",
+        "manganese-risk-wells",
+        "surficial-aquifers",
+      ],
+    };
+
+    expect(
+      parseMapShareState(
+        buildMapShareUrl("https://example.com/map/", screeningState),
+      ),
+    ).toEqual(screeningState);
+  });
+
+  it("round-trips the old-growth policy layer", () => {
+    const forestryState: MapShareState = {
+      ...state,
+      layerIds: ["nsprd", "old-growth-policy"],
+    };
+
+    expect(
+      parseMapShareState(
+        buildMapShareUrl("https://example.com/map/", forestryState),
+      ),
+    ).toEqual(forestryState);
+  });
+
+  it("ignores unknown events and layers while clamping the map position", () => {
+    const parsed = parseMapShareState(
+      "https://example.com/map/?mode=current&pid=15-234-636&event=unknown&layers=roads,unknown&position=99,-200,40",
+    );
+
+    expect(parsed.pid).toBe("15234636");
+    expect(parsed.eventIds).toEqual([]);
+    expect(parsed.layerIds).toEqual(["roads"]);
+    expect(parsed.position).toEqual({ latitude: 47.5, longitude: -66.5, zoom: 23 });
+  });
+
+  it.each([
+    ",,",
+    "46, -61,",
+    ", -61,12",
+    "46, ,12",
+    "46,-61,12,unexpected",
+  ])("uses the default view for a malformed position %j", (position) => {
+    const url = new URL("https://example.test/");
+    url.searchParams.set("position", position);
+
+    expect(parseMapShareState(url.href).position).toEqual(DEFAULT_MAP_POSITION);
+  });
+
+  it("parses a printable URL with its resolved map state unchanged", () => {
+    const snapshot = {
+      taxSaleEnabled: true,
+      mode: "historical",
+      pid: "01234567",
+      eventIds: ["hrm-2022-03-08"],
+      layerIds: ["modern", "ns-aerial", "nsprd", "roads"],
+    } as unknown as PrintSnapshot;
+    const position = { latitude: 46.35, longitude: -61.15, zoom: 15 };
+
+    expect(parseMapShareState(buildPrintMapShareUrl(
+      "https://example.com/map/",
+      snapshot,
+      position,
+      ["modern", "nsprd", "roads"],
+    ))).toEqual({
+      basemapStyle: "osm",
+      taxSaleEnabled: true,
+      mode: "historical",
+      pid: "01234567",
+      eventIds: ["hrm-2022-03-08"],
+      layerIds: ["modern", "nsprd", "roads"],
+      position,
+    });
+  });
+});
+
+describe("basemap style in shared links", () => {
+  it("carries the Fletcher style and drops unknown styles", () => {
+    expect(parseMapShareState("https://example.test/?basemap=fletcher").basemapStyle).toBe("fletcher");
+    expect(parseMapShareState("https://example.test/?basemap=night").basemapStyle).toBe("night");
+    expect(parseMapShareState("https://example.test/?basemap=sepia").basemapStyle).toBeUndefined();
+  });
+});
+
+describe("focus-page month and spot in shared links", () => {
+  const base: MapShareState = {
+    taxSaleEnabled: false,
+    mode: "current",
+    pid: null,
+    eventIds: [],
+    layerIds: ["modern", "fishing-spots"],
+    position: { latitude: 45.85, longitude: -61.35, zoom: 9 },
+  };
+
+  it("round-trips a month and a spot", () => {
+    const url = buildMapShareUrl("https://example.test/fishing", { ...base, month: 10, spot: "S04" });
+    expect(new URL(url).searchParams.get("month")).toBe("10");
+    expect(new URL(url).searchParams.get("spot")).toBe("S04");
+    expect(parseMapShareState(url)).toEqual({ ...base, month: 10, spot: "S04" });
+  });
+
+  it("leaves both out of a link that sets neither", () => {
+    const url = new URL(buildMapShareUrl("https://example.test/fishing", base));
+    expect(url.searchParams.has("month")).toBe(false);
+    expect(url.searchParams.has("spot")).toBe(false);
+    expect(parseMapShareState(url.href)).not.toHaveProperty("month");
+    expect(parseMapShareState(url.href)).not.toHaveProperty("spot");
+  });
+
+  it.each(["0", "13", "1.5", "01", "-3", "", "October", "1e1"])("rejects month=%s", (value) => {
+    expect(parseMapShareState(`https://example.test/fishing?month=${encodeURIComponent(value)}`)).not.toHaveProperty("month");
+  });
+
+  it.each(["1", "9", "12"])("accepts month=%s", (value) => {
+    expect(parseMapShareState(`https://example.test/fishing?month=${value}`).month).toBe(Number(value));
+  });
+
+  it.each(["s04", "S4", "S004", "X01", "S04;", "", "../S04"])("rejects spot=%s", (value) => {
+    expect(parseMapShareState(`https://example.test/fishing?spot=${encodeURIComponent(value)}`)).not.toHaveProperty("spot");
+  });
+
+  it("never writes an invalid month or spot handed to it", () => {
+    const url = new URL(buildMapShareUrl("https://example.test/fishing", { ...base, month: 13, spot: "nope" }));
+    expect(url.searchParams.has("month")).toBe(false);
+    expect(url.searchParams.has("spot")).toBe(false);
+  });
+
+  it("does not count a month or spot as shared map state", () => {
+    expect(hasRecognizedMapShareState("https://example.test/fishing?month=10")).toBe(false);
+    expect(hasRecognizedMapShareState("https://example.test/fishing?spot=S04")).toBe(false);
+    expect(hasRecognizedMapShareState("https://example.test/fishing?month=10&spot=S04&basemap=osm")).toBe(false);
+    expect(hasRecognizedMapShareState("https://example.test/fishing?month=10&layers=modern")).toBe(true);
+  });
+});

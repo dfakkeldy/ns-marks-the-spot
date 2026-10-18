@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5722 x 3900 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 72.21 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          110
+        ],
+        [
+          5620,
+          85
+        ],
+        [
+          5635,
+          3740
+        ],
+        [
+          95,
+          3765
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The entire mapped frame retains St Marys Bay, Annapolis Basin, the long basin island, all lake islands and boundary extensions. Eight controls and nine excluded checks sample coast and inland features; open water and unsampled interior remain provisional."
+    }
+  ]
+}

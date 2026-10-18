@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-09-15T14:16:40.466376+00:00",
+  "promoted": "CB16",
+  "original_first_result": "reports/church/cape-breton-northern-20260915/CB16-first.json",
+  "first_sha256": "44e83b27c91c2500a0c959dfa85e183b1954ef079dfcc5266d8757dcdb8be6b2",
+  "reason": "Independent southern coastal support, after the interior correction increased this verified excluded shore error to490.13m. Preserve original363.35m fresh failure and intermediate diagnostic result.",
+  "remaining_diagnostics": [
+    "CB04",
+    "CB13"
+  ],
+  "fresh_checks": 0
+}

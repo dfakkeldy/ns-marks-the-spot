@@ -1,0 +1,41 @@
+[
+  [
+    "IC01",
+    "Sight Point western coastal shoulder",
+    [
+      1093,
+      584
+    ],
+    [
+      1131,
+      574
+    ],
+    "WACO"
+  ],
+  [
+    "IC02",
+    "Cape Mabou coastal bend",
+    [
+      542,
+      980
+    ],
+    [
+      515,
+      960
+    ],
+    "WACO"
+  ],
+  [
+    "IC03",
+    "Northeastern inset coastal notch",
+    [
+      1394,
+      479
+    ],
+    [
+      1356,
+      515
+    ],
+    "WACO"
+  ]
+]

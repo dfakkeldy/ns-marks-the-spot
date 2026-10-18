@@ -1,0 +1,132 @@
+[
+  {
+    "id": "C01",
+    "label": "Margaretville natural headland northern roof west of wharf",
+    "role": "proposal",
+    "pixel_xy": [
+      1082,
+      892
+    ],
+    "lonlat": [
+      -65.06527648656896,
+      45.04950317401434
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 6949,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 6949,
+    "nearest_unfiltered_distance_guide_px": 0.44359018675735923,
+    "selected_distance_guide_px": 0.44359018675735923,
+    "guide_reference_pixel_xy": [
+      1164.7713036218775,
+      916.6199076159392
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Morden headland northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      3264,
+      521
+    ],
+    "lonlat": [
+      -64.94904449477647,
+      45.10400223282419
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 4809,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 4809,
+    "nearest_unfiltered_distance_guide_px": 1.2188923429362697,
+    "selected_distance_guide_px": 1.2188923429362697,
+    "guide_reference_pixel_xy": [
+      3303.2187900599674,
+      553.0157902942738
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Long Point northern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      5408,
+      355
+    ],
+    "lonlat": [
+      -64.82889870244331,
+      45.1501994608004
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 8372,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8372,
+    "nearest_unfiltered_distance_guide_px": 0.7606160602641556,
+    "selected_distance_guide_px": 0.7606160602641556,
+    "guide_reference_pixel_xy": [
+      5420.317466646724,
+      380.3088041382143
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Annapolis north tributary junction at Middleton",
+    "role": "proposal",
+    "pixel_xy": [
+      316,
+      3043
+    ],
+    "lonlat": [
+      -65.05558337140347,
+      44.9467583793607
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 156910,
+    "reference_feature_code": "WARV10",
+    "nearest_unfiltered_feature_code": "WARV10",
+    "nearest_unfiltered_objectid": 156910,
+    "nearest_unfiltered_distance_guide_px": 1.0561551373224392,
+    "selected_distance_guide_px": 1.0561551373224392,
+    "guide_reference_pixel_xy": [
+      372.8678847568808,
+      3076.0478593591833
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Zeke Brook junction with Annapolis River near Kingston",
+    "role": "proposal",
+    "pixel_xy": [
+      2185,
+      3133
+    ],
+    "lonlat": [
+      -64.94521522703604,
+      44.97745274210098
+    ],
+    "guide_file": ".crown-grant-local/035-frozen-south-discovery-guide.npy",
+    "reference_objectid": 281386,
+    "reference_feature_code": "WARV50",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 281386,
+    "nearest_unfiltered_distance_guide_px": 1.3696802957559142,
+    "selected_distance_guide_px": 1.3696802957559142,
+    "guide_reference_pixel_xy": [
+      2216.3760345645715,
+      3161.78070050932
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

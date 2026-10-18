@@ -1,0 +1,38 @@
+{
+  "verified_at_utc": "2026-09-25T07:48:21.486761+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "032",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6024,
+        5215
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5298,
+        3682
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Actual whole-frame historical and modern-only screenshots inspected; decoded source/raster and opacity 65/40/0/65 verified.",
+    "Complete mapped frame and islands retained; unsampled margins/interior remain provisional.",
+    "Browser warning/error log empty."
+  ]
+}

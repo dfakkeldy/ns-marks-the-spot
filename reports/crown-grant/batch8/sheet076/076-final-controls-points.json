@@ -1,0 +1,164 @@
+[
+  {
+    "id": "C01",
+    "label": "Porter Lake western island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      390,
+      262
+    ],
+    "lonlat": [
+      -63.29211334321375,
+      44.67821884235742
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 23011,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23011,
+    "nearest_unfiltered_distance_guide_px": 0.20220215784461135,
+    "selected_distance_guide_px": 0.20220215784461135,
+    "guide_reference_pixel_xy": [
+      263.1467376916553,
+      333.13911780074704
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name."
+  },
+  {
+    "id": "C02",
+    "label": "Petpeswick Head southern tip",
+    "role": "control",
+    "pixel_xy": [
+      2280,
+      1043
+    ],
+    "lonlat": [
+      -63.16078207449442,
+      44.678546118411624
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 3249,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 3249,
+    "nearest_unfiltered_distance_guide_px": 1.716972392484773,
+    "selected_distance_guide_px": 1.716972392484773,
+    "guide_reference_pixel_xy": [
+      2208.416150645353,
+      1116.6657769469311
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name."
+  },
+  {
+    "id": "C03",
+    "label": "Jeddore Cape southern tip",
+    "role": "control",
+    "pixel_xy": [
+      3890,
+      1852
+    ],
+    "lonlat": [
+      -63.04817173828434,
+      44.67307853955293
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 5829,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 5829,
+    "nearest_unfiltered_distance_guide_px": 1.6103791622700245,
+    "selected_distance_guide_px": 1.6103791622700245,
+    "guide_reference_pixel_xy": [
+      3829.6865761825466,
+      1903.5795842987718
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name."
+  },
+  {
+    "id": "C04",
+    "label": "Barren Island northern shore",
+    "role": "control",
+    "pixel_xy": [
+      5096,
+      1934
+    ],
+    "lonlat": [
+      -62.974662729568585,
+      44.69009650379519
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 17342,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17342,
+    "nearest_unfiltered_distance_guide_px": 1.4388581329724852,
+    "selected_distance_guide_px": 1.4388581329724852,
+    "guide_reference_pixel_xy": [
+      5059.069297198905,
+      1994.96276488679
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name."
+  },
+  {
+    "id": "C05",
+    "label": "Duck Island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      5736,
+      1930
+    ],
+    "lonlat": [
+      -62.938424652842045,
+      44.70163730659228
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 16635,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16635,
+    "nearest_unfiltered_distance_guide_px": 1.292925446903811,
+    "selected_distance_guide_px": 1.292925446903811,
+    "guide_reference_pixel_xy": [
+      5691.088045351731,
+      1975.0834876265144
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name."
+  },
+  {
+    "id": "C06",
+    "label": "Brown Island northwestern shore",
+    "role": "control",
+    "pixel_xy": [
+      4890,
+      233
+    ],
+    "lonlat": [
+      -63.03098050543336,
+      44.757864908787745
+    ],
+    "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+    "reference_objectid": 16581,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 16581,
+    "nearest_unfiltered_distance_guide_px": 1.867447415978286,
+    "selected_distance_guide_px": 1.867447415978286,
+    "guide_reference_pixel_xy": [
+      4787.20410899783,
+      272.51199156220537
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name."
+  }
+]

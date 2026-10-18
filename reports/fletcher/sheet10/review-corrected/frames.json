@@ -1,0 +1,202 @@
+[
+  {
+    "image": "sheet-10-C01.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C01",
+    "native_box": [
+      3560,
+      3160,
+      3780,
+      3380
+    ],
+    "native_coordinates": [
+      3670,
+      3270
+    ],
+    "modern_lonlat": [
+      -60.7607919,
+      46.3840158
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C02.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C02",
+    "native_box": [
+      3542,
+      1591,
+      3762,
+      1811
+    ],
+    "native_coordinates": [
+      3652,
+      1701
+    ],
+    "modern_lonlat": [
+      -60.7592323,
+      46.4319779
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C03.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C03",
+    "native_box": [
+      5716,
+      1800,
+      5936,
+      2020
+    ],
+    "native_coordinates": [
+      5826,
+      1910
+    ],
+    "modern_lonlat": [
+      -60.6525747,
+      46.420074
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C04.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C04",
+    "native_box": [
+      6857,
+      3426,
+      7077,
+      3646
+    ],
+    "native_coordinates": [
+      6967,
+      3536
+    ],
+    "modern_lonlat": [
+      -60.5940183,
+      46.3659494
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C05.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C05",
+    "native_box": [
+      4615,
+      2987,
+      4835,
+      3207
+    ],
+    "native_coordinates": [
+      4725,
+      3097
+    ],
+    "modern_lonlat": [
+      -60.7011543,
+      46.387781
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C06.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C06",
+    "native_box": [
+      9835,
+      1347,
+      10055,
+      1567
+    ],
+    "native_coordinates": [
+      9945,
+      1457
+    ],
+    "modern_lonlat": [
+      -60.4584827,
+      46.4340105
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C07.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C07",
+    "native_box": [
+      9202,
+      2335,
+      9422,
+      2555
+    ],
+    "native_coordinates": [
+      9312,
+      2445
+    ],
+    "modern_lonlat": [
+      -60.4782337,
+      46.4078388
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C08.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C08",
+    "native_box": [
+      8017,
+      3041,
+      8237,
+      3261
+    ],
+    "native_coordinates": [
+      8127,
+      3151
+    ],
+    "modern_lonlat": [
+      -60.5344369,
+      46.392057
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C09.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C09",
+    "native_box": [
+      2506,
+      6140,
+      2726,
+      6360
+    ],
+    "native_coordinates": [
+      2616,
+      6250
+    ],
+    "modern_lonlat": [
+      -60.8001408,
+      46.2866192
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-10-C11.jpg",
+    "point_record": "sheet10/corrected-candidates.json",
+    "point_id": "C11",
+    "native_box": [
+      7946,
+      5843,
+      8166,
+      6063
+    ],
+    "native_coordinates": [
+      8056,
+      5953
+    ],
+    "modern_lonlat": [
+      -60.54226032142647,
+      46.28967299284752
+    ],
+    "rotation_degrees": 0
+  }
+]

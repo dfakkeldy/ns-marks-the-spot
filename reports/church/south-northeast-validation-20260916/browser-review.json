@@ -1,0 +1,59 @@
+{
+  "recorded_at": "2026-09-16T03:51:52.970655+00:00",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "scope": "Persisted TPS13 only active at 70% opacity. Both checks inspected in 2D and at 10× terrain with 50° and 0° tilt, north up, zoom 15. Exaggerated slopes obscure the junctions in the tilted views, so top-down captures were also inspected. Measurement coordinates remain from native scan and original vector evidence. No new import or fit change.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS50-2d.png",
+      "sha256": "5241e5036daaa37cd0cb4c7d72a193fd4b79913574e972c9acb19cc9fb50000c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS50-terrain10x-topdown.png",
+      "sha256": "d4be0202cb50da389a6513439415e322e77d348fb8669b07de649203e9bf2dca"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS50-terrain10x.png",
+      "sha256": "576e90c00d98395ad2c8ba3a2825d7b632eb32a849e12f5cc5087adc89e60996"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS51-2d.png",
+      "sha256": "baa212df1f274732928539f30bf857bceca7bb9aeec10fa0f0565a55e59a2d66"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS51-terrain10x-topdown.png",
+      "sha256": "c0ab36aa6015147257b3b88fd18fb7d19d755a4ccdc4f5ad7cc9471e2fefa729"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS51-terrain10x.png",
+      "sha256": "7ed7d9a5d05cb8b34b452a06e642c785355d9cbf118f80515ec483b8a315b7cd"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS50-import-state.txt",
+      "sha256": "34eaf4568baa685e154a8d73d7dfd2781cd5f21fc5771e5cb6f0221a9bc33251"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS50-terrain10x-state.txt",
+      "sha256": "59114b10a5281b0ccdefb516aa084024634068985328a3abc5c57d6fb5d9ac75"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS50-topdown-state.txt",
+      "sha256": "1d5ce8a7ced6a273fe045dae9b326f82ee537e2e4571ea3bba90590f084f8865"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS51-import-state.txt",
+      "sha256": "29b73289157fb711b71df887bcf774ee8456c36006c573ec6516688ca52579de"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS51-terrain10x-state.txt",
+      "sha256": "c32b3d6e5ec9a8bdb32eb5ed957fac6eb55415d8e3dcc4cf26de88629f04dbbb"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northeast-validation-20260916/browser/IS51-topdown-state.txt",
+      "sha256": "33c943ec61b6d1cdda7eaab51a42c01ba5d6a774ab8e8754844c92e3f87752a1"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

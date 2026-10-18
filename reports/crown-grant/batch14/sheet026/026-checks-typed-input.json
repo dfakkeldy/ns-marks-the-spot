@@ -1,0 +1,67 @@
+[
+  [
+    "Q01",
+    "Green Harbour Lake southern shore",
+    [
+      420,
+      2306
+    ],
+    [
+      392,
+      2282
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Stewart Lake southern tip",
+    [
+      4844,
+      2347
+    ],
+    [
+      4833,
+      2332
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Cameron Lake southern shore",
+    [
+      4463,
+      2691
+    ],
+    [
+      4476,
+      2671
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Sinclair Island southern shore",
+    [
+      3185,
+      2378
+    ],
+    [
+      3174,
+      2364
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q05",
+    "Forbes Lake northern projecting shore",
+    [
+      4517,
+      2721
+    ],
+    [
+      4556,
+      2710
+    ],
+    "WALK20"
+  ]
+]

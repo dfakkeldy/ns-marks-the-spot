@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5713 x 3846 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 101.26 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          95,
+          130
+        ],
+        [
+          5585,
+          125
+        ],
+        [
+          5575,
+          3720
+        ],
+        [
+          90,
+          3715
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Pubnico Harbour, inland lakes, all islands, Barrington and Clyde river corridors and coastal continuations. Seven controls and eight excluded checks sample northwestern islands and northern/central/southern lakes; the eastern third remains provisional."
+    }
+  ]
+}

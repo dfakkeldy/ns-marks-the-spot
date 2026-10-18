@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6017 x 4137 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 75.41 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          40,
+          120
+        ],
+        [
+          5890,
+          120
+        ],
+        [
+          5890,
+          4040
+        ],
+        [
+          40,
+          4040
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Elgin, Centredale, Bridgeville, St Paul and their river/parcel regions, Trafalgar and Cameron Settlement, Black and Sucker lakes, Hattie and Dean lakes, Duck Lake, College and Cox lakes with islands, Battery Lake and all southern mapped content. No displaced inset identified."
+    }
+  ]
+}

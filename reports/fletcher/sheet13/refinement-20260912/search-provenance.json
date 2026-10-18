@@ -1,0 +1,7 @@
+{
+  "node_path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/search/all-modern-nodes-anchored.json",
+  "sha256": "87cde6b00fcf52fbb2d2f1f873d0efaccf6dfd07496b7ffd3605a0d92caa2cb4",
+  "reference_receipts": "../reference-receipts.json",
+  "guide": "Printed graticule affine guide for searching only; final lon/lat comes from NSTDB line endpoints; not fitted source pixels or acceptance evidence.",
+  "script": "search_context.py"
+}

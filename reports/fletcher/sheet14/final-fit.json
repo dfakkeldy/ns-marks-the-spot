@@ -1,0 +1,485 @@
+{
+  "sheet": "sheet-14",
+  "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+  "source_dimensions": [
+    10852,
+    7622
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        8885,
+        1347
+      ],
+      "lonlat": [
+        -61.2613235,
+        46.2589682
+      ],
+      "modern_node": "J0038",
+      "modern_objectids": [
+        269499,
+        277943,
+        277944
+      ],
+      "identity_evidence": "Southern tributary joins coast-bound main at the low point of the tight loop. Main approaches from eastern mill reach and turns northwest to Broad Cove outlet.",
+      "source_uncertainty_px": 5,
+      "review": "Agent topology and native 4x crosshair audit; preliminary placement corrected from visible ink before fitting; not user point-by-point audited."
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        9245,
+        1412
+      ],
+      "lonlat": [
+        -61.2443171,
+        46.2564744
+      ],
+      "modern_node": "J0040",
+      "modern_objectids": [
+        223948,
+        278057,
+        278058
+      ],
+      "identity_evidence": "Southern arm joins westbound main east of the mill. The main continues east upstream through falls; the southern arm runs southeast through separate road crossing.",
+      "source_uncertainty_px": 5,
+      "review": "Agent topology and native 4x crosshair audit; preliminary placement corrected from visible ink before fitting; not user point-by-point audited."
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        8666,
+        1114
+      ],
+      "lonlat": [
+        -61.2723197,
+        46.2662513
+      ],
+      "modern_node": "J0029",
+      "modern_objectids": [
+        2557,
+        2558,
+        277944
+      ],
+      "identity_evidence": "Broad Cove northern stream mouth: northwest-flowing main reaches the straight southwest\u2013northeast coast north of the inland loop and mill forks.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit; preliminary placement corrected from visible ink before fitting; not user point-by-point audited."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        7034,
+        3601
+      ],
+      "lonlat": [
+        -61.3451426,
+        46.1860368
+      ],
+      "modern_node": "J0200",
+      "modern_objectids": [
+        192273,
+        269073,
+        269172
+      ],
+      "identity_evidence": "Northwestern tributary joins westbound main above successive western and eastern tributaries. Main approaches through the eastward loop; northwestern arm crosses diagonal road upstream.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7342,
+        3566
+      ],
+      "lonlat": [
+        -61.3330319,
+        46.1856061
+      ],
+      "modern_node": "J0203",
+      "modern_objectids": [
+        191695,
+        269170,
+        269171
+      ],
+      "identity_evidence": "Short southern arm at the eastern end of the east\u2013west reach, immediately before main turns northeast into large upper loop. Distinguished from two western forks.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting."
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        9493,
+        3832
+      ],
+      "lonlat": [
+        -61.2323552,
+        46.1798992
+      ],
+      "modern_node": "J0234",
+      "modern_objectids": [
+        287573,
+        299823,
+        299824
+      ],
+      "identity_evidence": "Northern tributary crosses the east\u2013west road then joins the west-running main east of Loch Ban. Main makes long southward meanders to the lake; eastern arm continues to sheet edge.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting."
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        7233,
+        5903
+      ],
+      "lonlat": [
+        -61.3398281,
+        46.1112072
+      ],
+      "modern_node": "J0549",
+      "modern_objectids": [
+        196390,
+        262540,
+        262652
+      ],
+      "identity_evidence": "Grey Brook eastern long loop joins the northern arm at Saw Mill. Northern arm approaches from northwest and bends south, eastern main returns southwest from the broad loop; channel is thick in historical scan.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting."
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        5351,
+        4968
+      ],
+      "lonlat": [
+        -61.4290245,
+        46.1428783
+      ],
+      "modern_node": "J0420",
+      "modern_objectids": [
+        197384,
+        273419,
+        273543
+      ],
+      "identity_evidence": "Southeastern arm branches from westbound Mill Brook downstream of the north\u2013south road crossing. Road follows northern bank; not the separate upstream northern confluence.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        6375,
+        6411
+      ],
+      "lonlat": [
+        -61.371637,
+        46.1008555
+      ],
+      "modern_node": "J0593",
+      "modern_objectids": [
+        196696,
+        271711,
+        271712
+      ],
+      "identity_evidence": "Long northwestern tributary joins Northeast Mabou main immediately above southern frame, west of the upstream northern fork and large meander. Large arm traced back through road crossing.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+    },
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        9264,
+        5946
+      ],
+      "lonlat": [
+        -61.2353734,
+        46.1092675
+      ],
+      "modern_node": "J0558",
+      "modern_objectids": [
+        161179,
+        161180,
+        198990
+      ],
+      "identity_evidence": "Long southern tributary reaches southern bank of Hay River, downstream of the eastern broad meanders and upstream of western settlement. Bank versus historical thick single channel uncertainty retained.",
+      "source_uncertainty_px": 12,
+      "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+    },
+    {
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        6418,
+        2955
+      ],
+      "lonlat": [
+        -61.3767562,
+        46.2069134
+      ],
+      "modern_node": "J0134",
+      "modern_objectids": [
+        13082,
+        13083,
+        196367
+      ],
+      "identity_evidence": "Northern bank of Port Ban creek mouth at distinctive coastal indentation, where creek turns north through road immediately inland. Northern shoreline endpoint distinguished from nearby southern-bank endpoint J0136.",
+      "source_uncertainty_px": 10,
+      "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+    },
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        4501,
+        5704
+      ],
+      "lonlat": [
+        -61.4688143,
+        46.1193229
+      ],
+      "modern_node": "J0524",
+      "modern_objectids": [
+        12811,
+        12812,
+        195783
+      ],
+      "identity_evidence": "Stream mouth immediately south of Coal Mine Point: channel heads southeast from shore past road before turning east; next distinct stream reaches shore farther south. Northern endpoint of modern coast junction pair.",
+      "source_uncertainty_px": 10,
+      "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+    },
+    {
+      "id": "C17",
+      "role": "control",
+      "pixel_xy": [
+        6356,
+        5009
+      ],
+      "lonlat": [
+        -61.3819245,
+        46.1411574
+      ],
+      "modern_node": "J0429",
+      "modern_objectids": [
+        195541,
+        195542,
+        195791
+      ],
+      "identity_evidence": "Western arm enters southbound main below the upstream northwest/east fork pair and above the next closely spaced west/east tributaries. Five-fork order traced separately from road.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        8303,
+        3360
+      ],
+      "lonlat": [
+        -61.2881622,
+        46.194898
+      ],
+      "modern_node": "J0174",
+      "modern_objectids": [
+        185241,
+        260156,
+        260157
+      ],
+      "identity_evidence": "Large western tributary reaches north\u2013south main west of Strathlorne road. Western branch crosses hatching from northwest before meeting the left bank; separate downstream forks are not used here.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "Q08",
+      "role": "control",
+      "pixel_xy": [
+        6949,
+        5283
+      ],
+      "lonlat": [
+        -61.3520005,
+        46.1307664
+      ],
+      "modern_node": "J0478",
+      "modern_objectids": [
+        191401,
+        280263,
+        280264
+      ],
+      "identity_evidence": "Western tributary reaches the main at southern bend of road, below upstream western junction. Main approaches alongside north\u2013south road then turns southeast. Historical thick line versus bank junction uncertainty.",
+      "source_uncertainty_px": 10,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        8632,
+        1998
+      ],
+      "lonlat": [
+        -61.2732975,
+        46.2366431
+      ],
+      "modern_node": "J0072",
+      "modern_objectids": [
+        191032,
+        191033,
+        191658
+      ],
+      "identity_evidence": "Eastern tributary joins southeast-running western stem, downstream of the upper fork pair and before lower road crossing. Thin eastern arm distinct from the double-line road to its west.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; preliminary placement corrected from visible ink before fitting; not user point-by-point audited.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        7877,
+        5822
+      ],
+      "lonlat": [
+        -61.3102471,
+        46.1134917
+      ],
+      "modern_node": "J0543",
+      "modern_objectids": [
+        191525,
+        262538,
+        262651
+      ],
+      "identity_evidence": "Eastern tributary leaves the east side of Grey Brook loop, with the main continuing south. Upper nearby short east mark is not used; this is the longer southeastern branch opposite the road.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "Q06",
+      "role": "control",
+      "pixel_xy": [
+        9220,
+        3431
+      ],
+      "lonlat": [
+        -61.2477713,
+        46.1917461
+      ],
+      "modern_node": "J0183",
+      "modern_objectids": [
+        271538,
+        276618,
+        276759
+      ],
+      "identity_evidence": "Western tributary crosses the diagonal road, curves southeast below bridge, and joins the north\u2013south main above Loch Ban. Pixel is below road crossing at actual channel confluence, not bridge corner.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "F03",
+      "role": "control",
+      "pixel_xy": [
+        8317,
+        3599
+      ],
+      "lonlat": [
+        -61.2892991,
+        46.1823219
+      ],
+      "modern_node": "J0220",
+      "modern_objectids": [
+        261085,
+        261086,
+        298546
+      ],
+      "identity_evidence": "Large western catchment containing C06/C07 reaches north\u2013south main at Strathlorne. Traced the whole catchment and intervening loops to distinguish it from northern J0185; eastern tributary enters nearby above it.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink.",
+      "consumed_from": "fresh-checks.json"
+    },
+    {
+      "id": "F04",
+      "role": "control",
+      "pixel_xy": [
+        5140,
+        6150
+      ],
+      "lonlat": [
+        -61.4394085,
+        46.1043032
+      ],
+      "modern_node": "J0576",
+      "modern_objectids": [
+        196164,
+        276287,
+        276288
+      ],
+      "identity_evidence": "Eastern tributary joins north\u2013south stem before southwest reach crosses road and joins the separate western branch downstream. Northern arm has an upstream east/west fork pair; southeastern arm extends off right crop.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink.",
+      "consumed_from": "fresh-checks.json"
+    },
+    {
+      "id": "F05",
+      "role": "control",
+      "pixel_xy": [
+        8948,
+        6115
+      ],
+      "lonlat": [
+        -61.2489105,
+        46.1081554
+      ],
+      "modern_node": "J0563",
+      "modern_objectids": [
+        269424,
+        276971,
+        276972
+      ],
+      "identity_evidence": "Western long southern tributary of Hay River, separate from eastern C14 arm. Main approaches from northeast and continues west toward mill and road; southern arm continues to its own lower fork J0596.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink.",
+      "consumed_from": "fresh-checks.json"
+    },
+    {
+      "id": "G03",
+      "role": "control",
+      "pixel_xy": [
+        8877,
+        3892
+      ],
+      "lonlat": [
+        -61.26422315506629,
+        46.1755968481123
+      ],
+      "modern_node": null,
+      "modern_objectids": [
+        129496
+      ],
+      "identity_evidence": "Easternmost tip of the prominent western Loch Ban peninsula, below the narrow northern part and above the long southwest shoreline. Selected shoreline vertex on main peninsula, separate from offshore island 145929. Historical broad tip and water-level uncertainty.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native crosshair and topology audit after freezing 21-control fit, before numerical scoring.",
+      "consumed_from": "second-fresh-checks.json"
+    }
+  ],
+  "status": "22-control complete-sheet review fit, including Loch Ban peninsula. All consumed checks and failures retained; geography provisional.",
+  "initial_correspondences_sha256": "0a16785c9706ca1ac1f671087d4f4b85a93856beec082928f4c1c370d8ec8cf2",
+  "parent_fit_sha256": "ee8c2de3f9c471f3c7e812e9372d40e51c5dee113954cfc08b7c5939c4d2cccc"
+}

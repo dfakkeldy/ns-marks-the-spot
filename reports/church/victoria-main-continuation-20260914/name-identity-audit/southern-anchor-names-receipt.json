@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Piper+Cove%27%2C%27Goat+Island%27%2C%27Grand+Narrows%27%2C%27Barachois+Brook%27%29&%24limit=100",
+  "query": {
+    "$where": "geoname in ('Piper Cove','Goat Island','Grand Narrows','Barachois Brook')",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-14T23:44:52.514022+00:00",
+  "sha256": "b5ed41cf825dd7f2d996b3d8555e1201b8881eb6b889f28e5957bb8c56c5de79",
+  "scope": "Official identity context only; representative points are not GCPs"
+}

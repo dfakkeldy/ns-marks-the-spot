@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Mussell Island northern tip",
+    [
+      2150,
+      680
+    ],
+    [
+      2155,
+      650
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Cable Island northeast corner",
+    [
+      2371,
+      1957
+    ],
+    [
+      2367,
+      1924
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C03",
+    "Western Long Island northern tip",
+    [
+      227,
+      2510
+    ],
+    [
+      196,
+      2470
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Egg Island main body northern shore",
+    [
+      695,
+      3168
+    ],
+    [
+      645,
+      3123
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Friar Island northern tip",
+    [
+      2645,
+      2740
+    ],
+    [
+      2620,
+      2718
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "Charles Island Borgle Point northern tip",
+    [
+      3528,
+      1772
+    ],
+    [
+      3528,
+      1743
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C07",
+    "Tangier Island northern shore",
+    [
+      4450,
+      2338
+    ],
+    [
+      4454,
+      2311
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C08",
+    "Stoney Island northern shore",
+    [
+      5710,
+      2122
+    ],
+    [
+      5703,
+      2100
+    ],
+    "WACOIS10"
+  ]
+]

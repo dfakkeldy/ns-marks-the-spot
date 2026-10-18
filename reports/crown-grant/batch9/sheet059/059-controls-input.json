@@ -1,0 +1,67 @@
+[
+  [
+    "C01",
+    "Round Lake northern tip",
+    [
+      4372,
+      266
+    ],
+    [
+      4436,
+      267
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Long Lake northern tip",
+    [
+      4238,
+      650
+    ],
+    [
+      4294,
+      660
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Blairs Lake northwest horn northern tip",
+    [
+      2388,
+      2355
+    ],
+    [
+      2426,
+      2376
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Small lake northwest of Blairs Lake northern tip",
+    [
+      2317,
+      2314
+    ],
+    [
+      2362,
+      2328
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Amherst Point peninsula southern tip",
+    [
+      778,
+      2460
+    ],
+    [
+      820,
+      2478
+    ],
+    "WACO"
+  ]
+]

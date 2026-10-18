@@ -1,0 +1,106 @@
+[
+  [
+    "Q01",
+    "Trout Lake southern shore",
+    [
+      1440,
+      716
+    ],
+    [
+      1453,
+      768
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Barren Lake eastern shore",
+    [
+      1852,
+      700
+    ],
+    [
+      1873,
+      770
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Twin Lakes eastern lobe northern tip",
+    [
+      3824,
+      413
+    ],
+    [
+      3828,
+      453
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Flat Iron Lake southern tip",
+    [
+      3585,
+      663
+    ],
+    [
+      3586,
+      702
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "North West Lake southern shore",
+    [
+      298,
+      3033
+    ],
+    [
+      348,
+      3103
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Gleason Lakes northwest lake northeast tip",
+    [
+      4068,
+      3425
+    ],
+    [
+      4103,
+      3480
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Eastville northern pond northwest corner",
+    [
+      5790,
+      1936
+    ],
+    [
+      5794,
+      1982
+    ],
+    "WALK20"
+  ],
+  [
+    "Q08",
+    "Halfway Brook pond southern tip",
+    [
+      2757,
+      1556
+    ],
+    [
+      2762,
+      1613
+    ],
+    "WALK20"
+  ]
+]

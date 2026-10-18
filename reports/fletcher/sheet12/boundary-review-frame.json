@@ -1,0 +1,44 @@
+{
+  "source_sha256": "72f758991fe7bce3eba450aecb030b5b681ad037f44168c34ad7c5e82e20034f",
+  "native_dimensions": [
+    10801,
+    7713
+  ],
+  "rotation_degrees": 0,
+  "image": "boundary-overview.jpg",
+  "extension_native_boxes": [
+    [
+      1410,
+      6050,
+      3830,
+      7020
+    ],
+    [
+      5200,
+      6040,
+      7180,
+      7060
+    ],
+    [
+      8090,
+      6040,
+      9780,
+      6760
+    ]
+  ],
+  "label_native_boxes": [
+    [
+      6800,
+      6140,
+      8110,
+      6460
+    ],
+    [
+      4300,
+      6110,
+      4800,
+      6350
+    ]
+  ],
+  "status": "Full native overview, four corners, coordinate labels and all three southern extensions personally inspected. One continuous ring retains southwest shore, Stony/Kidston islands, Red Point label; Coffin Island/Point, Kemp Head and Point Clear label; Lockman Point. Whitespace and incidental marginal text intentionally retained."
+}

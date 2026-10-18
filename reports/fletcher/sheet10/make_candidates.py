@@ -1,0 +1,20 @@
+exec(open('reports/fletcher/sheet10/point_tools.py').read())
+pts=[]
+def node(i,px,j,desc):
+ r=nodes[j].copy();r.update(modern_node_id=j,id=i,role='control',pixel_xy=px,identity_evidence=desc,source_uncertainty_px=20,status='Unreviewed candidate; native crosshair required before fit.');pts.append(r)
+def coast(i,px,box,axis,di,desc):
+ r=select(box,axis,di).copy();r.update(id=i,role='control',pixel_xy=px,identity_evidence=desc,source_uncertainty_px=20,status='Unreviewed candidate; native crosshair required before fit.');pts.append(r)
+node('C01',[3640,3267],'J1162','Middle River western long tributary confluence')
+node('C02',[3648,1700],'J0648','Upper Middle River western tributary confluence')
+node('C03',[5813,1892],'J0793','Barasois Brook western tributary confluence')
+node('C04',[6955,3515],'J1320','Barasois Brook and McKay Brook confluence')
+node('C05',[4704,3097],'J1135','East Branch Middle River western tributary confluence')
+node('C06',[9940,1455],'J0617','Small brook coast connection near Bentinck Point')
+node('C07',[9290,2440],'J0927','McAskill Brook coast connection')
+node('C08',[8070,3140],'J1081','Eel Brook and Indian Brook confluence')
+node('C09',[2635,6212],'J1936','North Branch Baddeck River western tributary confluence')
+node('C10',[4820,4370],'J1533','West Branch confluence with Middle River')
+coast('C11',[8020,5910],[7930,5800,8100,6040],1,'min','Beacon Point southernmost sandspit tip')
+coast('C12',[8590,5725],[8360,5590,8470,5740],0,'max','Wilhausen Point eastern tip on western side of Oyster Pond')
+(D/'candidate-controls.json').write_text(json.dumps(dict(sheet='sheet-10',source_sha256=json.loads((D/'source-receipt.json').read_text())['source_sha256'],points=pts),indent=2)+'\n')
+for p in pts:print(p['id'],p.get('modern_node_id',p.get('modern_objectid')),p.get('guide_xy',p.get('source_guide_xy')))

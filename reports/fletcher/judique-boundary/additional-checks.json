@@ -1,0 +1,356 @@
+{
+  "points": [
+    {
+      "id": "B01",
+      "role": "check",
+      "pixel_xy": [
+        5025,
+        1485
+      ],
+      "lonlat": [
+        -61.4336896,
+        45.9119107
+      ],
+      "modern_node": "J0939",
+      "modern_objectids": [
+        195559,
+        195560,
+        211150
+      ],
+      "label": "North: Ben Noah eastern tributary",
+      "identity_evidence": "Long east tributary joins north-south stem, north of SW fork and road crossing.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4880,
+          1395,
+          5170,
+          1575
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    },
+    {
+      "id": "B02",
+      "role": "check",
+      "pixel_xy": [
+        5034,
+        1544
+      ],
+      "lonlat": [
+        -61.4338214,
+        45.9100665
+      ],
+      "modern_node": "J0944",
+      "modern_objectids": [
+        195558,
+        195559,
+        196001
+      ],
+      "label": "North: Ben Noah southwest tributary",
+      "identity_evidence": "Next fork south of B01; southwest arm joins stem before road crossing. Correlated with B01.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4889,
+          1454,
+          5179,
+          1634
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    },
+    {
+      "id": "B03",
+      "role": "check",
+      "pixel_xy": [
+        8369,
+        2252
+      ],
+      "lonlat": [
+        -61.2792543,
+        45.8882963
+      ],
+      "modern_node": "J1030",
+      "modern_objectids": [
+        195863,
+        262648,
+        262649
+      ],
+      "label": "Northeast: fork below Falls",
+      "identity_evidence": "North tributary descends past two Falls labels to east-west stream; west of next northern tributary and road crossing.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          8224,
+          2162,
+          8514,
+          2342
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          8345,
+          2245
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B04",
+      "role": "check",
+      "pixel_xy": [
+        7979,
+        3208
+      ],
+      "lonlat": [
+        -61.2988619,
+        45.8571812
+      ],
+      "modern_node": "J1168",
+      "modern_objectids": [
+        198128,
+        198248,
+        198249
+      ],
+      "label": "Inland: East Branch upper fork",
+      "identity_evidence": "Long west arm joins north stem; downstream next north tributary is B05.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          7834,
+          3118,
+          8124,
+          3298
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    },
+    {
+      "id": "B05",
+      "role": "check",
+      "pixel_xy": [
+        8050,
+        3286
+      ],
+      "lonlat": [
+        -61.2963714,
+        45.8549182
+      ],
+      "modern_node": "J1174",
+      "modern_objectids": [
+        196740,
+        198248,
+        198250
+      ],
+      "label": "Inland: East Branch next fork",
+      "identity_evidence": "Next north tributary downstream from B04 joins NW-SE main stem. Correlated with B04.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          7905,
+          3196,
+          8195,
+          3376
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          8042,
+          3286
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B06",
+      "role": "check",
+      "pixel_xy": [
+        6091,
+        5756
+      ],
+      "lonlat": [
+        -61.383053,
+        45.7725279
+      ],
+      "modern_node": "J1442",
+      "modern_objectids": [
+        202365,
+        284102,
+        284103
+      ],
+      "label": "South: Rough Brook western branch",
+      "identity_evidence": "Large western looping tributary joins main stem, before next northern tributary.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5946,
+          5666,
+          6236,
+          5846
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          6085,
+          5758
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B07",
+      "role": "check",
+      "pixel_xy": [
+        6034,
+        6461
+      ],
+      "lonlat": [
+        -61.388864,
+        45.7533672
+      ],
+      "modern_node": "J1488",
+      "modern_objectids": [
+        123842,
+        123927,
+        269013
+      ],
+      "label": "South edge: narrow lake outlet",
+      "identity_evidence": "Southern lake banks converge at outlet just before nearby road crossing; lake bank/centreline generalization adds uncertainty.",
+      "source_uncertainty_px": 10,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5889,
+          6371,
+          6179,
+          6551
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          6032,
+          6461
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B08",
+      "role": "check",
+      "pixel_xy": [
+        9442,
+        4516
+      ],
+      "lonlat": [
+        -61.2324807,
+        45.8160689
+      ],
+      "modern_node": "J1278",
+      "modern_objectids": [
+        197954,
+        197957,
+        197958
+      ],
+      "label": "East edge: fork north of Widow McLeod",
+      "identity_evidence": "West arm joins SW-NE stem; downstream NW arm joins before eastern bend; upstream crosses road SW of fork.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          9297,
+          4426,
+          9587,
+          4606
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    }
+  ],
+  "frozen_utc": "2026-09-06T02:03:32.570302+00:00",
+  "fit_observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "water_lines_sha256": "f2ba10507269881f299b4e65cbcbc2a61af13e51a3948bf50c0526324ba3a008",
+  "source_dimensions": [
+    10815,
+    7549
+  ],
+  "method": "Native scan branch topology matched to NSTDB 1:10k water vectors using the preceding 27-control affine search guide. No evaluated TPS predictions used to place these checks.",
+  "limitations": [
+    "Same-agent annotation with prior sheet exposure; not independent survey or pristine blind validation.",
+    "B01/B02 and B04/B05 are neighbouring forks; eight points represent six localities.",
+    "B07 lake banks and modern centreline junction have additional definition uncertainty."
+  ],
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "rejected_searches": [
+    {
+      "region": "Dr Benges Brook near native [7890,2675]",
+      "reason": "Geological hatching obscures exact main junction; avoid an uncertain branch assignment."
+    },
+    {
+      "region": "River Inhabitants eastern edge near native [9150,5515]",
+      "reason": "Modern southwest tributary could not be traced confidently on scan."
+    },
+    {
+      "region": "West/East Branch downstream near native [7980,3700]",
+      "reason": "Falls, hatching and overlapping junctions make precise placement ambiguous."
+    },
+    {
+      "region": "Judique northern J0917",
+      "reason": "Already examined during O01 diagnosis; avoided as additional validation."
+    }
+  ]
+}

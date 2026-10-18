@@ -1,0 +1,28 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "control_csv_sha256": "5ad9128981e1c684db18e254015155113a51bec0ea564d7a85ac673f39bf06ab",
+  "boundary_sha256": "96ce252e8e00633611e38e4406eff15edeba339cb8d93246b6dd067d7ac6e48e",
+  "transform": "Frozen affine encoded as explicit GeoTransform; exact -et 0",
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260915/cape-breton-review/baseline/rendered/cape-breton-affine3-review-20m.tif",
+  "output_sha256": "261fbfed2bca12b678ce4f82831264ce0f19323bcb6e439a913b88c3f62eb70f",
+  "size": [
+    6627,
+    5226
+  ],
+  "geotransform": [
+    -6772020.0,
+    20.0,
+    0.0,
+    5840880.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260915/cape-breton-review/baseline/rendered/main-affine3-cutline.geojson",
+  "cutline_sha256": "f5fc713b1fcc39dfe3c9c6fe6a015bd927879df550deea34300479b2f57176cf",
+  "orientation_determinant": -14.883723646072477,
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}

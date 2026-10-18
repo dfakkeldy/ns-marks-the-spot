@@ -1,0 +1,19 @@
+{
+  "timing": "Before point selection, first fit or score",
+  "initial_guide": "059-initial-south-guide/059-adjacent-ppi-guide.npy",
+  "revised_guide": "059-west-neighbor-guide.npy",
+  "reason": "Propagating the special border-sheet058 geometry south did not match the Cumberland Basin and Amherst lake context. Replaced discovery prior with the western neighbor of stable sheet068, accounting for160/150ppi. Physical matches will be selected independently from this search prior.",
+  "reference_basis": "sheet068 first affine fit",
+  "offset_in_basis_pixels": [
+    -5800,
+    0
+  ],
+  "basis_ppi": 160,
+  "target_ppi": 150,
+  "bbox": [
+    -64.46214475437638,
+    45.663050501274164,
+    -63.94657161340626,
+    45.991186337568166
+  ]
+}

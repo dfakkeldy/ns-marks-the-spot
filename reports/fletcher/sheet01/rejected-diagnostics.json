@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.5015339,
+        46.9721303
+      ],
+      "source_guide_xy": [
+        6317.402528879931,
+        6332.102438679198
+      ],
+      "objectids": [
+        175151,
+        284678,
+        284679
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        6410,
+        6000
+      ],
+      "modern_node_id": "J0251",
+      "identity_evidence": "Salmon River western tributary at southern main channel bend",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze diagnostic proposal; exact native and modern context pending review.",
+      "rejection_reason": "Historical large western bend with small southeastern tributary does not establish the modern western tributary / southward main channel. Rejected unscored after close/wide review."
+    }
+  ]
+}

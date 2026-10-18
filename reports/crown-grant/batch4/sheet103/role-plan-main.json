@@ -1,0 +1,32 @@
+{
+  "sheet": "103",
+  "component": "main",
+  "stage": "Before first fit or score",
+  "model": "affine",
+  "rms_ceiling_ground_m": 100,
+  "controls": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05"
+  ],
+  "checks": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q06"
+  ],
+  "rejected_before_fit": {
+    "C06": "Plaster Cove tidal-mouth geometry unresolved",
+    "Q04": "Historical Ballantyne harbour creek obscured by buildings/shore works; exact corresponding mouth unresolved",
+    "Q05": "Source proposal inside parcel; assumed watercourse not identifiable on original",
+    "Q07": "Western tidal branch candidate was a generalized bank segment, not a secure homologous physical corner"
+  },
+  "notes": [
+    "Five coastal controls define a non-collinear Cape George/Creeping Head fit. Four excluded checks supply sparse regional evidence, not complete sheet validation. Western Antigonish Harbour and interior remain unsupported but all source imagery retained.",
+    "Printed arrow reads Magnetic1963; treated only as discovery aid. Geonames and lighthouse locality positions are not GCPs.",
+    "An exploratory near-collinear affine search guide produced excessive anisotropy and was discarded before selecting adopted observations. Current audited points use constrained regional similarity discovery guide.",
+    "C05 earlier nearest proposal landed on a tiny offshore feature; corrected to mainland WACO20 shoreline before first fit. No scored points removed."
+  ]
+}

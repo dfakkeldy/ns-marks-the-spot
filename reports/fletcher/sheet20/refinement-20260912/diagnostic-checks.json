@@ -1,0 +1,156 @@
+{
+  "fit_sha256": "4f661910ecdf4de6ac22cb6db3352375467f08b2287083e5d32e908c6f4b06b1",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        5305,
+        1614
+      ],
+      "lonlat": [
+        -60.6715404,
+        45.7288143
+      ],
+      "modern_node_id": "J0216",
+      "modern_objectids": [
+        136769,
+        136770,
+        194153
+      ],
+      "identity_evidence": "McNab lake eastern tributary mouth, distinct from southern outlet control",
+      "source_uncertainty_px": 20,
+      "status": "Reviewed native crosshair and modern geometry after fit freeze, before diagnostic scoring."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        5635,
+        3660
+      ],
+      "lonlat": [
+        -60.6497494,
+        45.6712098
+      ],
+      "modern_node_id": "J0677",
+      "modern_objectids": [
+        160738,
+        160739,
+        194302
+      ],
+      "identity_evidence": "Murchison Brook joins Grand River",
+      "source_uncertainty_px": 20,
+      "status": "Reviewed native crosshair and modern geometry after fit freeze, before diagnostic scoring.",
+      "revision": "Native and modern context correction before diagnostic scoring; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -60.77166013368106,
+        45.7173311882538
+      ],
+      "guide_xy": [
+        3012.6994173249695,
+        2156.835029445123
+      ],
+      "modern_objectid": 23536,
+      "modern_part": 0,
+      "modern_vertex": 347,
+      "modern_properties": {
+        "OBJECTID": 23536,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 2494.880544101216
+      },
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        3104,
+        2006
+      ],
+      "identity_evidence": "Moonac Island northernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Reviewed native crosshair and modern geometry after fit freeze, before diagnostic scoring.",
+      "revision": "Native and modern context correction before diagnostic scoring; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -60.74058729268424,
+        45.569160868255196
+      ],
+      "guide_xy": [
+        3694.83528116066,
+        6786.861188762123
+      ],
+      "modern_objectid": 20365,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_properties": {
+        "OBJECTID": 20365,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 492.3391593698983
+      },
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        3850,
+        6617
+      ],
+      "identity_evidence": "Red Island northernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Reviewed native crosshair and modern geometry after fit freeze, before diagnostic scoring."
+    },
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        5260,
+        1585
+      ],
+      "lonlat": [
+        -60.6740615,
+        45.7294444
+      ],
+      "modern_node_id": "J0212",
+      "modern_objectids": [
+        136767,
+        136769,
+        194152
+      ],
+      "identity_evidence": "McNab long lake northern tributary mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check reviewed after twelve-control freeze, before scoring; never fitted."
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        8068,
+        4582
+      ],
+      "lonlat": [
+        -60.5421881,
+        45.6352747
+      ],
+      "modern_node_id": "J0999",
+      "modern_objectids": [
+        143275,
+        143278,
+        269382
+      ],
+      "identity_evidence": "Little Saint Esprit Lake western tributary mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check reviewed after twelve-control freeze, before scoring; never fitted."
+    }
+  ],
+  "scope": "Six reused diagnostics, not fresh validation. Red Island retained separately with identity uncertainty."
+}

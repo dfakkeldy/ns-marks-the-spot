@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-09-23T01:35:32.440337+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet110/main-3857.png",
+      "complete": true,
+      "width": 6164,
+      "height": 5194
+    }
+  ],
+  "verified": [
+    "Actual complete raster inspected at overview and 1 km detail scale",
+    "35 percent historical opacity and modern-only/restore worked",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone Leaflet image-overlay review; native raw-scan importer/TPS mesh not exercised",
+    "Successful rendering does not resolve sparse validation coverage"
+  ]
+}

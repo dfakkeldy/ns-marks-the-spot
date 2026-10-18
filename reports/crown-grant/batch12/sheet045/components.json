@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5732 x 3964 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 66.49 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          180,
+          135
+        ],
+        [
+          5600,
+          135
+        ],
+        [
+          5600,
+          3835
+        ],
+        [
+          180,
+          3835
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Aldersville, New Ross, New Russell, Leimster/Leominster, Benjamin Mills, Vaughan and Upper Vaughan, Caribou or Long Lake, Salmon Tail lakes, Porcupine Lake, Duck Pond, Five Island Lake, Little Salter and Bill lakes, Lawson and Darling lakes, the Otter lakes and the depicted Avon and Gold River systems. Every mapped land and water area is retained; no inset or internal crop."
+    }
+  ]
+}

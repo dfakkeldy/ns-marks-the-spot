@@ -1,0 +1,62 @@
+[
+  {
+    "image": "13-lake-ainslie.jpg",
+    "lonlat_bounds": [
+      -61.16,
+      46.088,
+      -61.115,
+      46.11
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "13-eastern-interior.jpg",
+    "lonlat_bounds": [
+      -60.935,
+      46.085,
+      -60.87,
+      46.115
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "16-northwestern-interior.jpg",
+    "lonlat_bounds": [
+      -61.242,
+      46.044,
+      -61.208,
+      46.079
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "16-southwestern-interior.jpg",
+    "lonlat_bounds": [
+      -61.24,
+      45.94,
+      -61.207,
+      45.97
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet15/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

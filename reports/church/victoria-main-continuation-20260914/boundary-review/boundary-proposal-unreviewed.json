@@ -1,0 +1,67 @@
+{
+  "ring_pixel_xy": [
+    [
+      21500,
+      650
+    ],
+    [
+      33200,
+      650
+    ],
+    [
+      33200,
+      24880
+    ],
+    [
+      24900,
+      24880
+    ],
+    [
+      24900,
+      30900
+    ],
+    [
+      12650,
+      30900
+    ],
+    [
+      12650,
+      20900
+    ],
+    [
+      14800,
+      16800
+    ],
+    [
+      17000,
+      12500
+    ],
+    [
+      19800,
+      8000
+    ],
+    [
+      20800,
+      5600
+    ]
+  ],
+  "status": "Search proposal from full-source context. Native edge/inset audits still required; not adopted or rendered.",
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      12000,
+      500
+    ],
+    "extent": [
+      21300,
+      30500
+    ],
+    "display": [
+      1704,
+      2440
+    ],
+    "rotation": 0
+  },
+  "geographic_acceptance": false
+}

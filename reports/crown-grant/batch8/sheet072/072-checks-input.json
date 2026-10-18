@@ -1,0 +1,80 @@
+[
+  [
+    "Q01",
+    "Western Burton pond southern shore",
+    [
+      799,
+      2338
+    ],
+    [
+      787,
+      2334
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Northern pond east of Georgefield southwestern bay",
+    [
+      1792,
+      2894
+    ],
+    [
+      1781,
+      2887
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Southeastern pond east of Georgefield southeast tip",
+    [
+      2026,
+      3018
+    ],
+    [
+      2011,
+      3008
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Pond northwest of South Maitland southern shore",
+    [
+      2160,
+      2346
+    ],
+    [
+      2152,
+      2346
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Pond at southeast sheet corner southern shore",
+    [
+      5084,
+      3469
+    ],
+    [
+      5094,
+      3466
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Noel Shore cape east of unnamed creek northern apex",
+    [
+      318,
+      250
+    ],
+    [
+      303,
+      253
+    ],
+    "WACO20"
+  ]
+]

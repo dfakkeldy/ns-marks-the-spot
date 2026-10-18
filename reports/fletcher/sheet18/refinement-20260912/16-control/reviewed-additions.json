@@ -1,0 +1,35 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -61.1697131,
+        45.8547673
+      ],
+      "source_guide_xy": [
+        2744.5505004981533,
+        3235.1452832215
+      ],
+      "objectids": [
+        62589,
+        62590,
+        195769
+      ],
+      "id": "C17",
+      "modern_node_id": "J0563",
+      "role": "control",
+      "pixel_xy": [
+        2716,
+        3259
+      ],
+      "identity_evidence": "Small isolated pond southwest outlet east of road south of A. Cumming; separate southern drainage from repaired Ashfield pond.",
+      "source_uncertainty_px": 15,
+      "status": "Promoted unchanged after failed fifteen-control fresh validation. All original proposal/correction frames and failure retained; personally reviewed exact outlet and downstream drainage. New fit frozen before any new checks.",
+      "pre_review_pixel_xy": [
+        2690,
+        3236
+      ],
+      "promoted_from": "F04",
+      "prior_error_ground_m": 943.9928298125147
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T18:24:20.532505+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "094",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6122,
+        5236
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        6031,
+        4193
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Full Eden Lake islands and original mapped frame retained."
+  ]
+}

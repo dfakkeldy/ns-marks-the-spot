@@ -1,0 +1,84 @@
+{
+  "scope": "Same Hay/Low Point diagnostics; Low Point first result preserved and now diagnostic because used in selection. Rouses Point was a prospective control before scoring.",
+  "models": {
+    "affine3_same_two": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 228.38001178470836,
+          "north_ground_m": 470.09081400688797,
+          "error_ground_m": 522.6306565792348
+        },
+        {
+          "label": "CB09",
+          "east_ground_m": -532.8402217617737,
+          "north_ground_m": -304.54435467374907,
+          "error_ground_m": 613.7311837366474
+        }
+      ],
+      "rms_ground_m": 570.003846077914,
+      "median_ground_m": 568.180920157941,
+      "p95_ground_m": 609.1761573787768,
+      "max_ground_m": 613.7311837366474,
+      "mean_east_ground_m": -152.23010498853267,
+      "mean_north_ground_m": 82.77322966656945,
+      "scatter_rms_ground_m": 543.0275979444874,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "affine4": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 231.4390383967246,
+          "north_ground_m": 476.9834008041937,
+          "error_ground_m": 530.1671369829845
+        },
+        {
+          "label": "CB09",
+          "east_ground_m": -145.82541321513253,
+          "north_ground_m": 567.4086508863239,
+          "error_ground_m": 585.847785896646
+        }
+      ],
+      "rms_ground_m": 558.7015399015547,
+      "median_ground_m": 558.0074614398152,
+      "p95_ground_m": 583.0637534509628,
+      "max_ground_m": 585.847785896646,
+      "mean_east_ground_m": 42.80681259079604,
+      "mean_north_ground_m": 522.1960258452589,
+      "scatter_rms_ground_m": 193.97499342854164,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "tps4": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 290.0748405335942,
+          "north_ground_m": 609.1013605845509,
+          "error_ground_m": 674.6464856326913
+        },
+        {
+          "label": "CB09",
+          "east_ground_m": -393.6679763529686,
+          "north_ground_m": 9.013822536583225,
+          "error_ground_m": 393.7711576570362
+        }
+      ],
+      "rms_ground_m": 552.3602109036746,
+      "median_ground_m": 534.2088216448637,
+      "p95_ground_m": 660.6027192339086,
+      "max_ground_m": 674.6464856326913,
+      "mean_east_ground_m": -51.796567909687184,
+      "mean_north_ground_m": 309.05759156056706,
+      "scatter_rms_ground_m": 454.8651703979001,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "geographic_acceptance": false
+}

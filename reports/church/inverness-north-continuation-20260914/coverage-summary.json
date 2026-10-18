@@ -1,0 +1,34 @@
+{
+  "raster_sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "preserved_full_panel_boundary": true,
+  "expected_interior_cells": 10084453,
+  "transparent_interior_cells": 0,
+  "sampled_orientation": {
+    "sample_count": 14611,
+    "coarse_spacing_native_px": 200,
+    "near_control_spacing_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.11390542867284,
+      -13.979970495264544
+    ],
+    "anisotropy_range": [
+      1.0018738847397162,
+      1.149584868348651
+    ],
+    "scope": "Finite one-pixel forward differences only, not a proof of the continuous TPS surface"
+  },
+  "actual_windows": [
+    "I14 control - not validation",
+    "I15 fresh",
+    "N03 diagnostic",
+    "I13 diagnostic"
+  ],
+  "limits": [
+    "One current fresh check cannot establish whole-panel accuracy",
+    "Blair and Corney source/reference topology not resolved sufficiently for a point",
+    "Northern control does not validate neighbouring headland widths or river placement",
+    "Intervening coast, interior, southern edge and adjacent-panel seams remain unvalidated"
+  ],
+  "geographic_acceptance": false
+}

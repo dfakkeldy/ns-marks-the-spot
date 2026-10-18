@@ -1,0 +1,325 @@
+{
+  "count": 10,
+  "rms_ground_m": 175.20614129354308,
+  "median_ground_m": 81.76206724853168,
+  "p95_ground_m": 340.68357443954307,
+  "max_ground_m": 382.85081862966877,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 9.157591985620183,
+  "mean_north_ground_m": -13.893375067444978,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Small pond west of Eddy Cove north tip",
+      "role": "check",
+      "pixel_xy": [
+        1465,
+        2371
+      ],
+      "lonlat": [
+        -61.30373807718948,
+        45.509335223442086
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 133711,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1477.830333626829,
+        2381.0214415839873
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.30408563980619,
+        45.510008519493695
+      ],
+      "error_ground_m": 79.60777138532475,
+      "east_ground_m": -27.1600079105319,
+      "north_ground_m": 74.83135195383
+    },
+    {
+      "id": "Q02",
+      "label": "Pond southwest of Eddy Cove south tip",
+      "role": "check",
+      "pixel_xy": [
+        1940,
+        2425
+      ],
+      "lonlat": [
+        -61.27317828884954,
+        45.515163633387154
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 129565,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1940.3887886279263,
+        2430.5917068151757
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.27260373643098,
+        45.51568696039333
+      ],
+      "error_ground_m": 73.47404588969553,
+      "east_ground_m": 44.893432897960444,
+      "north_ground_m": 58.16369230058738
+    },
+    {
+      "id": "Q03",
+      "label": "Marys Lake south tip",
+      "role": "check",
+      "pixel_xy": [
+        2009,
+        2635
+      ],
+      "lonlat": [
+        -61.26297435890666,
+        45.50679259667248
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 135749,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2015.080934022495,
+        2648.048021184164
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.2630896181529,
+        45.507543274094544
+      ],
+      "error_ground_m": 83.91636311173859,
+      "east_ground_m": -9.00723652594347,
+      "north_ground_m": 83.43156290078036
+    },
+    {
+      "id": "Q04",
+      "label": "Birch Island southeast corner",
+      "role": "check",
+      "pixel_xy": [
+        3330,
+        590
+      ],
+      "lonlat": [
+        -61.229311208012355,
+        45.62017838492018
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 27661,
+      "reference_feature_code": "WACORVIS10",
+      "guide_reference_pixel_xy": [
+        3350.6163805390242,
+        618.6215321279597
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.229106387639156,
+        45.6206901076113
+      ],
+      "error_ground_m": 59.07558193393685,
+      "east_ground_m": 15.97412689169668,
+      "north_ground_m": 56.8748771504718
+    },
+    {
+      "id": "Q05",
+      "label": "McNamara Island southeast tip",
+      "role": "check",
+      "pixel_xy": [
+        3285,
+        1697
+      ],
+      "lonlat": [
+        -61.20340251361388,
+        45.57018324234104
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 19597,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3318.2845074178767,
+        1730.364856897737
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.20491979579714,
+        45.57080874528955
+      ],
+      "error_ground_m": 137.3354967352086,
+      "east_ground_m": -118.43910178597139,
+      "north_ground_m": 69.52134802806117
+    },
+    {
+      "id": "Q06",
+      "label": "McLeod Island northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        3215,
+        1375
+      ],
+      "lonlat": [
+        -61.21801592866652,
+        45.58396875624121
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 16914,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3225.185565730848,
+        1384.0911706216866
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.21723527620207,
+        45.58390981733338
+      ],
+      "error_ground_m": 61.27471829020304,
+      "east_ground_m": 60.92359036405632,
+      "north_ground_m": -6.550361722562092
+    },
+    {
+      "id": "Q07",
+      "label": "Bumbo Island north tip",
+      "role": "check",
+      "pixel_xy": [
+        3305,
+        1265
+      ],
+      "lonlat": [
+        -61.214844549234215,
+        45.58996822318654
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 17309,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3314.7746924140956,
+        1284.0696481110062
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.214198369174255,
+        45.59031657677605
+      ],
+      "error_ground_m": 63.57319955413352,
+      "east_ground_m": 50.42337391125678,
+      "north_ground_m": 38.71737420016072
+    },
+    {
+      "id": "Q08",
+      "label": "Thomas Head northwest corner on Janvrin Island",
+      "role": "check",
+      "pixel_xy": [
+        3110,
+        2355
+      ],
+      "lonlat": [
+        -61.20057878554343,
+        45.54206426011346
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 22246,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3139.9043598134303,
+        2293.2335417994764
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.19998510399507,
+        45.53864492772232
+      ],
+      "error_ground_m": 382.85081862966877,
+      "east_ground_m": 46.369247121071375,
+      "north_ground_m": -380.0324226257972
+    },
+    {
+      "id": "Q09",
+      "label": "Delorier Island south tip",
+      "role": "check",
+      "pixel_xy": [
+        3620,
+        2980
+      ],
+      "lonlat": [
+        -61.15182281124901,
+        45.52212030368336
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 18503,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3652.3541573986877,
+        2941.012059187633
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.15234151602358,
+        45.519544393193684
+      ],
+      "error_ground_m": 289.14583154050075,
+      "east_ground_m": -40.52693230894279,
+      "north_ground_m": -286.2915989945811
+    },
+    {
+      "id": "Q10",
+      "label": "Cranberry Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        1415,
+        2740
+      ],
+      "lonlat": [
+        -61.29910447408135,
+        45.4914205264538
+      ],
+      "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+      "reference_objectid": 128930,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1402.4895141873276,
+        2754.6195549176773
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+      "review": "Final adopted physical pair audited before fitting; all checks excluded from fit.",
+      "predicted_lonlat": [
+        -61.29823294870324,
+        45.49279175323533
+      ],
+      "error_ground_m": 166.9340100680538,
+      "east_ground_m": 68.12542720154978,
+      "north_ground_m": 152.4004261345992
+    }
+  ],
+  "fit_sha256": "edf79348385f7b8faed2a9f7614e911714452ce4d9e150ceb5821a1e9f04a555",
+  "checks_sha256": "fd375fdb46b8cf3556f641781817f151dc82118df8d3ea9247ba647997566347",
+  "status": "Independent physical checks selected and audited before first frozen affine score"
+}

@@ -1,0 +1,255 @@
+{
+  "count": 8,
+  "rms_ground_m": 63.3320364953275,
+  "median_ground_m": 54.205998628259394,
+  "p95_ground_m": 99.15920603452038,
+  "max_ground_m": 111.00473073087561,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -19.21018084996612,
+  "mean_north_ground_m": -28.434235007670722,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Northwestern forked lake southwestern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        2123,
+        344
+      ],
+      "lonlat": [
+        -60.62616381379092,
+        46.543044239825946
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 135393,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2171.018220773316,
+        317.8138694820227
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.62548179761295,
+        46.54320050980094
+      ],
+      "error_ground_m": 55.12076443700894,
+      "east_ground_m": 52.31185097237596,
+      "north_ground_m": 17.37149734375703
+    },
+    {
+      "id": "Q02",
+      "label": "Northern central hooked pond southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        2476,
+        629
+      ],
+      "lonlat": [
+        -60.5955141519856,
+        46.53647189283984
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 38618,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2536.534336710698,
+        597.8439996808302
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.595691956214914,
+        46.53615489696821
+      ],
+      "error_ground_m": 37.78549949140389,
+      "east_ground_m": -13.639664046743972,
+      "north_ground_m": -35.23781401430633
+    },
+    {
+      "id": "Q03",
+      "label": "Big Lake southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        1129,
+        2853
+      ],
+      "lonlat": [
+        -60.62688479600349,
+        46.41333982154122
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 125386,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1211.695535366889,
+        2820.5923188509187
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.62729039829303,
+        46.413465136476354
+      ],
+      "error_ground_m": 34.15427809181716,
+      "east_ground_m": -31.184442850545214,
+      "north_ground_m": 13.930012062961802
+    },
+    {
+      "id": "Q04",
+      "label": "Long Lake southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        1050,
+        2936
+      ],
+      "lonlat": [
+        -60.630543497891715,
+        46.40821278828579
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 134356,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1124.6702922505792,
+        2901.3397934194654
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.63031201338556,
+        46.4084114181448
+      ],
+      "error_ground_m": 28.36050368205669,
+      "east_ground_m": 17.7991651209223,
+      "north_ground_m": 22.079580840634048
+    },
+    {
+      "id": "Q05",
+      "label": "Southwestern island lake southern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        1847,
+        2945
+      ],
+      "lonlat": [
+        -60.578175564744996,
+        46.42151438816031
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 42157,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1930.2982172192424,
+        2906.3052752082003
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.57888708930388,
+        46.4211609913388
+      ],
+      "error_ground_m": 67.34218679233513,
+      "east_ground_m": -54.697362911562415,
+      "north_ground_m": -39.283184856813634
+    },
+    {
+      "id": "Q06",
+      "label": "Southern western bell lake northern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        2557,
+        2783
+      ],
+      "lonlat": [
+        -60.536911406037966,
+        46.44059925231474
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 39793,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2627.799741057097,
+        2743.4685030363034
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.53724957184036,
+        46.44018070497477
+      ],
+      "error_ground_m": 53.29123281950985,
+      "east_ground_m": -25.986938075920598,
+      "north_ground_m": -46.52563320215505
+    },
+    {
+      "id": "Q07",
+      "label": "Southern long northeastern lake southwestern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        2791,
+        2686
+      ],
+      "lonlat": [
+        -60.52415059155989,
+        46.44903830588336
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 38765,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2861.956443037372,
+        2643.9703850684455
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.52459588817283,
+        46.448416139868385
+      ],
+      "error_ground_m": 77.160374455575,
+      "east_ground_m": -34.21443505193736,
+      "north_ground_m": -69.15992929580908
+    },
+    {
+      "id": "Q08",
+      "label": "Eastern lower paired pond northern tip",
+      "role": "independent-check",
+      "pixel_xy": [
+        3634,
+        2210
+      ],
+      "lonlat": [
+        -60.481262078912785,
+        46.484607223459825
+      ],
+      "guide_file": ".crown-grant-local/129-adjacent-guide.npy",
+      "reference_objectid": 139488,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3701.1334277027636,
+        2169.8596785195405
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad lake outline inspected before first fitting and scoring; excluded from fit.",
+      "predicted_lonlat": [
+        -60.48209647737585,
+        46.483791749233035
+      ],
+      "error_ground_m": 111.00473073087561,
+      "east_ground_m": -64.06961995631768,
+      "north_ground_m": -90.64840893963456
+    }
+  ],
+  "fit_sha256": "27eb95e05ec73a086b8e0d3fb8c346e2280bc69a844c0d2ed61c714304da328f",
+  "checks_sha256": "31924c7510b23832fae881da984011b64ecf0a517d974fdfd66ff6be91f94e63",
+  "status": "Frozen before first main-map scoring"
+}

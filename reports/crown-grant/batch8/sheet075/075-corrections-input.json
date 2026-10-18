@@ -1,0 +1,54 @@
+[
+  [
+    "C07",
+    "Porter Lake eastern islet northern tip",
+    [
+      595,
+      3006
+    ],
+    [
+      626,
+      3011
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q07",
+    "Porter Lake eastern islet southern tip",
+    [
+      596,
+      3031
+    ],
+    [
+      622,
+      3033
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q01",
+    "Griswold Lake southwestern bay tip",
+    [
+      809,
+      698
+    ],
+    [
+      889,
+      716
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Western Arm Jeddore main island western tip",
+    [
+      3932,
+      3311
+    ],
+    [
+      3973,
+      3336
+    ],
+    "WACOIS10"
+  ]
+]

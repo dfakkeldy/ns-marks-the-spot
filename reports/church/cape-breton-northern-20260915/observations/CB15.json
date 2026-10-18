@@ -1,0 +1,51 @@
+{
+  "id": "CB15",
+  "role": "check",
+  "label": "MacAdams Lake eastern tip at Bonds Meadow Brook connection",
+  "pixel_xy": [
+    14630.0,
+    23012.5
+  ],
+  "lonlat": [
+    -60.351415667092155,
+    45.9141849459962
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      14000,
+      22700
+    ],
+    "extent": [
+      1400,
+      1100
+    ],
+    "display": [
+      1680,
+      1320
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    756,
+    375
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-northern-20260915/CB4-macadams-native.jpg",
+  "source_crop_sha256": "50e0ad40564ebba5a685af7dda2cf484a924034ec68eca729f0ebcb5224d6932",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    131999
+  ],
+  "reference_vertex": {
+    "feature_id": 131999,
+    "vertex": 342
+  },
+  "uncertainty_ground_m": 180,
+  "official_identity_key": "CAWDM",
+  "identity_evidence": "The unnamed historical lake lies west of the Mira River and south of the larger looping Salmon River reach. It connects east through a brook toward the Mira and southwest to a smaller elongated pool; separate ponds lie southeast on another stream. This distinguishes it from the nearby ponds and agrees with the original geometry around official MacAdams Lake CAWDM. The representative name point lies within the reconstructed water polygon but is not used as a GCP. Match the eastern narrowing/tip where the shore meets the east-going brook. Original WALK20 feature131999 (Bonds Meadow Brook attribute) vertex342 is the eastern shore extremity at that connection. The historical lake and southwestern approach are more diagonally drawn than modern geometry; retain180m uncertainty for source generalization and point-definition limits, without assuming whole-outline equivalence.",
+  "phase": "Fresh physical check against frozen TPS8; not used in selection or fitting",
+  "recorded_at": "2026-09-15T13:32:09.602023+00:00"
+}

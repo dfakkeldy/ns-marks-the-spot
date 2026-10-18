@@ -1,0 +1,26 @@
+{
+  "file": "hawkesbury-corridor-preview.tif",
+  "sha256": "c320023ccd7c21402b315d313590d2b5aa75ab0f0392b02b34857a6b83838c47",
+  "bytes": 3506791,
+  "dimensions": [
+    2588,
+    4007
+  ],
+  "bands": 4,
+  "crs": "EPSG:3857",
+  "cell_size_projected_m": 5,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "controls": 19,
+  "preserved_hand_controls": 17,
+  "model": "TPS",
+  "coverage": "500 ground metre half-width around Route 19 / Highway 4 within observed hull and native content; latitude 45.6185999 to 45.7442922. Not the full sheet or full town.",
+  "alpha_nonzero_cells": 1387585,
+  "input_hashes": {
+    "revised-observations.json": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241",
+    "checks.json": "9e42f04197073da686eaee543c8fa2e01dc08201bddef956da977502d2400221",
+    "validation-checks.json": "73667e7d7542b85e79d2d5abcdee6f6c7953b190c5e89add55e0e87b278984b3",
+    "tps-validation-checks.json": "6f69f48ecfcd5cdf7201318462dd27db47268cbdcd39f558961cb93465ea7ed4",
+    "model-revision.json": "492dcd11520898baa1ea17bed84a1134b7a5cf02aaff9b5a4eff2da1c0f90fcb"
+  },
+  "source_boundary": "../sheet22/boundary.json"
+}

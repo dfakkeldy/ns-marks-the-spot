@@ -1,0 +1,10 @@
+{
+  "original_path": "observations/VN14.json",
+  "original_sha256": "218969311a486dcbbdc921c4439af84b49087872987bf6ed808b7d940de9198c",
+  "correction": "The full Smoky Cape context extends into the restored southern crop; this measured northern shore turn itself lies25 native pixels north of the old y20000 limit and is inside both boundaries. The original phase sentence claiming this pixel lies in restored content is incorrect.",
+  "pixel_xy": [
+    11031.0,
+    19975.0
+  ],
+  "coordinates_roles_and_scores_changed": false
+}

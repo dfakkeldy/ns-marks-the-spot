@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5653 x 3895 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 92.99 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          100
+        ],
+        [
+          5570,
+          100
+        ],
+        [
+          5570,
+          3770
+        ],
+        [
+          80,
+          3770
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Amherst, Cumberland Basin, Minudie, Amherst Point, Nappan, Maccan, Truemansville, Hastings, Salem, Round Lake, Long Lake and Blairs Lake, including mapped northern border context, tidal channels, inland parcels and southern edge. No displaced inset identified."
+    }
+  ]
+}

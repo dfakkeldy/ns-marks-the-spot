@@ -1,0 +1,18 @@
+{
+  "metric_sets_replayed": 24,
+  "fresh_observations_audited": 7,
+  "derived_crop_frames_verified": 3,
+  "reference_features_by_file": {
+    "southwest-water-lines.geojson": 2406,
+    "south-west-water-lines.geojson": 4435,
+    "water-lines.geojson": 62719
+  },
+  "original_lake_exteriors_verified": 3,
+  "all_checks_outside_control_hull": true,
+  "retained_affine_and_raster_unchanged": true,
+  "accepted_baseline_inputs_unchanged": true,
+  "actual_raster_windows": 7,
+  "editable_inventories": 3,
+  "first_five_inputs_unchanged": true,
+  "geographic_acceptance": false
+}

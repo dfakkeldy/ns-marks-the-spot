@@ -1,0 +1,195 @@
+{
+  "count": 6,
+  "rms_ground_m": 263.2388861184886,
+  "median_ground_m": 137.69146002437,
+  "p95_ground_m": 474.169048981611,
+  "max_ground_m": 576.6165494909261,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 56.404561071883045,
+  "mean_north_ground_m": 42.44779512379292,
+  "points": [
+    {
+      "id": "MQ02",
+      "label": "Grand Etang upper lake southeastern hook",
+      "role": "check",
+      "pixel_xy": [
+        2363,
+        1647
+      ],
+      "lonlat": [
+        -61.018762915199595,
+        46.555966914482816
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 126294,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2309.2722550937324,
+        1656.3312777942047
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -61.0185034514829,
+        46.557456952021084
+      ],
+      "error_ground_m": 166.82654745366565,
+      "east_ground_m": 19.896117352142802,
+      "north_ground_m": 165.6358700572431
+    },
+    {
+      "id": "MQ03",
+      "label": "Grand Etang narrow lake southwestern tip",
+      "role": "check",
+      "pixel_xy": [
+        2059,
+        1768
+      ],
+      "lonlat": [
+        -61.03508564256821,
+        46.54590424001836
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 134448,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2013.4008495520102,
+        1768.7446399503388
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -61.035194935021934,
+        46.54688454730045
+      ],
+      "error_ground_m": 109.29482984525632,
+      "east_ground_m": -8.382358055837296,
+      "north_ground_m": 108.97291362686083
+    },
+    {
+      "id": "MQ04",
+      "label": "St Joseph narrow cape northern apex",
+      "role": "check",
+      "pixel_xy": [
+        1420,
+        1933
+      ],
+      "lonlat": [
+        -61.072753178586595,
+        46.52800308182206
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 5154,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1370.51679365983,
+        1924.2109058641363
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -61.07246352850641,
+        46.528641302776435
+      ],
+      "error_ground_m": 74.34474207681647,
+      "east_ground_m": 22.22261342072065,
+      "north_ground_m": 70.94572663114792
+    },
+    {
+      "id": "MQ05",
+      "label": "Pembroke western satellite pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2149,
+        3022
+      ],
+      "lonlat": [
+        -61.005101716186665,
+        46.494882671664165
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 134550,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2033.7238489814335,
+        2916.768803526531
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -60.998488615097365,
+        46.49242347167301
+      ],
+      "error_ground_m": 576.6165494909261,
+      "east_ground_m": 507.70929641598474,
+      "north_ground_m": -273.345780065483
+    },
+    {
+      "id": "MQ07",
+      "label": "Park round pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        4817,
+        1828
+      ],
+      "lonlat": [
+        -60.85367620820673,
+        46.590313026322185
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 140151,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4793.23278815113,
+        1830.1030884033535
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -60.85510550422643,
+        46.590979027513974
+      ],
+      "error_ground_m": 132.20747996301876,
+      "east_ground_m": -109.53332762799164,
+      "north_ground_m": 74.03558534185468
+    },
+    {
+      "id": "MQ08",
+      "label": "Park hooked lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4753,
+        1958
+      ],
+      "lonlat": [
+        -60.854845495010466,
+        46.58311266106272
+      ],
+      "guide_file": ".crown-grant-local/120-main-adjacent-guide.npy",
+      "reference_objectid": 140148,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4723.540527906618,
+        1964.5837914708536
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Original-frame crosshair and contextual coast/lake shape inspected before scoring; excluded from fitting",
+      "predicted_lonlat": [
+        -60.85606522214348,
+        46.58408818357959
+      ],
+      "error_ground_m": 143.17544008572125,
+      "east_ground_m": -93.48497507372106,
+      "north_ground_m": 108.44245515113398
+    }
+  ],
+  "fit_sha256": "3554763ede4b22c0b21f58de4bfef8903f56a68bbccefb25e46687f03d5854af",
+  "checks_sha256": "79a661f9e2f55b34e72a0ed5b9157afb9e38c01163517fbab53b8b74ff761ab3",
+  "status": "Diagnostic reuse of the original six excluded checks for a constrained similarity comparator; not fresh validation"
+}

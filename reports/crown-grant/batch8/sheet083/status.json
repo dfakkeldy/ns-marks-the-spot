@@ -1,0 +1,45 @@
+{
+  "sheet": "083",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with regional evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/083.pdf",
+    "pdf_sha256": "48d0edb25b76f0e9dd5885d4bb629c95b8e6af9c0ea69138e3257e910022e697",
+    "jpeg_sha256": "29f07cacef96715ec6a6436df3b6ad0d0cefe1cd5d3b940b68bc2fad02d09b16",
+    "dimensions": [
+      6066,
+      4089
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 73.83756938652589,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 73.84 m, median 62.72 m, P95 108.71 m and maximum 113.06 m; all numerical bounds pass with regional evidence qualifications.",
+    "All seven checks share lake systems with controls, so spatial correlation is substantial. These are not seven separate regional accuracy samples.",
+    "Far northeastern lake complexes, central connected-water interiors and far western Lake Charlotte corridor lack accepted independent validation.",
+    "Natural generalized lake observations use 12 px working source uncertainty. Dam Lake and changed or generalized connections remain unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 73.84 m, median 62.72 m, P95 108.71 m, maximum 113.06 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Mooseland, Tangier Grand Lake Wilderness, Lake Charlotte and Ship Harbour Lake corridors, Maple Hill, Melville, Big Ash, Little Kearney, Camp, southern Rocky and Cranberry lakes, all large central/northeastern connected lake systems, islands and inland parcels. No displaced inset identified."
+  }
+}

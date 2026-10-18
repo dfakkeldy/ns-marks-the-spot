@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-24T22:49:13.027084+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "075",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6101,
+        5199
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5322,
+        3640
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete original mapped frame inspected at 65%,40%,modern-only and restored65%.",
+    "Initial local modern-reference fetch failed; unchanged reference URL returned HTTP200 with22013293bytes, reselection recovered visibly painted modern water and normal provisional status. No console warnings/errors recorded."
+  ]
+}

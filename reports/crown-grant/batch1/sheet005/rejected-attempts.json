@@ -1,0 +1,6 @@
+[
+  {
+    "packet": "005-main-checks2",
+    "reason": "A mutable search-guide cache still held the inset frame. Its wrong modern candidate was rejected at crosshair review and never scored or fitted. Follow-up packet checks3 uses the explicitly named main frozen guide."
+  }
+]

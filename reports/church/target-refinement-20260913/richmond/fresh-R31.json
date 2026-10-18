@@ -1,0 +1,47 @@
+{
+  "id": "R31",
+  "label": "McIntyre Lake western lake\u2013stream junction",
+  "role": "check",
+  "pixel_xy": [
+    8620.5,
+    15326.5
+  ],
+  "lonlat": [
+    -61.132155660971904,
+    45.65003938675237
+  ],
+  "source_display_pixel_xy": [
+    241,
+    553
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      8500,
+      15050
+    ],
+    "extent": [
+      450,
+      380
+    ],
+    "display": [
+      900,
+      760
+    ],
+    "rotation": 0
+  },
+  "source_crop_sha256": "ab2bfd41d0f48a7581cfe46946e84e46c497064822e13cdcc3fcdb7896a0a7e8",
+  "reference_feature_ids": [
+    131784,
+    131786,
+    198494
+  ],
+  "reference_vertex": {
+    "feature_id": 131784,
+    "vertex": 0
+  },
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "McIntyre Lake is north/northeast of the three-armed upper McMillan basin and west/northwest of Buchanan Lake. The western shoreline convergence is visible below the lake label and meets the westward single-stream continuation. Modern lake shores 131784/131786 meet stream 198494 at that coordinate. The whole centroid was withheld because the northern shore is obscured by the Mills label; no hidden boundary was reconstructed. Flow direction is not inferred from the endpoint order.",
+  "phase": "New post-freeze check, not fit. Shares the western mainland region with McMillan control R21; not a distinct whole-panel region."
+}

@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T23:36:15.263721+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "070",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6173,
+        5247
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5676,
+        3894
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete original mapped frame and modern reference visibly inspected; median companion-bound failure and northern coverage limitation retained."
+  ]
+}

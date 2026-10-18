@@ -1,0 +1,44 @@
+{
+  "count": 5,
+  "points": [
+    {
+      "label": "N03",
+      "east_ground_m": -6.230249169260632,
+      "north_ground_m": -32.209859993997775,
+      "error_ground_m": 32.8068755833897
+    },
+    {
+      "label": "I13",
+      "east_ground_m": -88.29161120322804,
+      "north_ground_m": -333.80892428448357,
+      "error_ground_m": 345.28800520844345
+    },
+    {
+      "label": "I15",
+      "east_ground_m": -311.5929174818237,
+      "north_ground_m": -276.5456786313754,
+      "error_ground_m": 416.6145203836786
+    },
+    {
+      "label": "I16",
+      "east_ground_m": -93.10173818195307,
+      "north_ground_m": 17.44811407484337,
+      "error_ground_m": 94.72259676164757
+    },
+    {
+      "label": "I17",
+      "east_ground_m": 11.809937010279599,
+      "north_ground_m": -246.16193343162894,
+      "error_ground_m": 246.44506909854067
+    }
+  ],
+  "rms_ground_m": 269.65730052833607,
+  "median_ground_m": 246.44506909854067,
+  "p95_ground_m": 402.34921734863156,
+  "max_ground_m": 416.6145203836786,
+  "mean_east_ground_m": -97.48131580519717,
+  "mean_north_ground_m": -174.25565645332844,
+  "scatter_rms_ground_m": 181.2385692702752,
+  "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+  "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+}

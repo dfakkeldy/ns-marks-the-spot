@@ -1,7 +1,13 @@
-NS Marks the Spot does not require a login. Location access is optional and used only to show the user's current position on the map.
+NS Marks the Spot is an iPhone and iPad map and research app. No login, account or purchase is required.
 
-The app displays historical Hugh Fletcher map overlays and Nova Scotia reference layers. Historical maps and provincial geographic layers are for reference only and are not navigation-grade. The app includes an in-app navigation disclaimer and a Data Sources & Licenses section.
+The app opens a map of Nova Scotia. The Layers control opens the map-layer panel; Historical Maps contains Fletcher. Offline Maps manages saved Fletcher areas, and Save Area prepares an estimate before a download. Online public-data services and the configured tile host require a network connection. A saved offline area does not make parcel searches or provincial reference services available offline.
 
-Some provincial geographic services are provided under the Province of Nova Scotia Restricted Geographic Services License. The app includes the required attribution: "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
+Search by PID or civic address, or tap a parcel to inspect its public record. Tax-sale notices are dated municipal records with source links, not listings or offers. The map is for screening and research, not surveying, title decisions, route guidance, emergency use or flood-risk assessment. Map Info lists source credits, licences and limitations.
 
-NS Aerial and restricted Nova Scotia reference layers are online services with viewed-tile caching only in version 1.0. Saved offline areas download Fletcher historical tiles only.
+Province-restricted features require the in-app viewing disclosure before requests or display. Acceptance can be withdrawn in Map Info. Four municipal query services and unconfirmed reproduction/export uses remain locked. Fletcher viewing and saved offline tiles remain available; the app does not treat viewing permission as permission to reproduce restricted material in an export.
+
+Location permission is optional and requested When In Use. It supports showing position, placing a mark and recording a track. During an active recording, location updates can continue off screen when iOS permits it. The app does not request Always authorization. Recorded tracks are stored locally. System backups may include saved library files, depending on device settings. The user chooses any export or sharing destination. When the map follows the device position, separate map and layer requests can disclose the surrounding viewed area to the selected providers.
+
+A recording Live Activity shows elapsed time, distance and recording status, with Pause and Resume. It contains no coordinates and uses no remote activity-push server. Stop and Save are in the app. A local checkpoint can offer recovery after an interrupted recording; that checkpoint directory is excluded from system backup.
+
+Camera access is optional for taking feature photos. Attaching selected images uses the system photo picker. The optional Photo map requests Photos access to display accessible geotagged library images on the map. Imported maps, drawings, marks, tracks and attached photo files are stored locally; the user chooses any export or sharing destination.

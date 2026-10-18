@@ -1,0 +1,214 @@
+{
+  "status": "Six independent coastal/island checks; main interior and eastern edge validation remain sparse",
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Sea Wolf Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3076,
+        759
+      ],
+      "lonlat": [
+        -61.26502397807037,
+        46.352357147545746
+      ],
+      "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+      "reference_objectid": 19024,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3056.0199430934736,
+        769.4000712329289
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ02",
+      "label": "Sea Wolf Island western corner",
+      "role": "check",
+      "pixel_xy": [
+        3027,
+        714
+      ],
+      "lonlat": [
+        -61.268610010238234,
+        46.35311625908472
+      ],
+      "guide_file": ".crown-grant-local/114-main-adjacent-guide.npy",
+      "reference_objectid": 19024,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3010.5992500081775,
+        733.8812578431098
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ03",
+      "label": "Inverness pond western lobe northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1314,
+        3025
+      ],
+      "lonlat": [
+        -61.31664267308059,
+        46.22828377526824
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 5589,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1330.318861026375,
+        3036.613184247748
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ04",
+      "label": "Inverness coastal inlet northern lip",
+      "role": "check",
+      "pixel_xy": [
+        1205,
+        2963
+      ],
+      "lonlat": [
+        -61.32602990125728,
+        46.22965412555183
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 13087,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1203.639278376184,
+        2962.1703982247273
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ05",
+      "label": "Southern Broad Cove Marsh headland",
+      "role": "check",
+      "pixel_xy": [
+        2505,
+        2131
+      ],
+      "lonlat": [
+        -61.269882403472096,
+        46.2842766906988
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 10586,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2473.53227711661,
+        2135.6794755350566
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged"
+    },
+    {
+      "id": "MQ06",
+      "label": "Dunvegan cove southern lip",
+      "role": "check",
+      "pixel_xy": [
+        2702,
+        2002
+      ],
+      "lonlat": [
+        -61.26162264596749,
+        46.29189773141374
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 13217,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2656.848842011357,
+        2022.3865016731434
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and final native source/reference crosshairs audited before first score; frozen main affine unchanged"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "MQ07",
+      "label": "St Rose coastal inlet",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4337,
+        1067
+      ],
+      "lonlat": [
+        -61.18476414273586,
+        46.356696651542194
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 143113,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4311.561989308277,
+        1090.8627675510943
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Source marker is inland of the shoreline and does not define a secure inlet counterpart"
+    },
+    {
+      "id": "MQ08",
+      "label": "Chimney Corner bay southern corner",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4846,
+        478
+      ],
+      "lonlat": [
+        -61.16828885118059,
+        46.390586027664675
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 11205,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4828.416162970301,
+        485.8952345389407
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Historic coast/road/stream linework does not securely identify the proposed bay-corner point"
+    },
+    {
+      "id": "MQ09",
+      "label": "Coastal shoulder south of Chimney Corner",
+      "role": "rejected-check",
+      "pixel_xy": [
+        4511,
+        745
+      ],
+      "lonlat": [
+        -61.18016996553025,
+        46.372954094034476
+      ],
+      "guide_file": ".crown-grant-local/114-main-frozen-guide.npy",
+      "reference_objectid": 11066,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4511.030533655838,
+        784.328273612773
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reason": "Smooth coastal shoulder lacks an unambiguous common point; proposed modern marker was at a stream mouth"
+    }
+  ]
+}

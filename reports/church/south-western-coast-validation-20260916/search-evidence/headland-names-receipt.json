@@ -1,0 +1,7 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Finlay+Point%27%2C%27Green+Point%27%2C%27Sight+Point%27%29&%24limit=1000",
+  "retrieved": "2026-09-16T03:05:44.497065+00:00",
+  "sha256": "3fdda085bc3b4ee4b299b2df6614ca8fc50aa4ed9225178ff970aafc0047dd1e",
+  "count": 20,
+  "scope": "Name records for locality identification only; not control points"
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "lonlat": [
+      -61.424902523706635,
+      46.18523513425128
+    ],
+    "river": {
+      "feature_id": 196692,
+      "vertex": 33
+    },
+    "coast": [
+      {
+        "feature_id": 12778,
+        "vertex": 101
+      },
+      {
+        "feature_id": 12779,
+        "vertex": 0
+      }
+    ],
+    "distance_from_name_m": 191.19032063688738
+  },
+  {
+    "lonlat": [
+      -61.42903048545409,
+      46.178201597551016
+    ],
+    "river": {
+      "feature_id": 267904,
+      "vertex": 62
+    },
+    "coast": [
+      {
+        "feature_id": 12741,
+        "vertex": 124
+      },
+      {
+        "feature_id": 12742,
+        "vertex": 0
+      }
+    ],
+    "distance_from_name_m": 659.6759998994079
+  }
+]

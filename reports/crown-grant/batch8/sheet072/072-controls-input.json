@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "Western Burton pond northern shore",
+    [
+      817,
+      2314
+    ],
+    [
+      800,
+      2308
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Northern pond east of Georgefield northern apex",
+    [
+      1809,
+      2870
+    ],
+    [
+      1799,
+      2858
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Southeastern pond east of Georgefield northwest tip",
+    [
+      1969,
+      2965
+    ],
+    [
+      1957,
+      2956
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Pond northwest of South Maitland northern tip",
+    [
+      2135,
+      2279
+    ],
+    [
+      2130,
+      2278
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Irwin Lake northern tip",
+    [
+      4206,
+      1737
+    ],
+    [
+      4213,
+      1737
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Pond at southeast sheet corner northern tip",
+    [
+      5091,
+      3420
+    ],
+    [
+      5094,
+      3415
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Salter Head northern apex",
+    [
+      2133,
+      645
+    ],
+    [
+      2121,
+      657
+    ],
+    "WACO20"
+  ]
+]

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5727 x 3921 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 129.32 m exceeds 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          155,
+          145
+        ],
+        [
+          5590,
+          145
+        ],
+        [
+          5590,
+          3820
+        ],
+        [
+          155,
+          3820
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Black Rock, Canada Creek, Chipman Brook, Halls Harbour, Baxter Harbour, North Mountain, Grafton, Waterville, Cambridge, Coldbrook, Kentville, Lakeville, Billtown, Centreville, Sheffield Mills, Canning, Habitant, Canard and Church Street, including all northern Minas Channel water and southern river reaches. No inset or internal crop."
+    }
+  ]
+}

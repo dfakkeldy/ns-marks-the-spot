@@ -1,0 +1,156 @@
+[
+  {
+    "id": "C01",
+    "label": "Grammo Point eastern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3940,
+      693
+    ],
+    "lonlat": [
+      -60.942292403850516,
+      45.882946605759564
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 13867,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3960.251586571627,
+      679.1868350785226
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Malagawatch Point outer eastern bend",
+    "role": "proposal",
+    "pixel_xy": [
+      4285,
+      1136
+    ],
+    "lonlat": [
+      -60.91335576680373,
+      45.86984237644467
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 13892,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4278.302360791422,
+      1109.1585477369372
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Cameron Island northwestern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2201,
+      1625
+    ],
+    "lonlat": [
+      -61.02633400848433,
+      45.81662935457316
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 24159,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2209.9226251151995,
+      1594.7850704129087
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Crammond northern island northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1002,
+      2366
+    ],
+    "lonlat": [
+      -61.08089205942386,
+      45.76496332827062
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23466,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1003.8939765201067,
+      2366.460379350232
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Tailor Island southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1560,
+      2081
+    ],
+    "lonlat": [
+      -61.05119146317811,
+      45.78610381227262
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23742,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1605.1243931384524,
+      2091.377487189253
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "McLeod Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2720,
+      2952
+    ],
+    "lonlat": [
+      -60.964093713602864,
+      45.76819728028973
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 13623,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2734.089063631429,
+      2940.666525640874
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "McInnis Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1140,
+      3396
+    ],
+    "lonlat": [
+      -61.04653820253854,
+      45.722333304964636
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 13631,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      1166.6954446821474,
+      3439.3721179859713
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

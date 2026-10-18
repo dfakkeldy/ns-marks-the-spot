@@ -1,0 +1,80 @@
+{
+  "sheet": "sheet-11",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 25,
+  "diagnostic_checks": 9,
+  "fresh_validation_checks_after_control_repairs": 0,
+  "fit_file": "refinement-20260910/central-fit.json",
+  "fit_sha256": "06246fcba7c1fd68414cff5d47ee3ddf0820cd33a47cc0dbad03457d3f7d4f2b",
+  "check_file": "refinement-20260910/central-checks.json",
+  "check_sha256": "ea30df2b475a41ca0811488d9a18371f7947ea4615b6bb42f86e8d98942341ca",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "transform": "GDAL TPS in EPSG:3857, 5 projected m output cells",
+  "scope": "Full main-sheet interior, western mapped mainland extension, separate Sea Wolf/Margaree Island component with printed name. Crop is a draft, not a seamless mosaic claim.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260910/sheet-11-exact.tif",
+  "raster_sha256": "1f8941f1b444e0c73a27eab9c07a0e96882dd354340a8df9b7d5848c46229521",
+  "raster_size": [
+    9450,
+    5956
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.273816,
+          46.4528926
+        ],
+        [
+          -61.273816,
+          46.2682738
+        ],
+        [
+          -60.8493621,
+          46.2682738
+        ],
+        [
+          -60.8493621,
+          46.4528926
+        ],
+        [
+          -61.273816,
+          46.4528926
+        ]
+      ]
+    ]
+  },
+  "orientation": [
+    {
+      "component": "mainland",
+      "samples": 72604,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -40.588688403626456,
+        -20.044179722336587
+      ]
+    },
+    {
+      "component": "island",
+      "samples": 814,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -25.847688150949164,
+        -24.507057108990914
+      ]
+    }
+  ],
+  "remaining": [
+    "Fresh independent checks in repaired Tompkins central valley and western interior; 24-control validation failure was converted to control T01, not counted as a passing check.",
+    "Q03 Grey headwater precise fork remains ambiguous; exclude from any independent-acceptance claim.",
+    "Nine diagnostic median 100.707 m is slightly above predeclared 100 m goal; do not silently round into acceptance. Worst 174.382 m is below 200 m goal.",
+    "Sheet11\u201314 footprint gap up to 139.445 m remains; no cosmetic stretching.",
+    "Whole-sheet acceptance and browser mesh/save/reload still outstanding before tile or production label promotion."
+  ],
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3",
+  "browser_scope": "No Sheet11 browser layer activated or user records changed. Import/serialization and solver checked separately; browser mesh/save/reload not claimed."
+}

@@ -1,0 +1,335 @@
+{
+  "passed": true,
+  "experiments": [
+    {
+      "directory": ".",
+      "counts": [
+        10,
+        3,
+        3
+      ],
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif",
+        "sha256": "c0c423c20dcf6fe1ed912683cb95a0bb29a741ae9a39c6f4411a20e560600add",
+        "size": [
+          9167,
+          5717
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -60.488419,
+                46.7926826
+              ],
+              [
+                -60.488419,
+                46.6165911
+              ],
+              [
+                -60.0766762,
+                46.6165911
+              ],
+              [
+                -60.0766762,
+                46.7926826
+              ],
+              [
+                -60.488419,
+                46.7926826
+              ]
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "directory": "11-control",
+      "counts": [
+        11,
+        5,
+        2
+      ],
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/11-control/sheet-04-full-sheet.tif",
+        "sha256": "e739f6a1cd4ede3a9df9662f6758b87e5e1a2819e1bab08ea0574b47b06b77b7",
+        "size": [
+          8865,
+          5926
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -60.4863079,
+                46.7901917
+              ],
+              [
+                -60.4863079,
+                46.6076434
+              ],
+              [
+                -60.0881297,
+                46.6076434
+              ],
+              [
+                -60.0881297,
+                46.7901917
+              ],
+              [
+                -60.4863079,
+                46.7901917
+              ]
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "figure_count": 60,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/adjacent-sheet-review/02-north-land.jpg",
+      "sha256": "95da700112c9142044af4b08a100fbe7411106907bfb86191e79b0f6fa93c71d"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/adjacent-sheet-review/02-north-sea.jpg",
+      "sha256": "da328089141ad32883cb78091d69398039eaa6d7f347c0f1ed6a73b45e68270a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/adjacent-sheet-review/05-west-north.jpg",
+      "sha256": "8fe7b03036c7e180d8a15d8080a6e48441c447a83829de699cadce3636f9f59c"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/adjacent-sheet-review/05-west-south.jpg",
+      "sha256": "93c119665a3c75ec96c4afd3a19db1f339e5842f6784b8df4cd76f0a0e7da006"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/adjacent-sheet-review/07-south-coast.jpg",
+      "sha256": "4fa19ee5c36245f5d69b61781eca1de8b2eec9aa98924a2c9b82d6ed24e4be3a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/adjacent-sheet-review/07-south-sea.jpg",
+      "sha256": "1d194506227c8da6bbe73f0ed20273c5c41f5c92f1d991103446c4c0787d68e7"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-additional-close/sheet-04-F07.jpg",
+      "sha256": "f3e39704a20ce7701427001582eff71f539f3c53e246e5a56e998af5e7a97954"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-additional-wide/sheet-04-F07.jpg",
+      "sha256": "5459b854900a90dfc427eea2bbeaba049d15d1716589c31cde096702543a82f9"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-close/sheet-04-F05.jpg",
+      "sha256": "ac5abf8a935961de54e61bdb3b015361efe5be5b66b05421b7b6c5cb60584fd7"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-close/sheet-04-F06.jpg",
+      "sha256": "34e402c06c22919936c1feb6b06f9d8b76396899aa1ba002513a69b3df3a8b97"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-corrected-close/sheet-04-F05.jpg",
+      "sha256": "3680e869b163cf82bfd050eb18140d77c672e0677be7412dfba60952e0a11725"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-corrected-close/sheet-04-F06.jpg",
+      "sha256": "c06de61a9801312cdf0e3c8f3fb3d77ef9503943d48b888d279b96dcb7028372"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-corrected-wide/sheet-04-F05.jpg",
+      "sha256": "efb7b9becd48424c51be9f04210216767b33ff348e05447c27fb3cc7ffd036f0"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-corrected-wide/sheet-04-F06.jpg",
+      "sha256": "b21a35e916c5b55b886ffb135b384a4f50ab6f715fb94535207a2c8457e61b7a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-final-close/sheet-04-F05.jpg",
+      "sha256": "61593c5254e033b87ddff07cde33e586b250c12bda3b61b94782e646a1ae13d8"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-final-wide/sheet-04-F05.jpg",
+      "sha256": "564b94e6bb2378277ffbbd4c1bf864f53ac8298835d41fbb143d73dddbb7cdf0"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-wide/sheet-04-F05.jpg",
+      "sha256": "ebd5f9203a61890a0f42db1eec44b408e4f051704c35c19d2a5efaa633aed613"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/fresh-wide/sheet-04-F06.jpg",
+      "sha256": "eab785b39cd2303ce6b22b463591c2e33ae42ec73047272b03787fadfcba708b"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/prior-close/sheet-04-V01.jpg",
+      "sha256": "30aafc48398f460e424677ca053609dece47a59edde37eed44a3ea67c7d518bb"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/prior-close/sheet-04-V03.jpg",
+      "sha256": "70ad6581833ebb8f9591be52b7287baa6f55a0af1d869ff625acaf5f0f577781"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/prior-close/sheet-04-V02.jpg",
+      "sha256": "21d3aa2af8950c8f501de3af9bbc74ceaadc57afb99ec0a7a6a8e110ab30f62d"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/prior-wide/sheet-04-V01.jpg",
+      "sha256": "6240cafcbe1aa9cd90f1eb0cab01fe0d4a8a153f196d5b75f745a80c7086023e"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/prior-wide/sheet-04-V03.jpg",
+      "sha256": "6bfbfdddde0a3b39aa88da4c8e9e2043b207d3c26b285704ce29dc78171e82a0"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/prior-wide/sheet-04-V02.jpg",
+      "sha256": "193a3962b537dc020353b279076e0f47c390106e5646eb61cc733e8c7cb9129b"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/repair-close/sheet-04-R01.jpg",
+      "sha256": "b6a241fb460186b2b1def7fb5c5cc6968bd79bd8dc203906fa3aa40de00f4808"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/repair-wide/sheet-04-R01.jpg",
+      "sha256": "310a042eaa3b213ff718fefbe833e4b792a0dc52c5e4c212f21ae4abf58840e9"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/black-pine.jpg",
+      "sha256": "25c1bb0d2e36052e017a80719734fe7bed0afe24e644479a2516589e400db553"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/black-cove-mary.jpg",
+      "sha256": "b11652c11cef7514c37b125d74df5140e339983ddf95de10aea155fecef761b0"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/warren-interior.jpg",
+      "sha256": "572e94f8e644bbbd78b6d2f71b742431bae33837406297a9dcdda0dedc166192"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/ingonish-island.jpg",
+      "sha256": "7247d89ce7095797c98b7819bf2b128c181c7c36dd69fe7e70d1752c13ab8772"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/clyburn-middle.jpg",
+      "sha256": "391561ee4a6d3e36c9c649f451d1fabae995943681ccf8aacf81c95fe1e92049"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/freshwater-harbour.jpg",
+      "sha256": "e0d557f7575f6f28f0b0c0d8d9ab0fb690ade2cd4c3d375686597bad0dcd68b9"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/smoky-cape.jpg",
+      "sha256": "090fa872e5dd17188b14f83ecd3ecbfce8432d7f14e14ba010ce31e5e5838d09"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "dfa38c20181a7a967275f01c956e707e9949d9e1394e559e9493d14b109e3784"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/browser/import-desktop.png",
+      "sha256": "865b030a677bf1fe4326fa71ee466400687519a3a658024479690d14b504984a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "252636b3375500c03e08b73048ecde115b9947df17ec72c26bf4a1f1aa1b6a74"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "f8785075cbde77d62925df46305c0f66676563fd234076bdbe18c1584c9daed9"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/adjacent-sheet-review/02-north-land.jpg",
+      "sha256": "847f4c735b87b4081c2e41759bda2b187d94e7933c9598a96eb47b0995447f6a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/adjacent-sheet-review/02-north-sea.jpg",
+      "sha256": "3043753a600a89d4559c5993ae5276d5447d876cef1d7724db8ac04d64ad613f"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/adjacent-sheet-review/05-west-north.jpg",
+      "sha256": "27b83ddc451730df161b7f916aa61701d8598d24efd674c909bccb8f5431a8cf"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/adjacent-sheet-review/05-west-south.jpg",
+      "sha256": "903bfe69f263954d5c95fe3e4fa949baa516f3937c5e431ab7ed69b3a6ba4804"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/adjacent-sheet-review/07-south-coast.jpg",
+      "sha256": "a02e071cf56b338ad83e86de2685a08dff1d9a62a926d6860d27bbd10ae446e6"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/adjacent-sheet-review/07-south-sea.jpg",
+      "sha256": "b046db1cb62a3fd8279c670505af8c5158bbe0229a400ad0c3bcb7763033bbe4"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/fresh-close/sheet-04-F08.jpg",
+      "sha256": "bbf35cf23037691c37007b3a45431f706bdd68df8ec9fa90506fe239a34c8c01"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/fresh-close/sheet-04-F09.jpg",
+      "sha256": "7272dabe0d2c76451d368bd6f88ec26f34d88b014193aed199cc4b96f35d0750"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/fresh-corrected-close/sheet-04-F09.jpg",
+      "sha256": "face807ca1e6c885d1b2ed336dc1eb654936aefb8f9d8a11591b15754c57f8eb"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/fresh-corrected-wide/sheet-04-F09.jpg",
+      "sha256": "ce3120f24fff2214202713418a7c0996723d68f6bbd096b387eca1928b4d934d"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/fresh-wide/sheet-04-F08.jpg",
+      "sha256": "a564a54a0b895baea974b52969dd35107d8146935e5ca6d3305b46901f1f7545"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/fresh-wide/sheet-04-F09.jpg",
+      "sha256": "cedd38805370362275a3382c9893f345d0f2e4c2acfd0d2c32d2bce10a8a6e95"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/black-pine.jpg",
+      "sha256": "98c446d48ca84f2e0bfde0369d9caabef8fda5aa60b4297911fcb1e023cb864a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/black-cove-mary.jpg",
+      "sha256": "9ad0a295a2e9c75d95a5c338c019983bb0ffe2aef93f9966a6bf9deb933baefe"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/warren-interior.jpg",
+      "sha256": "b306a8df79946f3124189a8c7050af72859305263190b95a84179b373a45574a"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/ingonish-island.jpg",
+      "sha256": "3797d19a1088fc555a4c60b9720ccb09e86db8f08111993fa6f4d6a5fca7d9f6"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/clyburn-middle.jpg",
+      "sha256": "71b5e49ec891ce223e6ce99daaee1f2dfda507e1c9744e1dc4dd82a39efee430"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/freshwater-harbour.jpg",
+      "sha256": "ddbfa843c92d472925a7ef2fa97b121cf282f18c27b1dc7e0f64a8d46f9ce4ce"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/smoky-cape.jpg",
+      "sha256": "abc31e85378ffcc683cd79b3eab1bd0557a8e065f3fb7e0caeaae1fb0c3e5b2b"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/warped-review/full-sheet.jpg",
+      "sha256": "4d2b23cf808eb751f7ff0a1a96da9d701a4e71251eb53af4d1b0e981046696dc"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/browser/import-desktop.png",
+      "sha256": "61e2e544a2ce0156f093c190d880bad8ff3a18c395d9f198126538dfaac55a62"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/browser/reload-desktop.png",
+      "sha256": "2983d3f0cdd2e34177547d4df2e51f1d2e3db0a74f55d44d7810b45722c79225"
+    },
+    {
+      "path": "reports/fletcher/sheet04/refinement-20260912/11-control/browser/reload-mobile.png",
+      "sha256": "75f896661c15e04fce37d4758eb9e301156cad34e2d96893cc368c11aca6b17d"
+    }
+  ],
+  "scope": "Provenance, independent record identities, coverage and browser/CSV import only. Both experiments fail geographic acceptance and are not recommended replacements."
+}

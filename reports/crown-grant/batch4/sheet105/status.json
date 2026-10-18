@@ -1,0 +1,45 @@
+{
+  "sheet": "105",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric pass with regional limitations; actual private browser raster verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/105.pdf",
+    "pdf_sha256": "c27477b2da74142d1c112d11cf61a1a9e62cb8767c92acdf449d51c1773f3819",
+    "jpeg_sha256": "35e0a028da095ed3b2e9acc91cb6783fb35316a9f71811a129ae7edc481bcf0a",
+    "dimensions": [
+      6025,
+      4115
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 31.71926771515894,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 31.72 m, median 29.09 m, P95 47.05 m and maximum 48.69 m. Numerical bounds pass; this remains regional validation.",
+    "Heays, the unnamed elongated northeastern lake, Square and McPherson Lakes have control/check endpoint pairs, so these samples are spatially correlated.",
+    "Central river corridors, the eastern harbour shores, western and southern edges and connected Goose Harbour lake shores lack independent local validation. Potentially impounded shores were not forced into the fit.",
+    "All adopted points use 12 px working source uncertainty. Shore generalization and uncertain historical water levels limit interpretation beyond the audited natural lakes."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 31.72 m, median 29.09 m, P95 47.05 m, maximum 48.69 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame includes Guysborough Intervale, East Roman Valley, Lincolnville, the Ogden lake district, Milford Haven and Boylston, Guysborough and Sunnyville. All lake, river, shoreline and parcel regions remain visible. No displaced inset identified."
+  }
+}

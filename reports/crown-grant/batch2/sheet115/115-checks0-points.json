@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Loch Ban eastern lake-shore shoulder",
+    "role": "proposal",
+    "pixel_xy": [
+      1903,
+      782
+    ],
+    "lonlat": [
+      -61.23530512689054,
+      46.16966653242382
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 129401,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1889.6757265327615,
+      822.8859973414801
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "McIsaac Point western inner cove",
+    "role": "proposal",
+    "pixel_xy": [
+      1931,
+      2208
+    ],
+    "lonlat": [
+      -61.19751721792042,
+      46.10790444702663
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 130536,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1934.5083399520372,
+      2214.1391617092304
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Long Point southern lip",
+    "role": "proposal",
+    "pixel_xy": [
+      2499,
+      2805
+    ],
+    "lonlat": [
+      -61.14661943838064,
+      46.0910308944823
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131551,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2496.5915063673747,
+      2805.311900901026
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Trout River lake-mouth western cusp",
+    "role": "proposal",
+    "pixel_xy": [
+      2885,
+      1808
+    ],
+    "lonlat": [
+      -61.14634060757911,
+      46.14263970540884
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 131748,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2889.292061379296,
+      1808.221681302064
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Mount Pleasant Brook lower junction",
+    "role": "proposal",
+    "pixel_xy": [
+      4909,
+      1010
+    ],
+    "lonlat": [
+      -61.037489618444035,
+      46.21436425062077
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 192935,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      4901.600635579496,
+      983.930216055247
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Johnstone River lower southwestern tributary junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3838,
+      3031
+    ],
+    "lonlat": [
+      -61.05446001677648,
+      46.10331958977683
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 264581,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3837.7628134986735,
+      3045.772801856743
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Pearson Branch upper western junction",
+    "role": "proposal",
+    "pixel_xy": [
+      3595,
+      2858
+    ],
+    "lonlat": [
+      -61.07412926157432,
+      46.10869776992667
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 222484,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      3611.673154070042,
+      2839.7305123989936
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Mount Pleasant Brook eastern southern tributary",
+    "role": "proposal",
+    "pixel_xy": [
+      5007,
+      1088
+    ],
+    "lonlat": [
+      -61.02920874658205,
+      46.21270160718596
+    ],
+    "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+    "reference_objectid": 192810,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      5001.122466356028,
+      1058.9051977992058
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

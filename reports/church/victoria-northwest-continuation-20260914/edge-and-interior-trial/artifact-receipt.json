@@ -1,0 +1,46 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "source_scope": "Hash-verified original archival Victoria TIFF.",
+  "controls_sha256": "cc58d110ce0b52f1ddde76b2237f674a4d8b8e4da94666a39cf9d04523b594cc",
+  "freeze_sha256": "c0b549ff7d572e3b2cf211761aab8d485e019da4a513d10816a6172ce83cfa5c",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "transform": "GDAL TPS -et 0",
+  "cutline_sample_native_px": 250,
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260914/victoria-northwest-review/tps9-rendered/victoria-northwest-tps9-review-20m.tif",
+  "output_sha256": "3af1fdee304b5cd1362f4aa2239f36d26f7577ce7b30aa5afdc5655bc077768d",
+  "size": [
+    2394,
+    3860
+  ],
+  "geotransform": [
+    -6758260.0,
+    20.0,
+    0.0,
+    5956220.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260914/victoria-northwest-review/tps9-rendered/victoria-northwest-tps9-cutline.geojson",
+  "cutline_sha256": "24e89ded5cb5c3d78262ed31c02ae1c478ea76252f9a14fbd97035eda692e538",
+  "orientation": {
+    "sample_count": 20848,
+    "coarse_spacing_native_px": 200,
+    "near_control_spacing_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -15.988338567205338,
+      -10.792510842392367
+    ],
+    "anisotropy_range": [
+      1.0021741961938766,
+      1.2935461100597203
+    ],
+    "scope": "Finite one-pixel forward differences only, not a proof of the continuous TPS surface"
+  },
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false,
+  "renamed_from": "/var/home/dan/nsmarks-church-20260914/victoria-northwest-review/tps9-rendered/inverness-victoria-northwest-tps9-review-20m.tif"
+}

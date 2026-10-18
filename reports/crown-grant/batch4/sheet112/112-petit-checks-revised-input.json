@@ -1,0 +1,67 @@
+[
+  [
+    "IQ01",
+    "Jersey Point western tip of Petit de Grat Island",
+    [
+      4760,
+      2684
+    ],
+    [
+      4765,
+      2685
+    ],
+    "WACO"
+  ],
+  [
+    "IQ02",
+    "Birch Point east tip",
+    [
+      5290,
+      2598
+    ],
+    [
+      5342,
+      2598
+    ],
+    "WACO"
+  ],
+  [
+    "IQ03",
+    "Ranteleau Point north tip",
+    [
+      5239,
+      2040
+    ],
+    [
+      5258,
+      2039
+    ],
+    "WACO"
+  ],
+  [
+    "IQ04",
+    "Green Island northwest corner",
+    [
+      5540,
+      3147
+    ],
+    [
+      5544,
+      3143
+    ],
+    "WACOIS"
+  ],
+  [
+    "IQ05",
+    "Gros Nez offshore island north tip",
+    [
+      5704,
+      2307
+    ],
+    [
+      5720,
+      2307
+    ],
+    "WACOIS"
+  ]
+]

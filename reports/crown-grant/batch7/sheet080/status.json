@@ -1,0 +1,45 @@
+{
+  "sheet": "080",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS pass with major geographic evidence limitations; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/080.pdf",
+    "pdf_sha256": "2dcabc29c4ffe142d2bd6a6a63193ae4c5961204f3666543c8aa7d4bb8b9c60d",
+    "jpeg_sha256": "e11ecbdd0b183aaed9bbc3437d082e7207ff23a208f7a4c4355ad4a88012413a",
+    "dimensions": [
+      6035,
+      4199
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 6,
+      "rms_ground_m": 38.50239460983922,
+      "rms_gate_passed": true,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Six excluded checks give RMS 38.50 m, median 38.83 m, P95 56.07 m and maximum 59.64 m; all numerical bounds pass with major regional evidence limitations.",
+    "All observations are in the eastern third. The western two-thirds, Truro and central Salmon River corridor have no accepted independent geographic checks.",
+    "Every check shares a lake or pond with a control; the eastern three-pond cluster is also locally correlated. Six observations are not six independent regional samples.",
+    "Generalized natural lake observations use 12 px working source uncertainty. Changed reservoirs, ponds, streams and engineered urban water features remain unvalidated."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "6 independent checks: RMS 38.50 m, median 38.83 m, P95 56.07 m, maximum 59.64 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Truro, Onslow Mountain, North River, Brookside, Salmon River, Valley, Riversdale, Kemptown, Greenfield, Camden, Upper Brookfield, the eastern ponds, Moose, Island, Duck and Meadow lakes, all western reservoir imagery, rivers and inland parcels. No displaced inset identified."
+  }
+}

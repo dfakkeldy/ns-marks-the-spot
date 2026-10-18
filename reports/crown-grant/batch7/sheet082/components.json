@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6034 x 4184 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 84.88 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          70,
+          130
+        ],
+        [
+          5920,
+          130
+        ],
+        [
+          5920,
+          4070
+        ],
+        [
+          70,
+          4070
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full original mapped frame retains Glenmore, Elmsvale, Upper Musquodoboit, Pleasant Valley, Caribou Mines, Moose River Mines, the entire Mill/Upper Mill and Martin lake systems, Pratt, Sand, Dry, Lindsay, Square, Rocky and Otter lakes, all other original lakes, islands, rivers and inland parcels. No displaced inset identified."
+    }
+  ]
+}

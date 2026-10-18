@@ -1,0 +1,161 @@
+{
+  "source_frame": "Original 5766 x 3937 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      110,
+      140
+    ],
+    [
+      5640,
+      140
+    ],
+    [
+      5640,
+      3790
+    ],
+    [
+      110,
+      3790
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 70.07 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          110,
+          140
+        ],
+        [
+          5640,
+          140
+        ],
+        [
+          5640,
+          3790
+        ],
+        [
+          110,
+          3790
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "e9fb118235028d6c1cc10d7cb520f30d5f825c5eef8c640445fb56313592728e",
+      "holes_pixel_xy": [
+        [
+          [
+            1285,
+            2690
+          ],
+          [
+            2950,
+            2690
+          ],
+          [
+            2950,
+            3670
+          ],
+          [
+            1285,
+            3670
+          ]
+        ],
+        [
+          [
+            3030,
+            2390
+          ],
+          [
+            5500,
+            2390
+          ],
+          [
+            5500,
+            3650
+          ],
+          [
+            3030,
+            3650
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "scatarie-inset",
+      "status": "RMS 61.52 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          3030,
+          2390
+        ],
+        [
+          5500,
+          2390
+        ],
+        [
+          5500,
+          3650
+        ],
+        [
+          3030,
+          3650
+        ]
+      ],
+      "fit_file": "fit-scatarie-similarity-01.json",
+      "fit_sha256": "e48833cedabb2b0342545cfd72bb68c21de4a061831655faf402eb06e00db609",
+      "matrix": [
+        [
+          4.852130971683934,
+          1.9793145594152417
+        ],
+        [
+          1.9793145594152417,
+          -4.852130971683934
+        ],
+        [
+          727160.258483527,
+          5106831.998034799
+        ]
+      ]
+    },
+    {
+      "id": "mainadieu-inset",
+      "status": "RMS 52.93 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          1285,
+          2690
+        ],
+        [
+          2950,
+          2690
+        ],
+        [
+          2950,
+          3670
+        ],
+        [
+          1285,
+          3670
+        ]
+      ],
+      "fit_file": "fit-mainadieu-similarity-01.json",
+      "fit_sha256": "8287c5ba9f58ea374658a0eef5cbbf188daeda055a70adcdb3c8b4cf3d204b0b",
+      "matrix": [
+        [
+          2.7723569948377915,
+          -0.09173587353785886
+        ],
+        [
+          -0.09173587353785886,
+          -2.7723569948377915
+        ],
+        [
+          738525.5586833524,
+          5109120.154505802
+        ]
+      ]
+    }
+  ]
+}

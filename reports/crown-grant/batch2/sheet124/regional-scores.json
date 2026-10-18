@@ -1,0 +1,33 @@
+{
+  "note": "Small regional subsets of the same seven checks, not additional observations or confidence guarantees",
+  "regions": {
+    "islands": {
+      "ids": [
+        "Q01",
+        "Q02",
+        "Q03"
+      ],
+      "count": 3,
+      "rms_ground_m": 55.024023481710906,
+      "max_ground_m": 64.40343660637626
+    },
+    "barrier_spits": {
+      "ids": [
+        "Q04",
+        "Q05"
+      ],
+      "count": 2,
+      "rms_ground_m": 89.64029402329862,
+      "max_ground_m": 97.60416197921484
+    },
+    "southern_ponds": {
+      "ids": [
+        "Q06",
+        "Q07"
+      ],
+      "count": 2,
+      "rms_ground_m": 32.71893948339204,
+      "max_ground_m": 44.74909494942107
+    }
+  }
+}

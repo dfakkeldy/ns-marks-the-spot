@@ -1,0 +1,18 @@
+{
+  "frozen_at": "2026-09-15T18:30:44.179074+00:00",
+  "input_commit": "135511735917898ab9782c2b0b8a7d87abb57ca8",
+  "controls_path": "reports/church/inverness-south-continuation-20260915/controls.csv",
+  "controls_sha256": "a912847fb7909862674185661d60a7941fa3d68922b90edca13924b0276aa637",
+  "selected_transform": "affine",
+  "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+  "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "prior_selection_features": [
+    "IS15",
+    "IS18",
+    "IS19"
+  ],
+  "plan": "Expand distributed physical validation without changing coordinates or testing additional fits against this batch. Preserve all first results and withhold unresolved source features.",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false
+}

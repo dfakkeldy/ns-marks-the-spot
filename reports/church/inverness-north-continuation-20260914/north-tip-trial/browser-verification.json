@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-09-14T12:00:21.527975+00:00",
+  "browser": "Codex in-app browser via CUA, tab3",
+  "origin": "http://127.0.0.1:49370",
+  "raster_sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "metadata_size": [
+    3310,
+    5438
+  ],
+  "notice": "Large file \u2014 displayed at reduced resolution",
+  "persistence": "After full navigation/reloads all four imported rows restored; TPS5 checked; affine4 and both Richmond maps unchecked.",
+  "views": [
+    {
+      "mode": "3D",
+      "exaggeration": 10,
+      "tilt_degrees": 50,
+      "opacity_percent": 70,
+      "camera_latlon": [
+        47.025,
+        -60.63
+      ],
+      "zoom": 12,
+      "scope": "Northern headland and western ridges draped; no source point measurement from screenshot"
+    },
+    {
+      "mode": "2D",
+      "camera_latlon": [
+        46.68818,
+        -60.96183
+      ],
+      "zoom": 14,
+      "scope": "Fresh Presquile region; source/reference offset visible"
+    },
+    {
+      "mode": "2D",
+      "camera_latlon": [
+        46.76,
+        -60.8
+      ],
+      "zoom": 9,
+      "scope": "Complete panel footprint visible"
+    }
+  ],
+  "viewport": {
+    "width": 685,
+    "height": 1272,
+    "device_pixel_ratio": 1.2999999523162842,
+    "note": "Current responsive viewport captured fully. No viewport override was applied during this pass. Initial screenshots after navigation showed unloaded map; final screenshots inspected only after tiles loaded at opacity1."
+  },
+  "console_errors": [],
+  "raw_scan_gcp_mesh_verified": false,
+  "geographic_acceptance": false
+}

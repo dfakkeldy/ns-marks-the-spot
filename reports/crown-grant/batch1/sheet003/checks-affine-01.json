@@ -1,0 +1,355 @@
+{
+  "status": "12 geographically distributed physical checks selected after frozen affine-01; coordinates corrected from native image evidence before any scoring; no fitting or model selection uses these checks",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Allen Lake northeastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3941,
+        484
+      ],
+      "lonlat": [
+        -66.14139568513787,
+        43.95780363918207
+      ],
+      "reference_objectid": 130350,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3934.7321550306515,
+        487.67028182256036
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q02",
+      "label": "Darlings Lake southern bay tip",
+      "role": "check",
+      "pixel_xy": [
+        4210,
+        592
+      ],
+      "lonlat": [
+        -66.12032715222536,
+        43.958293248469396
+      ],
+      "reference_objectid": 128873,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4207.769041486201,
+        601.9668205631897
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q03",
+      "label": "Coggins Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4522,
+        362
+      ],
+      "lonlat": [
+        -66.10649434576831,
+        43.97581506431681
+      ],
+      "reference_objectid": 128624,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4526.2062466703355,
+        376.33962259511463
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q04",
+      "label": "Wellington Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4431,
+        1193
+      ],
+      "lonlat": [
+        -66.08841637513412,
+        43.9349345973445
+      ],
+      "reference_objectid": 138693,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4426.482109987468,
+        1196.2158484630054
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q06",
+      "label": "Turley Lake southern outlet corner",
+      "role": "check",
+      "pixel_xy": [
+        3317,
+        1547
+      ],
+      "lonlat": [
+        -66.14958368258979,
+        43.894329413540184
+      ],
+      "reference_objectid": 137678,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3316.071220204234,
+        1549.0852006844943
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q07",
+      "label": "Small lake west of Bunker, southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3628,
+        1658
+      ],
+      "lonlat": [
+        -66.12563962840913,
+        43.89582478032559
+      ],
+      "reference_objectid": 141690,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3634.294423623127,
+        1662.7329203919508
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q09",
+      "label": "Chegoggin Point southern corner",
+      "role": "check",
+      "pixel_xy": [
+        2814,
+        2193
+      ],
+      "lonlat": [
+        -66.1630910371015,
+        43.85313598438275
+      ],
+      "reference_objectid": 15125,
+      "reference_feature_code": "WACO25",
+      "guide_reference_pixel_xy": [
+        2809.6682558049215,
+        2189.9822948117508
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q10",
+      "label": "Chandler Lake southern outlet",
+      "role": "check",
+      "pixel_xy": [
+        4187,
+        2773
+      ],
+      "lonlat": [
+        -66.05618212462184,
+        43.855109387841004
+      ],
+      "reference_objectid": 140751,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4193.573823980521,
+        2779.5251264737453
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q12",
+      "label": "Harris Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        5118,
+        2344
+      ],
+      "lonlat": [
+        -66.01009956078197,
+        43.89559208442861
+      ],
+      "reference_objectid": 137005,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        5110.057722439349,
+        2340.0347939699423
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q13",
+      "label": "Cape Forchu east cape southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2420,
+        3328
+      ],
+      "lonlat": [
+        -66.15392160441752,
+        43.79146792518864
+      ],
+      "reference_objectid": 20191,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2427.5274435265455,
+        3321.187974062981
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q14",
+      "label": "Telly Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4210,
+        3280
+      ],
+      "lonlat": [
+        -66.04035352394044,
+        43.83215510570154
+      ],
+      "reference_objectid": 139852,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4210.82498297561,
+        3273.1076936251484
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    },
+    {
+      "id": "Q15",
+      "label": "Robbins Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3615,
+        1312
+      ],
+      "lonlat": [
+        -66.13695628410348,
+        43.91135179986772
+      ],
+      "reference_objectid": 142869,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3615.3226445995388,
+        1325.3355674941558
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "Q05",
+      "label": "Bunker Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4420,
+        1606
+      ],
+      "lonlat": [
+        -66.08003099079839,
+        43.91552802550975
+      ],
+      "reference_objectid": 124552,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4376.757666466641,
+        1584.3083992121974
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only",
+      "reason": "Historic lake-to-stream transition lacks a demonstrably shared modern shoreline endpoint."
+    },
+    {
+      "id": "Q08",
+      "label": "Doctor Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        3970,
+        1825
+      ],
+      "lonlat": [
+        -66.09895875219678,
+        43.895589718871356
+      ],
+      "reference_objectid": 128095,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        3973.538175607391,
+        1822.4915810463717
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only",
+      "reason": "Northern Doctor Lake arm/shore definition unresolved in available reference; exclude before scoring."
+    },
+    {
+      "id": "Q11",
+      "label": "Salmon Lake southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        4590,
+        2970
+      ],
+      "lonlat": [
+        -66.0250733717529,
+        43.85416962333346
+      ],
+      "reference_objectid": 116075,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        4584.169449563837,
+        2977.203774285619
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad topology and final native crosshair inspected before first score; never used for affine fitting",
+      "guide": "Frozen affine-01, used for search context only",
+      "reason": "Salmon Lake southern bay/inlet correspondence and water-level changes unresolved; exclude before scoring."
+    }
+  ]
+}

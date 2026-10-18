@@ -1,0 +1,122 @@
+[
+  {
+    "image": "sheet-09-C11.jpg",
+    "point_record": "sheet09/expansion-20260910/west-southeast-proposals.json",
+    "point_id": "C11",
+    "native_box": [
+      5017,
+      4349,
+      5237,
+      4569
+    ],
+    "native_coordinates": [
+      5127,
+      4459
+    ],
+    "modern_lonlat": [
+      -61.0588128,
+      46.5141668
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C12.jpg",
+    "point_record": "sheet09/expansion-20260910/west-southeast-proposals.json",
+    "point_id": "C12",
+    "native_box": [
+      8930,
+      5546,
+      9150,
+      5766
+    ],
+    "native_coordinates": [
+      9040,
+      5656
+    ],
+    "modern_lonlat": [
+      -60.8876023,
+      46.4839496
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C13.jpg",
+    "point_record": "sheet09/expansion-20260910/west-southeast-proposals.json",
+    "point_id": "C13",
+    "native_box": [
+      8773,
+      5930,
+      8993,
+      6150
+    ],
+    "native_coordinates": [
+      8883,
+      6040
+    ],
+    "modern_lonlat": [
+      -60.8954978,
+      46.4695954
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-Q02.jpg",
+    "point_record": "sheet09/expansion-20260910/west-southeast-proposals.json",
+    "point_id": "Q02",
+    "native_box": [
+      9050,
+      5563,
+      9270,
+      5783
+    ],
+    "native_coordinates": [
+      9160,
+      5673
+    ],
+    "modern_lonlat": [
+      -60.8816454,
+      46.4831797
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-Q03.jpg",
+    "point_record": "sheet09/expansion-20260910/west-southeast-proposals.json",
+    "point_id": "Q03",
+    "native_box": [
+      7433,
+      1619,
+      7653,
+      1839
+    ],
+    "native_coordinates": [
+      7543,
+      1729
+    ],
+    "modern_lonlat": [
+      -60.9431439,
+      46.5996268
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-Q04.jpg",
+    "point_record": "sheet09/expansion-20260910/west-southeast-proposals.json",
+    "point_id": "Q04",
+    "native_box": [
+      4631,
+      4930,
+      4851,
+      5150
+    ],
+    "native_coordinates": [
+      4741,
+      5040
+    ],
+    "modern_lonlat": [
+      -61.0758228,
+      46.4970208
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "method": "Recovered exact GDAL TPS (-et 0), EPSG:3857, 5 projected metre RGBA cells; complete unchanged boundary. Audit hashes recorded after existing scores, not a new freeze.",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/native/sheet03.png",
+      "sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet03/boundary.json",
+      "sha256": "3956eff0f13aba1316eed2e8df40d36fb3429138e4e356f3a1a7be10739a547b"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/render.py",
+      "sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/score.py",
+      "sha256": "b722ec3a769b9c149ea646eb0905b927938bf8f5738790db1ae067284cafe9f2"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/review_points.py",
+      "sha256": "2d41e269870e341863949d1f998686eea5cb85016c6eeba78aa78b8f17f3ecfe"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/search/all-modern-nodes-anchored.json",
+      "sha256": "acaefe3c1c7e7b6ee060551cf19745c25c5bed1c4acd6fdc014a5969ce571546"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/neatline.geojson",
+      "sha256": "138a30ad207f95ff7d5077106c16815284d514f9c0dacccc4042ec11edb1c1d7"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-ten/neatline.geojson",
+      "sha256": "d46730f1be308ed5d7b33b425d58b48cb9009a817597a0b32ca2affdf6dc97ec"
+    }
+  ]
+}

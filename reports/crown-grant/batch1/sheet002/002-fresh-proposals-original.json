@@ -1,0 +1,128 @@
+[
+  {
+    "id": "V01",
+    "label": "Du Ruisseau Lake southern tip",
+    "role": "fresh-check-proposal",
+    "pixel_xy": [
+      5420,
+      2555
+    ],
+    "lonlat": [
+      -66.11313450163176,
+      44.048338944889906
+    ],
+    "reference_objectid": 128197,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5392.441565932531,
+      2559.9172385106795
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "V02",
+    "label": "Lower Doucette southwestern tip",
+    "role": "fresh-check-proposal",
+    "pixel_xy": [
+      5294,
+      2360
+    ],
+    "lonlat": [
+      -66.13129316844375,
+      44.05339167332669
+    ],
+    "reference_objectid": 128107,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5190.912869834283,
+      2357.3780732250307
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "V03",
+    "label": "Killam Lake western reentrant",
+    "role": "fresh-check-proposal",
+    "pixel_xy": [
+      5400,
+      3610
+    ],
+    "lonlat": [
+      -66.08359186520727,
+      44.001795814424085
+    ],
+    "reference_objectid": 133258,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5394.16720207606,
+      3629.8624592943816
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "V04",
+    "label": "South Corning Lake southwestern tip",
+    "role": "fresh-check-proposal",
+    "pixel_xy": [
+      5343,
+      3242
+    ],
+    "lonlat": [
+      -66.09645851171535,
+      44.011472393389354
+    ],
+    "reference_objectid": 111508,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5303.09497032885,
+      3368.5623634913936
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "V05",
+    "label": "Coast bend north of Salmon River headland",
+    "role": "fresh-check-proposal",
+    "pixel_xy": [
+      4640,
+      1830
+    ],
+    "lonlat": [
+      -66.18028301501995,
+      44.06590262423491
+    ],
+    "reference_objectid": 12585,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4637.97126821836,
+      1832.3954707377125
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  },
+  {
+    "id": "V06",
+    "label": "Cedar Lake middle northern prong",
+    "role": "fresh-check-proposal",
+    "pixel_xy": [
+      5280,
+      2885
+    ],
+    "lonlat": [
+      -66.11137990789341,
+      44.0319554335113
+    ],
+    "reference_objectid": 125124,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5276.477404133533,
+      2886.593538494315
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  }
+]

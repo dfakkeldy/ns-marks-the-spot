@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-02-V01.jpg",
+    "point_record": "sheet02/validation.json",
+    "point_id": "V01",
+    "native_box": [
+      3668,
+      3153,
+      3888,
+      3373
+    ],
+    "native_coordinates": [
+      3778,
+      3263
+    ],
+    "modern_lonlat": [
+      -60.351002794715164,
+      46.88769122377082
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-02-V02.jpg",
+    "point_record": "sheet02/validation.json",
+    "point_id": "V02",
+    "native_box": [
+      2586,
+      3618,
+      2806,
+      3838
+    ],
+    "native_coordinates": [
+      2696,
+      3728
+    ],
+    "modern_lonlat": [
+      -60.4057303,
+      46.8724744
+    ],
+    "rotation_degrees": 0
+  }
+]

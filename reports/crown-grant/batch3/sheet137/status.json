@@ -1,0 +1,45 @@
+{
+  "sheet": "137",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; private browser raster verified; numerical bounds pass with regional and cliff-definition qualifications",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/137.pdf",
+    "pdf_sha256": "0730caf8e510fa83f734dd34a85545e060bb80bdaae2f24a1fbdb364e96080b3",
+    "jpeg_sha256": "8e2298074826a28d0fd93fc697fb2c80c8e405f77f17d82dd702ee0c97327fd2",
+    "dimensions": [
+      5671,
+      3964
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 62.06008442169424,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight independent checks give RMS 62.06 m, median 66.01 m, P95 76.87 m and maximum 76.92 m. The 100 m RMS ceiling and suggested numerical companion bounds pass.",
+    "Lake cohorts and the narrow coastal band supply regional checks. Neil Harbour urban detail, western valleys, Smoky Cape and parcel interiors remain insufficiently validated.",
+    "Ingonish Island has one control and one independent endpoint check. Warren Lake also has one control/check pair; these geographically related observations do not establish dense coverage.",
+    "Cliff hatching limits exact source placement at Middle Head, Archibald Point and Jackson Point; working source uncertainty is 18 px there and 12 px elsewhere."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 62.06 m, median 66.01 m, P95 76.87 m, maximum 76.92 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame from Neil Harbour and the northern park lakes through Warren Lake, Ingonish, Middle Head and the Smoky Cape edge, with Ingonish Island, small offshore rocks and the full Atlantic Ocean area retained. No displaced inset identified."
+  }
+}

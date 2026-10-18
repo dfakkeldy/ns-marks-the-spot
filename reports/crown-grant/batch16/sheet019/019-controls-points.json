@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Pettits or Grey Island northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1769,
+      1472
+    ],
+    "lonlat": [
+      -65.30762911656613,
+      43.60819085640189
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 312572,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 312572,
+    "nearest_unfiltered_distance_guide_px": 0.4248671373009926,
+    "selected_distance_guide_px": 0.4248671373009926,
+    "guide_reference_pixel_xy": [
+      1794.6499879214098,
+      1434.240839426173
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Blue or Green Island northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      4271,
+      760
+    ],
+    "lonlat": [
+      -65.17812375538901,
+      43.68816632538713
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 17151,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17151,
+    "nearest_unfiltered_distance_guide_px": 0.18024922314309108,
+    "selected_distance_guide_px": 0.18024922314309108,
+    "guide_reference_pixel_xy": [
+      4289.1011688289,
+      735.1491799266078
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Western Gull Rock northeastern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1341,
+      2032
+    ],
+    "lonlat": [
+      -65.31938037649324,
+      43.572262820037245
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 23424,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23424,
+    "nearest_unfiltered_distance_guide_px": 0.3165564015990955,
+    "selected_distance_guide_px": 0.3165564015990955,
+    "guide_reference_pixel_xy": [
+      1321.2163725300925,
+      2038.2310646740953
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Cape Negro Island southern end",
+    "role": "proposal",
+    "pixel_xy": [
+      386,
+      3157
+    ],
+    "lonlat": [
+      -65.34598190274865,
+      43.50459429490147
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 20615,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20615,
+    "nearest_unfiltered_distance_guide_px": 0.7354778944838947,
+    "selected_distance_guide_px": 0.7354778944838947,
+    "guide_reference_pixel_xy": [
+      366.58381700282916,
+      3147.447309110663
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Dexter Lake northwestern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      1378,
+      363
+    ],
+    "lonlat": [
+      -65.36214237151897,
+      43.647668350382766
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 127719,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127719,
+    "nearest_unfiltered_distance_guide_px": 0.8239345440586596,
+    "selected_distance_guide_px": 0.8239345440586596,
+    "guide_reference_pixel_xy": [
+      1374.2059175778995,
+      347.7802245696075
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "Little Lake northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      314,
+      632
+    ],
+    "lonlat": [
+      -65.41835913561455,
+      43.615167449910196
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 132890,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132890,
+    "nearest_unfiltered_distance_guide_px": 0.842078012192661,
+    "selected_distance_guide_px": 0.842078012192661,
+    "guide_reference_pixel_xy": [
+      309.6771734940121,
+      607.4994688445004
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Eastern Gull Rock northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      5097,
+      1832
+    ],
+    "lonlat": [
+      -65.0985215877143,
+      43.655636078480946
+    ],
+    "guide_file": ".crown-grant-local/019-frozen-north-guide.npy",
+    "reference_objectid": 23415,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23415,
+    "nearest_unfiltered_distance_guide_px": 1.3480646021013232,
+    "selected_distance_guide_px": 1.3480646021013232,
+    "guide_reference_pixel_xy": [
+      5121.209427875874,
+      1845.5954514123732
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "image": "sheet-17-C01.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C01",
+    "native_box": [
+      4094,
+      1476,
+      4314,
+      1696
+    ],
+    "native_coordinates": [
+      4204,
+      1586
+    ],
+    "modern_lonlat": [
+      -60.722409849460604,
+      45.90110294179096
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-C02.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C02",
+    "native_box": [
+      5396,
+      1311,
+      5616,
+      1531
+    ],
+    "native_coordinates": [
+      5506,
+      1421
+    ],
+    "modern_lonlat": [
+      -60.66570221584912,
+      45.90664435711554
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-C04.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C04",
+    "native_box": [
+      8723,
+      1194,
+      8943,
+      1414
+    ],
+    "native_coordinates": [
+      8833,
+      1304
+    ],
+    "modern_lonlat": [
+      -60.5120085,
+      45.9132912
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-C06.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C06",
+    "native_box": [
+      7225,
+      4590,
+      7445,
+      4810
+    ],
+    "native_coordinates": [
+      7335,
+      4700
+    ],
+    "modern_lonlat": [
+      -60.5801208,
+      45.800244
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-C07.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C07",
+    "native_box": [
+      7723,
+      4325,
+      7943,
+      4545
+    ],
+    "native_coordinates": [
+      7833,
+      4435
+    ],
+    "modern_lonlat": [
+      -60.559398,
+      45.8100631
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-C08.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C08",
+    "native_box": [
+      7960,
+      4790,
+      8180,
+      5010
+    ],
+    "native_coordinates": [
+      8070,
+      4900
+    ],
+    "modern_lonlat": [
+      -60.5504286,
+      45.7957361
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-C09.jpg",
+    "point_record": "sheet17/candidate-proposals.json",
+    "point_id": "C09",
+    "native_box": [
+      7516,
+      6140,
+      7736,
+      6360
+    ],
+    "native_coordinates": [
+      7626,
+      6250
+    ],
+    "modern_lonlat": [
+      -60.5716711,
+      45.7544052
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "fit_sha256": "d19f28006254479a15efb976e438e15230bb29dfbf94b1202419ca2f56e4cb91",
+  "points": [
+    {
+      "id": "H06",
+      "role": "check",
+      "pixel_xy": [
+        2579,
+        3973
+      ],
+      "lonlat": [
+        -61.5487243,
+        45.6494581
+      ],
+      "modern_node": "J0521",
+      "modern_objectids": [
+        210059,
+        273560,
+        273685
+      ],
+      "identity_evidence": "Next southern tributary east of Q06, entering western-eastbound main at beginning of the northward bend. First southern arm Q06 and then this longer southern arm distinguish close forks. Same catchment and near control: limited independence.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          2489,
+          3893,
+          2669,
+          4053
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          2600,
+          3955
+        ],
+        "final_xy": [
+          2579,
+          3973
+        ],
+        "reason": "Moved from bend crest to observed thin-arm junction on 4x native crop before scoring"
+      },
+      "review": "Agent topology and crosshair review, not user audited"
+    }
+  ],
+  "scope": "One fresh mainland check after 27-control fit; insufficient alone for whole-sheet accuracy claim. Full spatial evidence includes prior diagnostics."
+}

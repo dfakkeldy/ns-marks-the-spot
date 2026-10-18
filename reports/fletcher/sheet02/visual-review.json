@@ -1,0 +1,13 @@
+{
+  "personally_inspected_point_frames": 35,
+  "personally_inspected_warped_frames": 7,
+  "personally_inspected_adjacent_frames": 4,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Two fresh checks pass local thresholds but cover only the Black Head / White Point coast",
+    "Broad eastern sea remains unsupported extrapolation",
+    "Initial Q01 failed at 322.8776 m and was promoted unchanged; failure preserved",
+    "Western Sheet3 and southern Sheet4 joins remain unaccepted; northwest Sheet1 pending"
+  ]
+}

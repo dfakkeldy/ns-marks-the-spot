@@ -1,0 +1,121 @@
+{
+  "desktop": {
+    "tooling": "Playwright; Browser plugin not available",
+    "before": {
+      "record": {
+        "id": "282ef1e2-f325-49e5-a686-9db4a42bc88e",
+        "name": "sheet-13-full-sheet",
+        "source": "geotiff",
+        "createdAt": "2026-09-12T12:21:28.727Z",
+        "pixelSize": {
+          "width": 8678,
+          "height": 5773
+        },
+        "georef": {
+          "kind": "embedded",
+          "crs": "EPSG:3857",
+          "geotransform": [
+            -6816215,
+            5,
+            0,
+            5824550,
+            0,
+            -5
+          ]
+        }
+      },
+      "previewSize": [
+        4096,
+        2725
+      ],
+      "storedRasterSha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2",
+      "rasterBytes": 113780232,
+      "rasterMime": "image/tiff",
+      "transparentPixels": 529144,
+      "opaquePixels": 10632456
+    },
+    "after": {
+      "record": {
+        "id": "282ef1e2-f325-49e5-a686-9db4a42bc88e",
+        "name": "sheet-13-full-sheet",
+        "source": "geotiff",
+        "createdAt": "2026-09-12T12:21:28.727Z",
+        "pixelSize": {
+          "width": 8678,
+          "height": 5773
+        },
+        "georef": {
+          "kind": "embedded",
+          "crs": "EPSG:3857",
+          "geotransform": [
+            -6816215,
+            5,
+            0,
+            5824550,
+            0,
+            -5
+          ]
+        }
+      },
+      "previewSize": [
+        4096,
+        2725
+      ],
+      "storedRasterSha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2",
+      "rasterBytes": 113780232,
+      "rasterMime": "image/tiff",
+      "transparentPixels": 529144,
+      "opaquePixels": 10632456
+    },
+    "enabledStateSurvived": true
+  },
+  "mobile": {
+    "record": {
+      "id": "282ef1e2-f325-49e5-a686-9db4a42bc88e",
+      "name": "sheet-13-full-sheet",
+      "source": "geotiff",
+      "createdAt": "2026-09-12T12:21:28.727Z",
+      "pixelSize": {
+        "width": 8678,
+        "height": 5773
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6816215,
+          5,
+          0,
+          5824550,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      4096,
+      2725
+    ],
+    "storedRasterSha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2",
+    "rasterBytes": 113780232,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 529144,
+    "opaquePixels": 10632456
+  },
+  "errors": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/browser/import-desktop.png",
+      "sha256": "24c031de30b65b9490483d9c9ed36b265a70dc2d74df334fae4a3851c80de794"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/browser/reload-desktop.png",
+      "sha256": "86b7c1064c615cf07e66461e168daf694761f9a7e43017d8f1ff4c9b39efa483"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/browser/reload-mobile.png",
+      "sha256": "2877acd9a6897475f4f69c817f5091c2072e196bdc137a60c3f04dfeaf6d3f20"
+    }
+  ],
+  "review": "All three screenshots personally inspected. Actual reload on desktop and mobile; geographic alignment remains unaccepted."
+}

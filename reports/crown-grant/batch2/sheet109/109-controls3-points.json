@@ -1,0 +1,46 @@
+[
+  {
+    "id": "C06",
+    "label": "Long Point inland southern tributary confluence",
+    "role": "proposal",
+    "pixel_xy": [
+      1729,
+      3075
+    ],
+    "lonlat": [
+      -61.461381246249545,
+      45.81451194928342
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 254121,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      1726.3598336261348,
+      3098.0048317699693
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Mull River eastern tributary near Glencoe Mills",
+    "role": "proposal",
+    "pixel_xy": [
+      5145,
+      840
+    ],
+    "lonlat": [
+      -61.3096654433673,
+      45.966317300510376
+    ],
+    "guide_file": ".crown-grant-local/109-adjacent-guide.npy",
+    "reference_objectid": 271899,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      5172.89726827899,
+      829.7694771422539
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

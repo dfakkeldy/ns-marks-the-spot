@@ -1,0 +1,48 @@
+{
+  "points": [
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        6925,
+        1665
+      ],
+      "lonlat": [
+        -60.5938789,
+        45.7323726
+      ],
+      "modern_node_id": "J0188",
+      "modern_objectids": [
+        132805,
+        132806,
+        310800
+      ],
+      "identity_evidence": "Grand River northern head lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Rejected before scoring",
+      "rejection_reason": "Modern branch directions and native lake/river connection do not establish the claimed outlet or eastern tributary identity."
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        6248,
+        1884
+      ],
+      "lonlat": [
+        -60.6227189,
+        45.727847
+      ],
+      "modern_node_id": "J0222",
+      "modern_objectids": [
+        161018,
+        161155,
+        194983
+      ],
+      "identity_evidence": "Grand River upper eastern tributary junction",
+      "source_uncertainty_px": 20,
+      "status": "Rejected before scoring",
+      "rejection_reason": "Modern branch directions and native lake/river connection do not establish the claimed outlet or eastern tributary identity."
+    }
+  ]
+}

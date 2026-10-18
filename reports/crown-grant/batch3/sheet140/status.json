@@ -1,0 +1,76 @@
+{
+  "sheet": "140",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; all three private raster components browser-verified; component RMS bounds pass with limited validation",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/140.pdf",
+    "pdf_sha256": "3acbce8ffb0b3e764c503adfcf81ee19747108f9f90b1bfc1f451ddbbe619d97",
+    "jpeg_sha256": "672929ba391b2d4e3fbf600af661ce9f82603169ebd181ca259aca19d64bcec3",
+    "dimensions": [
+      5766,
+      3937
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 70.07260740068206,
+      "rms_gate_passed": true,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "scatarie-inset",
+      "controls": 4,
+      "independent_checks": 5,
+      "rms_ground_m": 61.51993868390683,
+      "rms_gate_passed": true,
+      "fit": "fit-scatarie-similarity-01.json",
+      "checks": "checks-scatarie-similarity-01.json",
+      "scores": "scores-scatarie-similarity-01.json"
+    },
+    {
+      "component": "mainadieu-inset",
+      "controls": 2,
+      "independent_checks": 3,
+      "rms_ground_m": 52.93308322280096,
+      "rms_gate_passed": true,
+      "fit": "fit-mainadieu-similarity-01.json",
+      "checks": "checks-mainadieu-similarity-01.json",
+      "scores": "scores-mainadieu-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main: six controls and seven checks, RMS 70.07 m. Coastal and lake checks provide regional support; parcel interiors, much of the northern margin and the main Point Howe fragment remain unvalidated.",
+    "Scatarie inset: four controls and five checks, RMS 61.52 m. Shores and Hay Island are sampled, but the fragmented Point Howe tip, small rocks and interior are not independently validated.",
+    "Main-a-Dieu inset: two controls and three clustered checks, RMS 52.93 m. Near-zero control residual follows from the two-control similarity and is not accuracy evidence. Western coastline, urban and parcel geometry remain unsupported.",
+    "Main and inset repeat some physical features; their check counts and scores must not be pooled as independent series observations.",
+    "Working source uncertainty is 12 native pixels for main/Scatarie and 8 pixels for the enlarged Main-a-Dieu inset; shoreline generalization and real coastal changes remain relevant."
+  ],
+  "review": {
+    "status": "PROVISIONAL \u2014 separately assessed main map and two insets",
+    "statistics": "main: 7 checks, RMS 70.07 m; scatarie-inset: 5 checks, RMS 61.52 m; mainadieu-inset: 3 checks, RMS 52.93 m. Gate: 100 m. No pooled score.",
+    "coverage": "Complete source rectangle partitioned into the main Louisbourg\u2013Cape Breton coast and partial Scatarie map, the separately boxed full Scatarie Island inset, and the pasted enlarged Main-a-Dieu inset. Native main-mask holes exactly equal the two separately fitted inset masks. Every mapped island, offshore rock and repeated geographic region is retained; geographic overlap between the main Scatarie fragment and the complete inset is intentional.",
+    "focusBounds": [
+      [
+        45.79531145529935,
+        -60.05641986242906
+      ],
+      [
+        46.05975444713781,
+        -59.6191918473424
+      ]
+    ]
+  }
+}

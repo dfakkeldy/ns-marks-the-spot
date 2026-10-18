@@ -1,0 +1,21 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "sha256": "e5bcdd37da6e814297d3b432f3549ecf81bbc5b1f558b2f78c3fc600e98006a9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/refinement-20260912/sheet-10-full-sheet.tif",
+      "sha256": "5e7ef029cd6c5289fc6ff5f242fb08b7b238ca464853203f73c1e6ee0f946deb"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/sheet-12-full-sheet.tif",
+      "sha256": "48e70f98e72ad23fafb00c5437e476ad693727e09a46d1ae1a3145907550a40d"
+    }
+  ],
+  "status": "All six actual seam pairs personally inspected. Sheet 08 north comparison added; Sheet 12 uses new 17-control experiment. No seam accepted."
+}

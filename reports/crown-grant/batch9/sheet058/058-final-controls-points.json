@@ -1,0 +1,161 @@
+[
+  {
+    "id": "C01",
+    "label": "Large Lake (Big Jolicure) southern tip",
+    "role": "control",
+    "pixel_xy": [
+      958,
+      2694
+    ],
+    "lonlat": [
+      -64.24828712567877,
+      45.9537953898693
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:5538",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:5538",
+    "nearest_unfiltered_distance_guide_px": 0.6989482100058764,
+    "selected_distance_guide_px": 0.6989482100058764,
+    "guide_reference_pixel_xy": [
+      814.6454824857647,
+      2680.6023669416318
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+    "reference_dataset": "New Brunswick Hydrographic Network",
+    "reference_original_objectid": 5538,
+    "reference_nid": "6C50C4400216428A996EB1127C9AC936",
+    "reference_name": "Big Jolicure Lake",
+    "reference_waterdefinition": 4,
+    "reference_reported_planimetric_accuracy_m": 5
+  },
+  {
+    "id": "C02",
+    "label": "Long Lake (Jolicure) northeast lobe northern tip",
+    "role": "control",
+    "pixel_xy": [
+      1380,
+      2590
+    ],
+    "lonlat": [
+      -64.22378028666706,
+      45.9677368723624
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:428",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:428",
+    "nearest_unfiltered_distance_guide_px": 3.5215991587426347,
+    "selected_distance_guide_px": 3.5215991587426347,
+    "guide_reference_pixel_xy": [
+      1224.4281348577351,
+      2561.219020264456
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+    "reference_dataset": "New Brunswick Hydrographic Network",
+    "reference_original_objectid": 428,
+    "reference_nid": "82F87A05B2A54A00A15D34054D748778",
+    "reference_name": "Jolicure Lakes",
+    "reference_waterdefinition": 4,
+    "reference_reported_planimetric_accuracy_m": 5
+  },
+  {
+    "id": "C03",
+    "label": "Front Lake (Jolicure) northeast lobe northern tip",
+    "role": "control",
+    "pixel_xy": [
+      1128,
+      2755
+    ],
+    "lonlat": [
+      -64.23628546928448,
+      45.954220193667005
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:427",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:427",
+    "nearest_unfiltered_distance_guide_px": 7.108430871361381,
+    "selected_distance_guide_px": 7.108430871361381,
+    "guide_reference_pixel_xy": [
+      966.1897892497364,
+      2737.0373558819992
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+    "reference_dataset": "New Brunswick Hydrographic Network",
+    "reference_original_objectid": 427,
+    "reference_nid": "704231BFF8AC495A9537C7FA6FFB4954",
+    "reference_name": "Jolicure Lakes",
+    "reference_waterdefinition": 4,
+    "reference_reported_planimetric_accuracy_m": 5
+  },
+  {
+    "id": "C04",
+    "label": "Small lake north of Large Lake northern tip",
+    "role": "control",
+    "pixel_xy": [
+      952,
+      2265
+    ],
+    "lonlat": [
+      -64.26156353256427,
+      45.974050138429696
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": "NB13:8685",
+    "reference_feature_code": "NBHN_4",
+    "nearest_unfiltered_feature_code": "NBHN_4",
+    "nearest_unfiltered_objectid": "NB13:8685",
+    "nearest_unfiltered_distance_guide_px": 0.8454380883701319,
+    "selected_distance_guide_px": 0.8454380883701319,
+    "guide_reference_pixel_xy": [
+      806.2270316962968,
+      2246.3424697982846
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring.",
+    "reference_dataset": "New Brunswick Hydrographic Network",
+    "reference_original_objectid": 8685,
+    "reference_nid": "AA3401E355E54160BFA4EA24B683FEBA",
+    "reference_name": null,
+    "reference_waterdefinition": 4,
+    "reference_reported_planimetric_accuracy_m": 5
+  },
+  {
+    "id": "C05",
+    "label": "Tidnish Head northern tip",
+    "role": "control",
+    "pixel_xy": [
+      4117,
+      2966
+    ],
+    "lonlat": [
+      -64.02578405693359,
+      46.00526259335843
+    ],
+    "guide_file": ".crown-grant-local/058-translated-guide.npy",
+    "reference_objectid": 12176,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 12176,
+    "nearest_unfiltered_distance_guide_px": 0.08302069999898726,
+    "selected_distance_guide_px": 0.08302069999898726,
+    "guide_reference_pixel_xy": [
+      3957.9205932462937,
+      2940.024228167371
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 20,
+    "review": "Native paired crosshair and contextual physical identity inspected; accepted or corrected before first fit/scoring."
+  }
+]

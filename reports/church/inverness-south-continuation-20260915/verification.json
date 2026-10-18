@@ -1,0 +1,12 @@
+{
+  "metric_sets_replayed": 29,
+  "new_observations_audited": 2,
+  "first_validation_checks": 3,
+  "post_selection_fresh_checks": 0,
+  "explicit_refinement_trials": 6,
+  "retained_affine_and_raster_unchanged": true,
+  "accepted_baseline_inputs_unchanged": true,
+  "actual_raster_windows": 2,
+  "editable_inventories": 6,
+  "geographic_acceptance": false
+}

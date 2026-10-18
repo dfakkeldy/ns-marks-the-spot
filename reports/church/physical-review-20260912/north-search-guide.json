@@ -1,0 +1,104 @@
+{
+  "source_frame": "inverness original 34427x34543",
+  "guide": "least-squares affine of existing printed-graticule controls; not geographic acceptance",
+  "model": {
+    "a": 3.9816535186085327,
+    "b": -0.2708131543044906,
+    "c": -6802128.887274006,
+    "d": -0.28207008245706,
+    "e": -3.9471320831547354,
+    "f": 5958221.866718528
+  },
+  "frames": [
+    {
+      "name": "north-tip",
+      "origin": [
+        9500,
+        800
+      ],
+      "extent": [
+        6000,
+        5500
+      ],
+      "display": [
+        1500,
+        1375
+      ]
+    },
+    {
+      "name": "polletts",
+      "origin": [
+        6000,
+        5000
+      ],
+      "extent": [
+        6500,
+        6500
+      ],
+      "display": [
+        1500,
+        1500
+      ]
+    },
+    {
+      "name": "pleasant",
+      "origin": [
+        3500,
+        10000
+      ],
+      "extent": [
+        6500,
+        6500
+      ],
+      "display": [
+        1500,
+        1500
+      ]
+    },
+    {
+      "name": "fishing",
+      "origin": [
+        2000,
+        14500
+      ],
+      "extent": [
+        7000,
+        6500
+      ],
+      "display": [
+        1500,
+        1393
+      ]
+    },
+    {
+      "name": "cheticamp",
+      "origin": [
+        1000,
+        19000
+      ],
+      "extent": [
+        7000,
+        6500
+      ],
+      "display": [
+        1500,
+        1393
+      ]
+    },
+    {
+      "name": "margaree",
+      "origin": [
+        1000,
+        24500
+      ],
+      "extent": [
+        9000,
+        4800
+      ],
+      "display": [
+        1500,
+        800
+      ]
+    }
+  ]
+}

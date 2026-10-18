@@ -1,0 +1,171 @@
+{
+  "sheet": "049",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.961252200056615,
+      1.9906117185837593
+    ],
+    [
+      2.0827829588754354,
+      -5.00062968002822
+    ],
+    [
+      361821.8671456037,
+      5068953.242395867
+    ]
+  ],
+  "source_sha256": "51ec4ff3d7d03b3eb2bc6e0a76ef92f163c5ba0d7af50de41774a13cde89711d",
+  "source_dimensions": [
+    5627,
+    3916
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "NB Grindstone Island western tip",
+      "role": "control",
+      "pixel_xy": [
+        1734,
+        1609
+      ],
+      "lonlat": [
+        -64.62203528312672,
+        45.721325609674814
+      ],
+      "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+      "reference_objectid": "NB13:6582",
+      "reference_feature_code": "NBHN_7",
+      "nearest_unfiltered_feature_code": "NBHN_7",
+      "nearest_unfiltered_objectid": "NB13:6582",
+      "nearest_unfiltered_distance_guide_px": 0.09402404761390441,
+      "selected_distance_guide_px": 0.09402404761390441,
+      "guide_reference_pixel_xy": [
+        1697.0237705236068,
+        1546.0909696858143
+      ],
+      "source_uncertainty_px": 30,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "NB narrow coastal inlet north end west of Black Point",
+      "role": "control",
+      "pixel_xy": [
+        4606,
+        1404
+      ],
+      "lonlat": [
+        -64.44585350333746,
+        45.784055944824615
+      ],
+      "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+      "reference_objectid": "NB13:8696",
+      "reference_feature_code": "NBHN_100",
+      "nearest_unfiltered_feature_code": "NBHN_100",
+      "nearest_unfiltered_objectid": "NB13:8696",
+      "nearest_unfiltered_distance_guide_px": 0.965643023804285,
+      "selected_distance_guide_px": 0.965643023804285,
+      "guide_reference_pixel_xy": [
+        4558.502929648617,
+        1364.1756649843883
+      ],
+      "source_uncertainty_px": 30,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "NS Downing Head northwest shore corner",
+      "role": "control",
+      "pixel_xy": [
+        4480,
+        2145
+      ],
+      "lonlat": [
+        -64.43336558679475,
+        45.74900232975027
+      ],
+      "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+      "reference_objectid": 3588,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3588,
+      "nearest_unfiltered_distance_guide_px": 0.7981102843256761,
+      "selected_distance_guide_px": 0.7981102843256761,
+      "guide_reference_pixel_xy": [
+        4435.165650720941,
+        2110.7807303405134
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "NS Boss Point western projecting tip",
+      "role": "control",
+      "pixel_xy": [
+        4133,
+        2350
+      ],
+      "lonlat": [
+        -64.449724053353,
+        45.73350297131416
+      ],
+      "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+      "reference_objectid": 2122,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 2122,
+      "nearest_unfiltered_distance_guide_px": 1.0376439691701784,
+      "selected_distance_guide_px": 1.0376439691701784,
+      "guide_reference_pixel_xy": [
+        4089.581232630997,
+        2314.0506113033043
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "NS Ragged Reef Point northwest tip",
+      "role": "control",
+      "pixel_xy": [
+        3105,
+        3250
+      ],
+      "lonlat": [
+        -64.48928585403694,
+        45.67357738824499
+      ],
+      "guide_file": ".crown-grant-local/049-north-provisional-guide.npy",
+      "reference_objectid": 3888,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 3888,
+      "nearest_unfiltered_distance_guide_px": 0.2534934391314674,
+      "selected_distance_guide_px": 0.2534934391314674,
+      "guide_reference_pixel_xy": [
+        3067.86769844871,
+        3236.783770438633
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    6.52775916386931,
+    31.976080606141,
+    15.602257682334997,
+    34.57308732899463,
+    24.688200228794823
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

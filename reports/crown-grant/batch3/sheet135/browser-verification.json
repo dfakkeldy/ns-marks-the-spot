@@ -1,0 +1,45 @@
+{
+  "verified_at_utc": "2026-09-24T14:07:39.546062+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "135",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6335,
+        5200
+      ],
+      "complete": true
+    },
+    {
+      "file": "stpaul-inset-3857.png",
+      "dimensions": [
+        1454,
+        1476
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5746,
+        3965
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Both separate rasters visibly rendered; St Paul also inspected after one zoom increment and closing the reference feature popup.",
+    "Main source hole and separately placed complete St Paul island visible. Modern tiles initially painted progressively after zoom, then complete modern-only screenshot verified."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "church_tests": {
+    "command": "python3 -m unittest discover -s tools/church/tests -t .",
+    "passed": 427,
+    "failed": 0
+  },
+  "source_observation_polygons_valid": true,
+  "frozen_input_hashes_consistent": true,
+  "score_replay_tolerance_ground_m": 1e-07,
+  "control_check_coordinate_aliases": 0,
+  "cape_breton_config_matches_reviewed_ring": true,
+  "parser_receipt": "parser-verification.json",
+  "raster_receipt": "artifact-receipt.json",
+  "coverage_receipt": "coverage.json",
+  "browser_receipt": "browser-verification.json",
+  "geographic_acceptance": false
+}

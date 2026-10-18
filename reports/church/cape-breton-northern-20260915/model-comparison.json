@@ -1,0 +1,136 @@
+{
+  "scope": "Same Hay CB04 and North Head CB13 diagnostics. Low Point promoted; CB13 first fresh result retained but subsequent use is diagnostic. Scatarie eastern tip CB14 is a prospective control sharing feature with CB01.",
+  "models": {
+    "tps6_same_two": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 180.344377845076,
+          "north_ground_m": 470.12631610088175,
+          "error_ground_m": 503.53038409902706
+        },
+        {
+          "label": "CB13",
+          "east_ground_m": -321.4684032188071,
+          "north_ground_m": -140.16836788243353,
+          "error_ground_m": 350.69802626030673
+        }
+      ],
+      "rms_ground_m": 433.89627408736095,
+      "median_ground_m": 427.1142051796669,
+      "p95_ground_m": 495.888766207091,
+      "max_ground_m": 503.53038409902706,
+      "mean_east_ground_m": -70.56201268686556,
+      "mean_north_ground_m": 164.9789741092241,
+      "scatter_rms_ground_m": 395.05558739795197,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "affine7": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 389.26264303480906,
+          "north_ground_m": -146.6245469782282,
+          "error_ground_m": 415.9617326618109
+        },
+        {
+          "label": "CB13",
+          "east_ground_m": -226.39301877043664,
+          "north_ground_m": -385.3774103764988,
+          "error_ground_m": 446.9558673700208
+        }
+      ],
+      "rms_ground_m": 431.73702089090267,
+      "median_ground_m": 431.45880001591587,
+      "p95_ground_m": 445.40616063461033,
+      "max_ground_m": 446.9558673700208,
+      "mean_east_ground_m": 81.43481213218621,
+      "mean_north_ground_m": -266.0009786773635,
+      "scatter_rms_ground_m": 330.1646648619929,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "tps7": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 192.06937907110986,
+          "north_ground_m": 477.62969594782584,
+          "error_ground_m": 514.8016830081019
+        },
+        {
+          "label": "CB13",
+          "east_ground_m": -49.64566073908519,
+          "north_ground_m": 33.78787647694359,
+          "error_ground_m": 60.0525788542136
+        }
+      ],
+      "rms_ground_m": 366.48812058170165,
+      "median_ground_m": 287.42713093115776,
+      "p95_ground_m": 492.0642278004075,
+      "max_ground_m": 514.8016830081019,
+      "mean_east_ground_m": 71.21185916601235,
+      "mean_north_ground_m": 255.70878621238472,
+      "scatter_rms_ground_m": 252.69632030446516,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "affine8": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 321.13367599436486,
+          "north_ground_m": -97.89044875852908,
+          "error_ground_m": 335.72217355396697
+        },
+        {
+          "label": "CB13",
+          "east_ground_m": -253.58987803839926,
+          "north_ground_m": -365.9218376035661,
+          "error_ground_m": 445.2040178150921
+        }
+      ],
+      "rms_ground_m": 394.2816222540056,
+      "median_ground_m": 390.46309568452955,
+      "p95_ground_m": 439.7299256020358,
+      "max_ground_m": 445.2040178150921,
+      "mean_east_ground_m": 33.7718989779828,
+      "mean_north_ground_m": -231.90614318104758,
+      "scatter_rms_ground_m": 317.0756963905666,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "tps8": {
+      "count": 2,
+      "points": [
+        {
+          "label": "CB04",
+          "east_ground_m": 214.7722253801463,
+          "north_ground_m": 57.64534228029935,
+          "error_ground_m": 222.37377156794645
+        },
+        {
+          "label": "CB13",
+          "east_ground_m": -45.139377482187584,
+          "north_ground_m": -49.608117904945345,
+          "error_ground_m": 67.07107246459074
+        }
+      ],
+      "rms_ground_m": 164.23858109911876,
+      "median_ground_m": 144.72242201626858,
+      "p95_ground_m": 214.60863661277867,
+      "max_ground_m": 222.37377156794645,
+      "mean_east_ground_m": 84.81642394897935,
+      "mean_north_ground_m": 4.018612187677004,
+      "scatter_rms_ground_m": 140.5856909718904,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "geographic_acceptance": false
+}

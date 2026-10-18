@@ -1,0 +1,253 @@
+{
+  "count": 7,
+  "rms_ground_m": 53.990787120621974,
+  "median_ground_m": 40.00001094351084,
+  "p95_ground_m": 91.94606349369985,
+  "max_ground_m": 103.5949427852624,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 14.406142508423121,
+  "mean_north_ground_m": 5.515425051464474,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Isolated west-central lake northwest shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1320,
+        1684
+      ],
+      "lonlat": [
+        -63.80983103178899,
+        45.00871415006212
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 136785,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136785,
+      "nearest_unfiltered_distance_guide_px": 0.43175577028119355,
+      "selected_distance_guide_px": 0.43175577028119355,
+      "guide_reference_pixel_xy": [
+        1349.6968913908931,
+        1662.3074706754414
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.80945400446146,
+        45.00842862097412
+      ],
+      "error_ground_m": 43.47801059545566,
+      "east_ground_m": 29.723052766576217,
+      "north_ground_m": -31.731333718800418
+    },
+    {
+      "id": "Q02",
+      "label": "Rocky Lake north of Big Lake northeast tip",
+      "role": "check",
+      "pixel_xy": [
+        2198,
+        1502
+      ],
+      "lonlat": [
+        -63.7563471209068,
+        45.03511526974822
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 142859,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142859,
+      "nearest_unfiltered_distance_guide_px": 0.6956690902424763,
+      "selected_distance_guide_px": 0.6956690902424763,
+      "guide_reference_pixel_xy": [
+        2236.3139576215763,
+        1476.1153314273106
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.75643597684459,
+        45.0348588441825
+      ],
+      "error_ground_m": 29.34476226969261,
+      "east_ground_m": -7.001760016794095,
+      "north_ground_m": -28.497200377089648
+    },
+    {
+      "id": "Q03",
+      "label": "Nix Lake northeast lobe northern extremity",
+      "role": "check",
+      "pixel_xy": [
+        620,
+        2001
+      ],
+      "lonlat": [
+        -63.84721407514869,
+        44.97875994194335
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 134584,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 134584,
+      "nearest_unfiltered_distance_guide_px": 0.4031893074353136,
+      "selected_distance_guide_px": 0.4031893074353136,
+      "guide_reference_pixel_xy": [
+        644.2848065083963,
+        1997.7146110191243
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.84673786969243,
+        44.979234704179504
+      ],
+      "error_ground_m": 64.76534514672065,
+      "east_ground_m": 37.56085289137468,
+      "north_ground_m": 52.76108662685371
+    },
+    {
+      "id": "Q04",
+      "label": "Knowles Lake southeast shore southern tip",
+      "role": "check",
+      "pixel_xy": [
+        930,
+        2036
+      ],
+      "lonlat": [
+        -63.82565932546879,
+        44.98302631935389
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 133053,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133053,
+      "nearest_unfiltered_distance_guide_px": 0.5258584257915502,
+      "selected_distance_guide_px": 0.5258584257915502,
+      "guide_reference_pixel_xy": [
+        954.5256510594627,
+        2036.9852335629985
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.82518273765041,
+        44.983894976682585
+      ],
+      "error_ground_m": 103.5949427852624,
+      "east_ground_m": 37.58796663824034,
+      "north_ground_m": 96.53526264885967
+    },
+    {
+      "id": "Q05",
+      "label": "Pond south of Nine Mile River southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4386,
+        1768
+      ],
+      "lonlat": [
+        -63.60314463547663,
+        45.06674415182321
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 137226,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137226,
+      "nearest_unfiltered_distance_guide_px": 0.9887445951676468,
+      "selected_distance_guide_px": 0.9887445951676468,
+      "guide_reference_pixel_xy": [
+        4449.06317113759,
+        1726.683823534986
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.603479517408864,
+        45.06664965361445
+      ],
+      "error_ground_m": 28.387726174869048,
+      "east_ground_m": -26.3737506123428,
+      "north_ground_m": -10.501822509321562
+    },
+    {
+      "id": "Q06",
+      "label": "Copper Mine Lake southwest lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3373,
+        2624
+      ],
+      "lonlat": [
+        -63.646665980605746,
+        45.00594683172325
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 139094,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139094,
+      "nearest_unfiltered_distance_guide_px": 0.5499241088814447,
+      "selected_distance_guide_px": 0.5499241088814447,
+      "guide_reference_pixel_xy": [
+        3437.9907465397846,
+        2583.549846250331
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.6462459355911,
+        45.00574495207376
+      ],
+      "error_ground_m": 40.00001094351084,
+      "east_ground_m": 33.115910178704894,
+      "north_ground_m": -22.435181490617282
+    },
+    {
+      "id": "Q07",
+      "label": "Carrigan Lake northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2803,
+        2197
+      ],
+      "lonlat": [
+        -63.69627278810004,
+        45.014504937172596
+      ],
+      "guide_file": ".crown-grant-local/064-adjacent-ppi-guide.npy",
+      "reference_objectid": 124604,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124604,
+      "nearest_unfiltered_distance_guide_px": 0.22091937707047238,
+      "selected_distance_guide_px": 0.22091937707047238,
+      "guide_reference_pixel_xy": [
+        2859.9519020456937,
+        2165.784380061319
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad lake/pond geometry and native paired crosshairs inspected before first fit and score",
+      "predicted_lonlat": [
+        -63.696320605051966,
+        45.014347261367455
+      ],
+      "error_ground_m": 17.923649288326605,
+      "east_ground_m": -3.769274286797381,
+      "north_ground_m": -17.52283581963316
+    }
+  ],
+  "fit_sha256": "1f52f53eb01eab91a034a8543980570ffaebc4e4061c18e44e057d1455bf7b0b",
+  "checks_sha256": "ccf9b30ee6dc4b11fb19f8d82832340000669cf6962a8d56a4c0f6fd712fca7b",
+  "status": "Seven excluded checks reserved before first affine fit; five paired systems plus separate Copper Mine and Carrigan lakes"
+}

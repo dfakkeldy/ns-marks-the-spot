@@ -1,0 +1,124 @@
+{
+  "raster_sha256": "4ee6ced679c11474ff54bf8e65f428ccb9f9a0bf8d8b15b689b238e3532e1d36",
+  "reviews": [
+    {
+      "id": "CB01",
+      "role": "CONTROL - not validation",
+      "figure": "CB01.jpg",
+      "figure_sha256": "35a50ec6a6ee6b4d77bdcd4db8adef56eeda45af773eb5734e06b45d14279fbb",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB04",
+      "role": "selection diagnostic",
+      "figure": "CB04.jpg",
+      "figure_sha256": "0d6cdf19d2ea51cfe76573eb64acfd1aa06d97dd9becf3ea5ffbe0091536e643",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB07",
+      "role": "CONTROL - not validation",
+      "figure": "CB07.jpg",
+      "figure_sha256": "8713ff96b5a9a636ec2b48a7a496ab7ae7bdd561607010ba35919bc2b946f0ef",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB08",
+      "role": "CONTROL - not validation",
+      "figure": "CB08.jpg",
+      "figure_sha256": "35c6d46222dc8f8630974fd5a707c066fb67e8e53921d6a2a2cb2deb931ee58d",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB09",
+      "role": "CONTROL - not validation",
+      "figure": "CB09.jpg",
+      "figure_sha256": "c3d4db74e34d5061ec1f12ee669bd265afe2608cc67c9d610591c0ea6383a5bc",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB10",
+      "role": "CONTROL - not validation",
+      "figure": "CB10.jpg",
+      "figure_sha256": "275b9f88f0709ac25042649efb1070b5ffbe603d4ba87a6df2144cb31d504368",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB11",
+      "role": "CONTROL - not validation",
+      "figure": "CB11.jpg",
+      "figure_sha256": "ed6d0a8013f477ec57d22fbb4f58993e39984f0fc43cee7b01b4e31134e206ed",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB12",
+      "role": "CONTROL - not validation",
+      "figure": "CB12.jpg",
+      "figure_sha256": "c2a6dbb0352621aed1c53fa794d8a473bd11b9c9f05ebf7f09dbe411bbaab9b3",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB13",
+      "role": "selection diagnostic",
+      "figure": "CB13.jpg",
+      "figure_sha256": "0f42c6bcfb28ca2068b3fdbe60663713780945b7cfc01e021bb6388d3c1cd133",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB14",
+      "role": "CONTROL - not validation",
+      "figure": "CB14.jpg",
+      "figure_sha256": "16cc37faf7b8130a4c6dd0032be52f7668b101478734ddba8e66f29d7e732993",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB15",
+      "role": "CONTROL - not validation",
+      "figure": "CB15.jpg",
+      "figure_sha256": "f2fbbf95e479b10e59dd674de787bd64e3eed86154bcbf01efcd07852cd206cc",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB16",
+      "role": "CONTROL - not validation",
+      "figure": "CB16.jpg",
+      "figure_sha256": "3dfb8c90d771ccfd5d00b1c18fa9b4e590f12f9bf9816a1216f63b558cfca716",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB17",
+      "role": "CONTROL - not validation",
+      "figure": "CB17.jpg",
+      "figure_sha256": "6cf9a1c60d3d957d4289102ce92d75cad61610497fd93c52193c821f75ea5cf7",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB18",
+      "role": "fresh after TPS11 freeze",
+      "figure": "CB18.jpg",
+      "figure_sha256": "0d761ccd4a2e43fbeed136ccea4f44ffddafc8a82039185a1e3987f9b5005fac",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB19",
+      "role": "fresh after TPS11 freeze",
+      "figure": "CB19.jpg",
+      "figure_sha256": "33db3ff3a67d23119a933cf484f6c76a6a1a600ebd645f7be705538151ea07c5",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "CB20",
+      "role": "fresh after TPS11 freeze",
+      "figure": "CB20.jpg",
+      "figure_sha256": "6c463c3b7e54ff5a6221801f9b19d8cc0ce8e6e77aa7f4475d8f9e2ed4698285",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+      "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6"
+    }
+  ],
+  "geographic_acceptance": false
+}

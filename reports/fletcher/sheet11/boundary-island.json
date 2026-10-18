@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-11",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "source_dimensions": [
+    10771,
+    7551
+  ],
+  "ring_pixel_xy": [
+    [
+      480,
+      3330
+    ],
+    [
+      1390,
+      3330
+    ],
+    [
+      1390,
+      3900
+    ],
+    [
+      480,
+      3900
+    ],
+    [
+      480,
+      3330
+    ]
+  ],
+  "status": "Provisional whole-sheet crop, not accepted tiled coverage.",
+  "scope": "Sea Wolf / Margaree Island including adjacent printed name. Separate mapped component outside main frame, not an inset relocation."
+}

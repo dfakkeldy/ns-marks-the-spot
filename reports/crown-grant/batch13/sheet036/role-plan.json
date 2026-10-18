@@ -1,0 +1,20 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T06:32:30.799854+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 6,
+  "checks": 6,
+  "reason": "West Allen northwest, small South Tremont lake north, Half Moon northeast, Milton south, central-east small lake and Kerr southeast give distributed waterbody support.",
+  "rejected": {
+    "Q04": "Milton northeastern horn proposal lands along the modern open connection; exact historical closed head cannot be matched unambiguously."
+  },
+  "unadopted": [
+    "Dog Lake candidate has substantially different modern watercourse geometry.",
+    "Upper Palmer candidate not confidently reconciled."
+  ],
+  "limitations": [
+    "Five checks pair with control lakes; Lake Paul island supplies a separate check.",
+    "Milton has no local independent check. Southwestern margin and large unsampled northern and central areas remain unvalidated.",
+    "Small generalized lake ends and Lake Paul island carry 18 px source uncertainty."
+  ]
+}

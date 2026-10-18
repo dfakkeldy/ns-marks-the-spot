@@ -1,0 +1,134 @@
+[
+  {
+    "id": "C01",
+    "label": "Pomquet Island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1940,
+      768
+    ],
+    "lonlat": [
+      -61.74872815047327,
+      45.657888077339905
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 20560,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1920.8373994660215,
+      776.8939155903645
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Bowman Head north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3000,
+      1385
+    ],
+    "lonlat": [
+      -61.666977876294176,
+      45.64902131880005
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 2489,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2963.2196646210505,
+      1389.1579227513866
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "Cape Jack north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4670,
+      1060
+    ],
+    "lonlat": [
+      -61.56936897679874,
+      45.69202378360989
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 10781,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4625.531782027392,
+      1084.4035286476137
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "William Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2020,
+      3335
+    ],
+    "lonlat": [
+      -61.68150529006701,
+      45.54369922178426
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 141679,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1943.9082728223293,
+      3342.7909010477597
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Tracadie Lake northwest tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3601,
+      2220
+    ],
+    "lonlat": [
+      -61.60841838855768,
+      45.6215643436866
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 137466,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3546.1153574861237,
+      2234.478824980324
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C08",
+    "label": "Pomquet River branch junction at Pomquet Forks",
+    "role": "proposal",
+    "pixel_xy": [
+      642,
+      1792
+    ],
+    "lonlat": [
+      -61.80664809586214,
+      45.589144509414375
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 266897,
+    "reference_feature_code": "WARV50",
+    "guide_reference_pixel_xy": [
+      595.2116576498956,
+      1789.049191494356
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

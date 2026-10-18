@@ -1,0 +1,178 @@
+import GeoCore
+import MapKit
+import Testing
+
+@testable import ns_marks_the_spot
+
+@Suite("Measurement endpoint labels")
+@MainActor
+struct MeasurementEndpointTests {
+    private let points = [
+        GeoPoint(lat: 45, lng: -61),
+        GeoPoint(lat: 45, lng: -60.99),
+        GeoPoint(lat: 45.01, lng: -60.99),
+    ]
+
+    @Test(arguments: [MeasureSession.Mode.distance, .area])
+    func onlyTheLastCornerOfAMeasurableShapeHasATotal(_ mode: MeasureSession.Mode) throws {
+        var session = MeasureSession(mode: mode)
+        for point in points.prefix(session.requiredPoints - 1) { session.add(point) }
+        #expect(VectorDraftPreview(measuring: session).handles().allSatisfy { $0.endpointLabel == nil })
+
+        session.add(points[session.requiredPoints - 1])
+        let handles = VectorDraftPreview(measuring: session).handles()
+        #expect(handles.dropLast().allSatisfy { $0.endpointLabel == nil })
+        let last = try #require(handles.last)
+        let title = mode == .distance ? "Total distance" : "Area"
+        #expect(last.endpointLabel == "\(title)\n\(session.readout)")
+        #expect(last.coordinate.latitude == session.points.last?.lat)
+        #expect(last.coordinate.longitude == session.points.last?.lng)
+
+        session.finish()
+        #expect(VectorDraftPreview(measuring: session).handles().last?.endpointLabel == last.endpointLabel)
+        session.undoLastPoint()
+        #expect(VectorDraftPreview(measuring: session).handles().allSatisfy { $0.endpointLabel == nil })
+        session.clear()
+        #expect(VectorDraftPreview(measuring: session).handles().isEmpty)
+    }
+
+    @Test func anOrdinaryDrawingDoesNotClaimAMeasurement() {
+        let draft = VectorDraftPreview(
+            shape: .line,
+            vertices: points.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) },
+            colorHex: "#d55e00"
+        )
+        #expect(draft.handles().allSatisfy { $0.endpointLabel == nil })
+    }
+
+    @Test func theRenderedLabelKeepsTheDotAnchoredAndDoesNotCatchMapTaps() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = MKMapView()
+        let controller = MapController()
+        let view = try #require(
+            controller.mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        let marker = try #require(view.subviews.compactMap { $0 as? UIImageView }.first)
+        let label = try #require(view.subviews.flatMap(\.subviews).compactMap { $0 as? UILabel }.first)
+        #expect(label.text == endpoint.endpointLabel)
+        #expect(view.bounds.height > marker.bounds.height)
+        #expect(view.centerOffset.y + marker.frame.midY - view.bounds.midY == 0)
+        #expect(view.accessibilityIdentifier == "measure-endpoint-label")
+        #expect(view.accessibilityHint == "Measured on the map, not surveyed.")
+        #expect(!view.isUserInteractionEnabled)
+        let onBadge = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+        #expect(view.hitTest(onBadge, with: nil) == nil)
+        #expect(!view.point(inside: onBadge, with: nil))
+
+        view.prepareForReuse()
+        view.configure(with: VectorDraftVertexAnnotation(
+            index: 0, position: GeoJsonPosition(lng: -61, lat: 45), colorHex: "#d55e00"
+        ))
+        #expect(label.text == nil)
+        #expect(view.bounds.size == marker.bounds.size)
+        #expect(view.centerOffset == .zero)
+        #expect(view.accessibilityIdentifier == nil)
+        #expect(view.accessibilityLabel == "Placed corner 1")
+        #expect(view.isUserInteractionEnabled)
+        #expect(view.point(inside: CGPoint(x: view.bounds.midX, y: view.bounds.midY), with: nil))
+        #expect(!MapController.measurementEndpointCovers(.zero, view: view))
+    }
+
+    @Test func theIdentifyTapMayRunWithMapKitOverTheMeasurementLabel() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = MKMapView()
+        let controller = MapController()
+        let view = try #require(
+            controller.mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        view.frame = CGRect(x: 10, y: 20, width: 80, height: 50)
+        #expect(MapController.measurementEndpointCovers(CGPoint(x: 50, y: 40), view: view))
+        #expect(!MapController.measurementEndpointCovers(CGPoint(x: -1, y: -1), view: view))
+        #expect(!MapController.measurementEndpointCovers(.zero, view: MKAnnotationView()))
+    }
+
+    @Test func aDraftCornerSelectionIsReleasedRatherThanOpeningACard() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = MKMapView()
+        let controller = MapController()
+        controller.mapView = map
+        let view = try #require(
+            controller.mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        var leaked = false
+        controller.events = { _ in leaked = true }
+        map.selectAnnotation(endpoint, animated: false)
+        controller.mapView(map, didSelect: view)
+        #expect(!leaked)
+        #expect(map.selectedAnnotations.isEmpty)
+    }
+
+    @Test func theMeasurementBadgeUsesMapCoordinatesInsideANestedAnnotationContainer() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = TapHitMapView(frame: CGRect(x: 0, y: 0, width: 400, height: 800))
+        let view = try #require(
+            MapController().mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        map.endpointView = view
+        map.addAnnotation(endpoint)
+        let container = UIView(frame: CGRect(x: 100, y: 150, width: 200, height: 400))
+        map.addSubview(container)
+        container.addSubview(view)
+        view.frame = CGRect(x: 10, y: 20, width: 80, height: 50)
+
+        // Container origin + view origin + half the view size.
+        #expect(MapController.measurementEndpointCovers(CGPoint(x: 150, y: 195), in: map))
+        #expect(!MapController.measurementEndpointCovers(CGPoint(x: 50, y: 40), in: map))
+    }
+
+    @Test func aSingleTapOnBareMapDoesNotCompeteWithMapKitsSingleTap() {
+        let map = TapHitMapView()
+        let controller = MapController()
+        let identify = UITapGestureRecognizer()
+        identify.name = MapController.identifyTapName
+        map.addGestureRecognizer(identify)
+        let mapKitTap = UITapGestureRecognizer()
+        #expect(controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
+        #expect(controller.gestureRecognizer(mapKitTap, shouldRecognizeSimultaneouslyWith: identify))
+
+        // Neither a drag nor a zoom may become a point placement.
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: UIPanGestureRecognizer()))
+        mapKitTap.numberOfTapsRequired = 2
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
+        mapKitTap.numberOfTapsRequired = 1
+        mapKitTap.numberOfTouchesRequired = 2
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
+    }
+
+    @Test func selectingAnAnnotationDoesNotAlsoIdentifyTheGroundBehindIt() {
+        let map = TapHitMapView()
+        let controller = MapController()
+        let identify = UITapGestureRecognizer()
+        identify.name = MapController.identifyTapName
+        map.addGestureRecognizer(identify)
+        let annotation = MKAnnotationView()
+        let content = UIView()
+        annotation.addSubview(content)
+        map.hitView = content
+        #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: UITapGestureRecognizer()))
+    }
+}
+
+@MainActor
+private final class TapHitMapView: MKMapView {
+    var hitView: UIView?
+    var endpointView: MeasurementEndpointAnnotationView?
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? { hitView }
+    override func view(for annotation: any MKAnnotation) -> MKAnnotationView? {
+        if let endpointView, endpointView.annotation === annotation { return endpointView }
+        return super.view(for: annotation)
+    }
+}

@@ -1,0 +1,236 @@
+[
+  {
+    "id": "Q01",
+    "label": "Sixty Lake island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1702,
+      1424
+    ],
+    "lonlat": [
+      -64.81518118001107,
+      44.71785537639618
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 154536,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 154536,
+    "nearest_unfiltered_distance_guide_px": 1.5135565143090735,
+    "selected_distance_guide_px": 1.5135565143090735,
+    "guide_reference_pixel_xy": [
+      1706.2805120859994,
+      1482.1930662235245
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Black Duck Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3000,
+      2215
+    ],
+    "lonlat": [
+      -64.71247704364009,
+      44.70859872686208
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 125600,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125600,
+    "nearest_unfiltered_distance_guide_px": 2.241855639181674,
+    "selected_distance_guide_px": 2.241855639181674,
+    "guide_reference_pixel_xy": [
+      3014.2537012516987,
+      2280.2274542378727
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Triangle or Birch Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3532,
+      1865
+    ],
+    "lonlat": [
+      -64.68863579335826,
+      44.73495523631636
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124662,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124662,
+    "nearest_unfiltered_distance_guide_px": 0.1831189419062811,
+    "selected_distance_guide_px": 0.1831189419062811,
+    "guide_reference_pixel_xy": [
+      3554.8467347864644,
+      1913.8997886173893
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Butler Lake southwest horn",
+    "role": "proposal",
+    "pixel_xy": [
+      3458,
+      2525
+    ],
+    "lonlat": [
+      -64.67577857230525,
+      44.70455746228669
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 124865,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 124865,
+    "nearest_unfiltered_distance_guide_px": 0.8384930864493932,
+    "selected_distance_guide_px": 0.8384930864493932,
+    "guide_reference_pixel_xy": [
+      3475.814790546603,
+      2579.1822175629204
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Owl Lake large island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4050,
+      369
+    ],
+    "lonlat": [
+      -64.69818790615034,
+      44.810626015769074
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 152158,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 152158,
+    "nearest_unfiltered_distance_guide_px": 1.5901298168771767,
+    "selected_distance_guide_px": 1.5901298168771767,
+    "guide_reference_pixel_xy": [
+      4054.8437729082652,
+      392.908371974132
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Rocky Lake northeast of Fraxville inward western peninsula tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5148,
+      980
+    ],
+    "lonlat": [
+      -64.61373968912518,
+      44.80576443688938
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 139241,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139241,
+    "nearest_unfiltered_distance_guide_px": 1.7446017856751799,
+    "selected_distance_guide_px": 1.7446017856751799,
+    "guide_reference_pixel_xy": [
+      5152.078981638129,
+      993.6290754888905
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Lake Molly or Upper Gully western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4933,
+      1366
+    ],
+    "lonlat": [
+      -64.61667964356667,
+      44.784621642031524
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 137758,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137758,
+    "nearest_unfiltered_distance_guide_px": 0.20166822395092762,
+    "selected_distance_guide_px": 0.20166822395092762,
+    "guide_reference_pixel_xy": [
+      4937.173206742213,
+      1385.1032932572998
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Clear Lake large island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3161,
+      3334
+    ],
+    "lonlat": [
+      -64.67146726738456,
+      44.66330063750485
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 143804,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 143804,
+    "nearest_unfiltered_distance_guide_px": 0.5804419370121504,
+    "selected_distance_guide_px": 0.5804419370121504,
+    "guide_reference_pixel_xy": [
+      3191.443098117248,
+      3403.1636249835137
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q09",
+    "label": "Brown Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4772,
+      3610
+    ],
+    "lonlat": [
+      -64.56464182259836,
+      44.683885159130384
+    ],
+    "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+    "reference_objectid": 138371,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138371,
+    "nearest_unfiltered_distance_guide_px": 0.5182122448559723,
+    "selected_distance_guide_px": 0.5182122448559723,
+    "guide_reference_pixel_xy": [
+      4804.77538374695,
+      3646.532997355913
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "attempts": [
+    {
+      "out": "browser",
+      "result": "Imported; reload could not find My Maps within 30 seconds."
+    },
+    {
+      "out": "browser-retry first launch",
+      "result": "Connection refused; local Vite server had stopped."
+    },
+    {
+      "out": "browser-retry restarted local Vite",
+      "result": "Passed desktop import/reload and mobile reload; all screenshots personally inspected; hashes/dimensions/transparency/state preserved, errors empty."
+    }
+  ],
+  "change": "Restarted same local server; test adds failure capture and 60 second UI wait. No product code change."
+}

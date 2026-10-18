@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Maple Hill Lake southern tip",
+    [
+      835,
+      300
+    ],
+    [
+      861,
+      328
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Melville Lake southeast tip",
+    [
+      1862,
+      420
+    ],
+    [
+      1853,
+      411
+    ],
+    "WALK20"
+  ],
+  [
+    "Q03",
+    "Big Ash Lake eastern headland",
+    [
+      1923,
+      1205
+    ],
+    [
+      1907,
+      1221
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Little Kearney Lake southwest tip",
+    [
+      1974,
+      2912
+    ],
+    [
+      1925,
+      2944
+    ],
+    "WALK20"
+  ],
+  [
+    "Q05",
+    "Southern Rocky Lake eastern tip",
+    [
+      3434,
+      3809
+    ],
+    [
+      3345,
+      3803
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Camp Lake southern shore",
+    [
+      4555,
+      3318
+    ],
+    [
+      4439,
+      3320
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Cranberry Lake west of Little Atlantic southern shore",
+    [
+      4867,
+      1680
+    ],
+    [
+      4769,
+      1670
+    ],
+    "WALK20"
+  ]
+]

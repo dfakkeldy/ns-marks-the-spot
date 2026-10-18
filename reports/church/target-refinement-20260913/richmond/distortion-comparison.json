@@ -1,0 +1,68 @@
+{
+  "v4": {
+    "method": "tps",
+    "control_count": 10,
+    "samples": 30435,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.12910067881479,
+      -13.514462378762673
+    ],
+    "anisotropy_median": 1.0331523420817148,
+    "anisotropy_p95": 1.0962417595901313,
+    "anisotropy_max": 1.1283638578717021,
+    "singular_value_range_projected_m_per_native_px": [
+      3.4680323173091945,
+      4.240398786916494
+    ],
+    "worst_anisotropy_source_xy": [
+      27820.0,
+      16040.0
+    ],
+    "limitation": "Finite samples over full content and near controls, not a continuous-surface fold proof or geographic validation"
+  },
+  "single-R26": {
+    "method": "tps",
+    "control_count": 11,
+    "samples": 32116,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.17057593919758,
+      -13.555217476704838
+    ],
+    "anisotropy_median": 1.035298486677141,
+    "anisotropy_p95": 1.0949899849562872,
+    "anisotropy_max": 1.1317591341076316,
+    "singular_value_range_projected_m_per_native_px": [
+      3.4679529073557975,
+      4.240883042280452
+    ],
+    "worst_anisotropy_source_xy": [
+      27820.0,
+      16040.0
+    ],
+    "limitation": "Finite samples over full content and near controls, not a continuous-surface fold proof or geographic validation"
+  },
+  "distributed14": {
+    "method": "tps",
+    "control_count": 14,
+    "samples": 37159,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.94935891932955,
+      -13.79621591289166
+    ],
+    "anisotropy_median": 1.0556280904435535,
+    "anisotropy_p95": 1.1818266606776717,
+    "anisotropy_max": 1.240697413335517,
+    "singular_value_range_projected_m_per_native_px": [
+      3.466859205731278,
+      4.450488285136139
+    ],
+    "worst_anisotropy_source_xy": [
+      33570.70350863812,
+      12393.008962973006
+    ],
+    "limitation": "Finite samples over full content and near controls, not a continuous-surface fold proof or geographic validation"
+  }
+}

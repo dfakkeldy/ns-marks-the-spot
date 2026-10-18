@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Broad Cove",
+    "type": "Bay",
+    "namepoint": [
+      -61.27339815671581,
+      46.26756015473997
+    ],
+    "guide_pixel_xy": [
+      22113.6493615304,
+      6015.67163512383
+    ],
+    "scope": "Locality search only, no observation"
+  },
+  {
+    "name": "Broad Cove",
+    "type": "Unincorporated area",
+    "namepoint": [
+      -61.2346211034309,
+      46.270720534343255
+    ],
+    "guide_pixel_xy": [
+      23189.176064432,
+      5897.46743686661
+    ],
+    "scope": "Locality search only, no observation"
+  },
+  {
+    "name": "Dunvegan",
+    "type": "Unincorporated area",
+    "namepoint": [
+      -61.22943354865991,
+      46.29824481536181
+    ],
+    "guide_pixel_xy": [
+      23342.0552524426,
+      4794.96400167697
+    ],
+    "scope": "Locality search only, no observation"
+  },
+  {
+    "name": "Margaree Forks",
+    "type": "Unincorporated area",
+    "namepoint": [
+      -61.09606614939693,
+      46.33289422843883
+    ],
+    "guide_pixel_xy": [
+      27079.8778440093,
+      3536.77177676302
+    ],
+    "scope": "Locality search only, no observation"
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "sheet": "sheet-19",
+  "rumsey_id": "RUMSEY~8~1~2644~290012",
+  "source_sha256": "965ae592a1aa4276425a43d54b737669f7662f34c179e4861cb6d9284374f319",
+  "retrieved": "2026-07-25",
+  "method": "Long regular rules were detected from the full-resolution scan; every retained intersection and its engraved coordinate labels were then visually reviewed. Folds, hatching and neatlines were excluded before roles were assigned.",
+  "qa_review": "Five labelled meridians and three labelled parallels were confirmed.",
+  "meridians": [
+    {
+      "pixel_x": 1652,
+      "lon": -61.583333333333336,
+      "label": "61d35mW"
+    },
+    {
+      "pixel_x": 3472,
+      "lon": -61.5,
+      "label": "61d30mW"
+    },
+    {
+      "pixel_x": 5289,
+      "lon": -61.416666666666664,
+      "label": "61d25mW"
+    },
+    {
+      "pixel_x": 7130,
+      "lon": -61.333333333333336,
+      "label": "61d20mW"
+    },
+    {
+      "pixel_x": 8958,
+      "lon": -61.25,
+      "label": "61d15mW"
+    }
+  ],
+  "parallels": [
+    {
+      "pixel_y": 1326,
+      "lat": 45.916666666666664,
+      "label": "45d55mN"
+    },
+    {
+      "pixel_y": 3950,
+      "lat": 45.833333333333336,
+      "label": "45d50mN"
+    },
+    {
+      "pixel_y": 6566,
+      "lat": 45.75,
+      "label": "45d45mN"
+    }
+  ],
+  "check_intersections": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      4,
+      1
+    ]
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "IS23",
+  "label": "Lake Murray western lake-stream connection",
+  "role": "check",
+  "phase": "Fresh validation of frozen retained affine4; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T18:35:45.840253+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      19147.5,
+      29235.0
+    ],
+    "extent": [
+      300,
+      210
+    ],
+    "display": [
+      1000,
+      700
+    ],
+    "rotation": 0,
+    "derived_from": "IS3-murray-native.jpg",
+    "derived_crop_box": [
+      365,
+      290,
+      565,
+      430
+    ]
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/IS3-murray-measure.jpg",
+  "source_crop_sha256": "517c4ef1ca4e79f193b1e5c273a9f9302a644da4848b88207b00725f3070681d",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    235,
+    340
+  ],
+  "pixel_xy": [
+    19218.0,
+    29337.0
+  ],
+  "lonlat": [
+    -61.3743548055219,
+    45.70094671553771
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-validation-20260915/southwest-water-lines.geojson",
+  "reference_sha256": "46db449bce463d75cb0f5f6f6a6af6e6334ac81fd70a7f5c9a0585bb4b403a50",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Western lake-to-single-stream neck, where the engraved shores converge; original NSTDB shore/stream node, not text centre.",
+  "identity_evidence": "The explicitly labelled Lake Murray lies west of Beaver Dam Lake and north of Horton Lake/Browns Mill. Its main basin tapers into a western neck and a stream bending west then south. The original WALK20 shore joins WARV50 stream210025 at the same western neck. The engraved dashed road southeast of the lake is excluded. The reference name CBAWC identifies locality only; source and original reference shore/stream nodes supply coordinates.",
+  "reference_vertices": [
+    {
+      "feature_id": 135963,
+      "vertex": 83
+    },
+    {
+      "feature_id": 135964,
+      "vertex": 0
+    },
+    {
+      "feature_id": 210025,
+      "vertex": 0
+    }
+  ]
+}

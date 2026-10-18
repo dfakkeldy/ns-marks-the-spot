@@ -1,0 +1,9 @@
+{
+  "observation": "R40-observation.json",
+  "original_sha256": "92f9a19ccf6f798fac9e5bce955302d11296f73f9a655c429d0073234bc121ef",
+  "correction_type": "Context feature classification only; original observation and first score preserved",
+  "original_phrase": "toward the island south of Hector Point",
+  "corrected_phrase": "toward the coastal pond west of Hector Point",
+  "evidence": "The earlier G06 physical audit establishes the closed source feature is a coastal pond with a narrow modern tidal opening, not an island. See physical-review-20260912/richmond/refinement-03/fresh-checks.json, G06.",
+  "effect": "R40 remains the separately identified outer mainland headland east of the forked inlet. Its measured source pixel, modern vertex, uncertainty, role and first error are unchanged; the corroborating pond classification is corrected."
+}

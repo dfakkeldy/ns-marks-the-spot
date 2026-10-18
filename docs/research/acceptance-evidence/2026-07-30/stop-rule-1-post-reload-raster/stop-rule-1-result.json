@@ -1,0 +1,1260 @@
+{
+  "case": "stop-rule-1 legacy post-reload raster, Zoom-to-point rerun",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys, no bridge size ceiling",
+  "profile": "fresh geckodriver temporary profile; IndexedDB empty at t0",
+  "origin": "http://127.0.0.1:4340",
+  "file": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
+  "fileBytes": 3241291,
+  "budgetSec": 300,
+  "browserName": "firefox",
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "platformName": "mac",
+  "startupDialogButton": null,
+  "idbAtStart": {
+    "blobKeys": [],
+    "blobs": {},
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {},
+    "reconstruction": {},
+    "recordCount": 0,
+    "records": [],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "fileInputCount": 1,
+  "importElapsedToChooserSec": 4.13,
+  "chooserInitialState": {
+    "anyChecked": false,
+    "checkedValues": [],
+    "confirmDisabled": true,
+    "dialogPresent": true,
+    "heading": "Choose a frame for NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+    "highlightPresent": false,
+    "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+    "legend": "Registered frames on page 1",
+    "options": [
+      {
+        "checked": false,
+        "label": "Quadrangle Location",
+        "value": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552"
+      },
+      {
+        "checked": false,
+        "label": "Map Layers",
+        "value": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389"
+      },
+      {
+        "checked": false,
+        "label": "UTM Grid and Projection",
+        "value": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477"
+      }
+    ],
+    "outcomes": [
+      "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "radioCount": 3,
+    "status": null
+  },
+  "mainMapLabelPresent": true,
+  "selectedCandidate": {
+    "checked": false,
+    "label": "Map Layers",
+    "value": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389"
+  },
+  "chooserAfterSelect": {
+    "checkedValues": [
+      "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389"
+    ],
+    "confirmDisabled": false,
+    "highlightPresent": true
+  },
+  "renderPreReload": {
+    "at": "2026-07-31T02:57:49.093Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2424,
+        "overlapPx": 188046
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [
+      "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 672,
+          "height": 505.5,
+          "left": 686.5,
+          "right": 1058.5,
+          "top": 166.5,
+          "width": 372,
+          "x": 686.5,
+          "y": 166.5
+        },
+        "height": 1011,
+        "meanAlpha": 251.962,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.990672,
+        "nonTransparentPixels": 745168,
+        "opacity": "0.7",
+        "sampleStep": 1,
+        "sampledPixels": 752184,
+        "transform": "translate3d(366.5px, 98.5px, 0px)",
+        "width": 744
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 20,
+    "tileDerived": {
+      "lat": 42.940339233631825,
+      "lng": -70.7080078125,
+      "sampleTiles": 20,
+      "zoom": 12
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPreReload": {
+    "ariaLabel": "Adjust points for NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 5 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "43.0005, -70.6242",
+        "offBy": "5 m",
+        "scanPixel": "2803, 339"
+      },
+      {
+        "index": "2",
+        "map": "42.8744, -70.6244",
+        "offBy": "5 m",
+        "scanPixel": "2803, 3584"
+      },
+      {
+        "index": "3",
+        "map": "42.8744, -70.7507",
+        "offBy": "5 m",
+        "scanPixel": "411, 3584"
+      },
+      {
+        "index": "4",
+        "map": "43.0005, -70.7509",
+        "offBy": "5 m",
+        "scanPixel": "411, 339"
+      }
+    ],
+    "rmsText": "RMS 5 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "idbPreReload": {
+    "blobKeys": [
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview",
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:raster"
+    ],
+    "blobs": {
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview": {
+        "byteLength": 1114734,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:raster": {
+        "byteLength": 3241291,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"5638483b-268b-439a-a5bd-fe5487c1fe84\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview": {
+        "byteLength": 1114734,
+        "decodedHeight": 4096,
+        "decodedWidth": 3213,
+        "key": "5638483b-268b-439a-a5bd-fe5487c1fe84:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.59185,
+        "sampledPixels": 1836000,
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T02:57:41.088Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "lgidict-direct-1-gcp-1",
+              "map": {
+                "lat": 43.00053392249658,
+                "lng": -70.62424845225814
+              },
+              "pixel": {
+                "x": 2802.5600000002883,
+                "y": 338.9636426274528
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-2",
+              "map": {
+                "lat": 42.87443222813593,
+                "lng": -70.62437341230213
+              },
+              "pixel": {
+                "x": 2802.559999999939,
+                "y": 3584.148081509821
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-3",
+              "map": {
+                "lat": 42.87443218358437,
+                "lng": -70.7507421795739
+              },
+              "pixel": {
+                "x": 410.65931034480695,
+                "y": 3584.148081509492
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-4",
+              "map": {
+                "lat": 43.00052946315346,
+                "lng": -70.75087545618032
+              },
+              "pixel": {
+                "x": 410.6593103453724,
+                "y": 338.96364262729
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "5638483b-268b-439a-a5bd-fe5487c1fe84",
+        "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-0-gcp-1",
+                    "map": {
+                      "lat": 42.37688195415319,
+                      "lng": -68.87917316703847
+                    },
+                    "pixel": {
+                      "x": 2267.0259794121876,
+                      "y": 3730.0524137932302
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-2",
+                    "map": {
+                      "lat": 42.37688195415319,
+                      "lng": -74.40839415600371
+                    },
+                    "pixel": {
+                      "x": 2103.070572311952,
+                      "y": 3730.0524137932302
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-3",
+                    "map": {
+                      "lat": 45.23931027165396,
+                      "lng": -74.40839415600371
+                    },
+                    "pixel": {
+                      "x": 2103.070572311952,
+                      "y": 3612.40275862056
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-4",
+                    "map": {
+                      "lat": 45.23931027165396,
+                      "lng": -68.87917316703847
+                    },
+                    "pixel": {
+                      "x": 2267.0259794121876,
+                      "y": 3612.40275862056
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+                "sourceRect": {
+                  "height": 117.64965517267046,
+                  "width": 163.9554071002358,
+                  "x": 2103.070572311952,
+                  "y": 3612.40275862056
+                }
+              },
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-1-gcp-1",
+                    "map": {
+                      "lat": 43.00053392249658,
+                      "lng": -70.62424845225814
+                    },
+                    "pixel": {
+                      "x": 2802.5600000002883,
+                      "y": 338.9636426274528
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-2",
+                    "map": {
+                      "lat": 42.87443222813593,
+                      "lng": -70.62437341230213
+                    },
+                    "pixel": {
+                      "x": 2802.559999999939,
+                      "y": 3584.148081509821
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-3",
+                    "map": {
+                      "lat": 42.87443218358437,
+                      "lng": -70.7507421795739
+                    },
+                    "pixel": {
+                      "x": 410.65931034480695,
+                      "y": 3584.148081509492
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-4",
+                    "map": {
+                      "lat": 43.00052946315346,
+                      "lng": -70.75087545618032
+                    },
+                    "pixel": {
+                      "x": 410.6593103453724,
+                      "y": 338.96364262729
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+                "sourceRect": {
+                  "height": 3245.184438882531,
+                  "width": 2391.900689655481,
+                  "x": 410.65931034480695,
+                  "y": 338.96364262729
+                }
+              },
+              {
+                "embeddedLabel": "UTM Grid and Projection",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-2-gcp-1",
+                    "map": {
+                      "lat": 43.00684073044067,
+                      "lng": -70.6156424311107
+                    },
+                    "pixel": {
+                      "x": 2964.987586206979,
+                      "y": 176.5361882157158
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-2",
+                    "map": {
+                      "lat": 42.86811544404883,
+                      "lng": -70.61579919222528
+                    },
+                    "pixel": {
+                      "x": 2964.987586206979,
+                      "y": 3746.575535921229
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-3",
+                    "map": {
+                      "lat": 42.868115644568384,
+                      "lng": -70.75931609118639
+                    },
+                    "pixel": {
+                      "x": 248.2317241380852,
+                      "y": 3746.575535921229
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-4",
+                    "map": {
+                      "lat": 43.00683541461396,
+                      "lng": -70.75948200058636
+                    },
+                    "pixel": {
+                      "x": 248.2317241383216,
+                      "y": 176.5361882157158
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477",
+                "sourceRect": {
+                  "height": 3570.039347705513,
+                  "width": 2716.7558620688937,
+                  "x": 248.2317241380852,
+                  "y": 176.5361882157158
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "selectedFrameId": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3213
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 3245.184438882531,
+          "width": 2391.900689655481,
+          "x": 410.65931034480695,
+          "y": 338.96364262729
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "startupDialogButtonAfterReload": null,
+  "postReloadSettleSeries": [
+    {
+      "tSinceReloadSec": 12.6,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    },
+    {
+      "tSinceReloadSec": 25.7,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    },
+    {
+      "tSinceReloadSec": 45.8,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    }
+  ],
+  "idbPostReload": {
+    "blobKeys": [
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview",
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:raster"
+    ],
+    "blobs": {
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview": {
+        "byteLength": 1114734,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:raster": {
+        "byteLength": 3241291,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"5638483b-268b-439a-a5bd-fe5487c1fe84\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview": {
+        "byteLength": 1114734,
+        "decodedHeight": 4096,
+        "decodedWidth": 3213,
+        "key": "5638483b-268b-439a-a5bd-fe5487c1fe84:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.59185,
+        "sampledPixels": 1836000,
+        "type": "image/png",
+        "thumbnailExtractedTo": "reconstructed-preview-from-stored-bytes.jpg"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T02:57:41.088Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "lgidict-direct-1-gcp-1",
+              "map": {
+                "lat": 43.00053392249658,
+                "lng": -70.62424845225814
+              },
+              "pixel": {
+                "x": 2802.5600000002883,
+                "y": 338.9636426274528
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-2",
+              "map": {
+                "lat": 42.87443222813593,
+                "lng": -70.62437341230213
+              },
+              "pixel": {
+                "x": 2802.559999999939,
+                "y": 3584.148081509821
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-3",
+              "map": {
+                "lat": 42.87443218358437,
+                "lng": -70.7507421795739
+              },
+              "pixel": {
+                "x": 410.65931034480695,
+                "y": 3584.148081509492
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-4",
+              "map": {
+                "lat": 43.00052946315346,
+                "lng": -70.75087545618032
+              },
+              "pixel": {
+                "x": 410.6593103453724,
+                "y": 338.96364262729
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "5638483b-268b-439a-a5bd-fe5487c1fe84",
+        "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-0-gcp-1",
+                    "map": {
+                      "lat": 42.37688195415319,
+                      "lng": -68.87917316703847
+                    },
+                    "pixel": {
+                      "x": 2267.0259794121876,
+                      "y": 3730.0524137932302
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-2",
+                    "map": {
+                      "lat": 42.37688195415319,
+                      "lng": -74.40839415600371
+                    },
+                    "pixel": {
+                      "x": 2103.070572311952,
+                      "y": 3730.0524137932302
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-3",
+                    "map": {
+                      "lat": 45.23931027165396,
+                      "lng": -74.40839415600371
+                    },
+                    "pixel": {
+                      "x": 2103.070572311952,
+                      "y": 3612.40275862056
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-4",
+                    "map": {
+                      "lat": 45.23931027165396,
+                      "lng": -68.87917316703847
+                    },
+                    "pixel": {
+                      "x": 2267.0259794121876,
+                      "y": 3612.40275862056
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+                "sourceRect": {
+                  "height": 117.64965517267046,
+                  "width": 163.9554071002358,
+                  "x": 2103.070572311952,
+                  "y": 3612.40275862056
+                }
+              },
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-1-gcp-1",
+                    "map": {
+                      "lat": 43.00053392249658,
+                      "lng": -70.62424845225814
+                    },
+                    "pixel": {
+                      "x": 2802.5600000002883,
+                      "y": 338.9636426274528
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-2",
+                    "map": {
+                      "lat": 42.87443222813593,
+                      "lng": -70.62437341230213
+                    },
+                    "pixel": {
+                      "x": 2802.559999999939,
+                      "y": 3584.148081509821
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-3",
+                    "map": {
+                      "lat": 42.87443218358437,
+                      "lng": -70.7507421795739
+                    },
+                    "pixel": {
+                      "x": 410.65931034480695,
+                      "y": 3584.148081509492
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-4",
+                    "map": {
+                      "lat": 43.00052946315346,
+                      "lng": -70.75087545618032
+                    },
+                    "pixel": {
+                      "x": 410.6593103453724,
+                      "y": 338.96364262729
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+                "sourceRect": {
+                  "height": 3245.184438882531,
+                  "width": 2391.900689655481,
+                  "x": 410.65931034480695,
+                  "y": 338.96364262729
+                }
+              },
+              {
+                "embeddedLabel": "UTM Grid and Projection",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-2-gcp-1",
+                    "map": {
+                      "lat": 43.00684073044067,
+                      "lng": -70.6156424311107
+                    },
+                    "pixel": {
+                      "x": 2964.987586206979,
+                      "y": 176.5361882157158
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-2",
+                    "map": {
+                      "lat": 42.86811544404883,
+                      "lng": -70.61579919222528
+                    },
+                    "pixel": {
+                      "x": 2964.987586206979,
+                      "y": 3746.575535921229
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-3",
+                    "map": {
+                      "lat": 42.868115644568384,
+                      "lng": -70.75931609118639
+                    },
+                    "pixel": {
+                      "x": 248.2317241380852,
+                      "y": 3746.575535921229
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-4",
+                    "map": {
+                      "lat": 43.00683541461396,
+                      "lng": -70.75948200058636
+                    },
+                    "pixel": {
+                      "x": 248.2317241383216,
+                      "y": 176.5361882157158
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477",
+                "sourceRect": {
+                  "height": 3570.039347705513,
+                  "width": 2716.7558620688937,
+                  "x": 248.2317241380852,
+                  "y": 176.5361882157158
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "selectedFrameId": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3213
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 3245.184438882531,
+          "width": 2391.900689655481,
+          "x": 410.65931034480695,
+          "y": 338.96364262729
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "renderPostReloadBeforeZoom": {
+    "at": "2026-07-31T02:58:43.799Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0,
+        "overlapPx": 0
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 68,
+          "height": 0,
+          "left": 313,
+          "right": 313,
+          "top": 68,
+          "width": 0,
+          "x": 313,
+          "y": 68
+        },
+        "height": 0,
+        "layerPresent": true,
+        "measuredState": "unsized-no-backing-allocated",
+        "nonTransparentFraction": null,
+        "opacity": "0.7",
+        "transform": "none",
+        "width": 0
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 20,
+    "tileDerived": {
+      "lat": 43.004647127794435,
+      "lng": -66.4892578125,
+      "sampleTiles": 20,
+      "zoom": 12
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPostReload": {
+    "ariaLabel": "Adjust points for NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 5 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "43.0005, -70.6242",
+        "offBy": "5 m",
+        "scanPixel": "2803, 339"
+      },
+      {
+        "index": "2",
+        "map": "42.8744, -70.6244",
+        "offBy": "5 m",
+        "scanPixel": "2803, 3584"
+      },
+      {
+        "index": "3",
+        "map": "42.8744, -70.7507",
+        "offBy": "5 m",
+        "scanPixel": "411, 3584"
+      },
+      {
+        "index": "4",
+        "map": "43.0005, -70.7509",
+        "offBy": "5 m",
+        "scanPixel": "411, 339"
+      }
+    ],
+    "rmsText": "RMS 5 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "zoomToPointClick": {
+    "ariaLabel": "Zoom to point 1",
+    "clicked": true,
+    "text": "Zoom to"
+  },
+  "renderPanelOpenAfterZoom": {
+    "at": "2026-07-31T02:58:51.153Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2512,
+        "overlapPx": 251333
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 0,
+      "right": 1425,
+      "top": 68,
+      "width": 1425,
+      "x": 0,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 1121,
+          "height": 703.5,
+          "left": -712.5,
+          "right": 713,
+          "top": 417.5,
+          "width": 1425.5,
+          "x": -712.5,
+          "y": 417.5
+        },
+        "height": 1407,
+        "meanAlpha": 253.992,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.997159,
+        "nonTransparentPixels": 250263,
+        "opacity": "0.7",
+        "sampleStep": 4,
+        "sampledPixels": 250976,
+        "transform": "translate3d(-712.5px, 349.5px, 0px)",
+        "width": 2851
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane",
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 21,
+    "tileDerived": {
+      "lat": 43.000629854450025,
+      "lng": -70.6256103515625,
+      "sampleTiles": 21,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "renderPostReloadAfterZoom": {
+    "at": "2026-07-31T02:58:58.466Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2513,
+        "overlapPx": 194933
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 1121,
+          "height": 703.5,
+          "left": -232.5,
+          "right": 873,
+          "top": 417.5,
+          "width": 1105.5,
+          "x": -232.5,
+          "y": 417.5
+        },
+        "height": 1407,
+        "meanAlpha": 254.182,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.997868,
+        "nonTransparentPixels": 344916,
+        "opacity": "0.7",
+        "sampleStep": 3,
+        "sampledPixels": 345653,
+        "transform": "translate3d(-392.5px, 349.5px, 0px)",
+        "width": 2211
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 21,
+    "tileDerived": {
+      "lat": 43.000629854450025,
+      "lng": -70.6256103515625,
+      "sampleTiles": 21,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "verdict": {
+    "recordPersisted": true,
+    "previewBytesPresentAndDecodable": true,
+    "previewByteLengths": {
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview": 1114734
+    },
+    "previewNonTransparentFraction": {
+      "5638483b-268b-439a-a5bd-fe5487c1fe84:preview": 1
+    },
+    "liveCanvasFractionBeforeZoom": null,
+    "liveCanvasFractionAfterZoom": 0.997868,
+    "canvasCountBeforeZoom": 1,
+    "canvasCountAfterZoom": 1,
+    "canvasStateBeforeZoom": "unsized",
+    "canvasStateAfterZoom": "painted",
+    "settleStates": [
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ]
+    ],
+    "decodeLatencyExcluded": true,
+    "classification": "PERSISTED_BUT_OFFSCREEN",
+    "reason": "Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  },
+  "finalBodyText": "NS Marks The Spot\nOnline\nAbout this map\niPhone app in development\nGet launch updates\n\u2303\nExplore Nova Scotia\nSearch by PID or civic address\nFind parcel\nEnter an 8-digit PID or a Nova Scotia civic address.\nCurrent notices\nHistorical records\nCURRENT \u00b7 advertised notices that still require municipal verification\nMap layers\nModern map\nOpenStreetMap\nReady\nSource & scale\nYour maps\n1 loaded\nDrag a file here, or choose one above.\nFiles stay on this device \u2014 nothing is uploaded.\nNH_Isles_of_Shoals_OE_W_20150610_TM_geo\nYour file \u00b7 3,213\u00d74,096 px\nGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by you\nOpacity\nChange frameAdjust pointsRemove\nNS Aerial\nProvince licence required\nOff\nSource & scale\nNS Property Boundaries\nProvince licence required\nOff\nSource & scale\nReview\nCrown Lands\nProvince licence required\nOff\nSource & scale\nWatersheds\nProvince licence required\nOff\nSource & scale\nWaterfalls\nProvince licence required\nOff\nSource & scale\nWater features\nProvince licence required\nOff\nSource & scale\nRoads, trails & culverts\nProvince licence required\nOff\nSource & scale\nBuildings\nProvince licence required\nOff\nSource & scale\nTopography\n1 optional terrain layer\nForestry\n1 optional policy layer\nFlood hazard context\n4 optional published screens\nEnvironmental health screens\n4 optional well-water & aquifer screens\nMunicipal zoning\n5 optional unofficial layers\nGroundwater\n1 optional well-log overlay\nMicro-hydro pilot\n1 optional Inverness screen\nGeology & Resources\n4 optional screening layers\nChurch (1860s\u201380s)\n4 Cape Breton counties \u00b7 tiles pending\nFletcher historical map\nTile hosting not configured\nOff\nSource & scale\nDavid Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries. Licensed CC BY-NC-SA 3.0: noncommercial use only; project georeferencing, clipping, and tiling changes are identified as derivatives and remain within the licence\u2019s ShareAlike boundary. The MIT software licence does not cover the imagery. This historical layer is context only: it is not a survey and ",
+  "log": [
+    "[   3.33s] ATTACHED firefox 152.0.6 buildID=20260713164047 geckodriver=0.37.1",
+    "[   7.60s] [initial] clicking startup button 'Continue without Province layers'",
+    "[   9.63s] [initial] dialog attempt Continue without: Message: The element with the reference 8eb849e5-f241-4a08-a619-5c30c6feda08 is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  11.11s] IndexedDB at t0: 0 records (expect 0 \u2014 fresh profile)",
+    "[  11.11s] delivering NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf (3241291 bytes)",
+    "[  15.24s] chooser after 4.13s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  15.24s]   options: ['Quadrangle Location', 'Map Layers', 'UTM Grid and Projection']",
+    "[  15.40s] explicitly selecting 'Map Layers' value=lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+    "[  16.61s] clicked 'Use this frame'",
+    "[  22.78s] PRE-RELOAD canvases=1 nonTransparent=[0.990672] mapTier=not-found zoom=None",
+    "[  25.99s] PRE-RELOAD RMS: 'RMS 5 m across 4 points' points=4",
+    "[  30.59s] PRE-RELOAD idb: records=1 blobs={'5638483b-268b-439a-a5bd-fe5487c1fe84:preview': {'byteLength': 1114734, 'ctor': 'ArrayBuffer', 'type': 'image/png'}, '5638483b-268b-439a-a5bd-fe5487c1fe84:raster': {'byteLength': 3241291, 'ctor': 'ArrayBuffer', 'type': 'application/pdf'}}",
+    "[  30.59s] RELOADING",
+    "[  35.45s] [post-reload] clicking startup button 'Continue without Province layers'",
+    "[  37.48s] [post-reload] dialog attempt Continue without: Message: The element with the reference 0d6034ff-ff03-4720-82c0-821677da9eaf is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  43.71s]   settle +12.6s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  56.82s]   settle +25.7s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  76.96s]   settle +45.8s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  77.47s] POST-RELOAD/BEFORE-ZOOM canvases=1 nonTransparent=[None] rows=1 zoom=None centre=None",
+    "[  77.47s]   reconstructed 5638483b-268b-439a-a5bd-fe5487c1fe84:preview: bytes=1114734 3213x4096 nonTransparent=1 nonWhite=0.59185",
+    "[  80.55s] POST-RELOAD RMS: 'RMS 5 m across 4 points' points=4",
+    "[  80.71s] Zoom to point: {'ariaLabel': 'Zoom to point 1', 'clicked': True, 'text': 'Zoom to'}",
+    "[  92.22s] POST-RELOAD/AFTER-ZOOM canvases=1 nonTransparent=[0.997868] zoom=None centre=None",
+    "[  92.22s] VERDICT: PERSISTED_BUT_OFFSCREEN",
+    "[  92.22s]   Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  ]
+}

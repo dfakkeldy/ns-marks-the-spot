@@ -1,0 +1,25 @@
+{
+  "points": [
+    {
+      "id": "Q06",
+      "role": "rejected",
+      "pixel_xy": [
+        8712,
+        5500
+      ],
+      "lonlat": [
+        -60.8896994,
+        45.9513948
+      ],
+      "modern_node": "J1146",
+      "modern_objectids": [
+        274492,
+        274634,
+        286132
+      ],
+      "identity_evidence": "MacKinnon Brook western tributary joining main north-south channel above harbour.",
+      "source_uncertainty_px": 10,
+      "rejection_reason": "Modern small northern tributary on western arm cannot be distinguished from roads and neighbouring main channel on source. Exclude from scores."
+    }
+  ]
+}

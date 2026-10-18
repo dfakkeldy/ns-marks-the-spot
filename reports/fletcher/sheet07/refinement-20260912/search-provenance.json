@@ -1,0 +1,9 @@
+{
+  "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/search/all-modern-nodes-anchored.json",
+  "sha256": "767d32552650be5b834559e29785016de9a8175601a504aab41f7015ed77489e",
+  "guide": {
+    "path": "reports/fletcher/sheet07/search-guide.json",
+    "sha256": "9d18c886cdeb2ff286a52e5ef03df9670e2c58a1c20d418e527cf138b0ef488c"
+  },
+  "scope": "Approximate historical Cartesian graticule guide for search only; modern nodes from NSTDB line ends, never fit-derived."
+}

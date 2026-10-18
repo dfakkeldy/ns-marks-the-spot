@@ -1,0 +1,26 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T09:39:30.070805+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 7,
+  "reason": "Goat Island, Skull, Beeler, Baillie, La Rose, unnamed northeastern and Perotte-area lakes and Keeman provide both-axis spread.",
+  "corrections": [
+    "Goat Island southern source placed on the native shoreline."
+  ],
+  "rejected_checks": [
+    {
+      "id": "Q03",
+      "reason": "Beeler eastern outlet is crossed by road/bridge linework and differs from the modern open channel; no precise shared shore corner established."
+    }
+  ],
+  "unadopted": [
+    "Cady island topology and unnamed lake north of Lamb are too generalized for adopted points.",
+    "Lamb and Jerry Lake details inspected but no observations adopted."
+  ],
+  "limitations": [
+    "Six checks share control waterbodies; the unnamed northeastern southern lake is a separate feature. Shared historical cartography limits independence.",
+    "The western third, much of the Annapolis shoreline and river, and intervening interior lack independent check support.",
+    "Coastal tidal outlines, generalized lake extremities and small islands carry 24 px working source uncertainty."
+  ]
+}

@@ -1,0 +1,79 @@
+[
+  [
+    "C01",
+    "Large Lake (Big Jolicure) southern tip",
+    [
+      958,
+      2694
+    ],
+    [
+      815,
+      2680
+    ],
+    "NBHN_4",
+    [
+      "NB13:5538"
+    ]
+  ],
+  [
+    "C02",
+    "Long Lake (Jolicure) northeast lobe northern tip",
+    [
+      1380,
+      2590
+    ],
+    [
+      1223,
+      2558
+    ],
+    "NBHN_4",
+    [
+      "NB13:428"
+    ]
+  ],
+  [
+    "C03",
+    "Front Lake (Jolicure) northeast lobe northern tip",
+    [
+      1128,
+      2755
+    ],
+    [
+      950,
+      2740
+    ],
+    "NBHN_4",
+    [
+      "NB13:427"
+    ]
+  ],
+  [
+    "C04",
+    "Small lake north of Large Lake northern tip",
+    [
+      952,
+      2265
+    ],
+    [
+      807,
+      2246
+    ],
+    "NBHN_4",
+    [
+      "NB13:8685"
+    ]
+  ],
+  [
+    "C05",
+    "Tidnish Head northern tip",
+    [
+      4129,
+      2970
+    ],
+    [
+      3958,
+      2940
+    ],
+    "WACO20"
+  ]
+]

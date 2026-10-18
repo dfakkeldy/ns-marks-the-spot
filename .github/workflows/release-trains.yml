@@ -17,8 +17,23 @@ on:
         options:
           - nightly
           - weekly
+      provision_live_activity:
+        description: Provision extension signing only using temporary write credentials
+        required: false
+        type: boolean
+        default: false
+      signing_check:
+        description: Inspect signing records only; do not build or upload
+        required: false
+        type: boolean
+        default: false
       dry_run:
         description: Compile and test without uploading to TestFlight
+        required: false
+        type: boolean
+        default: false
+      force:
+        description: Rebuild unchanged inputs intentionally, with all existing gates
         required: false
         type: boolean
         default: false
@@ -32,8 +47,14 @@ env:
   DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
   TRAIN_TIMEZONE: America/Halifax
 
+concurrency:
+  group: release-trains
+  cancel-in-progress: false
+  queue: max
+
 jobs:
   resolve:
+    if: inputs.signing_check != true && inputs.provision_live_activity != true
     name: Resolve train
     runs-on: ubuntu-latest
     outputs:
@@ -108,20 +129,66 @@ jobs:
             echo "dry_run=false"
           } >> "$GITHUB_OUTPUT"
 
-  ship:
-    name: Build and ship ${{ needs.resolve.outputs.channel }}
+  changes:
+    name: Compare delivered build inputs
     needs: resolve
     if: needs.resolve.outputs.should_run == 'true'
-    runs-on: macos-26
-    concurrency:
-      group: release-trains-${{ needs.resolve.outputs.channel }}
-      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      should_run: ${{ steps.changes.outputs.should_run }}
+      source_sha: ${{ steps.changes.outputs.source_sha }}
+      plan: ${{ steps.changes.outputs.plan }}
+      ios: ${{ steps.changes.outputs.ios }}
+      fingerprint_ios: ${{ steps.changes.outputs.fingerprint_ios }}
+    steps:
+      - name: Inspect train source tree
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.branch }}
+          sparse-checkout: .github
 
+      - name: Check out delivery guard from controller
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .release-control
+          sparse-checkout: .github
+
+      - name: Compare successful deliveries
+        id: changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE_RELEASE: ${{ inputs.force || inputs.dry_run || false }}
+        run: >-
+          python3 .release-control/.github/scripts/release_delivery.py plan
+          --controller .release-control
+          --channel "${{ needs.resolve.outputs.channel }}"
+          --force "$FORCE_RELEASE"
+
+  ship:
+    name: Build and ship ${{ needs.resolve.outputs.channel }}
+    needs: [resolve, changes]
+    if: needs.changes.outputs.should_run == 'true'
+    runs-on: macos-26
+
+    env:
+      RELEASE_PLAN: ${{ needs.changes.outputs.plan }}
+      RELEASE_CONTROL_SCRIPT: ${{ github.workspace }}/.release-control/.github/scripts/release_delivery.py
     steps:
       - name: Check out train branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.resolve.outputs.branch }}
+          ref: ${{ needs.changes.outputs.source_sha }}
+
+      - name: Check out delivery recorder from controller
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .release-control
+          sparse-checkout: .github
 
       - name: Select Xcode 26.5
         uses: maxim-lobanov/setup-xcode@v1
@@ -161,6 +228,8 @@ jobs:
             -derivedDataPath "$DERIVED_DATA_PATH" \
             CODE_SIGNING_ALLOWED=NO
 
+      # A runner with no iPhone simulator used to be treated as success,
+      # which meant this gate could go green having run no tests at all.
       - name: Resolve test simulator
         id: test-simulator
         run: |
@@ -170,18 +239,14 @@ jobs:
           )"
 
           if [ -z "$destination" ]; then
-            echo "::notice::No available iPhone simulator was found; compile gate passed, so skipping simulator tests on this runner."
-            echo "has_destination=false" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo "::error::No available iPhone simulator was found, so the unit and UI tests cannot run. A green check here would claim evidence this run does not have."
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations || true
+            exit 1
           fi
 
-          {
-            echo "destination=$destination"
-            echo "has_destination=true"
-          } >> "$GITHUB_OUTPUT"
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
 
       - name: Run train tests
-        if: steps.test-simulator.outputs.has_destination == 'true'
         run: |
           xcodebuild test-without-building \
             -project "$PROJECT" \
@@ -220,6 +285,7 @@ jobs:
           echo "::notice::Dry run requested; compile and tests passed, and no TestFlight upload was attempted."
 
       - name: Upload TestFlight build when secrets are configured
+        id: delivery
         if: needs.resolve.outputs.dry_run != 'true'
         env:
           APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
@@ -244,3 +310,71 @@ jobs:
           fi
 
           bundle exec fastlane beta channel:"$CHANNEL"
+          python3 "$RELEASE_CONTROL_SCRIPT" record --platform ios
+
+      - name: Retain successful ${{ needs.resolve.outputs.channel }} ios delivery receipt
+        if: success() && steps.delivery.outputs.ios_delivered == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-delivery-v1-${{ needs.resolve.outputs.channel }}-ios-${{ github.run_attempt }}-${{ needs.changes.outputs.fingerprint_ios }}
+          path: ${{ runner.temp }}/release-receipts/ios.json
+          retention-days: 90
+          if-no-files-found: error
+
+
+  signing-check:
+    name: Inspect signing records
+    if: github.event_name == 'workflow_dispatch' && inputs.signing_check == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Read Apple signing records
+        env:
+          APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
+        run: bundle exec fastlane signing_check
+      - name: Check signing repository SSH access
+        env:
+          MATCH_GIT_SSH_KEY: ${{ secrets.MATCH_GIT_SSH_KEY }}
+        run: |
+          key_path="$RUNNER_TEMP/match_key"
+          trap 'rm -f "$key_path"' EXIT
+          printf '%s\n' "$MATCH_GIT_SSH_KEY" > "$key_path"
+          chmod 600 "$key_path"
+          export GIT_SSH_COMMAND="ssh -i $key_path -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          repository=git@github.com:dfakkeldy/echo-audiobooks-certificates.git
+          git clone --quiet --bare --depth=1 "$repository" "$RUNNER_TEMP/signing-access-check.git"
+          if git -C "$RUNNER_TEMP/signing-access-check.git" push --dry-run origin HEAD:refs/heads/signing-access-check-${{ github.run_id }}; then
+            echo "Signing repository write access: available (dry run only)"
+          else
+            echo "::warning::Signing repository write access could not be verified; see push dry-run error above."
+          fi
+
+  provision-live-activity:
+    name: Provision Live Activity signing
+    if: github.event_name == 'workflow_dispatch' && inputs.provision_live_activity == true
+    runs-on: macos-26
+    concurrency:
+      group: provision-live-activity-signing
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Create and save extension profile
+        env:
+          APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_PROVISIONING_SSH_KEY: ${{ secrets.MATCH_PROVISIONING_SSH_KEY }}
+        run: |
+          key_path="$RUNNER_TEMP/match_provisioning_key"
+          trap 'rm -f "$key_path"' EXIT
+          test -n "$MATCH_PROVISIONING_SSH_KEY"
+          printf '%s\n' "$MATCH_PROVISIONING_SSH_KEY" > "$key_path"
+          chmod 600 "$key_path"
+          export GIT_SSH_COMMAND="ssh -i $key_path -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          bundle exec fastlane provision_live_activity

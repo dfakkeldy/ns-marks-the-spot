@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C04",
+    "label": "John Island northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      4714,
+      2171
+    ],
+    "lonlat": [
+      -65.44203260430953,
+      43.52910110144922
+    ],
+    "guide_file": ".crown-grant-local/011-frozen-east-guide.npy",
+    "reference_objectid": 17787,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17787,
+    "nearest_unfiltered_distance_guide_px": 1.8129898803242164,
+    "selected_distance_guide_px": 1.8129898803242164,
+    "guide_reference_pixel_xy": [
+      4681.613977794244,
+      2137.8258377478924
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

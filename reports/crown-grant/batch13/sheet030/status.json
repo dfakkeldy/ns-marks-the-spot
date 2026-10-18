@@ -1,0 +1,45 @@
+{
+  "sheet": "030",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/030.pdf",
+    "pdf_sha256": "fc52790e9727cdab54b46f90c774f2d540803e1e533d8f861c70635005a384a3",
+    "jpeg_sha256": "0122b5b7df7a7b0c2a513d534e4e78f0f6a44502737d02445988ef2e6f537c79",
+    "dimensions": [
+      5683,
+      3853
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 8,
+      "rms_ground_m": 95.11671467759331,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven checks share control lakes or their islands; Skunk Lake provides one additional waterbody. Independence is limited by shared cartography and nearby geometry.",
+    "The central and southwestern interior between sampled lakes lacks independent validation.",
+    "Generalized shorelines and small lake tips carry 18 px working source uncertainty; no ownership or access claims follow from this fit.",
+    "Empirical P95 160.66 m exceeds the 150 m companion criterion."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "8 independent checks: RMS 95.12 m, median 63.96 m, P95 160.66 m, maximum 169.14 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "The complete mapped frame, including all intervening interior and water, is retained. Seven lake controls and eight excluded checks sample western, northern and southeastern areas; coverage does not establish uniform geographic accuracy."
+  }
+}

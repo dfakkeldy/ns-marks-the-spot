@@ -1,0 +1,64 @@
+{
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "fit_observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+  "additional_checks_sha256": "7b45ad7b15d3c82b145c2e2fbd949a57e6dcc8869e54e1e27736f33b9b6615a8",
+  "boundary_sha256": "74a195c8210094b8d4c04fa77607913a25b5d129275523506bb6245052663010",
+  "rasters": [
+    {
+      "file": "judique-neatline-diagnostic.tif",
+      "sha256": "f3cac0b2f48c02c6baedf88670cbe23b8ec790ea470a363627ca9aff67d00913",
+      "size": [
+        8399,
+        5737
+      ],
+      "geoTransform": [
+        -6856890.0,
+        5.0,
+        0.0,
+        5768410.0,
+        0.0,
+        -5.0
+      ],
+      "alpha": true,
+      "scope": "neatline-diagnostic"
+    },
+    {
+      "file": "judique-supported-preview.tif",
+      "sha256": "fcc6f297f4cd42e7c6933fd76708779112bdbc9463896a13e124b06380874385",
+      "size": [
+        6333,
+        5430
+      ],
+      "geoTransform": [
+        -6847340.0,
+        5.0,
+        0.0,
+        5767735.0,
+        0.0,
+        -5.0
+      ],
+      "alpha": true,
+      "scope": "supported-preview"
+    }
+  ],
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "rights": "CC BY-NC-SA 3.0 and recorded project permission; see ../INVENTORY.md",
+  "evidence": [
+    {
+      "file": "boundary-overview.jpg",
+      "sha256": "0c2da350dc58a6da51364d480c0deb5550b475698961a838efc7729ad96aaaf9"
+    },
+    {
+      "file": "check-evidence-1.jpg",
+      "sha256": "7fc7569c3bd070e316cb5eca9725c6ed393fca301308c87c224c3b3d244a1608"
+    },
+    {
+      "file": "check-evidence-2.jpg",
+      "sha256": "b00fa00f08ea258e5036bdefd2c3609c035ae9378267a912a5a0c57533984a2a"
+    },
+    {
+      "file": "lake-mismatch.jpg",
+      "sha256": "56793407ca98c79f7a1a53f16d3a709c751f9efcfbc4119aa2b50675f8cd392b"
+    }
+  ]
+}

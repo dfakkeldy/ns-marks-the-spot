@@ -1,0 +1,517 @@
+{
+  "sheet": "131",
+  "baseline_report": "reports/crown-grant/batch3/sheet131",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "08fdf945386ec7262181d5afcf0e5abc285b35192ebb53c2c107ab1c71bd58f4",
+  "reference_sha256": "b6ea5b65740ed6e3f3ddb9a53a92172b1b2b2707d37c2325fc938efdbec1a12a",
+  "fit_sha256": "db6b3a983c3e2b50f9ef2712e92bcde894eb7ac2f5c91037dc366a5c609d5fee",
+  "checks_sha256": "6e35c3b490b2d2663a5bbd719fe516c13d3afd97cbea7e791762f589c64a5c59",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 158.1710764742942,
+    "median_ground_m": 61.18401762474257,
+    "p95_ground_m": 305.8742053735825,
+    "max_ground_m": 351.11139847088174,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -9.305697140435122,
+    "mean_north_ground_m": 31.818992997031533,
+    "points": [
+      {
+        "id": "Q02",
+        "label": "Little Island west end",
+        "role": "check",
+        "pixel_xy": [
+          2662,
+          1040
+        ],
+        "lonlat": [
+          -60.39786044340143,
+          46.19755406410229
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 21788,
+        "reference_feature_code": "WACOIS10",
+        "guide_reference_pixel_xy": [
+          2737.2206169720157,
+          999.3454304169863
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.397855756577435,
+          46.19758597592191
+        ],
+        "error_ground_m": 3.565563691991004,
+        "east_ground_m": 0.3617623844921942,
+        "north_ground_m": 3.54716399660504
+      },
+      {
+        "id": "Q03",
+        "label": "Condor Point south tip",
+        "role": "check",
+        "pixel_xy": [
+          3888,
+          752
+        ],
+        "lonlat": [
+          -60.32609027759124,
+          46.231287596060206
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 3547,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3952.111875496572,
+          711.0120276074158
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.32700008802346,
+          46.231257661502674
+        ],
+        "error_ground_m": 70.26154230267139,
+        "east_ground_m": -70.18272870534831,
+        "north_ground_m": -3.3269983801558367
+      },
+      {
+        "id": "Q04",
+        "label": "Jessop Point east tip",
+        "role": "check",
+        "pixel_xy": [
+          3813,
+          1122
+        ],
+        "lonlat": [
+          -60.32287630592904,
+          46.212842964972104
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 5985,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          3863.004014564329,
+          1084.1792078831932
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.3226889131014,
+          46.21329332371691
+        ],
+        "error_ground_m": 52.10649294681376,
+        "east_ground_m": 14.46018833260013,
+        "north_ground_m": 50.05985977409532
+      },
+      {
+        "id": "Q05",
+        "label": "Indian Lake east tip",
+        "role": "check",
+        "pixel_xy": [
+          4505,
+          1310
+        ],
+        "lonlat": [
+          -60.272660162803625,
+          46.21575992535838
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 38656,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          4564.271275247273,
+          1282.0424607413588
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.27407970856259,
+          46.216450501797816
+        ],
+        "error_ground_m": 133.75338790349625,
+        "east_ground_m": -109.53312887437839,
+        "north_ground_m": 76.76237655682601
+      },
+      {
+        "id": "Q06",
+        "label": "Scotch Lake east tip",
+        "role": "check",
+        "pixel_xy": [
+          3198,
+          1530
+        ],
+        "lonlat": [
+          -60.351686832939144,
+          46.18418852553946
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 141900,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          3266.503226246801,
+          1492.4212370039895
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.35176207410169,
+          46.18451562387726
+        ],
+        "error_ground_m": 36.81972288555344,
+        "east_ground_m": -5.809024476835804,
+        "north_ground_m": 36.35859221692267
+      },
+      {
+        "id": "Q07",
+        "label": "Long Island Barachois north apex",
+        "role": "check",
+        "pixel_xy": [
+          1889,
+          1752
+        ],
+        "lonlat": [
+          -60.42908500170111,
+          46.1523777242314
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 10630,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          1988.2827507570037,
+          1714.1728424513713
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.42943362683034,
+          46.15240184066136
+        ],
+        "error_ground_m": 27.06450006051107,
+        "east_ground_m": -26.931412705089677,
+        "north_ground_m": 2.680703869049683
+      },
+      {
+        "id": "Q08",
+        "label": "McAuley southern lake south tip",
+        "role": "check",
+        "pixel_xy": [
+          1467,
+          2710
+        ],
+        "lonlat": [
+          -60.43710207680049,
+          46.1014232648357
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 132379,
+        "reference_feature_code": "WALK20",
+        "guide_reference_pixel_xy": [
+          1511.7620845501078,
+          2658.6347956468817
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.43265028192382,
+          46.1020461168526
+        ],
+        "error_ground_m": 351.11139847088174,
+        "east_ground_m": 344.21621342538555,
+        "north_ground_m": 69.241696623261
+      },
+      {
+        "id": "Q10",
+        "label": "South Bar west tip",
+        "role": "check",
+        "pixel_xy": [
+          5225,
+          1840
+        ],
+        "lonlat": [
+          -60.21245924705704,
+          46.20443948071383
+        ],
+        "guide_file": ".crown-grant-local/131-adjacent-guide.npy",
+        "reference_objectid": 12163,
+        "reference_feature_code": "WACO20",
+        "guide_reference_pixel_xy": [
+          5298.957090821932,
+          1805.514006332378
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Broad paired shoreline/lake topology and enlarged original-frame crosshair inspected before fitting; nearby coast branches and lakes distinguish feature.",
+        "review": "Reserved and native-audited before first fit; excluded from fitting and model selection.",
+        "predicted_lonlat": [
+          -60.21532314017184,
+          46.20461243296779
+        ],
+        "error_ground_m": 221.86227533574134,
+        "east_ground_m": -221.02744650430668,
+        "north_ground_m": 19.228549319648362
+      }
+    ]
+  },
+  "control_axis_ratio": 1.491844764114404,
+  "affine_scale_ratio": 1.0216463217625034,
+  "metres_per_pixel_singular_values": [
+    5.364260319817676,
+    5.250604054995733
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.839788664288662,
+          2.03598501635468
+        ],
+        [
+          2.0614446684225607,
+          -4.95158516688574
+        ],
+        [
+          685743.728443772,
+          5119024.621983465
+        ]
+      ],
+      "diagnostic_rms_m": 158.94226784178144,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.839703529390882,
+          2.0363954055185016
+        ],
+        [
+          2.0644754764674422,
+          -4.950462420290179
+        ],
+        [
+          685733.545216959,
+          5119018.622720477
+        ]
+      ],
+      "diagnostic_rms_m": 159.8843064603419,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.842513988146945,
+          2.036229960735417
+        ],
+        [
+          2.0589948538454843,
+          -4.950778115729865
+        ],
+        [
+          685741.7827477962,
+          5119019.93730144
+        ]
+      ],
+      "diagnostic_rms_m": 154.98496598040344,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.845639971755462,
+          2.032190272985501
+        ],
+        [
+          2.0618567835825234,
+          -4.9514181985620125
+        ],
+        [
+          685730.6612348426,
+          5119027.85015362
+        ]
+      ],
+      "diagnostic_rms_m": 151.92106524628468,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.82533593405265,
+          2.0473014368816664
+        ],
+        [
+          2.0433173920798646,
+          -4.938317931046638
+        ],
+        [
+          685803.5085298093,
+          5118975.134900775
+        ]
+      ],
+      "diagnostic_rms_m": 171.42100316564054,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.836848415145571,
+          2.0384925903761997
+        ],
+        [
+          2.0667543853511856,
+          -4.95390130874477
+        ],
+        [
+          685751.163691517,
+          5119014.31378112
+        ]
+      ],
+      "diagnostic_rms_m": 162.0313554225191,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C09",
+      "model": "affine",
+      "matrix": [
+        [
+          4.846112366415857,
+          2.0371953077730605
+        ],
+        [
+          2.0525969540534312,
+          -4.952225088262927
+        ],
+        [
+          685733.098524484,
+          5119019.788189573
+        ]
+      ],
+      "diagnostic_rms_m": 150.12831565677195,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C11",
+      "model": "affine",
+      "matrix": [
+        [
+          4.8481358405041775,
+          2.0321729264131245
+        ],
+        [
+          2.0761750725503685,
+          -4.959697421104773
+        ],
+        [
+          685675.4261508108,
+          5119057.523640819
+        ]
+      ],
+      "diagnostic_rms_m": 159.721645018037,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.87790605197105,
+        2.0372234224988475
+      ],
+      [
+        2.0372234224988475,
+        -4.87790605197105
+      ],
+      [
+        685668.934177937,
+        5118878.212731233
+      ]
+    ],
+    "rms_ground_m": 127.51677691250447,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:44.331140+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q08",
+    "Q10",
+    "Q05",
+    "Q03"
+  ],
+  "reviewed_control_ids": [
+    "C06",
+    "C07"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "McAuley southern lake has a two-lobed outline with significantly different relative island/lobe proportions; South Bar is a narrow spit with historical terminal hook absent in modern lines. Indian Lake eastern neck and Condor coast corner recognizable. Similarity improves old checks but retains RMS failure; does not resolve local lake/spit shape differences.",
+  "baseline_limitations": [
+    "Eight independent checks give RMS 158.17 m, median 61.18 m, P95 305.87 m and maximum 351.11 m. The 100 m RMS ceiling and tail bounds fail.",
+    "McAuley southern-lake check 351.11 m and South Bar 221.86 m dominate the error tail; generalized lake shapes and a coastal barrier limit precise correspondence. They remain in the first score.",
+    "Checks concentrate in the northern and central map; southwestern and southeastern controls do not independently validate the southern edge. Urban waterfront and central parcel interiors remain unsupported.",
+    "Rounded shores, barrier ends and historical lake outlines carry 12 px working source uncertainty; these are provisional geographic assessments."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "8f9250dfd5665da85dcde79b3a14b2e79356ace0cec0d7601b89daf50ea16d52"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "a550d524fbdf2378955f86a28d68dd821e2edd3faf4e380b775a8fe47f47a976"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "e7b08a248944d89d75127087a5c69100597499dde891b18cb676b367c578e054"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "c004fe727bb758bdade3a6955f567370bc2018e792368cc8dbd84b968729d8a1"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "cca6204e91b548a514b5e43c62ed8f5a769b3e0afc98b58635f12b76064aafc2"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "5759f6972656e910a2c03daaa409c54783ded201fbbbceaddaabfcc98b6a163e"
+    }
+  ],
+  "control_findings": "Cowan/Cossit lake naming differs but outline/local relation is identifiable; McIsaac western end meets a modern stream. No revised reference identity is established.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

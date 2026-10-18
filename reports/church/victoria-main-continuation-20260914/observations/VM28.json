@@ -1,0 +1,84 @@
+{
+  "id": "VM28",
+  "role": "check",
+  "label": "MacDonald Brook joins the southwest bank of North River",
+  "pixel_xy": [
+    23596.333333333332,
+    13495.333333333334
+  ],
+  "lonlat": [
+    -60.67126374398924,
+    46.316420480554164
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      23430,
+      13330
+    ],
+    "extent": [
+      380,
+      380
+    ],
+    "display": [
+      1140,
+      1140
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    499,
+    496
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-mcdonald-junction-native.jpg",
+  "source_crop_sha256": "54a3a18a32ed8b111d177805369877ccee73710a748195f48aa71b618e8b1146",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/reference-full/water-lines.geojson",
+  "reference_sha256": "37ae738e9faddce3ef91b8668f3811dadc6bd174fc1af6bf322ca1390261b696",
+  "reference_feature_ids": [
+    269258,
+    172122,
+    172123
+  ],
+  "reference_vertex": {
+    "feature_id": 269258,
+    "vertex": 28
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 172122,
+      "vertex": 292
+    },
+    {
+      "feature_id": 172123,
+      "vertex": 0
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "The source names McDonald Brook approaching from the west past the cascades. A separate southern tributary joins it shortly before the short northeast reach enters North River below the gorge; the main river then turns southeast/east toward the downstream bend at Oregon. Native detail distinguishes the upstream tributary fork, road crossing labelled Fall and graticule crossing from the actual river-bank junction. Original named MacDonald Brook269258 ends at the shared southwest North River bank172122/172123, with the same upstream southern tributary and downstream main-river bend sequence.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-mcdonald-north-river-context.jpg",
+    "sha256": "d0ece56e5cf9aff87888ee7953438767ff73f235a964fa736b99e0c866ebd151",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        22500,
+        12600
+      ],
+      "extent": [
+        3000,
+        2800
+      ],
+      "display": [
+        1500,
+        1400
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh interior check after fifteen-control TPS freeze; no tuning or fitting",
+  "recorded_at": "2026-09-15T03:52:11.571827+00:00",
+  "freeze_sha256": "615e7133a8321a93934a0f60b1d88caa8e019c28a76385ed81603454e52d9e1c"
+}

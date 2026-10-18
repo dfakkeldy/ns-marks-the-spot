@@ -1,0 +1,164 @@
+{
+  "count": 28,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/01-northwest.jpg",
+      "sha256": "5f6bd0ba70961640915dee33582b81009d28ebfe47665fbd5fd2cec3656d183c",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/03-west-north.jpg",
+      "sha256": "92724e2a6c1becb376ac8d8c849cc7c40edfa99527b40efc105404bcf3998267",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/03-west-south.jpg",
+      "sha256": "e1b348eda4402afe6f2de45f59be1ec8c7f5f5b951578181cc781bafc2b98f67",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/04-south-coast.jpg",
+      "sha256": "2439ee96bfce3c84a1090b5c7c6ad7c859e78c13ee816246b8fb746ed7a04556",
+      "personally_viewed": true
+    },
+    {
+      "path": "adjacent-sheet-review/04-south-sea.jpg",
+      "sha256": "ac1891a5c6ba05e769c943aa7439d108e651ec6e8214d261035e294f0a49e096",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "5cd20159ade8b087e993c7aa114791ad0d34a175a5e6a1a3e4ca1e3e946bd966",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "38dd41530c63523081fb4b34d7dcc73755d31f0f7bb364b4f225fa4c3e1bab39",
+      "personally_viewed": true
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "a0276ef4a192fe3727f0c9cdbde5a413415a441f0e197b773e860a3b14fcd75c",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-close/sheet-02-R01.jpg",
+      "sha256": "a7d10d42f4091173bf130404a4e6a2be0dbc45b49a2e33933dc65b11a791c012",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-close/sheet-02-R02.jpg",
+      "sha256": "32a34252d059602c5dc22b2ec1c760a0a0b2e2000fe93d7cb5ce85aae69d46a3",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-wide/sheet-02-R01.jpg",
+      "sha256": "4318cef19344584208defdab8440469b805f937a5050c38b2ccb0f650aafb2bf",
+      "personally_viewed": true
+    },
+    {
+      "path": "candidate-wide/sheet-02-R02.jpg",
+      "sha256": "9bf307266b6cd85d09210d0825ccfbf225afc2cd0dce718eee9b886f977d8f63",
+      "personally_viewed": true
+    },
+    {
+      "path": "corrected-close/sheet-02-R02.jpg",
+      "sha256": "c68f67e849a68c1526731df70105e88489305f14150489c8276caa27c5f0ef53",
+      "personally_viewed": true
+    },
+    {
+      "path": "corrected-wide/sheet-02-R02.jpg",
+      "sha256": "0ed2182b0b05f0830fbf9e937c14918a952f2ffc3ce0a393fdbdfb18fbbb37c3",
+      "personally_viewed": true
+    },
+    {
+      "path": "fresh-close/sheet-02-F03.jpg",
+      "sha256": "058dae1c509a8c43137494d6b7c9493c9d3ff384d04c752dc9cdbeca81a5514e",
+      "personally_viewed": true
+    },
+    {
+      "path": "fresh-close/sheet-02-F04.jpg",
+      "sha256": "d68b45807e1ca7e56b156e44417b8c4a66147ec569b04b0769c6acb27a66775d",
+      "personally_viewed": true
+    },
+    {
+      "path": "fresh-corrected-close/sheet-02-F04.jpg",
+      "sha256": "9a22fafdad01bb62f0486ce3081dbed9f8ba1a9380df475d98b66a755fcae5bf",
+      "personally_viewed": true
+    },
+    {
+      "path": "fresh-corrected-wide/sheet-02-F04.jpg",
+      "sha256": "144d8a16d65e3fca1159762da3f00be1855caf98c2e809d0843d9ce9267608fa",
+      "personally_viewed": true
+    },
+    {
+      "path": "fresh-wide/sheet-02-F03.jpg",
+      "sha256": "1b55c30d1b131d6c3b1ba9eb4911a0eaa4b013cb0f4661fe78264d9ffdccb1be",
+      "personally_viewed": true
+    },
+    {
+      "path": "fresh-wide/sheet-02-F04.jpg",
+      "sha256": "ded27dff42791feb6a21d08d646b881f4d309cb548d8991b4383390908c644a2",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/black-head.jpg",
+      "sha256": "4f8384d39fe24dfd5e6991591bed95b5c22dab127e7347eb1c443253a1f04afb",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/egmont-trout.jpg",
+      "sha256": "5b077b5e5acd0a8a6f48d15defecaf99d343bf2489ad2de5428dd84153c3410b",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/full-sheet.jpg",
+      "sha256": "f91a0e321e8abf6809785e8be1e23838658817c6b7568e0180a0b856fdd6f8ea",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/neils-halfway.jpg",
+      "sha256": "28494b59082cf11ed4aeaa08f626a91be5eda9855c6456dda6e039dd4a920525",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/north-pond.jpg",
+      "sha256": "38e4072747bd474c8671d267ec9469b0e58fca0a065ac1ee32691119f9089968",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/pollys-north.jpg",
+      "sha256": "6239e48a8579a8bf1631681d4a0e3bb08847f402a7ace8d5dc16e398096e045f",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/rachel-interior.jpg",
+      "sha256": "ceccea1e77ba8b5c41b91ed9916dc45a2ad08b6a9ed4ed049ee0789900894404",
+      "personally_viewed": true
+    },
+    {
+      "path": "warped-review/white-point.jpg",
+      "sha256": "d0a74ebf68c4d0c1493947dad61ca5e28f83bd31f55b09e67d55afe7c18cf9e2",
+      "personally_viewed": true
+    }
+  ],
+  "regions": {
+    "rachel-interior": "New control pulls the local junction toward modern geometry but upper Rachel moves south and diverges; Neils western reach moves closer in places. Broad branch hierarchy remains unverified.",
+    "neils-halfway": "Fitted junctions persist; intermediate branches, harbour outlines and southern coast diverge.",
+    "egmont-trout": "Coastal fitted points remain close locally; unfitted coast and upstream Trout drainage differ.",
+    "white-point": "Island southern extent close, but historical island much wider and surrounding coast displaced. One low check cannot validate shape.",
+    "pollys-north": "Pollys mouth remains locally fitted; northern edge and neighboring branches do not establish broader alignment.",
+    "north-pond": "Middle/South/North Pond shores, islands and barrier channels remain incompatible; no new pond control accepted.",
+    "black-head": "Black Head/local brook mouth remain close; inner drainage and adjacent coast displaced.",
+    "full-sheet": "Full mapped frame, broad sea/legend, islands and all labels retained; broad sea provides no control support."
+  },
+  "seams": {
+    "01-northwest": "Previously missing comparison now reviewed: gap and differing coast/branch positions, not accepted.",
+    "03-west-north": "Northern edge and North Pond strip disagree between two provisional sheets.",
+    "03-west-south": "Ponds, upstream river continuation and boundary position disagree.",
+    "04-south-coast": "Different boundary curvature and coastal/river position; gap, no accepted continuation.",
+    "04-south-sea": "Unsupported: no physical features, only separated warped boundaries."
+  },
+  "native_review": "All proposed/corrected native close and wide crosshairs personally inspected before adopting R02/C10 or scoring F04. R01 and F03 rejected unscored. Original frame unrotated.",
+  "boundary": "Parent native red-boundary overview personally reviewed; complete single ring unchanged. No outside extension identified."
+}

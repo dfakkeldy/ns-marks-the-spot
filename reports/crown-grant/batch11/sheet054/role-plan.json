@@ -1,0 +1,15 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Affine EPSG:32620",
+  "reason": "Six lake controls span the sheet width and central/southern land; northern half remains extrapolated and independently unvalidated.",
+  "not_adopted": [
+    "Northern Beaver Brook lake has no unambiguous corresponding outline; not forced into a control.",
+    "Avon, St Croix and Herbert river outlines and generalized settlement/road features not adopted.",
+    "Smiley/Cameron configurations inspected but no point adopted."
+  ],
+  "limitations": [
+    "Six checks share control lakes; Ryan Lake is a separate check feature.",
+    "All checks are in central/southern lake areas. Northern Windsor, Falmouth, Newport and river corridors have no independent validation.",
+    "Source uncertainty18 px; historical shoreline generalization limits precision."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "reference_type": "Original official NSTDB geometry; retained source features and rings carry IDs, coordinates and uncertainty. Source feature coordinates are not surveyed checkpoints.",
+  "axis_order": "longitude, latitude",
+  "reference_crs": "EPSG:4326",
+  "source_frames": "Original unrotated archived scan frames; exact crop origin/extent/display and any subcrop derivation recorded per observation",
+  "receipts": [
+    {
+      "name": "Original scan and historical reference identities",
+      "file": "../physical-review-20260912/source-verification.json"
+    },
+    {
+      "name": "Frozen original NSTDB line extracts used by physical observations",
+      "file": "../physical-review-20260912/reference-receipts.json"
+    },
+    {
+      "name": "Richmond eastern extension and merged reference",
+      "file": "../physical-review-20260912/richmond/refinement-04/review-reference-receipt.json"
+    },
+    {
+      "name": "New western Richmond query",
+      "file": "richmond/west-reference-receipt.json"
+    },
+    {
+      "name": "New Bird Islands query",
+      "file": "victoria-main/bird-reference-receipt.json"
+    },
+    {
+      "name": "New Cape Breton query",
+      "file": "cape-breton/reference-receipt.json"
+    },
+    {
+      "name": "New western/inland Inverness south query",
+      "file": "inverness-south/fresh-reference-receipt.json"
+    }
+  ]
+}

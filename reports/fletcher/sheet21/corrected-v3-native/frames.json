@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-21-C15.jpg",
+    "point_record": "sheet21/candidate-corrected-v3.json",
+    "point_id": "C15",
+    "native_box": [
+      8522,
+      4206,
+      8742,
+      4426
+    ],
+    "native_coordinates": [
+      8632,
+      4316
+    ],
+    "modern_lonlat": [
+      -60.89629523121766,
+      45.64371427006186
+    ],
+    "rotation_degrees": 0
+  }
+]

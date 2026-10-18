@@ -1,0 +1,255 @@
+{
+  "sheet": "013",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.8763289158174885,
+      1.980377141652662
+    ],
+    [
+      2.035305941222933,
+      -4.918872204736689
+    ],
+    [
+      257886.98493737643,
+      4941632.845003223
+    ]
+  ],
+  "source_sha256": "5f7763c5246bdf3876b57deac23cc33c39bd2401c9c58496a7796c06ac957329",
+  "source_dimensions": [
+    5722,
+    3900
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Gulliver Point northern roof",
+      "role": "control",
+      "pixel_xy": [
+        1880,
+        170
+      ],
+      "lonlat": [
+        -65.93154829173042,
+        44.616414024917454
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 4414,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4414,
+      "nearest_unfiltered_distance_guide_px": 1.0389237458438252,
+      "selected_distance_guide_px": 1.0389237458438252,
+      "guide_reference_pixel_xy": [
+        1859.1498610808048,
+        179.40281797770876
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Delap Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        252,
+        3350
+      ],
+      "lonlat": [
+        -65.94240715983057,
+        44.446294766412684
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 128069,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128069,
+      "nearest_unfiltered_distance_guide_px": 1.4272323213652003,
+      "selected_distance_guide_px": 1.4272323213652003,
+      "guide_reference_pixel_xy": [
+        224.76401350012748,
+        3324.28632677556
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Wagner Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        1287,
+        2916
+      ],
+      "lonlat": [
+        -65.89085467426256,
+        44.48526545383515
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 135064,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 135064,
+      "nearest_unfiltered_distance_guide_px": 0.2085397652531664,
+      "selected_distance_guide_px": 0.2085397652531664,
+      "guide_reference_pixel_xy": [
+        1273.8093624387402,
+        2908.9154650727287
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Amirault Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        1886,
+        3568
+      ],
+      "lonlat": [
+        -65.83613582278731,
+        44.46850370873443
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 129609,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129609,
+      "nearest_unfiltered_distance_guide_px": 2.33485949990425,
+      "selected_distance_guide_px": 2.33485949990425,
+      "guide_reference_pixel_xy": [
+        1880.4233636840363,
+        3565.296155934455
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Mallett Lake northern horn",
+      "role": "control",
+      "pixel_xy": [
+        3020,
+        3273
+      ],
+      "lonlat": [
+        -65.77674717745154,
+        44.50303376415178
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 136690,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136690,
+      "nearest_unfiltered_distance_guide_px": 1.213581753941971,
+      "selected_distance_guide_px": 1.213581753941971,
+      "guide_reference_pixel_xy": [
+        2997.776877755532,
+        3280.9323312857887
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Harris Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        4818,
+        2690
+      ],
+      "lonlat": [
+        -65.6843966465723,
+        44.56337260701544
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 137967,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137967,
+      "nearest_unfiltered_distance_guide_px": 0.4864115381213657,
+      "selected_distance_guide_px": 0.4864115381213657,
+      "guide_reference_pixel_xy": [
+        4791.463341123599,
+        2711.148024280439
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Worcester Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        5288,
+        100
+      ],
+      "lonlat": [
+        -65.72747433732718,
+        44.68529672578543
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 141477,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141477,
+      "nearest_unfiltered_distance_guide_px": 0.43684570306072995,
+      "selected_distance_guide_px": 0.43684570306072995,
+      "guide_reference_pixel_xy": [
+        5257.841524347023,
+        140.4070867667906
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Annapolis Basin long island northwestern tip",
+      "role": "control",
+      "pixel_xy": [
+        4969,
+        1217
+      ],
+      "lonlat": [
+        -65.7153526086435,
+        44.630447367318844
+      ],
+      "guide_file": ".crown-grant-local/013-east-adjacent-guide.npy",
+      "reference_objectid": 16861,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 16861,
+      "nearest_unfiltered_distance_guide_px": 2.2951500215989493,
+      "selected_distance_guide_px": 2.2951500215989493,
+      "guide_reference_pixel_xy": [
+        4948.049023372121,
+        1252.0340294203488
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    10.859159094555526,
+    65.61732307961269,
+    26.02891341571681,
+    64.98356049973995,
+    20.126999449243645,
+    31.716501215004133,
+    17.890133277356906,
+    21.895581534039952
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

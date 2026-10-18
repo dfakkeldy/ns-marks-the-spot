@@ -1,0 +1,64 @@
+{
+  "sheet": "sheet-09",
+  "status": "provisional-failed-validation",
+  "accepted_for_production_label_projection": false,
+  "source": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/native/sheet09.png",
+    "sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+    "dimensions": [
+      10762,
+      7642
+    ],
+    "coordinate_frame": "Original unrotated image-edge pixels, x right, y down"
+  },
+  "fit": {
+    "path": "reviewed-fit.json",
+    "sha256": "859ba33527e11723fc76527ef48ba953d21832d5e98ab81f08257c285900dd74",
+    "method": "GDAL TPS controls only; lon/lat targets projected to EPSG:3857",
+    "raster_fit": "regional-fit.json",
+    "physical_inputs_identical": true
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+    "sha256": "4b6057df3d3ad73269cce9cbf43dedf72a0cb73a5f9974a794b31c70d3722180",
+    "size": [
+      8370,
+      5414
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2305172,
+            46.6151411
+          ],
+          [
+            -61.2305172,
+            46.4478484
+          ],
+          [
+            -60.8545723,
+            46.4478484
+          ],
+          [
+            -60.8545723,
+            46.6151411
+          ],
+          [
+            -61.2305172,
+            46.6151411
+          ]
+        ]
+      ]
+    }
+  },
+  "csvs": [
+    "sheet-09-controls.csv",
+    "sheet-09-diagnostic-review.csv",
+    "sheet-09-validation-review.csv"
+  ],
+  "boundary": "../expansion-20260910/boundary.json",
+  "instructions": "For tentative digitization, preserve every original source pixel; transform through the 24 control TPS, never through resampled raster pixel coordinates. Attach provisional status to any projected feature. Do not replace production label or tile handoffs.",
+  "source_permission": "Use existing repository permission/attribution receipts; this work establishes no new licence or publication clearance."
+}

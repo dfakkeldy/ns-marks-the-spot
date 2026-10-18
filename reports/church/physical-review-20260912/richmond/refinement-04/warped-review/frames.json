@@ -1,0 +1,122 @@
+[
+  {
+    "name": "inhabitants-basin",
+    "lonlat_bounds": [
+      -61.235,
+      45.554,
+      -61.177,
+      45.612
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-5m.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260912/review-water-lines.geojson",
+    "geotransform": [
+      -6816650.0,
+      6.46,
+      0.0,
+      5718390.0,
+      0.0,
+      -6.459062281315605
+    ],
+    "window_size": [
+      1000,
+      1429
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "eastern-lakes",
+    "lonlat_bounds": [
+      -60.425,
+      45.645,
+      -60.325,
+      45.713
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-5m.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260912/review-water-lines.geojson",
+    "geotransform": [
+      -6726485.0,
+      11.14,
+      0.0,
+      5734480.0,
+      0.0,
+      -11.140801644398765
+    ],
+    "window_size": [
+      1000,
+      973
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "fourchu",
+    "lonlat_bounds": [
+      -60.3,
+      45.695,
+      -60.235,
+      45.743
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-5m.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260912/review-water-lines.geojson",
+    "geotransform": [
+      -6712570.0,
+      7.245,
+      0.0,
+      5739265.0,
+      0.0,
+      -7.246925260170293
+    ],
+    "window_size": [
+      1000,
+      1057
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "grand-narrows",
+    "lonlat_bounds": [
+      -60.905,
+      45.895,
+      -60.685,
+      45.97
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-5m.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260912/review-water-lines.geojson",
+    "geotransform": [
+      -6779915.0,
+      24.495,
+      0.0,
+      5775545.0,
+      0.0,
+      -24.51020408163265
+    ],
+    "window_size": [
+      1000,
+      490
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "isle-madame-south",
+    "lonlat_bounds": [
+      -60.974,
+      45.46,
+      -60.875,
+      45.53
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-5m.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260912/review-water-lines.geojson",
+    "geotransform": [
+      -6787595.0,
+      11.025,
+      0.0,
+      5705350.0,
+      0.0,
+      -11.020812685827552
+    ],
+    "window_size": [
+      1000,
+      1009
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  }
+]

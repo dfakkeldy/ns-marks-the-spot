@@ -1,0 +1,67 @@
+[
+  {
+    "name": "north",
+    "native_box": [
+      4300,
+      1050,
+      9500,
+      3500
+    ],
+    "source_image": "north-grid.jpg",
+    "modern_image": "north-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "south",
+    "native_box": [
+      230,
+      3400,
+      9500,
+      6510
+    ],
+    "source_image": "south-grid.jpg",
+    "modern_image": "south-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "west",
+    "native_box": [
+      450,
+      4800,
+      4350,
+      6510
+    ],
+    "source_image": "west-grid.jpg",
+    "modern_image": "west-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      2900,
+      3300,
+      6350,
+      5750
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "east",
+    "native_box": [
+      6800,
+      1600,
+      9500,
+      3650
+    ],
+    "source_image": "east-grid.jpg",
+    "modern_image": "east-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossings retained; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

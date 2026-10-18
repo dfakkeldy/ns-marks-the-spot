@@ -1,0 +1,9 @@
+{
+  "richmond_controls": 4,
+  "richmond_checks": 4,
+  "corrected_blake_check": 1,
+  "north_checks": 3,
+  "semantic_csv_roundtrip": true,
+  "maximum_affine_web_gdal_difference_projected_m": 6.24750175746099e-9,
+  "scope": "Parser/affine solver consistency; raw-scan browser mesh not exercised; no geographic acceptance"
+}

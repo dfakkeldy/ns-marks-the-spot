@@ -1,0 +1,16 @@
+{
+  "source": "https://novascotia.ca/natr/land/grantmap.asp",
+  "route": "Continue south from130 through133, then north through last eastern column",
+  "sheets": [
+    "131",
+    "132",
+    "133",
+    "140",
+    "139",
+    "138",
+    "137",
+    "136",
+    "135"
+  ],
+  "continuation": "reports/crown-grant/series/queue.json; this publication batch does not limit requested work"
+}

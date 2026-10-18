@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-14-C13.jpg",
+    "point_record": "sheet14/southern-audit-20260909/fit.json",
+    "point_id": "C13",
+    "native_box": [
+      6265,
+      6301,
+      6485,
+      6521
+    ],
+    "native_coordinates": [
+      6375,
+      6411
+    ],
+    "modern_lonlat": [
+      -61.3701531,
+      46.1048035
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-14-B01.jpg",
+    "point_record": "sheet14/southern-audit-20260909/fit.json",
+    "point_id": "B01",
+    "native_box": [
+      6628,
+      5779,
+      6848,
+      5999
+    ],
+    "native_coordinates": [
+      6738,
+      5889
+    ],
+    "modern_lonlat": [
+      -61.3652304,
+      46.1131386
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-14-B02.jpg",
+    "point_record": "sheet14/southern-audit-20260909/checks.json",
+    "point_id": "B02",
+    "native_box": [
+      6559,
+      5533,
+      6779,
+      5753
+    ],
+    "native_coordinates": [
+      6669,
+      5643
+    ],
+    "modern_lonlat": [
+      -61.3668143,
+      46.1215531
+    ],
+    "rotation_degrees": 0
+  }
+]

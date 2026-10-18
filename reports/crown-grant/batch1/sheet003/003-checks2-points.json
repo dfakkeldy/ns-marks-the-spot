@@ -1,0 +1,44 @@
+[
+  {
+    "id": "Q12",
+    "label": "Harris Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5118,
+      2344
+    ],
+    "lonlat": [
+      -66.01009956078197,
+      43.89559208442861
+    ],
+    "reference_objectid": 137005,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5110.057722439349,
+      2340.0347939699423
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q15",
+    "label": "Robbins Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3615,
+      1312
+    ],
+    "lonlat": [
+      -66.13695628410348,
+      43.91135179986772
+    ],
+    "reference_objectid": 142869,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3615.3226445995388,
+      1325.3355674941558
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

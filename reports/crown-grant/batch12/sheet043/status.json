@@ -1,0 +1,45 @@
+{
+  "sheet": "043",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS and companion bounds failed; browser rendering verified; no geographic acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/043.pdf",
+    "pdf_sha256": "aacff7f1c0ae39d8b867bbff17c30423703e59e81fca2cbca9383940a6dc42f2",
+    "jpeg_sha256": "2dc18022cc2cddf8fa1974d04659c7a36de7ca8c41fb866f3f2deb94e6200167",
+    "dimensions": [
+      5727,
+      3921
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 5,
+      "independent_checks": 7,
+      "rms_ground_m": 129.31830269537113,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "First RMS129.32 m exceeds100 m; median84.86 m, P95225.34 m and maximum238.33 m also exceed their75/150/200 m bounds. Baxter Harbour238.33 m and North Brook/Sleepy Hollow195.03 m remain unchanged.",
+    "Five controls and seven checks span coast and interior, but several checks share tributary systems; most eastern tidal Habitant/Canard reaches and far southeast remain unvalidated.",
+    "Source uncertainty 18 px; historical stream generalization, centreline/bank interpretation and crossing annotations limit precision.",
+    "Assessment completion does not establish geographic or user acceptance; the failed fit remains inactive."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 129.32 m, median 84.86 m, P95 225.34 m, maximum 238.33 m. 5 controls; fit unchanged after scoring.",
+    "coverage": "Complete mapped frame retains Black Rock, Canada Creek, Chipman Brook, Halls Harbour, Baxter Harbour, North Mountain, Grafton, Waterville, Cambridge, Coldbrook, Kentville, Lakeville, Billtown, Centreville, Sheffield Mills, Canning, Habitant, Canard and Church Street, including all northern Minas Channel water and southern river reaches. No inset or internal crop."
+  }
+}

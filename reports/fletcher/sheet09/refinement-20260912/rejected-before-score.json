@@ -1,0 +1,54 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -61.0698382,
+        46.4809749
+      ],
+      "source_guide_xy": [
+        4792.730380679248,
+        5569.210366900312
+      ],
+      "objectids": [
+        186864,
+        272051,
+        272168
+      ],
+      "modern_node": "J1300",
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        4895,
+        5355
+      ],
+      "identity_evidence": "Murphys Brook northern tributary above coastal outlet, main eastern arm continues east with separate larger fork; northern arm curves northwest then toward small wet hollow.",
+      "status": "Rejected before scoring: crosshair lies on a bend with no visible native northern junction. Modern northern arm is not established in source. Never fitted or used for acceptance.",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -61.073643,
+        46.4658284
+      ],
+      "source_guide_xy": [
+        4710.036440399475,
+        6043.404920200352
+      ],
+      "objectids": [
+        186448,
+        186858,
+        186859
+      ],
+      "modern_node": "J1397",
+      "id": "F05",
+      "pixel_xy": [
+        4610,
+        5920
+      ],
+      "role": "check",
+      "identity_evidence": "Eastern tributary of long coastal-parallel creek south of Murphys, below two shorter eastern spurs and above the separate southern branch near western coastal bend; main comes from north and runs south through a wet basin.",
+      "status": "Rejected before scoring: proposed crosshair is off stream; native only shows a long unbranched channel where modern has a multi-arm confluence. No established correspondence. Never fitted or used for acceptance.",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

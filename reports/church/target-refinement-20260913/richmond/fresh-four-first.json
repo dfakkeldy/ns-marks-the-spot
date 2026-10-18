@@ -1,0 +1,88 @@
+{
+  "phase": "First four post-freeze checks; northwestern stream network, western mainland, Isle Madame interior, Rocky Bay coast. Incomplete regional coverage; no tuning.",
+  "candidate_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "observation_sha256": "b4df25b4ee455394ee45878602dd3a623e56394ad03303f99937c46ec94dbb3d",
+  "metrics": {
+    "count": 4,
+    "points": [
+      {
+        "label": "R30",
+        "east_ground_m": 193.72566273439088,
+        "north_ground_m": 211.2913860757355,
+        "error_ground_m": 286.6595231833132
+      },
+      {
+        "label": "R31",
+        "east_ground_m": -290.14026926701234,
+        "north_ground_m": -128.38178932282756,
+        "error_ground_m": 317.27473848396016
+      },
+      {
+        "label": "R32",
+        "east_ground_m": 5.790795811751475,
+        "north_ground_m": 135.21489854291337,
+        "error_ground_m": 135.33884181602767
+      },
+      {
+        "label": "R33",
+        "east_ground_m": 29.415003183469487,
+        "north_ground_m": 8.986228045573718,
+        "error_ground_m": 30.75702694947247
+      }
+    ],
+    "rms_ground_m": 224.777411411058,
+    "median_ground_m": 210.99918249967044,
+    "p95_ground_m": 312.6824561888631,
+    "max_ground_m": 317.27473848396016,
+    "mean_east_ground_m": -15.302201884350124,
+    "mean_north_ground_m": 56.777680835348754,
+    "scatter_rms_ground_m": 216.9493541292665,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "v4_same_four": {
+    "count": 4,
+    "points": [
+      {
+        "label": "R30",
+        "east_ground_m": -131.7314226155701,
+        "north_ground_m": 324.9036358016649,
+        "error_ground_m": 350.5931263750943
+      },
+      {
+        "label": "R31",
+        "east_ground_m": 56.30463766305847,
+        "north_ground_m": 219.63696001409005,
+        "error_ground_m": 226.73907123960637
+      },
+      {
+        "label": "R32",
+        "east_ground_m": 82.1678445661935,
+        "north_ground_m": 113.31853626679559,
+        "error_ground_m": 139.9737309008487
+      },
+      {
+        "label": "R33",
+        "east_ground_m": 156.96742086008743,
+        "north_ground_m": -8.867800479094027,
+        "error_ground_m": 157.21771241436136
+      }
+    ],
+    "rms_ground_m": 233.79275070410662,
+    "median_ground_m": 191.97839182698385,
+    "p95_ground_m": 332.01501810477106,
+    "max_ground_m": 350.5931263750943,
+    "mean_east_ground_m": 40.927120118442325,
+    "mean_north_ground_m": 162.24783290086413,
+    "scatter_rms_ground_m": 163.27786696174226,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "R30": true,
+    "R31": true,
+    "R32": true,
+    "R33": true
+  },
+  "geographic_acceptance": false
+}

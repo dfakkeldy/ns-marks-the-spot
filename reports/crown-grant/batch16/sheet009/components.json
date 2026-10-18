@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5629 x 3871 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 74.92 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          60,
+          125
+        ],
+        [
+          5530,
+          110
+        ],
+        [
+          5550,
+          3735
+        ],
+        [
+          65,
+          3745
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full mapped frame retains Argyle, all coastal/tidal islands, lake complexes, rivers and boundary continuations. Seven controls and eight excluded checks sample western islands and eastern lakes; the northwestern quarter and extensive inland shorelines remain provisional."
+    }
+  ]
+}

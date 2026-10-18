@@ -1,0 +1,189 @@
+{
+  "status": "Eight independent physical checks, pre-score topology audited; some checks clustered on shared waterways",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Emerson Point northwestern shoulder",
+      "role": "check",
+      "pixel_xy": [
+        1700,
+        418
+      ],
+      "lonlat": [
+        -61.524830928829424,
+        45.926560755590494
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 10945,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        1716.9618489967543,
+        397.4582219521981
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q02",
+      "label": "Little Judique Pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1873,
+        459
+      ],
+      "lonlat": [
+        -61.513343258235814,
+        45.927513524052195
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 195735,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        1891.243923092552,
+        443.61199200793635
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q03",
+      "label": "Maryville pond northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1778,
+        388
+      ],
+      "lonlat": [
+        -61.520656599732106,
+        45.927095329171095
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 141684,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1781.8342215405428,
+        410.3473535879748
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q04",
+      "label": "Central stream second western confluence",
+      "role": "check",
+      "pixel_xy": [
+        3978,
+        1901
+      ],
+      "lonlat": [
+        -61.35520233861444,
+        45.90105009621003
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 223256,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3968.301281868422,
+        1893.3606317749945
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q05",
+      "label": "Central stream third western confluence",
+      "role": "check",
+      "pixel_xy": [
+        3972,
+        1978
+      ],
+      "lonlat": [
+        -61.352125332952056,
+        45.895116650333755
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 197908,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3964.599096911261,
+        2033.3887430197792
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q06",
+      "label": "Southwest Mabou River western tributary near McLeod Settlement",
+      "role": "check",
+      "pixel_xy": [
+        4108,
+        1449
+      ],
+      "lonlat": [
+        -61.35668275380077,
+        45.92173857222148
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 223975,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        4115.434778019378,
+        1457.853541894583
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q07",
+      "label": "River Denys tributary downstream western junction",
+      "role": "check",
+      "pixel_xy": [
+        5285,
+        3398
+      ],
+      "lonlat": [
+        -61.23999890157839,
+        45.859609847778856
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 266455,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        5303.985837175569,
+        3404.9777531373547
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    },
+    {
+      "id": "Q08",
+      "label": "Victoria Line brook southern tributary junction",
+      "role": "check",
+      "pixel_xy": [
+        4877,
+        3500
+      ],
+      "lonlat": [
+        -61.2621495356023,
+        45.847627024997955
+      ],
+      "guide_file": ".crown-grant-local/109-frozen-guide.npy",
+      "reference_objectid": 197586,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        4884.778990462539,
+        3526.4711958831176
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Physical topology and final native crosshair audited before first score; frozen affine unchanged"
+    }
+  ]
+}

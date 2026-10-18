@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/rendered/victoria-northwest-affine4-review-20m.tif",
+  "raster_sha256": "284a700240632e57a99f31cc9f6e5dfadfb8cce30860c39c9f2f54b342c60089",
+  "cutline_sha256": "b0df965036b53ffcf49beb21388a85c7403b28ba71ef0917af8ddd666decf868",
+  "expected_interior_cells": 8231933,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

@@ -1,0 +1,45 @@
+{
+  "sheet": "111",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS failed; full raster and browser verified with geographic limitations",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/111.pdf",
+    "pdf_sha256": "b8856d43cb7805241d8fa7c84f3903ce2d1f08b9c6fd8dae2b89f191f4502547",
+    "jpeg_sha256": "f845d93bef8244c4088927c21f29888e6f87d4fa51b8078e1d0e883cd8a8c37d",
+    "dimensions": [
+      5650,
+      3845
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 9,
+      "independent_checks": 10,
+      "rms_ground_m": 175.20614129354308,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Ten excluded checks give RMS 175.21 m, exceeding the 100 m ceiling. Median 81.76 m, P95 340.68 m and maximum 382.85 m also exceed suggested companion bounds; the failed first fit is retained unchanged.",
+    "Janvrin Point has a large fitting residual (390.04 projected m); all fitting diagnostics and independent check errors remain reported. This fit is not geographically accepted.",
+    "Western lake cohorts and paired endpoints on Birch, McNamara and McLeod islands are spatially correlated. Northern and far western edges, eastern inland lakes, engineered Port Tupper shores and parcel interiors lack sufficient validation.",
+    "Eastern O Seal peninsula has one control but no secure local independent island check. Source uncertainty is 18 px there and 12 px elsewhere."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "10 independent checks: RMS 175.21 m, median 81.76 m, P95 340.68 m, maximum 382.85 m. 9 controls; fit unchanged after scoring.",
+    "coverage": "Entire original mapped frame includes the Strait of Canso shores, western inland ponds, River Inhabitants, McNamara/McLeod and surrounding islands, Janvrin Island, West Arichat, Louisdale and eastern interiors. No displaced inset identified; all mapped islands and original edges remain present."
+  }
+}

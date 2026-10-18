@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "points": [
+    {
+      "lonlat": [
+        -60.8391869,
+        46.7666365
+      ],
+      "source_guide_xy": [
+        1471.1110658792313,
+        1877.7907758399379
+      ],
+      "objectids": [
+        179954,
+        263338,
+        263339
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        1496,
+        1261
+      ],
+      "modern_node_id": "J0692",
+      "identity_evidence": "Fishing Cove River short western tributary north of fitted southwestern branch",
+      "source_uncertainty_px": 20,
+      "status": "Corrected exact crosshair pending final inspection; same modern western tributary."
+    },
+    {
+      "lonlat": [
+        -60.7261999,
+        46.6235927
+      ],
+      "source_guide_xy": [
+        3924.144841479836,
+        6350.693177439971
+      ],
+      "objectids": [
+        170949,
+        170950,
+        183921
+      ],
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        4019,
+        6181
+      ],
+      "modern_node_id": "J2548",
+      "identity_evidence": "Ch\u00e9ticamp River eastern tributary north of Artemise Brook",
+      "source_uncertainty_px": 20,
+      "status": "Corrected exact crosshair pending final inspection; same eastern tributary, modern branch longer/divided."
+    }
+  ]
+}

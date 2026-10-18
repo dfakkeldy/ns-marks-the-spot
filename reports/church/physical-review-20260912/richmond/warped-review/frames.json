@@ -1,0 +1,146 @@
+[
+  {
+    "name": "chapel-islands",
+    "lonlat_bounds": [
+      -60.802,
+      45.691,
+      -60.729,
+      45.741
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260726/reference/nstdb-major-water.geojson",
+    "geotransform": [
+      -6768450.0,
+      8.129999999999999,
+      0.0,
+      5738945.0,
+      0.0,
+      -8.126272912423625
+    ],
+    "window_size": [
+      1000,
+      982
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "saint-esprit",
+    "lonlat_bounds": [
+      -60.53,
+      45.59,
+      -60.45,
+      45.67
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260726/reference/nstdb-major-water.geojson",
+    "geotransform": [
+      -6738170.0,
+      8.91,
+      0.0,
+      5727625.0,
+      0.0,
+      -8.909090909090908
+    ],
+    "window_size": [
+      1000,
+      1430
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "lennox-passage",
+    "lonlat_bounds": [
+      -61.06,
+      45.58,
+      -60.92,
+      45.64
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260726/reference/nstdb-major-water.geojson",
+    "geotransform": [
+      -6797170.0,
+      15.59,
+      0.0,
+      5722850.0,
+      0.0,
+      -15.587275693311582
+    ],
+    "window_size": [
+      1000,
+      613
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "barque-islands",
+    "lonlat_bounds": [
+      -60.71,
+      45.54,
+      -60.6,
+      45.62
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260726/reference/nstdb-major-water.geojson",
+    "geotransform": [
+      -6758210.0,
+      12.25,
+      0.0,
+      5719665.0,
+      0.0,
+      -12.252165543792108
+    ],
+    "window_size": [
+      1000,
+      1039
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "unsupported-north",
+    "lonlat_bounds": [
+      -61.04,
+      45.79,
+      -60.74,
+      45.97
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260726/reference/nstdb-major-water.geojson",
+    "geotransform": [
+      -6794945.0,
+      33.4,
+      0.0,
+      5775545.0,
+      0.0,
+      -33.393271461716935
+    ],
+    "window_size": [
+      1000,
+      862
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "unsupported-west",
+    "lonlat_bounds": [
+      -61.36,
+      45.56,
+      -61.2,
+      45.66
+    ],
+    "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+    "reference": "/var/home/dan/nsmarks-church-20260726/reference/nstdb-major-water.geojson",
+    "geotransform": [
+      -6830565.0,
+      17.815,
+      0.0,
+      5726035.0,
+      0.0,
+      -17.807606263982102
+    ],
+    "window_size": [
+      1000,
+      894
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  }
+]

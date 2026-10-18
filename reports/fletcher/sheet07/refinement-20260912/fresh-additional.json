@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-07",
+  "fit_sha256": "bcc49f0869d2b40b817de4ea0902fa8f313fe7dfb60126df8251a4636cbed4cb",
+  "collected_at_utc": "2026-09-12T13:55:23.375427+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.4165824,
+        46.5671624
+      ],
+      "source_guide_xy": [
+        2459.8226879993454,
+        2663.2498368001543
+      ],
+      "objectids": [
+        190468,
+        269446,
+        269447
+      ],
+      "id": "F09",
+      "role": "check",
+      "modern_node_id": "J0322",
+      "pixel_xy": [
+        2440,
+        2620
+      ],
+      "identity_evidence": "McLeod Brook northern tributary upstream of mouth",
+      "source_uncertainty_px": 20,
+      "status": "New candidate pending native physical identity review; never scored."
+    }
+  ]
+}

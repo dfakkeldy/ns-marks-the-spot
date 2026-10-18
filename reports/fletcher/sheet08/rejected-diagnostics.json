@@ -1,0 +1,29 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.7144433,
+        46.5307376
+      ],
+      "source_guide_xy": [
+        4296.893213759642,
+        3728.6039835202973
+      ],
+      "objectids": [
+        189798,
+        282335,
+        282339
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        4370,
+        3780
+      ],
+      "modern_node_id": "J2062",
+      "identity_evidence": "West Branch Indian Brook major northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: modern point is a southwestern tributary; native northern tributary has no established matching junction in wider context."
+    }
+  ]
+}

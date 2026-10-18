@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Atlas raster render</title>
+<link rel="stylesheet" href="/vendor/maplibre-gl/maplibre-gl.css">
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #map { position: absolute; left: 0; top: 0; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="/vendor/pmtiles/pmtiles.js"></script>
+<script type="module">
+// Driven by renderer.mjs through page.evaluate. One MapLibre map per page,
+// restyled only when a job's style differs from the current one. The camera is
+// placed on a metatile centre, the map is left to reach `idle`, alignment is
+// asserted against map.project(), and the central block is sliced into
+// 1024 px WebP tiles. Any MapLibre error event fails the job.
+import { Map, addProtocol, getVersion, setWorkerCount, setWorkerUrl } from '/vendor/maplibre-gl/maplibre-gl.mjs';
+
+const TILE_CSS_PX = 512;
+const PIXEL_RATIO = 2;
+
+setWorkerUrl('/vendor/maplibre-gl/maplibre-gl-worker.mjs');
+setWorkerCount(2);
+const protocol = new pmtiles.Protocol({ errorOnMissingTile: false });
+addProtocol('pmtiles', (params, controller) => protocol.tilev4(params, controller));
+
+const container = document.getElementById('map');
+let map = null;
+let currentStyle = null;
+let sizeCss = 0;
+const pending = [];
+
+const describe = (event) => event?.error?.message ?? event?.error ?? event?.message ?? String(event);
+
+function throwPending(context) {
+  if (pending.length === 0) return;
+  const messages = pending.splice(0).map(describe);
+  throw new Error(`MapLibre reported ${messages.length} error(s) ${context}: ${messages.join(' | ')}`);
+}
+
+function waitForIdle(timeoutMs, context) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => { cleanup(); reject(new Error(`Timed out after ${timeoutMs} ms waiting for ${context}`)); }, timeoutMs);
+    const onIdle = () => { cleanup(); resolve(); };
+    const onError = (event) => { cleanup(); reject(new Error(`MapLibre error while ${context}: ${describe(event)}`)); };
+    const cleanup = () => { clearTimeout(timer); map.off('idle', onIdle); map.off('error', onError); };
+    map.on('idle', onIdle);
+    map.on('error', onError);
+  });
+}
+
+async function ensureMap(size, timeoutMs) {
+  if (map && sizeCss === size) return;
+  if (map) { map.remove(); map = null; currentStyle = null; }
+  sizeCss = size;
+  container.style.width = `${size}px`;
+  container.style.height = `${size}px`;
+  map = new Map({
+    container, style: { version: 8, sources: {}, layers: [] },
+    center: [-62, 45], zoom: 5, pixelRatio: PIXEL_RATIO,
+    maxCanvasSize: [size * PIXEL_RATIO, size * PIXEL_RATIO],
+    interactive: false, attributionControl: false, fadeDuration: 0, renderWorldCopies: false,
+    canvasContextAttributes: { preserveDrawingBuffer: true },
+  });
+  map.on('error', (event) => pending.push(event));
+  map.on('webglcontextlost', () => pending.push(new Error('WebGL context lost')));
+  await waitForIdle(timeoutMs, 'the empty bootstrap style');
+  const canvas = map.getCanvas();
+  if (canvas.width !== size * PIXEL_RATIO || canvas.height !== size * PIXEL_RATIO) {
+    throw new Error(`Map canvas is ${canvas.width}x${canvas.height} device px, expected ${size * PIXEL_RATIO}`);
+  }
+}
+
+async function ensureStyle(name, timeoutMs) {
+  if (currentStyle === name) return;
+  throwPending('before restyling');
+  const settled = waitForIdle(timeoutMs, `style ${name} to load`);
+  map.setStyle(`/styles/${name}.json`, { diff: false });
+  await settled;
+  throwPending(`while loading style ${name}`);
+  currentStyle = name;
+}
+
+const toBlob = (canvas, type, quality) => new Promise((resolve, reject) => {
+  canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error(`${type} encoding failed`))), type, quality);
+});
+
+const toBase64 = (blob) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.onload = () => resolve(String(reader.result).split(',', 2)[1]);
+  reader.onerror = () => reject(reader.error);
+  reader.readAsDataURL(blob);
+});
+
+async function upload(name, blob) {
+  const response = await fetch(`/review/${name}`, { method: 'POST', body: blob });
+  if (!response.ok) throw new Error(`Storing ${name} failed: HTTP ${response.status}`);
+  return blob.size;
+}
+
+/** WebGL strings for the receipt, read from a scratch context in the same process. */
+function probe() {
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
+  if (!gl) throw new Error('WebGL is unavailable in the render page');
+  const debug = gl.getExtension('WEBGL_debug_renderer_info');
+  return {
+    maplibre: getVersion(),
+    webglRenderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+    webglVersion: gl.getParameter(gl.VERSION),
+    maxTextureSize: gl.getParameter(gl.MAX_TEXTURE_SIZE),
+    userAgent: navigator.userAgent,
+  };
+}
+
+async function render(job) {
+  const { style, zoom, center, sizeCss: size, offsetCss, nw, se, mx, my, tiles, slices, quality, timeoutMs, pngName } = job;
+  await ensureMap(size, timeoutMs);
+  await ensureStyle(style, timeoutMs);
+  throwPending('before the camera move');
+  const context = `metatile ${style} ${zoom}/${mx}/${my}`;
+  const settled = waitForIdle(timeoutMs, context);
+  map.jumpTo({ center, zoom });
+  map.triggerRepaint();
+  await settled;
+  throwPending(`after rendering ${context}`);
+
+  const blockEnd = offsetCss + tiles * TILE_CSS_PX;
+  const projectedNw = map.project(nw);
+  const projectedSe = map.project(se);
+  const drift = Math.max(
+    Math.abs(projectedNw.x - offsetCss), Math.abs(projectedNw.y - offsetCss),
+    Math.abs(projectedSe.x - blockEnd), Math.abs(projectedSe.y - blockEnd),
+  );
+  if (!(drift < 0.01)) throw new Error(`${context} is misaligned by ${drift} CSS px (nw ${projectedNw.x},${projectedNw.y}; se ${projectedSe.x},${projectedSe.y})`);
+  if (map.getZoom() !== zoom) throw new Error(`${context} settled at zoom ${map.getZoom()}`);
+
+  const source = map.getCanvas();
+  const tilePx = TILE_CSS_PX * PIXEL_RATIO;
+  const tileCanvas = document.createElement('canvas');
+  tileCanvas.width = tilePx;
+  tileCanvas.height = tilePx;
+  const ctx = tileCanvas.getContext('2d', { willReadFrequently: true });
+  const encodeQuality = quality === 'lossless' ? 1 : quality;
+  const results = [];
+  for (const [x, y] of slices) {
+    const sx = (offsetCss + (x - mx) * TILE_CSS_PX) * PIXEL_RATIO;
+    const sy = (offsetCss + (y - my) * TILE_CSS_PX) * PIXEL_RATIO;
+    ctx.clearRect(0, 0, tilePx, tilePx);
+    ctx.drawImage(source, sx, sy, tilePx, tilePx, 0, 0, tilePx, tilePx);
+    const data = ctx.getImageData(0, 0, tilePx, tilePx).data;
+    const colour = [data[0], data[1], data[2]];
+    let uniform = true;
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] !== 255) throw new Error(`${context} tile ${zoom}/${x}/${y} has a non-opaque pixel at index ${i / 4}; refusing to write a blank tile`);
+      if (uniform && (data[i] !== colour[0] || data[i + 1] !== colour[1] || data[i + 2] !== colour[2])) uniform = false;
+    }
+    const blob = await toBlob(tileCanvas, 'image/webp', encodeQuality);
+    const result = { x, y, bytes: blob.size, base64: await toBase64(blob), uniform, colour };
+    if (job.verifyDecode) result.decode = await compareDecoded(blob, data, tilePx);
+    results.push(result);
+  }
+
+  let pngBytes = 0;
+  if (pngName) {
+    const full = document.createElement('canvas');
+    full.width = source.width;
+    full.height = source.height;
+    full.getContext('2d').drawImage(source, 0, 0);
+    pngBytes = await upload(pngName, await toBlob(full, 'image/png'));
+  }
+  return { slices: results, pngBytes };
+}
+
+/** Assemble a grid of served tiles into one PNG so seams can be inspected. */
+async function assemble({ name, rows }) {
+  const tilePx = TILE_CSS_PX * PIXEL_RATIO;
+  const canvas = document.createElement('canvas');
+  canvas.width = rows[0].length * tilePx;
+  canvas.height = rows.length * tilePx;
+  const ctx = canvas.getContext('2d');
+  for (const [row, urls] of rows.entries()) {
+    for (const [column, url] of urls.entries()) {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
+      const bitmap = await createImageBitmap(await response.blob());
+      if (bitmap.width !== tilePx || bitmap.height !== tilePx) throw new Error(`${url} is ${bitmap.width}x${bitmap.height}, expected ${tilePx}`);
+      ctx.drawImage(bitmap, column * tilePx, row * tilePx);
+    }
+  }
+  return upload(name, await toBlob(canvas, 'image/png'));
+}
+
+/** Decode an encoded tile and compare it with the pixels it was encoded from. */
+async function compareDecoded(blob, reference, size) {
+  const bitmap = await createImageBitmap(blob);
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(bitmap, 0, 0);
+  const decoded = ctx.getImageData(0, 0, size, size).data;
+  let mismatched = 0;
+  let maxDelta = 0;
+  for (let i = 0; i < reference.length; i += 4) {
+    const delta = Math.max(Math.abs(decoded[i] - reference[i]), Math.abs(decoded[i + 1] - reference[i + 1]), Math.abs(decoded[i + 2] - reference[i + 2]));
+    if (delta > 0) { mismatched++; if (delta > maxDelta) maxDelta = delta; }
+  }
+  return { mismatched, maxDelta };
+}
+
+window.atlasRender = { probe, render, assemble, ready: true };
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "points": [
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        7798,
+        5697
+      ],
+      "lonlat": [
+        -60.5645599,
+        45.7704887
+      ],
+      "modern_node_id": "J0611",
+      "modern_objectids": [
+        132915,
+        132916,
+        194255
+      ],
+      "identity_evidence": "Middle Loch Lomond eastern shore tributary mouth opposite northern end of southern lake",
+      "source_uncertainty_px": 20,
+      "promoted_from": "V03",
+      "prior_error_ground_m": 162.352702,
+      "status": "Personally inspected original unrotated close/wide source and direct modern tributary-mouth node; promoted unchanged before fresh selection. Road crosses near the historical mouth; lake and tributary topology supports identity."
+    }
+  ]
+}

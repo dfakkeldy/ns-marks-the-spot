@@ -1,0 +1,34 @@
+{
+  "id": "I12",
+  "pixel_xy": [
+    8515,
+    25685
+  ],
+  "lonlat": [
+    -60.875544918287794,
+    46.464216149290834
+  ],
+  "role": "check",
+  "feature_id": 188506,
+  "vertex": 84,
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      7000,
+      25100
+    ],
+    "extent": [
+      1600,
+      1500
+    ],
+    "display": [
+      1600,
+      1500
+    ],
+    "rotation": 0
+  },
+  "feature_definition": "First Fork upstream eastern tributary junction",
+  "identity_evidence": "Trace eastward from First Fork control I10 through the northward elbow and eastward reach to the Y junction with northeast and southeast branches. Both branch connectivity and junction order agree. Near I10 and spatially correlated, not a separate panel region.",
+  "uncertainty_ground_m": 180
+}

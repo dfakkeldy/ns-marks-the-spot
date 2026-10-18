@@ -1,0 +1,86 @@
+{
+  "id": "VN20",
+  "role": "check",
+  "label": "Upper Halfway Brook confluence, northwestern branch entry",
+  "pixel_xy": [
+    9298.2,
+    12836.6
+  ],
+  "lonlat": [
+    -60.40334730047112,
+    46.796864137278426
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      9210,
+      12740
+    ],
+    "extent": [
+      240,
+      230
+    ],
+    "display": [
+      1200,
+      1150
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    441,
+    483
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-halfway-detail.jpg",
+  "source_crop_sha256": "49d16cdc3b87f715e8e1fca54e391cf34114ef146eb597124e0ea36b73031bee",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+  "reference_sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4",
+  "reference_feature_ids": [
+    169778,
+    170598,
+    277178
+  ],
+  "reference_vertex": {
+    "feature_id": 277178,
+    "vertex": 58
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 169778,
+      "vertex": 0
+    },
+    {
+      "feature_id": 170598,
+      "vertex": 3
+    },
+    {
+      "feature_id": 277178,
+      "vertex": 58
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "Northwestern Halfway Brook branch joins the main channel at the western large fork; the western tributary reaches the opposite side a short distance south. Both sources preserve these approaches, the downstream eastward reach and a separate northern tributary farther east. Halfway Brook continues to the Neils Harbour area. Use the northwestern branch/main-stroke junction; exclude the western/southern bank node and nearby HALF lettering. Original river line277178 is named Halfway Brook and terminates at the selected north-bank node. Small modern tributaries and bank detail are not all engraved. The mouth/name location was used only to identify the river; no estuarine classification boundary or name point is used as the GCP.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-halfway-forks.jpg",
+    "sha256": "98cf76dd101dc79dc296b1340c965bf59dbfdd2205f96c30e6c4ae8a41f89aed",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        8700,
+        12100
+      ],
+      "extent": [
+        2000,
+        1600
+      ],
+      "display": [
+        1600,
+        1280
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "First fresh northeastern interior check after North Pond-supported TPS11 freeze; no tuning"
+}

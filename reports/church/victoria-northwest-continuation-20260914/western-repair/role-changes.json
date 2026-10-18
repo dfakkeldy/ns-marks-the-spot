@@ -1,0 +1,11 @@
+{
+  "promoted_unchanged": "VN18",
+  "observation_sha256": "227323880411e292a3b65efe6719b7555e462c54cc4be1d62d11c9983ae6bf7b",
+  "first_result": "../edge-and-interior-trial/VN18-first.json",
+  "excluded_aliases": [
+    "VN18",
+    "Snip/Snipe confluence"
+  ],
+  "retained_for_diagnostic_comparison": "VN19 Doherty remains excluded from fitting",
+  "geographic_acceptance": false
+}

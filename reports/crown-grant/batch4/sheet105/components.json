@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6025 x 4115 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 31.72 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          95
+        ],
+        [
+          5910,
+          95
+        ],
+        [
+          5910,
+          3990
+        ],
+        [
+          80,
+          3990
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame includes Guysborough Intervale, East Roman Valley, Lincolnville, the Ogden lake district, Milford Haven and Boylston, Guysborough and Sunnyville. All lake, river, shoreline and parcel regions remain visible. No displaced inset identified."
+    }
+  ]
+}

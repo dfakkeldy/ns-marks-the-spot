@@ -1,0 +1,63 @@
+{
+  "id": "CB23",
+  "role": "check",
+  "label": "Enon Lake eastern shore and stream junction",
+  "pixel_xy": [
+    9690.833333333334,
+    27445.0
+  ],
+  "lonlat": [
+    -60.53706685946449,
+    45.81123531595991
+  ],
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      9300,
+      26700
+    ],
+    "extent": [
+      950,
+      1100
+    ],
+    "display": [
+      1140,
+      1320
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    469,
+    894
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-validation-20260915/CB6-enon-native.jpg",
+  "source_crop_sha256": "d4aeddf9d51330aba21cdfe989304be77d99f3ed12eb433ef1e3438c9c562ae8",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "reference_feature_ids": [
+    126887,
+    126889,
+    200398
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 126887,
+      "vertex": 0
+    },
+    {
+      "feature_id": 126889,
+      "vertex": 59
+    },
+    {
+      "feature_id": 200398,
+      "vertex": 175
+    }
+  ],
+  "uncertainty_ground_m": 180,
+  "official_identity_key": "CALIG",
+  "identity_evidence": "The source lake is southeast of the Munroe Lake body and northeast of the labelled Lake Uist, with a connecting northern brook and a separate eastern stream crossing the road. The eastern shoreline/stream junction is visible just west of that crossing; do not use the road crossing, nearby school symbol or the dashed county boundary. Original lake banks126887v0/126889v59 and stream200398v175 share the matching reference coordinate. The northern approach is drawn as a narrow brook in the old scan but as part of an elongated lake arm in current geometry, so no whole-basin centroid equivalence is claimed. The eastern connection, southern/western lobes and neighbouring waters establish the intended feature. The official Enon Lake name point identifies the lake only.",
+  "phase": "Fresh check against unchanged frozen TPS11; no fitting or selection use",
+  "recorded_at": "2026-09-15T16:27:09.643077+00:00"
+}

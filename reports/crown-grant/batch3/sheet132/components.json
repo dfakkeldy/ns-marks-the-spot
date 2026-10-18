@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5797 x 3886 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 84.17 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          170,
+          115
+        ],
+        [
+          5680,
+          115
+        ],
+        [
+          5680,
+          3750
+        ],
+        [
+          170,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped rectangle with East Bay, Sydney Forks, inland lakes, Salmon River, Marion Bridge and all Mira River islands. No displaced inset identified. Mapped lake, river and island content is retained in one affine frame."
+    }
+  ]
+}

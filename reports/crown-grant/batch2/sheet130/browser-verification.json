@@ -1,0 +1,21 @@
+{
+  "verified_at_utc": "2026-09-23T07:11:44.530446+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "tool": "Codex browser via cua_repl",
+  "images": [
+    {
+      "path": "/sheet130/main-3857.png",
+      "complete": true,
+      "width": 6194,
+      "height": 5184
+    }
+  ],
+  "verified": [
+    "Complete mapped frame including Bird Islands and Otter Island inspected against NSTDB/OSM",
+    "40 percent opacity, modern-only and restore worked",
+    "No browser warning/error logs"
+  ],
+  "limitations": [
+    "Standalone Leaflet raster review; geographic coverage remains provisional"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-23-Q05.jpg",
+    "point_record": "sheet23/check-corrected-v2.json",
+    "point_id": "Q05",
+    "native_box": [
+      6090,
+      4135,
+      6310,
+      4355
+    ],
+    "native_coordinates": [
+      6200,
+      4245
+    ],
+    "modern_lonlat": [
+      -61.0017142,
+      45.4748092
+    ],
+    "rotation_degrees": 0
+  }
+]

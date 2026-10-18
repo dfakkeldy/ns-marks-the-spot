@@ -1,0 +1,1460 @@
+{
+  "title": "Fletcher sheet 19 — southeast to Glendale and Kingsville",
+  "extracted_at": "2026-09-05",
+  "status": "reviewable-transcription-pilot; not a production map layer",
+  "source": {
+    "author": "Hugh Fletcher / Geological Survey of Canada",
+    "publication_year": 1884,
+    "sheet": 19,
+    "rumsey_id": "RUMSEY~8~1~2644~290012",
+    "list_no": "3997.021",
+    "source_dimensions_px": [
+      10815,
+      7549
+    ],
+    "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+    "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+    "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+    "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "rights_record": "../../../reports/fletcher/INVENTORY.md",
+    "native_mosaic_receipt": "sheet-19-native-source-2026-09-05.json",
+    "native_mosaic_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+    "core_review_region_xywh": [
+      5600,
+      3500,
+      3100,
+      2350
+    ],
+    "pixel_coordinates": "Original unwarped pixels; origin top-left, x right, y down. Label rectangles are lettering, not feature footprints."
+  },
+  "coverage": {
+    "review_windows_xywh": [
+      [
+        5600,
+        3500,
+        1100,
+        1250
+      ],
+      [
+        6600,
+        3500,
+        1100,
+        1250
+      ],
+      [
+        7600,
+        3500,
+        1100,
+        1250
+      ],
+      [
+        5600,
+        4600,
+        1100,
+        1250
+      ],
+      [
+        6600,
+        4600,
+        1100,
+        1250
+      ],
+      [
+        7600,
+        4600,
+        1100,
+        1250
+      ]
+    ],
+    "edge_context_windows_xywh": [
+      [
+        8500,
+        4180,
+        500,
+        300
+      ],
+      [
+        8550,
+        4580,
+        500,
+        280
+      ],
+      [
+        5050,
+        3450,
+        1750,
+        2400
+      ],
+      [
+        7150,
+        5450,
+        450,
+        650
+      ],
+      [
+        7525,
+        5700,
+        525,
+        950
+      ],
+      [
+        7100,
+        5780,
+        680,
+        820
+      ]
+    ],
+    "included": "Printed facilities, people, places, roads, watercourses, minerals, falls and descriptive annotations in the core; edge context completes intersecting names.",
+    "excluded": [
+      "Unlabelled buildings and full geometry tracing",
+      "Geological unit codes, dip/strike numbers and arrows, hatching and red report references",
+      "Graticule and map marginalia",
+      "Other labels visible only in context windows; those windows were not completely inventoried",
+      "Rest of sheet 19 outside declared review windows"
+    ],
+    "deferred": [],
+    "completeness_note": "All six whole source windows and every retained label box visually reviewed by coordinating Codex model. Selected difficult readings independently reviewed by Sol. No independent human completeness audit. Repeated lettering at different source positions remains separate; overlapping crops do not create duplicate annotations.",
+    "workflow_record": "judique-southeast-workflow/README.md"
+  },
+  "interpretation_rules": [
+    "Original source text is separate from search typography and any modern name.",
+    "Repeated generic labels are separate annotations; counts are not proven counts of separate buildings.",
+    "Personal names are map annotations, not proven ownership, residence or parcel matches.",
+    "No historical site coordinate is derived from label position, a global warp, nearby roads or gazetteer representative points.",
+    "Source readings and name-identity evidence do not establish present-day existence, operation, access or exact location."
+  ],
+  "features": [
+    {
+      "id": "F19-JUD-094",
+      "source_text": "Gold Mine",
+      "search_text": "Gold Mine",
+      "kind": "mine-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate printed occurrence from F19-JUD-061; no mine-site identity or location inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6971,
+          3911,
+          173,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6906,
+        3846,
+        303,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6906,3846,303,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-095",
+      "source_text": "Glendale Brook",
+      "search_text": "Glendale Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          7022,
+          3955,
+          82,
+          179
+        ],
+        [
+          7073,
+          4160,
+          72,
+          136
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6957,
+        3890,
+        253,
+        471
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6957,3890,253,471/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-096",
+      "source_text": "MᶜPherson's Brook",
+      "search_text": "McPherson's Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Multipart lettering spans I01 and I02."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6550,
+          4238,
+          239,
+          158
+        ],
+        [
+          6839,
+          4400,
+          105,
+          58
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6485,
+        4173,
+        524,
+        350
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6485,4173,524,350/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-097",
+      "source_text": "D. MᶜInnes",
+      "search_text": "D. McInnes",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Independent source review agrees on McInnes."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7073,
+          4470,
+          164,
+          34
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7008,
+        4405,
+        294,
+        164
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7008,4405,294,164/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-098",
+      "source_text": "Glendale",
+      "search_text": "Glendale",
+      "kind": "named-place",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          7340,
+          4452,
+          412,
+          59
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7275,
+        4387,
+        542,
+        189
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7275,4387,542,189/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-099",
+      "source_text": "P.O.",
+      "search_text": "P.O.",
+      "kind": "post-office",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate annotation from nearby Shop; shared premises unresolved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7508,
+          4500,
+          46,
+          31
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7443,
+        4435,
+        176,
+        161
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7443,4435,176,161/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-100",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "The short word south of P.O. reads Shop, not School."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7454,
+          4534,
+          70,
+          32
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7389,
+        4469,
+        200,
+        162
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7389,4469,200,162/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-101",
+      "source_text": "Mills",
+      "search_text": "Mills",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Plural wording retained; no count of physical mills inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7444,
+          4594,
+          78,
+          33
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7379,
+        4529,
+        208,
+        163
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7379,4529,208,163/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-102",
+      "source_text": "R.C.Ch.",
+      "search_text": "R.C.Ch.",
+      "kind": "church",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Abbreviation retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7298,
+          4638,
+          102,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7233,
+        4573,
+        232,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7233,4573,232,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-103",
+      "source_text": "Plumbago Mine",
+      "search_text": "Plumbago Mine",
+      "kind": "mine-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          6770,
+          4631,
+          233,
+          39
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6705,
+        4566,
+        363,
+        169
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6705,4566,363,169/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-104",
+      "source_text": "River Inhabitants Road",
+      "search_text": "River Inhabitants Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Multipart historical road label; separate from the watercourse wording."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6973,
+          4384,
+          83,
+          98
+        ],
+        [
+          7110,
+          4558,
+          148,
+          166
+        ],
+        [
+          7216,
+          4762,
+          43,
+          88
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6908,
+        4319,
+        416,
+        596
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6908,4319,416,596/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-105",
+      "source_text": "Don. Smith",
+      "search_text": "Don. Smith",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Given-name abbreviation retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7695,
+          3800,
+          177,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7630,
+        3735,
+        307,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7630,3735,307,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-106",
+      "source_text": "D. MᶜTaggart",
+      "search_text": "D. McTaggart",
+      "kind": "person-label",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Tentative surname: independent reviewer reads McTaggart; intervening strokes and the ending remain difficult."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7719,
+          3900,
+          174,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7654,
+        3835,
+        304,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7654,3835,304,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-107",
+      "source_text": "Donald MᶜMaster",
+      "search_text": "Donald McMaster",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          8348,
+          4086,
+          267,
+          34
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8283,
+        4021,
+        397,
+        164
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8283,4021,397,164/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-108",
+      "source_text": "D. Buchanan",
+      "search_text": "D. Buchanan",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          8128,
+          4570,
+          181,
+          31
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8063,
+        4505,
+        311,
+        161
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8063,4505,311,161/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-109",
+      "source_text": "Fall",
+      "search_text": "Fall",
+      "kind": "falls-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate from nearby numbered falls labels; no modern flow or height inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7705,
+          4646,
+          70,
+          35
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7640,
+        4581,
+        200,
+        165
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7640,4581,200,165/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-110",
+      "source_text": "Fall 6",
+      "search_text": "Fall 6",
+      "kind": "falls-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Printed number retained without inferred unit."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7832,
+          4682,
+          78,
+          34
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7767,
+        4617,
+        208,
+        164
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7767,4617,208,164/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-111",
+      "source_text": "Falls 18",
+      "search_text": "Falls 18",
+      "kind": "falls-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Printed number retained without inferred unit."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8002,
+          4724,
+          96,
+          32
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7937,
+        4659,
+        226,
+        162
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7937,4659,226,162/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-112",
+      "source_text": "Coal",
+      "search_text": "Coal",
+      "kind": "mineral-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Mineral wording only; no mine or deposit extent inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8441,
+          4768,
+          74,
+          35
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8376,
+        4703,
+        204,
+        165
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8376,4703,204,165/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-113",
+      "source_text": "Rough Brook",
+      "search_text": "Rough Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          5916,
+          4876,
+          91,
+          167
+        ],
+        [
+          5918,
+          5076,
+          45,
+          145
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5851,
+        4811,
+        221,
+        475
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5851,4811,221,475/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-114",
+      "source_text": "Mal. MᶜDonald",
+      "search_text": "Mal. McDonald",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Given-name abbreviation retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6204,
+          5277,
+          230,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6139,
+        5212,
+        360,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6139,5212,360,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-115",
+      "source_text": "Norman MᶜIntyre",
+      "search_text": "Norman McIntyre",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          6102,
+          5368,
+          303,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6037,
+        5303,
+        433,
+        167
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6037,5303,433,167/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-116",
+      "source_text": "Nor. MᶜIsaac",
+      "search_text": "Nor. McIsaac",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Given-name abbreviation retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5843,
+          5580,
+          189,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5778,
+        5515,
+        319,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5778,5515,319,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-117",
+      "source_text": "Red Bridge",
+      "search_text": "Red Bridge",
+      "kind": "bridge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Historical bridge name only; no present-day structure match."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7245,
+          4894,
+          158,
+          39
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7180,
+        4829,
+        288,
+        169
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7180,4829,288,169/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-118",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Northern shop on the road below Red Bridge."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7248,
+          5075,
+          74,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7183,
+        5010,
+        204,
+        167
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7183,5010,204,167/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-119",
+      "source_text": "Forge",
+      "search_text": "Forge",
+      "kind": "forge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": ""
+      },
+      "source_label_boxes_xywh": [
+        [
+          7270,
+          5266,
+          85,
+          35
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7205,
+        5201,
+        215,
+        165
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7205,5201,215,165/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-120",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Second shop occurrence north of Kingsville."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7242,
+          5382,
+          75,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7177,
+        5317,
+        205,
+        167
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7177,5317,205,167/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-121",
+      "source_text": "Kingsville",
+      "search_text": "Kingsville",
+      "kind": "named-place",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "One printed name crossing I05 and I06."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7454,
+          5440,
+          279,
+          53
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7389,
+        5375,
+        409,
+        183
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7389,5375,409,183/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-122",
+      "source_text": "MᶜIntosh's Shop",
+      "search_text": "McIntosh's Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Source enlargement and independent review resolve McIntosh; no owner identity inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7514,
+          5512,
+          227,
+          35
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7449,
+        5447,
+        357,
+        165
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7449,5447,357,165/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-123",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate shop wording from the named shop and P.O."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7497,
+          5564,
+          70,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7432,
+        5499,
+        200,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7432,5499,200,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-124",
+      "source_text": "P.O.",
+      "search_text": "P.O.",
+      "kind": "post-office",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Shared or separate premises unresolved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7475,
+          5587,
+          62,
+          35
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7410,
+        5522,
+        192,
+        165
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7410,5522,192,165/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-125",
+      "source_text": "Blue Bridge",
+      "search_text": "Blue Bridge",
+      "kind": "bridge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Historical bridge name only."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7470,
+          5634,
+          163,
+          35
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7405,
+        5569,
+        293,
+        165
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7405,5569,293,165/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-126",
+      "source_text": "River Inhabitants",
+      "search_text": "River Inhabitants",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Single curved name; separate from the road wording and other printed river occurrences."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7837,
+          4704,
+          153,
+          137
+        ],
+        [
+          8231,
+          4916,
+          307,
+          91
+        ],
+        [
+          8522,
+          4795,
+          73,
+          160
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7772,
+        4639,
+        888,
+        433
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7772,4639,888,433/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-127",
+      "source_text": "Angus MᶜVarish",
+      "search_text": "Angus McVarish",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Completed east of I03 from native source pixels. Nearby dots are building marks and are excluded from the lettering box."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8580,
+          4252,
+          272,
+          36
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8515,
+        4187,
+        402,
+        166
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8515,4187,402,166/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-128",
+      "source_text": "Neil MᶜCuish",
+      "search_text": "Neil McCuish",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Completed east of I03 from native source pixels."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8647,
+          4344,
+          195,
+          34
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8582,
+        4279,
+        325,
+        164
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8582,4279,325,164/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-129",
+      "source_text": "Fine outcrops of\nblack shale full\nof fossils",
+      "search_text": "Fine outcrops of\nblack shale full\nof fossils",
+      "kind": "descriptive-geology",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Three-line wording completed east of I06; line breaks preserved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8618,
+          4652,
+          270,
+          39
+        ],
+        [
+          8611,
+          4686,
+          238,
+          37
+        ],
+        [
+          8680,
+          4720,
+          150,
+          38
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8546,
+        4587,
+        407,
+        236
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8546,4587,407,236/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-130",
+      "source_text": "CRAIGNISH",
+      "search_text": "CRAIGNISH",
+      "kind": "named-place-or-landscape",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "The widely spaced black letters resolve in southwest-to-northeast order as C R A I G N I S H. Wording is clear; whether the cartographic role is a settlement/area or broader landscape label remains tentative. This is a separate inscription from the nearby Craignish River watercourse name."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5155,
+          5680,
+          70,
+          70
+        ],
+        [
+          5332,
+          5400,
+          70,
+          80
+        ],
+        [
+          5528,
+          5140,
+          75,
+          75
+        ],
+        [
+          5723,
+          4874,
+          60,
+          42
+        ],
+        [
+          5898,
+          4598,
+          56,
+          57
+        ],
+        [
+          6075,
+          4322,
+          66,
+          75
+        ],
+        [
+          6258,
+          4068,
+          63,
+          52
+        ],
+        [
+          6442,
+          3795,
+          62,
+          62
+        ],
+        [
+          6628,
+          3525,
+          72,
+          67
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5090,
+        3460,
+        1675,
+        2355
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5090,3460,1675,2355/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-131",
+      "source_text": "Victoria Road",
+      "search_text": "Victoria Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Multipart lettering follows the road southwest from the Kingsville/Blue Bridge area. Box order follows source text: Victoria, then Road. The label intersects the core and continues below it."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7262,
+          5780,
+          113,
+          107
+        ],
+        [
+          7391,
+          5620,
+          59,
+          83
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7197,
+        5555,
+        318,
+        397
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7197,5555,318,397/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-132",
+      "source_text": "River Inhabitants",
+      "search_text": "River Inhabitants",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Large watercourse lettering follows the river south beyond the I06/core edge. Box order follows source text: River, then Inhabitants. It is distinct from Victoria Road."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7602,
+          5775,
+          92,
+          156
+        ],
+        [
+          7770,
+          6218,
+          193,
+          309
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7537,
+        5710,
+        491,
+        882
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7537,5710,491,882/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-133",
+      "source_text": "PROPOSED RAILWAY TO WHYCOCOMAGH",
+      "search_text": "PROPOSED RAILWAY TO WHYCOCOMAGH",
+      "kind": "railway-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual review of whole source windows, DeepSeek candidates and retained lettering boxes; selected readings independently reviewed by Sol",
+        "reviewed_at": "2026-09-05",
+        "note": "Added during the final core-boundary audit: the opening P intersects I05; the rest is completed from E06. Proposed status is explicit source wording, not evidence of construction or a modern route."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7156,
+          5828,
+          104,
+          190
+        ],
+        [
+          7279,
+          6045,
+          140,
+          169
+        ],
+        [
+          7428,
+          6228,
+          51,
+          65
+        ],
+        [
+          7476,
+          6295,
+          204,
+          249
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7091,
+        5763,
+        654,
+        846
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7091,5763,654,846/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    }
+  ]
+}

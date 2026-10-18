@@ -1,0 +1,38 @@
+{
+  "accepted_check_count": 0,
+  "accepted_control_count": 0,
+  "candidate_failures": {},
+  "candidate_stage": "not-run",
+  "candidates": [],
+  "disposition": "source-drift",
+  "method_version": "modern-feature-v1",
+  "modern_source_receipts": {
+    "natural_checks": [],
+    "transport_controls": []
+  },
+  "natural_metrics": null,
+  "natural_stage": "not-run",
+  "observation_sha256": "6e44be00b36188612fe0c2d3ad0dae7a88839c3ebbca6ce0032952505b849b28",
+  "raster_stage": "not-run",
+  "reason": "source-drift: invalid Sheet 24 manifest receipt: manifest.sheets.24.list_number must be a non-empty string",
+  "rejected_candidate_count": 0,
+  "schema_version": 1,
+  "selected_raster_path": null,
+  "selected_raster_sha256": null,
+  "sheet_id": "24",
+  "source_receipt": {
+    "height": 7655,
+    "list_number": "3997.026",
+    "rumsey_id": "RUMSEY~8~1~2649~290017",
+    "sha256": "735daf2fb3b8afd12bef672ffaad9425c05ec1873a75afdb708ff048cb8dfee8",
+    "width": 10782
+  },
+  "structural": null,
+  "structural_stage": "not-run",
+  "tile_png_count": 0,
+  "tile_stage": "not-run",
+  "transport_metrics": null,
+  "transport_stage": "not-run",
+  "visual_qa": null,
+  "visual_stage": "not-run"
+}

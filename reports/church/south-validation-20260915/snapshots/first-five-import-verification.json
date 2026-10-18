@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "file": "controls.csv",
+      "controls": 4,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 2.4375044420924783e-8
+        }
+      ]
+    },
+    {
+      "file": "fresh-validation.csv",
+      "controls": 4,
+      "checks": 5,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 2.4375044420924783e-8
+        }
+      ]
+    }
+  ],
+  "scope": "Production CSV parser and retained affine solver at fresh checks and content vertices; not raw-scan browser mesh acceptance."
+}

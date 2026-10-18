@@ -1,0 +1,219 @@
+{
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_review_sha256": "893b98d6d8104aba52abbaafca9f25076fe3bdb64395e176e4f03dfd3b5f13ff",
+  "image_sha256": "40ff1fb4689af66df6c23c9b3446e5099c12b8cae77031a6cb87b25d8b67b3d6",
+  "frames": [
+    {
+      "annotation_id": "F19-JUD-041",
+      "native_xywh": [
+        7853,
+        1797,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          8180,
+          2025,
+          65,
+          25
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-042",
+      "native_xywh": [
+        7881,
+        1859,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          8239.5,
+          2060
+        ],
+        [
+          8248,
+          2070
+        ],
+        [
+          8258.5,
+          2080
+        ],
+        [
+          8264,
+          2090
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-043",
+      "native_xywh": [
+        8015,
+        1899,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          8271.5,
+          2100
+        ],
+        [
+          8278,
+          2110
+        ],
+        [
+          8291,
+          2120
+        ],
+        [
+          8300,
+          2130
+        ],
+        [
+          8308,
+          2140
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-044",
+      "native_xywh": [
+        7710,
+        1997,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          8000,
+          2253.5
+        ],
+        [
+          8010,
+          2262
+        ],
+        [
+          8020,
+          2274
+        ],
+        [
+          8030,
+          2279
+        ],
+        [
+          8040,
+          2282.5
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-045",
+      "native_xywh": [
+        7993,
+        2008,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": []
+    },
+    {
+      "annotation_id": "F19-JUD-051",
+      "native_xywh": [
+        5737,
+        3250,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          5987.5,
+          3455
+        ],
+        [
+          6006.5,
+          3465
+        ],
+        [
+          6018,
+          3475
+        ],
+        [
+          6021.5,
+          3485
+        ],
+        [
+          6020.5,
+          3495
+        ]
+      ]
+    }
+  ],
+  "scope": "Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged."
+}

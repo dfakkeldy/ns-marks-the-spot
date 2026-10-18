@@ -1,0 +1,295 @@
+{
+  "count": 8,
+  "rms_ground_m": 107.9189301421114,
+  "median_ground_m": 72.51242411539067,
+  "p95_ground_m": 188.77372708352473,
+  "max_ground_m": 209.4167373663172,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 7.931713369018862,
+  "mean_north_ground_m": -15.633178472621308,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Sheep Island northwest corner",
+      "role": "check",
+      "pixel_xy": [
+        434,
+        1372
+      ],
+      "lonlat": [
+        -62.24220001862683,
+        44.92972697406599
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 20302,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20302,
+      "nearest_unfiltered_distance_guide_px": 3.9413503792681683,
+      "selected_distance_guide_px": 3.9413503792681683,
+      "guide_reference_pixel_xy": [
+        385.1071953633218,
+        1321.9398923800327
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.243123018915526,
+        44.9296945347513
+      ],
+      "error_ground_m": 72.95370069935113,
+      "east_ground_m": -72.86459669334745,
+      "north_ground_m": -3.60457964904736
+    },
+    {
+      "id": "Q02",
+      "label": "Rocky Island north shore",
+      "role": "check",
+      "pixel_xy": [
+        1865,
+        1470
+      ],
+      "lonlat": [
+        -62.15527506474209,
+        44.94933741082174
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 20477,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20477,
+      "nearest_unfiltered_distance_guide_px": 2.7511379599566204,
+      "selected_distance_guide_px": 2.7511379599566204,
+      "guide_reference_pixel_xy": [
+        1831.4471964450204,
+        1435.0256481289398
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.155292080332835,
+        44.94992949649104
+      ],
+      "error_ground_m": 65.81265029818874,
+      "east_ground_m": -1.3427934639037873,
+      "north_ground_m": 65.7989501814807
+    },
+    {
+      "id": "Q03",
+      "label": "Barren Island east projection",
+      "role": "check",
+      "pixel_xy": [
+        3754,
+        2398
+      ],
+      "lonlat": [
+        -62.02086558154965,
+        44.94286738143579
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 17378,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17378,
+      "nearest_unfiltered_distance_guide_px": 1.2658886444219208,
+      "selected_distance_guide_px": 1.2658886444219208,
+      "guide_reference_pixel_xy": [
+        3759.3627792803454,
+        2357.0938115991885
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.0199574919971,
+        44.942799149610416
+      ],
+      "error_ground_m": 72.07114753143021,
+      "east_ground_m": 71.67119256086592,
+      "north_ground_m": -7.582246593224085
+    },
+    {
+      "id": "Q04",
+      "label": "Hog Island southeast shore",
+      "role": "check",
+      "pixel_xy": [
+        3101,
+        1940
+      ],
+      "lonlat": [
+        -62.07100191775036,
+        44.950725485487986
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 19113,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19113,
+      "nearest_unfiltered_distance_guide_px": 0.8023266244701541,
+      "selected_distance_guide_px": 0.8023266244701541,
+      "guide_reference_pixel_xy": [
+        3085.6534620914026,
+        1902.4655269137584
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.07005557418374,
+        44.951077024852836
+      ],
+      "error_ground_m": 84.28111234583713,
+      "east_ground_m": 74.67966608070991,
+      "north_ground_m": 39.06729287172693
+    },
+    {
+      "id": "Q05",
+      "label": "Liscomb Island Crook Point east tip",
+      "role": "check",
+      "pixel_xy": [
+        5410,
+        2055
+      ],
+      "lonlat": [
+        -61.92806476146736,
+        44.987004246473916
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 19875,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19875,
+      "nearest_unfiltered_distance_guide_px": 2.860345528897816,
+      "selected_distance_guide_px": 2.860345528897816,
+      "guide_reference_pixel_xy": [
+        5497.13970295171,
+        1999.9833464649273
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -61.929197797225505,
+        44.98530000223019
+      ],
+      "error_ground_m": 209.4167373663172,
+      "east_ground_m": -89.35912406820455,
+      "north_ground_m": -189.3946061399751
+    },
+    {
+      "id": "Q06",
+      "label": "Smaller White Island northwest tip",
+      "role": "check",
+      "pixel_xy": [
+        1508,
+        2862
+      ],
+      "lonlat": [
+        -62.142800468340496,
+        44.885306469246316
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 22118,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 22118,
+      "nearest_unfiltered_distance_guide_px": 0.5570503792875188,
+      "selected_distance_guide_px": 0.5570503792875188,
+      "guide_reference_pixel_xy": [
+        1477.4628228417714,
+        2813.852535340702
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.14286930266077,
+        44.88508953378153
+      ],
+      "error_ground_m": 24.71369258979594,
+      "east_ground_m": -5.43820569302691,
+      "north_ground_m": -24.107934798801505
+    },
+    {
+      "id": "Q07",
+      "label": "Southern Halibut Island east shore",
+      "role": "check",
+      "pixel_xy": [
+        825,
+        2440
+      ],
+      "lonlat": [
+        -62.193039624675095,
+        44.891276332802455
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 17146,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17146,
+      "nearest_unfiltered_distance_guide_px": 1.0602312593465009,
+      "selected_distance_guide_px": 1.0602312593465009,
+      "guide_reference_pixel_xy": [
+        786.3220384966116,
+        2395.8151432531886
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.1938524587411,
+        44.891282913928485
+      ],
+      "error_ground_m": 64.21464532236784,
+      "east_ground_m": -64.21047670506663,
+      "north_ground_m": 0.7316797015047383
+    },
+    {
+      "id": "Q08",
+      "label": "Lost Lake east shore",
+      "role": "check",
+      "pixel_xy": [
+        4642,
+        546
+      ],
+      "lonlat": [
+        -62.0135052103248,
+        45.03613075026832
+      ],
+      "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+      "reference_objectid": 133361,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133361,
+      "nearest_unfiltered_distance_guide_px": 0.4569755542923144,
+      "selected_distance_guide_px": 0.4569755542923144,
+      "guide_reference_pixel_xy": [
+        4648.3077522531385,
+        497.66219057457056
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+      "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+      "predicted_lonlat": [
+        -62.011597556508015,
+        45.036076978825626
+      ],
+      "error_ground_m": 150.43670798691022,
+      "east_ground_m": 150.3180449341244,
+      "north_ground_m": -5.973983354634784
+    }
+  ],
+  "fit_sha256": "b8ce6ea3a0162c75333e7f9e5d5a6d8cb524412f5e8deb54ec0453400564e100",
+  "checks_sha256": "6260379c4129dd418ce139e694430eb6e88a3ddf895c28a64fa092a09ec01999",
+  "status": "Eight excluded island and lake checks reserved before first affine fit and scoring; shared islands and generalized shoreline evidence remain qualified"
+}

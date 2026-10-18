@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C01",
+    "label": "Mountain Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      954,
+      1636
+    ],
+    "lonlat": [
+      -62.3931606272934,
+      45.24996634565613
+    ],
+    "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+    "reference_objectid": 140676,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140676,
+    "nearest_unfiltered_distance_guide_px": 1.3420654927369706,
+    "selected_distance_guide_px": 1.3420654927369706,
+    "guide_reference_pixel_xy": [
+      938.7285813457565,
+      1594.127079859376
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Glencross southern lake island north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      4333,
+      1400
+    ],
+    "lonlat": [
+      -62.19895756538127,
+      45.31643532480047
+    ],
+    "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+    "reference_objectid": 154018,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 154018,
+    "nearest_unfiltered_distance_guide_px": 0.9770636373139929,
+    "selected_distance_guide_px": 0.9770636373139929,
+    "guide_reference_pixel_xy": [
+      4307.649043929239,
+      1387.0881430003792
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Three Island Lake east extremity",
+    "role": "proposal",
+    "pixel_xy": [
+      461,
+      1797
+    ],
+    "lonlat": [
+      -62.41861600420002,
+      45.23431365863611
+    ],
+    "guide_file": ".crown-grant-local/095-adjacent-guide.npy",
+    "reference_objectid": 139276,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139276,
+    "nearest_unfiltered_distance_guide_px": 0.4384932652043759,
+    "selected_distance_guide_px": 0.4384932652043759,
+    "guide_reference_pixel_xy": [
+      438.66551295033423,
+      1762.283539692522
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

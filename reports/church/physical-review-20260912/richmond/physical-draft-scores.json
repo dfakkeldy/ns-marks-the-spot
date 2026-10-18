@@ -1,0 +1,95 @@
+{
+  "control_ids": [
+    "supply-06",
+    "supply-10",
+    "supply-13",
+    "supply-17"
+  ],
+  "check_ids": [
+    "supply-08",
+    "supply-15",
+    "supply-18",
+    "supply-23"
+  ],
+  "check_status": "diagnostic replay after visual audit, not fresh validation",
+  "minimum_six_checks_met": false,
+  "acceptance": false,
+  "models": {
+    "affine": {
+      "points": [
+        {
+          "id": "supply-08",
+          "error_ground_m": 73.6165908277644,
+          "predicted_lonlat": [
+            -60.76327187113966,
+            45.70926880737507
+          ]
+        },
+        {
+          "id": "supply-15",
+          "error_ground_m": 270.41987975358154,
+          "predicted_lonlat": [
+            -60.489137194776454,
+            45.64434197778996
+          ]
+        },
+        {
+          "id": "supply-18",
+          "error_ground_m": 104.21427411918863,
+          "predicted_lonlat": [
+            -60.95798387808157,
+            45.61098192147834
+          ]
+        },
+        {
+          "id": "supply-23",
+          "error_ground_m": 616.5013843683363,
+          "predicted_lonlat": [
+            -60.650499561287354,
+            45.58175847551561
+          ]
+        }
+      ],
+      "rms_ground_m": 342.59337620176944,
+      "max_ground_m": 616.5013843683363
+    },
+    "tps": {
+      "points": [
+        {
+          "id": "supply-08",
+          "error_ground_m": 62.25060866034764,
+          "predicted_lonlat": [
+            -60.763050577359614,
+            45.709380142632305
+          ]
+        },
+        {
+          "id": "supply-15",
+          "error_ground_m": 275.71838985848973,
+          "predicted_lonlat": [
+            -60.48908149633007,
+            45.644370032825115
+          ]
+        },
+        {
+          "id": "supply-18",
+          "error_ground_m": 98.2194215035336,
+          "predicted_lonlat": [
+            -60.95862697331754,
+            45.61065780369567
+          ]
+        },
+        {
+          "id": "supply-23",
+          "error_ground_m": 605.0985065499667,
+          "predicted_lonlat": [
+            -60.65066350079974,
+            45.58167580770412
+          ]
+        }
+      ],
+      "rms_ground_m": 337.5229718753343,
+      "max_ground_m": 605.0985065499667
+    }
+  }
+}

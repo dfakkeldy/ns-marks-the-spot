@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-21-C16.jpg",
+    "point_record": "sheet21/replacement-proposal.json",
+    "point_id": "C16",
+    "native_box": [
+      4840,
+      3547,
+      5060,
+      3767
+    ],
+    "native_coordinates": [
+      4950,
+      3657
+    ],
+    "modern_lonlat": [
+      -61.05905,
+      45.6701746
+    ],
+    "rotation_degrees": 0
+  }
+]

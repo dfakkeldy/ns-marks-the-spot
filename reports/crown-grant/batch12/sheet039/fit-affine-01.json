@@ -1,0 +1,227 @@
+{
+  "sheet": "039",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      5.322572948117689,
+      2.2166189585740104
+    ],
+    [
+      2.151662579988969,
+      -5.271617581118807
+    ],
+    [
+      360144.4915779137,
+      4921291.80186649
+    ]
+  ],
+  "source_sha256": "3b502e26e3e84299be27744a1f498400c0d1afb14c086ed144a6d44a42787b7e",
+  "source_dimensions": [
+    5245,
+    3681
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Cook Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        895,
+        348
+      ],
+      "lonlat": [
+        -64.68795407511085,
+        44.434243268836916
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 128530,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128530,
+      "nearest_unfiltered_distance_guide_px": 0.6531539104671256,
+      "selected_distance_guide_px": 0.6531539104671256,
+      "guide_reference_pixel_xy": [
+        963.2942280469579,
+        324.4168706085766
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Wiles Lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        1173,
+        1126
+      ],
+      "lonlat": [
+        -64.6473398437046,
+        44.40275775499202
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 132494,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132494,
+      "nearest_unfiltered_distance_guide_px": 0.5064346370572862,
+      "selected_distance_guide_px": 0.5064346370572862,
+      "guide_reference_pixel_xy": [
+        1230.144490581879,
+        1122.4853849125793
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Fancy Lake central island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1856,
+        3144
+      ],
+      "lonlat": [
+        -64.54528646280714,
+        44.32206659639618
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 146778,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 146778,
+      "nearest_unfiltered_distance_guide_px": 2.395064188388308,
+      "selected_distance_guide_px": 2.395064188388308,
+      "guide_reference_pixel_xy": [
+        1891.4582018305664,
+        3156.100005292683
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Lake Randall northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3106,
+        1106
+      ],
+      "lonlat": [
+        -64.52016655657725,
+        44.44426063988599
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 133692,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 133692,
+      "nearest_unfiltered_distance_guide_px": 0.3282491009817515,
+      "selected_distance_guide_px": 0.3282491009817515,
+      "guide_reference_pixel_xy": [
+        3150.054362533614,
+        1097.676283785957
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Langille Lake eastern finger tip",
+      "role": "control",
+      "pixel_xy": [
+        4276,
+        1306
+      ],
+      "lonlat": [
+        -64.43652926484981,
+        44.45884209307562
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 132730,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132730,
+      "nearest_unfiltered_distance_guide_px": 0.9263582036846832,
+      "selected_distance_guide_px": 0.9263582036846832,
+      "guide_reference_pixel_xy": [
+        4314.249124465045,
+        1308.5425176979043
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Dares Lake southeast tip",
+      "role": "control",
+      "pixel_xy": [
+        4741,
+        2870
+      ],
+      "lonlat": [
+        -64.36164555193521,
+        44.395369861874315
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 128480,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128480,
+      "nearest_unfiltered_distance_guide_px": 1.2264096281013184,
+      "selected_distance_guide_px": 1.2264096281013184,
+      "guide_reference_pixel_xy": [
+        4769.1465053007705,
+        2875.8806970956502
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Spectacle eastern lake northern roof",
+      "role": "control",
+      "pixel_xy": [
+        4365,
+        3001
+      ],
+      "lonlat": [
+        -64.38289983321383,
+        44.3815606984613
+      ],
+      "guide_file": ".crown-grant-local/039-west-adjacent-guide.npy",
+      "reference_objectid": 139989,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139989,
+      "nearest_unfiltered_distance_guide_px": 1.344795332838844,
+      "selected_distance_guide_px": 1.344795332838844,
+      "guide_reference_pixel_xy": [
+        4395.376256557065,
+        3004.708913058508
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    49.658781986505005,
+    30.842647106378884,
+    26.962535401707314,
+    21.834436575853456,
+    44.581796569889256,
+    18.122557231501478,
+    36.47360339946659
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

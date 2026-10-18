@@ -1,0 +1,231 @@
+{
+  "sheet": "sheet-03",
+  "source_sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "points": [
+    {
+      "lonlat": [
+        -60.8728214,
+        46.7948683
+      ],
+      "source_guide_xy": [
+        720.6929723396897,
+        6404.027029739693
+      ],
+      "objectids": [
+        262252,
+        262253,
+        278995
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        925,
+        6065
+      ],
+      "modern_node_id": "J1579",
+      "identity_evidence": "Fishing Cove River / South Fishing Cove River junction in western extension",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.7713609,
+        46.8155884
+      ],
+      "source_guide_xy": [
+        2913.9943847400136,
+        5771.537062739488
+      ],
+      "objectids": [
+        262569,
+        262571,
+        269396
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3190,
+        5340
+      ],
+      "modern_node_id": "J1313",
+      "identity_evidence": "Grande Anse River / MacIntosh Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.7875579,
+        46.8156004
+      ],
+      "source_guide_xy": [
+        2564.247488939669,
+        5768.742146939505
+      ],
+      "objectids": [
+        262573,
+        262701,
+        282514
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        2750,
+        5310
+      ],
+      "modern_node_id": "J1311",
+      "identity_evidence": "Grande Anse River / Sugar Brook junction west of MacIntosh",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.7594282,
+        46.8448133
+      ],
+      "source_guide_xy": [
+        3175.0812622196972,
+        4859.837108819513
+      ],
+      "objectids": [
+        264721,
+        284946,
+        284947
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        3455,
+        4390
+      ],
+      "modern_node_id": "J0979",
+      "identity_evidence": "Red River / Eastern Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5561277,
+        46.8967368
+      ],
+      "source_guide_xy": [
+        7571.105328419944,
+        3267.2373640195
+      ],
+      "objectids": [
+        263112,
+        263113,
+        273020
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        7630,
+        2965
+      ],
+      "modern_node_id": "J0550",
+      "identity_evidence": "Historical Grays Glen / modern Grays Hollow Brook and North Branch Brook",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5486443,
+        46.8909179
+      ],
+      "source_guide_xy": [
+        7732.016566680046,
+        3450.2367412797175
+      ],
+      "objectids": [
+        263113,
+        263114,
+        277884
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        7758,
+        3213
+      ],
+      "modern_node_id": "J0593",
+      "identity_evidence": "Grays Hollow Brook / Southwest Branch Brook junction south of North Branch",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.5234073,
+        46.9365137
+      ],
+      "source_guide_xy": [
+        8282.303911079885,
+        2028.8192284794059
+      ],
+      "objectids": [
+        177323,
+        280820,
+        280821
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        8180,
+        1980
+      ],
+      "modern_node_id": "J0281",
+      "identity_evidence": "Wilkie Brook western tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.6375439,
+        46.8086933
+      ],
+      "source_guide_xy": [
+        5802.751665839925,
+        6007.049463239731
+      ],
+      "objectids": [
+        158619,
+        158779,
+        268945
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        6419,
+        5806
+      ],
+      "modern_node_id": "J1413",
+      "identity_evidence": "North Aspy River / Little Southwest Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.6385768,
+        46.8087821
+      ],
+      "source_guide_xy": [
+        5780.458232579753,
+        6004.119526379742
+      ],
+      "objectids": [
+        182898,
+        182899,
+        270578
+      ],
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        6610,
+        5740
+      ],
+      "modern_node_id": "J1410",
+      "identity_evidence": "North Aspy River / MacGregor Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored."
+    }
+  ]
+}

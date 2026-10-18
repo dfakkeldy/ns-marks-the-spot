@@ -1,0 +1,468 @@
+{
+  "sheet": "076",
+  "baseline_report": "reports/crown-grant/batch8/sheet076",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "a3ede6b037b113f10f4bc40cdb901796cc00367611d1f2a2df6db2391a4c2d5f",
+  "reference_sha256": "9dbe4fd2f61e46b0e20e1f1fff453a0e952ee6d023e498deaf40508c21e7be38",
+  "fit_sha256": "c3a9fc5e93859b2c667fc00e9832efe29aba836eb912036948288b79c6265946",
+  "checks_sha256": "262ba2c41fd89b6bacd5242955400751b59be433f8d222a48e26ffafbe274f24",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 7,
+    "rms_ground_m": 131.8263871369466,
+    "median_ground_m": 51.449308790716984,
+    "p95_ground_m": 248.45372948029637,
+    "max_ground_m": 316.03149646502226,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 41.38570745481926,
+    "mean_north_ground_m": 55.52581095035498,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Porter Lake western island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          390,
+          315
+        ],
+        "lonlat": [
+          -63.29084896196139,
+          44.6759291486413
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 23011,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 23011,
+        "nearest_unfiltered_distance_guide_px": 1.6347016018584561,
+        "selected_distance_guide_px": 1.6347016018584561,
+        "guide_reference_pixel_xy": [
+          262.7066884842934,
+          387.5259441281669
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -63.290300303881146,
+          44.67601620131624
+        ],
+        "error_ground_m": 44.56568264782013,
+        "east_ground_m": 43.5030511889181,
+        "north_ground_m": 9.673913743702093
+      },
+      {
+        "id": "Q02",
+        "label": "Porter Lake eastern island southern tip",
+        "role": "check",
+        "pixel_xy": [
+          520,
+          316
+        ],
+        "lonlat": [
+          -63.28325214226663,
+          44.67797199022445
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 23013,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 23013,
+        "nearest_unfiltered_distance_guide_px": 1.5996360682382422,
+        "selected_distance_guide_px": 1.5996360682382422,
+        "guide_reference_pixel_xy": [
+          392.1124989037635,
+          391.5956752637867
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -63.28273050214898,
+          44.67824736618886
+        ],
+        "error_ground_m": 51.449308790716984,
+        "east_ground_m": 41.35921214979187,
+        "north_ground_m": 30.601420643346877
+      },
+      {
+        "id": "Q03",
+        "label": "Barren Island eastern tip",
+        "role": "check",
+        "pixel_xy": [
+          5144,
+          1974
+        ],
+        "lonlat": [
+          -62.971167480468644,
+          44.68908020208891
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 17342,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 17342,
+        "nearest_unfiltered_distance_guide_px": 1.4996972028061066,
+        "selected_distance_guide_px": 1.4996972028061066,
+        "guide_reference_pixel_xy": [
+          5102.410999415268,
+          2036.6208082035882
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -62.971407128451695,
+          44.68949509254568
+        ],
+        "error_ground_m": 49.865510093903296,
+        "east_ground_m": -18.99726220341571,
+        "north_ground_m": 46.10502278168664
+      },
+      {
+        "id": "Q04",
+        "label": "Roger Island northern shore",
+        "role": "check",
+        "pixel_xy": [
+          5045,
+          1843
+        ],
+        "lonlat": [
+          -62.9797425956075,
+          44.69286576054646
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 20478,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20478,
+        "nearest_unfiltered_distance_guide_px": 0.22077253765767668,
+        "selected_distance_guide_px": 0.22077253765767668,
+        "guide_reference_pixel_xy": [
+          5006.77990022453,
+          1907.9827778566396
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -62.980525779695945,
+          44.69325361547682
+        ],
+        "error_ground_m": 75.57541863646306,
+        "east_ground_m": -62.0801855288981,
+        "north_ground_m": 43.10097988183375
+      },
+      {
+        "id": "Q05",
+        "label": "Duck Island southern shore",
+        "role": "check",
+        "pixel_xy": [
+          5753,
+          1968
+        ],
+        "lonlat": [
+          -62.936965548914934,
+          44.699717558833584
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 16635,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 16635,
+        "nearest_unfiltered_distance_guide_px": 3.2817328747328744,
+        "selected_distance_guide_px": 3.2817328747328744,
+        "guide_reference_pixel_xy": [
+          5696.820731464366,
+          2023.0625310417963
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -62.93614906170883,
+          44.700290373329544
+        ],
+        "error_ground_m": 90.77227318260313,
+        "east_ground_m": 64.712166167739,
+        "north_ground_m": 63.654859426567484
+      },
+      {
+        "id": "Q06",
+        "label": "Brown Island southeast tip",
+        "role": "check",
+        "pixel_xy": [
+          4923,
+          272
+        ],
+        "lonlat": [
+          -63.02767347484005,
+          44.75677827879069
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 16581,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 16581,
+        "nearest_unfiltered_distance_guide_px": 0.49759768260906706,
+        "selected_distance_guide_px": 0.49759768260906706,
+        "guide_reference_pixel_xy": [
+          4827.090498353646,
+          314.48929899011273
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -63.02800760050363,
+          44.75677131310117
+        ],
+        "error_ground_m": 26.467293750811244,
+        "east_ground_m": -26.45597339693509,
+        "north_ground_m": -0.7740220361171036
+      },
+      {
+        "id": "Q07",
+        "label": "Jeddore Rock northern shore",
+        "role": "check",
+        "pixel_xy": [
+          4398,
+          2251
+        ],
+        "lonlat": [
+          -63.010775051438266,
+          44.66322472533006
+        ],
+        "guide_file": ".crown-grant-local/076-adjacent-guide.npy",
+        "reference_objectid": 23957,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 23957,
+        "nearest_unfiltered_distance_guide_px": 1.9830741283942412,
+        "selected_distance_guide_px": 1.9830741283942412,
+        "guide_reference_pixel_xy": [
+          4301.762237488467,
+          2328.830731277354
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole islands/cape context and original paired native crosshairs inspected before first fit or score; modern coast feature type verified rather than inferred from historical place name.",
+        "predicted_lonlat": [
+          -63.0076521825794,
+          44.66499132492623
+        ],
+        "error_ground_m": 316.03149646502226,
+        "east_ground_m": 247.65894380653478,
+        "north_ground_m": 196.31850221146507
+      }
+    ]
+  },
+  "control_axis_ratio": 3.2350633881462594,
+  "affine_scale_ratio": 1.0231263339646866,
+  "metres_per_pixel_singular_values": [
+    5.087409334742926,
+    4.972415591170307
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.588251741766463,
+          1.925535355779403
+        ],
+        [
+          2.026140272688933,
+          -4.641095802298591
+        ],
+        [
+          474652.0358165408,
+          4947714.878687603
+        ]
+      ],
+      "diagnostic_rms_m": 146.43099020813182,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.6156941361354535,
+          1.9248552730176989
+        ],
+        [
+          2.0271352348086045,
+          -4.639939329174734
+        ],
+        [
+          474510.10998916003,
+          4947717.590119925
+        ]
+      ],
+      "diagnostic_rms_m": 126.07452856095425,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.6011745236201085,
+          1.9280959150975685
+        ],
+        [
+          2.0598224386808677,
+          -4.651534122090711
+        ],
+        [
+          474557.53866961173,
+          4947711.015370786
+        ]
+      ],
+      "diagnostic_rms_m": 139.1310214925833,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.604448152649882,
+          1.9269182487496916
+        ],
+        [
+          2.0234297887223374,
+          -4.6336840631962115
+        ],
+        [
+          474563.4131145668,
+          4947706.930758002
+        ]
+      ],
+      "diagnostic_rms_m": 132.7449394297054,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.60905438117587,
+          1.9252346764705313
+        ],
+        [
+          2.040102846137241,
+          -4.641967103457038
+        ],
+        [
+          474544.06733130716,
+          4947714.974299755
+        ]
+      ],
+      "diagnostic_rms_m": 133.92551806174959,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.619220666485433,
+          1.9119333946635113
+        ],
+        [
+          1.9964518737154802,
+          -4.599164516521037
+        ],
+        [
+          474563.7767129547,
+          4947701.9720163755
+        ]
+      ],
+      "diagnostic_rms_m": 134.15254274966304,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.633073462275798,
+        1.934247530950765
+      ],
+      [
+        1.934247530950765,
+        -4.633073462275798
+      ],
+      [
+        474576.0472540568,
+        4947672.363854532
+      ]
+    ],
+    "rms_ground_m": 127.23374588194505,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.819935+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q07",
+    "Q05",
+    "Q04",
+    "Q02"
+  ],
+  "reviewed_control_ids": [
+    "C02",
+    "C03"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Jeddore Rock is a tiny, isolated mapped object with recognizable east-west outline, and its 316 m discrepancy dwarfs other checks. Duck and Roger match their island groups; Porter island is well-defined. No observed crosshair error explains Jeddore displacement; retain it and do not let a local good coastal patch certify offshore position.",
+  "baseline_limitations": [
+    "Seven excluded checks give RMS 131.83 m, exceeding 100 m. Median is 51.45 m, P95 248.45 m and maximum 316.03 m; P95 and maximum also exceed companion bounds. All first results remain unchanged.",
+    "Jeddore Rock, a separate excluded offshore island, has 316.03 m error. The other six checks range from 26.47 to 90.77 m. The large discrepancy is retained without refitting or removing the check.",
+    "Four checks share islands with controls; eastern Porter island, Roger Island and Jeddore Rock are separate nearby islands. Petpeswick and Jeddore Cape controls lack separate checks on their capes.",
+    "Mainland urban/parcel regions and harbour heads remain unvalidated. Most of the original frame is featureless ocean, retained without implying independent geographic accuracy there.",
+    "Generalized coastal observations use 18 px working source uncertainty. Changed barrier shores, marsh connections and tidal edges remain unvalidated."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "417a141bb0d48c6cb1cfc75589833a161fdb9f5b9bd566818d6bbdfc5bb4cf01"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "b37df8e217c8b4dd885d57bed1576e90acca892d3e1dfd80bcf38232f6072293"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "999a4002705d976d4a16cbb79aa4584ce9fb4273d6ec650bd45c8edc30c098a4"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "ede09767744cf793f027455cbc50a6f6dd150dc748125ed0349d8a5b40fb9542"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "1bc6515e27f3cd202143e84aeeda640d3b93b643c9797010e87217bb08cebaf1"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "0cd19129de361d74678bf46bc8b678535abd51742d2131fb77aa7133e7083827"
+    }
+  ],
+  "control_findings": "Petpeswick rounded southern head and Jeddore Cape southern tip are recognizable; offshore Jeddore Rock remains an independent displaced feature.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

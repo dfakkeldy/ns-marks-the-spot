@@ -1,0 +1,184 @@
+[
+  {
+    "id": "C01",
+    "label": "Rankin Island northeastern horn",
+    "role": "proposal",
+    "pixel_xy": [
+      827,
+      2760
+    ],
+    "lonlat": [
+      -65.85077696565861,
+      43.7434358248584
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 20280,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 20280,
+    "nearest_unfiltered_distance_guide_px": 2.6903398235330576,
+    "selected_distance_guide_px": 2.6903398235330576,
+    "guide_reference_pixel_xy": [
+      826.3463707410847,
+      2768.332050286117
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C02",
+    "label": "Lear Island northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      300,
+      3476
+    ],
+    "lonlat": [
+      -65.86311256628542,
+      43.702380451977696
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 19740,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 19740,
+    "nearest_unfiltered_distance_guide_px": 1.8058986687844458,
+    "selected_distance_guide_px": 1.8058986687844458,
+    "guide_reference_pixel_xy": [
+      295.09444438799983,
+      3464.4364753682166
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C03",
+    "label": "East Goose Lake upper large island northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1386,
+      2687
+    ],
+    "lonlat": [
+      -65.81960768767969,
+      43.75727446625667
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 146769,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 146769,
+    "nearest_unfiltered_distance_guide_px": 7.013336507177874,
+    "selected_distance_guide_px": 7.013336507177874,
+    "guide_reference_pixel_xy": [
+      1380.7200967103709,
+      2699.006785779842
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C04",
+    "label": "Gull Lake northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4806,
+      552
+    ],
+    "lonlat": [
+      -65.67134517521458,
+      43.918118153247136
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 311443,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 311443,
+    "nearest_unfiltered_distance_guide_px": 3.4131928981860327,
+    "selected_distance_guide_px": 3.4131928981860327,
+    "guide_reference_pixel_xy": [
+      4844.527248363302,
+      578.29410145164
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C05",
+    "label": "Nessisse Lake northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      5427,
+      1352
+    ],
+    "lonlat": [
+      -65.61315753827124,
+      43.89540504338675
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 135172,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 135172,
+    "nearest_unfiltered_distance_guide_px": 1.1721728862469942,
+    "selected_distance_guide_px": 1.1721728862469942,
+    "guide_reference_pixel_xy": [
+      5453.902190382243,
+      1359.1680849943077
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C06",
+    "label": "South Clearwater Lake island northern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      4112,
+      2677
+    ],
+    "lonlat": [
+      -65.65464446694526,
+      43.81164532205391
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 144641,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 144641,
+    "nearest_unfiltered_distance_guide_px": 3.103563653690013,
+    "selected_distance_guide_px": 3.103563653690013,
+    "guide_reference_pixel_xy": [
+      4148.057535279077,
+      2683.1030303002335
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "C07",
+    "label": "Dyes Island northern end",
+    "role": "proposal",
+    "pixel_xy": [
+      1009,
+      2255
+    ],
+    "lonlat": [
+      -65.85324920298787,
+      43.768843796938505
+    ],
+    "guide_file": ".crown-grant-local/009-frozen-south-guide.npy",
+    "reference_objectid": 27369,
+    "reference_feature_code": "WACORVIS10",
+    "nearest_unfiltered_feature_code": "WACORVIS10",
+    "nearest_unfiltered_objectid": 27369,
+    "nearest_unfiltered_distance_guide_px": 1.4522606014595913,
+    "selected_distance_guide_px": 1.4522606014595913,
+    "guide_reference_pixel_xy": [
+      1014.6195695719798,
+      2275.598453160259
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

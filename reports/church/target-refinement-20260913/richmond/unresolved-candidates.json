@@ -1,0 +1,47 @@
+{
+  "phase": "Identity searches before adopting R34/R35; no coordinates used to fit or score unresolved features",
+  "candidates": [
+    {
+      "name": "Upper Marie Joseph Lake",
+      "status": "unresolved-modern-basin-definition",
+      "reason": "No matching modern complete outer basin established. Polygon search omits some river-bank classes; absence of a polygon is not evidence of absence. No whole-basin centroid adopted.",
+      "frames": [
+        "R34-frame.json",
+        "R34-native-frame.json"
+      ]
+    },
+    {
+      "name": "Northern Loch Lomond / Lake Uist search",
+      "status": "unresolved-source-basin-definition",
+      "reason": "LOCH LOMOND label denotes locality context and does not establish the lake identity. Northern large basin and connecting waterways were not measured. Selected modern rings were verified finite and valid after a generic search-guide intersection warning; that warning was not used to delete observations.",
+      "frames": [
+        "R35-frame.json",
+        "R35-native-frame.json"
+      ]
+    },
+    {
+      "name": "McIntyre Lake whole basin",
+      "status": "source-boundary-obscured",
+      "reason": "Mills label obscures the northern shore; whole-basin centroid withheld. R31 measures the visible western lake-stream junction instead.",
+      "frames": [
+        "R31-frame.json",
+        "R31-native-frame.json"
+      ]
+    },
+    {
+      "name": "Northern extension coverage",
+      "status": "coverage-incomplete",
+      "reason": "Broad full-content overview reviewed; most identifiable isolated features overlap prior control/check island work. No new whole-extension acceptance or weak redundant check added.",
+      "frames": [
+        "north-content-frame.json"
+      ]
+    },
+    {
+      "name": "Southwestern mainland",
+      "status": "coverage-incomplete",
+      "reason": "Prior Landrie/Little River reservoir correspondence exclusions and Beaver Dam/Marsh engraving gaps remain unresolved. Prior reports preserved; no new substitute observation adopted.",
+      "prior": "../../distributed-review-20260913/richmond/excluded-candidates.json"
+    }
+  ],
+  "geographic_acceptance": false
+}

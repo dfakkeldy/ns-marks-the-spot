@@ -1,0 +1,21 @@
+{
+  "model": "affine14",
+  "matrix_projected_m_per_native_px": [
+    [
+      3.843766307055577,
+      -0.03628701554164481
+    ],
+    [
+      -0.013441827543016687,
+      -3.9677363247406285
+    ]
+  ],
+  "determinant": -15.251538964123512,
+  "singular_values_projected_m_per_native_px": [
+    3.9688591594636162,
+    3.8428017602380056
+  ],
+  "anisotropy": 1.032803513449469,
+  "fold_statement": "The nonsingular affine is globally one-to-one; its constant negative determinant is the expected source-image-y-down to projected-north-up orientation. This proves absence of affine folds, not geographic accuracy.",
+  "geographic_acceptance": false
+}

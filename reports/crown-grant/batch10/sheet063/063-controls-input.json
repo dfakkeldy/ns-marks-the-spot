@@ -1,0 +1,80 @@
+[
+  [
+    "C01",
+    "Anthony Lake northwestern shore northern extremity",
+    [
+      1036,
+      2368
+    ],
+    [
+      1050,
+      2355
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Southern lake north of Kennetcook River northern tip",
+    [
+      2423,
+      3125
+    ],
+    [
+      2424,
+      3121
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Densmore parcel diagonal pond northwest tip",
+    [
+      5640,
+      1354
+    ],
+    [
+      5634,
+      1362
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Densmore parcel northern long pond northern tip",
+    [
+      5692,
+      1207
+    ],
+    [
+      5681,
+      1223
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Hennigar northern lake northern tip",
+    [
+      5113,
+      1857
+    ],
+    [
+      5096,
+      1851
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Hennigar southern lake northeast tip",
+    [
+      5078,
+      1972
+    ],
+    [
+      5050,
+      1973
+    ],
+    "WALK20"
+  ]
+]

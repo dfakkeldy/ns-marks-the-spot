@@ -1,0 +1,263 @@
+{
+  "sheet": "100",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.613210382326693,
+      1.9146054817828349
+    ],
+    [
+      1.9101395352071386,
+      -4.599479673645523
+    ],
+    [
+      567023.9092342247,
+      5027645.879942302
+    ]
+  ],
+  "source_sha256": "b7b91e29ace22e51693ef0f7b0c7e9a3ce8fdc45a9ece49e042e759f05aee2a8",
+  "source_dimensions": [
+    6018,
+    4108
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Copper Lake south shore",
+      "role": "control",
+      "pixel_xy": [
+        2318,
+        883
+      ],
+      "lonlat": [
+        -61.98538003936644,
+        45.4011850283541
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 129144,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 129144,
+      "nearest_unfiltered_distance_guide_px": 0.479556968513564,
+      "selected_distance_guide_px": 0.479556968513564,
+      "guide_reference_pixel_xy": [
+        2325.9089301480562,
+        911.4708302965155
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Small pond east of South River Lake, south end",
+      "role": "control",
+      "pixel_xy": [
+        3119,
+        1148
+      ],
+      "lonlat": [
+        -61.932018030527466,
+        45.403613131147225
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 136537,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136537,
+      "nearest_unfiltered_distance_guide_px": 5.656794493968685,
+      "selected_distance_guide_px": 5.656794493968685,
+      "guide_reference_pixel_xy": [
+        3124.9562478361768,
+        1172.956804851885
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Giants Lake southern end",
+      "role": "control",
+      "pixel_xy": [
+        3825,
+        1731
+      ],
+      "lonlat": [
+        -61.876272305254226,
+        45.390896756985164
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 140994,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140994,
+      "nearest_unfiltered_distance_guide_px": 5.845379545548665,
+      "selected_distance_guide_px": 5.845379545548665,
+      "guide_reference_pixel_xy": [
+        3833.980567485094,
+        1761.2441282131476
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Mahers or Sheas Lake northern lobe",
+      "role": "control",
+      "pixel_xy": [
+        5762,
+        1791
+      ],
+      "lonlat": [
+        -61.7596717860026,
+        45.420998311958726
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 142305,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142305,
+      "nearest_unfiltered_distance_guide_px": 1.4399401050163003,
+      "selected_distance_guide_px": 1.4399401050163003,
+      "guide_reference_pixel_xy": [
+        5785.150296338892,
+        1816.1625107286964
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Three Corner Lake southeast outlet",
+      "role": "control",
+      "pixel_xy": [
+        4061,
+        2499
+      ],
+      "lonlat": [
+        -61.843832983874776,
+        45.36266247498338
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 138995,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138995,
+      "nearest_unfiltered_distance_guide_px": 0.3319591811460504,
+      "selected_distance_guide_px": 0.3319591811460504,
+      "guide_reference_pixel_xy": [
+        4075.084260998643,
+        2534.6789128123783
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Trout Lake north tip",
+      "role": "control",
+      "pixel_xy": [
+        957,
+        1839
+      ],
+      "lonlat": [
+        -62.04313436141775,
+        45.33890624384664
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 138925,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138925,
+      "nearest_unfiltered_distance_guide_px": 0.5993341883224876,
+      "selected_distance_guide_px": 0.5993341883224876,
+      "guide_reference_pixel_xy": [
+        966.4379842033377,
+        1861.4091103847604
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Lithgow Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        1686,
+        3447
+      ],
+      "lonlat": [
+        -61.9621055674336,
+        45.283371690881545
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 132977,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132977,
+      "nearest_unfiltered_distance_guide_px": 3.2648959605704277,
+      "selected_distance_guide_px": 3.2648959605704277,
+      "guide_reference_pixel_xy": [
+        1690.787339161092,
+        3484.8314604817424
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Small lake southeast of Grassy Lake, south tip",
+      "role": "control",
+      "pixel_xy": [
+        2108,
+        3815
+      ],
+      "lonlat": [
+        -61.92888381854146,
+        45.27628410680465
+      ],
+      "guide_file": ".crown-grant-local/100-adjacent-guide.npy",
+      "reference_objectid": 138998,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138998,
+      "nearest_unfiltered_distance_guide_px": 1.9032814889767062,
+      "selected_distance_guide_px": 1.9032814889767062,
+      "guide_reference_pixel_xy": [
+        2118.2030394162866,
+        3825.8924205192598
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Lake/stream topology and neighbouring forms compared broadly; paired native crosshairs inspected before any fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    4.887329502627058,
+    25.783398119594416,
+    22.263549179575296,
+    30.181886022091845,
+    40.95974172629569,
+    31.155748781613426,
+    66.4307854039717,
+    69.56374651967556
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

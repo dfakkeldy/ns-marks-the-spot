@@ -1,0 +1,134 @@
+[
+  {
+    "id": "Q01",
+    "label": "Pomquet Island south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1900,
+      870
+    ],
+    "lonlat": [
+      -61.75010262746229,
+      45.652360349023695
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 20560,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1858.9360444484628,
+      876.0762669366086
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Mary Dismal Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      5180,
+      3018
+    ],
+    "lonlat": [
+      -61.489033625106075,
+      45.61373229882703
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 136696,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      5110.993991241092,
+      3027.262312666746
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "William Lake north tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2076,
+      3160
+    ],
+    "lonlat": [
+      -61.68173877568644,
+      45.552670614415575
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 141677,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2010.7238154691295,
+      3168.4479814907536
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Small lake north of William Lake east tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2003,
+      3090
+    ],
+    "lonlat": [
+      -61.687367646776444,
+      45.554181919295324
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 138555,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1945.832101372478,
+      3108.877340450301
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Tracadie Lake south tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3690,
+      2360
+    ],
+    "lonlat": [
+      -61.59922832284079,
+      45.61679488933879
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 137465,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      3634.10091801174,
+      2376.003996478743
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Delory Island northeast shoreline corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3420,
+      1540
+    ],
+    "lonlat": [
+      -61.63780128331148,
+      45.64918519688589
+    ],
+    "guide_file": ".crown-grant-local/104-adjacent-guide.npy",
+    "reference_objectid": 11756,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3361.3766866824008,
+      1543.207550124731
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

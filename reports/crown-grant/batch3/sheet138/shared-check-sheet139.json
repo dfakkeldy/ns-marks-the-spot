@@ -1,0 +1,42 @@
+{
+  "feature": "MacRae Point",
+  "reference_lonlat": [
+    -59.880665639765745,
+    46.19187534836937
+  ],
+  "reference_objectid": 7476,
+  "shared_point_disagreement_ground_m": 143.14774348947535,
+  "method": "WGS84 geodesic between independent frozen-fit predictions of the same physical point",
+  "sheets": [
+    {
+      "sheet": "138",
+      "pixel_xy": [
+        4253,
+        3732
+      ],
+      "predicted_lonlat": [
+        -59.88203618539452,
+        46.19243043705588
+      ],
+      "error_ground_m": 122.47614620464061,
+      "fit_sha256": "4caa3918f66fb03337b5ac7f0cf2bc329943f1bfd0b78c8748135f815059b43e"
+    },
+    {
+      "sheet": "139",
+      "pixel_xy": [
+        4220,
+        144
+      ],
+      "predicted_lonlat": [
+        -59.88018396340145,
+        46.19249258770672
+      ],
+      "error_ground_m": 78.03715757359447,
+      "fit_sha256": "f3fe185336550bc42e393a08aa4d37e9a299a3345e3a4a4500084c65c2ea50b0"
+    }
+  ],
+  "limitations": [
+    "One physical point only; not a whole-seam accuracy or footprint-gap measurement",
+    "Point excluded from both fits; no warp adjusted to force agreement"
+  ]
+}

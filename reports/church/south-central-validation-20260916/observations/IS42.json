@@ -1,0 +1,59 @@
+{
+  "id": "IS42",
+  "label": "MacLellan Brook / Broad Cove River confluence",
+  "role": "check",
+  "recorded_at": "2026-09-16T01:12:11.570951+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      20000,
+      9950
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-central-validation-20260916/maclellan.jpg",
+  "source_crop_sha256": "b8364e47965873db5b7c6e2ea2e7c30a9855bf25d36b1a3fa1ef93f6fa8fd426",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    1080,
+    510
+  ],
+  "pixel_xy": [
+    21080,
+    10460
+  ],
+  "lonlat": [
+    -61.31095125991059,
+    46.157302015640155
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "reference_sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "reference_vertices": [
+    {
+      "feature_id": 261221,
+      "vertex": 0
+    },
+    {
+      "feature_id": 261222,
+      "vertex": 152
+    },
+    {
+      "feature_id": 269549,
+      "vertex": 129
+    }
+  ],
+  "reference_kind": "Original single-line water confluence",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Three-way junction of the western tributary with the main river east of the road; not the downstream road crossing or lower tributary.",
+  "identity_evidence": "The main channel approaches from the northeast, the western tributary crosses the road just before entering it, and the joined channel continues southwest to a separate road crossing and lower tributary. The original named MacLellan Brook/Broad Cove River network has that branch and crossing order. The source junction itself is visible away from the nearby property lettering. Property-owner names are context only, not evidence of stream identity.",
+  "phase": "Fresh independent validation against frozen TPS13; excluded from all fitting and selection"
+}

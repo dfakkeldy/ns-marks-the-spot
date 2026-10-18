@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Town Lake central northern island northern tip",
+    [
+      1972,
+      446
+    ],
+    [
+      2012,
+      456
+    ],
+    "WALKIS10"
+  ],
+  [
+    "C02",
+    "Victoria Lake southern tip",
+    [
+      2598,
+      1471
+    ],
+    [
+      2625,
+      1469
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Coffin Island northern tip",
+    [
+      3697,
+      769
+    ],
+    [
+      3728,
+      804
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C04",
+    "Mouton Island northern roof",
+    [
+      764,
+      2304
+    ],
+    [
+      780,
+      2263
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C05",
+    "Western Spectacle Island southern tip",
+    [
+      334,
+      2252
+    ],
+    [
+      357,
+      2204
+    ],
+    "WACOIS10"
+  ],
+  [
+    "C06",
+    "White Point western cape southern tip",
+    [
+      1624,
+      1882
+    ],
+    [
+      1641,
+      1867
+    ],
+    "WACO20"
+  ],
+  [
+    "C07",
+    "Western Head southern shore low point",
+    [
+      2798,
+      1652
+    ],
+    [
+      2831,
+      1668
+    ],
+    "WACO20"
+  ],
+  [
+    "C08",
+    "Andrew Head eastern southern lobe",
+    [
+      4814,
+      800
+    ],
+    [
+      4861,
+      865
+    ],
+    "WACO20"
+  ]
+]

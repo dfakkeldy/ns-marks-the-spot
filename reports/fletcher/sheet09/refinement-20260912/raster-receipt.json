@@ -1,0 +1,111 @@
+{
+  "fit_sha256": "3ca430d2f637410bec54e0381e0629d2c73e357d0ef981dc26f4f40842be82ec",
+  "boundary_sha256": "a03578afe6a740d78f2435339b71c29edbb8ca4f249cff48ebb85bef6efd8181",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Reused diagnostics, including unresolved Stewart Q01, Gallant V02 and coastal R01. Not fresh acceptance evidence.",
+  "checks_sha256": "7e2953d77ac9065267812f49d7d7a8ca10c4e904020ae3c89822afb95438aff9",
+  "median_ground_m": 128.4527926877731,
+  "worst_ground_m": 499.8006431664243,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 440.93255419545784,
+      "predicted_lonlat": [
+        -60.93323186225572,
+        46.45738162470884
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 128.4527926877731,
+      "predicted_lonlat": [
+        -60.88324434016758,
+        46.48352948091296
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 122.33907774183353,
+      "predicted_lonlat": [
+        -60.944476013788304,
+        46.60023733033409
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 15.379361956148786,
+      "predicted_lonlat": [
+        -60.962742817376885,
+        46.550059042721095
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 3.62474046907216,
+      "predicted_lonlat": [
+        -60.88819394202574,
+        46.5733516221929
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 499.8006431664243,
+      "predicted_lonlat": [
+        -61.028105730105544,
+        46.46354662305917
+      ]
+    },
+    {
+      "id": "R01",
+      "error_ground_m": 181.7156211309461,
+      "predicted_lonlat": [
+        -61.08269191090298,
+        46.484012443902685
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 70928,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -28.386644691950142,
+      -15.587826427997861
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif",
+    "sha256": "3e67d70abb9d33a86bdceccd9be00a1e68f98e93f988267ff281a315d5a23edf",
+    "size": [
+      8204,
+      5415
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2232858,
+            46.6151411
+          ],
+          [
+            -61.2232858,
+            46.4478174
+          ],
+          [
+            -60.8547969,
+            46.4478174
+          ],
+          [
+            -60.8547969,
+            46.6151411
+          ],
+          [
+            -61.2232858,
+            46.6151411
+          ]
+        ]
+      ]
+    }
+  }
+}

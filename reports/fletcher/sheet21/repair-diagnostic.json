@@ -1,0 +1,173 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        6720,
+        2629
+      ],
+      "lonlat": [
+        -60.9842109,
+        45.6967038
+      ],
+      "modern_node_id": "J0291",
+      "modern_objectids": [
+        53703,
+        53704,
+        288282
+      ],
+      "identity_evidence": "Sutherland Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native crosshair and modern geometry; diagnostic check, never fitted at this stage.",
+      "review_note": "Native/modern identity corrected before any scoring; original proposal retained. J0283 is northern inlet; use J0291 southern outlet."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7173,
+        1977
+      ],
+      "lonlat": [
+        -60.9611606,
+        45.718229
+      ],
+      "modern_node_id": "J0162",
+      "modern_objectids": [
+        59409,
+        59410,
+        223488
+      ],
+      "identity_evidence": "Small pond immediately south of McDonald Lake, southern outlet; distinct from fitted main lake mouth",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native crosshair and modern geometry; diagnostic check, never fitted at this stage.",
+      "review_note": "Native/modern identity corrected before any scoring; original proposal retained."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        3133,
+        5180
+      ],
+      "lonlat": [
+        -61.1478017,
+        45.6147468
+      ],
+      "modern_node_id": "J0897",
+      "modern_objectids": [
+        141255,
+        141257,
+        197902
+      ],
+      "identity_evidence": "White Lake southern mouth of short connection into narrow southern arm",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native crosshair and modern geometry; diagnostic check, never fitted at this stage.",
+      "review_note": "Native/modern identity corrected before any scoring; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -61.208914544288895,
+        45.58940794764046
+      ],
+      "guide_xy": [
+        1740.0035629174672,
+        6105.679429972544
+      ],
+      "modern_objectid": 18368,
+      "modern_part": 0,
+      "modern_vertex": 30,
+      "modern_properties": {
+        "OBJECTID": 18368,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 442.83167421283906
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        1788,
+        6013
+      ],
+      "identity_evidence": "Freeman Island northernmost mainland-facing projection",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native crosshair and modern geometry; diagnostic check, never fitted at this stage.",
+      "review_note": "Native/modern identity corrected before any scoring; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -61.04154974224805,
+        45.72585903531084
+      ],
+      "guide_xy": [
+        5396.054190539289,
+        1920.4516689463053
+      ],
+      "modern_objectid": 310655,
+      "modern_part": 0,
+      "modern_vertex": 4,
+      "modern_properties": {
+        "OBJECTID": 310655,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 264.35242770481693
+      },
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        5467,
+        1755
+      ],
+      "identity_evidence": "Small island at McIntosh Cove southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native crosshair and modern geometry; diagnostic check, never fitted at this stage.",
+      "review_note": "Native/modern identity corrected before any scoring; original proposal retained."
+    },
+    {
+      "lonlat": [
+        -60.979208875728425,
+        45.61017142878862
+      ],
+      "guide_xy": [
+        6757.877951487433,
+        5468.821936195949
+      ],
+      "modern_objectid": 16828,
+      "modern_part": 0,
+      "modern_vertex": 1,
+      "modern_properties": {
+        "OBJECTID": 16828,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1806.4478187366085
+      },
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        6800,
+        5378
+      ],
+      "identity_evidence": "Cascarette Island westernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native crosshair and modern geometry; diagnostic check, never fitted at this stage.",
+      "review_note": "Native/modern identity corrected before any scoring; original proposal retained. Original window reached northern mainland; use actual Cascarette Island coast object."
+    }
+  ],
+  "fit_sha256": "82e1c9490d3b0ea8ca239a17a0b012d9a9036c9fe2cf7018c891433ea9631618",
+  "status": "Reused six diagnostics after C07 identity correction; not fresh validation.",
+  "reviewed_at": "2026-09-11T15:42:50.041452+00:00"
+}

@@ -1,0 +1,287 @@
+{
+  "count": 8,
+  "rms_ground_m": 72.28190366101757,
+  "median_ground_m": 47.40220704499198,
+  "p95_ground_m": 130.57390759158744,
+  "max_ground_m": 159.10013335247604,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": -19.883273736986887,
+  "mean_north_ground_m": 19.29866571908297,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Oak Island southeast projecting tip",
+      "role": "check",
+      "pixel_xy": [
+        1718,
+        1280
+      ],
+      "lonlat": [
+        -64.28490825007354,
+        44.51275632206292
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 7897,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 7897,
+      "nearest_unfiltered_distance_guide_px": 0.6903272501974496,
+      "selected_distance_guide_px": 0.6903272501974496,
+      "guide_reference_pixel_xy": [
+        1743.6199037464103,
+        1201.4237374293152
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.2848864275849,
+        44.512602477948995
+      ],
+      "error_ground_m": 17.183336599776947,
+      "east_ground_m": 1.7351590670012507,
+      "north_ground_m": -17.09550466390031
+    },
+    {
+      "id": "Q02",
+      "label": "Meisner Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2600,
+        1436
+      ],
+      "lonlat": [
+        -64.22526938006179,
+        44.52245584340214
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 18680,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18680,
+      "nearest_unfiltered_distance_guide_px": 1.1632368314558237,
+      "selected_distance_guide_px": 1.1632368314558237,
+      "guide_reference_pixel_xy": [
+        2636.02021019283,
+        1380.6270022805547
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.2257373873828,
+        44.52296182811747
+      ],
+      "error_ground_m": 67.42163225085629,
+      "east_ground_m": -37.205805926648125,
+      "north_ground_m": 56.226368375685624
+    },
+    {
+      "id": "Q03",
+      "label": "Snake Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3420,
+        1455
+      ],
+      "lonlat": [
+        -64.17370412366337,
+        44.538142590893024
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 20450,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20450,
+      "nearest_unfiltered_distance_guide_px": 0.7767383624742547,
+      "selected_distance_guide_px": 0.7767383624742547,
+      "guide_reference_pixel_xy": [
+        3467.645158706815,
+        1395.6909487248631
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.17405579377896,
+        44.53804993879137
+      ],
+      "error_ground_m": 29.785943321082105,
+      "east_ground_m": -27.949974176960193,
+      "north_ground_m": -10.29569633555564
+    },
+    {
+      "id": "Q04",
+      "label": "Rouse Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        879,
+        2602
+      ],
+      "lonlat": [
+        -64.300178349176,
+        44.43880357085057
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 19994,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19994,
+      "nearest_unfiltered_distance_guide_px": 0.3036214504056158,
+      "selected_distance_guide_px": 0.3036214504056158,
+      "guide_reference_pixel_xy": [
+        925.1244106278755,
+        2518.2769620566396
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.30217666339239,
+        44.43878841617671
+      ],
+      "error_ground_m": 159.10013335247604,
+      "east_ground_m": -159.09124148192845,
+      "north_ground_m": -1.682057226845072
+    },
+    {
+      "id": "Q05",
+      "label": "Black or Little Kaulback Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1805,
+        2625
+      ],
+      "lonlat": [
+        -64.24382685274557,
+        44.45566499464224
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 19536,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19536,
+      "nearest_unfiltered_distance_guide_px": 0.6728582801383909,
+      "selected_distance_guide_px": 0.6728582801383909,
+      "guide_reference_pixel_xy": [
+        1832.7151666484424,
+        2541.3904032259015
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.24387797806804,
+        44.455796208931545
+      ],
+      "error_ground_m": 15.137815167200365,
+      "east_ground_m": -4.0690453745717745,
+      "north_ground_m": 14.58068303530385
+    },
+    {
+      "id": "Q06",
+      "label": "Big Tancook Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2990,
+        2830
+      ],
+      "lonlat": [
+        -64.1654513397919,
+        44.46954838926962
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 17327,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17327,
+      "nearest_unfiltered_distance_guide_px": 1.0363054475416287,
+      "selected_distance_guide_px": 1.0363054475416287,
+      "guide_reference_pixel_xy": [
+        3015.9672805700684,
+        2754.913863134221
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.16459166784644,
+        44.469878062469306
+      ],
+      "error_ground_m": 77.59663117850874,
+      "east_ground_m": 68.40452465198564,
+      "north_ground_m": 36.6341122096524
+    },
+    {
+      "id": "Q07",
+      "label": "Little Tancook Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3486,
+        3105
+      ],
+      "lonlat": [
+        -64.12655151181744,
+        44.46741167020011
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 19574,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 19574,
+      "nearest_unfiltered_distance_guide_px": 2.8855894773647726,
+      "selected_distance_guide_px": 2.8855894773647726,
+      "guide_reference_pixel_xy": [
+        3529.0598244575085,
+        3032.7281306019286
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.12640806245861,
+        44.46752126086421
+      ],
+      "error_ground_m": 16.691261518989805,
+      "east_ground_m": 11.414796214426332,
+      "north_ground_m": 12.177874957414701
+    },
+    {
+      "id": "Q08",
+      "label": "Gravel Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5008,
+        3161
+      ],
+      "lonlat": [
+        -64.02980203402389,
+        44.49394678885315
+      ],
+      "guide_file": ".crown-grant-local/047-frozen-north-discovery-guide.npy",
+      "reference_objectid": 18297,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 18297,
+      "nearest_unfiltered_distance_guide_px": 2.469843557175032,
+      "selected_distance_guide_px": 2.469843557175032,
+      "guide_reference_pixel_xy": [
+        5066.728253549372,
+        3114.45484848076
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Reserved before first fit and score; native paired crosshair inspected; never fitted.",
+      "predicted_lonlat": [
+        -64.02995673688501,
+        44.494521324895985
+      ],
+      "error_ground_m": 65.01847076890186,
+      "east_ground_m": -12.304602869199798,
+      "north_ground_m": 63.8435454009082
+    }
+  ],
+  "fit_sha256": "9ab4fead17049dc0062d940d78413b18513822a7defba14df3ec34255f1d1363",
+  "checks_sha256": "cc5eb2bf65df1a6574f6604fc7b924df774c112869b572a1d158c4ee05099271",
+  "status": "Reserved before first fit and score"
+}

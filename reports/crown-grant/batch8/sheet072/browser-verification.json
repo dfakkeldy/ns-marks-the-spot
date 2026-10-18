@@ -1,0 +1,36 @@
+{
+  "verified_at_utc": "2026-09-24T23:13:13.818538+00:00",
+  "url": "http://127.0.0.1:8842/",
+  "sheet": "072",
+  "selected": true,
+  "decoded_images": [
+    {
+      "file": "main-3857.png",
+      "dimensions": [
+        6138,
+        5220
+      ],
+      "complete": true
+    },
+    {
+      "file": "source.jpg",
+      "dimensions": [
+        5287,
+        3629
+      ],
+      "complete": true
+    }
+  ],
+  "visible_raster_inspected": true,
+  "visible_modern_only_inspected": true,
+  "opacity_values_verified": [
+    0.65,
+    0.4,
+    0,
+    0.65
+  ],
+  "console_errors": [],
+  "notes": [
+    "Complete original mapped frame, bay and modern reference visibly inspected; northeastern estuary and eastern interior limitations retained."
+  ]
+}

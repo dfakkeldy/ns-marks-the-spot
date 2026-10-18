@@ -1,0 +1,49 @@
+{
+  "sheet": "sheet-18",
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "purpose": "Two reused diagnostics, not fresh validation. Q04/Q05/Q06 promoted with unchanged coordinates.",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        4638.0,
+        6021.216293597085
+      ],
+      "lonlat": [
+        -61.0805,
+        45.7652
+      ],
+      "identity_evidence": "Crane Island northern tip",
+      "source_uncertainty_px": 20,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2319.0,
+        3011.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit.",
+      "review": "Native crosshair and modern physical feature visually inspected; final source placement recorded before scoring."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        5434,
+        3574
+      ],
+      "lonlat": [
+        -61.0415157,
+        45.8444992
+      ],
+      "modern_node_id": "J0614",
+      "modern_objectids": [
+        125319,
+        125320,
+        194483
+      ],
+      "identity_evidence": "McKenzie Brook western-arm small lake northern outlet",
+      "source_uncertainty_px": 15,
+      "review": "Native crosshair and modern physical feature visually inspected; final source placement recorded before scoring."
+    }
+  ]
+}

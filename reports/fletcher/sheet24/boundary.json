@@ -1,0 +1,43 @@
+{
+  "sheet": "sheet-24",
+  "source_sha256": "916cf84b046656412ddfcfc88c0d0fef6c4a3b1ea8bba69c9f5e24ebd085eee8",
+  "ring_pixel_xy": [
+    [
+      1504,
+      1000
+    ],
+    [
+      9684,
+      1033
+    ],
+    [
+      9690,
+      6510
+    ],
+    [
+      4350,
+      6507
+    ],
+    [
+      4350,
+      7150
+    ],
+    [
+      3095,
+      7150
+    ],
+    [
+      3095,
+      6503
+    ],
+    [
+      1510,
+      6502
+    ],
+    [
+      1504,
+      1000
+    ]
+  ],
+  "method": "Full engraved map frame plus continuous Guysborough southern extension, including town, wharves, Ingersol Creek, opposite shore and Hadley Beach label. Native corners and original extension personally inspected. One polygon/warp; no control hull clipping."
+}

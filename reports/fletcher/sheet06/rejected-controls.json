@@ -1,0 +1,129 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.8933209,
+        46.7820868
+      ],
+      "source_guide_xy": [
+        8460.888398859184,
+        1386.7720745005645
+      ],
+      "objectids": [
+        11289,
+        11290,
+        179406
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        8620,
+        1324
+      ],
+      "modern_node_id": "J0080",
+      "identity_evidence": "Brook mouth at historical Pigeon Cove",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: Pigeon Cove proposal has no established modern fork/shoreline correspondence."
+    },
+    {
+      "lonlat": [
+        -60.9055105,
+        46.7645438
+      ],
+      "source_guide_xy": [
+        8195.747176899109,
+        1934.0585603006184
+      ],
+      "objectids": [
+        11235,
+        11236,
+        263568
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        8380,
+        1568
+      ],
+      "modern_node_id": "J0110",
+      "identity_evidence": "Historical George Brook / modern Georges Brook mouth; name alone is insufficient",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: Historical George Brook and named modern Georges Brook have materially different surrounding coast and branching context; name alone does not prove identity."
+    },
+    {
+      "lonlat": [
+        -60.9587692,
+        46.6768944
+      ],
+      "source_guide_xy": [
+        7035.545225679176,
+        4669.568102000281
+      ],
+      "objectids": [
+        11625,
+        11626,
+        283830
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7130,
+        4645
+      ],
+      "modern_node_id": "J0317",
+      "identity_evidence": "Historical Jerome Brook / modern Rigwash Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: Historical Jerome mouth is not clearly traceable through the coloured coastal strip; original crosshair is on land/road."
+    },
+    {
+      "lonlat": [
+        -60.941407,
+        46.6823168
+      ],
+      "source_guide_xy": [
+        7410.087072999217,
+        4502.40464780014
+      ],
+      "objectids": [
+        184404,
+        283826,
+        283827
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        7324,
+        4504
+      ],
+      "modern_node_id": "J0298",
+      "identity_evidence": "Jerome/Rigwash Brook northern/eastern-arm junction",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: Proposed native point is on land; wider northern/eastern branch pattern does not establish the proposed modern junction."
+    },
+    {
+      "lonlat": [
+        -60.9502584,
+        46.6436512
+      ],
+      "source_guide_xy": [
+        7213.434100959217,
+        5711.298106400063
+      ],
+      "objectids": [
+        165712,
+        165713,
+        295474
+      ],
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        7520,
+        5562
+      ],
+      "modern_node_id": "J0443",
+      "identity_evidence": "Robert Brook mouth into Ch\u00e9ticamp River",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: Original native point is on land and proposed Robert mouth identity is not established at the modern inner channel junction."
+    }
+  ]
+}

@@ -1,0 +1,374 @@
+{
+  "case": "responsive 320x640, import/remove cycles, console and resource failures",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys",
+  "profile": "fresh geckodriver temporary profile",
+  "guards": [
+    "per-file IndexedDB + UI-state reset (ff_chooser.reset_storage)",
+    "recordsBeforeImport == 0 asserted"
+  ],
+  "harnessInterventions": [
+    "window.confirm auto-accepts so the remove cycle is deterministic; the calls it received are recorded in confirmCalls"
+  ],
+  "origin": "http://127.0.0.1:4340",
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "phaseA_recordsBeforeImport": 0,
+  "phaseA_import": {
+    "secondsToSettle": 9.48,
+    "chooser": {
+      "anyChecked": false,
+      "checkedValues": [],
+      "confirmDisabled": true,
+      "dialogPresent": true,
+      "heading": "Choose a frame for NH_Hampton_20240808_TM_geo",
+      "highlightPresent": false,
+      "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+      "legend": "Registered frames on page 1",
+      "options": [
+        {
+          "checked": false,
+          "index": 0,
+          "label": "Map Layers",
+          "value": "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451"
+        },
+        {
+          "checked": false,
+          "index": 1,
+          "label": "Quadrangle Location",
+          "value": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+        },
+        {
+          "checked": false,
+          "index": 2,
+          "label": "Adjoining Sheet Diagram",
+          "value": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+        }
+      ],
+      "radioCount": 3
+    },
+    "choseFrame": "Map Layers"
+  },
+  "phaseA_ledgerAt1440": {
+    "anyOverflow": false,
+    "devicePixelRatio": 2,
+    "innerHeight": 816,
+    "innerWidth": 1440,
+    "ledger": [
+      {
+        "clientWidth": 1425,
+        "label": "document",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 1425
+      },
+      {
+        "clientWidth": 1425,
+        "label": "body",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 1425
+      },
+      {
+        "clientWidth": 304,
+        "label": "panel",
+        "overflowX": "auto",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 304
+      },
+      {
+        "clientWidth": 256,
+        "label": "group",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 256
+      },
+      {
+        "clientWidth": 230,
+        "label": "card (imported row)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 230
+      }
+    ],
+    "rowButtons": [
+      {
+        "disabled": false,
+        "h": 15,
+        "text": "Change frame",
+        "w": 80
+      },
+      {
+        "disabled": false,
+        "h": 15,
+        "text": "Adjust points",
+        "w": 74
+      },
+      {
+        "disabled": false,
+        "h": 15,
+        "text": "Remove",
+        "w": 45
+      }
+    ],
+    "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+  },
+  "phaseA_shotWide": "responsive-1440-before.jpg",
+  "phaseA_calibratedViewport": {
+    "dpr": 2,
+    "innerHeight": 640,
+    "innerWidth": 500
+  },
+  "phaseA_ledgerAt320": {
+    "anyOverflow": false,
+    "devicePixelRatio": 2,
+    "innerHeight": 640,
+    "innerWidth": 500,
+    "ledger": [
+      {
+        "clientWidth": 485,
+        "label": "document",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 485
+      },
+      {
+        "clientWidth": 485,
+        "label": "body",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 485
+      },
+      {
+        "clientWidth": 0,
+        "label": "panel",
+        "overflowX": "auto",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      },
+      {
+        "clientWidth": 0,
+        "label": "group",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      },
+      {
+        "clientWidth": 0,
+        "label": "card (imported row)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      }
+    ],
+    "rowButtons": [
+      {
+        "disabled": false,
+        "h": 0,
+        "text": "Change frame",
+        "w": 0
+      },
+      {
+        "disabled": false,
+        "h": 0,
+        "text": "Adjust points",
+        "w": 0
+      },
+      {
+        "disabled": false,
+        "h": 0,
+        "text": "Remove",
+        "w": 0
+      }
+    ],
+    "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+  },
+  "phaseA_shot320": "responsive-320x640.jpg",
+  "phaseA_diagnostics": {
+    "confirmCalls": [],
+    "consoleEntries": [],
+    "failedResources": [],
+    "jsErrors": [],
+    "longTaskApiSupported": false,
+    "resourceCount": 34,
+    "responseStatusAvailable": true,
+    "unhandledRejections": [],
+    "zeroTransferNonCached": 25
+  },
+  "phaseB_cycles": [
+    {
+      "kind": "normal",
+      "i": 1,
+      "file": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+      "recordsBeforeImport": 0,
+      "secondsToImport": 7.99,
+      "recordsAfterImport": 1,
+      "blobsAfterImport": [
+        "833ae9f1-6e17-4457-8fba-20180fab1c43:preview",
+        "833ae9f1-6e17-4457-8fba-20180fab1c43:raster"
+      ],
+      "removeClicked": 1,
+      "recordsAfterRemove": 0,
+      "blobsAfterRemove": [],
+      "secondsToClear": 0.02,
+      "cleared": true,
+      "confirmCalls": [
+        "Remove \"ME_Isles_of_Shoals_20240805_TM_geo\" from this device? The original file on your computer is not affected."
+      ],
+      "outcome": "RECORD_AND_BLOBS_REMOVED"
+    },
+    {
+      "kind": "normal",
+      "i": 2,
+      "file": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+      "recordsBeforeImport": 0,
+      "secondsToImport": 7.95,
+      "recordsAfterImport": 1,
+      "blobsAfterImport": [
+        "fb7958e6-8382-421f-9ca2-94e5d5620fbf:preview",
+        "fb7958e6-8382-421f-9ca2-94e5d5620fbf:raster"
+      ],
+      "removeClicked": 1,
+      "recordsAfterRemove": 0,
+      "blobsAfterRemove": [],
+      "secondsToClear": 0.01,
+      "cleared": true,
+      "confirmCalls": [
+        "Remove \"ME_Isles_of_Shoals_20240805_TM_geo\" from this device? The original file on your computer is not affected."
+      ],
+      "outcome": "RECORD_AND_BLOBS_REMOVED"
+    },
+    {
+      "kind": "normal",
+      "i": 3,
+      "file": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+      "recordsBeforeImport": 0,
+      "secondsToImport": 7.96,
+      "recordsAfterImport": 1,
+      "blobsAfterImport": [
+        "25a88d42-bfea-43fb-bcd5-e0269531bf67:preview",
+        "25a88d42-bfea-43fb-bcd5-e0269531bf67:raster"
+      ],
+      "removeClicked": 1,
+      "recordsAfterRemove": 0,
+      "blobsAfterRemove": [],
+      "secondsToClear": 0.02,
+      "cleared": true,
+      "confirmCalls": [
+        "Remove \"ME_Isles_of_Shoals_20240805_TM_geo\" from this device? The original file on your computer is not affected."
+      ],
+      "outcome": "RECORD_AND_BLOBS_REMOVED"
+    },
+    {
+      "kind": "large",
+      "i": 1,
+      "file": "NH_Hampton_20240808_TM_geo.pdf",
+      "recordsBeforeImport": 0,
+      "secondsToImport": 9.67,
+      "recordsAfterImport": 1,
+      "blobsAfterImport": [
+        "d0cbd595-a346-4aea-b5b1-116db31abe82:preview",
+        "d0cbd595-a346-4aea-b5b1-116db31abe82:raster"
+      ],
+      "removeClicked": 1,
+      "recordsAfterRemove": 0,
+      "blobsAfterRemove": [],
+      "secondsToClear": 0.01,
+      "cleared": true,
+      "confirmCalls": [
+        "Remove \"NH_Hampton_20240808_TM_geo\" from this device? The original file on your computer is not affected."
+      ],
+      "outcome": "RECORD_AND_BLOBS_REMOVED"
+    },
+    {
+      "kind": "large",
+      "i": 2,
+      "file": "NH_Hampton_20240808_TM_geo.pdf",
+      "recordsBeforeImport": 0,
+      "secondsToImport": 9.79,
+      "recordsAfterImport": 1,
+      "blobsAfterImport": [
+        "4b94b346-8e00-4512-9689-3d1912cfe3ac:preview",
+        "4b94b346-8e00-4512-9689-3d1912cfe3ac:raster"
+      ],
+      "removeClicked": 1,
+      "recordsAfterRemove": 0,
+      "blobsAfterRemove": [],
+      "secondsToClear": 0.01,
+      "cleared": true,
+      "confirmCalls": [
+        "Remove \"NH_Hampton_20240808_TM_geo\" from this device? The original file on your computer is not affected."
+      ],
+      "outcome": "RECORD_AND_BLOBS_REMOVED"
+    },
+    {
+      "kind": "large",
+      "i": 3,
+      "file": "NH_Hampton_20240808_TM_geo.pdf",
+      "recordsBeforeImport": 0,
+      "secondsToImport": 9.7,
+      "recordsAfterImport": 1,
+      "blobsAfterImport": [
+        "c03270e6-ca40-4c67-b600-124d5f0eceef:preview",
+        "c03270e6-ca40-4c67-b600-124d5f0eceef:raster"
+      ],
+      "removeClicked": 1,
+      "recordsAfterRemove": 0,
+      "blobsAfterRemove": [],
+      "secondsToClear": 0.01,
+      "cleared": true,
+      "confirmCalls": [
+        "Remove \"NH_Hampton_20240808_TM_geo\" from this device? The original file on your computer is not affected."
+      ],
+      "outcome": "RECORD_AND_BLOBS_REMOVED"
+    }
+  ],
+  "phaseC_diagnostics": {
+    "confirmCalls": [
+      "Remove \"NH_Hampton_20240808_TM_geo\" from this device? The original file on your computer is not affected."
+    ],
+    "consoleEntries": [],
+    "failedResources": [],
+    "jsErrors": [],
+    "longTaskApiSupported": false,
+    "resourceCount": 26,
+    "responseStatusAvailable": true,
+    "unhandledRejections": [],
+    "zeroTransferNonCached": 17
+  },
+  "phaseC_shot": "final-state.jpg",
+  "log": [
+    "[   6.03s] ATTACHED firefox 152.0.6 build=20260713164047",
+    "[   6.03s] PHASE A - responsive 320x640 with the long Hampton filename",
+    "[  17.22s]   recordsBeforeImport=0",
+    "[  26.70s]   imported in 9.48s, chose Map Layers",
+    "[  37.94s]   calibrated viewport: {'dpr': 2, 'innerHeight': 640, 'innerWidth': 500}",
+    "[  39.95s]   innerWidth=500 anyOverflow=False",
+    "[  39.95s]     document               client=  485 scroll=  485 overflowX=visible",
+    "[  39.95s]     body                   client=  485 scroll=  485 overflowX=visible",
+    "[  39.95s]     panel                  client=    0 scroll=    0 overflowX=auto",
+    "[  39.95s]     group                  client=    0 scroll=    0 overflowX=visible",
+    "[  39.95s]     card (imported row)    client=    0 scroll=    0 overflowX=visible",
+    "[  40.09s] PHASE B - import/remove cycles",
+    "[  60.00s]   normal #1: import 7.99s records 0->1->0 blobs 2->0 RECORD_AND_BLOBS_REMOVED",
+    "[  78.20s]   normal #2: import 7.95s records 0->1->0 blobs 2->0 RECORD_AND_BLOBS_REMOVED",
+    "[  96.45s]   normal #3: import 7.96s records 0->1->0 blobs 2->0 RECORD_AND_BLOBS_REMOVED",
+    "[ 116.49s]   large #1: import 9.67s records 0->1->0 blobs 2->0 RECORD_AND_BLOBS_REMOVED",
+    "[ 136.67s]   large #2: import 9.79s records 0->1->0 blobs 2->0 RECORD_AND_BLOBS_REMOVED",
+    "[ 156.83s]   large #3: import 9.7s records 0->1->0 blobs 2->0 RECORD_AND_BLOBS_REMOVED",
+    "[ 156.83s] PHASE C - console and resource failures",
+    "[ 156.83s]   resources=26 responseStatusAvailable=True failed=0",
+    "[ 156.83s]   console entries=0 jsErrors=0 rejections=0"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6051 x 4132 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 71.56 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          80,
+          100
+        ],
+        [
+          5920,
+          100
+        ],
+        [
+          5920,
+          4010
+        ],
+        [
+          80,
+          4010
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains New Glasgow and Trenton, Kings Head and Melmerby, Big Island and the Merigomish Harbour islands, the harbour headlands and barriers, Thorburn, Telford, French River, Barneys River and all southern inland/parcel regions. No displaced inset identified."
+    }
+  ]
+}

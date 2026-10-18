@@ -1,0 +1,45 @@
+{
+  "sheet": "066",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; first fit retained; numerical pass with regional limitations; private browser and raster coverage verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/066.pdf",
+    "pdf_sha256": "24c80399a944727fdd987d981df6ef09118dba9dcbd9d6d3a960a5d5103aeefd",
+    "jpeg_sha256": "c1cbc0bcfb8a9ce3cc7ad3e92acea76b7cbc1122eb7a32c3a91dc9e9138a43c7",
+    "dimensions": [
+      6004,
+      4136
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 76.8335400164426,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 76.83 m, median 59.61 m, P95 127.60 m and maximum 137.10 m; numerical criteria pass with regional limitations.",
+    "Six checks share control lake or island systems; Snow Lake is a separate southeastern check. The sample remains geographically correlated.",
+    "Urban interiors, most developed harbour waterfront, western and southwestern mainland edge and central river regions lack independent validation. Full imagery retention is not geographic acceptance there.",
+    "Thick generalized source shoreline outlines use 18 px working uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 76.83 m, median 59.61 m, P95 127.60 m, maximum 137.10 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Lower Sackville, Bedford, Millview, Princes Lodge, Rockingham, Fairview, Armdale, Halifax, Point Pleasant, Georges Island, Bedford Basin, Dartmouth, Port Wallis, Woodside, Imperial, Montague Gold Mines, Waverley game sanctuary, New Road Settlement, Cherry Brook, Preston, Upper and West Lawrencetown and Mineville, all original lakes, islands, shaded Preston regions and harbour waters. Large-scale index-card callouts remain visible; no displaced inset panel identified."
+  }
+}

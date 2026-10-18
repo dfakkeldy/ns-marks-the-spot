@@ -1,0 +1,83 @@
+[
+  {
+    "id": "IC01",
+    "label": "Inset Lawlor Island northern tip",
+    "role": "control",
+    "pixel_xy": [
+      2482,
+      3006
+    ],
+    "lonlat": [
+      -63.50439365099238,
+      44.60941980113984
+    ],
+    "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+    "reference_objectid": 18407,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18407,
+    "nearest_unfiltered_distance_guide_px": 0.584061752546546,
+    "selected_distance_guide_px": 0.584061752546546,
+    "guide_reference_pixel_xy": [
+      2482.07472594679,
+      3005.420738259796
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+  },
+  {
+    "id": "IC02",
+    "label": "Inset Lawlor Island southern tip",
+    "role": "control",
+    "pixel_xy": [
+      2983,
+      3509
+    ],
+    "lonlat": [
+      -63.48901806156091,
+      44.59809844620217
+    ],
+    "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+    "reference_objectid": 18408,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18408,
+    "nearest_unfiltered_distance_guide_px": 0.5478247217488863,
+    "selected_distance_guide_px": 0.5478247217488863,
+    "guide_reference_pixel_xy": [
+      2964.2587711187953,
+      3508.482855499955
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+  },
+  {
+    "id": "IC03",
+    "label": "Inset Lawlor Island northeast narrow finger tip",
+    "role": "control",
+    "pixel_xy": [
+      2758,
+      3152
+    ],
+    "lonlat": [
+      -63.496040394218745,
+      44.60630988132625
+    ],
+    "guide_file": ".crown-grant-local/067-inset-grid-guide.npy",
+    "reference_objectid": 18407,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18407,
+    "nearest_unfiltered_distance_guide_px": 1.9712573041038026,
+    "selected_distance_guide_px": 1.9712573041038026,
+    "guide_reference_pixel_xy": [
+      2744.829040746292,
+      3144.4142163498327
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "review": "Inset broad physical coastline and native paired crosshairs inspected before first inset fit and score; original scan coordinates retained"
+  }
+]

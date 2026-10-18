@@ -1,0 +1,192 @@
+{
+  "status": "passes frozen corridor checks; whole-sheet accuracy not established",
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "selected_model": "TPS",
+  "selection": "Affine fails and TPS passes these eight corridor checks. Checks informed model selection; they are not fresh validation of any future repair. Whole-sheet geography is not validated.",
+  "observations_sha256": "d8537c6183c6a738d3aada9c28e3bcc56c31b3a8ef1350900cdaf4f519229c90",
+  "models": {
+    "affine": {
+      "median_ground_m": 108.06605333202754,
+      "worst_ground_m": 229.51350704712905,
+      "passes_gate": false,
+      "sampled_jacobian": {
+        "count": 4375,
+        "step_native_px": 100,
+        "nonnegative_determinants": 0,
+        "min": -25.362428708474752,
+        "max": -25.36242859580042,
+        "note": "Native y is down; expected determinant is negative. Sampling does not prove a curved surface is fold-free."
+      },
+      "checks": [
+        {
+          "id": "Q01",
+          "predicted_lonlat": [
+            -61.51197018089877,
+            46.00593682221659
+          ],
+          "error_ground_m": 90.81351453085013,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q02",
+          "predicted_lonlat": [
+            -61.44392367742531,
+            46.02680222299684
+          ],
+          "error_ground_m": 116.81786477657829,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q03",
+          "predicted_lonlat": [
+            -61.416825242461364,
+            46.07840585183647
+          ],
+          "error_ground_m": 145.43580412562503,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q04",
+          "predicted_lonlat": [
+            -61.47581869236041,
+            45.98353982531889
+          ],
+          "error_ground_m": 157.6222118673028,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q05",
+          "predicted_lonlat": [
+            -61.43697618494991,
+            45.96321259587381
+          ],
+          "error_ground_m": 65.593756073296,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q06",
+          "predicted_lonlat": [
+            -61.465877361309815,
+            45.928605215520975
+          ],
+          "error_ground_m": 99.3142418874768,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q07",
+          "predicted_lonlat": [
+            -61.42585601971184,
+            46.071083338339534
+          ],
+          "error_ground_m": 229.51350704712905,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q08",
+          "predicted_lonlat": [
+            -61.518108853981545,
+            46.00635643048564
+          ],
+          "error_ground_m": 33.78092290148114,
+          "inside_control_hull": true
+        }
+      ]
+    },
+    "TPS": {
+      "median_ground_m": 82.43267681032033,
+      "worst_ground_m": 132.20607788590436,
+      "passes_gate": true,
+      "sampled_jacobian": {
+        "count": 4375,
+        "step_native_px": 100,
+        "nonnegative_determinants": 0,
+        "min": -28.416280202191054,
+        "max": -20.842254036743828,
+        "note": "Native y is down; expected determinant is negative. Sampling does not prove a curved surface is fold-free."
+      },
+      "checks": [
+        {
+          "id": "Q01",
+          "predicted_lonlat": [
+            -61.51051818679211,
+            46.00641916571194
+          ],
+          "error_ground_m": 39.62706438754552,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q02",
+          "predicted_lonlat": [
+            -61.44408097654044,
+            46.027252729842175
+          ],
+          "error_ground_m": 117.86705295418483,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q03",
+          "predicted_lonlat": [
+            -61.41813673622036,
+            46.0776750004322
+          ],
+          "error_ground_m": 49.833794174506004,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q04",
+          "predicted_lonlat": [
+            -61.47593811043676,
+            45.98449883569989
+          ],
+          "error_ground_m": 119.49074383962191,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q05",
+          "predicted_lonlat": [
+            -61.43673288576837,
+            45.96323185857012
+          ],
+          "error_ground_m": 49.56397179217832,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q06",
+          "predicted_lonlat": [
+            -61.464790210207454,
+            45.9289712659146
+          ],
+          "error_ground_m": 12.108851963547481,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q07",
+          "predicted_lonlat": [
+            -61.426966646528214,
+            46.07059547717625
+          ],
+          "error_ground_m": 132.20607788590436,
+          "inside_control_hull": true
+        },
+        {
+          "id": "Q08",
+          "predicted_lonlat": [
+            -61.51636341296233,
+            46.006755277351445
+          ],
+          "error_ground_m": 115.03155944613465,
+          "inside_control_hull": true
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "control_hull_fraction_of_content_area": 0.684839749582505,
+    "checks_inside_hull": 8,
+    "checks_total": 8,
+    "note": "Area includes sea. A hull limits extrapolation; it does not certify accuracy."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-16/sheet-16-full-sheet.tif",
+  "raster_sha256": "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce",
+  "cutline_sha256": "dea8a2a7390add8dcc73859983e33f81400d4267f2ccd2425d937af8df5f88c1",
+  "expected_interior_cells": 44657603,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

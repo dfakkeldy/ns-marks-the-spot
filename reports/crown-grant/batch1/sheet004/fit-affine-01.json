@@ -1,0 +1,215 @@
+{
+  "sheet": "004",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.881145946255572,
+      2.134076423154687
+    ],
+    [
+      2.1132732628959356,
+      -4.887725020527919
+    ],
+    [
+      234342.46275940983,
+      4848482.900419748
+    ]
+  ],
+  "source_sha256": "03557b41aec30a19e324ccb9069013aaa7b7bfecef5ab67eb8408010ff82ad17",
+  "source_dimensions": [
+    5564,
+    3989
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Green Island offshore northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1666,
+        1997
+      ],
+      "lonlat": [
+        -66.14340273255186,
+        43.69141974078912
+      ],
+      "reference_objectid": 18546,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1740.3220775371883,
+        1950.1175753085408
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Upper Chebogue Harbour elongated island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        3124,
+        977
+      ],
+      "lonlat": [
+        -66.0851149262323,
+        43.76395479251499
+      ],
+      "reference_objectid": 27460,
+      "reference_feature_code": "WACORVIS10",
+      "guide_reference_pixel_xy": [
+        3169.753020154487,
+        957.0581818306819
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Chebogue Point southern tip",
+      "role": "control",
+      "pixel_xy": [
+        2392,
+        1335
+      ],
+      "lonlat": [
+        -66.1190593728859,
+        43.734090561238474
+      ],
+      "reference_objectid": 12251,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2444.796657293511,
+        1303.762058339431
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Comeaus Hill mainland southern point",
+      "role": "control",
+      "pixel_xy": [
+        3330,
+        3003
+      ],
+      "lonlat": [
+        -66.01534101301802,
+        43.680333753530235
+      ],
+      "reference_objectid": 12732,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3405.278765940515,
+        2960.0606620964827
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Big Fish Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        4416,
+        3026
+      ],
+      "lonlat": [
+        -65.94948165100517,
+        43.70332382757535
+      ],
+      "reference_objectid": 17106,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4509.771850455902,
+        2940.7444978632266
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Jones Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        5275,
+        3745
+      ],
+      "lonlat": [
+        -65.87930004165396,
+        43.690069977208466
+      ],
+      "reference_objectid": 17883,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5361.197431386565,
+        3626.875102518243
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Arnold Point northern headland",
+      "role": "control",
+      "pixel_xy": [
+        4779,
+        704
+      ],
+      "lonlat": [
+        -65.9944670662741,
+        43.81133227015778
+      ],
+      "reference_objectid": 26868,
+      "reference_feature_code": "WACORV20",
+      "guide_reference_pixel_xy": [
+        4824.146001354791,
+        635.9372581228381
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Murder Island southern tip",
+      "role": "control",
+      "pixel_xy": [
+        2705,
+        2940
+      ],
+      "lonlat": [
+        -66.05408067667832,
+        43.67088862281749
+      ],
+      "reference_objectid": 18700,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2790.6925675183884,
+        2894.5582422851585
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    127.74205175675124,
+    92.40851816633085,
+    27.643078680819166,
+    123.30695879766299,
+    65.1523792530901,
+    68.9324973818517,
+    36.61102792758195,
+    42.423956503473896
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

@@ -1,0 +1,90 @@
+{
+  "sheet": "sheet-01",
+  "fit_sha256": "4dbb3c414a96a7a3a7a547b2c837e601aa6a9a7e68387f46e43415c2611c9daa",
+  "points": [
+    {
+      "lonlat": [
+        -60.406089078517745,
+        46.99672668125908
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        8405,
+        5406
+      ],
+      "identity_evidence": "Gulch Brook mouth northern bank at actual coastline, segment 26052 vertex 48",
+      "source_uncertainty_px": 20,
+      "status": "Corrected fresh proposal; final exact crosshair pending inspection before scoring.",
+      "original_pixel_xy": [
+        8400,
+        5406
+      ],
+      "original_modern_selection": {
+        "lonlat": [
+          -60.4075784,
+          46.9971816
+        ],
+        "modern_node_id": "J0140",
+        "objectids": [
+          26051,
+          26052,
+          262506
+        ],
+        "source_guide_xy": [
+          8331.20717567997,
+          5558.413425279548
+        ]
+      },
+      "guide_xy": [
+        8363.13892145548,
+        5572.852432895219
+      ],
+      "modern_objectid": 26052,
+      "modern_part": 0,
+      "modern_vertex": 48,
+      "modern_properties": {
+        "OBJECTID": 26052,
+        "FEAT_CODE": "WACORV20",
+        "FEAT_DESC": "Coast River - Water to the right line",
+        "RIVNAME_1": "Gulch Brook",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 138.35694153965088
+      },
+      "correction_reason": "Initial J0140 is inland where the mapped banks begin, not shoreline. Move modern selection to actual bank/coast junction before any fresh scoring.",
+      "identity_limitation": "Historical shoreline and channel generalization differ. Mouth location uncertainty is 20 native pixels; not survey accuracy."
+    },
+    {
+      "lonlat": [
+        -60.6342323,
+        47.0098426
+      ],
+      "source_guide_xy": [
+        3472.320920160273,
+        5133.998579259263
+      ],
+      "objectids": [
+        9467,
+        9468,
+        180248
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        3549,
+        5044
+      ],
+      "modern_node_id": "J0091",
+      "identity_evidence": "Low Fall stream shoreline mouth on western coast south of Lowland Cove",
+      "source_uncertainty_px": 20,
+      "status": "Corrected fresh proposal; final exact crosshair pending inspection before scoring.",
+      "original_pixel_xy": [
+        3500,
+        5045
+      ],
+      "identity_limitation": "Historical shoreline and channel generalization differ. Mouth location uncertainty is 20 native pixels; not survey accuracy."
+    }
+  ]
+}

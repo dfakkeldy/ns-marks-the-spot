@@ -1,0 +1,98 @@
+{
+  "sheet": "sheet-17",
+  "fit_sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+  "status": "Fresh candidates selected after ten-control freeze; no fit promotion",
+  "points": [
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        6910,
+        5345
+      ],
+      "lonlat": [
+        -60.6061231,
+        45.7839928
+      ],
+      "modern_node_id": "J0530",
+      "modern_objectids": [
+        164068,
+        166571,
+        195250
+      ],
+      "identity_evidence": "Middle Loch Lomond western arm river mouth; original J0544 proposal was upstream junction, corrected before scoring",
+      "source_uncertainty_px": 20
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        7798,
+        5697
+      ],
+      "lonlat": [
+        -60.5645599,
+        45.7704887
+      ],
+      "modern_node_id": "J0611",
+      "modern_objectids": [
+        132915,
+        132916,
+        194255
+      ],
+      "identity_evidence": "Middle Loch Lomond eastern shore tributary mouth opposite northern end of southern lake",
+      "source_uncertainty_px": 20
+    },
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        8470,
+        1198
+      ],
+      "lonlat": [
+        -60.531051,
+        45.9162627
+      ],
+      "modern_node_id": "J0144",
+      "modern_objectids": [
+        156839,
+        170777,
+        194797
+      ],
+      "identity_evidence": "Bruce Brook outer coastal outlet along southern end of barrier",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.55499213631489,
+        45.79824792493352
+      ],
+      "guide_xy": [
+        7895.672214704566,
+        4972.032941280864
+      ],
+      "modern_objectid": 147405,
+      "modern_part": 0,
+      "modern_vertex": 63,
+      "modern_properties": {
+        "OBJECTID": 147405,
+        "FEAT_CODE": "WALKIS10",
+        "FEAT_DESC": "Lake Island - Island to the left line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 47.9,
+        "FID": null,
+        "SHAPE_Length": 824.7917062274732
+      },
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        7967,
+        4835
+      ],
+      "identity_evidence": "Lone island in eastern part of northern Loch Lomond: northernmost shoreline",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

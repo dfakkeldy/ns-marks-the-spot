@@ -1,0 +1,22 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T07:37:55.150731+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 7,
+  "checks": 7,
+  "reason": "Northern South Mud/Round, eastern Rocky/Smith/Nineveh, southwestern Flint and south-central unnamed lake distribute controls.",
+  "corrections": [
+    "Round northern roof: original WALK20-only nearest selection hit the nearby southwestern shore. WARV50 bank geometry matches the visible northern lobe; corrected and inspected before fitting.",
+    "Flint southern reference shifted from the western flat shore to the southern outlet corner, based on native paired geometry."
+  ],
+  "unadopted": [
+    "Horse Lake closed historical outline not reconciled with modern stream network.",
+    "Fox Lake outline differed substantially; no correspondence adopted.",
+    "Medway River complex junction and South Mud northern shore not confidently reconciled."
+  ],
+  "limitations": [
+    "Six checks share control lake bodies; Scott Lake is a separate nearby waterbody. They are excluded from fitting but not independent of shared historical mapping.",
+    "The southernmost strip, much of the western interior and northeastern corner lack independent checks.",
+    "Generalized outlines, broad lake roofs and river-connected shores carry 24 px working source uncertainty."
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "sheet": "137",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.970140556126139,
+      2.0418650299673105
+    ],
+    [
+      2.0588006498099416,
+      -4.883232361766098
+    ],
+    [
+      690617.3775373119,
+      5183706.113497078
+    ]
+  ],
+  "source_sha256": "8e2298074826a28d0fd93fc697fb2c80c8e405f77f17d82dd702ee0c97327fd2",
+  "source_dimensions": [
+    5671,
+    3964
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "South Point below Neil Harbour northeast corner",
+      "role": "control",
+      "pixel_xy": [
+        2504,
+        844
+      ],
+      "lonlat": [
+        -60.316779306746156,
+        46.7844677539506
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 10956,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2522.4493233748362,
+        873.7056947360979
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Black Point southeast tip",
+      "role": "control",
+      "pixel_xy": [
+        2315,
+        1151
+      ],
+      "lonlat": [
+        -60.32190569486139,
+        46.76739124913592
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 2630,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2324.5326040613,
+        1179.2516452971613
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Mary Lake northern tip",
+      "role": "control",
+      "pixel_xy": [
+        330,
+        909
+      ],
+      "lonlat": [
+        -60.45836828185932,
+        46.74456010160391
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 124653,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        329.24172942579025,
+        930.2587976170471
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Central park oval lake west end",
+      "role": "control",
+      "pixel_xy": [
+        1088,
+        1465
+      ],
+      "lonlat": [
+        -60.3946488187211,
+        46.73286925848759
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 124658,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1091.0485651449417,
+        1480.6794012119062
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Warren Lake northwest shoreline corner",
+      "role": "control",
+      "pixel_xy": [
+        792,
+        1748
+      ],
+      "lonlat": [
+        -60.40778072951909,
+        46.715650563106294
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 141321,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        784.7363885545637,
+        1748.102824901347
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Ingonish Island southeast shoreline corner",
+      "role": "control",
+      "pixel_xy": [
+        1485,
+        2740
+      ],
+      "lonlat": [
+        -60.33697901796876,
+        46.68262786620498
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 17819,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1480.1757714102278,
+        2748.138521758956
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Middle Head east tip",
+      "role": "control",
+      "pixel_xy": [
+        1119,
+        3221
+      ],
+      "lonlat": [
+        -60.34923552143972,
+        46.6551949547395
+      ],
+      "guide_file": ".crown-grant-local/137-topology-guide.npy",
+      "reference_objectid": 22540,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1108.0585401919088,
+        3218.3857873278903
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 25,
+      "identity_evidence": "Broad lake and coastal topology plus native paired crosshair audited before fitting. Cliff-hatched points have explicitly larger working source uncertainty.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    14.135791058894535,
+    18.125487982753718,
+    29.503287788196356,
+    13.477121784581964,
+    57.152283743634776,
+    19.771079872151333,
+    4.290745899471585
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

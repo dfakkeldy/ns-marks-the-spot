@@ -1,0 +1,17 @@
+{
+  "promoted_unchanged": "VM17",
+  "observation_sha256": "0f691f5d727dbc68f0075522a23c1f3d29cc2afc9e2a5519da88d46b170296de",
+  "preserved_first": "../VM17-first.json",
+  "excluded_from_checks": [
+    "VM17"
+  ],
+  "retained_diagnostics": [
+    "VM10",
+    "VM08",
+    "VM07",
+    "VM12",
+    "VM15"
+  ],
+  "VM15_role": "Previously fresh unchanged affine4 check; diagnostic in this model-selection comparison",
+  "geographic_acceptance": false
+}

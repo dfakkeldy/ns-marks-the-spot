@@ -1,0 +1,118 @@
+{
+  "sheet": "sheet-17",
+  "fit_sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+  "status": "Fresh candidates selected after ten-control freeze; no fit promotion",
+  "points": [
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        6830,
+        5345
+      ],
+      "lonlat": [
+        -60.6119775,
+        45.7814116
+      ],
+      "modern_node_id": "J0544",
+      "modern_objectids": [
+        272806,
+        272807,
+        275248
+      ],
+      "identity_evidence": "Middle Loch Lomond far western arm tributary mouth",
+      "source_uncertainty_px": 20
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        7770,
+        5695
+      ],
+      "lonlat": [
+        -60.5645599,
+        45.7704887
+      ],
+      "modern_node_id": "J0611",
+      "modern_objectids": [
+        132915,
+        132916,
+        194255
+      ],
+      "identity_evidence": "Middle Loch Lomond eastern shore tributary mouth opposite northern end of southern lake",
+      "source_uncertainty_px": 20
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        8120,
+        4520
+      ],
+      "lonlat": [
+        -60.544655,
+        45.8077093
+      ],
+      "modern_node_id": "J0433",
+      "modern_objectids": [
+        126887,
+        126888,
+        199980
+      ],
+      "identity_evidence": "Eastern upper pond southern outlet northeast of Loch Lomond",
+      "source_uncertainty_px": 20
+    },
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        8470,
+        1198
+      ],
+      "lonlat": [
+        -60.531051,
+        45.9162627
+      ],
+      "modern_node_id": "J0144",
+      "modern_objectids": [
+        156839,
+        170777,
+        194797
+      ],
+      "identity_evidence": "Bruce Brook outer coastal outlet along southern end of barrier",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.55082733629114,
+        45.798533039574664
+      ],
+      "guide_xy": [
+        7986.881335224491,
+        4963.109993471764
+      ],
+      "modern_objectid": 139324,
+      "modern_part": 0,
+      "modern_vertex": 210,
+      "modern_properties": {
+        "OBJECTID": 139324,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 47.9,
+        "FID": null,
+        "SHAPE_Length": 2125.3205538236825
+      },
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        7950,
+        4833
+      ],
+      "identity_evidence": "Lone island in eastern part of northern Loch Lomond: northernmost shoreline",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

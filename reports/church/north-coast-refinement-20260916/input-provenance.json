@@ -1,0 +1,15 @@
+{
+  "nightly_commit": "b12848d94e76bacc3fc3da0c08cada7b7f7fb416",
+  "previous_report": "reports/church/inverness-north-continuation-20260914",
+  "previous_controls_sha256": "b20145acf800f6b0cf1a2fe146e30937a2450bf7658dc0b54c2bde7b8bcc334d",
+  "reserved_check": "I16",
+  "selection_diagnostics": [
+    "N03",
+    "I13"
+  ],
+  "candidate_promotions": [
+    "I15",
+    "I17"
+  ],
+  "catalog_activation": false
+}

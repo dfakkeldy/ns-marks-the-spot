@@ -1,0 +1,955 @@
+{
+  "case": "multi-frame chooser matrix",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys, no bridge size ceiling",
+  "profile": "fresh geckodriver temporary profile per launch",
+  "origin": "http://127.0.0.1:4340",
+  "files": [
+    {
+      "file": "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
+      "bytes": 12127762,
+      "receiptExpectation": {
+        "candidateIds": [
+          "measure-direct-0-0-0-3389.7145968-3984.7847136",
+          "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337"
+        ],
+        "rmsByLabel": {
+          "Map Layers": 8,
+          "Quadrangle": 0,
+          "Adjoining": 0
+        }
+      },
+      "recordsBeforeImport": 0,
+      "secondsToChooser": 4.06,
+      "chooserInitial": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": true,
+        "dialogPresent": true,
+        "heading": "Choose a frame for CA_San_Francisco_South_OE_W_20211202_TM_geo",
+        "highlightPresent": false,
+        "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+        "legend": "Registered frames on page 1",
+        "options": [
+          {
+            "checked": false,
+            "index": 0,
+            "label": "Map Layers",
+            "value": "measure-direct-0-0-0-3389.7145968-3984.7847136"
+          },
+          {
+            "checked": false,
+            "index": 1,
+            "label": "Quadrangle Location",
+            "value": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+          },
+          {
+            "checked": false,
+            "index": 2,
+            "label": "Adjoining Sheet Diagram",
+            "value": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337"
+          }
+        ],
+        "radioCount": 3
+      },
+      "stateAtChooser": {
+        "jsErrors": [],
+        "longTaskApiSupported": false,
+        "outcomes": [
+          "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+        ],
+        "paneCanvases": [],
+        "rows": [
+          {
+            "buttons": [
+              "Choose frame",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "needsGeoreferenceBadge": [
+              "Choose frame"
+            ],
+            "text": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+          }
+        ],
+        "status": null,
+        "tileDerived": {
+          "lat": 46.07323062540836,
+          "lng": -60.8203125,
+          "zoom": 9
+        },
+        "unhandledRejections": [],
+        "zoomReadout": null
+      },
+      "noPreselectionOnFirstPresentation": true,
+      "candidateIdsMatchReceipt": true,
+      "candidateIdsObserved": [
+        "measure-direct-0-0-0-3389.7145968-3984.7847136",
+        "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+        "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "label": "Map Layers",
+          "candidateId": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+          "isMainMapLabel": true,
+          "reopenedVia": {
+            "reopened": false,
+            "note": "first choice uses the initial chooser"
+          },
+          "reopenedChooserPrechecked": false,
+          "reopenedCheckedValues": [],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Map Layers",
+          "selectedFrameId": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 8 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "37.6082, -122.6458",
+              "offBy": "8 m",
+              "scan": "-19, 3985"
+            },
+            {
+              "i": "2",
+              "map": "37.7638, -122.6451",
+              "offBy": "8 m",
+              "scan": "0, -16"
+            },
+            {
+              "i": "3",
+              "map": "37.7632, -122.4780",
+              "offBy": "8 m",
+              "scan": "3408, 0"
+            },
+            {
+              "i": "4",
+              "map": "37.6076, -122.4791",
+              "offBy": "8 m",
+              "scan": "3390, 4001"
+            }
+          ],
+          "canvasPaintedFraction": 0.986603,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 37.683820326693805,
+            "lng": -122.5634765625,
+            "zoom": 12
+          },
+          "outcomes": [
+            "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 1,
+          "label": "Quadrangle Location",
+          "candidateId": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "measure-direct-0-0-0-3389.7145968-3984.7847136"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Quadrangle Location",
+          "selectedFrameId": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Quadrangle Location \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "32.2636, -128.0276",
+              "offBy": "0 m",
+              "scan": "2186, 3838"
+            },
+            {
+              "i": "2",
+              "map": "42.2423, -128.0276",
+              "offBy": "0 m",
+              "scan": "2186, 3720"
+            },
+            {
+              "i": "3",
+              "map": "42.2423, -110.5856",
+              "offBy": "0 m",
+              "scan": "2349, 3720"
+            },
+            {
+              "i": "4",
+              "map": "32.2636, -110.5856",
+              "offBy": "0 m",
+              "scan": "2349, 3838"
+            }
+          ],
+          "canvasPaintedFraction": 1,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 36.59788913307021,
+            "lng": -119.53125,
+            "zoom": 7
+          },
+          "outcomes": [
+            "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 2,
+          "label": "Adjoining Sheet Diagram",
+          "candidateId": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Adjoining Sheet Diagram",
+          "selectedFrameId": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Adjoining Sheet Diagram \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "37.4997, -122.7500",
+              "offBy": "0 m",
+              "scan": "2169, 4025"
+            },
+            {
+              "i": "2",
+              "map": "37.8749, -122.7500",
+              "offBy": "0 m",
+              "scan": "2169, 3898"
+            },
+            {
+              "i": "3",
+              "map": "37.8749, -122.3750",
+              "offBy": "0 m",
+              "scan": "2270, 3898"
+            },
+            {
+              "i": "4",
+              "map": "37.4997, -122.3750",
+              "offBy": "0 m",
+              "scan": "2270, 4025"
+            }
+          ],
+          "canvasPaintedFraction": 0.951404,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 37.718590325588146,
+            "lng": -122.51953125,
+            "zoom": 10
+          },
+          "outcomes": [
+            "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        }
+      ],
+      "allFramesPlacedFromEmbedded": true,
+      "noFrameRequestedGcpPlacement": true,
+      "insetsProven": [
+        "Quadrangle Location",
+        "Adjoining Sheet Diagram"
+      ],
+      "mainMapProven": [
+        "Map Layers"
+      ],
+      "rmsByLabel": {
+        "Map Layers": "RMS 8 m across 4 points",
+        "Quadrangle Location": "RMS 0 m across 4 points",
+        "Adjoining Sheet Diagram": "RMS 0 m across 4 points"
+      },
+      "outcome": "ALL_FRAMES_EXPLICIT_AND_EMBEDDED",
+      "idbFinal": {
+        "blobs": {
+          "eb87077b-b13a-496c-8957-a8fb8768fb02:preview": {
+            "byteLength": 1297120,
+            "type": "image/png"
+          },
+          "eb87077b-b13a-496c-8957-a8fb8768fb02:raster": {
+            "byteLength": 12127762,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+                "sourceRect": {
+                  "height": 3984.7847135632182,
+                  "width": 3389.714596781609,
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 100.98523218390848,
+                  "x": 2168.7111601532565,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "measure-direct-2-gcp-1",
+                "map": {
+                  "lat": 37.49974,
+                  "lng": -122.75001
+                },
+                "pixel": {
+                  "x": 2168.7111601532565,
+                  "y": 4025.391727816092
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-2",
+                "map": {
+                  "lat": 37.87485,
+                  "lng": -122.75001
+                },
+                "pixel": {
+                  "x": 2168.7111601532565,
+                  "y": 3898.274094099617
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-3",
+                "map": {
+                  "lat": 37.87485,
+                  "lng": -122.37502
+                },
+                "pixel": {
+                  "x": 2269.696392337165,
+                  "y": 3898.274094099617
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-4",
+                "map": {
+                  "lat": 37.49974,
+                  "lng": -122.37502
+                },
+                "pixel": {
+                  "x": 2269.696392337165,
+                  "y": 4025.391727816092
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "eb87077b-b13a-496c-8957-a8fb8768fb02",
+            "manualReason": null,
+            "name": "CA_San_Francisco_South_OE_W_20211202_TM_geo",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 3390
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337",
+            "selectedLabel": "Adjoining Sheet Diagram",
+            "selection": {
+              "kind": "user"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 127.1176337164752,
+              "width": 100.98523218390848,
+              "x": 2168.7111601532565,
+              "y": 3898.274094099617
+            }
+          }
+        ]
+      }
+    },
+    {
+      "file": "NH_Hampton_20240808_TM_geo.pdf",
+      "bytes": 35264037,
+      "receiptExpectation": {
+        "candidateIds": [
+          "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451",
+          "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+        ],
+        "rmsByLabel": {
+          "Map Layers": 10,
+          "Quadrangle": 0,
+          "Adjoining": 0
+        }
+      },
+      "recordsBeforeImport": 0,
+      "secondsToChooser": 4.07,
+      "chooserInitial": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": true,
+        "dialogPresent": true,
+        "heading": "Choose a frame for NH_Hampton_20240808_TM_geo",
+        "highlightPresent": false,
+        "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+        "legend": "Registered frames on page 1",
+        "options": [
+          {
+            "checked": false,
+            "index": 0,
+            "label": "Map Layers",
+            "value": "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451"
+          },
+          {
+            "checked": false,
+            "index": 1,
+            "label": "Quadrangle Location",
+            "value": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+          },
+          {
+            "checked": false,
+            "index": 2,
+            "label": "Adjoining Sheet Diagram",
+            "value": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+          }
+        ],
+        "radioCount": 3
+      },
+      "stateAtChooser": {
+        "jsErrors": [],
+        "longTaskApiSupported": false,
+        "outcomes": [
+          "NH_Hampton_20240808_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+        ],
+        "paneCanvases": [],
+        "rows": [
+          {
+            "buttons": [
+              "Choose frame",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "needsGeoreferenceBadge": [
+              "Choose frame"
+            ],
+            "text": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+          }
+        ],
+        "status": null,
+        "tileDerived": {
+          "lat": 46.07323062540836,
+          "lng": -60.8203125,
+          "zoom": 9
+        },
+        "unhandledRejections": [],
+        "zoomReadout": null
+      },
+      "noPreselectionOnFirstPresentation": true,
+      "candidateIdsMatchReceipt": true,
+      "candidateIdsObserved": [
+        "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451",
+        "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+        "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "label": "Map Layers",
+          "candidateId": "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451",
+          "isMainMapLabel": true,
+          "reopenedVia": {
+            "reopened": false,
+            "note": "first choice uses the initial chooser"
+          },
+          "reopenedChooserPrechecked": false,
+          "reopenedCheckedValues": [],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Map Layers",
+          "selectedFrameId": "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 10 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.8538, -70.9009",
+              "offBy": "10 m",
+              "scan": "14, 4099"
+            },
+            {
+              "i": "2",
+              "map": "43.0130, -70.9058",
+              "offBy": "10 m",
+              "scan": "-74, 2"
+            },
+            {
+              "i": "3",
+              "map": "43.0159, -70.7240",
+              "offBy": "10 m",
+              "scan": "3358, -72"
+            },
+            {
+              "i": "4",
+              "map": "42.8567, -70.7196",
+              "offBy": "10 m",
+              "scan": "3446, 4025"
+            }
+          ],
+          "canvasPaintedFraction": 0.985734,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 42.940339233631825,
+            "lng": -70.83984375,
+            "zoom": 11
+          },
+          "outcomes": [
+            "NH_Hampton_20240808_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 1,
+          "label": "Quadrangle Location",
+          "candidateId": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Quadrangle Location",
+          "selectedFrameId": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Quadrangle Location \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.6269, -74.2812",
+              "offBy": "0 m",
+              "scan": "2186, 3838"
+            },
+            {
+              "i": "2",
+              "map": "45.3725, -74.2812",
+              "offBy": "0 m",
+              "scan": "2186, 3720"
+            },
+            {
+              "i": "3",
+              "map": "45.3725, -68.9798",
+              "offBy": "0 m",
+              "scan": "2349, 3720"
+            },
+            {
+              "i": "4",
+              "map": "42.6269, -68.9798",
+              "offBy": "0 m",
+              "scan": "2349, 3838"
+            }
+          ],
+          "canvasPaintedFraction": 1,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 44.08758502824516,
+            "lng": -71.71875,
+            "zoom": 7
+          },
+          "outcomes": [
+            "NH_Hampton_20240808_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 2,
+          "label": "Adjoining Sheet Diagram",
+          "candidateId": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Adjoining Sheet Diagram",
+          "selectedFrameId": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Adjoining Sheet Diagram \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.7494, -71.0000",
+              "offBy": "0 m",
+              "scan": "2173, 4025"
+            },
+            {
+              "i": "2",
+              "map": "43.1251, -71.0000",
+              "offBy": "0 m",
+              "scan": "2173, 3898"
+            },
+            {
+              "i": "3",
+              "map": "43.1251, -70.6250",
+              "offBy": "0 m",
+              "scan": "2266, 3898"
+            },
+            {
+              "i": "4",
+              "map": "42.7494, -70.6250",
+              "offBy": "0 m",
+              "scan": "2266, 4025"
+            }
+          ],
+          "canvasPaintedFraction": 0.949567,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 42.940339233631825,
+            "lng": -70.83984375,
+            "zoom": 10
+          },
+          "outcomes": [
+            "NH_Hampton_20240808_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        }
+      ],
+      "allFramesPlacedFromEmbedded": true,
+      "noFrameRequestedGcpPlacement": true,
+      "insetsProven": [
+        "Quadrangle Location",
+        "Adjoining Sheet Diagram"
+      ],
+      "mainMapProven": [
+        "Map Layers"
+      ],
+      "rmsByLabel": {
+        "Map Layers": "RMS 10 m across 4 points",
+        "Quadrangle Location": "RMS 0 m across 4 points",
+        "Adjoining Sheet Diagram": "RMS 0 m across 4 points"
+      },
+      "outcome": "ALL_FRAMES_EXPLICIT_AND_EMBEDDED",
+      "idbFinal": {
+        "blobs": {
+          "88c30b07-92b7-4938-88ec-2333b9ede4aa:preview": {
+            "byteLength": 5248369,
+            "type": "image/png"
+          },
+          "88c30b07-92b7-4938-88ec-2333b9ede4aa:raster": {
+            "byteLength": 35264037,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-0-12.7114299-0-3346.6369766-4027.1572451",
+                "sourceRect": {
+                  "height": 4027.1572450574713,
+                  "width": 3346.6369765517243,
+                  "x": 12.71142988505747,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 93.21715249042154,
+                  "x": 2172.5951999999997,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "measure-direct-2-gcp-1",
+                "map": {
+                  "lat": 42.74941,
+                  "lng": -70.99998
+                },
+                "pixel": {
+                  "x": 2172.5951999999997,
+                  "y": 4025.391727816092
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-2",
+                "map": {
+                  "lat": 43.12509,
+                  "lng": -70.99998
+                },
+                "pixel": {
+                  "x": 2172.5951999999997,
+                  "y": 3898.274094099617
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-3",
+                "map": {
+                  "lat": 43.12509,
+                  "lng": -70.62502
+                },
+                "pixel": {
+                  "x": 2265.8123524904213,
+                  "y": 3898.274094099617
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-4",
+                "map": {
+                  "lat": 42.74941,
+                  "lng": -70.62502
+                },
+                "pixel": {
+                  "x": 2265.8123524904213,
+                  "y": 4025.391727816092
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "88c30b07-92b7-4938-88ec-2333b9ede4aa",
+            "manualReason": null,
+            "name": "NH_Hampton_20240808_TM_geo",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 3390
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+            "selectedLabel": "Adjoining Sheet Diagram",
+            "selection": {
+              "kind": "user"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 127.1176337164752,
+              "width": 93.21715249042154,
+              "x": 2172.5951999999997,
+              "y": 3898.274094099617
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "log": [
+    "[   2.31s] ATTACHED firefox 152.0.6 buildID=20260713164047 gecko=0.37.1",
+    "[   2.33s] ===== CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf (12127762 bytes) =====",
+    "[  19.29s]   chooser in 4.06s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  19.29s]   labels: ['Map Layers', 'Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  19.29s]   candidate ids match receipt: True",
+    "[  28.93s]   [0] 'Map Layers' -> status=embedded selection=user gcps=4 rms='RMS 8 m across 4 points' painted=0.986603 requestsGCP=False",
+    "[  38.76s]   [1] 'Quadrangle Location' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=1 requestsGCP=False",
+    "[  48.61s]   [2] 'Adjoining Sheet Diagram' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=0.951404 requestsGCP=False",
+    "[  48.87s]   OUTCOME ALL_FRAMES_EXPLICIT_AND_EMBEDDED | insets proven: ['Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  48.87s] ===== NH_Hampton_20240808_TM_geo.pdf (35264037 bytes) =====",
+    "[  65.19s]   chooser in 4.07s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  65.19s]   labels: ['Map Layers', 'Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  65.19s]   candidate ids match receipt: True",
+    "[  74.88s]   [0] 'Map Layers' -> status=embedded selection=user gcps=4 rms='RMS 10 m across 4 points' painted=0.985734 requestsGCP=False",
+    "[  84.80s]   [1] 'Quadrangle Location' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=1 requestsGCP=False",
+    "[  94.76s]   [2] 'Adjoining Sheet Diagram' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=0.949567 requestsGCP=False",
+    "[  95.10s]   OUTCOME ALL_FRAMES_EXPLICIT_AND_EMBEDDED | insets proven: ['Quadrangle Location', 'Adjoining Sheet Diagram']"
+  ]
+}

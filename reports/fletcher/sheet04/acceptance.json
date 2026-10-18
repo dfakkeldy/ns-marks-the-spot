@@ -1,0 +1,14 @@
+{
+  "status": "rejected-geographic-validation",
+  "production_eligible": false,
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "fresh_check_count": 3,
+  "fresh_numerical_thresholds_passed": false,
+  "median_ground_m": 125.75799570336224,
+  "worst_ground_m": 219.57775375899334,
+  "required_median_max_m": 100,
+  "required_worst_max_m": 200,
+  "initial_diagnostics_separate": true,
+  "repair_performed": false,
+  "hosted_ci": "Inspect PR checks separately."
+}

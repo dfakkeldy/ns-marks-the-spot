@@ -1,0 +1,18 @@
+{
+  "prior_graticule_observations_untouched": true,
+  "original_eight_controls_unchanged": true,
+  "converted_failed_checks": {
+    "Q02": "C10",
+    "Q05": "C11",
+    "Q06": "C12"
+  },
+  "converted_checks_excluded_from_all_later_check_sets": true,
+  "fresh_checks_after_freeze": [
+    "V01",
+    "V02",
+    "V03",
+    "V04"
+  ],
+  "source_and_reference_hashes_verified": true,
+  "initial_C06_rejected_before_any_fit": true
+}

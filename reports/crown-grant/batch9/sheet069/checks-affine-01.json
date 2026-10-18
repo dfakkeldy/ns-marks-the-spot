@@ -1,0 +1,113 @@
+{
+  "status": "Four excluded checks reserved before first affine fit; nearby coastline and paired island/lake regions provide limited correlated evidence",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Fishing Point western tip",
+      "role": "check",
+      "pixel_xy": [
+        4778,
+        503
+      ],
+      "lonlat": [
+        -63.67887574317439,
+        45.871127684027854
+      ],
+      "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+      "reference_objectid": 9763,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 9763,
+      "nearest_unfiltered_distance_guide_px": 1.8478048236943023,
+      "selected_distance_guide_px": 1.8478048236943023,
+      "guide_reference_pixel_xy": [
+        4728.018904865894,
+        469.54149782378227
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+    },
+    {
+      "id": "Q02",
+      "label": "Victoria Island southwest lobe southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4670,
+        1176
+      ],
+      "lonlat": [
+        -63.667626746496026,
+        45.839208373923256
+      ],
+      "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+      "reference_objectid": 27465,
+      "reference_feature_code": "WACORVIS10",
+      "nearest_unfiltered_feature_code": "WACORVIS10",
+      "nearest_unfiltered_objectid": 27465,
+      "nearest_unfiltered_distance_guide_px": 0.26487091733030493,
+      "selected_distance_guide_px": 0.26487091733030493,
+      "guide_reference_pixel_xy": [
+        4619.2414612286375,
+        1147.1088718416868
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+    },
+    {
+      "id": "Q03",
+      "label": "Big or Pugwash Lake south-central bay tip",
+      "role": "check",
+      "pixel_xy": [
+        3103,
+        3434
+      ],
+      "lonlat": [
+        -63.704377474264106,
+        45.709572782839786
+      ],
+      "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+      "reference_objectid": 125387,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125387,
+      "nearest_unfiltered_distance_guide_px": 3.1956674945063317,
+      "selected_distance_guide_px": 3.1956674945063317,
+      "guide_reference_pixel_xy": [
+        3069.1406702124514,
+        3429.409676908748
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+    },
+    {
+      "id": "Q04",
+      "label": "Bergman Point western shoulder",
+      "role": "check",
+      "pixel_xy": [
+        4226,
+        562
+      ],
+      "lonlat": [
+        -63.71193877418974,
+        45.85802258831052
+      ],
+      "guide_file": ".crown-grant-local/069-adjacent-guide.npy",
+      "reference_objectid": 25540,
+      "reference_feature_code": "WACORV20",
+      "nearest_unfiltered_feature_code": "WACORV20",
+      "nearest_unfiltered_objectid": 25540,
+      "nearest_unfiltered_distance_guide_px": 3.9645145251892595,
+      "selected_distance_guide_px": 3.9645145251892595,
+      "guide_reference_pixel_xy": [
+        4177.281863652286,
+        533.241986072273
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and contextual physical identity inspected; corrected feature class before first fit/scoring."
+    }
+  ]
+}

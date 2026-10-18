@@ -1,0 +1,263 @@
+{
+  "sheet": "106",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.597135512891045,
+      1.9374791361612007
+    ],
+    [
+      1.9330446214270445,
+      -4.608161291419714
+    ],
+    [
+      601180.0808670749,
+      5020963.757826547
+    ]
+  ],
+  "source_sha256": "dd33d7b583994980292a07312a46c82142f8fa035357e5c967f18a6fecd18d35",
+  "source_dimensions": [
+    6013,
+    4118
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Lawlors Lake south tip",
+      "role": "control",
+      "pixel_xy": [
+        717,
+        851
+      ],
+      "lonlat": [
+        -61.64590740068419,
+        45.31147805309162
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 132733,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132733,
+      "nearest_unfiltered_distance_guide_px": 0.7642655962113174,
+      "selected_distance_guide_px": 0.7642655962113174,
+      "guide_reference_pixel_xy": [
+        742.5099565986311,
+        819.5692505327752
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Square Lake north tip",
+      "role": "control",
+      "pixel_xy": [
+        362,
+        1807
+      ],
+      "lonlat": [
+        -61.6447573673004,
+        45.26540557591959
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 125542,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125542,
+      "nearest_unfiltered_distance_guide_px": 0.8532580899877917,
+      "selected_distance_guide_px": 0.8532580899877917,
+      "guide_reference_pixel_xy": [
+        386.04225412005326,
+        1780.8522112164646
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Hay Lake eastern corner",
+      "role": "control",
+      "pixel_xy": [
+        606,
+        3688
+      ],
+      "lonlat": [
+        -61.58546733178946,
+        45.190963554030795
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 138487,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138487,
+      "nearest_unfiltered_distance_guide_px": 0.642643422240223,
+      "selected_distance_guide_px": 0.642643422240223,
+      "guide_reference_pixel_xy": [
+        650.3667217144975,
+        3665.527736442047
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Sangster Lake south outlet",
+      "role": "control",
+      "pixel_xy": [
+        2045,
+        2833
+      ],
+      "lonlat": [
+        -61.52110559206208,
+        45.250989004836235
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 142914,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 142914,
+      "nearest_unfiltered_distance_guide_px": 1.7763366921477266,
+      "selected_distance_guide_px": 1.7763366921477266,
+      "guide_reference_pixel_xy": [
+        2076.720901235298,
+        2791.7674098840216
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Small pond in southeast barrens, northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4585,
+        3380
+      ],
+      "lonlat": [
+        -61.35844732014684,
+        45.27001730769378
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 65408,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 65408,
+      "nearest_unfiltered_distance_guide_px": 1.9438992610270305,
+      "selected_distance_guide_px": 1.9438992610270305,
+      "guide_reference_pixel_xy": [
+        4608.866640543914,
+        3329.579316523159
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Sandy Cove Brook lake northern shore nub",
+      "role": "control",
+      "pixel_xy": [
+        4061,
+        1488
+      ],
+      "lonlat": [
+        -61.43349067424236,
+        45.340212710815976
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 128575,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128575,
+      "nearest_unfiltered_distance_guide_px": 3.971448427980132,
+      "selected_distance_guide_px": 3.971448427980132,
+      "guide_reference_pixel_xy": [
+        4076.1469135400257,
+        1443.9623551049735
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Eastern separate East Halfway Cove lake, east tip",
+      "role": "control",
+      "pixel_xy": [
+        5620,
+        2048
+      ],
+      "lonlat": [
+        -61.32800846279016,
+        45.34326084292305
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 140850,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140850,
+      "nearest_unfiltered_distance_guide_px": 2.17029008289425,
+      "selected_distance_guide_px": 2.17029008289425,
+      "guide_reference_pixel_xy": [
+        5641.653503493813,
+        1983.4057329902425
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Middle Lake northeast tip",
+      "role": "control",
+      "pixel_xy": [
+        826,
+        409
+      ],
+      "lonlat": [
+        -61.650424269702455,
+        45.331647946241475
+      ],
+      "guide_file": ".crown-grant-local/106-adjacent-guide.npy",
+      "reference_objectid": 136399,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 136399,
+      "nearest_unfiltered_distance_guide_px": 0.6032670337026981,
+      "selected_distance_guide_px": 0.6032670337026981,
+      "guide_reference_pixel_xy": [
+        840.0082683951478,
+        375.6032103676116
+      ],
+      "source_uncertainty_px": 12,
+      "modern_uncertainty_m": 20,
+      "identity_evidence": "Broad lake/shore topology traced and paired original-pixel crosshairs inspected before first fit or score.",
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    25.60627033044626,
+    20.66754607929601,
+    21.469196613343552,
+    26.784739853524997,
+    25.722307818907666,
+    37.087219548463736,
+    31.70301310685151,
+    16.231022405276573
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

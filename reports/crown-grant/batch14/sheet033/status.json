@@ -1,0 +1,44 @@
+{
+  "sheet": "033",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numeric, coverage and browser assessment complete; geographic and user acceptance not established",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/033.pdf",
+    "pdf_sha256": "b034b5da96e25a6b6764eca3e9636036563f681fe9bca925260d7d6ea0945efb",
+    "jpeg_sha256": "5513b8bb0f5232a4e50ef63c808e9b0ebf9b559a8e899aaadc5feea21e626fff",
+    "dimensions": [
+      5242,
+      3683
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 48.13636614758933,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "All seven checks share control waterbodies or the associated Ten Mile Lake island. Exclusion from fitting does not establish independent historical cartography.",
+    "Northernmost/western margins and the southern strip below the harbour island lack independent validation. Little Bonnature has a control only.",
+    "Generalized lake roofs, small islands and pond tips carry 24 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 48.14 m, median 48.19 m, P95 63.69 m, maximum 64.06 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "The entire mapped frame retains lakes, harbour islands, intervening interior and the southern Liverpool\u2013Port Medway strip. Controls span western, northern, central and southeastern areas; unsampled margins remain provisional."
+  }
+}

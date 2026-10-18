@@ -1,0 +1,475 @@
+{
+  "passed": true,
+  "final_controls": 17,
+  "fresh_checks": 2,
+  "reused_checks": 7,
+  "source_sha256": "72f758991fe7bce3eba450aecb030b5b681ad037f44168c34ad7c5e82e20034f",
+  "final_fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+  "complete_boundary_sha256": "71bc58ceb5476a5ca9b98fd8be187d4ea88b4052cad67a37c1f534bfbdb6c720",
+  "previous_fourteen_controls_unchanged": true,
+  "promotions_preserve_old_pixels_coordinates_and_scores": true,
+  "figure_count": 63,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/adjacent-sheet-review/10-north-west.jpg",
+      "sha256": "be3fbe6e6687d38eac20b226a4a229b6927b7c568e5b3c2e15d1ba2a65822160"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/adjacent-sheet-review/10-north-east.jpg",
+      "sha256": "311a09c837ea55b3d404f635c6fac1fa978ddfd4bcf9778d0b45ca5e16e62627"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/adjacent-sheet-review/13-west-north.jpg",
+      "sha256": "fc709a7cd12f0c553366d7b8bbcdd3e5ea3b62726d8adfb76103f2ab4b852337"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/adjacent-sheet-review/13-west-south.jpg",
+      "sha256": "7aa4d38a4b36004c3b390be02ce937930d413e4a737ea7ddfe8d0c17731c6836"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/corrected-close/sheet-12-R02.jpg",
+      "sha256": "afcfd0287279fd39ee2bd321a3f24e6eda44eef806c3202b33a08cf44ae0a77c"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/corrected-wide/sheet-12-R02.jpg",
+      "sha256": "b7335a2d078644ec6ad78e2bdc46cb7335d5acb84bff1f64c03a6893f5379e54"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-adjacent-sheet-review/10-north-west.jpg",
+      "sha256": "8da1e5552bde25e98c0c8045c642278ecab1c598abf387d2990f85503c10995f"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-adjacent-sheet-review/10-north-east.jpg",
+      "sha256": "7bd51ffe1392e1f40704be661039fcd639a24a04e5484a976878506306386f56"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-adjacent-sheet-review/13-west-north.jpg",
+      "sha256": "3bdc28936c33ad43c17d0ea476e0226818547a79fb0fcb36cb01f9b7c30bee3c"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-adjacent-sheet-review/13-west-south.jpg",
+      "sha256": "9bb7d7c5cf45fc021b936182fa91936c90c596cea75679a00147df4a90697f0c"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-fresh-close/sheet-12-F06.jpg",
+      "sha256": "90494f762eeb011b17ac5e88181adbb4f6412610167fd57015ceb04ac822553c"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-fresh-close/sheet-12-F07.jpg",
+      "sha256": "941ba74141d3f80837421254bb20fdeda11f1aca6a66962166f99978e242caf0"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-fresh-wide/sheet-12-F06.jpg",
+      "sha256": "014f54825ea37c9553e81ca9a1eb2a9cc5dd09e248edc785e4ad8503700d81f1"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-fresh-wide/sheet-12-F07.jpg",
+      "sha256": "80e13d112b712d0698825e57e6ffdb8b96f518bfee8f64313cccc958792c49b4"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/northwest-rivers.jpg",
+      "sha256": "555b7e239b23220c3bac8affb451189557329a0e6cf4d96f4a7d06eb073ed422"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/baddeck-forks.jpg",
+      "sha256": "35e4114c28144ec0d9291bca91c586b23610c08c989b3c8dd6e7ceb756abc3b7"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/christopher-big-glen.jpg",
+      "sha256": "f2b174177c3526fea6025df1f218f1e44a1a7045ccfbcb0cb1e3ef04a2d69d76"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/st-anns-monroe.jpg",
+      "sha256": "b1274c789be97e8f6d19fa06051773cb14be8308acc789d8d93fc29ad5a323b7"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/seal-otter.jpg",
+      "sha256": "8ad3c45005d2e6f250aeb08ee21e912b8c696595e8f268353e5a05151a902102"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/baddeck-kidston.jpg",
+      "sha256": "f1d6f3bfc51210df6a7f012b969e9ca731ee5165e85fd5ae025a6680d67fa6b7"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/port-bevis.jpg",
+      "sha256": "e19e28c0f3091c3e5593cb02991eab0b9c595801285feac5659d84cb100efcbd"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/island-point.jpg",
+      "sha256": "307d3d773144dae70e6b895152fecf00b6dd1bb9dac0669e1a842aa399aa853e"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/kemp-coffin-extension.jpg",
+      "sha256": "975a128ab78f8a0a4a299daae6c77eb0e4de8fc8ac18f84f70119d9a4c74d77a"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/lockman-extension.jpg",
+      "sha256": "678142c78ae3cf15e77811c6af85a6093af481607eeb004315b2ad63b1893e79"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/final-warped-review/full-sheet.jpg",
+      "sha256": "4e8829a048612051d90f88381d2ba37562c086e86cbae9d1d25fcbf2025ee822"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-close/sheet-12-F01.jpg",
+      "sha256": "7a6ea5e92c42f93b815821bccc32760c67e5f7372f71494ee7f5a6889cc17862"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-close/sheet-12-F02.jpg",
+      "sha256": "a65aeb19b3374e3f37febd9e84b5d8b4fa2d1df35dc69d726bb78499f23d9013"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-close/sheet-12-F03.jpg",
+      "sha256": "859a5cecf3b5438766c5975b9bf91d161c8f1a9a66d4a0f7d20deeb3078a8cd2"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-corrected-close/sheet-12-F01.jpg",
+      "sha256": "de4997999ccffd59ac2911ff7905f7b7912a830793d467ce795d100b2e04a90a"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-corrected-close/sheet-12-F02.jpg",
+      "sha256": "0c60e83aa5310fccf9bcbe2262dc5a5b8105b24288cb8a08810c6e38cccb773e"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-corrected-wide/sheet-12-F02.jpg",
+      "sha256": "8e69b8d820e87e24554e2406d3e6b189c1bc92d828047d211a47d0149af7fffc"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-otter-close/sheet-12-F05.jpg",
+      "sha256": "7bebce5ce5f1e1ac240de687befd7abe5f49ab392ff8e161f54c23cc6753ea6c"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-otter-corrected/sheet-12-F05.jpg",
+      "sha256": "97ad67746570c78643ae3695093671c67ce6f5b6c1d18e9f6aa90b963ae74cc8"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-otter-wide/sheet-12-F05.jpg",
+      "sha256": "154dbd4c44b80c9e5eb59fe46c684a7ad800e7be3993fdbdc43eb68386cbcc85"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-wide/sheet-12-F01.jpg",
+      "sha256": "028eaa95b17f2a916cdf1c3694bbcc847946f9df812f51ff5a0558705259138f"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-wide/sheet-12-F02.jpg",
+      "sha256": "b8f92859c41ca5d4605f9114e1c9cd8d0802c29f37cf028e45449ed86a99e55b"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/fresh-wide/sheet-12-F03.jpg",
+      "sha256": "f7c86b8295498eec5c1e836a2b2ebd56f04c58af2a23992e4a27ce179575eecb"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/proposed-close/sheet-12-R01.jpg",
+      "sha256": "cf39eccaa6f5d9110b218ee38c70aed31de8216c2f889078b90ca8b1f6dd5871"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/proposed-close/sheet-12-R02.jpg",
+      "sha256": "adc4d98107159ac7edd9125776a93a272a24c2b3c65bcac6b27c00dd6661d6c5"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/proposed-close/sheet-12-R03.jpg",
+      "sha256": "01b0a20627e12afd1fff2c6362faf14a60053fdee2cf86ffb1d2f73ebcb51f70"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/proposed-wide/sheet-12-R01.jpg",
+      "sha256": "4a442e9c912a0a9abe7e5b74c6776f03f50a055c9441514ceabe74a0f79b8472"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/proposed-wide/sheet-12-R02.jpg",
+      "sha256": "de2ba1f62d4301ec3b84328ba7f3dc8c828a59c4ff18432dbf2110b01c39cf37"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/proposed-wide/sheet-12-R03.jpg",
+      "sha256": "80462221fd756b95a0403797249d9521ddde695450da4ab3b3c4b8e63d0f2dec"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/southern-reference-review/baddeck-kidston.jpg",
+      "sha256": "7187d6058afc622e34eb2890d455805a362b22ce3c2aa5499db027c7075eb28f"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/southern-reference-review/kemp-coffin-extension.jpg",
+      "sha256": "f6371fc76f7b501f9f991ad07a8a8d368b59880e014139fae7f23e249fc672df"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/southern-reference-review/lockman-extension.jpg",
+      "sha256": "075e36fbec06af9cf9f3444be0da39e79b67327693646f60dc1262221a14b486"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/northwest-rivers.jpg",
+      "sha256": "85be26d84d61e772467885b929d2e90ed3a00aad6cfdebb96bfd6630e2fb2be4"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/baddeck-forks.jpg",
+      "sha256": "a975d0845604af5fd0cd3133206de0e1c32fafadf704624197bafb655909dd82"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/christopher-big-glen.jpg",
+      "sha256": "3570a70f93101bc356d2a84f58addd1a0cb04539c241cd464c5bd30b81c8f8ce"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/st-anns-monroe.jpg",
+      "sha256": "7da4c9948735341c8c7462f0a8cba8faea8d77eda0b0fd00d24b356dae2d81fa"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/seal-otter.jpg",
+      "sha256": "fddeaef09861e0e78a1114b4451a62c0dff6bb292597123938150cc78677000f"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/baddeck-kidston.jpg",
+      "sha256": "3e732448888ddbab58dc66b4f5c9cc350931c83fec139690e96ea92cb7fbbf95"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/port-bevis.jpg",
+      "sha256": "3deff2b184fd774d381a8a93be813853ecbd635c8f6738f799505d02fbfad5dc"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/island-point.jpg",
+      "sha256": "3a698e311e56d6fdd7f47db42c9ad3902b8f02ef5417437f6c0540f5628fe32f"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/kemp-coffin-extension.jpg",
+      "sha256": "3d347772c75a4a6bdae33eaa8dc653ca3f9603060c64d6b3abd25a6bab78c2d3"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/lockman-extension.jpg",
+      "sha256": "79b4690772e9b3f52c1844751c8a494ba7ba3ea940f0d89bd2844a2887fc84e6"
+    },
+    {
+      "path": "reports/fletcher/sheet12/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "4de1746df31c24a4b133689a3e03123e320cce65155b29006e69a75b039ad4a9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/browser/import-desktop.png",
+      "sha256": "ae41221a051106795edf99ec8b6bd50304d08a5c5afc4bb9d0ac3cb998595e86"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "0c52c10b717cfdd266d4459ea3659dfb3955ce56699287a641a130e28578de50"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "94dcd44ee1cd0e179d298c18fc3e3b4bfc5834c1caa90b9e16ddcc559e667cf5"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/browser/import-desktop.png",
+      "sha256": "e717c236bde048cba329fc308ccc4e6c028c5389c617607546ae80e855f0f41c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/browser/reload-desktop.png",
+      "sha256": "502c3fb52ae04566d5435e2428b9c257e21537cff46340eea353532e878c3b1d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/browser/reload-mobile.png",
+      "sha256": "46b99d3b4725f4ca504a0cfe70db44a3bc75f3ecea7418603146406c4415ce18"
+    }
+  ],
+  "raster_experiments": [
+    {
+      "fit_sha256": "0f9c3ba0d0f266d1817c9eeca0c7e37a4fae3363146f7516e6251e4373424f29",
+      "boundary_sha256": "71bc58ceb5476a5ca9b98fd8be187d4ea88b4052cad67a37c1f534bfbdb6c720",
+      "scope": "Complete inner neatline, no corridor or control-hull clipping",
+      "check_status": "Reused old diagnostics and validation excluding fitted V02. No longer fresh evidence; old failed V02 preserved inside C16 promotion record.",
+      "checks_sha256": "2948c4cbe67a0d4da33511d99479cd50bc4c8ac917a6caab6a6e344ac1901dc6",
+      "median_ground_m": 79.01019235110104,
+      "worst_ground_m": 319.8644160961791,
+      "points": [
+        {
+          "id": "Q02",
+          "error_ground_m": 154.0612726313274,
+          "predicted_lonlat": [
+            -60.59669741247423,
+            46.22423703973063
+          ]
+        },
+        {
+          "id": "V01",
+          "error_ground_m": 76.49890539392419,
+          "predicted_lonlat": [
+            -60.77875442056023,
+            46.19567095506679
+          ]
+        },
+        {
+          "id": "V03",
+          "error_ground_m": 79.01019235110104,
+          "predicted_lonlat": [
+            -60.497575647254514,
+            46.235242563327034
+          ]
+        },
+        {
+          "id": "V04",
+          "error_ground_m": 31.915519565597,
+          "predicted_lonlat": [
+            -60.74211741038065,
+            46.098481568930275
+          ]
+        },
+        {
+          "id": "V05",
+          "error_ground_m": 319.8644160961791,
+          "predicted_lonlat": [
+            -60.64925039330365,
+            46.10131460822914
+          ]
+        }
+      ],
+      "orientation": {
+        "samples": 79024,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -30.19119108115194,
+          -22.286256134470946
+        ]
+      },
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/sheet-12-full-sheet.tif",
+        "sha256": "f57f7a1c7f5ceb197e08f16b6f39eb6fb1e03c5293b73b7e0a4aea1bd00a662f",
+        "size": [
+          8486,
+          6529
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -60.8517426,
+                46.273583
+              ],
+              [
+                -60.8517426,
+                46.0705056
+              ],
+              [
+                -60.4705874,
+                46.0705056
+              ],
+              [
+                -60.4705874,
+                46.273583
+              ],
+              [
+                -60.8517426,
+                46.273583
+              ]
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+      "boundary_sha256": "71bc58ceb5476a5ca9b98fd8be187d4ea88b4052cad67a37c1f534bfbdb6c720",
+      "scope": "Complete inner neatline, no corridor or control-hull clipping",
+      "check_status": "Reused diagnostics; F02 has been promoted with exact old scores retained, so is excluded. No fresh independent validation claim.",
+      "checks_sha256": "b4e04bedca704fbb0ae3b5fb0dfa8595824805f7bfe43edc3379e9b969f6c4d2",
+      "median_ground_m": 78.00139338175504,
+      "worst_ground_m": 305.5896066407884,
+      "points": [
+        {
+          "id": "Q02",
+          "error_ground_m": 152.64571015041196,
+          "predicted_lonlat": [
+            -60.59671408938577,
+            46.224201460427345
+          ]
+        },
+        {
+          "id": "V01",
+          "error_ground_m": 76.06611287985017,
+          "predicted_lonlat": [
+            -60.778758440575295,
+            46.195662374119
+          ]
+        },
+        {
+          "id": "V03",
+          "error_ground_m": 78.00139338175504,
+          "predicted_lonlat": [
+            -60.497581571810635,
+            46.23522992613853
+          ]
+        },
+        {
+          "id": "V04",
+          "error_ground_m": 27.75030547824027,
+          "predicted_lonlat": [
+            -60.74213617990075,
+            46.098441433524464
+          ]
+        },
+        {
+          "id": "V05",
+          "error_ground_m": 305.5896066407884,
+          "predicted_lonlat": [
+            -60.64933390511191,
+            46.10113604147318
+          ]
+        },
+        {
+          "id": "F01",
+          "error_ground_m": 62.68319362125623,
+          "predicted_lonlat": [
+            -60.83921303753369,
+            46.21415233878954
+          ]
+        },
+        {
+          "id": "F05",
+          "error_ground_m": 122.21885730796781,
+          "predicted_lonlat": [
+            -60.52458521891922,
+            46.21608571758564
+          ]
+        }
+      ],
+      "orientation": {
+        "samples": 79024,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -32.327210463820585,
+          -20.64175975631203
+        ]
+      },
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/sheet-12-full-sheet.tif",
+        "sha256": "48e70f98e72ad23fafb00c5437e476ad693727e09a46d1ae1a3145907550a40d",
+        "size": [
+          8528,
+          6547
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -60.8535392,
+                46.274297
+              ],
+              [
+                -60.8535392,
+                46.0706614
+              ],
+              [
+                -60.4704976,
+                46.0706614
+              ],
+              [
+                -60.4704976,
+                46.274297
+              ],
+              [
+                -60.8535392,
+                46.274297
+              ]
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "scope": "Provenance, computational and rendering verification. Geographic acceptance remains false."
+}

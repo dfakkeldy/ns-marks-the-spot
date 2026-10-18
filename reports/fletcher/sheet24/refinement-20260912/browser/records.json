@@ -1,0 +1,24 @@
+[
+  {
+    "id": "56676d8d-7440-48ca-a11a-1ee32a1b39bc",
+    "name": "sheet-24-full-sheet",
+    "source": "geotiff",
+    "createdAt": "2026-09-12T17:42:00.765Z",
+    "pixelSize": {
+      "width": 8293,
+      "height": 6458
+    },
+    "georef": {
+      "kind": "embedded",
+      "crs": "EPSG:3857",
+      "geotransform": [
+        -6856400,
+        5,
+        0,
+        5712860,
+        0,
+        -5
+      ]
+    }
+  }
+]

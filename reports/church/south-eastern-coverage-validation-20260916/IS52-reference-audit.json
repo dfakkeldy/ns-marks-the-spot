@@ -1,0 +1,75 @@
+{
+  "recorded_at": "2026-09-16T04:27:32.965252+00:00",
+  "original_observation_sha256": "a418fd50803a98b37d8d9b92a5d24f62c8070068aa1b08d54303ff46f3a1dc09",
+  "corrected_observation_sha256": "bcb273334e5ab2e69bbd188670a52484001921fb6dc048ea9d26475ec22294f8",
+  "original_first_result_sha256": "4365fdc7b67ac035ba399bf8ea0fe3957973981f0404ab73c40069a2981aa82a",
+  "evidence_commit": "c7f0242ffab658f64e13378beb1484fc736aa9ef",
+  "evidence_observation": {
+    "path": "reports/church/victoria-main-continuation-20260914/observations/VM27.json",
+    "sha256": "52592e7fee478cd8735624a0f60d63d0b3cdb59df132b6dfe989d8914519027c"
+  },
+  "reason": "Persistent northwestern corner and longitude extremum are different points. Prior VM27 evidence explicitly distinguished them before this South check was made. Correction is based on source/reference topology, not minimising a residual.",
+  "source_pixel_changed": false,
+  "fit_changed": false,
+  "untouched_fresh_check": false,
+  "physical_tps13": {
+    "count": 1,
+    "points": [
+      {
+        "label": "IS52",
+        "east_ground_m": -60.086847670010386,
+        "north_ground_m": 225.30271820111864,
+        "error_ground_m": 233.1774948225744
+      }
+    ],
+    "rms_ground_m": 233.1774948225744,
+    "median_ground_m": 233.1774948225744,
+    "p95_ground_m": 233.1774948225744,
+    "max_ground_m": 233.1774948225744,
+    "mean_east_ground_m": -60.086847670010386,
+    "mean_north_ground_m": 225.30271820111864,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "accepted_baseline_tps": {
+    "count": 1,
+    "points": [
+      {
+        "label": "IS52",
+        "east_ground_m": 144.8488636424507,
+        "north_ground_m": 326.77472799847635,
+        "error_ground_m": 357.43938808836873
+      }
+    ],
+    "rms_ground_m": 357.43938808836873,
+    "median_ground_m": 357.43938808836873,
+    "p95_ground_m": 357.43938808836873,
+    "max_ground_m": 357.43938808836873,
+    "mean_east_ground_m": 144.8488636424507,
+    "mean_north_ground_m": 326.77472799847635,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "victoria_diagnostic_tps14": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VM27",
+        "east_ground_m": -12.277240470101507,
+        "north_ground_m": 66.35638795474493,
+        "error_ground_m": 67.48259668952667
+      }
+    ],
+    "rms_ground_m": 67.48259668952667,
+    "median_ground_m": 67.48259668952667,
+    "p95_ground_m": 67.48259668952667,
+    "max_ground_m": 67.48259668952667,
+    "mean_east_ground_m": -12.277240470101507,
+    "mean_north_ground_m": 66.35638795474493,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  }
+}

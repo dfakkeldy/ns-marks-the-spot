@@ -1,0 +1,1527 @@
+{
+  "case": "multi-frame chooser matrix",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys, no bridge size ceiling",
+  "profile": "fresh geckodriver temporary profile per launch",
+  "origin": "http://127.0.0.1:4340",
+  "files": [
+    {
+      "file": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
+      "bytes": 3241291,
+      "receiptExpectation": {
+        "candidateIds": [
+          "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+          "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+          "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477"
+        ],
+        "rmsByLabel": {
+          "Map Layers": 5,
+          "Quadrangle": 0,
+          "UTM": 7
+        }
+      },
+      "recordsBeforeImport": 0,
+      "secondsToChooser": 4.14,
+      "chooserInitial": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": true,
+        "dialogPresent": true,
+        "heading": "Choose a frame for NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+        "highlightPresent": false,
+        "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+        "legend": "Registered frames on page 1",
+        "options": [
+          {
+            "checked": false,
+            "index": 0,
+            "label": "Quadrangle Location",
+            "value": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552"
+          },
+          {
+            "checked": false,
+            "index": 1,
+            "label": "Map Layers",
+            "value": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389"
+          },
+          {
+            "checked": false,
+            "index": 2,
+            "label": "UTM Grid and Projection",
+            "value": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477"
+          }
+        ],
+        "radioCount": 3
+      },
+      "stateAtChooser": {
+        "jsErrors": [],
+        "longTaskApiSupported": false,
+        "outcomes": [
+          "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+        ],
+        "paneCanvases": [],
+        "rows": [
+          {
+            "buttons": [
+              "Choose frame",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "needsGeoreferenceBadge": [
+              "Choose frame"
+            ],
+            "text": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+          }
+        ],
+        "status": null,
+        "tileDerived": {
+          "lat": 46.07323062540836,
+          "lng": -60.8203125,
+          "zoom": 9
+        },
+        "unhandledRejections": [],
+        "zoomReadout": null
+      },
+      "noPreselectionOnFirstPresentation": true,
+      "candidateIdsMatchReceipt": true,
+      "candidateIdsObserved": [
+        "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+        "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+        "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "label": "Quadrangle Location",
+          "candidateId": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "reopened": false,
+            "note": "first choice uses the initial chooser"
+          },
+          "reopenedChooserPrechecked": false,
+          "reopenedCheckedValues": [],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Quadrangle Location",
+          "selectedFrameId": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Quadrangle Location \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.3769, -68.8792",
+              "offBy": "0 m",
+              "scan": "2267, 3730"
+            },
+            {
+              "i": "2",
+              "map": "42.3769, -74.4084",
+              "offBy": "0 m",
+              "scan": "2103, 3730"
+            },
+            {
+              "i": "3",
+              "map": "45.2393, -74.4084",
+              "offBy": "0 m",
+              "scan": "2103, 3612"
+            },
+            {
+              "i": "4",
+              "map": "45.2393, -68.8792",
+              "offBy": "0 m",
+              "scan": "2267, 3612"
+            }
+          ],
+          "canvasPaintedFraction": 0.990597,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 44.08758502824516,
+            "lng": -71.71875,
+            "zoom": 7
+          },
+          "outcomes": [
+            "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 1,
+          "label": "Map Layers",
+          "candidateId": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+          "isMainMapLabel": true,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Map Layers",
+          "selectedFrameId": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 5 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "43.0005, -70.6242",
+              "offBy": "5 m",
+              "scan": "2803, 339"
+            },
+            {
+              "i": "2",
+              "map": "42.8744, -70.6244",
+              "offBy": "5 m",
+              "scan": "2803, 3584"
+            },
+            {
+              "i": "3",
+              "map": "42.8744, -70.7507",
+              "offBy": "5 m",
+              "scan": "411, 3584"
+            },
+            {
+              "i": "4",
+              "map": "43.0005, -70.7509",
+              "offBy": "5 m",
+              "scan": "411, 339"
+            }
+          ],
+          "canvasPaintedFraction": 0.87515,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 42.940339233631825,
+            "lng": -70.7080078125,
+            "zoom": 12
+          },
+          "outcomes": [
+            "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 2,
+          "label": "UTM Grid and Projection",
+          "candidateId": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "UTM Grid and Projection",
+          "selectedFrameId": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "NH_Isles_of_Shoals_OE_W_20150610_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 UTM Grid and Projection \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 7 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "43.0068, -70.6156",
+              "offBy": "7 m",
+              "scan": "2965, 177"
+            },
+            {
+              "i": "2",
+              "map": "42.8681, -70.6158",
+              "offBy": "7 m",
+              "scan": "2965, 3747"
+            },
+            {
+              "i": "3",
+              "map": "42.8681, -70.7593",
+              "offBy": "7 m",
+              "scan": "248, 3747"
+            },
+            {
+              "i": "4",
+              "map": "43.0068, -70.7595",
+              "offBy": "7 m",
+              "scan": "248, 177"
+            }
+          ],
+          "canvasPaintedFraction": 0.991685,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 42.940339233631825,
+            "lng": -70.7080078125,
+            "zoom": 12
+          },
+          "outcomes": [
+            "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        }
+      ],
+      "allFramesPlacedFromEmbedded": true,
+      "noFrameRequestedGcpPlacement": true,
+      "insetsProven": [
+        "Quadrangle Location",
+        "UTM Grid and Projection"
+      ],
+      "mainMapProven": [
+        "Map Layers"
+      ],
+      "rmsByLabel": {
+        "Quadrangle Location": "RMS 0 m across 4 points",
+        "Map Layers": "RMS 5 m across 4 points",
+        "UTM Grid and Projection": "RMS 7 m across 4 points"
+      },
+      "outcome": "ALL_FRAMES_EXPLICIT_AND_EMBEDDED",
+      "idbFinal": {
+        "blobs": {
+          "06bf7010-732e-45d7-8e2f-de59bb3da5e7:preview": {
+            "byteLength": 1100692,
+            "type": "image/png"
+          },
+          "06bf7010-732e-45d7-8e2f-de59bb3da5e7:raster": {
+            "byteLength": 3241291,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-0-2103.0705723-3612.4027586-163.9554071-117.6496552",
+                "sourceRect": {
+                  "height": 117.64965517267046,
+                  "width": 163.9554071002358,
+                  "x": 2103.070572311952,
+                  "y": 3612.40275862056
+                }
+              },
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-1-410.6593103-338.9636426-2391.9006897-3245.1844389",
+                "sourceRect": {
+                  "height": 3245.184438882531,
+                  "width": 2391.900689655481,
+                  "x": 410.65931034480695,
+                  "y": 338.96364262729
+                }
+              },
+              {
+                "embeddedLabel": "UTM Grid and Projection",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477",
+                "sourceRect": {
+                  "height": 3570.039347705513,
+                  "width": 2716.7558620688937,
+                  "x": 248.2317241380852,
+                  "y": 176.5361882157158
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "lgidict-direct-2-gcp-1",
+                "map": {
+                  "lat": 43.00684073044067,
+                  "lng": -70.6156424311107
+                },
+                "pixel": {
+                  "x": 2964.987586206979,
+                  "y": 176.5361882157158
+                }
+              },
+              {
+                "id": "lgidict-direct-2-gcp-2",
+                "map": {
+                  "lat": 42.86811544404883,
+                  "lng": -70.61579919222528
+                },
+                "pixel": {
+                  "x": 2964.987586206979,
+                  "y": 3746.575535921229
+                }
+              },
+              {
+                "id": "lgidict-direct-2-gcp-3",
+                "map": {
+                  "lat": 42.868115644568384,
+                  "lng": -70.75931609118639
+                },
+                "pixel": {
+                  "x": 248.2317241380852,
+                  "y": 3746.575535921229
+                }
+              },
+              {
+                "id": "lgidict-direct-2-gcp-4",
+                "map": {
+                  "lat": 43.00683541461396,
+                  "lng": -70.75948200058636
+                },
+                "pixel": {
+                  "x": 248.2317241383216,
+                  "y": 176.5361882157158
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "06bf7010-732e-45d7-8e2f-de59bb3da5e7",
+            "manualReason": null,
+            "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 3213
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "lgidict-direct-2-248.2317241-176.5361882-2716.7558621-3570.0393477",
+            "selectedLabel": "UTM Grid and Projection",
+            "selection": {
+              "kind": "user"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 3570.039347705513,
+              "width": 2716.7558620688937,
+              "x": 248.2317241380852,
+              "y": 176.5361882157158
+            }
+          }
+        ]
+      }
+    },
+    {
+      "file": "ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+      "bytes": 5831077,
+      "receiptExpectation": {
+        "candidateIds": [
+          "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+          "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+        ],
+        "rmsByLabel": {
+          "Map Layers": 9,
+          "Quadrangle": 0,
+          "Adjoining": 0
+        }
+      },
+      "recordsBeforeImport": 0,
+      "secondsToChooser": 4.15,
+      "chooserInitial": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": true,
+        "dialogPresent": true,
+        "heading": "Choose a frame for ME_Isles_of_Shoals_20240805_TM_geo",
+        "highlightPresent": false,
+        "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+        "legend": "Registered frames on page 1",
+        "options": [
+          {
+            "checked": false,
+            "index": 0,
+            "label": "Map Layers",
+            "value": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565"
+          },
+          {
+            "checked": false,
+            "index": 1,
+            "label": "Quadrangle Location",
+            "value": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+          },
+          {
+            "checked": false,
+            "index": 2,
+            "label": "Adjoining Sheet Diagram",
+            "value": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+          }
+        ],
+        "radioCount": 3
+      },
+      "stateAtChooser": {
+        "jsErrors": [],
+        "longTaskApiSupported": false,
+        "outcomes": [
+          "ME_Isles_of_Shoals_20240805_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+        ],
+        "paneCanvases": [],
+        "rows": [
+          {
+            "buttons": [
+              "Choose frame",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "needsGeoreferenceBadge": [
+              "Choose frame"
+            ],
+            "text": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+          }
+        ],
+        "status": null,
+        "tileDerived": {
+          "lat": 46.07323062540836,
+          "lng": -60.8203125,
+          "zoom": 9
+        },
+        "unhandledRejections": [],
+        "zoomReadout": null
+      },
+      "noPreselectionOnFirstPresentation": true,
+      "candidateIdsMatchReceipt": true,
+      "candidateIdsObserved": [
+        "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+        "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+        "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "label": "Map Layers",
+          "candidateId": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+          "isMainMapLabel": true,
+          "reopenedVia": {
+            "reopened": false,
+            "note": "first choice uses the initial chooser"
+          },
+          "reopenedChooserPrechecked": false,
+          "reopenedCheckedValues": [],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Map Layers",
+          "selectedFrameId": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 9 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.8545, -70.6504",
+              "offBy": "9 m",
+              "scan": "22, 4082"
+            },
+            {
+              "i": "2",
+              "map": "43.0130, -70.6547",
+              "offBy": "9 m",
+              "scan": "-53, 1"
+            },
+            {
+              "i": "3",
+              "map": "43.0155, -70.4745",
+              "offBy": "9 m",
+              "scan": "3350, -62"
+            },
+            {
+              "i": "4",
+              "map": "42.8569, -70.4707",
+              "offBy": "9 m",
+              "scan": "3425, 4019"
+            }
+          ],
+          "canvasPaintedFraction": 0.985608,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 42.940339233631825,
+            "lng": -70.576171875,
+            "zoom": 11
+          },
+          "outcomes": [
+            "ME_Isles_of_Shoals_20240805_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 1,
+          "label": "Quadrangle Location",
+          "candidateId": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Quadrangle Location",
+          "selectedFrameId": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Quadrangle Location \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.7200, -74.0046",
+              "offBy": "0 m",
+              "scan": "2186, 3838"
+            },
+            {
+              "i": "2",
+              "map": "47.7722, -74.0046",
+              "offBy": "0 m",
+              "scan": "2186, 3720"
+            },
+            {
+              "i": "3",
+              "map": "47.7722, -64.0292",
+              "offBy": "0 m",
+              "scan": "2349, 3720"
+            },
+            {
+              "i": "4",
+              "map": "42.7200, -64.0292",
+              "offBy": "0 m",
+              "scan": "2349, 3838"
+            }
+          ],
+          "canvasPaintedFraction": 1,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 45.08903556483102,
+            "lng": -68.90625,
+            "zoom": 7
+          },
+          "outcomes": [
+            "ME_Isles_of_Shoals_20240805_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 2,
+          "label": "Adjoining Sheet Diagram",
+          "candidateId": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Adjoining Sheet Diagram",
+          "selectedFrameId": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+          "flavor": "measure",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "ME_Isles_of_Shoals_20240805_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Adjoining Sheet Diagram \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "42.7494, -70.7500",
+              "offBy": "0 m",
+              "scan": "2173, 4025"
+            },
+            {
+              "i": "2",
+              "map": "43.1251, -70.7500",
+              "offBy": "0 m",
+              "scan": "2173, 3898"
+            },
+            {
+              "i": "3",
+              "map": "43.1251, -70.3750",
+              "offBy": "0 m",
+              "scan": "2266, 3898"
+            },
+            {
+              "i": "4",
+              "map": "42.7494, -70.3750",
+              "offBy": "0 m",
+              "scan": "2266, 4025"
+            }
+          ],
+          "canvasPaintedFraction": 0.94966,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 42.940339233631825,
+            "lng": -70.48828125,
+            "zoom": 10
+          },
+          "outcomes": [
+            "ME_Isles_of_Shoals_20240805_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        }
+      ],
+      "allFramesPlacedFromEmbedded": true,
+      "noFrameRequestedGcpPlacement": true,
+      "insetsProven": [
+        "Quadrangle Location",
+        "Adjoining Sheet Diagram"
+      ],
+      "mainMapProven": [
+        "Map Layers"
+      ],
+      "rmsByLabel": {
+        "Map Layers": "RMS 9 m across 4 points",
+        "Quadrangle Location": "RMS 0 m across 4 points",
+        "Adjoining Sheet Diagram": "RMS 0 m across 4 points"
+      },
+      "outcome": "ALL_FRAMES_EXPLICIT_AND_EMBEDDED",
+      "idbFinal": {
+        "blobs": {
+          "585fd38b-6598-4fd8-9f9a-e37e1822c429:preview": {
+            "byteLength": 1166300,
+            "type": "image/png"
+          },
+          "585fd38b-6598-4fd8-9f9a-e37e1822c429:raster": {
+            "byteLength": 5831077,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-0-21.1857165-0-3329.6884034-4020.0951565",
+                "sourceRect": {
+                  "height": 4020.095156475096,
+                  "width": 3329.6884033716474,
+                  "x": 21.185716475095784,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcpCount": 4,
+                "id": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 93.21715249042154,
+                  "x": 2172.5951999999997,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "measure-direct-2-gcp-1",
+                "map": {
+                  "lat": 42.74941,
+                  "lng": -70.74998
+                },
+                "pixel": {
+                  "x": 2172.5951999999997,
+                  "y": 4025.391727816092
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-2",
+                "map": {
+                  "lat": 43.12509,
+                  "lng": -70.74998
+                },
+                "pixel": {
+                  "x": 2172.5951999999997,
+                  "y": 3898.274094099617
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-3",
+                "map": {
+                  "lat": 43.12509,
+                  "lng": -70.37502
+                },
+                "pixel": {
+                  "x": 2265.8123524904213,
+                  "y": 3898.274094099617
+                }
+              },
+              {
+                "id": "measure-direct-2-gcp-4",
+                "map": {
+                  "lat": 42.74941,
+                  "lng": -70.37502
+                },
+                "pixel": {
+                  "x": 2265.8123524904213,
+                  "y": 4025.391727816092
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "585fd38b-6598-4fd8-9f9a-e37e1822c429",
+            "manualReason": null,
+            "name": "ME_Isles_of_Shoals_20240805_TM_geo",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 3390
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "measure-direct-2-2172.5952-3898.2740941-93.2171525-127.1176337",
+            "selectedLabel": "Adjoining Sheet Diagram",
+            "selection": {
+              "kind": "user"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 127.1176337164752,
+              "width": 93.21715249042154,
+              "x": 2172.5951999999997,
+              "y": 3898.274094099617
+            }
+          }
+        ]
+      }
+    },
+    {
+      "file": "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf",
+      "bytes": 9052006,
+      "receiptExpectation": {
+        "candidateIds": [
+          "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+          "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+          "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+          "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586"
+        ],
+        "rmsByLabel": {
+          "Map Layers": 5,
+          "Quadrangle": 0,
+          "Adjoining": 0,
+          "UTM": 6
+        }
+      },
+      "recordsBeforeImport": 0,
+      "secondsToChooser": 15.7,
+      "chooserInitial": {
+        "anyChecked": false,
+        "checkedValues": [],
+        "confirmDisabled": true,
+        "dialogPresent": true,
+        "heading": "Choose a frame for CA_Montara_Mountain_OE_W_20120515_TM_geo",
+        "highlightPresent": false,
+        "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+        "legend": "Registered frames on page 1",
+        "options": [
+          {
+            "checked": false,
+            "index": 0,
+            "label": "Quadrangle Location",
+            "value": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587"
+          },
+          {
+            "checked": false,
+            "index": 1,
+            "label": "Map Layers",
+            "value": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862"
+          },
+          {
+            "checked": false,
+            "index": 2,
+            "label": "Adjoining Quadrangles Diagram",
+            "value": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8"
+          },
+          {
+            "checked": false,
+            "index": 3,
+            "label": "UTM Grid and Projection",
+            "value": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586"
+          }
+        ],
+        "radioCount": 4
+      },
+      "stateAtChooser": {
+        "jsErrors": [],
+        "longTaskApiSupported": false,
+        "outcomes": [
+          "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+        ],
+        "paneCanvases": [],
+        "rows": [
+          {
+            "buttons": [
+              "Choose frame",
+              "Remove"
+            ],
+            "checkboxDisabled": true,
+            "checked": false,
+            "needsGeoreferenceBadge": [
+              "Choose frame"
+            ],
+            "text": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 px \u00b7 Choose frameGeoPDF page 1 \u00b7 Choose frameChoose frameRemove"
+          }
+        ],
+        "status": null,
+        "tileDerived": {
+          "lat": 46.07323062540836,
+          "lng": -60.8203125,
+          "zoom": 9
+        },
+        "unhandledRejections": [],
+        "zoomReadout": null
+      },
+      "noPreselectionOnFirstPresentation": true,
+      "candidateIdsMatchReceipt": true,
+      "candidateIdsObserved": [
+        "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+        "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+        "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+        "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586"
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "label": "Quadrangle Location",
+          "candidateId": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "reopened": false,
+            "note": "first choice uses the initial chooser"
+          },
+          "reopenedChooserPrechecked": false,
+          "reopenedCheckedValues": [],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Quadrangle Location",
+          "selectedFrameId": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Quadrangle Location \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "31.8896, -110.1528",
+              "offBy": "0 m",
+              "scan": "2311, 3726"
+            },
+            {
+              "i": "2",
+              "map": "31.8896, -128.3650",
+              "offBy": "0 m",
+              "scan": "2147, 3726"
+            },
+            {
+              "i": "3",
+              "map": "42.2840, -128.3650",
+              "offBy": "0 m",
+              "scan": "2147, 3609"
+            },
+            {
+              "i": "4",
+              "map": "42.2840, -110.1528",
+              "offBy": "0 m",
+              "scan": "2311, 3609"
+            }
+          ],
+          "canvasPaintedFraction": 0.994968,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 36.59788913307021,
+            "lng": -119.53125,
+            "zoom": 7
+          },
+          "outcomes": [
+            "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 1,
+          "label": "Map Layers",
+          "candidateId": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+          "isMainMapLabel": true,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Map Layers",
+          "selectedFrameId": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 5 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "37.4994, -122.4993",
+              "offBy": "5 m",
+              "scan": "2900, 3580"
+            },
+            {
+              "i": "2",
+              "map": "37.4994, -122.6256",
+              "offBy": "5 m",
+              "scan": "314, 3580"
+            },
+            {
+              "i": "3",
+              "map": "37.6255, -122.6257",
+              "offBy": "5 m",
+              "scan": "314, 339"
+            },
+            {
+              "i": "4",
+              "map": "37.6255, -122.4992",
+              "offBy": "5 m",
+              "scan": "2900, 339"
+            }
+          ],
+          "canvasPaintedFraction": 0.877546,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 37.57941251343839,
+            "lng": -122.5634765625,
+            "zoom": 12
+          },
+          "outcomes": [
+            "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 2,
+          "label": "Adjoining Quadrangles Diagram",
+          "candidateId": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "Adjoining Quadrangles Diagram",
+          "selectedFrameId": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Adjoining Quadrangles Diagram \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 0 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "37.3748, -122.3748",
+              "offBy": "0 m",
+              "scan": "2331, 3965"
+            },
+            {
+              "i": "2",
+              "map": "37.3748, -122.7502",
+              "offBy": "0 m",
+              "scan": "2127, 3965"
+            },
+            {
+              "i": "3",
+              "map": "37.7502, -122.7502",
+              "offBy": "0 m",
+              "scan": "2127, 3761"
+            },
+            {
+              "i": "4",
+              "map": "37.7502, -122.3748",
+              "offBy": "0 m",
+              "scan": "2331, 3761"
+            }
+          ],
+          "canvasPaintedFraction": 1,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 37.57941251343839,
+            "lng": -122.51953125,
+            "zoom": 10
+          },
+          "outcomes": [
+            "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        },
+        {
+          "index": 3,
+          "label": "UTM Grid and Projection",
+          "candidateId": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586",
+          "isMainMapLabel": false,
+          "reopenedVia": {
+            "buttonText": "Change frame",
+            "reopened": true
+          },
+          "reopenedChooserPrechecked": true,
+          "reopenedCheckedValues": [
+            "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8"
+          ],
+          "selectionEnabledConfirm": true,
+          "highlightAfterSelect": true,
+          "confirmAlert": null,
+          "registrationStatus": "embedded",
+          "selectionKind": "user",
+          "selectedLabel": "UTM Grid and Projection",
+          "selectedFrameId": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586",
+          "flavor": "lgidict",
+          "pageCount": 1,
+          "georefKind": "gcp",
+          "gcpCount": 4,
+          "manualReason": null,
+          "rowText": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 UTM Grid and Projection \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove",
+          "rowButtons": [
+            "Change frame",
+            "Adjust points",
+            "Remove"
+          ],
+          "rowCheckboxDisabled": false,
+          "rowChecked": true,
+          "needsGeoreferenceBadge": [],
+          "rmsText": "RMS 6 m across 4 points",
+          "pointCount": 4,
+          "points": [
+            {
+              "i": "1",
+              "map": "37.4931, -122.4914",
+              "offBy": "6 m",
+              "scan": "3062, 3743"
+            },
+            {
+              "i": "2",
+              "map": "37.4931, -122.6335",
+              "offBy": "6 m",
+              "scan": "151, 3743"
+            },
+            {
+              "i": "3",
+              "map": "37.6319, -122.6336",
+              "offBy": "6 m",
+              "scan": "151, 177"
+            },
+            {
+              "i": "4",
+              "map": "37.6319, -122.4912",
+              "offBy": "6 m",
+              "scan": "3062, 177"
+            }
+          ],
+          "canvasPaintedFraction": 0.98052,
+          "canvasStates": [
+            "painted"
+          ],
+          "zoomReadout": null,
+          "tileDerived": {
+            "lat": 37.57941251343839,
+            "lng": -122.5634765625,
+            "zoom": 12
+          },
+          "outcomes": [
+            "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+          ],
+          "requestsGcpPlacement": false,
+          "placedFromEmbedded": true
+        }
+      ],
+      "allFramesPlacedFromEmbedded": true,
+      "noFrameRequestedGcpPlacement": true,
+      "insetsProven": [
+        "Quadrangle Location",
+        "Adjoining Quadrangles Diagram",
+        "UTM Grid and Projection"
+      ],
+      "mainMapProven": [
+        "Map Layers"
+      ],
+      "rmsByLabel": {
+        "Quadrangle Location": "RMS 0 m across 4 points",
+        "Map Layers": "RMS 5 m across 4 points",
+        "Adjoining Quadrangles Diagram": "RMS 0 m across 4 points",
+        "UTM Grid and Projection": "RMS 6 m across 4 points"
+      },
+      "outcome": "ALL_FRAMES_EXPLICIT_AND_EMBEDDED",
+      "idbFinal": {
+        "blobs": {
+          "13023c8a-53dc-4b78-9183-55758fc70b6b:preview": {
+            "byteLength": 2389321,
+            "type": "image/png"
+          },
+          "13023c8a-53dc-4b78-9183-55758fc70b6b:raster": {
+            "byteLength": 9052006,
+            "type": "application/pdf"
+          }
+        },
+        "recordCount": 1,
+        "records": [
+          {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+                "sourceRect": {
+                  "height": 117.6618586832892,
+                  "width": 163.97241379310344,
+                  "x": 2147.0896551724136,
+                  "y": 3608.678036175597
+                }
+              },
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+                "sourceRect": {
+                  "height": 3241.4675862070603,
+                  "width": 2586.1204610363375,
+                  "x": 313.5604591369834,
+                  "y": 338.9572413788178
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Quadrangles Diagram",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+                "sourceRect": {
+                  "height": 204.7999999999843,
+                  "width": 204.79999999973143,
+                  "x": 2126.6758620691103,
+                  "y": 3760.5737931034414
+                }
+              },
+              {
+                "embeddedLabel": "UTM Grid and Projection",
+                "flavor": "lgidict",
+                "gcpCount": 4,
+                "id": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586",
+                "sourceRect": {
+                  "height": 3566.322758620689,
+                  "width": 2910.97574724964,
+                  "x": 151.1328160305064,
+                  "y": 176.5296551719216
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "gcpCount": 4,
+            "gcps": [
+              {
+                "id": "lgidict-direct-3-gcp-1",
+                "map": {
+                  "lat": 37.49311691641966,
+                  "lng": -122.49136487701033
+                },
+                "pixel": {
+                  "x": 3062.1085632801464,
+                  "y": 3742.8524137922823
+                }
+              },
+              {
+                "id": "lgidict-direct-3-gcp-2",
+                "map": {
+                  "lat": 37.49311692160222,
+                  "lng": -122.63348981319236
+                },
+                "pixel": {
+                  "x": 151.13281603052698,
+                  "y": 3742.8524137926106
+                }
+              },
+              {
+                "id": "lgidict-direct-3-gcp-3",
+                "map": {
+                  "lat": 37.631854750983045,
+                  "lng": -122.63362042986162
+                },
+                "pixel": {
+                  "x": 151.1328160305064,
+                  "y": 176.52965517257917
+                }
+              },
+              {
+                "id": "lgidict-direct-3-gcp-4",
+                "map": {
+                  "lat": 37.63185308426184,
+                  "lng": -122.49123168746686
+                },
+                "pixel": {
+                  "x": 3062.108563280127,
+                  "y": 176.5296551719216
+                }
+              }
+            ],
+            "georefKind": "gcp",
+            "georefMethod": "affine",
+            "id": "13023c8a-53dc-4b78-9183-55758fc70b6b",
+            "manualReason": null,
+            "name": "CA_Montara_Mountain_OE_W_20120515_TM_geo",
+            "pageCount": 1,
+            "pixelSize": {
+              "height": 4096,
+              "width": 3213
+            },
+            "registrationStatus": "embedded",
+            "selectedFrameId": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586",
+            "selectedLabel": "UTM Grid and Projection",
+            "selection": {
+              "kind": "user"
+            },
+            "source": "geopdf",
+            "sourceRect": {
+              "height": 3566.322758620689,
+              "width": 2910.97574724964,
+              "x": 151.1328160305064,
+              "y": 176.5296551719216
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "log": [
+    "[   2.37s] ATTACHED firefox 152.0.6 buildID=20260713164047 gecko=0.37.1",
+    "[   2.40s] ===== NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf (3241291 bytes) =====",
+    "[  19.42s]   chooser in 4.14s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  19.42s]   labels: ['Quadrangle Location', 'Map Layers', 'UTM Grid and Projection']",
+    "[  19.42s]   candidate ids match receipt: True",
+    "[  28.95s]   [0] 'Quadrangle Location' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=0.990597 requestsGCP=False",
+    "[  38.74s]   [1] 'Map Layers' -> status=embedded selection=user gcps=4 rms='RMS 5 m across 4 points' painted=0.87515 requestsGCP=False",
+    "[  48.39s]   [2] 'UTM Grid and Projection' -> status=embedded selection=user gcps=4 rms='RMS 7 m across 4 points' painted=0.991685 requestsGCP=False",
+    "[  48.60s]   OUTCOME ALL_FRAMES_EXPLICIT_AND_EMBEDDED | insets proven: ['Quadrangle Location', 'UTM Grid and Projection']",
+    "[  48.60s] ===== ME_Isles_of_Shoals_20240805_TM_geo.pdf (5831077 bytes) =====",
+    "[  65.04s]   chooser in 4.15s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  65.04s]   labels: ['Map Layers', 'Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  65.04s]   candidate ids match receipt: True",
+    "[  74.61s]   [0] 'Map Layers' -> status=embedded selection=user gcps=4 rms='RMS 9 m across 4 points' painted=0.985608 requestsGCP=False",
+    "[  84.35s]   [1] 'Quadrangle Location' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=1 requestsGCP=False",
+    "[  94.22s]   [2] 'Adjoining Sheet Diagram' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=0.94966 requestsGCP=False",
+    "[  94.41s]   OUTCOME ALL_FRAMES_EXPLICIT_AND_EMBEDDED | insets proven: ['Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  94.41s] ===== CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf (9052006 bytes) =====",
+    "[ 122.35s]   chooser in 15.7s: present=True radios=4 anyChecked=False confirmDisabled=True",
+    "[ 122.35s]   labels: ['Quadrangle Location', 'Map Layers', 'Adjoining Quadrangles Diagram', 'UTM Grid and Projection']",
+    "[ 122.35s]   candidate ids match receipt: True",
+    "[ 132.03s]   [0] 'Quadrangle Location' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=0.994968 requestsGCP=False",
+    "[ 141.88s]   [1] 'Map Layers' -> status=embedded selection=user gcps=4 rms='RMS 5 m across 4 points' painted=0.877546 requestsGCP=False",
+    "[ 151.64s]   [2] 'Adjoining Quadrangles Diagram' -> status=embedded selection=user gcps=4 rms='RMS 0 m across 4 points' painted=1 requestsGCP=False",
+    "[ 161.39s]   [3] 'UTM Grid and Projection' -> status=embedded selection=user gcps=4 rms='RMS 6 m across 4 points' painted=0.98052 requestsGCP=False",
+    "[ 161.59s]   OUTCOME ALL_FRAMES_EXPLICIT_AND_EMBEDDED | insets proven: ['Quadrangle Location', 'Adjoining Quadrangles Diagram', 'UTM Grid and Projection']"
+  ]
+}

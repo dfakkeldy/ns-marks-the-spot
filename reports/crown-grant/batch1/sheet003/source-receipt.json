@@ -1,0 +1,71 @@
+{
+  "acquired_utc": "2026-09-19",
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/003.pdf",
+  "reference_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "query": {
+    "geometry": [
+      -66.22,
+      43.76,
+      -65.94,
+      44.02
+    ],
+    "geometryType": "esriGeometryEnvelope",
+    "inSR": 4326,
+    "outSR": 4326,
+    "outFields": "*",
+    "where": "1=1",
+    "orderByFields": "OBJECTID",
+    "resultRecordCount": 2000,
+    "resultOffsets": [
+      0,
+      2000,
+      4000
+    ]
+  },
+  "reference_count": 4329,
+  "truncated": false,
+  "axis_order": "longitude,latitude in geographic JSON; easting,northing for EPSG:32620 fit",
+  "local_private_root": "/Users/dfakkeldy/.codex/worktrees/749c/ns-marks-the-spot/.crown-grant-local",
+  "files": [
+    {
+      "name": "003.pdf",
+      "bytes": 2279843,
+      "sha256": "8f9a032bd224a654cc1fb0ed9ac81ee131a1092691d435a327494dbc094e7fb0"
+    },
+    {
+      "name": "003-000.jpg",
+      "bytes": 2257966,
+      "sha256": "302378b9611224a945175e3d260f03bf6f1a1e5fc30aa613018046df97b76b55"
+    },
+    {
+      "name": "003-water-page0.geojson",
+      "bytes": 4153902,
+      "sha256": "08b9f8847aeeca5c87a4ac70cf40f3ba4683e370616bd0c089f0d290526dae57"
+    },
+    {
+      "name": "003-water-page1.geojson",
+      "bytes": 5221753,
+      "sha256": "a3d2279ca5e078803c9f80f7a1b9280cddd0dbb4b92ccc04b4e47c121a5a0201"
+    },
+    {
+      "name": "003-water-page2.geojson",
+      "bytes": 1099754,
+      "sha256": "4d91a3e663d80efc4b270871c91064eecdc146597cc11e82353a97d1d0b5cac3"
+    },
+    {
+      "name": "003-water-tight.geojson",
+      "bytes": 10613581,
+      "sha256": "e494905a10388c9ff149862b308ded199b0e67e3fcd6d15a429524f2e67b7693"
+    },
+    {
+      "name": "003-brenton-name.json",
+      "bytes": 3870,
+      "sha256": "6c47dbb2773127ec34c58e5ec8096efee616eaae48f6ca803394b7fd9889b2f4"
+    },
+    {
+      "name": "003-seam-search-guide.npy",
+      "bytes": 176,
+      "sha256": "dbe0369216388428182f0061dd5b2dd035841da02c5a17bdae057ed207238a1f"
+    }
+  ]
+}

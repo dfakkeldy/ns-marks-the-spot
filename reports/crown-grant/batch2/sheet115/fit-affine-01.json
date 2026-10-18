@@ -1,0 +1,223 @@
+{
+  "sheet": "115",
+  "version": "affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.908827210426339,
+      2.0598847934296947
+    ],
+    [
+      2.0604234955310496,
+      -4.990902474090322
+    ],
+    [
+      625224.8078231463,
+      5114636.932856081
+    ]
+  ],
+  "source_sha256": "869f519ef2c7f04cc84c9ddc08d33a54e3caaff1dddff521b242eae1d3a94952",
+  "source_dimensions": [
+    5590,
+    3839
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Ainslie Point southern tip",
+      "role": "control",
+      "pixel_xy": [
+        2139,
+        1213
+      ],
+      "lonlat": [
+        -61.21022493670699,
+        46.1564241189123
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 131347,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2128.8438228695886,
+        1209.5159952203976
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Mason Point eastern shoulder",
+      "role": "control",
+      "pixel_xy": [
+        1769,
+        1100
+      ],
+      "lonlat": [
+        -61.236081307902175,
+        46.155136425178405
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 129835,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        1769.368443421903,
+        1099.8523153904825
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "McIsaac Point northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2009,
+        2157
+      ],
+      "lonlat": [
+        -61.19458732589752,
+        46.111638605315186
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 131550,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2002.3638004829409,
+        2157.1569659840316
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Long Point northwestern corner",
+      "role": "control",
+      "pixel_xy": [
+        2504,
+        2745
+      ],
+      "lonlat": [
+        -61.14771492144904,
+        46.09350935975969
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 131551,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2500.4292429371853,
+        2751.664198672981
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Glenmore northwestern lake-shore shoulder",
+      "role": "control",
+      "pixel_xy": [
+        2788,
+        1559
+      ],
+      "lonlat": [
+        -61.15951317022318,
+        46.15183041299865
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 131743,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2780.294834878703,
+        1561.989891029778
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "East-shore headland south of Trout River",
+      "role": "control",
+      "pixel_xy": [
+        2797,
+        2002
+      ],
+      "lonlat": [
+        -61.1476120328586,
+        46.13214346283789
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 131549,
+      "reference_feature_code": "WALK20",
+      "guide_reference_pixel_xy": [
+        2792.981887581933,
+        2004.7029943891102
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Pearson Branch and Johnstone River confluence",
+      "role": "control",
+      "pixel_xy": [
+        3756,
+        2945
+      ],
+      "lonlat": [
+        -61.062649967192705,
+        46.10615281818497
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 223648,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        3748.076448340318,
+        2948.4908416995313
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C08",
+      "label": "Mount Pleasant Brook upper northern confluence",
+      "role": "control",
+      "pixel_xy": [
+        4926,
+        982
+      ],
+      "lonlat": [
+        -61.036687426615266,
+        46.21580940795066
+      ],
+      "guide_file": ".crown-grant-local/115-adjacent-guide.npy",
+      "reference_objectid": 192936,
+      "reference_feature_code": "WARV50",
+      "guide_reference_pixel_xy": [
+        4923.301679999859,
+        960.0975908122491
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    29.933543561282523,
+    26.906959494527158,
+    30.487725028872255,
+    15.363411886467038,
+    35.48646642718034,
+    15.13402294142523,
+    10.521603203670377,
+    16.50689663996644
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

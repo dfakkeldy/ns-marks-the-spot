@@ -1,0 +1,10 @@
+{
+  "timing": "Before first fit and score",
+  "correction": "C06 Southern Halibut Island target moved from adjoining southern face to western extremity after native inspection",
+  "limitations": [
+    "Several checks share islands with controls; high spatial correlation",
+    "Halibut eastern segment is separated in modern shoreline data; its outer east shore corresponds to the historical eastern segment but internal seam is unvalidated",
+    "Northern inland band has only Lost Lake evidence; harbour heads and complex barriers remain unvalidated",
+    "All source ocean frame and offshore islands retained"
+  ]
+}

@@ -1,0 +1,93 @@
+[
+  [
+    "Q01",
+    "Porter Lake western island southern tip",
+    [
+      390,
+      315
+    ],
+    [
+      262,
+      389
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q02",
+    "Porter Lake eastern island southern tip",
+    [
+      520,
+      316
+    ],
+    [
+      392,
+      390
+    ],
+    "WALKIS10"
+  ],
+  [
+    "Q03",
+    "Barren Island eastern tip",
+    [
+      5144,
+      1974
+    ],
+    [
+      5103,
+      2018
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q04",
+    "Roger Island northern shore",
+    [
+      5045,
+      1843
+    ],
+    [
+      5007,
+      1908
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q05",
+    "Duck Island southern shore",
+    [
+      5753,
+      1968
+    ],
+    [
+      5698,
+      2020
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q06",
+    "Brown Island southeast tip",
+    [
+      4923,
+      272
+    ],
+    [
+      4827,
+      314
+    ],
+    "WACOIS10"
+  ],
+  [
+    "Q07",
+    "Jeddore Rock northern shore",
+    [
+      4398,
+      2245
+    ],
+    [
+      4301,
+      2327
+    ],
+    "WACOIS10"
+  ]
+]

@@ -1,0 +1,8 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Margaree+Forks%27%2C%27Northeast+Margaree%27%2C%27Dunvegan%27%2C%27Broad+Cove%27%29&%24limit=100",
+  "retrieved_at": "2026-09-15T23:36:05.964919+00:00",
+  "sha256": "fcabd6c02aacabfe7600d2d90d118a68949ba2109dd300f7f1c2fc68bd538ced",
+  "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/locality-names.geojson",
+  "count": 17,
+  "scope": "Locality search only; no physical observation"
+}

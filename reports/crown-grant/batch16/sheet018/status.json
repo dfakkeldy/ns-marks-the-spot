@@ -1,0 +1,45 @@
+{
+  "sheet": "018",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical and browser assessment complete; not geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/018.pdf",
+    "pdf_sha256": "c6584b1d9ab6dad41a263fcff5a90b58af555a51cf269f2b372850ff24b149d7",
+    "jpeg_sha256": "d70fc51bb5f321afccbab1354e4b69503098a6b1d50ace9abf03146af6a8f669",
+    "dimensions": [
+      5304,
+      3672
+    ],
+    "ppi": 140
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 9,
+      "rms_ground_m": 41.710409847200324,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Eight checks share control lakes or islands; Enslow Point adds a coastal check. Shared historical cartography limits independence.",
+    "The southern third, Shelburne town, eastern river corridor and intervening coast remain sparsely checked.",
+    "Lake extrema, island outlines and generalized coast carry 24 px working source uncertainty.",
+    "Small islands and harbour shore alterations were not forced into matches."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "9 independent checks: RMS 41.71 m, median 39.53 m, P95 62.69 m, maximum 63.95 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Full mapped frame retains Shelburne, Birchtown Bay, Jordan Bay, all inland lakes, islands, river corridors and southern boundary continuations. Eight controls and nine excluded checks sample lakes across the frame plus Enslow Point; the southern coastal third remains provisional."
+  }
+}

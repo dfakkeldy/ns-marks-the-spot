@@ -1,0 +1,86 @@
+{
+  "fit_sha256": "2ae5ef8d16c4ab1209367778466dc4720f04727e093768ffa1f716f4465277a1",
+  "collected_at_utc": "2026-09-12T12:19:25.470339+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.0123416,
+        46.1576491
+      ],
+      "source_guide_xy": [
+        6056.71774575999,
+        4691.2035745400935
+      ],
+      "objectids": [
+        192408,
+        269303,
+        269304
+      ],
+      "modern_node": "J0746",
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        6207,
+        4678
+      ],
+      "identity_evidence": "McKenzie Brook major western mill-stream junction upstream of fitted southwestern tributary C15, with northward main arm and east/southeast downstream reach.",
+      "status": "Fresh proposal after final fourteen-control freeze; unscored.",
+      "source_uncertainty_px": 15,
+      "pre_review_pixel_xy": [
+        6185,
+        4675
+      ],
+      "correction": "Initial crosshair lay west of junction; corrected to actual west/north/south channel merger before first score."
+    },
+    {
+      "lonlat": [
+        -61.0729243,
+        46.1140111
+      ],
+      "source_guide_xy": [
+        4745.398377279984,
+        6049.458466520067
+      ],
+      "objectids": [
+        191152,
+        281283,
+        281284
+      ],
+      "modern_node": "J0916",
+      "id": "F05",
+      "role": "check",
+      "pixel_xy": [
+        4858,
+        6038
+      ],
+      "identity_evidence": "North Brook eastern tributary immediately upstream of C13; main arm descends from northwest, eastern tributary bends north and forks above, with another small eastern tributary at C13 below.",
+      "status": "Fresh proposal after final fourteen-control freeze; unscored.",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -61.0594477,
+        46.210852
+      ],
+      "source_guide_xy": [
+        5035.009695519693,
+        3033.7121229802724
+      ],
+      "objectids": [
+        191543,
+        279725,
+        279726
+      ],
+      "modern_node": "J0462",
+      "id": "F06",
+      "role": "check",
+      "pixel_xy": [
+        5068,
+        2990
+      ],
+      "identity_evidence": "Mount Pleasant short northern tributary between first long southern tributary V01 and next southern tributary, west of major northeastern fork C07.",
+      "status": "Fresh proposal after final fourteen-control freeze; unscored.",
+      "source_uncertainty_px": 15
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "count": 6,
+  "rms_ground_m": 88.01444149654242,
+  "median_ground_m": 74.20071932610864,
+  "p95_ground_m": 128.89782439683472,
+  "max_ground_m": 137.83677444476538,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 3.9667525337680214,
+  "mean_north_ground_m": -6.225859993684338,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Ramsey Lake western extremum",
+      "role": "check",
+      "pixel_xy": [
+        2495,
+        2652
+      ],
+      "lonlat": [
+        -65.27785132222286,
+        44.89466851284722
+      ],
+      "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+      "reference_objectid": 140892,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 140892,
+      "nearest_unfiltered_distance_guide_px": 1.9452542382892266,
+      "selected_distance_guide_px": 1.9452542382892266,
+      "guide_reference_pixel_xy": [
+        2413.885480729339,
+        2674.594321437762
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score.",
+      "predicted_lonlat": [
+        -65.27754143530757,
+        44.89556028776954
+      ],
+      "error_ground_m": 102.08097425304278,
+      "east_ground_m": 24.477950025237316,
+      "north_ground_m": 99.10275105673085
+    },
+    {
+      "id": "Q02",
+      "label": "Crosskill eastern lake southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        1918,
+        2791
+      ],
+      "lonlat": [
+        -65.30860381669183,
+        44.880181193747845
+      ],
+      "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+      "reference_objectid": 132245,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 132245,
+      "nearest_unfiltered_distance_guide_px": 0.9713238733225829,
+      "selected_distance_guide_px": 0.9713238733225829,
+      "guide_reference_pixel_xy": [
+        1838.8122881549643,
+        2770.532595550292
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score.",
+      "predicted_lonlat": [
+        -65.30763830033025,
+        44.87914815555215
+      ],
+      "error_ground_m": 137.83677444476538,
+      "east_ground_m": 76.2877732247708,
+      "north_ground_m": -114.80048800307021
+    },
+    {
+      "id": "Q04",
+      "label": "Small pond northeast of Crosskill southwest tip",
+      "role": "check",
+      "pixel_xy": [
+        2172,
+        2537
+      ],
+      "lonlat": [
+        -65.29902919020823,
+        44.89381835534811
+      ],
+      "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+      "reference_objectid": 141969,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 141969,
+      "nearest_unfiltered_distance_guide_px": 2.5945202588430574,
+      "selected_distance_guide_px": 2.5945202588430574,
+      "guide_reference_pixel_xy": [
+        2100.605716783146,
+        2555.4356138905277
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score.",
+      "predicted_lonlat": [
+        -65.29919518040873,
+        44.89421685227951
+      ],
+      "error_ground_m": 46.1851683922201,
+      "east_ground_m": -13.111861886298449,
+      "north_ground_m": 44.28486036211879
+    },
+    {
+      "id": "Q05",
+      "label": "Western small pond southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1306,
+        2650
+      ],
+      "lonlat": [
+        -65.34642831465966,
+        44.872854590106314
+      ],
+      "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+      "reference_objectid": 128280,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128280,
+      "nearest_unfiltered_distance_guide_px": 1.337931408531888,
+      "selected_distance_guide_px": 1.337931408531888,
+      "guide_reference_pixel_xy": [
+        1226.5164617635892,
+        2675.2474979871185
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score.",
+      "predicted_lonlat": [
+        -65.34673412016843,
+        44.87346171121746
+      ],
+      "error_ground_m": 71.66590872077214,
+      "east_ground_m": -24.16480958179826,
+      "north_ground_m": 67.46898880707695
+    },
+    {
+      "id": "Q06",
+      "label": "St Croix Bay western projecting headland",
+      "role": "check",
+      "pixel_xy": [
+        1838,
+        1870
+      ],
+      "lonlat": [
+        -65.3349661890197,
+        44.91577289594675
+      ],
+      "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+      "reference_objectid": 4521,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 4521,
+      "nearest_unfiltered_distance_guide_px": 5.068498027021736,
+      "selected_distance_guide_px": 5.068498027021736,
+      "guide_reference_pixel_xy": [
+        1781.360893378558,
+        1878.2038555345498
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score.",
+      "predicted_lonlat": [
+        -65.33525543282634,
+        44.9151136888879
+      ],
+      "error_ground_m": 76.73552993144513,
+      "east_ground_m": -22.839608109867548,
+      "north_ground_m": -73.2577221543735
+    },
+    {
+      "id": "Q07",
+      "label": "St Croix Bay southernmost shore bend",
+      "role": "check",
+      "pixel_xy": [
+        2098,
+        2009
+      ],
+      "lonlat": [
+        -65.31644854027348,
+        44.91485390776724
+      ],
+      "guide_file": ".crown-grant-local/028-east-adjacent-guide.npy",
+      "reference_objectid": 10737,
+      "reference_feature_code": "WACO20",
+      "nearest_unfiltered_feature_code": "WACO20",
+      "nearest_unfiltered_objectid": 10737,
+      "nearest_unfiltered_distance_guide_px": 1.7817074550380934,
+      "selected_distance_guide_px": 1.7817074550380934,
+      "guide_reference_pixel_xy": [
+        2040.06490010157,
+        2016.219474956044
+      ],
+      "source_uncertainty_px": 24,
+      "modern_uncertainty_m": 20,
+      "review": "Broad physical context and native paired crosshairs inspected; corrections and exclusions before first fit and score.",
+      "predicted_lonlat": [
+        -65.3166619143594,
+        44.91431261816397
+      ],
+      "error_ground_m": 62.46867992723014,
+      "east_ground_m": -16.84892846943573,
+      "north_ground_m": -60.15355003058892
+    }
+  ],
+  "fit_sha256": "8ded276900baa5b4852d0efef388b8eca903b33cca6fde97823ff69145a21424",
+  "checks_sha256": "fcaffe68d7f6eb74bc9525cc40b1f588c89fb0a64707ce85687a7bb068dd7e18",
+  "status": "Reserved before first fit and score"
+}

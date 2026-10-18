@@ -1,0 +1,227 @@
+{
+  "sheet": "057",
+  "version": "main-affine-01",
+  "crs": "EPSG:32620",
+  "transform": "row [pixel_x,pixel_y,1] multiplied by matrix",
+  "matrix": [
+    [
+      4.824247431445727,
+      2.0784902653527744
+    ],
+    [
+      2.143443246661791,
+      -4.909440591329911
+    ],
+    [
+      429595.25993869745,
+      4928760.861262336
+    ]
+  ],
+  "source_sha256": "51554d7e75d08c46c85ee5023fca804f610987829ea8ef6b7f34d85b69baf011",
+  "source_dimensions": [
+    5699,
+    3850
+  ],
+  "source_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "points": [
+    {
+      "id": "C01",
+      "label": "Main Betty Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        1142,
+        1775
+      ],
+      "lonlat": [
+        -63.767950752614524,
+        44.45263517838561
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 17034,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17034,
+      "nearest_unfiltered_distance_guide_px": 1.9813176339276217,
+      "selected_distance_guide_px": 1.9813176339276217,
+      "guide_reference_pixel_xy": [
+        1250.9517248858465,
+        1789.65884089272
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C02",
+      "label": "Main Hopson Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        887,
+        1642
+      ],
+      "lonlat": [
+        -63.78648765327176,
+        44.45341922462391
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 17533,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 17533,
+      "nearest_unfiltered_distance_guide_px": 0.5937722580902199,
+      "selected_distance_guide_px": 0.5937722580902199,
+      "guide_reference_pixel_xy": [
+        1005.322562643094,
+        1667.5014833646128
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C03",
+      "label": "Main Pennant Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        2632,
+        2351
+      ],
+      "lonlat": [
+        -63.66271441368614,
+        44.45548465778768
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 20871,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20871,
+      "nearest_unfiltered_distance_guide_px": 1.2503415940961953,
+      "selected_distance_guide_px": 1.2503415940961953,
+      "guide_reference_pixel_xy": [
+        2705.821094590996,
+        2343.237476042821
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C04",
+      "label": "Main Sambro Island northern tip",
+      "role": "control",
+      "pixel_xy": [
+        3836,
+        3230
+      ],
+      "lonlat": [
+        -63.56492728855464,
+        44.4398663819546
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 20204,
+      "reference_feature_code": "WACOIS10",
+      "nearest_unfiltered_feature_code": "WACOIS10",
+      "nearest_unfiltered_objectid": 20204,
+      "nearest_unfiltered_distance_guide_px": 0.4124491732502071,
+      "selected_distance_guide_px": 0.4124491732502071,
+      "guide_reference_pixel_xy": [
+        3909.0396357365535,
+        3203.5894597109873
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C05",
+      "label": "Main Third Pond western tip",
+      "role": "control",
+      "pixel_xy": [
+        4357,
+        869
+      ],
+      "lonlat": [
+        -63.5989400166056,
+        44.553667451277136
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 128589,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128589,
+      "nearest_unfiltered_distance_guide_px": 0.6867053879568733,
+      "selected_distance_guide_px": 0.6867053879568733,
+      "guide_reference_pixel_xy": [
+        4376.6636662250385,
+        842.1763843292138
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C06",
+      "label": "Main Charley Pond western tip",
+      "role": "control",
+      "pixel_xy": [
+        4399,
+        1040
+      ],
+      "lonlat": [
+        -63.59074457691369,
+        44.54729306069766
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 128887,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128887,
+      "nearest_unfiltered_distance_guide_px": 1.6834835179588723,
+      "selected_distance_guide_px": 1.6834835179588723,
+      "guide_reference_pixel_xy": [
+        4435.900196348841,
+        1010.5774096553214
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    },
+    {
+      "id": "C07",
+      "label": "Main small pond west of Fourth Pond northern tip",
+      "role": "control",
+      "pixel_xy": [
+        4200,
+        1378
+      ],
+      "lonlat": [
+        -63.59346063202383,
+        44.52801871870321
+      ],
+      "guide_file": ".crown-grant-local/057-west-adjacent-ppi-guide.npy",
+      "reference_objectid": 128850,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 128850,
+      "nearest_unfiltered_distance_guide_px": 1.27325171444537,
+      "selected_distance_guide_px": 1.27325171444537,
+      "guide_reference_pixel_xy": [
+        4241.37746918964,
+        1361.7839872783516
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Native paired crosshair and broad context inspected by agent; final coordinates corrected using image evidence before any check scoring."
+    }
+  ],
+  "fitting_residual_projected_m": [
+    17.097266594689632,
+    33.10895784213837,
+    57.42750124288309,
+    20.79634953709273,
+    48.18928900880274,
+    44.385931373064246,
+    46.4198349887767
+  ],
+  "status": "provisional pending frozen-fit independent checks"
+}

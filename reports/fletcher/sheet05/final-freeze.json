@@ -1,0 +1,7 @@
+{
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "frozen_at": "2026-09-11T20:33:37.493344+00:00",
+  "initial_fit_unchanged": true,
+  "fresh_checks_not_collected_yet": true,
+  "reason": "Initial two diagnostic checks meet aggregate numerical thresholds but provide very limited regional coverage; proceed to fresh validation and actual warp inspection."
+}

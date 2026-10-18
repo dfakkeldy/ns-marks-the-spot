@@ -1,0 +1,9 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Round+Island%27%2C%27Cape+Morien%27%2C%27Gaspereaux+Lake%27%29+AND+nad83_lat+between+45.6+and+46.4+AND+nad83_lon+between+-60.9+and+-59.6&%24limit=100",
+  "query": {
+    "$where": "geoname in ('Round Island','Cape Morien','Gaspereaux Lake') AND nad83_lat between 45.6 and 46.4 AND nad83_lon between -60.9 and -59.6",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-15T15:50:04.235087+00:00",
+  "sha256": "5134fc4d4d4e8e7e0740fbaa1804f7a193a59e04c2a7715d825cf079feb479bf"
+}

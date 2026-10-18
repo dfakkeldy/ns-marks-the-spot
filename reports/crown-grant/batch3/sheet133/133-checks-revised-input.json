@@ -1,0 +1,119 @@
+[
+  [
+    "Q01",
+    "McDougall Lake east end",
+    [
+      1246,
+      695
+    ],
+    [
+      1255,
+      683
+    ],
+    "WALK"
+  ],
+  [
+    "Q02",
+    "Mira eastern peninsula north tip",
+    [
+      1634,
+      1042
+    ],
+    [
+      1645,
+      1040
+    ],
+    "WALK"
+  ],
+  [
+    "Q03",
+    "Canoe Lake south end",
+    [
+      2690,
+      1065
+    ],
+    [
+      2695,
+      1082
+    ],
+    "WALK"
+  ],
+  [
+    "Q06",
+    "Green Island east tip",
+    [
+      4453,
+      2858
+    ],
+    [
+      4470,
+      2872
+    ],
+    "WACOIS"
+  ],
+  [
+    "Q07",
+    "Winging Point south tip",
+    [
+      3520,
+      3294
+    ],
+    [
+      3533,
+      3285
+    ],
+    "WACO"
+  ],
+  [
+    "Q08",
+    "Rams Island east tip in Belfry Lake",
+    [
+      2624,
+      2730
+    ],
+    [
+      2627,
+      2740
+    ],
+    "WALKIS"
+  ],
+  [
+    "Q09",
+    "Gabarus Lake small central island north tip",
+    [
+      2404,
+      2225
+    ],
+    [
+      2405,
+      2227
+    ],
+    "WALKIS"
+  ],
+  [
+    "Q10",
+    "Deep Cove northern recess",
+    [
+      4042,
+      1220
+    ],
+    [
+      4055,
+      1228
+    ],
+    "WACO"
+  ],
+  [
+    "Q11",
+    "Western McIntyres Lake east tip",
+    [
+      1763,
+      2455
+    ],
+    [
+      1797,
+      2453
+    ],
+    "WALK"
+  ]
+]

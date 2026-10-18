@@ -1,0 +1,17 @@
+{
+  "candidates": [
+    {
+      "name": "Mabou, Highway19/Mabou Harbour Rd",
+      "reason": "The candidate neighbourhood and bridge approach can be identified, but native lettering/road overlap prevents an adequately precise source junction at the searched site. No source point or score adopted."
+    },
+    {
+      "name": "Strathlorne, Highway19/Strathlorne-Scotsville Rd",
+      "reason": "Historical forks and the current highway/local-road approaches did not establish the same exact junction. A possible alternate local-road interpretation also remained unresolved. No assumed realignment date, source point or score adopted."
+    },
+    {
+      "name": "Orangedale road junction",
+      "reason": "The searched centre has dense historic transport-line/label overlap. The original modern railway layer was added to keep railway geometry distinct from roads, but a precise matching historic road node was not established. No score adopted."
+    }
+  ],
+  "all_unscored": true
+}

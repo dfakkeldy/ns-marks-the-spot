@@ -1,1 +1,1 @@
-Explore georeferenced Fletcher maps over modern Nova Scotia with adjustable overlays for property boundaries, Crown lands, flood risk areas, and waterfalls.
+Search Nova Scotia parcels by PID or civic address, read dated tax-sale notices, and measure. Sources and export types with unconfirmed permissions remain locked.

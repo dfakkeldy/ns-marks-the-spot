@@ -1,0 +1,15 @@
+Rhodena preliminary terrain analysis
+
+Mapzen Terrain Tiles, retrieved September 26, 2026.
+https://registry.opendata.aws/terrain-tiles/
+https://github.com/tilezen/joerd/blob/master/docs/attribution.md
+
+Contains information licensed under the Open Government Licence – Canada.
+https://open.canada.ca/en/open-government-licence-canada
+SRTM/GMTED2010 terrain data courtesy of the U.S. Geological Survey.
+ETOPO1 terrain data: U.S. National Oceanic and Atmospheric Administration.
+
+NS Marks The Spot derives the browser terrain screening from these data.
+No endorsement by source providers is implied. Source terrain acquisition dates,
+resolution and vertical accuracy vary. The code's MIT licence does not replace
+the data providers' terms.

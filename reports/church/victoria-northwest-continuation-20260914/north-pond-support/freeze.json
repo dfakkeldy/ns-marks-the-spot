@@ -1,0 +1,19 @@
+{
+  "frozen_at": "2026-09-14T16:27:01.600029+00:00",
+  "method": "tps",
+  "controls_csv_sha256": "57f5924521a3de7224c620acb689385e79f755eaf8ee098425f098095117d55d",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "selection": "TPS11 with audited western North Pond island control selected on same-three diagnostics139.14m RMS; distinct from rejected eleven-control Doherty trial. No fresh checks after this freeze yet.",
+  "diagnostics": [
+    "VN17",
+    "VN11",
+    "VN19"
+  ],
+  "excluded_new_controls_and_aliases": [
+    "VN16/supply-04",
+    "VN18/Snip-Snipe entry"
+  ],
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

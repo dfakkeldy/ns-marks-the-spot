@@ -1,0 +1,47 @@
+{
+  "id": "R46",
+  "label": "Eastern extremum of Cape Argos",
+  "role": "check",
+  "pixel_xy": [
+    5780.0,
+    22053.333333333332
+  ],
+  "lonlat": [
+    -61.229571183787016,
+    45.482925970465004
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      5580,
+      21850
+    ],
+    "extent": [
+      450,
+      450
+    ],
+    "display": [
+      1350,
+      1350
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    600,
+    610
+  ],
+  "source_crop_sha256": "a166576615d5f80eb03f5b80c67238b5c4ac7962eccd24d093ca16a1af9a8e81",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    3956
+  ],
+  "reference_vertex": {
+    "feature_id": 3956,
+    "vertex": 25
+  },
+  "reference_extract": "../reference-receipt.json",
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "Eastern end of the small hooked Cape Argos promontory, north of Nancy Point and east of the distinct forked coastal basin. Follow the outer coast from the northern bend down to the short eastward projection and back west around its southern shore. The point is on the shore, before the printed Cape Argos label, not at a basin arm or label centre. Modern vertex 25 is the eastern extremum of the matching outer-coast feature 3956. Dotted source strokes and generalized curvature retain 110 m uncertainty.",
+  "phase": "Additional fresh southern-coast check against unchanged affine14; no tuning"
+}

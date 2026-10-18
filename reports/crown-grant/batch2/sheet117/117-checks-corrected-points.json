@@ -1,0 +1,178 @@
+[
+  {
+    "id": "Q01",
+    "label": "Pellier Point southeastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      3793,
+      1545
+    ],
+    "lonlat": [
+      -60.93151078380115,
+      45.84485069633375
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 13709,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3816.0439842414926,
+      1528.580853633117
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Robert Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      2768,
+      1525
+    ],
+    "lonlat": [
+      -60.99348808764859,
+      45.82953889942103
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23894,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2791.1882751637604,
+      1507.0913177160546
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Clark Island southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2064,
+      1952
+    ],
+    "lonlat": [
+      -61.02427076688419,
+      45.79994179556656
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23385,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2107.6181825681706,
+      1952.2046142284526
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Floda Island southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      1165,
+      2549
+    ],
+    "lonlat": [
+      -61.066931083224205,
+      45.759745913605684
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23535,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1166.1406716475612,
+      2551.4290374590782
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q05",
+    "label": "Dumpling Island western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      541,
+      2255
+    ],
+    "lonlat": [
+      -61.1102584321553,
+      45.76279952515155
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23941,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      558.256071927899,
+      2249.6911986714695
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q06",
+    "label": "Isle Madelaine northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2308,
+      2944
+    ],
+    "lonlat": [
+      -60.98934219884682,
+      45.76208859522644
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23895,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2317.1323036638787,
+      2928.967706623138
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q07",
+    "label": "Cameron Island southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      2415,
+      1826
+    ],
+    "lonlat": [
+      -61.008315235347176,
+      45.81055474591444
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 24159,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      2424.4932008580654,
+      1819.6039715823717
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Eastern Cow Island eastern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      1935,
+      1870
+    ],
+    "lonlat": [
+      -61.03372416041873,
+      45.801762877409104
+    ],
+    "guide_file": ".crown-grant-local/117-adjacent-guide.npy",
+    "reference_objectid": 23629,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      1984.1945285578258,
+      1862.555352712865
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "results": [
+    {
+      "file": "richmond/fresh-validation-review.csv",
+      "controls": 10,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": null
+    },
+    {
+      "file": "inverness-north/corrected-I10-frozen.csv",
+      "controls": 4,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": null
+    },
+    {
+      "file": "inverness-north/diagnostic-review.csv",
+      "controls": 4,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 1.862645149230957e-9
+    },
+    {
+      "file": "inverness-north/fresh-validation-review.csv",
+      "controls": 4,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 3.357931296773245e-9
+    },
+    {
+      "file": "victoria-northwest/fresh-validation-review.csv",
+      "controls": 4,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 7.273861836555093e-9
+    },
+    {
+      "file": "victoria-main/fresh-validation-review.csv",
+      "controls": 4,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 3.839941346661803e-9
+    },
+    {
+      "file": "cape-breton/frozen-controls.csv",
+      "controls": 3,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": null
+    },
+    {
+      "file": "cape-breton/physical-trial.csv",
+      "controls": 3,
+      "checks": 1,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 5.430497131166328e-9
+    },
+    {
+      "file": "inverness-south/audited-diagnostic-review.csv",
+      "controls": 4,
+      "checks": 6,
+      "semanticRoundtrip": true,
+      "affineMaxDifferenceProjectedMetres": 6.71586259354649e-9
+    }
+  ],
+  "scope": "Current production CSV parser and affine solver. TPS inventory roundtrip only. No browser rendering, raw-scan mesh or geographic acceptance."
+}

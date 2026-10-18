@@ -1,0 +1,26 @@
+{
+  "points": [
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        8456,
+        1180
+      ],
+      "lonlat": [
+        -60.531051,
+        45.9162627
+      ],
+      "modern_node_id": "J0144",
+      "modern_objectids": [
+        156839,
+        170777,
+        194797
+      ],
+      "identity_evidence": "Bruce Brook outer coastal outlet in the gap at southern end of barrier; contemporary bar and lagoon shape differ",
+      "source_uncertainty_px": 20
+    }
+  ],
+  "prior_error_ground_m": 630.289956,
+  "status": "Post-score identity uncertainty. Personally inspected native close/wide; outer barrier gap and contemporary lagoon/shoreline differ. No coordinate movement or promotion; raw parent validation remains unchanged."
+}

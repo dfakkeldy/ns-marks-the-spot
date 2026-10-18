@@ -1,0 +1,22 @@
+{
+  "scope": "Control fitting error, NOT validation. Production residual_metres: Mercator residual distance scaled by cosine at reference latitude.",
+  "rms_ground_m": 109.04859192194161,
+  "points": [
+    {
+      "id": "N02",
+      "error_ground_m": 92.36732174057292
+    },
+    {
+      "id": "N04",
+      "error_ground_m": 167.08003458298964
+    },
+    {
+      "id": "I10",
+      "error_ground_m": 27.17202190834813
+    },
+    {
+      "id": "I11",
+      "error_ground_m": 101.88524301519486
+    }
+  ]
+}

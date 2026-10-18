@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 6029 x 4090 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      90,
+      90
+    ],
+    [
+      5970,
+      90
+    ],
+    [
+      5970,
+      4000
+    ],
+    [
+      90,
+      4000
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 105.24 m exceeds 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          90,
+          90
+        ],
+        [
+          5970,
+          90
+        ],
+        [
+          5970,
+          4000
+        ],
+        [
+          90,
+          4000
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "972f762eedd1e6565f9f32889510354ba7a8b161bc3506ef0f020d57e9b2e7a3",
+      "holes_pixel_xy": [
+        [
+          [
+            4320,
+            1630
+          ],
+          [
+            5960,
+            1630
+          ],
+          [
+            5960,
+            3350
+          ],
+          [
+            4320,
+            3350
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "petit-inset",
+      "status": "RMS 90.87 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          4320,
+          1630
+        ],
+        [
+          5960,
+          1630
+        ],
+        [
+          5960,
+          3350
+        ],
+        [
+          4320,
+          3350
+        ]
+      ],
+      "fit_file": "fit-petit-similarity-01.json",
+      "fit_sha256": "2c549271a26dc9e9462ce48c26c7313a969fc808927ad6002b26142035d520fe",
+      "matrix": [
+        [
+          4.592538333331264,
+          1.9736910084001038
+        ],
+        [
+          1.9736910084001038,
+          -4.592538333331264
+        ],
+        [
+          632193.1448384359,
+          5041748.924327699
+        ]
+      ]
+    }
+  ]
+}

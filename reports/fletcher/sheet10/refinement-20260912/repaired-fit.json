@@ -1,0 +1,743 @@
+{
+  "sheet": "sheet-10",
+  "source_sha256": "492a7b5b6cf6e0b33576c5b9489bc9bd91bc43d8f0f63a125c44225929fcab46",
+  "source_width": 10782,
+  "source_height": 7612,
+  "points": [
+    {
+      "lonlat": [
+        -60.7607919,
+        46.3840158
+      ],
+      "source_guide_xy": [
+        3302.965161780361,
+        3036.5468894799706
+      ],
+      "objectids": [
+        159906,
+        160147,
+        273616
+      ],
+      "id": "C01",
+      "modern_node_id": "J1167",
+      "role": "control",
+      "pixel_xy": [
+        3670,
+        3270
+      ],
+      "identity_evidence": "Middle River western long tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7604821,
+          46.3848503
+        ],
+        "source_guide_xy": [
+          3309.7070139003918,
+          3010.5764246801846
+        ],
+        "objectids": [
+          165385,
+          165386,
+          188050
+        ],
+        "id": "C01",
+        "modern_node_id": "J1162",
+        "role": "control",
+        "pixel_xy": [
+          3640,
+          3267
+        ],
+        "identity_evidence": "Middle River western long tributary confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      },
+      "correction_reason": "Original world point was the eastern tributary; changed to identified western tributary before first fit."
+    },
+    {
+      "lonlat": [
+        -60.7592323,
+        46.4319779
+      ],
+      "source_guide_xy": [
+        3339.7408149002586,
+        1542.4568052398972
+      ],
+      "objectids": [
+        189194,
+        266723,
+        266724
+      ],
+      "id": "C02",
+      "modern_node_id": "J0648",
+      "role": "control",
+      "pixel_xy": [
+        3652,
+        1701
+      ],
+      "identity_evidence": "Upper Middle River western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7592323,
+          46.4319779
+        ],
+        "source_guide_xy": [
+          3339.7408149002586,
+          1542.4568052398972
+        ],
+        "objectids": [
+          189194,
+          266723,
+          266724
+        ],
+        "id": "C02",
+        "modern_node_id": "J0648",
+        "role": "control",
+        "pixel_xy": [
+          3648,
+          1700
+        ],
+        "identity_evidence": "Upper Middle River western tributary confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.6525747,
+        46.420074
+      ],
+      "source_guide_xy": [
+        5641.42971642036,
+        1922.91485140007
+      ],
+      "objectids": [
+        156924,
+        157068,
+        187883
+      ],
+      "id": "C03",
+      "modern_node_id": "J0793",
+      "role": "control",
+      "pixel_xy": [
+        5826,
+        1910
+      ],
+      "identity_evidence": "Barasois Brook western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6525747,
+          46.420074
+        ],
+        "source_guide_xy": [
+          5641.42971642036,
+          1922.91485140007
+        ],
+        "objectids": [
+          156924,
+          157068,
+          187883
+        ],
+        "id": "C03",
+        "modern_node_id": "J0793",
+        "role": "control",
+        "pixel_xy": [
+          5813,
+          1892
+        ],
+        "identity_evidence": "Barasois Brook western tributary confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.5940183,
+        46.3659494
+      ],
+      "source_guide_xy": [
+        6902.0028717005625,
+        3614.4043656403664
+      ],
+      "objectids": [
+        165046,
+        165205,
+        275582
+      ],
+      "id": "C04",
+      "modern_node_id": "J1320",
+      "role": "control",
+      "pixel_xy": [
+        6967,
+        3536
+      ],
+      "identity_evidence": "Barasois Brook and McKay Brook confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.5940183,
+          46.3659494
+        ],
+        "source_guide_xy": [
+          6902.0028717005625,
+          3614.4043656403664
+        ],
+        "objectids": [
+          165046,
+          165205,
+          275582
+        ],
+        "id": "C04",
+        "modern_node_id": "J1320",
+        "role": "control",
+        "pixel_xy": [
+          6955,
+          3515
+        ],
+        "identity_evidence": "Barasois Brook and McKay Brook confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.7011543,
+        46.387781
+      ],
+      "source_guide_xy": [
+        4590.629872980295,
+        2924.611726600211
+      ],
+      "objectids": [
+        155907,
+        155908,
+        201172
+      ],
+      "id": "C05",
+      "modern_node_id": "J1135",
+      "role": "control",
+      "pixel_xy": [
+        4725,
+        3097
+      ],
+      "identity_evidence": "East Branch Middle River western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7011543,
+          46.387781
+        ],
+        "source_guide_xy": [
+          4590.629872980295,
+          2924.611726600211
+        ],
+        "objectids": [
+          155907,
+          155908,
+          201172
+        ],
+        "id": "C05",
+        "modern_node_id": "J1135",
+        "role": "control",
+        "pixel_xy": [
+          4704,
+          3097
+        ],
+        "identity_evidence": "East Branch Middle River western tributary confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.4584827,
+        46.4340105
+      ],
+      "source_guide_xy": [
+        9832.274442420574,
+        1506.1998358001001
+      ],
+      "objectids": [
+        11338,
+        11339,
+        274676
+      ],
+      "id": "C06",
+      "modern_node_id": "J0617",
+      "role": "control",
+      "pixel_xy": [
+        9945,
+        1457
+      ],
+      "identity_evidence": "Small brook coast connection near Bentinck Point",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.4584827,
+          46.4340105
+        ],
+        "source_guide_xy": [
+          9832.274442420574,
+          1506.1998358001001
+        ],
+        "objectids": [
+          11338,
+          11339,
+          274676
+        ],
+        "id": "C06",
+        "modern_node_id": "J0617",
+        "role": "control",
+        "pixel_xy": [
+          9940,
+          1455
+        ],
+        "identity_evidence": "Small brook coast connection near Bentinck Point",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.4782337,
+        46.4078388
+      ],
+      "source_guide_xy": [
+        9404.20577886072,
+        2319.785856280243
+      ],
+      "objectids": [
+        11014,
+        11015,
+        188349
+      ],
+      "id": "C07",
+      "modern_node_id": "J0927",
+      "role": "control",
+      "pixel_xy": [
+        9312,
+        2445
+      ],
+      "identity_evidence": "McAskill Brook coast connection",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.4782337,
+          46.4078388
+        ],
+        "source_guide_xy": [
+          9404.20577886072,
+          2319.785856280243
+        ],
+        "objectids": [
+          11014,
+          11015,
+          188349
+        ],
+        "id": "C07",
+        "modern_node_id": "J0927",
+        "role": "control",
+        "pixel_xy": [
+          9290,
+          2440
+        ],
+        "identity_evidence": "McAskill Brook coast connection",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.5344369,
+        46.392057
+      ],
+      "source_guide_xy": [
+        8189.902158540441,
+        2806.4000782000367
+      ],
+      "objectids": [
+        293997,
+        293998,
+        307323
+      ],
+      "id": "C08",
+      "modern_node_id": "J1081",
+      "role": "control",
+      "pixel_xy": [
+        8127,
+        3151
+      ],
+      "identity_evidence": "Eel Brook and Indian Brook confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.5344369,
+          46.392057
+        ],
+        "source_guide_xy": [
+          8189.902158540441,
+          2806.4000782000367
+        ],
+        "objectids": [
+          293997,
+          293998,
+          307323
+        ],
+        "id": "C08",
+        "modern_node_id": "J1081",
+        "role": "control",
+        "pixel_xy": [
+          8070,
+          3140
+        ],
+        "identity_evidence": "Eel Brook and Indian Brook confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      }
+    },
+    {
+      "lonlat": [
+        -60.8001408,
+        46.2866192
+      ],
+      "source_guide_xy": [
+        2447.213418240426,
+        6067.338123520371
+      ],
+      "objectids": [
+        184991,
+        272481,
+        272482
+      ],
+      "id": "C09",
+      "modern_node_id": "J1953",
+      "role": "control",
+      "pixel_xy": [
+        2616,
+        6250
+      ],
+      "identity_evidence": "North Branch Baddeck River western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7968704,
+          46.2896667
+        ],
+        "source_guide_xy": [
+          2518.0103292004205,
+          5972.689425520366
+        ],
+        "objectids": [
+          184863,
+          272480,
+          272481
+        ],
+        "id": "C09",
+        "modern_node_id": "J1936",
+        "role": "control",
+        "pixel_xy": [
+          2635,
+          6212
+        ],
+        "identity_evidence": "North Branch Baddeck River western tributary confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      },
+      "correction_reason": "Original world point was the eastern tributary; changed to identified western tributary before first fit."
+    },
+    {
+      "lonlat": [
+        -60.54226032142647,
+        46.28967299284752
+      ],
+      "guide_xy": [
+        8014.380347175524,
+        5995.408282703254
+      ],
+      "modern_objectid": 3027,
+      "modern_part": 0,
+      "modern_vertex": 21,
+      "modern_properties": {
+        "OBJECTID": 3027,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 193.54853454010222
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        8056,
+        5953
+      ],
+      "identity_evidence": "Beacon Point southernmost sandspit tip",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern context personally inspected before initial fit; original proposals and corrections retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.540387201575136,
+          46.28832579930041
+        ],
+        "guide_xy": [
+          8054.728836512426,
+          6037.5478701340035
+        ],
+        "modern_objectid": 10674,
+        "modern_part": 0,
+        "modern_vertex": 18,
+        "modern_properties": {
+          "OBJECTID": 10674,
+          "FEAT_CODE": "WACO20",
+          "FEAT_DESC": "Coast - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.4,
+          "FID": null,
+          "SHAPE_Length": 163.97329376404437
+        },
+        "id": "C11",
+        "role": "control",
+        "pixel_xy": [
+          8020,
+          5910
+        ],
+        "identity_evidence": "Beacon Point southernmost sandspit tip",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed candidate; native crosshair required before fit."
+      },
+      "correction_reason": "Original modern extremum selected adjacent mainland. Corrected to southern spit tip before fit."
+    },
+    {
+      "lonlat": [
+        -60.8074007,
+        46.4042343
+      ],
+      "source_guide_xy": [
+        2298.112511459971,
+        2402.4568610799033
+      ],
+      "objectids": [
+        201861,
+        273491,
+        273492
+      ],
+      "id": "C13",
+      "role": "control",
+      "modern_node_id": "J0963",
+      "pixel_xy": [
+        2574,
+        2605
+      ],
+      "identity_evidence": "Northern branch confluence on long western tributary of Middle River",
+      "source_uncertainty_px": 20,
+      "status": "Promoted diagnostic after initial failure; exact pixels and modern coordinates unchanged. No longer an independent check.",
+      "original_candidate": {
+        "lonlat": [
+          -60.8074007,
+          46.4042343
+        ],
+        "source_guide_xy": [
+          2298.112511459971,
+          2402.4568610799033
+        ],
+        "objectids": [
+          201861,
+          273491,
+          273492
+        ],
+        "id": "Q01",
+        "role": "check",
+        "modern_node_id": "J0963",
+        "pixel_xy": [
+          2554,
+          2603
+        ],
+        "identity_evidence": "Northern branch confluence on long western tributary of Middle River",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      },
+      "promoted_from": "Q01"
+    },
+    {
+      "lonlat": [
+        -60.6125077,
+        46.3172394
+      ],
+      "source_guide_xy": [
+        6499.70839014044,
+        5130.2711436403915
+      ],
+      "objectids": [
+        265349,
+        280103,
+        280104
+      ],
+      "id": "C14",
+      "role": "control",
+      "modern_node_id": "J1713",
+      "pixel_xy": [
+        6575,
+        5100
+      ],
+      "identity_evidence": "Elders Brook joining North River from east",
+      "source_uncertainty_px": 20,
+      "status": "Promoted diagnostic after initial failure; exact pixels and modern coordinates unchanged. No longer an independent check.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6139002,
+          46.3162515
+        ],
+        "source_guide_xy": [
+          6469.583919720491,
+          5160.923250400461
+        ],
+        "objectids": [
+          187298,
+          280104,
+          280105
+        ],
+        "id": "Q03",
+        "role": "check",
+        "modern_node_id": "J1719",
+        "pixel_xy": [
+          6485,
+          5185
+        ],
+        "identity_evidence": "Elders Brook joining North River from east",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      },
+      "promoted_from": "Q03"
+    },
+    {
+      "lonlat": [
+        -60.7684391,
+        46.3176222
+      ],
+      "source_guide_xy": [
+        3133.5796912205406,
+        5104.311413320247
+      ],
+      "objectids": [
+        187096,
+        272888,
+        272890
+      ],
+      "id": "C15",
+      "modern_node_id": "J1709",
+      "role": "control",
+      "pixel_xy": [
+        3230,
+        5333
+      ],
+      "identity_evidence": "Upper North Branch Baddeck western tributary below Stillwater",
+      "source_uncertainty_px": 20,
+      "status": "Personally re-inspected original unrotated native close/wide crosshair against modern topology; promoted without moving coordinates.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7684391,
+          46.3176222
+        ],
+        "source_guide_xy": [
+          3133.5796912205406,
+          5104.311413320247
+        ],
+        "objectids": [
+          187096,
+          272888,
+          272890
+        ],
+        "id": "V04",
+        "modern_node_id": "J1709",
+        "role": "check",
+        "pixel_xy": [
+          3205,
+          5350
+        ],
+        "identity_evidence": "Upper North Branch Baddeck western tributary below Stillwater",
+        "source_uncertainty_px": 20,
+        "status": "Fresh proposal after final fit freeze; review pending."
+      },
+      "promotion": {
+        "old_point": {
+          "lonlat": [
+            -60.7684391,
+            46.3176222
+          ],
+          "source_guide_xy": [
+            3133.5796912205406,
+            5104.311413320247
+          ],
+          "objectids": [
+            187096,
+            272888,
+            272890
+          ],
+          "id": "V04",
+          "modern_node_id": "J1709",
+          "role": "check",
+          "pixel_xy": [
+            3230,
+            5333
+          ],
+          "identity_evidence": "Upper North Branch Baddeck western tributary below Stillwater",
+          "source_uncertainty_px": 20,
+          "status": "Personally inspected native close and wide crosshairs before first score. Never used in fit.",
+          "original_candidate": {
+            "lonlat": [
+              -60.7684391,
+              46.3176222
+            ],
+            "source_guide_xy": [
+              3133.5796912205406,
+              5104.311413320247
+            ],
+            "objectids": [
+              187096,
+              272888,
+              272890
+            ],
+            "id": "V04",
+            "modern_node_id": "J1709",
+            "role": "check",
+            "pixel_xy": [
+              3205,
+              5350
+            ],
+            "identity_evidence": "Upper North Branch Baddeck western tributary below Stillwater",
+            "source_uncertainty_px": 20,
+            "status": "Fresh proposal after final fit freeze; review pending."
+          }
+        },
+        "old_result": {
+          "id": "V04",
+          "error_ground_m": 515.0423933020799,
+          "predicted_lonlat": [
+            -60.77487222135917,
+            46.31631349243011
+          ]
+        },
+        "old_fit_sha256": "684472b4fdbe8b6e6afe8c13de4d123c0b43144880dc3340a3f21f8585ac982d",
+        "reason": "Western tributary below the Stillwater bend: main stem loops from northeast, western tributary joins before the downstream southwest reach; subsequent western junction downstream and eastern branch above corroborate ordering. Recorded 20 px native uncertainty retained.",
+        "status": "Permanently diagnostic, never fresh again."
+      }
+    }
+  ],
+  "method": "Regional twelve: original ten unchanged, Q01 and Q03 promoted after failed diagnostics.",
+  "prior_control_count": 0,
+  "status": "Provisional thirteen-control TPS; all twelve prior controls preserved. Whole-sheet acceptance false."
+}

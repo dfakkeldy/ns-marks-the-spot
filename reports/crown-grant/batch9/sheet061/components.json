@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6027 x 4145 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 79.73 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          85,
+          115
+        ],
+        [
+          5910,
+          115
+        ],
+        [
+          5910,
+          4010
+        ],
+        [
+          85,
+          4010
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains East Mapleton, Collingwood Corner, Williamsdale, Wyvern, Farmington, Lynn, New Boston, New Britain, Lower Five Islands, Five Islands, Pinnacle Island, Cleveland, British, Simpson, Newton and Economy lakes, and all original inland parcels and Minas Basin shoreline. No displaced inset identified."
+    }
+  ]
+}

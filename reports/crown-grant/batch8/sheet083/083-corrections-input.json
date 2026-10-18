@@ -1,0 +1,54 @@
+[
+  [
+    "C07",
+    "Cranberry Lake west of Little Atlantic northwest shore",
+    [
+      4872,
+      1603
+    ],
+    [
+      4782,
+      1591
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Melville Lake southeast tip",
+    [
+      1862,
+      414
+    ],
+    [
+      1853,
+      411
+    ],
+    "WALK20"
+  ],
+  [
+    "Q06",
+    "Camp Lake southern shore",
+    [
+      4578,
+      3315
+    ],
+    [
+      4439,
+      3320
+    ],
+    "WALK20"
+  ],
+  [
+    "Q07",
+    "Cranberry Lake west of Little Atlantic southern shore",
+    [
+      4882,
+      1678
+    ],
+    [
+      4776,
+      1672
+    ],
+    "WALK20"
+  ]
+]

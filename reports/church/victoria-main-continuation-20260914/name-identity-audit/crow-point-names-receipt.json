@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+like+%27%25Crow%25Point%25%27&%24limit=100",
+  "query": {
+    "$where": "geoname like '%Crow%Point%'",
+    "$limit": 100
+  },
+  "sha256": "ba0f87ce40dbcfa565810397d240f0502978ff1bf934e55cc1e13033d6135a6a",
+  "retrieved_at": "2026-09-15T04:14:54.907140+00:00",
+  "scope": "Identity only; not GCP coordinates"
+}

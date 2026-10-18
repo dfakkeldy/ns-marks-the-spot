@@ -1,0 +1,24 @@
+{
+  "points": [
+    {
+      "id": "R1-A",
+      "role": "control",
+      "pixel_xy": [
+        6967,
+        1507
+      ],
+      "lonlat": [
+        -61.35403397212542,
+        46.07644192975278
+      ],
+      "modern_objectids": [
+        195705,
+        195706,
+        196877
+      ],
+      "source_uncertainty_px": 6,
+      "identity_evidence": "Eastern tributary of Glendyer N03 splits into northeast and eastern arms just upstream of its main-stem mouth. Northern arm rises through settlement plots; the east arm continues below the plots. Same catchment as N03, weak additional spatial support.",
+      "review": "Agent native crosshair and branch topology audit before trial scoring; 6967,1507 lies at the NE/east tributary split. Existing N03 supplies downstream context, not independent validation."
+    }
+  ]
+}

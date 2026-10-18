@@ -1,0 +1,51 @@
+{
+  "id": "IS48",
+  "label": "Green Point western shoreline extremum",
+  "role": "check",
+  "recorded_at": "2026-09-16T03:11:22.659354+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      15550,
+      12250
+    ],
+    "extent": [
+      1600,
+      1600
+    ],
+    "display": [
+      1600,
+      1600
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-western-coast-validation-20260916/green-native.jpg",
+  "source_crop_sha256": "e267f6e528c41890d0d174f46356bc9c54429e6aa387de5ba88b8b18e9580158",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    786,
+    798
+  ],
+  "pixel_xy": [
+    16336,
+    13048
+  ],
+  "lonlat": [
+    -61.48452762321244,
+    46.09605776698746
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+  "reference_sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+  "reference_vertices": [
+    {
+      "feature_id": 6552,
+      "vertex": 132
+    }
+  ],
+  "reference_kind": "coastal-extremum",
+  "uncertainty_ground_m": 150,
+  "point_definition": "Local western tip of the headland, north of Mabou Harbour entrance.",
+  "identity_evidence": "The long coast approaches from the north/northeast below Beaton Point, projects west into the distinct Green Point cape, then returns south/southeast toward Mabou Harbour. This coast sequence, the harbour entrance south of the cape and the inland road identify the feature. The original shoreline is more detailed than the engraved apex. The exact original western vertex is used rather than the representative namepoint.",
+  "phase": "Fresh independent validation of frozen TPS13; excluded from fitting and model selection"
+}

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 760" width="900" height="760">
+<style>text{font-family:ui-sans-serif,-apple-system,Segoe UI,sans-serif}.bg{fill:#0f1115}.ttl{fill:#e8eaed;font-size:19px;font-weight:600}.sub{fill:#9aa0a6;font-size:12.5px}.lbl{fill:#6b7280;font-size:10px}</style>
+<rect class="bg" width="900" height="760"/>
+<text class="ttl" x="60" y="30">Fletcher Sheet 19 — leave-one-out residual field</text>
+<text class="sub" x="60" y="49">45 controls · LOO RMS 309.4 m · only 0% of error is a uniform shift → internal warp</text>
+<defs><marker id="a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#f0a742"/></marker></defs>
+<circle cx="122.3" cy="111.7" r="2.6" fill="rgb(185,115,125)"/>
+<line x1="122.3" y1="111.7" x2="225.9" y2="115.3" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="159.5" cy="60.0" r="2.6" fill="rgb(255,90,50)"/>
+<line x1="159.5" y1="60.0" x2="-18.8" y2="59.4" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="254.7" cy="78.1" r="2.6" fill="rgb(173,119,139)"/>
+<line x1="254.7" y1="78.1" x2="343.3" y2="92.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="176.7" cy="145.0" r="2.6" fill="rgb(157,125,156)"/>
+<line x1="176.7" y1="145.0" x2="106.6" y2="124.4" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="586.1" cy="261.5" r="2.6" fill="rgb(125,136,190)"/>
+<line x1="586.1" y1="261.5" x2="614.4" y2="287.9" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="773.7" cy="295.0" r="2.6" fill="rgb(90,149,229)"/>
+<line x1="773.7" y1="295.0" x2="773.7" y2="295.0" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="144.7" cy="369.7" r="2.6" fill="rgb(158,125,155)"/>
+<line x1="144.7" y1="369.7" x2="86.1" y2="414.4" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="496.0" cy="439.7" r="2.6" fill="rgb(162,123,150)"/>
+<line x1="496.0" y1="439.7" x2="496.8" y2="361.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="182.3" cy="452.4" r="2.6" fill="rgb(112,141,205)"/>
+<line x1="182.3" y1="452.4" x2="196.6" y2="432.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="569.9" cy="602.1" r="2.6" fill="rgb(162,123,151)"/>
+<line x1="569.9" y1="602.1" x2="606.3" y2="533.0" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="840.0" cy="595.0" r="2.6" fill="rgb(103,145,215)"/>
+<line x1="840.0" y1="595.0" x2="838.3" y2="609.5" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="777.1" cy="668.0" r="2.6" fill="rgb(107,143,210)"/>
+<line x1="777.1" y1="668.0" x2="759.3" y2="674.4" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="128.9" cy="550.6" r="2.6" fill="rgb(124,137,192)"/>
+<line x1="128.9" y1="550.6" x2="137.4" y2="587.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="103.0" cy="507.8" r="2.6" fill="rgb(143,130,171)"/>
+<line x1="103.0" y1="507.8" x2="68.9" y2="554.3" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="154.7" cy="613.5" r="2.6" fill="rgb(253,90,51)"/>
+<line x1="154.7" y1="613.5" x2="221.8" y2="450.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="111.7" cy="118.8" r="2.6" fill="rgb(186,114,124)"/>
+<line x1="111.7" y1="118.8" x2="7.5" y2="114.3" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="799.3" cy="180.2" r="2.6" fill="rgb(146,129,168)"/>
+<line x1="799.3" y1="180.2" x2="742.6" y2="202.8" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="670.7" cy="515.1" r="2.6" fill="rgb(191,112,118)"/>
+<line x1="670.7" y1="515.1" x2="571.5" y2="562.7" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="94.1" cy="222.0" r="2.6" fill="rgb(162,123,150)"/>
+<line x1="94.1" y1="222.0" x2="163.0" y2="259.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="272.5" cy="579.3" r="2.6" fill="rgb(116,140,201)"/>
+<line x1="272.5" y1="579.3" x2="279.9" y2="552.0" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="807.8" cy="559.8" r="2.6" fill="rgb(116,140,200)"/>
+<line x1="807.8" y1="559.8" x2="830.3" y2="541.3" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="563.1" cy="92.5" r="2.6" fill="rgb(142,130,172)"/>
+<line x1="563.1" y1="92.5" x2="620.3" y2="88.9" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="233.5" cy="606.5" r="2.6" fill="rgb(173,119,138)"/>
+<line x1="233.5" y1="606.5" x2="181.4" y2="680.0" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="594.6" cy="468.6" r="2.6" fill="rgb(137,132,178)"/>
+<line x1="594.6" y1="468.6" x2="615.4" y2="421.9" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="472.0" cy="277.8" r="2.6" fill="rgb(119,139,197)"/>
+<line x1="472.0" y1="277.8" x2="500.0" y2="292.9" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="60.0" cy="92.4" r="2.6" fill="rgb(220,102,87)"/>
+<line x1="60.0" y1="92.4" x2="200.5" y2="106.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="67.6" cy="302.2" r="2.6" fill="rgb(156,125,157)"/>
+<line x1="67.6" y1="302.2" x2="77.0" y2="231.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="548.9" cy="253.5" r="2.6" fill="rgb(119,139,198)"/>
+<line x1="548.9" y1="253.5" x2="525.9" y2="232.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="555.4" cy="446.3" r="2.6" fill="rgb(98,147,221)"/>
+<line x1="555.4" y1="446.3" x2="549.6" y2="452.8" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="398.7" cy="680.2" r="2.6" fill="rgb(121,138,195)"/>
+<line x1="398.7" y1="680.2" x2="432.2" y2="688.8" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="246.4" cy="243.7" r="2.6" fill="rgb(145,129,169)"/>
+<line x1="246.4" y1="243.7" x2="306.1" y2="244.8" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="664.3" cy="176.4" r="2.6" fill="rgb(105,144,213)"/>
+<line x1="664.3" y1="176.4" x2="656.4" y2="190.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="316.7" cy="588.3" r="2.6" fill="rgb(108,143,210)"/>
+<line x1="316.7" y1="588.3" x2="317.9" y2="607.9" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="647.9" cy="252.0" r="2.6" fill="rgb(114,141,203)"/>
+<line x1="647.9" y1="252.0" x2="624.6" y2="239.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="375.2" cy="215.5" r="2.6" fill="rgb(161,123,151)"/>
+<line x1="375.2" y1="215.5" x2="302.4" y2="242.0" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="366.5" cy="447.6" r="2.6" fill="rgb(121,138,195)"/>
+<line x1="366.5" y1="447.6" x2="377.5" y2="415.7" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="430.8" cy="408.0" r="2.6" fill="rgb(142,130,172)"/>
+<line x1="430.8" y1="408.0" x2="411.9" y2="461.4" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="564.1" cy="476.5" r="2.6" fill="rgb(131,134,184)"/>
+<line x1="564.1" y1="476.5" x2="561.7" y2="521.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="482.6" cy="150.7" r="2.6" fill="rgb(127,136,189)"/>
+<line x1="482.6" y1="150.7" x2="444.8" y2="136.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="708.5" cy="182.3" r="2.6" fill="rgb(111,142,206)"/>
+<line x1="708.5" y1="182.3" x2="723.6" y2="165.1" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="427.9" cy="364.0" r="2.6" fill="rgb(131,134,184)"/>
+<line x1="427.9" y1="364.0" x2="449.3" y2="324.4" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="773.6" cy="295.6" r="2.6" fill="rgb(90,149,229)"/>
+<line x1="773.6" y1="295.6" x2="773.6" y2="295.6" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="196.5" cy="464.8" r="2.6" fill="rgb(100,146,218)"/>
+<line x1="196.5" y1="464.8" x2="190.3" y2="474.0" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="741.3" cy="296.8" r="2.6" fill="rgb(90,149,229)"/>
+<line x1="741.3" y1="296.8" x2="741.3" y2="296.9" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<circle cx="211.8" cy="472.0" r="2.6" fill="rgb(103,145,215)"/>
+<line x1="211.8" y1="472.0" x2="219.9" y2="459.8" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)" opacity="0.85"/>
+<line x1="60" y1="730" x2="82.12753770253678" y2="730" stroke="#f0a742" stroke-width="1.5" marker-end="url(#a)"/>
+<text class="lbl" x="60" y="722">100 m residual</text>
+<text class="lbl" x="590" y="730">arrow = direction the fit misplaces that point</text>
+</svg>

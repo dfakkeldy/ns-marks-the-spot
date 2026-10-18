@@ -1,0 +1,92 @@
+{
+  "predictions_sha256": "96cc71f92db332d63c3fb8cf6d999dd839fff5335f00f7f06605369f372a394c",
+  "predictions_commit": "5910d3cb",
+  "reference_path": "tools/fletcher/measured/sheet-19.csv",
+  "reference_sha256": "dbb3cedb5e321cc4fdd25334008022b03204f6a8d39c378a7d5c176714dc0f7e",
+  "reference_control_count": 60,
+  "excluded_roles": [
+    "check"
+  ],
+  "reference_method": "GDAL thin-plate spline in EPSG:3857 fitted to saved control rows only; diagnostic agreement, not surveyed truth or a recovered production raster transform.",
+  "gdal_version": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+  "points": [
+    {
+      "id": "T",
+      "role": "target",
+      "reference_tps_lonlat": [
+        -61.41635980021948,
+        45.85957786657785
+      ],
+      "reference_agreement_m": 311.8962176839268,
+      "printed_grid_lonlat": [
+        -61.414942538177726,
+        45.86127012248435
+      ],
+      "printed_grid_to_proposal_m": 295.49644892017807,
+      "printed_grid_to_reference_m": 217.83698999003428,
+      "target_translation_residual_m": 5.502100886691937e-10,
+      "nearest_reference_control": "cand-0141",
+      "nearest_reference_control_distance_source_px": 543.7502091953621
+    },
+    {
+      "id": "C1",
+      "role": "context-check",
+      "reference_tps_lonlat": [
+        -61.415569525204006,
+        45.860612195576884
+      ],
+      "reference_agreement_m": 287.8479949078433,
+      "printed_grid_lonlat": [
+        -61.41425836020593,
+        45.862256126807324
+      ],
+      "printed_grid_to_proposal_m": 247.16375485953142,
+      "printed_grid_to_reference_m": 209.10125809253316,
+      "target_translation_residual_m": 51.01301854350346,
+      "nearest_reference_control": "cand-0141",
+      "nearest_reference_control_distance_source_px": 537.1384272233743
+    },
+    {
+      "id": "C2",
+      "role": "context-check",
+      "reference_tps_lonlat": [
+        -61.44044649788522,
+        45.86801786956881
+      ],
+      "reference_agreement_m": 174.3345047516768,
+      "printed_grid_lonlat": [
+        -61.43665378581612,
+        45.86845841206476
+      ],
+      "printed_grid_to_proposal_m": 214.7760152892275,
+      "printed_grid_to_reference_m": 297.71356363739,
+      "target_translation_residual_m": 97.58377035231186,
+      "nearest_reference_control": "cand-0141",
+      "nearest_reference_control_distance_source_px": 124.91072812212745
+    },
+    {
+      "id": "C3",
+      "role": "context-check",
+      "reference_tps_lonlat": [
+        -61.43800664097979,
+        45.87336661893044
+      ],
+      "reference_agreement_m": 95.14256734407437,
+      "printed_grid_lonlat": [
+        -61.43423635698243,
+        45.87354746663497
+      ],
+      "printed_grid_to_proposal_m": 247.74445186678065,
+      "printed_grid_to_reference_m": 292.583735798591,
+      "target_translation_residual_m": 47.791345777143796,
+      "nearest_reference_control": "cand-0141",
+      "nearest_reference_control_distance_source_px": 46.22434423547816
+    }
+  ],
+  "gate": {
+    "target_reference": false,
+    "context_reference": false,
+    "context_translation": true
+  },
+  "passed": false
+}

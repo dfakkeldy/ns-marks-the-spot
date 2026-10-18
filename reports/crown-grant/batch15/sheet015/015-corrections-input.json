@@ -1,0 +1,41 @@
+[
+  [
+    "C02",
+    "Whitesand Lake northeastern roof",
+    [
+      5106,
+      310
+    ],
+    [
+      5106,
+      342
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "East Clearwater Lake northern roof",
+    [
+      3466,
+      2482
+    ],
+    [
+      3420,
+      2483
+    ],
+    "WALK20"
+  ],
+  [
+    "Q01",
+    "Granit Lake southern tip",
+    [
+      3285,
+      559
+    ],
+    [
+      3253,
+      581
+    ],
+    "WALK20"
+  ]
+]

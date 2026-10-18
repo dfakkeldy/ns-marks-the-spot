@@ -1,0 +1,1135 @@
+{
+  "revision": "fletcher-full-sheets-20260913.1",
+  "name": "Fletcher complete 24-sheet provisional review mosaic",
+  "status": "provisional-review",
+  "scheme": "xyz",
+  "format": "png",
+  "tileSize": 256,
+  "minzoom": 8,
+  "maxzoom": 15,
+  "bounds": [
+    -61.615265674701156,
+    45.37688026971942,
+    -60.0696243968451,
+    47.13031012425374
+  ],
+  "attribution": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "licence": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+  "modifications": "Georeferenced, cropped and tiled; original printed colours preserved.",
+  "sourceRasterSha256": "501749928dd3efd5b01017bf2b6906695c41248064d7a279d078b3d4f4c50324",
+  "provenanceSha256": "1f4c8dfbba0e235d2bae7e894765b6b005797cd7143e21165667e3fff8ce9882",
+  "provenance": {
+    "revision": "fletcher-full-sheets-20260913.1",
+    "source_commit": "a8c1d6878cf679ddf2af25c2b725414b70005723",
+    "scope": "All 24 complete mapped sheets, including extensions and separate islands; provisional review publication. No new geographic acceptance or live application pin change.",
+    "sheets": [
+      {
+        "sheet": "01",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet01/refinement-20260912/raster-receipt.json",
+        "receipt_sha256": "4665c3a41468fa4b374095eff73789411f3c765c74f518d88aa7527262021ed0",
+        "fit": "reports/fletcher/sheet01/refinement-20260912/reviewed-fit.json",
+        "fit_sha256": "41f3defeab5ada5b71e1ec2493cb5955fb1f5787cf85969a32f28e586e8043b8",
+        "control_count": 10,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/refinement-20260912/sheet-01-full-sheet.tif",
+          "sha256": "3b2d00f843c7b1251ead26598fb3c19fe3100472cd79c90b4bbc95cb6066cf81",
+          "size": [
+            8500,
+            5512
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.7331201,
+                  47.1303101
+                ],
+                [
+                  -60.7331201,
+                  46.9616094
+                ],
+                [
+                  -60.3513361,
+                  46.9616094
+                ],
+                [
+                  -60.3513361,
+                  47.1303101
+                ],
+                [
+                  -60.7331201,
+                  47.1303101
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "02",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet02/raster-receipt.json",
+        "receipt_sha256": "1f97c5388c62264e92f7226e3be9e093e8c4f9a99ae889c80d689e792d0bffa1",
+        "fit": "reports/fletcher/sheet02/final-fit.json",
+        "fit_sha256": "3094eec05b4adec75eaaea85a19c3349f2ab9d2d45963359533d7d86a2917c6a",
+        "control_count": 9,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+          "sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465",
+          "size": [
+            9094,
+            6131
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.4780884,
+                  46.9711727
+                ],
+                [
+                  -60.4780884,
+                  46.7829336
+                ],
+                [
+                  -60.0696244,
+                  46.7829336
+                ],
+                [
+                  -60.0696244,
+                  46.9711727
+                ],
+                [
+                  -60.4780884,
+                  46.9711727
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "03",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet03/raster-receipt.json",
+        "receipt_sha256": "09f2800b1dfc30264d873dda36ee66ba0bd4513f777489d6e4442438c711a1d0",
+        "fit": "reports/fletcher/sheet03/final-fit.json",
+        "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+        "control_count": 7,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+          "sha256": "86f27229ea21c2e36d822be8f9871c16241a28bb1b4daa8abd7ec2761eaed951",
+          "size": [
+            10050,
+            6312
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.9072136,
+                  46.9749118
+                ],
+                [
+                  -60.9072136,
+                  46.7811189
+                ],
+                [
+                  -60.4558101,
+                  46.7811189
+                ],
+                [
+                  -60.4558101,
+                  46.9749118
+                ],
+                [
+                  -60.9072136,
+                  46.9749118
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "04",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet04/raster-receipt.json",
+        "receipt_sha256": "38c4cfd4147f3052ff8547020a1bc4f9b62bd6b60e7718158afc2d9684866c38",
+        "fit": "reports/fletcher/sheet04/final-fit.json",
+        "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+        "control_count": 8,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+          "sha256": "e62f084f1bb73de336d9e1740337701812c5c607155ec689b7e6aed82b54dd10",
+          "size": [
+            8691,
+            5714
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.4785375,
+                  46.7928056
+                ],
+                [
+                  -60.4785375,
+                  46.6168071
+                ],
+                [
+                  -60.0881746,
+                  46.6168071
+                ],
+                [
+                  -60.0881746,
+                  46.7928056
+                ],
+                [
+                  -60.4785375,
+                  46.7928056
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "05",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet05/refinement-20260912/raster-receipt.json",
+        "receipt_sha256": "0c6f4f9bf412b55b12417971e8994996cd13924f0d6c3fafe93a150c67109e58",
+        "fit": "reports/fletcher/sheet05/refinement-20260912/repaired-fit.json",
+        "fit_sha256": "89bdc06179cd60084608457911fe4e8db9a673b9e78071084b6ddde6af5838b8",
+        "control_count": 12,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif",
+          "sha256": "3affbba1a4d33c7b4e3a5ddc241fa20850473f170539426ee105dfd2c2d593c9",
+          "size": [
+            8559,
+            5687
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.8548867,
+                  46.7835487
+                ],
+                [
+                  -60.8548867,
+                  46.6083531
+                ],
+                [
+                  -60.4704527,
+                  46.6083531
+                ],
+                [
+                  -60.4704527,
+                  46.7835487
+                ],
+                [
+                  -60.8548867,
+                  46.7835487
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "06",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet06/raster-receipt.json",
+        "receipt_sha256": "beba0f18a66bd75821c5c3fe688fc997d266616b67ff2e484a8e89ba9851a7cb",
+        "fit": "reports/fletcher/sheet06/repaired-fit.json",
+        "fit_sha256": "007808040feca6310cf934bafcf3467f594bed43ba056c32faea45dc1758c54e",
+        "control_count": 10,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+          "sha256": "9f3cbc615328c16e806daf15954b0cf58595105e41205fc0f922521de44d3544",
+          "size": [
+            8401,
+            5861
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2252621,
+                  46.7932668
+                ],
+                [
+                  -61.2252621,
+                  46.6127345
+                ],
+                [
+                  -60.8479248,
+                  46.6127345
+                ],
+                [
+                  -60.8479248,
+                  46.7932668
+                ],
+                [
+                  -61.2252621,
+                  46.7932668
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "07",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet07/raster-receipt.json",
+        "receipt_sha256": "8766f717bfd13528c3c618dee23465020e9dcb7b9b05a0efd1ed79cf9b4133da",
+        "fit": "reports/fletcher/sheet07/repaired-fit.json",
+        "fit_sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a",
+        "control_count": 11,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+          "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd",
+          "size": [
+            7679,
+            6160
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.4711264,
+                  46.635469
+                ],
+                [
+                  -60.4711264,
+                  46.4451559
+                ],
+                [
+                  -60.1262183,
+                  46.4451559
+                ],
+                [
+                  -60.1262183,
+                  46.635469
+                ],
+                [
+                  -60.4711264,
+                  46.635469
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "08",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet08/raster-receipt.json",
+        "receipt_sha256": "1b391dc8979a23fce2d14f369cb1c329f72ab6f5d88826fc2481aee9287060f1",
+        "fit": "reports/fletcher/sheet08/repaired-fit.json",
+        "fit_sha256": "ba667e84c9379252c3a444ae64c47a2ab209813dd4961eff17500bfee0a81ca3",
+        "control_count": 10,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+          "sha256": "e5bcdd37da6e814297d3b432f3549ecf81bbc5b1f558b2f78c3fc600e98006a9",
+          "size": [
+            9483,
+            5846
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.8795904,
+                  46.62054
+                ],
+                [
+                  -60.8795904,
+                  46.4398942
+                ],
+                [
+                  -60.4536542,
+                  46.4398942
+                ],
+                [
+                  -60.4536542,
+                  46.62054
+                ],
+                [
+                  -60.8795904,
+                  46.62054
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "09",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet09/refinement-20260912/raster-receipt.json",
+        "receipt_sha256": "b232320f2a4ca616d656714404ad092831ff298d99ac87c747281300dc8d8278",
+        "fit": "reports/fletcher/sheet09/refinement-20260912/repaired-fit.json",
+        "fit_sha256": "3ca430d2f637410bec54e0381e0629d2c73e357d0ef981dc26f4f40842be82ec",
+        "control_count": 25,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif",
+          "sha256": "3e67d70abb9d33a86bdceccd9be00a1e68f98e93f988267ff281a315d5a23edf",
+          "size": [
+            8204,
+            5415
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2232858,
+                  46.6151411
+                ],
+                [
+                  -61.2232858,
+                  46.4478174
+                ],
+                [
+                  -60.8547969,
+                  46.4478174
+                ],
+                [
+                  -60.8547969,
+                  46.6151411
+                ],
+                [
+                  -61.2232858,
+                  46.6151411
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "10",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet10/raster-receipt.json",
+        "receipt_sha256": "54491222d713d0546de7bdffd55a9a0ecd009b820236a80c2c155ca1ee45ce2a",
+        "fit": "reports/fletcher/sheet10/repaired-fit.json",
+        "fit_sha256": "684472b4fdbe8b6e6afe8c13de4d123c0b43144880dc3340a3f21f8585ac982d",
+        "control_count": 12,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+          "sha256": "990434356bf80c3c5a9fd310b220d3da9fa6b0dff61177286c5f5c90092b6c8a",
+          "size": [
+            9277,
+            5964
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.8588842,
+                  46.4512525
+                ],
+                [
+                  -60.8588842,
+                  46.2663797
+                ],
+                [
+                  -60.4422007,
+                  46.2663797
+                ],
+                [
+                  -60.4422007,
+                  46.4512525
+                ],
+                [
+                  -60.8588842,
+                  46.4512525
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "11",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet11/refinement-20260912/30-control/raster-receipt.json",
+        "receipt_sha256": "e437b5a328f50ccbaccf48f5a73b0ac2330d899945f7f74a48a37db6a786d51a",
+        "fit": "reports/fletcher/sheet11/refinement-20260912/30-control/repaired-fit.json",
+        "fit_sha256": "00b50e12cca689d24748f570ddbc496dc5778f13d86fc9d2423837172b6eddfa",
+        "control_count": 30,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/30-control/sheet-11-exact.tif",
+          "sha256": "b765d51fc4466a9f17dae197898f1cbe84208127b9987bf238adc8dbe7aec95f",
+          "size": [
+            9398,
+            5867
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2714804,
+                  46.4527379
+                ],
+                [
+                  -61.2714804,
+                  46.2708819
+                ],
+                [
+                  -60.8493621,
+                  46.2708819
+                ],
+                [
+                  -60.8493621,
+                  46.4527379
+                ],
+                [
+                  -61.2714804,
+                  46.4527379
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "12",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet12/refinement-20260912/final-raster-receipt.json",
+        "receipt_sha256": "fd06fd74d54ba90fcd886122688571f054ce1135143c033ae042a4eb4304989d",
+        "fit": "reports/fletcher/sheet12/refinement-20260912/final-fit.json",
+        "fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+        "control_count": 17,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/sheet-12-full-sheet.tif",
+          "sha256": "48e70f98e72ad23fafb00c5437e476ad693727e09a46d1ae1a3145907550a40d",
+          "size": [
+            8528,
+            6547
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.8535392,
+                  46.274297
+                ],
+                [
+                  -60.8535392,
+                  46.0706614
+                ],
+                [
+                  -60.4704976,
+                  46.0706614
+                ],
+                [
+                  -60.4704976,
+                  46.274297
+                ],
+                [
+                  -60.8535392,
+                  46.274297
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "13",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet13/refinement-20260912/final-raster-receipt.json",
+        "receipt_sha256": "f266c3c8300f562cdabf778e377999b34fd97e20a5f09c47e043364365407852",
+        "fit": "reports/fletcher/sheet13/refinement-20260912/final-fit.json",
+        "fit_sha256": "2ae5ef8d16c4ab1209367778466dc4720f04727e093768ffa1f716f4465277a1",
+        "control_count": 14,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif",
+          "sha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2",
+          "size": [
+            8678,
+            5773
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2311011,
+                  46.2751353
+                ],
+                [
+                  -61.2311011,
+                  46.0956159
+                ],
+                [
+                  -60.8413221,
+                  46.0956159
+                ],
+                [
+                  -60.8413221,
+                  46.2751353
+                ],
+                [
+                  -61.2311011,
+                  46.2751353
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "14",
+        "selection": "Selected final Route 19 three-round fit; preserves all hand controls.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/route19-three-rounds-20260912/sheet-14/raster-receipt.json",
+        "receipt_sha256": "2c69c0295a87dad7ae5b3b866915fb8c7d91e7525f5cacaacff752f61807b52b",
+        "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-14/round-3-fit.json",
+        "fit_sha256": "8b728530b33dfe5bf586a763f6b5fc835d9fc1645f3056729e198069f7fe3bbb",
+        "control_count": 27,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-14/sheet-14-full-sheet.tif",
+          "sha256": "1a72c3356ee5e7ea3e3dddb916fda949bf12465a7309f3e83ef5e21309fbb1b6",
+          "size": [
+            8731,
+            5726
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.6152657,
+                  46.2699194
+                ],
+                [
+                  -61.6152657,
+                  46.091847
+                ],
+                [
+                  -61.2231061,
+                  46.091847
+                ],
+                [
+                  -61.2231061,
+                  46.2699194
+                ],
+                [
+                  -61.6152657,
+                  46.2699194
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "15",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet15/refinement-20260912/raster-receipt.json",
+        "receipt_sha256": "986b3134c0c010de31dda00af621832671b1763a173352061db3951ddaeb7a2e",
+        "fit": "reports/fletcher/sheet15/refinement-20260912/reviewed-fit.json",
+        "fit_sha256": "f7081a2addfd19fd70fb9c33358274b22fab7621ffc9631ea87befe3194439d6",
+        "control_count": 12,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/refinement-20260912/sheet-15-full-sheet.tif",
+          "sha256": "c0340eb0c91d8f37defc299880583d202a283a99f27620f6dd6250a0164ad3ba",
+          "size": [
+            8385,
+            5779
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2242739,
+                  46.0997272
+                ],
+                [
+                  -61.2242739,
+                  45.9194474
+                ],
+                [
+                  -60.8476553,
+                  45.9194474
+                ],
+                [
+                  -60.8476553,
+                  46.0997272
+                ],
+                [
+                  -61.2242739,
+                  46.0997272
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "16",
+        "selection": "Selected final Route 19 three-round fit; preserves all hand controls.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/route19-three-rounds-20260912/sheet-16/raster-receipt.json",
+        "receipt_sha256": "170997a69d97841c316997ba59b5b1eddf23cd1a240644d51b43e4c82cdaede3",
+        "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-16/round-3-fit.json",
+        "fit_sha256": "93e429c37332b3cafbd501fced4d35c8dee210f04534c446367e8a9f95ceb494",
+        "control_count": 37,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-16/sheet-16-full-sheet.tif",
+          "sha256": "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce",
+          "size": [
+            8497,
+            5572
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.6018359,
+                  46.0946815
+                ],
+                [
+                  -61.6018359,
+                  45.9208535
+                ],
+                [
+                  -61.2201866,
+                  45.9208535
+                ],
+                [
+                  -61.2201866,
+                  46.0946815
+                ],
+                [
+                  -61.6018359,
+                  46.0946815
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "17",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet17/status.json",
+        "receipt_sha256": "b08430a020e476121847ff422e7067926ac1cce790d3556bff6050ad6b06ac6f",
+        "fit": "reports/fletcher/sheet17/regional-fit.json",
+        "fit_sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+        "control_count": 10,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+          "sha256": "4e8c2f78df96806aea71da7851220ca2ad44e84a2612604cb1237cb3efc54b5b",
+          "size": [
+            8603,
+            5907
+          ]
+        }
+      },
+      {
+        "sheet": "18",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet18/status.json",
+        "receipt_sha256": "7dd469f0fca60367db9d7d4de1777417e0d4a32db84691ac551329d04034c42a",
+        "fit": "reports/fletcher/sheet18/regional-fit.json",
+        "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+        "control_count": 14,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+          "sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea",
+          "size": [
+            8596,
+            5608
+          ]
+        }
+      },
+      {
+        "sheet": "19",
+        "selection": "Selected final Route 19 three-round fit; preserves all hand controls.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/route19-three-rounds-20260912/sheet-19/raster-receipt.json",
+        "receipt_sha256": "7fe3e19e45bf01691974b169472ebbed3111335d8c7e60eb1dbbb662fe1a2532",
+        "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-19/round-3-fit.json",
+        "fit_sha256": "cea7bfa9048cf02c40fe90239b73f871d6d2eeb618157887a04f79458ae98dce",
+        "control_count": 44,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-19/sheet-19-full-sheet.tif",
+          "sha256": "997d6db53e20a6d3c53258a35d87ce23a34dd93ebf6ffaef77de16bbc698ebee",
+          "size": [
+            8382,
+            5756
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.5959519,
+                  45.9251653
+                ],
+                [
+                  -61.5959519,
+                  45.7450374
+                ],
+                [
+                  -61.219468,
+                  45.7450374
+                ],
+                [
+                  -61.219468,
+                  45.9251653
+                ],
+                [
+                  -61.5959519,
+                  45.9251653
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "20",
+        "selection": "Latest reviewed local improvement, uploaded as provisional; geographic failures and unsupported regions remain.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet20/refinement-20260912/raster-receipt.json",
+        "receipt_sha256": "6ea01b65c6b2affe8bdbb2a9484aec063eb7bbd52e9a4f6556baf23994a16182",
+        "fit": "reports/fletcher/sheet20/refinement-20260912/reviewed-fit.json",
+        "fit_sha256": "4f661910ecdf4de6ac22cb6db3352375467f08b2287083e5d32e908c6f4b06b1",
+        "control_count": 14,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/refinement-20260912/sheet-20-full-sheet.tif",
+          "sha256": "8c98db3aa2da6abb4c8347c096d2c7f3d49eb22c5c4c45539126bff15ded9cfa",
+          "size": [
+            8374,
+            6108
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -60.8484637,
+                  45.7489867
+                ],
+                [
+                  -60.8484637,
+                  45.5572192
+                ],
+                [
+                  -60.4723391,
+                  45.5572192
+                ],
+                [
+                  -60.4723391,
+                  45.7489867
+                ],
+                [
+                  -60.8484637,
+                  45.7489867
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "21",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet21/raster-receipt.json",
+        "receipt_sha256": "bb16c33c4492b900b0c2ab225f8b02d61fa8f1e0c04dcca3ca684143721edfbe",
+        "fit": "reports/fletcher/sheet21/repaired-fit.json",
+        "fit_sha256": "82e1c9490d3b0ea8ca239a17a0b012d9a9036c9fe2cf7018c891433ea9631618",
+        "control_count": 15,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+          "sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be",
+          "size": [
+            8496,
+            5580
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2224773,
+                  45.747733
+                ],
+                [
+                  -61.2224773,
+                  45.5725647
+                ],
+                [
+                  -60.840873,
+                  45.5725647
+                ],
+                [
+                  -60.840873,
+                  45.747733
+                ],
+                [
+                  -61.2224773,
+                  45.747733
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "22",
+        "selection": "Selected final Route 19 three-round fit; preserves all hand controls.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/route19-three-rounds-20260912/sheet-22/raster-receipt.json",
+        "receipt_sha256": "1355a01cd8676c4660510324b010eff97ef85490053e5385a41cafdd78c67141",
+        "fit": "reports/fletcher/route19-three-rounds-20260912/sheet-22/round-3-fit.json",
+        "fit_sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+        "control_count": 28,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-22/sheet-22-full-sheet.tif",
+          "sha256": "705cecae97ccaa97499cd3a54db40da715906a365f8f4072da7134a2de4243c3",
+          "size": [
+            8380,
+            5702
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.596446,
+                  45.7497389
+                ],
+                [
+                  -61.596446,
+                  45.570741
+                ],
+                [
+                  -61.2200519,
+                  45.570741
+                ],
+                [
+                  -61.2200519,
+                  45.7497389
+                ],
+                [
+                  -61.596446,
+                  45.7497389
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "23",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet23/raster-receipt.json",
+        "receipt_sha256": "8b76e94f476b7ac46b75f4ae3f091a6e3dca40bba2fcdd63006210b5ecd29d19",
+        "fit": "reports/fletcher/sheet23/repaired-fit.json",
+        "fit_sha256": "d90713b109ed4e9032f1837357f9f2bf983f3db000e8dbb5cff1159ec7f1405e",
+        "control_count": 12,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+          "sha256": "6355a23f84dd1a7017a6065f7b48e9552ce4cbd3dd1074cd441a936906293581",
+          "size": [
+            8305,
+            5738
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.2197375,
+                  45.5777837
+                ],
+                [
+                  -61.2197375,
+                  45.3971006
+                ],
+                [
+                  -60.846712,
+                  45.3971006
+                ],
+                [
+                  -60.846712,
+                  45.5777837
+                ],
+                [
+                  -61.2197375,
+                  45.5777837
+                ]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "sheet": "24",
+        "selection": "Retain earlier working baseline; later experiment not recommended as a whole-sheet replacement.",
+        "geographically_accepted": false,
+        "receipt": "reports/fletcher/sheet24/raster-receipt.json",
+        "receipt_sha256": "1cd01719fa158cd4b1f728a69ad69fd2928c54e86e915d35d276e00fa759f8cf",
+        "fit": "reports/fletcher/sheet24/repaired-fit.json",
+        "fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+        "control_count": 14,
+        "raster": {
+          "path": "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+          "sha256": "977633cdaff7a3a71b11b796c9d014d1ed8876f4c780c6ef9155d104fb47926c",
+          "size": [
+            8305,
+            6358
+          ],
+          "bounds": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -61.5924485,
+                  45.5771235
+                ],
+                [
+                  -61.5924485,
+                  45.3768803
+                ],
+                [
+                  -61.219423,
+                  45.3768803
+                ],
+                [
+                  -61.219423,
+                  45.5771235
+                ],
+                [
+                  -61.5924485,
+                  45.5771235
+                ]
+              ]
+            ]
+          }
+        }
+      }
+    ],
+    "composite_order_bottom_to_top": [
+      "24",
+      "23",
+      "21",
+      "20",
+      "18",
+      "17",
+      "15",
+      "13",
+      "12",
+      "11",
+      "10",
+      "09",
+      "08",
+      "07",
+      "06",
+      "05",
+      "04",
+      "03",
+      "02",
+      "01",
+      "22",
+      "16",
+      "19",
+      "14"
+    ],
+    "geographic_quality": "Uneven provisional alignment; failed geographic checks and gaps retained. R2 upload authorized by user 2026-09-13; upload does not change per-sheet acceptance or licence boundaries.",
+    "composite": {
+      "sha256": "501749928dd3efd5b01017bf2b6906695c41248064d7a279d078b3d4f4c50324",
+      "dimensions": [
+        34412,
+        56464
+      ],
+      "bounds": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.6152657,
+              47.1303101
+            ],
+            [
+              -61.6152657,
+              45.3768803
+            ],
+            [
+              -60.0696244,
+              45.3768803
+            ],
+            [
+              -60.0696244,
+              47.1303101
+            ],
+            [
+              -61.6152657,
+              47.1303101
+            ]
+          ]
+        ]
+      },
+      "method": "gdalwarp RGBA nearest-neighbour at 5 projected metres, aligned cells; recorded bottom-to-top order, complete neatlines and transparent gaps"
+    }
+  },
+  "gdalVersion": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
+  "resampling": "bilinear at zoom 15; average for overviews",
+  "sourceProjectedPixelSizeM": 5,
+  "maximumZoomProjectedPixelSizeM": 4.777314267823516,
+  "tileCountsByZoom": {
+    "10": 48,
+    "11": 150,
+    "12": 570,
+    "13": 2183,
+    "14": 8424,
+    "15": 32944,
+    "8": 6,
+    "9": 15
+  },
+  "tileCount": 44340,
+  "tileBytes": 2441632228,
+  "fullyTransparentTiles": 18508,
+  "inventorySha256": "5fcd277d4daf50974cf33a035c1859af775f9b5075de9208a1b9b750f5d39851",
+  "note": "Transparent tiles intentionally retained within raster bounds to avoid missing-object errors. Higher display zooms enlarge zoom 15. No geographic improvement or production publication is implied."
+}

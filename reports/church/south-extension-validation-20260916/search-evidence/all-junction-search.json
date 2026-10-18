@@ -1,0 +1,785 @@
+[
+  {
+    "lonlat": [
+      -61.34475443094436,
+      45.7006944036236
+    ],
+    "branches": [
+      {
+        "feature_id": 195335,
+        "vertex": 102,
+        "name": ""
+      },
+      {
+        "feature_id": 295461,
+        "vertex": 97,
+        "name": "Sugar Camp Brook"
+      },
+      {
+        "feature_id": 295610,
+        "vertex": 0,
+        "name": "Sugar Camp Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      20071.7141627869,
+      29343.9549512936
+    ]
+  },
+  {
+    "lonlat": [
+      -61.320320953581955,
+      45.69147179956714
+    ],
+    "branches": [
+      {
+        "feature_id": 195336,
+        "vertex": 116,
+        "name": ""
+      },
+      {
+        "feature_id": 295610,
+        "vertex": 271,
+        "name": "Sugar Camp Brook"
+      },
+      {
+        "feature_id": 295613,
+        "vertex": 0,
+        "name": "Sugar Camp Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      20765.8518424369,
+      29718.1600744681
+    ]
+  },
+  {
+    "lonlat": [
+      -61.34370297205651,
+      45.66826321769348
+    ],
+    "branches": [
+      {
+        "feature_id": 196249,
+        "vertex": 86,
+        "name": ""
+      },
+      {
+        "feature_id": 271339,
+        "vertex": 353,
+        "name": "North Little River"
+      },
+      {
+        "feature_id": 271340,
+        "vertex": 0,
+        "name": "North Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      20105.0848532661,
+      30689.9794314104
+    ]
+  },
+  {
+    "lonlat": [
+      -61.31164076115359,
+      45.64589889785037
+    ],
+    "branches": [
+      {
+        "feature_id": 196410,
+        "vertex": 188,
+        "name": ""
+      },
+      {
+        "feature_id": 271460,
+        "vertex": 276,
+        "name": "North Little River"
+      },
+      {
+        "feature_id": 271461,
+        "vertex": 0,
+        "name": "North Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      21017.1792068284,
+      31603.4999034531
+    ]
+  },
+  {
+    "lonlat": [
+      -61.39214680423757,
+      45.67026328874615
+    ],
+    "branches": [
+      {
+        "feature_id": 196412,
+        "vertex": 245,
+        "name": ""
+      },
+      {
+        "feature_id": 273403,
+        "vertex": 63,
+        "name": "Mill Brook"
+      },
+      {
+        "feature_id": 273524,
+        "vertex": 0,
+        "name": "Mill Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      18729.7152653926,
+      30623.4250624054
+    ]
+  },
+  {
+    "lonlat": [
+      -61.27637267401474,
+      45.66878992493166
+    ],
+    "branches": [
+      {
+        "feature_id": 196432,
+        "vertex": 179,
+        "name": ""
+      },
+      {
+        "feature_id": 267568,
+        "vertex": 21,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267569,
+        "vertex": 0,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      22015.6084369063,
+      30642.6797505831
+    ]
+  },
+  {
+    "lonlat": [
+      -61.35828920305482,
+      45.62980560711288
+    ],
+    "branches": [
+      {
+        "feature_id": 196572,
+        "vertex": 71,
+        "name": ""
+      },
+      {
+        "feature_id": 265354,
+        "vertex": 47,
+        "name": "Embrees Brook"
+      },
+      {
+        "feature_id": 265355,
+        "vertex": 0,
+        "name": "Embrees Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      19693.7658694612,
+      32283.823061288
+    ]
+  },
+  {
+    "lonlat": [
+      -61.270778574080616,
+      45.67468199850787
+    ],
+    "branches": [
+      {
+        "feature_id": 196593,
+        "vertex": 254,
+        "name": ""
+      },
+      {
+        "feature_id": 267562,
+        "vertex": 0,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267563,
+        "vertex": 11,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      22173.5692166533,
+      30396.2867378119
+    ]
+  },
+  {
+    "lonlat": [
+      -61.35952085758589,
+      45.624264280771854
+    ],
+    "branches": [
+      {
+        "feature_id": 196726,
+        "vertex": 0,
+        "name": ""
+      },
+      {
+        "feature_id": 265356,
+        "vertex": 55,
+        "name": "Embrees Brook"
+      },
+      {
+        "feature_id": 265357,
+        "vertex": 0,
+        "name": "Embrees Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      19659.0723730734,
+      32512.5654090705
+    ]
+  },
+  {
+    "lonlat": [
+      -61.357745546924306,
+      45.6268085561942
+    ],
+    "branches": [
+      {
+        "feature_id": 196727,
+        "vertex": 47,
+        "name": ""
+      },
+      {
+        "feature_id": 265355,
+        "vertex": 62,
+        "name": "Embrees Brook"
+      },
+      {
+        "feature_id": 265356,
+        "vertex": 0,
+        "name": "Embrees Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      19709.3717481649,
+      32407.182645038
+    ]
+  },
+  {
+    "lonlat": [
+      -61.31499012549324,
+      45.69235367754439
+    ],
+    "branches": [
+      {
+        "feature_id": 196894,
+        "vertex": 19,
+        "name": ""
+      },
+      {
+        "feature_id": 295611,
+        "vertex": 0,
+        "name": "Sugar Camp Brook"
+      },
+      {
+        "feature_id": 295613,
+        "vertex": 79,
+        "name": "Sugar Camp Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      20916.9373089739,
+      29679.4754894134
+    ]
+  },
+  {
+    "lonlat": [
+      -61.31391205149787,
+      45.692199153668284
+    ],
+    "branches": [
+      {
+        "feature_id": 196895,
+        "vertex": 27,
+        "name": ""
+      },
+      {
+        "feature_id": 295611,
+        "vertex": 17,
+        "name": "Sugar Camp Brook"
+      },
+      {
+        "feature_id": 295612,
+        "vertex": 0,
+        "name": "Sugar Camp Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      20947.5341918907,
+      29685.4823314158
+    ]
+  },
+  {
+    "lonlat": [
+      -61.32423519943091,
+      45.65518797443725
+    ],
+    "branches": [
+      {
+        "feature_id": 196936,
+        "vertex": 0,
+        "name": ""
+      },
+      {
+        "feature_id": 271459,
+        "vertex": 200,
+        "name": "North Little River"
+      },
+      {
+        "feature_id": 271460,
+        "vertex": 0,
+        "name": "North Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      20658.8081488306,
+      31223.9889781945
+    ]
+  },
+  {
+    "lonlat": [
+      -61.271235295885404,
+      45.66960787414843
+    ],
+    "branches": [
+      {
+        "feature_id": 197067,
+        "vertex": 52,
+        "name": ""
+      },
+      {
+        "feature_id": 267570,
+        "vertex": 37,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 315525,
+        "vertex": 0,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      22161.3044194796,
+      30606.8753456702
+    ]
+  },
+  {
+    "lonlat": [
+      -61.27333294032263,
+      45.668235456290205
+    ],
+    "branches": [
+      {
+        "feature_id": 197070,
+        "vertex": 171,
+        "name": ""
+      },
+      {
+        "feature_id": 267569,
+        "vertex": 61,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267570,
+        "vertex": 0,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      22101.9537547805,
+      30664.5435740115
+    ]
+  },
+  {
+    "lonlat": [
+      -61.277921284351045,
+      45.66990960177241
+    ],
+    "branches": [
+      {
+        "feature_id": 197072,
+        "vertex": 27,
+        "name": ""
+      },
+      {
+        "feature_id": 267564,
+        "vertex": 42,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267568,
+        "vertex": 0,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      21971.5105158836,
+      30596.8343977257
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28170011198163,
+      45.67169829953809
+    ],
+    "branches": [
+      {
+        "feature_id": 197105,
+        "vertex": 52,
+        "name": ""
+      },
+      {
+        "feature_id": 267564,
+        "vertex": 0,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267565,
+        "vertex": 38,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      21864.0364803142,
+      30524.0790186404
+    ]
+  },
+  {
+    "lonlat": [
+      -61.290420277641644,
+      45.670265693449394
+    ],
+    "branches": [
+      {
+        "feature_id": 197245,
+        "vertex": 94,
+        "name": ""
+      },
+      {
+        "feature_id": 267433,
+        "vertex": 43,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267567,
+        "vertex": 0,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      21616.7686807087,
+      30586.758988018
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28925221990044,
+      45.67029950900319
+    ],
+    "branches": [
+      {
+        "feature_id": 197247,
+        "vertex": 35,
+        "name": ""
+      },
+      {
+        "feature_id": 267566,
+        "vertex": 0,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267567,
+        "vertex": 11,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      21649.9098344936,
+      30584.9156174083
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28752996123312,
+      45.670782252917554
+    ],
+    "branches": [
+      {
+        "feature_id": 197248,
+        "vertex": 59,
+        "name": ""
+      },
+      {
+        "feature_id": 267565,
+        "vertex": 0,
+        "name": "Black Brook"
+      },
+      {
+        "feature_id": 267566,
+        "vertex": 14,
+        "name": "Black Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      21698.7204648168,
+      30564.2513787345
+    ]
+  },
+  {
+    "lonlat": [
+      -61.30377185226636,
+      45.62318527982863
+    ],
+    "branches": [
+      {
+        "feature_id": 197414,
+        "vertex": 20,
+        "name": ""
+      },
+      {
+        "feature_id": 269907,
+        "vertex": 354,
+        "name": "Little River"
+      },
+      {
+        "feature_id": 269908,
+        "vertex": 0,
+        "name": "Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      21242.6118640715,
+      32538.7779361654
+    ]
+  },
+  {
+    "lonlat": [
+      -61.299456545414124,
+      45.62203243355542
+    ],
+    "branches": [
+      {
+        "feature_id": 197416,
+        "vertex": 31,
+        "name": ""
+      },
+      {
+        "feature_id": 269908,
+        "vertex": 27,
+        "name": "Little River"
+      },
+      {
+        "feature_id": 269909,
+        "vertex": 0,
+        "name": "Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      21365.2707259549,
+      32584.8745110572
+    ]
+  },
+  {
+    "lonlat": [
+      -61.27999530474736,
+      45.63178748598126
+    ],
+    "branches": [
+      {
+        "feature_id": 197419,
+        "vertex": 42,
+        "name": ""
+      },
+      {
+        "feature_id": 271590,
+        "vertex": 41,
+        "name": "North Little River"
+      },
+      {
+        "feature_id": 271591,
+        "vertex": 0,
+        "name": "North Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      21917.0856048228,
+      32175.3777852874
+    ]
+  },
+  {
+    "lonlat": [
+      -61.28380127858166,
+      45.62256199230703
+    ],
+    "branches": [
+      {
+        "feature_id": 197569,
+        "vertex": 130,
+        "name": ""
+      },
+      {
+        "feature_id": 271591,
+        "vertex": 257,
+        "name": "North Little River"
+      },
+      {
+        "feature_id": 271592,
+        "vertex": 0,
+        "name": "North Little River"
+      }
+    ],
+    "inverse_search_guide": [
+      21809.882129401,
+      32557.6851765049
+    ]
+  },
+  {
+    "lonlat": [
+      -61.390666376558855,
+      45.692388322587696
+    ],
+    "branches": [
+      {
+        "feature_id": 210027,
+        "vertex": 76,
+        "name": ""
+      },
+      {
+        "feature_id": 260159,
+        "vertex": 218,
+        "name": "Brown Brook"
+      },
+      {
+        "feature_id": 260160,
+        "vertex": 0,
+        "name": "Brown Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      18769.818046801,
+      29704.8734860945
+    ]
+  },
+  {
+    "lonlat": [
+      -61.399137351667676,
+      45.70136785371229
+    ],
+    "branches": [
+      {
+        "feature_id": 211786,
+        "vertex": 311,
+        "name": ""
+      },
+      {
+        "feature_id": 260158,
+        "vertex": 136,
+        "name": "Brown Brook"
+      },
+      {
+        "feature_id": 260159,
+        "vertex": 0,
+        "name": "Brown Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      18528.3598849078,
+      29333.6538722016
+    ]
+  },
+  {
+    "lonlat": [
+      -61.36001246796763,
+      45.63278629457341
+    ],
+    "branches": [
+      {
+        "feature_id": 223412,
+        "vertex": 39,
+        "name": ""
+      },
+      {
+        "feature_id": 265353,
+        "vertex": 96,
+        "name": "Embrees Brook"
+      },
+      {
+        "feature_id": 265354,
+        "vertex": 0,
+        "name": "Embrees Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      19644.6516637357,
+      32161.477811066
+    ]
+  },
+  {
+    "lonlat": [
+      -61.37692648771856,
+      45.687497223833276
+    ],
+    "branches": [
+      {
+        "feature_id": 253985,
+        "vertex": 130,
+        "name": ""
+      },
+      {
+        "feature_id": 254237,
+        "vertex": 0,
+        "name": ""
+      },
+      {
+        "feature_id": 260160,
+        "vertex": 184,
+        "name": "Brown Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      19160.3746792585,
+      29903.9559772432
+    ]
+  },
+  {
+    "lonlat": [
+      -61.31098672143731,
+      45.6916725822702
+    ],
+    "branches": [
+      {
+        "feature_id": 253987,
+        "vertex": 0,
+        "name": ""
+      },
+      {
+        "feature_id": 254118,
+        "vertex": 106,
+        "name": ""
+      },
+      {
+        "feature_id": 295612,
+        "vertex": 52,
+        "name": "Sugar Camp Brook"
+      }
+    ],
+    "inverse_search_guide": [
+      21030.5728683096,
+      29706.2375140102
+    ]
+  }
+]

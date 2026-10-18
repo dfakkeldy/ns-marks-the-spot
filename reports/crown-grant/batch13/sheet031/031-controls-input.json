@@ -1,0 +1,93 @@
+[
+  [
+    "C01",
+    "South Mud Lake southern tip",
+    [
+      1442,
+      529
+    ],
+    [
+      1514,
+      472
+    ],
+    "WALK20"
+  ],
+  [
+    "C02",
+    "Round Lake eastern northern roof",
+    [
+      2732,
+      736
+    ],
+    [
+      2834,
+      681
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Rocky Lake northwest roof corner",
+    [
+      4335,
+      1632
+    ],
+    [
+      4355,
+      1654
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Smith Lake northern roof",
+    [
+      4626,
+      2204
+    ],
+    [
+      4650,
+      2240
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Flint Lake northern roof",
+    [
+      512,
+      2732
+    ],
+    [
+      601,
+      2734
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Nineveh Lake northern tip",
+    [
+      5286,
+      2381
+    ],
+    [
+      5267,
+      2426
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Unnamed lake west of Pleasant River northern tip",
+    [
+      3524,
+      2564
+    ],
+    [
+      3534,
+      2605
+    ],
+    "WALK20"
+  ]
+]

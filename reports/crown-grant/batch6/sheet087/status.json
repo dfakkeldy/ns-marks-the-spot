@@ -1,0 +1,45 @@
+{
+  "sheet": "087",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS FAILED and evidence sparse; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/087.pdf",
+    "pdf_sha256": "f9873dccebc95dd6bb6dfdc2ac43b4be0eaf14e0c48587d84058e611186975bd",
+    "jpeg_sha256": "ce5ba9c7d58eaa6841720dec5c3f031a751d6d55626b797d7a89d1c39a6ddf28",
+    "dimensions": [
+      6052,
+      4138
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-similarity-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 4,
+      "independent_checks": 4,
+      "rms_ground_m": 117.04764688698587,
+      "rms_gate_passed": false,
+      "fit": "fit-similarity-01.json",
+      "checks": "checks-similarity-01.json",
+      "scores": "scores-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Four excluded checks give RMS 117.05 m, exceeding the 100 m ceiling. Median 105.79 m exceeds 75 m and P95 158.76 m exceeds 150 m; maximum is 163.94 m. The failed first result remains authoritative.",
+    "All four checks share their lake with a control and are strongly spatially correlated. Only Botany Bay, Round, Calder and the Mill Pond near Concord Mills contribute observations. Whole-sheet accuracy is not established.",
+    "The northern band, northeastern urban/industrial corridor and broad central region have no reliable independent validation. The constrained model does not resolve those evidence gaps.",
+    "Modern WALK20 boundaries were used for retained observations. Mill Pond has 18 px working source uncertainty; the other lake points use 12 px. Full image retention does not imply geographic acceptance."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "4 independent checks: RMS 117.05 m, median 105.79 m, P95 158.76 m, maximum 163.94 m. 4 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Mount Thom and Lower Mount Thom, Salt Springs, Limerock, Greenhill, Alma, Westville, Stellarton and New Glasgow, Millbrook, New Gairloch, Rocklin, Concord Mills, Hopewell, Eureka, Lansdowne, Glengarry, Lorne, Springville and every inland parcel/river region. No displaced inset identified."
+  }
+}

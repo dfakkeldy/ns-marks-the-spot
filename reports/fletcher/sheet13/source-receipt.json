@@ -1,0 +1,259 @@
+{
+  "sheet": "sheet-13",
+  "rumsey_id": "RUMSEY~8~1~2638~290006",
+  "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2638~290006/manifest",
+  "manifest_label": "Province of Nova Scotia (Island of Cape Breton). Sheet no. 13.",
+  "manifest_sha256": "480ea3b6531847285424ec556287c40e4b6c2f537ee0c0cb33ed3599c17a4d0f",
+  "source_dimensions": [
+    10872,
+    7682
+  ],
+  "source_png_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+  "source_tif_sha256": "bd062b8b5451deb16a67f508fd21df975a2d461296263774a92273554dccba52",
+  "all_regions_native_dimensions_and_pixel_parity": true,
+  "regions": [
+    {
+      "file": "000000_000000_002048_002048.jpg",
+      "source_rect": [
+        0,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "5b68f058a7fce3e0a295ba7273c2596ce3581f4d4dfbc68df004a1156161620c"
+    },
+    {
+      "file": "002048_000000_002048_002048.jpg",
+      "source_rect": [
+        2048,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "f292433a7b067d20a70aec9d78bc7bcbf4f2cdb0cbf4d42a9f31028300844075"
+    },
+    {
+      "file": "004096_000000_002048_002048.jpg",
+      "source_rect": [
+        4096,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "0b16fd6fd34391574a0a38468ecda85ad867b4950b835590a80ebfaa395ddbe4"
+    },
+    {
+      "file": "006144_000000_002048_002048.jpg",
+      "source_rect": [
+        6144,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "7f9d6621d40d5630be285b8a9fb01dc113c501e84b396d14b00813a9c89672a2"
+    },
+    {
+      "file": "008192_000000_002048_002048.jpg",
+      "source_rect": [
+        8192,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "6a72612b4ccb2aadce14affa089747c3dc4daa0dd69ab478a512438464971c9e"
+    },
+    {
+      "file": "010240_000000_000632_002048.jpg",
+      "source_rect": [
+        10240,
+        0,
+        632,
+        2048
+      ],
+      "sha256": "3149004722de16221a6e45984d008a1f3e55532dcb0b1d2fb224cf9b78d2051a"
+    },
+    {
+      "file": "000000_002048_002048_002048.jpg",
+      "source_rect": [
+        0,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "44ef098304237b3bf15ae61a77daea5f78a9fd7d2ca25b09412662d0efebe0a5"
+    },
+    {
+      "file": "002048_002048_002048_002048.jpg",
+      "source_rect": [
+        2048,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "53e6a6def66bbcaf5588952828e1365ae28e406f38ec10c70de7c8d076b9d4fc"
+    },
+    {
+      "file": "004096_002048_002048_002048.jpg",
+      "source_rect": [
+        4096,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "4b9284d9ead403e5dcede5f2605bab339809c860a0665f53dcda0fe926539fda"
+    },
+    {
+      "file": "006144_002048_002048_002048.jpg",
+      "source_rect": [
+        6144,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "21e9042e91129ed47307f7a60232ee26284d771d70986fcabf425be7e9cdef79"
+    },
+    {
+      "file": "008192_002048_002048_002048.jpg",
+      "source_rect": [
+        8192,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "f9f9148601b7a85566cc6057237c0e8424826d3bab78fa24a3c80f973b9b1154"
+    },
+    {
+      "file": "010240_002048_000632_002048.jpg",
+      "source_rect": [
+        10240,
+        2048,
+        632,
+        2048
+      ],
+      "sha256": "888d80ee42d342bd6c6c2da65068347a06479222e9e7d979c3f5915ae7d3723b"
+    },
+    {
+      "file": "000000_004096_002048_002048.jpg",
+      "source_rect": [
+        0,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "25ffc54b5e446c1bf0f4ec2be48e3da5cffdb497526eee1636ef853d809da8b3"
+    },
+    {
+      "file": "002048_004096_002048_002048.jpg",
+      "source_rect": [
+        2048,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "d78e340d168f972d22e38f5c296cf3db156edc62fe714363c27e4b09ce2b8012"
+    },
+    {
+      "file": "004096_004096_002048_002048.jpg",
+      "source_rect": [
+        4096,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "73ae9916e2eca487b1bdff56aaa30a7537d0838604337a37ea44166c69753b80"
+    },
+    {
+      "file": "006144_004096_002048_002048.jpg",
+      "source_rect": [
+        6144,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "93a62cddf3e2dc7bb723ac3a621722063a76d63a3a62ad58fb0956bd9b95cf62"
+    },
+    {
+      "file": "008192_004096_002048_002048.jpg",
+      "source_rect": [
+        8192,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "3206e74f80447026e6b3369c9c7d790f43a978c8be3b668ad4517eca730189ee"
+    },
+    {
+      "file": "010240_004096_000632_002048.jpg",
+      "source_rect": [
+        10240,
+        4096,
+        632,
+        2048
+      ],
+      "sha256": "29511cd5c31343e25ee3b1ce42a2d3d3fa6b36f7c940abb7896af43f62597b1a"
+    },
+    {
+      "file": "000000_006144_002048_001538.jpg",
+      "source_rect": [
+        0,
+        6144,
+        2048,
+        1538
+      ],
+      "sha256": "baa4be5de73544fb30b16ac266b3b000b392930031c4bb397e9aa8f73d922d68"
+    },
+    {
+      "file": "002048_006144_002048_001538.jpg",
+      "source_rect": [
+        2048,
+        6144,
+        2048,
+        1538
+      ],
+      "sha256": "f327999c683a8c1e0939716f5bb9ad0e38d3e4ba2eb691afffd3c0513e4ab936"
+    },
+    {
+      "file": "004096_006144_002048_001538.jpg",
+      "source_rect": [
+        4096,
+        6144,
+        2048,
+        1538
+      ],
+      "sha256": "56657828f1eb5b01854816a5c0a43a17e417629f0650848a73e4ecfce52c9165"
+    },
+    {
+      "file": "006144_006144_002048_001538.jpg",
+      "source_rect": [
+        6144,
+        6144,
+        2048,
+        1538
+      ],
+      "sha256": "f01fe2f346270b79aee9ea09be2e9e1abd6e13f7a7de6400c0d13fb8acaa90fd"
+    },
+    {
+      "file": "008192_006144_002048_001538.jpg",
+      "source_rect": [
+        8192,
+        6144,
+        2048,
+        1538
+      ],
+      "sha256": "4ce7e32631045bab537a8ce3491c898671e0810f4b8f81e6502e74ab158c3f69"
+    },
+    {
+      "file": "010240_006144_000632_001538.jpg",
+      "source_rect": [
+        10240,
+        6144,
+        632,
+        1538
+      ],
+      "sha256": "43bdc41dd5e36d0e171bf1e772f890772386d8f793ee2020be41ff6ada07f58a"
+    }
+  ],
+  "attribution": "David Rumsey Historical Map Collection",
+  "license": null,
+  "fetched_date": "2026-09-11"
+}

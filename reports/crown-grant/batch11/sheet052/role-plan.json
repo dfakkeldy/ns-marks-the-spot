@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained reflected similarity",
+  "reason": "Four controls lie along the southern coastal band and Kingsport corner; uniform scale/rotation avoids unsupported affine shear over the broad ocean and unvalidated northern coast.",
+  "corrections": [
+    "Longspell control source and Medford check source moved onto their actual shores before fitting."
+  ],
+  "not_adopted": [
+    "Cape Blomidon and Lower Blomidon broad generalized curves lack precise corresponding vertices; no tangent-point controls forced.",
+    "Paddy Island has no unambiguous corresponding island outline in downloaded reference; retained historical depiction, no cause asserted."
+  ],
+  "limitations": [
+    "Four coast checks; Split Rock and Pembroke share control coast segments, Medford and Evangeline add separate shore regions.",
+    "Scotsman Bay, Cape Blomidon, the northern coast and most open water lack independent validation.",
+    "Source uncertainty18 px; historical shore generalization and possible outline changes remain."
+  ]
+}

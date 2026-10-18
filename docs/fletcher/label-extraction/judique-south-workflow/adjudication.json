@@ -1,0 +1,232 @@
+{
+  "candidate_records": 29,
+  "reviewed_annotations": 23,
+  "accepted_means": "Included in the research transcription inventory after model source review; not human-certified text, a verified site or geographic acceptance.",
+  "comparisons": [
+    {
+      "accepted_annotation_id": "F19-JUD-071",
+      "candidate_ids": [
+        "S03-01"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Northern school in the hatched area; separate printed occurrence from the school immediately southeast.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-072",
+      "candidate_ids": [
+        "S03-03"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "School on the eastern road in the orange fill.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-073",
+      "candidate_ids": [
+        "S03-02"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Separate school southeast of F19-JUD-071; no assertion about shared or distinct premises.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-074",
+      "candidate_ids": [
+        "S02-01"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Forge by the north-south road in the striped coastal area.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-075",
+      "candidate_ids": [
+        "S03-04"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Completed beyond the worker crop edge using E01; abbreviation retained.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-076",
+      "candidate_ids": [
+        "S03-05"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Expanded the candidate box to include the final letters; separate from nearby D. MᶜPherson.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-077",
+      "candidate_ids": [
+        "S02-02",
+        "S03-06"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "One singular Mill label spans adjacent worker windows; deduplicated by source position.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-078",
+      "candidate_ids": [
+        "S02-03"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Western plural Mills annotation; preserve the plural without inferring a count or type of structures.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-079",
+      "candidate_ids": [
+        "S02-04"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Separate eastern plural Mills annotation, retained independently of F19-JUD-078.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-080",
+      "candidate_ids": [
+        "S01-01",
+        "S02-05"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "J is not expanded. No period after the initial is confidently visible; overlapping partial J C is deduplicated.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-081",
+      "candidate_ids": [
+        "S02-07",
+        "S03-07",
+        "S05-03",
+        "S06-01"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Continuous diagonal name completed across overlapping windows. Four whole/partial candidate records represent this one printed annotation; not merged with Rory Chisholm’s Brook.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-082",
+      "candidate_ids": [
+        "S02-06"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Abbreviated post-office label north of the inland Long Point lettering.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-083",
+      "candidate_ids": [
+        "S02-08",
+        "S05-01"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Large lettering inland beside the coastal road; provisionally a place label. Separate from the coastal-point lettering F19-JUD-084. No settlement boundary inferred.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-084",
+      "candidate_ids": [
+        "S04-01"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Separate occurrence west of the coastal point, retained independently of the inland place lettering. No modern shoreline anchor assigned.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-085",
+      "candidate_ids": [
+        "S05-02"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Forge just south of the inland Long Point label.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-086",
+      "candidate_ids": [
+        "S05-04"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Curved historical road lettering. Candidate box expanded to retain the initial F; alignment not traced.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-087",
+      "candidate_ids": [
+        "S05-05"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "School on the road east of the coastal junction.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-088",
+      "candidate_ids": [
+        "S06-02"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Rejected the candidate’s extra J.: the preceding stroke follows the road, while the printed name begins A. No identity or property match inferred.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-089",
+      "candidate_ids": [
+        "S05-06"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Shop beside the coastal road. Tightened candidate box to the lettering, excluding the building mark above it.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-090",
+      "candidate_ids": [],
+      "disposition": "reviewer-addition",
+      "review_note": "Added during whole-crop review; absent from worker output. Preserve the printed number and unit typography. This is not a verified modern elevation, surveyed summit, or site-height estimate.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-091",
+      "candidate_ids": [
+        "S06-03"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Separate eastern school south of the A. MᶜDougall annotation.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-092",
+      "candidate_ids": [
+        "S05-07",
+        "S06-04"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Edge fragments completed from E03; a rotated enlargement resolves General Line. No modern road identity or alignment established.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    },
+    {
+      "accepted_annotation_id": "F19-JUD-093",
+      "candidate_ids": [
+        "S06-05"
+      ],
+      "disposition": "source-reviewed",
+      "review_note": "Completed from E04 beyond the southern crop edge; no modern route match asserted.",
+      "geometry_review": "Source lettering rectangles manually revised and visually inspected; not copied as historical site geometry."
+    }
+  ],
+  "deferred": [
+    {
+      "description": "Widely spaced large C / R / A lettering through the eastern portion of S06",
+      "reason": "Full multi-window wording and extent remain unresolved; not silently discarded as geological unit codes.",
+      "source_region_xywh": [
+        5100,
+        5060,
+        600,
+        720
+      ]
+    }
+  ],
+  "automatic_import_allowed": false
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C01",
+    "label": "Green Harbour Lake northeastern roof",
+    "role": "proposal",
+    "pixel_xy": [
+      602,
+      2005
+    ],
+    "lonlat": [
+      -65.12922515305873,
+      43.82009400577868
+    ],
+    "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+    "reference_objectid": 125089,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 125089,
+    "nearest_unfiltered_distance_guide_px": 1.1163791312488116,
+    "selected_distance_guide_px": 1.1163791312488116,
+    "guide_reference_pixel_xy": [
+      572.3539641635725,
+      1987.0895385440672
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

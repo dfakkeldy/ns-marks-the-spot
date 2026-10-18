@@ -1,0 +1,118 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "cdbef43b47b202a11f4e1602ea144d23338b5ee22ecc51aca6645272d163788f",
+  "current_source_review_sha256": "9a0e935d10cf581d68c77f0dadc1b5d50c87e31f312af78f4089b2e1754b2f8c",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042",
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084",
+    "F22-HAW-089",
+    "F22-HAW-102",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-109",
+    "F22-HAW-114",
+    "F22-HAW-116",
+    "F22-HAW-118",
+    "F22-HAW-129",
+    "F22-HAW-132",
+    "F22-HAW-134",
+    "F22-HAW-137",
+    "F22-HAW-145",
+    "F22-HAW-165",
+    "F22-HAW-166",
+    "F22-HAW-172",
+    "F22-HAW-173",
+    "F22-HAW-174"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-175",
+    "F22-HAW-176",
+    "F22-HAW-179",
+    "F22-HAW-182",
+    "F22-HAW-189",
+    "F22-HAW-191",
+    "F22-HAW-197",
+    "F22-HAW-201",
+    "F22-HAW-205",
+    "F22-HAW-206",
+    "F22-HAW-207",
+    "F22-HAW-208",
+    "F22-HAW-210",
+    "F22-HAW-212",
+    "F22-HAW-214",
+    "F22-HAW-217",
+    "F22-HAW-220",
+    "F22-HAW-221"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-initial-candidates.json",
+      "sha256": "5e983dbe57cea99fcaba6662aa6697cb88f4cab00f5830273fc15e37847bec97"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-final-candidates.json",
+      "sha256": "7c09f995ae3cf61b532f5d02c921dabeb291b61a4dcac990dde4fa55bcb87136"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-final-point-frames.json",
+      "sha256": "6969fd4a48e049df1c6b651d89233d7ce31b93fd783ac18cbf727ebca0a0e416"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-final-crosshairs.jpg",
+      "sha256": "637b16301f4bd04a608c5a440159bc21746f98ede9f608964182942d9431e0ab"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-final-groups.jpg",
+      "sha256": "ba12e9bcc940ba9423497bbb68d4ead5f72ccd8baa2ab1cf21e784522ecc9c72"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-176-microgrid.jpg",
+      "sha256": "c7fca9f7bf7f69a4ed0630eb1f1720c4858a64ce46f684dc09ae855e476e62e2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-205-microgrid.jpg",
+      "sha256": "2e28112bb81953f986660bf8df062f08803ea3b46ba97f1e77bdec21462b6108"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-harbour-221-microgrid.jpg",
+      "sha256": "dd134eef11f953d0a5930549b169e0a6d6eb060ea8cdac0df9000032b2a0216d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-201-feature-question.png",
+      "sha256": "3f9a5123b7deec1ead00ebe1344cb83cf7c058e5ae5ecaab9cdb018ffbcc7c75"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-214-reading-detail.png",
+      "sha256": "2fc78b0dbecb912588c6565a08e0e09d37c231881de5d6414536cc60c08e6246"
+    }
+  ],
+  "note": "Native contexts and final geometry inspected. Original light reading 44 ft was confirmed without changing the inventory. A source-only mill caption stays unlocated. Earlier source/placement rows are unchanged; geographic review follows separately."
+}

@@ -1,0 +1,300 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "First full-sheet trial; sparse interior and southwestern support, unvalidated for production.",
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        5880,
+        2963
+      ],
+      "lonlat": [
+        -61.0249697,
+        46.5621644
+      ],
+      "modern_node": "J0600",
+      "modern_objectids": [
+        126291,
+        126381,
+        275861
+      ],
+      "identity_evidence": "Lake north of Grand Etang: western outlet through shore, separate northern lobe, elongated southwest lobe and eastern inlet. Outlet creek meanders west to coast and crosses coast road. Broad shoreline configuration identifies lake; not fit prediction.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "pre_crosshair_pixel_xy": [
+        5899,
+        2963
+      ]
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        5666,
+        2909
+      ],
+      "lonlat": [
+        -61.0350036,
+        46.563704
+      ],
+      "modern_node": "J0581",
+      "modern_objectids": [
+        11598,
+        11620,
+        275862
+      ],
+      "identity_evidence": "Same lake outlet creek at coastal shoreline beside historical lobster factory, north of Grand Etang mouth. Lake/creek/road/coast sequence identifies mouth. Modern offshore line meeting this node is a dataset boundary, not selected water feature.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        8613,
+        1918
+      ],
+      "lonlat": [
+        -60.8989298,
+        46.5942935
+      ],
+      "modern_node": "J0291",
+      "modern_objectids": [
+        190652,
+        263590,
+        263591
+      ],
+      "identity_evidence": "Faribault major eastern headwater arm below northern lake tributary. Main downstream leaves northwest; east arm runs through cascades to lake chain; separate southern tributary continues south through wet ground. Minor northern east spur is not selected.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        8475,
+        1655
+      ],
+      "lonlat": [
+        -60.9049773,
+        46.6021433
+      ],
+      "modern_node": "J0213",
+      "modern_objectids": [
+        184691,
+        263586,
+        263587
+      ],
+      "identity_evidence": "Faribault eastern tributary above major southern/eastern headwater split C03; eastern tributary connects small ponds north of its mouth; downstream Faribault turns northwest, upstream main continues southeast past a western spur.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        5252,
+        1700
+      ],
+      "lonlat": [
+        -61.05592939352159,
+        46.6012181791636
+      ],
+      "modern_objectids": [
+        3808
+      ],
+      "modern_part": 0,
+      "modern_vertex": 41,
+      "identity_evidence": "Southernmost rounded shoreline tip of Cheticamp Point, west of the south-facing bay and its narrow connecting neck. Avoid modern projecting breakwater on western shore.",
+      "definition": "Minimum-latitude shoreline vertex within visually isolated headland",
+      "source_uncertainty_px": 15,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "pre_crosshair_pixel_xy": [
+        5253,
+        1694
+      ]
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        5902,
+        1529
+      ],
+      "lonlat": [
+        -61.0242535458462,
+        46.60676810198122
+      ],
+      "modern_objectids": [
+        4144
+      ],
+      "modern_part": 0,
+      "modern_vertex": 16,
+      "identity_evidence": "Southern tip of long narrow peninsula within Cheticamp harbour; outer peninsula and harbour bay distinguish it from the mainland point farther southeast.",
+      "definition": "Minimum-latitude shoreline vertex within visually isolated headland",
+      "source_uncertainty_px": 15,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "pre_crosshair_pixel_xy": [
+        5898,
+        1525
+      ]
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7232,
+        2136
+      ],
+      "lonlat": [
+        -60.9649361,
+        46.5895015
+      ],
+      "modern_node": "J0343",
+      "modern_objectids": [
+        223377,
+        262234,
+        264332
+      ],
+      "identity_evidence": "Fiset major eastern arm at the end of the long north/south reach; below Aucoin area and small western tributary, south arm bends west then southeast; east arm has an extended cascade reach.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        7517,
+        1704
+      ],
+      "lonlat": [
+        -60.945519,
+        46.60097
+      ],
+      "modern_node": "J0224",
+      "modern_objectids": [
+        183933,
+        267772,
+        267773
+      ],
+      "identity_evidence": "Aucoin major northeast/southeast headwater fork, east of several short northern spurs; northeast arm climbs toward lake country, southeast arm has a further southern fork before its headwaters.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        7761,
+        6354
+      ],
+      "lonlat": [
+        -60.9398873,
+        46.4581803
+      ],
+      "modern_node": "J1447",
+      "modern_objectids": [
+        188945,
+        277808,
+        277812
+      ],
+      "identity_evidence": "Stewart major northern tributary below western/southwestern branch convergence. Northern arm runs north past historical copper-ore site; main Stewart continues east to southern tributary then Margaree.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "pre_crosshair_pixel_xy": [
+        7767,
+        6358
+      ]
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        8213,
+        6405
+      ],
+      "lonlat": [
+        -60.9241152,
+        46.4550339
+      ],
+      "modern_node": "J1468",
+      "modern_objectids": [
+        159199,
+        159200,
+        277807
+      ],
+      "identity_evidence": "Stewart outlet at west bank of Northeast Margaree, halfway down the west side of the large eastward river meander. Select bank entry, not river centre; historical mill lies just south.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        5127,
+        4459
+      ],
+      "lonlat": [
+        -61.0588128,
+        46.5141668
+      ],
+      "modern_node": "J1081",
+      "modern_objectids": [
+        268384,
+        268503,
+        316050
+      ],
+      "identity_evidence": "Pembroke Brook and Ruisseau des Basile confluence. Northern downstream reach leads to coastal pond; southwestern Basile arm makes the long westward loop, while Pembroke arm runs southeast before turning east toward inland lake. Native southern arm and separate southwest branch inspected in broad context.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        9040,
+        5656
+      ],
+      "lonlat": [
+        -60.8876023,
+        46.4839496
+      ],
+      "modern_node": "J1274",
+      "modern_objectids": [
+        183240,
+        183241,
+        277200
+      ],
+      "identity_evidence": "Second Fork Brook at eastern bank of Northeast Margaree. River turns from north to west at mouth; First Fork lies downstream after two broad river bends. Match bank entry, not river centre or first southern tributary.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        8883,
+        6040
+      ],
+      "lonlat": [
+        -60.8954978,
+        46.4695954
+      ],
+      "modern_node": "J1363",
+      "modern_objectids": [
+        182427,
+        182428,
+        263754
+      ],
+      "identity_evidence": "First Fork Brook at southern/eastern bank of Northeast Margaree, where river turns from north to west into First Brook Pool. Deep rocky gorge extends east, Second Fork is upstream to northeast. Match bank entry.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    }
+  ]
+}

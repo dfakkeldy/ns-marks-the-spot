@@ -1,0 +1,75 @@
+{
+  "acquired_utc": "2026-09-19",
+  "local_private_root": "/Users/dfakkeldy/.codex/worktrees/749c/ns-marks-the-spot/.crown-grant-local",
+  "source_provider": "Province of Nova Scotia official Crown Land index",
+  "modern_reference": "NSTDB 1:10,000 water lines layer 4 / polygons layer 8; roads layer 8; ArcGIS outSR=4326 (longitude,latitude); native service metadata retained",
+  "water_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+  "road_url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query",
+  "water_bbox": [
+    -66.3,
+    43.95,
+    -66.03,
+    44.2
+  ],
+  "water_count": 1567,
+  "water_truncated": false,
+  "north_roads_bbox": [
+    -66.24,
+    44.12,
+    -66.08,
+    44.2
+  ],
+  "north_roads_count": 864,
+  "road_truncated": false,
+  "rejected_extracts": {
+    "002-water.geojson": "2000 features, exceededTransferLimit true",
+    "002-roads.geojson": "2000 features, exceededTransferLimit true"
+  },
+  "files": [
+    {
+      "name": "official-index.html",
+      "bytes": 34877,
+      "sha256": "367485222aea63209feae335355ee11b42ccda428428482a8136deef83670f2a"
+    },
+    {
+      "name": "002.pdf",
+      "bytes": 2598171,
+      "sha256": "6e8b79d551728967b4c175f18a3b0adeae459aceadbba05ae6d46bdd0f1f0640"
+    },
+    {
+      "name": "002-000.jpg",
+      "bytes": 2586173,
+      "sha256": "89d0bdc5b09121e9e8809409fb4c672083be281a6a854828b9624f69d572ac37"
+    },
+    {
+      "name": "002-water.geojson",
+      "bytes": 2733698,
+      "sha256": "78bfaf85d9d77c5c5de1cc9a55e8805cb1bc2502c2a87fb7f9487bcc1b14cf89"
+    },
+    {
+      "name": "002-water-tight.geojson",
+      "bytes": 5351077,
+      "sha256": "ce7beee82735983141f1b5a715584ed343441bb5835ca05ce818c2202c428ae7"
+    },
+    {
+      "name": "002-water-polygons.geojson",
+      "bytes": 9331029,
+      "sha256": "40a188c681a6cbb45f656d2e538d10e1fe09872c977fce60490bcd39bf4aaf66"
+    },
+    {
+      "name": "002-roads.geojson",
+      "bytes": 3674254,
+      "sha256": "1bdb94d4a75b9a9d5830c58786ec7a16796c16cae4b77e10ed85ad1abf338b86"
+    },
+    {
+      "name": "002-north-roads.geojson",
+      "bytes": 1609233,
+      "sha256": "984409e1b5ab5149581c62320f81361aa95dc6a5ab590d80a9c6396d5336afa0"
+    },
+    {
+      "name": "water-layer.json",
+      "bytes": 49363,
+      "sha256": "c53208c671a0ac47eae0839f4f6d91955aff67c7af0f3517a1efc88e9d7d4c61"
+    }
+  ]
+}

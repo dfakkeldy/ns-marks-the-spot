@@ -1,0 +1,41 @@
+[
+  [
+    "C04",
+    "Y Lake northern tip",
+    [
+      535,
+      3366
+    ],
+    [
+      538,
+      3392
+    ],
+    "WALK20"
+  ],
+  [
+    "Q04",
+    "Y Lake west tip",
+    [
+      483,
+      3418
+    ],
+    [
+      481,
+      3448
+    ],
+    "WALK20"
+  ],
+  [
+    "Q02",
+    "Southwestern Rocky Lake southern tip",
+    [
+      306,
+      3514
+    ],
+    [
+      309,
+      3540
+    ],
+    "WALK20"
+  ]
+]

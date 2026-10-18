@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5359 x 3639 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 80.34 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          140,
+          140
+        ],
+        [
+          5230,
+          140
+        ],
+        [
+          5230,
+          3515
+        ],
+        [
+          140,
+          3515
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete mapped frame retains Church Point, Meteghan, inland Clare lakes and the full mapped Bay Sainte Marie waters. Eight controls and nine excluded checks sample coast and inland lakes; unsampled edges and eastern third remain provisional."
+    }
+  ]
+}

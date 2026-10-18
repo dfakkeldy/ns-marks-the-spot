@@ -1,0 +1,28 @@
+[
+  {
+    "id": "Q01",
+    "label": "Goat Island southwestern lobe south",
+    "role": "proposal",
+    "pixel_xy": [
+      1518,
+      643
+    ],
+    "lonlat": [
+      -65.60965039025793,
+      44.69667332611851
+    ],
+    "guide_file": ".crown-grant-local/021-frozen-south-guide.npy",
+    "reference_objectid": 18324,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 18324,
+    "nearest_unfiltered_distance_guide_px": 0.11573780418108087,
+    "selected_distance_guide_px": 0.11573780418108087,
+    "guide_reference_pixel_xy": [
+      1526.938876829343,
+      595.9017187844729
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

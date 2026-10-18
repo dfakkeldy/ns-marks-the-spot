@@ -1,0 +1,6 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Cape+Linzee%27%2C%27Cape+Linze%27%2C%27Cape+Linzie%27%2C%27Point+Ferdinand%27%29&%24limit=100",
+  "query": "geoname in ('Cape Linzee','Cape Linze','Cape Linzie','Point Ferdinand')",
+  "at": "2026-09-15T17:54:40.267883+00:00",
+  "sha256": "5083a7843bc5f875e08164cc4352962a5784d2e66efac9afb6e9819650a2a646"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "Q02",
+    "label": "Northern coastal road landing, road topology corrected",
+    "role": "check-proposal",
+    "pixel_xy": [
+      5117,
+      230
+    ],
+    "lonlat": [
+      -66.1940900383614,
+      44.145083731832415
+    ],
+    "reference_objectid": 314003,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5217.245543128345,
+      353.7075489658164
+    ],
+    "source_uncertainty_px": 5,
+    "modern_uncertainty_m": 15
+  }
+]

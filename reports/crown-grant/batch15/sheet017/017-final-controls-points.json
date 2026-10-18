@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C01",
+    "label": "Westmore Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      326,
+      1105
+    ],
+    "lonlat": [
+      -65.60171876569461,
+      43.91302278081177
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 141045,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141045,
+    "nearest_unfiltered_distance_guide_px": 0.1985063695274429,
+    "selected_distance_guide_px": 0.1985063695274429,
+    "guide_reference_pixel_xy": [
+      325.80396889790427,
+      1080.0312503720634
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  },
+  {
+    "id": "C02",
+    "label": "Johns Lake long island northwestern end",
+    "role": "control",
+    "pixel_xy": [
+      3494,
+      621
+    ],
+    "lonlat": [
+      -65.42334895552219,
+      43.99594454292125
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 145190,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 145190,
+    "nearest_unfiltered_distance_guide_px": 4.562671189736791,
+    "selected_distance_guide_px": 4.562671189736791,
+    "guide_reference_pixel_xy": [
+      3507.6304139292915,
+      594.4523220736301
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  },
+  {
+    "id": "C03",
+    "label": "Upper Stave Lake northwestern horn",
+    "role": "control",
+    "pixel_xy": [
+      4826,
+      545
+    ],
+    "lonlat": [
+      -65.34522010360688,
+      44.02469438373905
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 139169,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139169,
+    "nearest_unfiltered_distance_guide_px": 0.41867751197637104,
+    "selected_distance_guide_px": 0.41867751197637104,
+    "guide_reference_pixel_xy": [
+      4834.721772113466,
+      522.6871420415118
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  },
+  {
+    "id": "C04",
+    "label": "Eastern McKay Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      3139,
+      2128
+    ],
+    "lonlat": [
+      -65.40395981657792,
+      43.92279670605748
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 304486,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304486,
+    "nearest_unfiltered_distance_guide_px": 0.34436167269435575,
+    "selected_distance_guide_px": 0.34436167269435575,
+    "guide_reference_pixel_xy": [
+      3145.3154211249202,
+      2097.861817238503
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  },
+  {
+    "id": "C05",
+    "label": "Gold Lake northeastern horn",
+    "role": "control",
+    "pixel_xy": [
+      1857,
+      2952
+    ],
+    "lonlat": [
+      -65.45823653599051,
+      43.86111268153709
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 141197,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141197,
+    "nearest_unfiltered_distance_guide_px": 0.7988159794275379,
+    "selected_distance_guide_px": 0.7988159794275379,
+    "guide_reference_pixel_xy": [
+      1862.2313939357991,
+      2936.7823955720523
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  },
+  {
+    "id": "C07",
+    "label": "Wentworth Lake northern shore",
+    "role": "control",
+    "pixel_xy": [
+      4308,
+      3224
+    ],
+    "lonlat": [
+      -65.3033015028228,
+      43.89855336621149
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 141717,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141717,
+    "nearest_unfiltered_distance_guide_px": 9.131477959869162,
+    "selected_distance_guide_px": 9.131477959869162,
+    "guide_reference_pixel_xy": [
+      4330.10211496742,
+      3167.1309069793206
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  },
+  {
+    "id": "C08",
+    "label": "Rory Lake northwestern shoulder",
+    "role": "control",
+    "pixel_xy": [
+      1502,
+      1162
+    ],
+    "lonlat": [
+      -65.52899404771286,
+      43.93253971805506
+    ],
+    "guide_file": ".crown-grant-local/017-frozen-north-guide.npy",
+    "reference_objectid": 304447,
+    "reference_feature_code": "WARVLK20",
+    "nearest_unfiltered_feature_code": "WARVLK20",
+    "nearest_unfiltered_objectid": 304447,
+    "nearest_unfiltered_distance_guide_px": 0.3664828559538134,
+    "selected_distance_guide_px": 0.3664828559538134,
+    "guide_reference_pixel_xy": [
+      1500.1005031205714,
+      1153.6475673022214
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Broad physical context and all seventeen native paired crosshairs inspected before first fit and score. Beech Hill endpoint proposals excluded for unresolved stream/lake boundary correspondence."
+  }
+]

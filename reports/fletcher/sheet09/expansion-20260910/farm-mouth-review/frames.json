@@ -1,0 +1,102 @@
+[
+  {
+    "image": "sheet-09-C14.jpg",
+    "point_record": "sheet09/expansion-20260910/farm-proposals.json",
+    "point_id": "C14",
+    "native_box": [
+      6950,
+      3166,
+      7170,
+      3386
+    ],
+    "native_coordinates": [
+      7060,
+      3276
+    ],
+    "modern_lonlat": [
+      -60.9681646,
+      46.5528543
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C15.jpg",
+    "point_record": "sheet09/expansion-20260910/farm-proposals.json",
+    "point_id": "C15",
+    "native_box": [
+      7172,
+      3327,
+      7392,
+      3547
+    ],
+    "native_coordinates": [
+      7282,
+      3437
+    ],
+    "modern_lonlat": [
+      -60.9580015,
+      46.5480384
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C16.jpg",
+    "point_record": "sheet09/expansion-20260910/farm-proposals.json",
+    "point_id": "C16",
+    "native_box": [
+      7274,
+      3462,
+      7494,
+      3682
+    ],
+    "native_coordinates": [
+      7384,
+      3572
+    ],
+    "modern_lonlat": [
+      -60.9535169,
+      46.5440136
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-Q05.jpg",
+    "point_record": "sheet09/expansion-20260910/farm-proposals.json",
+    "point_id": "Q05",
+    "native_box": [
+      7066,
+      3258,
+      7286,
+      3478
+    ],
+    "native_coordinates": [
+      7176,
+      3368
+    ],
+    "modern_lonlat": [
+      -60.9625724,
+      46.5499856
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C10.jpg",
+    "point_record": "sheet09/expansion-20260910/stewart-mouth-correction.json",
+    "point_id": "C10",
+    "native_box": [
+      8121,
+      6384,
+      8341,
+      6604
+    ],
+    "native_coordinates": [
+      8231,
+      6494
+    ],
+    "modern_lonlat": [
+      -60.9241152,
+      46.4550339
+    ],
+    "rotation_degrees": 0
+  }
+]

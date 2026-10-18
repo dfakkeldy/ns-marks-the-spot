@@ -1,0 +1,39 @@
+{
+  "input_commit": "0abc8bf4c985c0238132efdb3e4afc2cc775cf54",
+  "stable_files": [
+    {
+      "path": "freeze.json",
+      "sha256": "03d629a0750ab23318e5acf111469bffa58e3338b39fecc0923a4d9c75c8a149"
+    },
+    {
+      "path": "controls.csv",
+      "sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527"
+    },
+    {
+      "path": "IS34-first.json",
+      "sha256": "d13815664bf6fc1af85156624d0fade97962f3ab677a4655e0cfdf443782d649"
+    },
+    {
+      "path": "IS35-first.json",
+      "sha256": "c7dcdf00ce22f8e34ea196a9e0d6dcf01250f5f8fbf78ebecc44358470fa4b25"
+    },
+    {
+      "path": "IS36-first.json",
+      "sha256": "987628b40541db3487406ac08fa81e9252a41f3e6383411edc6b2ae8424ce492"
+    },
+    {
+      "path": "observations/IS34.json",
+      "sha256": "bdb2ff47a40ce7e8d09f41e827638e493b0336a51cb5eaa35b2ba6ff67bea54d"
+    },
+    {
+      "path": "observations/IS35.json",
+      "sha256": "2e3dfb65c1e2befc2071f4b48aaa3756bd4fb8ae2d4d711ff6eadddc0754c027"
+    },
+    {
+      "path": "observations/IS36.json",
+      "sha256": "dac07e13557f2bcd5df2601432d8cd5b075882fb437a6cc17d18dc70722e9eb6"
+    }
+  ],
+  "previous_csv_path": "reports/church/south-tps13-validation-20260915/fresh-validation.csv",
+  "previous_summary_path": "reports/church/south-tps13-validation-20260915/accuracy-summary.json"
+}

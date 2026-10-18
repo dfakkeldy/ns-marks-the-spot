@@ -1,0 +1,45 @@
+{
+  "sheet": "089",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; RMS passes with median qualification; full-frame raster and browser verification complete; geographic and user acceptance remain false",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/089.pdf",
+    "pdf_sha256": "86aa1781619763da12e30133e6c22b7f62b71dafd0909c8791a9ab3ca25952a6",
+    "jpeg_sha256": "694d31526aa2add43f86bc4f2557dc6793da0ed8f548b016dde6889c9ebea470",
+    "dimensions": [
+      6031,
+      4076
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 8,
+      "independent_checks": 7,
+      "rms_ground_m": 83.4623421113853,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 83.46 m, within the 100 m ceiling, but median 86.29 m exceeds 75 m. P95 is 116.39 m and maximum 119.06 m. The first result remains qualified.",
+    "Checks concentrate in northern lake systems and Bruin Lake. East Lake extends the controls southward but has no nearby independent check; the broad southern band and large-lake corridors remain insufficiently checked.",
+    "Bruin Lake supplies two controls and two checks, including opposite ends of one island. Little Seven Mile and Fraser also share their lake between control/check observations. High spatial correlation limits the strength of the regional accuracy evidence.",
+    "All observations use modern lake or lake-island boundaries and 12 px working source uncertainty. Whole-frame retention does not imply geographic acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 83.46 m, median 86.29 m, P95 116.39 m, maximum 119.06 m. 8 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Little Seven Mile and Bog Island lakes, Governor Lake, the western and eastern inland lake districts, Bruin Lake and its islands, Rush Lake, Ecumo Seco Lake, the Liscomb Game Sanctuary region, Cameron Settlement and all southern lake and parcel regions. No displaced inset identified."
+  }
+}

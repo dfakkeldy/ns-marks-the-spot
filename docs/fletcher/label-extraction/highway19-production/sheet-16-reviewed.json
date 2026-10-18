@@ -1,0 +1,7146 @@
+{
+  "sheet": 16,
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_dimensions_px": [
+    10822,
+    7531
+  ],
+  "source_manifest": "sheet-16-manifest.json",
+  "sheet_finalized": true,
+  "status": "finalized-source-only",
+  "review_method": "DeepSeek first pass and 13 independent detail packets, followed by native whole-crop inspection and visual verification of every retained original-pixel label snippet. Draft reviewer coordinates and unsupported readings were independently corrected; identical overlapping print occurrences were reconciled. Geographic placement deferred.",
+  "annotations": [
+    {
+      "source_text": "Observation Station",
+      "kind": "observation-station",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3868,
+          985,
+          307,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-001",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "Mabou Harbour",
+      "kind": "harbour",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3978,
+          1112,
+          348,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-02"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-002",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "Breakwater",
+      "kind": "breakwater",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4196,
+          1149,
+          166,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-03"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-003",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "Layers and streaks of broken\ncoal and peat in the drift sand\nand gravel at the mouth of\nMabou River have been mistaken\nfor coal measures.",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3749,
+          1165,
+          443,
+          32
+        ],
+        [
+          3750,
+          1200,
+          448,
+          31
+        ],
+        [
+          3758,
+          1230,
+          414,
+          32
+        ],
+        [
+          3738,
+          1262,
+          465,
+          32
+        ],
+        [
+          3817,
+          1296,
+          288,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C02",
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C02-01",
+        "F16-R01C03-04"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-004",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C02"
+    },
+    {
+      "source_text": "Plaster\nQuarry",
+      "kind": "quarry",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4694,
+          1040,
+          105,
+          62
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-05"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-005",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4758,
+          1105,
+          84,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03",
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-06"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-006",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "Lobster Factory",
+      "kind": "factory",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4594,
+          1202,
+          105,
+          86
+        ],
+        [
+          4685,
+          1257,
+          96,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-07"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-007",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "35 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4327,
+          1328,
+          99,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-08"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-008",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "20 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4568,
+          1360,
+          95,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-09"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-009",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "MABOU RIVER",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4773,
+          1315,
+          57,
+          55
+        ],
+        [
+          4855,
+          1378,
+          58,
+          52
+        ],
+        [
+          4972,
+          1416,
+          53,
+          44
+        ],
+        [
+          5076,
+          1421,
+          47,
+          45
+        ],
+        [
+          5191,
+          1399,
+          48,
+          43
+        ],
+        [
+          5444,
+          1499,
+          50,
+          46
+        ],
+        [
+          5536,
+          1526,
+          43,
+          39
+        ],
+        [
+          5627,
+          1531,
+          49,
+          51
+        ],
+        [
+          5727,
+          1563,
+          52,
+          43
+        ],
+        [
+          5829,
+          1598,
+          40,
+          40
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03",
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-10",
+        "F16-R01C04-08"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-010",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "Hog’s Back",
+      "kind": "landscape",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3804,
+          1508,
+          226,
+          46
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-11"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-011",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "150 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4113,
+          1520,
+          115,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-12"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-012",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "30 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4370,
+          1474,
+          103,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-13"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-013",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "40 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4722,
+          1512,
+          105,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03",
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-14"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-014",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "50 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4534,
+          1607,
+          97,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-15"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-015",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "250 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3954,
+          1755,
+          127,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C03-16"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-016",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3716,
+          1859,
+          84,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C02",
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C02-02",
+        "F16-R01C03-18"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-017",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C02"
+    },
+    {
+      "source_text": "300 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3674,
+          1961,
+          124,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C02",
+        "F16-R01C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C02-03",
+        "F16-R01C03-19"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-018",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C02"
+    },
+    {
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5078,
+          1130,
+          94,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-019",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Mabou Harbour",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5203,
+          1164,
+          369,
+          44
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-02"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-020",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5361,
+          1213,
+          60,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-03"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-021",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5241,
+          1255,
+          74,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-04"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-022",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5933,
+          1095,
+          96,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-05"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-023",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "R.C. Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5845,
+          1472,
+          113,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-06"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-024",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Dʳ Cameron M.D.",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5855,
+          1710,
+          190,
+          30
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-07"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-025",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Hughes Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5234,
+          1350,
+          238,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-09"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-026",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Indian Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5252,
+          1453,
+          235,
+          40
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-10"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-027",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Goose Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5350,
+          1638,
+          209,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-11"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-028",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Murphy\nPoint",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5406,
+          1696,
+          141,
+          62
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-12"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-029",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Larreby\nIsland",
+      "kind": "island",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5294,
+          1864,
+          196,
+          40
+        ],
+        [
+          5323,
+          1921,
+          151,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-13"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-030",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "30 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5526,
+          1344,
+          103,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-14"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-031",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "40 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5107,
+          1664,
+          108,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-15"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-032",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "40 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5634,
+          1711,
+          107,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-16"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-033",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "35 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5915,
+          1550,
+          101,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-17"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-034",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "25 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5887,
+          1762,
+          100,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-18"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-035",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "20 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5168,
+          1550,
+          101,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-19"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-036",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "360 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4982,
+          1816,
+          131,
+          43
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C03",
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-20"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-037",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C03"
+    },
+    {
+      "source_text": "322 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5063,
+          2168,
+          137,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R02C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-21",
+        "F16-R02C04-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-038",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "60 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5877,
+          2006,
+          109,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-22"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-039",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "50 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6102,
+          1934,
+          101,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-23",
+        "F16-R01C05-17"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-040",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "400 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5356,
+          1843,
+          115,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-25"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-041",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Weaving\nMills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6950,
+          1058,
+          104,
+          49
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-042",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "700 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6218,
+          1250,
+          129,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-02"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-043",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Cheese Factory",
+      "kind": "factory",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6925,
+          1383,
+          245,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-03"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-044",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6813,
+          1527,
+          99,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-04"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-045",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Tannery",
+      "kind": "tannery",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6940,
+          1571,
+          124,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-05"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-046",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6941,
+          1602,
+          66,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-05"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-047",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7008,
+          1652,
+          112,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-06"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-048",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7105,
+          1703,
+          85,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-07"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-049",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Stage\nStables",
+      "kind": "stage-stables",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6240,
+          1520,
+          108,
+          52
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-08"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-050",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Mabou",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6239,
+          1582,
+          214,
+          51
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-09"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-051",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "T. & P.O.",
+      "kind": "telegraph-and-post-office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6071,
+          1582,
+          105,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-10"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-052",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6171,
+          1656,
+          92,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-11"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-053",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7206,
+          1816,
+          88,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05",
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-12",
+        "F16-R01C06-06"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-054",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7233,
+          1867,
+          60,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05",
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-13"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-055",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Shops",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7350,
+          1879,
+          82,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05",
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-14",
+        "F16-R01C06-07"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-056",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7305,
+          1937,
+          65,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05",
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-15",
+        "F16-R01C06-08"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-057",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "300 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6733,
+          1884,
+          122,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-16"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-058",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "300 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6320,
+          2105,
+          121,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C05",
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C05-18",
+        "F16-R02C05-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-059",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C05"
+    },
+    {
+      "source_text": "Hillsboro",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7406,
+          1796,
+          278,
+          50
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C06-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-060",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "Mills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7533,
+          1836,
+          80,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C06-02"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-061",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "T. E. Fraser",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7522,
+          1865,
+          141,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C06-03"
+      ],
+      "review_note": "Small E initial confirmed against native detail and both independent DeepSeek detail responses.",
+      "id": "F16-PHM-062",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "Elgin Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7593,
+          1454,
+          71,
+          137
+        ],
+        [
+          7699,
+          1207,
+          88,
+          112
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C06-04",
+        "F16-R01C06-05"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-063",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9089,
+          1486,
+          97,
+          30
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C07-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-064",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C07"
+    },
+    {
+      "source_text": "MᶜQuarrie Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9033,
+          1608,
+          146,
+          269
+        ],
+        [
+          9289,
+          1526,
+          122,
+          81
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C07-02"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-065",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C07"
+    },
+    {
+      "source_text": "MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9229,
+          1675,
+          149,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C07-03"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-066",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C07"
+    },
+    {
+      "source_text": "James MᶜLean",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9492,
+          1750,
+          216,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C07",
+        "F16-R01C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C07-04",
+        "F16-R01C08-01"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-067",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C07"
+    },
+    {
+      "source_text": "Peter MᶜQuarrie",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8909,
+          2131,
+          228,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C07",
+        "F16-R02C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C07-05",
+        "F16-R02C07-05"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-068",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C07"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9570,
+          2023,
+          91,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C07",
+        "F16-R01C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C07-07",
+        "F16-R01C08-02"
+      ],
+      "review_note": "Native whole-crop inspection; source-only lettering.",
+      "id": "F16-PHM-069",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C07"
+    },
+    {
+      "source_text": "Cape Linzee",
+      "kind": "cape",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2230,
+          2628,
+          265,
+          52
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-01",
+        "F16-R02C02-13"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-070",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Coal",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2557,
+          2405,
+          69,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-02",
+        "F16-R02C02-02"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-071",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Coal 4″",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2513,
+          2506,
+          100,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-03",
+        "F16-R02C02-03"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-072",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Coal 10″",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2496,
+          2527,
+          118,
+          30
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-04",
+        "F16-R02C02-04"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-073",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Coal 3″",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2482,
+          2546,
+          113,
+          29
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-05",
+        "F16-R02C02-04"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-074",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Streaks of coal\nand black shale",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2274,
+          2771,
+          244,
+          67
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-06",
+        "F16-R02C02-14",
+        "F16-R02C02-15"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-075",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "The gray sandstone on this point\nis probably the same as that at\nthe base of Port Hood Wharf.",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2015,
+          2986,
+          480,
+          100
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-07"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-076",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Isthmus Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2265,
+          3097,
+          318,
+          50
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-08",
+        "F16-R02C02-16"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-077",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Point Vertical",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1644,
+          3311,
+          350,
+          54
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-09",
+        "F16-R03C01-01"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-078",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Rock 10 ft. high",
+      "kind": "rock",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1741,
+          3366,
+          210,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-10",
+        "F16-R03C01-02"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-079",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "100 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2036,
+          3401,
+          107,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-11",
+        "F16-R03C01-12"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-080",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "70 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2289,
+          3383,
+          96,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-12",
+        "F16-R03C01-15"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-081",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Smith Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2433,
+          3429,
+          264,
+          51
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02",
+        "F16-R03C01",
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C01-13",
+        "F16-R02C02-29",
+        "F16-R03C01-03",
+        "F16-R03C02-02"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-082",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Black shale 2′",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2571,
+          2282,
+          207,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-01"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-083",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Little Mabou",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2864,
+          2412,
+          197,
+          49
+        ],
+        [
+          3134,
+          2411,
+          215,
+          50
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-05"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-084",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Quarry",
+      "kind": "quarry",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3153,
+          2570,
+          105,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-06"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-085",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Pit",
+      "kind": "pit",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3075,
+          2602,
+          55,
+          30
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-07"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-086",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Black shale",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2976,
+          2630,
+          166,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-08"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-087",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "120 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2711,
+          2702,
+          120,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-09"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-088",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Pit 36′",
+      "kind": "pit",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2625,
+          2818,
+          88,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-10"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-089",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Coal",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2632,
+          2862,
+          77,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-11",
+        "F16-R02C02-12"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-090",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "gys.",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3221,
+          2765,
+          75,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-091",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "gys.",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3074,
+          2849,
+          76,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-092",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Beds of peaty\nsoil below H.W.",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2553,
+          3164,
+          218,
+          65
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-17"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-093",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "Port Hood",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2842,
+          3124,
+          305,
+          51
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-18"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-094",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "230 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2979,
+          3095,
+          125,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-19"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-095",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "370 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3226,
+          3060,
+          130,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-20"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-096",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2795,
+          3220,
+          59,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-21"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-097",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Court Ho.",
+      "kind": "court-house",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2868,
+          3209,
+          129,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-22"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-098",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Pits",
+      "kind": "pit",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3242,
+          3110,
+          75,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-23"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-099",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "probably Coal measures",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3485,
+          2984,
+          125,
+          80
+        ],
+        [
+          3622,
+          2950,
+          75,
+          48
+        ],
+        [
+          3702,
+          2860,
+          246,
+          125
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02",
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-24",
+        "F16-R02C03-06"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-100",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Dark bituminous\ncalcareous shale (shells)",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3320,
+          3144,
+          319,
+          57
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02",
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-25"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-101",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Coal reported",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2604,
+          3342,
+          197,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02",
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-26",
+        "F16-R03C02-01"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-102",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "Wharf",
+      "kind": "wharf",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2630,
+          3386,
+          113,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02",
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-27",
+        "F16-R03C02-01"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-103",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "R.C.Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2911,
+          3340,
+          112,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02",
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C02-28",
+        "F16-R03C02-04"
+      ],
+      "review_note": "Parent inspection of full native coastal crop and label detail.",
+      "id": "F16-PHM-104",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "John MᶜPherson",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4050,
+          2407,
+          226,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-105",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "Mossy Barren",
+      "kind": "descriptive_landscape",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3880,
+          2609,
+          407,
+          48
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-106",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "Sam Campbell",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4515,
+          2773,
+          185,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-107",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4774,
+          2469,
+          88,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03",
+        "F16-R02C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-04",
+        "F16-R02C04-10"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-108",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4707,
+          3197,
+          88,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-109",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "Spring",
+      "kind": "spring",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3766,
+          2966,
+          109,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C02",
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-07"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-110",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C02"
+    },
+    {
+      "source_text": "gys.",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3906,
+          3128,
+          83,
+          42
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-11"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-111",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "John Doyle",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4159,
+          3166,
+          165,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-08"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-112",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "gys.",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4084,
+          3330,
+          82,
+          42
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03",
+        "F16-R03C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-12",
+        "F16-R03C03-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-113",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "Southwest Mabou",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4800,
+          3117,
+          357,
+          58
+        ],
+        [
+          5195,
+          3118,
+          220,
+          58
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03",
+        "F16-R02C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-10",
+        "F16-R02C04-04",
+        "F16-R02C04-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-114",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "Post Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5320,
+          2287,
+          78,
+          86
+        ],
+        [
+          5394,
+          2178,
+          88,
+          94
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C04",
+        "F16-R02C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C04-26",
+        "F16-R02C04-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-115",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C04"
+    },
+    {
+      "source_text": "Allan MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5003,
+          2829,
+          239,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C04-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-116",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C04"
+    },
+    {
+      "source_text": "Forge",
+      "kind": "facility",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5991,
+          3157,
+          92,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C04",
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C04-06",
+        "F16-R02C05-06"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-117",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C04"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5988,
+          3186,
+          93,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C04",
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C04-07",
+        "F16-R02C05-06"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-118",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C04"
+    },
+    {
+      "source_text": "John Campbell",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5730,
+          3258,
+          212,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C04",
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C04-08"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-119",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C04"
+    },
+    {
+      "source_text": "Miss Jenny MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6119,
+          3212,
+          285,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C04",
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C04-09",
+        "F16-R02C05-04"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-120",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C04"
+    },
+    {
+      "source_text": "John Rankin",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6459,
+          2945,
+          188,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C05-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-121",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C05"
+    },
+    {
+      "source_text": "Tom MᶜLeod",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6295,
+          3063,
+          167,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C05-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-122",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C05"
+    },
+    {
+      "source_text": "John MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6907,
+          3167,
+          205,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C05-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-123",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C05"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7115,
+          3330,
+          99,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C05",
+        "F16-R02C06",
+        "F16-R03C05",
+        "F16-R03C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C05-07",
+        "F16-R03C05-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-124",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C05"
+    },
+    {
+      "source_text": "Shingle Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7180,
+          3395,
+          170,
+          43
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C05",
+        "F16-R02C06",
+        "F16-R03C05",
+        "F16-R03C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C05-08",
+        "F16-R02C06-14",
+        "F16-R03C05-02",
+        "F16-R03C06-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-125",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C05"
+    },
+    {
+      "source_text": "Brook Village River",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8310,
+          2233,
+          397,
+          52
+        ],
+        [
+          8710,
+          2193,
+          168,
+          88
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06",
+        "F16-R01C07",
+        "F16-R02C06",
+        "F16-R02C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R01C06-09",
+        "F16-R01C07-06",
+        "F16-R02C06-01",
+        "F16-R02C07-01",
+        "F16-R02C07-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-126",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8209,
+          2260,
+          65,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06",
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-127",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8084,
+          2278,
+          60,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R01C06",
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-04"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-128",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R01C06"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7976,
+          2319,
+          95,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-129",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8061,
+          2343,
+          75,
+          62
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-130",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Tannery",
+      "kind": "tannery",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7822,
+          2389,
+          128,
+          42
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-06"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-131",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8155,
+          2383,
+          67,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-07"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-132",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "East Mabou",
+      "kind": "watercourse-name",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7969,
+          2431,
+          123,
+          72
+        ],
+        [
+          8303,
+          2290,
+          162,
+          69
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06",
+        "F16-R02C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-02",
+        "F16-R02C06-08",
+        "F16-R02C07-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-133",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Road to Whycocomagh",
+      "kind": "road",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8351,
+          2398,
+          102,
+          53
+        ],
+        [
+          8516,
+          2413,
+          43,
+          31
+        ],
+        [
+          8612,
+          2355,
+          250,
+          61
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06",
+        "F16-R02C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-09",
+        "F16-R02C07-04"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-134",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Widow R. MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7848,
+          2915,
+          273,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-10"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-135",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7808,
+          2998,
+          77,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-11"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-136",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Robert MᶜGeen",
+      "kind": "person-label",
+      "reading_status": "tentative",
+      "source_label_boxes_xywh": [
+        [
+          8342,
+          3115,
+          204,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06",
+        "F16-R02C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-12",
+        "F16-R02C07-07"
+      ],
+      "review_note": "Native lettering supports McGeen; ornate capital and crossed strokes leave McGreen/McKean alternatives. Preserve qualified reading, no identity inference.",
+      "id": "F16-PHM-137",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Alex MᶜLeod",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8159,
+          3219,
+          192,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C06-13"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-138",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Southeast Mabou River",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7872,
+          3105,
+          77,
+          264
+        ],
+        [
+          7970,
+          3410,
+          168,
+          178
+        ],
+        [
+          8129,
+          3615,
+          98,
+          178
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C06",
+        "F16-R03C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C06-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-139",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9625,
+          2824,
+          92,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C07",
+        "F16-R02C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C07-06",
+        "F16-R02C08-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-140",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C07"
+    },
+    {
+      "source_text": "Rory MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9465,
+          3282,
+          252,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C07",
+        "F16-R02C08",
+        "F16-R03C07",
+        "F16-R03C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C07-08",
+        "F16-R02C08-02",
+        "F16-R03C07-01",
+        "F16-R03C08-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-141",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C07"
+    },
+    {
+      "source_text": "Observation Station",
+      "kind": "facility",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2234,
+          3502,
+          278,
+          40
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01",
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-04",
+        "F16-R03C02-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-142",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "210 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2113,
+          3694,
+          119,
+          40
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-13"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-143",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "Susannah Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1532,
+          3900,
+          316,
+          49
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-08"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-144",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "210 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2127,
+          3878,
+          125,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-14"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-145",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "Intricate Channel",
+      "kind": "channel",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1319,
+          4090,
+          401,
+          51
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-09"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-146",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "Henry Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1266,
+          4217,
+          239,
+          47
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-10"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-147",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "Portsmouth Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2385,
+          4239,
+          358,
+          50
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01",
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-11",
+        "F16-R03C02-23"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-148",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "90 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1463,
+          4337,
+          88,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-16"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-149",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "195 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1541,
+          4627,
+          100,
+          40
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C01",
+        "F16-R04C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C01-17",
+        "F16-R04C01-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-150",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "gys.",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3717,
+          3547,
+          95,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R03C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-07",
+        "F16-R03C03-04"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-151",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Post Road to Mabou",
+      "kind": "road",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3487,
+          3551,
+          91,
+          38
+        ],
+        [
+          3714,
+          3493,
+          98,
+          42
+        ],
+        [
+          3889,
+          3444,
+          45,
+          42
+        ],
+        [
+          3990,
+          3414,
+          112,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03",
+        "F16-R03C02",
+        "F16-R03C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R02C03-09",
+        "F16-R03C02-05",
+        "F16-R03C02-06",
+        "F16-R03C03-02",
+        "F16-R03C03-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-152",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "Pits",
+      "kind": "mine",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3081,
+          3694,
+          75,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-08"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-153",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Mill Creek",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3036,
+          3754,
+          253,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-09"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-154",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3511,
+          3777,
+          94,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R03C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-10"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-155",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Slope",
+      "kind": "mine",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2984,
+          3909,
+          82,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-11"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-156",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "150 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3082,
+          3896,
+          122,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-12"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-157",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Tremaine’s Mine",
+      "kind": "mine",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3005,
+          3963,
+          256,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-13"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-158",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Light F.\n54 ft.\nvis. 10 m.",
+      "kind": "lighthouse",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2823,
+          4010,
+          93,
+          29
+        ],
+        [
+          2850,
+          4033,
+          70,
+          29
+        ],
+        [
+          2814,
+          4057,
+          111,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-14"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-159",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Adit",
+      "kind": "mine",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2863,
+          4092,
+          67,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-15"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-160",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "150 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3104,
+          4069,
+          108,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-18"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-161",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3012,
+          4130,
+          82,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-16"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-162",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Cape Breton Co’s Mine",
+      "kind": "mine",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3032,
+          4165,
+          292,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-17"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-163",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "200 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3088,
+          4263,
+          126,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-19"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-164",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3072,
+          4357,
+          108,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-20"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-165",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "60 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3013,
+          4453,
+          107,
+          42
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-21"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-166",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Glengarry",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3436,
+          4460,
+          302,
+          61
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R03C03",
+        "F16-R04C02",
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-24",
+        "F16-R03C03-10",
+        "F16-R04C02-02",
+        "F16-R04C03-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-167",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "30 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2988,
+          4622,
+          110,
+          40
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-22",
+        "F16-R04C02-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-168",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Four feet seam",
+      "kind": "geological-description",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2951,
+          4235,
+          49,
+          213
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Rotated native pixels show Four feet seam; draft island/road guesses rejected.",
+      "id": "F16-PHM-169",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "marl + s",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3901,
+          3503,
+          119,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C03-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-170",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C03"
+    },
+    {
+      "source_text": "Archie Gillis",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4660,
+          3475,
+          214,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R02C03",
+        "F16-R02C04",
+        "F16-R03C03",
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C03-06",
+        "F16-R03C04-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-171",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4864,
+          4211,
+          99,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C03",
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C03-07",
+        "F16-R03C04-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-172",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C03"
+    },
+    {
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5097,
+          4280,
+          73,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C04-06"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-173",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C04"
+    },
+    {
+      "source_text": "Middle Bridge",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4895,
+          4339,
+          349,
+          55
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C03",
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C03-08",
+        "F16-R03C03-09",
+        "F16-R03C04-07"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-174",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C03"
+    },
+    {
+      "source_text": "Little Judique Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3532,
+          4488,
+          568,
+          243
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02",
+        "F16-R03C03",
+        "F16-R04C02",
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C02-26",
+        "F16-R03C03-11",
+        "F16-R03C03-12",
+        "F16-R03C03-13",
+        "F16-R04C02-03",
+        "F16-R04C02-04",
+        "F16-R04C03-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-175",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "A. & D. MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5208,
+          3672,
+          247,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C04-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-176",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C04"
+    },
+    {
+      "source_text": "Barren",
+      "kind": "descriptive_landscape",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5760,
+          3685,
+          175,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C04-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-177",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C04"
+    },
+    {
+      "source_text": "Alex MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6054,
+          3983,
+          206,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C04",
+        "F16-R03C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C04-04",
+        "F16-R03C05-04"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-178",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C04"
+    },
+    {
+      "source_text": "Pits",
+      "kind": "mine",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5605,
+          4280,
+          72,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C04-08"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-179",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C04"
+    },
+    {
+      "source_text": "Mull River",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6678,
+          3850,
+          140,
+          106
+        ],
+        [
+          7050,
+          3490,
+          95,
+          185
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C05",
+        "F16-R03C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C05-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-180",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C05"
+    },
+    {
+      "source_text": "Mull River",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7060,
+          4447,
+          350,
+          57
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C05",
+        "F16-R03C06",
+        "F16-R04C05",
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C05-05",
+        "F16-R03C06-04",
+        "F16-R04C06-01"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-181",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C05"
+    },
+    {
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7162,
+          4526,
+          83,
+          39
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C05",
+        "F16-R03C06",
+        "F16-R04C05",
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C05-06",
+        "F16-R04C05-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-182",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C05"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7315,
+          4552,
+          67,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C05",
+        "F16-R03C06",
+        "F16-R04C05",
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C05-07",
+        "F16-R04C05-06",
+        "F16-R04C06-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-183",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C05"
+    },
+    {
+      "source_text": "Angus Gillis",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7499,
+          4147,
+          190,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C06-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-184",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C06"
+    },
+    {
+      "source_text": "Barrens",
+      "kind": "descriptive_landscape",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7880,
+          4135,
+          675,
+          54
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C06",
+        "F16-R03C07"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-185",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C06"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7450,
+          4630,
+          103,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C06",
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C06-05",
+        "F16-R04C06-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-186",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C06"
+    },
+    {
+      "source_text": "John MᶜLean",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9475,
+          3702,
+          197,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07",
+        "F16-R03C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-187",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9411,
+          3771,
+          108,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-188",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "Brigend Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9472,
+          3948,
+          152,
+          160
+        ],
+        [
+          9595,
+          4091,
+          124,
+          68
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07",
+        "F16-R03C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-07",
+        "F16-R03C08-02"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-189",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "Dougald Adams",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8567,
+          4158,
+          242,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C06",
+        "F16-R03C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-06"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-190",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C06"
+    },
+    {
+      "source_text": "George MᶜKinnon",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8961,
+          4119,
+          247,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-05"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-191",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9035,
+          4227,
+          102,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-04"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-192",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "Old Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9566,
+          4284,
+          120,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07",
+        "F16-R03C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-08",
+        "F16-R03C08-03"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-193",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "Kewstoke Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9334,
+          4520,
+          100,
+          285
+        ],
+        [
+          9411,
+          4381,
+          133,
+          137
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C07",
+        "F16-R03C08",
+        "F16-R04C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R03C07-09"
+      ],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "id": "F16-PHM-194",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C07"
+    },
+    {
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "crop_ids": [
+        "F16-R02C06"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "source_label_boxes_xywh": [
+        [
+          8068,
+          2344,
+          102,
+          65
+        ]
+      ],
+      "id": "F16-PHM-195",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C06"
+    },
+    {
+      "source_text": "SMITH Iᵈ.",
+      "kind": "island",
+      "reading_status": "clear",
+      "crop_ids": [
+        "F16-R02C01",
+        "F16-R03C01"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "source_label_boxes_xywh": [
+        [
+          2056,
+          3460,
+          73,
+          388
+        ]
+      ],
+      "id": "F16-PHM-196",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C01"
+    },
+    {
+      "source_text": "HENRY Iᵈ.",
+      "kind": "island",
+      "reading_status": "clear",
+      "crop_ids": [
+        "F16-R03C01",
+        "F16-R04C01"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "source_label_boxes_xywh": [
+        [
+          1481,
+          4385,
+          49,
+          303
+        ]
+      ],
+      "id": "F16-PHM-197",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C01"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_ids": [
+        "F16-R02C03",
+        "F16-R02C04"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Parent native whole-crop and original-pixel contact adjudication; replaces shifted draft boxes.",
+      "source_label_boxes_xywh": [
+        [
+          4770,
+          3178,
+          62,
+          34
+        ]
+      ],
+      "id": "F16-PHM-198",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R02C03"
+    },
+    {
+      "source_text": "LEVEL",
+      "kind": "mine-working",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2937,
+          4084,
+          41,
+          90
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C02"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Vertical mining label, confirmed in rotated native detail.",
+      "id": "F16-PHM-199",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C02"
+    },
+    {
+      "source_text": "Justaucorps Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1350,
+          4774,
+          227,
+          64
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C01-02"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-200",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C01"
+    },
+    {
+      "source_text": "Fishery Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          1652,
+          4740,
+          279,
+          42
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C01"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C01-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-201",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C01"
+    },
+    {
+      "source_text": "Ragged Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2631,
+          4879,
+          279,
+          42
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-05"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-202",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "150 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3144,
+          4920,
+          100,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-06"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-203",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "50 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3310,
+          4978,
+          91,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-08"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-204",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "Harbour",
+      "kind": "harbour",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3119,
+          5212,
+          183,
+          41
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-12"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-205",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "60 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3431,
+          5227,
+          95,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-10"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-206",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "M. Livingston",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3517,
+          5306,
+          209,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02",
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-09",
+        "F16-R04C03-05"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-207",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "25 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3140,
+          5341,
+          96,
+          35
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-13"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-208",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "Coal",
+      "kind": "mineral",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2851,
+          5426,
+          46,
+          77
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-14"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-209",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "Cape Susan",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2530,
+          5450,
+          265,
+          46
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C01",
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C01-08",
+        "F16-R04C02-18"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-210",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C01"
+    },
+    {
+      "source_text": "150 FT.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2941,
+          5488,
+          117,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-16"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-211",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3697,
+          5413,
+          99,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02",
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-11",
+        "F16-R04C03-06"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-212",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "Little Judique",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3384,
+          5585,
+          366,
+          57
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02",
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-20",
+        "F16-R04C03-07"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-213",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "Kate Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2666,
+          5686,
+          209,
+          43
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02",
+        "F16-R05C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-19",
+        "F16-R05C02-01"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-214",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "John MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3444,
+          5691,
+          214,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C02",
+        "F16-R04C03",
+        "F16-R05C02",
+        "F16-R05C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C02-21",
+        "F16-R05C02-02",
+        "F16-R05C03-01"
+      ],
+      "review_note": "Northern of two distinct coastal John McDonald inscriptions.",
+      "id": "F16-PHM-215",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C02"
+    },
+    {
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4379,
+          4891,
+          62,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C03-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-216",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C03"
+    },
+    {
+      "source_text": "Archie Gillis",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4076,
+          5076,
+          205,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C03-04"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-217",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C03"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3817,
+          5740,
+          64,
+          38
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C03",
+        "F16-R05C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C03-08",
+        "F16-R05C03-02"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-218",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C03"
+    },
+    {
+      "source_text": "This region was not surveyed.",
+      "kind": "source_caveat",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5850,
+          4615,
+          930,
+          55
+        ]
+      ],
+      "crop_ids": [
+        "F16-R03C04",
+        "F16-R03C05",
+        "F16-R04C04",
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-03",
+        "F16-R04C05-01"
+      ],
+      "review_note": "Literal red survey-status caveat retained; unlike the red report/page references, this is substantive source text.",
+      "id": "F16-PHM-219",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R03C04"
+    },
+    {
+      "source_text": "Southwest Mabou River",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5534,
+          4748,
+          250,
+          158
+        ],
+        [
+          6014,
+          4928,
+          181,
+          48
+        ],
+        [
+          6350,
+          5175,
+          71,
+          138
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04",
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-01",
+        "F16-R04C04-02",
+        "F16-R04C05-02",
+        "F16-R04C05-04"
+      ],
+      "review_note": "One three-word water caption following the river across C04/C05; draft settlement fragments merged.",
+      "id": "F16-PHM-220",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5030,
+          5213,
+          75,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-04"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-221",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5352,
+          5367,
+          65,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-05"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-222",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "Rear Judique",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5270,
+          5399,
+          374,
+          58
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-06"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-223",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5105,
+          5599,
+          88,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-07"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-224",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "Mrs MᶜIntyre",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4958,
+          5728,
+          182,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C03",
+        "F16-R04C04",
+        "F16-R05C03",
+        "F16-R05C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C03-09",
+        "F16-R04C04-08",
+        "F16-R05C03-10",
+        "F16-R05C04-01"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-225",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C03"
+    },
+    {
+      "source_text": "John MᶜIsaac",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5095,
+          5843,
+          195,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04",
+        "F16-R05C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-09",
+        "F16-R05C04-02"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-226",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "Glencoe",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7120,
+          4906,
+          252,
+          47
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C05",
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C05-07",
+        "F16-R04C06-04"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-227",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C05"
+    },
+    {
+      "source_text": "D. MᶜInnes",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6112,
+          5088,
+          158,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04",
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C05-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-228",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "Upper Bridge",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          5982,
+          5420,
+          350,
+          54
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04",
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-10",
+        "F16-R04C05-08"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-229",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "Ronald MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6104,
+          5484,
+          249,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C04",
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C04-11",
+        "F16-R04C05-09"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-230",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C04"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6449,
+          5383,
+          99,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C05-10"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-231",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C05"
+    },
+    {
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6473,
+          5411,
+          80,
+          33
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C05-11"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-232",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C05"
+    },
+    {
+      "source_text": "Hector MᶜIsaac",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6822,
+          5674,
+          207,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C05",
+        "F16-R05C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C05-12",
+        "F16-R05C05-01"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-233",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C05"
+    },
+    {
+      "source_text": "Mills",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7597,
+          4974,
+          83,
+          30
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C06-05",
+        "F16-R04C06-06",
+        "F16-R04C06-07"
+      ],
+      "review_note": "Single literal Mills label; draft R. Mills and Mill interpretations rejected.",
+      "id": "F16-PHM-234",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C06"
+    },
+    {
+      "source_text": "R.C.Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7581,
+          5188,
+          114,
+          31
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C06-08"
+      ],
+      "review_note": "Native lettering reads R.C.Ch., not R.Creek.",
+      "id": "F16-PHM-235",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C06"
+    },
+    {
+      "source_text": "Mull River",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7951,
+          5086,
+          105,
+          116
+        ],
+        [
+          8063,
+          5302,
+          115,
+          151
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C06-09"
+      ],
+      "review_note": "One curving two-word water caption.",
+      "id": "F16-PHM-236",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C06"
+    },
+    {
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9487,
+          4814,
+          51,
+          30
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07"
+      ],
+      "raw_candidate_ids": [],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-237",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "Kewstoke",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9475,
+          4833,
+          247,
+          47
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07",
+        "F16-R04C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C07-03",
+        "F16-R04C08-01"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-238",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "W. Judson",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8952,
+          4968,
+          153,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C07-01"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-239",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8993,
+          5230,
+          93,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C07-02"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-240",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "Fall 8",
+      "kind": "falls",
+      "reading_status": "tentative",
+      "source_label_boxes_xywh": [
+        [
+          8496,
+          5680,
+          101,
+          37
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C06",
+        "F16-R04C07",
+        "F16-R05C06",
+        "F16-R05C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C06-10",
+        "F16-R04C07-05",
+        "F16-R05C06-02",
+        "F16-R05C07-01"
+      ],
+      "review_note": "Fall and 8 are clear; tiny trailing mark is not confidently resolved. Do not supply a unit or a modern measured height.",
+      "id": "F16-PHM-241",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C06"
+    },
+    {
+      "source_text": "Falls 35",
+      "kind": "falls",
+      "reading_status": "tentative",
+      "source_label_boxes_xywh": [
+        [
+          8780,
+          5687,
+          112,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07",
+        "F16-R05C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C07-06",
+        "F16-R05C07-02"
+      ],
+      "review_note": "Falls and 35 are clear; tiny trailing mark is not confidently resolved. Do not supply a unit or a modern measured height.",
+      "id": "F16-PHM-242",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "John MᶜDonald (Gray)",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9064,
+          5698,
+          226,
+          65
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07",
+        "F16-R05C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R04C07-04",
+        "F16-R05C07-03",
+        "F16-R05C07-04"
+      ],
+      "review_note": "Two-line single printed name record.",
+      "id": "F16-PHM-243",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "Catharine Pond",
+      "kind": "pond",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3314,
+          6100,
+          420,
+          58
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C02",
+        "F16-R05C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C02-04",
+        "F16-R05C03-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-244",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C02"
+    },
+    {
+      "source_text": "Emersion Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          2696,
+          6212,
+          340,
+          50
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C02"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C02-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-245",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C02"
+    },
+    {
+      "source_text": "John MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          3452,
+          6250,
+          216,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C02",
+        "F16-R05C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C02-05",
+        "F16-R05C03-04"
+      ],
+      "review_note": "Southern of two distinct coastal John McDonald inscriptions.",
+      "id": "F16-PHM-246",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C02"
+    },
+    {
+      "source_text": "Judique Intervale Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4165,
+          6304,
+          156,
+          136
+        ],
+        [
+          4452,
+          6223,
+          193,
+          96
+        ],
+        [
+          4806,
+          6188,
+          136,
+          45
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C03",
+        "F16-R05C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C03-05",
+        "F16-R05C03-06",
+        "F16-R05C03-08",
+        "F16-R05C04-04"
+      ],
+      "review_note": "One full curving three-word water caption across C03/C04.",
+      "id": "F16-PHM-247",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C03"
+    },
+    {
+      "source_text": "Old\nStone House",
+      "kind": "facility",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4509,
+          6335,
+          149,
+          59
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C03"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C03-07"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-248",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C03"
+    },
+    {
+      "source_text": "Hugh MᶜInnes",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          4920,
+          5931,
+          206,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C03",
+        "F16-R05C04"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C03-09",
+        "F16-R05C04-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-249",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C03"
+    },
+    {
+      "source_text": "Widow Campbell",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6846,
+          5966,
+          244,
+          36
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C05"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C05-02"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-250",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C05"
+    },
+    {
+      "source_text": "MᶜLeod Settlement",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          6823,
+          6282,
+          460,
+          53
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C05",
+        "F16-R05C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C05-03",
+        "F16-R05C06-03"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-251",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C05"
+    },
+    {
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          7905,
+          6109,
+          103,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C06"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C06-01"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-252",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C06"
+    },
+    {
+      "source_text": "Falls 15",
+      "kind": "falls",
+      "reading_status": "tentative",
+      "source_label_boxes_xywh": [
+        [
+          8689,
+          5875,
+          113,
+          32
+        ]
+      ],
+      "crop_ids": [
+        "F16-R04C07",
+        "F16-R05C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C07-05",
+        "F16-R05C07-06"
+      ],
+      "review_note": "Falls 15 is readable; no unit resolved or supplied. Not a modern measured height.",
+      "id": "F16-PHM-253",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R04C07"
+    },
+    {
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          8758,
+          6125,
+          83,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C07-07"
+      ],
+      "review_note": "First of two distinct bare downstream Falls inscriptions.",
+      "id": "F16-PHM-254",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C07"
+    },
+    {
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9370,
+          6264,
+          79,
+          34
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C07"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C07-08"
+      ],
+      "review_note": "Second of two distinct bare downstream Falls inscriptions.",
+      "id": "F16-PHM-255",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C07"
+    },
+    {
+      "source_text": "River Denys",
+      "kind": "river",
+      "reading_status": "clear",
+      "source_label_boxes_xywh": [
+        [
+          9234,
+          6326,
+          342,
+          82
+        ]
+      ],
+      "crop_ids": [
+        "F16-R05C07",
+        "F16-R05C08"
+      ],
+      "raw_candidate_ids": [
+        "F16-R05C07-09"
+      ],
+      "review_note": "Every box remeasured against the native whole crop and verified in a rendered lettering contact.",
+      "id": "F16-PHM-256",
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "crop_id": "F16-R05C07"
+    }
+  ],
+  "crop_reviews": [
+    {
+      "crop_id": "F16-R01C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R01C08",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R02C08",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R03C08",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R04C08",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    },
+    {
+      "crop_id": "F16-R05C08",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected, overlap captions reconciled, and final lettering snippets visually audited."
+    }
+  ],
+  "scope_policy": "Named places, watercourses, roads, historical facilities, personal-name labels, printed heights, literal geological descriptions and the survey caveat. Excludes marginal legends/graticule, geological unit codes, report references and bare dip/strike numerals. Printed names do not establish ownership or modern feature positions.",
+  "unresolved_readings": [
+    {
+      "id": "F16-PHM-137",
+      "issue": "Native lettering supports McGeen; ornate capital and crossed strokes leave McGreen/McKean alternatives. Preserve qualified reading, no identity inference."
+    },
+    {
+      "id": "F16-PHM-241",
+      "issue": "Fall and 8 are clear; tiny trailing mark is not confidently resolved. Do not supply a unit or a modern measured height."
+    },
+    {
+      "id": "F16-PHM-242",
+      "issue": "Falls and 35 are clear; tiny trailing mark is not confidently resolved. Do not supply a unit or a modern measured height."
+    },
+    {
+      "id": "F16-PHM-253",
+      "issue": "Falls 15 is readable; no unit resolved or supplied. Not a modern measured height."
+    }
+  ],
+  "next_annotation_id": "F16-PHM-257",
+  "model_audit": {
+    "first_pass_candidate_count": 384,
+    "valid_first_pass_candidates": 341,
+    "readable_candidates_from_invalid_responses": 43,
+    "detail_candidate_count": 94,
+    "detail_packet_count": 13,
+    "raw_unresolved_regions_dispositioned": 42,
+    "evidence_file": "sheet-16-review-evidence.json",
+    "original_invalid_responses_remain_invalid": true
+  }
+}

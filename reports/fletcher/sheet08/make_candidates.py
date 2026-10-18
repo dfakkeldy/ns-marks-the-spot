@@ -1,0 +1,16 @@
+exec(open('reports/fletcher/sheet08/point_tools.py').read())
+pts=[]
+def node(i,px,k,desc):
+ r=nodes[k].copy();r.update(id=i,modern_node_id=k,role='control',pixel_xy=px,identity_evidence=desc,source_uncertainty_px=20,status='Unreviewed candidate. Native close and wide context required; no reservoir shore accepted by proximity.');pts.append(r)
+node('C01',[1590,2620],'J1472','The Two Brooks: North Branch / Northeast Margaree confluence')
+node('C02',[2490,1520],'J0931','North Branch major eastern tributary confluence')
+node('C03',[2730,2175],'J1209','Northern tributary to Northeast Margaree headwaters')
+node('C04',[6445,1355],'J0734','Upper Ingonish River northern tributary confluence')
+node('C05',[8125,1220],'J0598','Ingonish River southern tributary above lake chain')
+node('C06',[9180,1230],'J0708','McKinnon Brook southern long tributary confluence')
+node('C07',[8980,5090],'J2665','French River / Little River confluence')
+node('C08',[7600,5690],'J2933','Indian Brook eastern tributary below Gisborne area')
+node('C09',[2430,6220],'J3190','First Fork Brook northern tributary near Rapids')
+node('C10',[2760,5390],'J2873','Second Fork Brook southern tributary confluence')
+node('C11',[8860,5900],'J3097','Little River western tributary confluence')
+(D/'candidate-controls.json').write_text(json.dumps(dict(sheet='sheet-08',source_sha256=json.loads((D/'source-receipt.json').read_text())['source_sha256'],points=pts),indent=2)+'\n')

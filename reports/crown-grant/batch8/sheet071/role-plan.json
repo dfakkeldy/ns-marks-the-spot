@@ -1,0 +1,17 @@
+{
+  "timing": "Before first fit and score",
+  "model": "Constrained similarity",
+  "reason": "Only three sufficiently identifiable control ponds are retained, in a narrow northeastern cluster. A uniform scale and rotation avoids unsupported affine shear; whole-sheet geographic adequacy is not established.",
+  "corrections": [],
+  "not_adopted": [
+    "Northwestern lake, Folly Lake/island configuration, northeastern edge connected ponds, lower rectangular pond and altered northern connections of southern East Folly pond not forced into controls",
+    "Spencer Point and Highland Village coastal configurations and tidal river mouths lacked sufficiently secure point identity",
+    "Only the distinct southern extremity of southern East Folly pond is a check; its altered northern bank remains unvalidated"
+  ],
+  "limitations": [
+    "Three controls and four checks confined to northeastern cluster; three checks reuse control ponds and fourth is nearby",
+    "Most of sheet including west, central interior, south, estuaries and entire coast remains unvalidated",
+    "These are sparse local observations, not a whole-sheet accuracy demonstration",
+    "12 px working source uncertainty"
+  ]
+}

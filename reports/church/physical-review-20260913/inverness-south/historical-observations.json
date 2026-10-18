@@ -1,0 +1,325 @@
+{
+  "points": [
+    {
+      "id": "IS01",
+      "label": "island-46-359n-61-262w",
+      "pixel_xy": [
+        22588.0,
+        2277.0
+      ],
+      "lonlat": [
+        -61.261823,
+        46.359252
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS01",
+        "label": "island-46-359n-61-262w",
+        "xy": [
+          22588.0,
+          2277.0
+        ],
+        "origin": [
+          21988,
+          1677
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS02",
+      "label": "island-45-956n-61-116w",
+      "pixel_xy": [
+        26573.0,
+        18766.0
+      ],
+      "lonlat": [
+        -61.116114,
+        45.956188
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS02",
+        "label": "island-45-956n-61-116w",
+        "xy": [
+          26573.0,
+          18766.0
+        ],
+        "origin": [
+          25973,
+          18166
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS03",
+      "label": "island-45-948n-61-096w",
+      "pixel_xy": [
+        27089.0,
+        19113.0
+      ],
+      "lonlat": [
+        -61.096414,
+        45.947869
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS03",
+        "label": "island-45-948n-61-096w",
+        "xy": [
+          27089.0,
+          19113.0
+        ],
+        "origin": [
+          26489,
+          18513
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS04",
+      "label": "island-45-875n-61-085w",
+      "pixel_xy": [
+        27426.0,
+        22117.0
+      ],
+      "lonlat": [
+        -61.085221,
+        45.875068
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS04",
+        "label": "island-45-875n-61-085w",
+        "xy": [
+          27426.0,
+          22117.0
+        ],
+        "origin": [
+          26826,
+          21517
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS05",
+      "label": "island-45-814n-61-013w",
+      "pixel_xy": [
+        29426.0,
+        24640.0
+      ],
+      "lonlat": [
+        -61.013475,
+        45.813973
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS05",
+        "label": "island-45-814n-61-013w",
+        "xy": [
+          29426.0,
+          24640.0
+        ],
+        "origin": [
+          28826,
+          24040
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS06",
+      "label": "island-45-801n-61-038w",
+      "pixel_xy": [
+        28804.0,
+        25134.0
+      ],
+      "lonlat": [
+        -61.038349,
+        45.801205
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS06",
+        "label": "island-45-801n-61-038w",
+        "xy": [
+          28804.0,
+          25134.0
+        ],
+        "origin": [
+          28204,
+          24534
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS07",
+      "label": "island-45-797n-61-049w",
+      "pixel_xy": [
+        28469.0,
+        25318.0
+      ],
+      "lonlat": [
+        -61.048998,
+        45.796575
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS07",
+        "label": "island-45-797n-61-049w",
+        "xy": [
+          28469.0,
+          25318.0
+        ],
+        "origin": [
+          27869,
+          24718
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS08",
+      "label": "island-45-790n-61-057w",
+      "pixel_xy": [
+        28257.0,
+        25569.0
+      ],
+      "lonlat": [
+        -61.057363,
+        45.789666
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS08",
+        "label": "island-45-790n-61-057w",
+        "xy": [
+          28257.0,
+          25569.0
+        ],
+        "origin": [
+          27657,
+          24969
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS09",
+      "label": "island-45-762n-61-068w",
+      "pixel_xy": [
+        27923.0,
+        26740.0
+      ],
+      "lonlat": [
+        -61.067626,
+        45.761933
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS09",
+        "label": "island-45-762n-61-068w",
+        "xy": [
+          27923.0,
+          26740.0
+        ],
+        "origin": [
+          27323,
+          26140
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS10",
+      "label": "island-45-757n-61-084w",
+      "pixel_xy": [
+        27417.0,
+        26866.0
+      ],
+      "lonlat": [
+        -61.083902,
+        45.757304
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS10",
+        "label": "island-45-757n-61-084w",
+        "xy": [
+          27417.0,
+          26866.0
+        ],
+        "origin": [
+          26817,
+          26266
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    },
+    {
+      "id": "IS11",
+      "label": "island-45-750n-61-095w",
+      "pixel_xy": [
+        27125.0,
+        27169.0
+      ],
+      "lonlat": [
+        -61.094899,
+        45.750129
+      ],
+      "role": "check",
+      "source_frame": {
+        "id": "IS11",
+        "label": "island-45-750n-61-095w",
+        "xy": [
+          27125.0,
+          27169.0
+        ],
+        "origin": [
+          26525,
+          26569
+        ],
+        "extent": [
+          1200,
+          1200
+        ]
+      }
+    }
+  ],
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "status": "Original eleven historical points unchanged, renamed display IDs only"
+}

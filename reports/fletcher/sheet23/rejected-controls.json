@@ -1,0 +1,36 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -61.01636523266078,
+        45.46666558944986
+      ],
+      "guide_xy": [
+        5811.58673983044,
+        4592.051880473737
+      ],
+      "modern_objectid": 7185,
+      "modern_part": 0,
+      "modern_vertex": 19,
+      "modern_properties": {
+        "OBJECTID": 7185,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1518.113518622342
+      },
+      "id": "C11",
+      "role": "rejected",
+      "pixel_xy": [
+        5990,
+        4486
+      ],
+      "identity_evidence": "Cape Hogan southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unscored: broad Cape Hogan coast has several comparable southern lobes; selected modern southern extremum is beside the western inlet, unsupported identity for proposed native lobe."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "sheet": "061",
+  "status": "provisional-rms-pass",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; first fit retained; numerical pass with regional limitations; private browser and raster coverage verified",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/061.pdf",
+    "pdf_sha256": "e5fa1ce53887051f04ef688f4b1671fe8508566b4bac41dec6f07c657f2ae557",
+    "jpeg_sha256": "2be4e2ad575efcc4fe0abffa6675751a883259b4bf4dba026abfbb7ecf8badd0",
+    "dimensions": [
+      6027,
+      4145
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 79.73393836684093,
+      "rms_gate_passed": true,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 79.73 m, median 73.27 m, P95 118.75 m and maximum 124.88 m; numerical criteria pass with regional limitations.",
+    "Each check shares a lake or island system with a control. The seven-point sample is geographically correlated.",
+    "Northwestern interior, far eastern border and inland rivers lack independent validation. Complete imagery does not imply geographic acceptance there.",
+    "Thick generalized source shorelines use 18 px working source uncertainty."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 79.73 m, median 73.27 m, P95 118.75 m, maximum 124.88 m. 7 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains East Mapleton, Collingwood Corner, Williamsdale, Wyvern, Farmington, Lynn, New Boston, New Britain, Lower Five Islands, Five Islands, Pinnacle Island, Cleveland, British, Simpson, Newton and Economy lakes, and all original inland parcels and Minas Basin shoreline. No displaced inset identified."
+  }
+}

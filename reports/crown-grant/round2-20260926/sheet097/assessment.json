@@ -1,0 +1,549 @@
+{
+  "sheet": "097",
+  "baseline_report": "reports/crown-grant/batch6/sheet097",
+  "baseline_fit": "fit-affine-01.json",
+  "baseline_checks": "checks-affine-01.json",
+  "baseline_score": "scores-affine-01.json",
+  "source_sha256": "845f6b356f27917935954929cbe7e0251333d61a8004be845290d75465d40f0e",
+  "reference_sha256": "87471ed139a45da9ee52e47d59e80151d84a889498caec57b10b5310f6db2ce5",
+  "fit_sha256": "b8ce6ea3a0162c75333e7f9e5d5a6d8cb524412f5e8deb54ec0453400564e100",
+  "checks_sha256": "6260379c4129dd418ce139e694430eb6e88a3ddf895c28a64fa092a09ec01999",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 8,
+    "rms_ground_m": 107.9189301421114,
+    "median_ground_m": 72.51242411539067,
+    "p95_ground_m": 188.77372708352473,
+    "max_ground_m": 209.4167373663172,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": 7.931713369018862,
+    "mean_north_ground_m": -15.633178472621308,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Sheep Island northwest corner",
+        "role": "check",
+        "pixel_xy": [
+          434,
+          1372
+        ],
+        "lonlat": [
+          -62.24220001862683,
+          44.92972697406599
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 20302,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20302,
+        "nearest_unfiltered_distance_guide_px": 3.9413503792681683,
+        "selected_distance_guide_px": 3.9413503792681683,
+        "guide_reference_pixel_xy": [
+          385.1071953633218,
+          1321.9398923800327
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.243123018915526,
+          44.9296945347513
+        ],
+        "error_ground_m": 72.95370069935113,
+        "east_ground_m": -72.86459669334745,
+        "north_ground_m": -3.60457964904736
+      },
+      {
+        "id": "Q02",
+        "label": "Rocky Island north shore",
+        "role": "check",
+        "pixel_xy": [
+          1865,
+          1470
+        ],
+        "lonlat": [
+          -62.15527506474209,
+          44.94933741082174
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 20477,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20477,
+        "nearest_unfiltered_distance_guide_px": 2.7511379599566204,
+        "selected_distance_guide_px": 2.7511379599566204,
+        "guide_reference_pixel_xy": [
+          1831.4471964450204,
+          1435.0256481289398
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.155292080332835,
+          44.94992949649104
+        ],
+        "error_ground_m": 65.81265029818874,
+        "east_ground_m": -1.3427934639037873,
+        "north_ground_m": 65.7989501814807
+      },
+      {
+        "id": "Q03",
+        "label": "Barren Island east projection",
+        "role": "check",
+        "pixel_xy": [
+          3754,
+          2398
+        ],
+        "lonlat": [
+          -62.02086558154965,
+          44.94286738143579
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 17378,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 17378,
+        "nearest_unfiltered_distance_guide_px": 1.2658886444219208,
+        "selected_distance_guide_px": 1.2658886444219208,
+        "guide_reference_pixel_xy": [
+          3759.3627792803454,
+          2357.0938115991885
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.0199574919971,
+          44.942799149610416
+        ],
+        "error_ground_m": 72.07114753143021,
+        "east_ground_m": 71.67119256086592,
+        "north_ground_m": -7.582246593224085
+      },
+      {
+        "id": "Q04",
+        "label": "Hog Island southeast shore",
+        "role": "check",
+        "pixel_xy": [
+          3101,
+          1940
+        ],
+        "lonlat": [
+          -62.07100191775036,
+          44.950725485487986
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 19113,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 19113,
+        "nearest_unfiltered_distance_guide_px": 0.8023266244701541,
+        "selected_distance_guide_px": 0.8023266244701541,
+        "guide_reference_pixel_xy": [
+          3085.6534620914026,
+          1902.4655269137584
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.07005557418374,
+          44.951077024852836
+        ],
+        "error_ground_m": 84.28111234583713,
+        "east_ground_m": 74.67966608070991,
+        "north_ground_m": 39.06729287172693
+      },
+      {
+        "id": "Q05",
+        "label": "Liscomb Island Crook Point east tip",
+        "role": "check",
+        "pixel_xy": [
+          5410,
+          2055
+        ],
+        "lonlat": [
+          -61.92806476146736,
+          44.987004246473916
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 19875,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 19875,
+        "nearest_unfiltered_distance_guide_px": 2.860345528897816,
+        "selected_distance_guide_px": 2.860345528897816,
+        "guide_reference_pixel_xy": [
+          5497.13970295171,
+          1999.9833464649273
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -61.929197797225505,
+          44.98530000223019
+        ],
+        "error_ground_m": 209.4167373663172,
+        "east_ground_m": -89.35912406820455,
+        "north_ground_m": -189.3946061399751
+      },
+      {
+        "id": "Q06",
+        "label": "Smaller White Island northwest tip",
+        "role": "check",
+        "pixel_xy": [
+          1508,
+          2862
+        ],
+        "lonlat": [
+          -62.142800468340496,
+          44.885306469246316
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 22118,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 22118,
+        "nearest_unfiltered_distance_guide_px": 0.5570503792875188,
+        "selected_distance_guide_px": 0.5570503792875188,
+        "guide_reference_pixel_xy": [
+          1477.4628228417714,
+          2813.852535340702
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.14286930266077,
+          44.88508953378153
+        ],
+        "error_ground_m": 24.71369258979594,
+        "east_ground_m": -5.43820569302691,
+        "north_ground_m": -24.107934798801505
+      },
+      {
+        "id": "Q07",
+        "label": "Southern Halibut Island east shore",
+        "role": "check",
+        "pixel_xy": [
+          825,
+          2440
+        ],
+        "lonlat": [
+          -62.193039624675095,
+          44.891276332802455
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 17146,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 17146,
+        "nearest_unfiltered_distance_guide_px": 1.0602312593465009,
+        "selected_distance_guide_px": 1.0602312593465009,
+        "guide_reference_pixel_xy": [
+          786.3220384966116,
+          2395.8151432531886
+        ],
+        "source_uncertainty_px": 18,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.1938524587411,
+          44.891282913928485
+        ],
+        "error_ground_m": 64.21464532236784,
+        "east_ground_m": -64.21047670506663,
+        "north_ground_m": 0.7316797015047383
+      },
+      {
+        "id": "Q08",
+        "label": "Lost Lake east shore",
+        "role": "check",
+        "pixel_xy": [
+          4642,
+          546
+        ],
+        "lonlat": [
+          -62.0135052103248,
+          45.03613075026832
+        ],
+        "guide_file": ".crown-grant-local/097-adjacent-guide.npy",
+        "reference_objectid": 133361,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 133361,
+        "nearest_unfiltered_distance_guide_px": 0.4569755542923144,
+        "selected_distance_guide_px": 0.4569755542923144,
+        "guide_reference_pixel_xy": [
+          4648.3077522531385,
+          497.66219057457056
+        ],
+        "source_uncertainty_px": 12,
+        "modern_uncertainty_m": 25,
+        "identity_evidence": "Whole island/lake outlines and paired original native crosshairs visually audited before first fit and check score.",
+        "review": "Checks reserved and excluded from fit; all physical corrections completed before fitting.",
+        "predicted_lonlat": [
+          -62.011597556508015,
+          45.036076978825626
+        ],
+        "error_ground_m": 150.43670798691022,
+        "east_ground_m": 150.3180449341244,
+        "north_ground_m": -5.973983354634784
+      }
+    ]
+  },
+  "control_axis_ratio": 2.795198667856822,
+  "affine_scale_ratio": 1.006503678947121,
+  "metres_per_pixel_singular_values": [
+    5.087725572504821,
+    5.054850448064896
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "affine",
+      "matrix": [
+        [
+          4.724600989949816,
+          1.9467613514724886
+        ],
+        [
+          2.0169939233071905,
+          -4.655595049439964
+        ],
+        [
+          554780.5135455009,
+          4980928.19362218
+        ]
+      ],
+      "diagnostic_rms_m": 125.20949256285715,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "affine",
+      "matrix": [
+        [
+          4.686840224705993,
+          1.9325063794357575
+        ],
+        [
+          1.9497525215942535,
+          -4.68253978915322
+        ],
+        [
+          555048.2597190422,
+          4981036.3632550575
+        ]
+      ],
+      "diagnostic_rms_m": 113.6944023116122,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "affine",
+      "matrix": [
+        [
+          4.698575916452774,
+          1.9392875497855655
+        ],
+        [
+          1.9767620226231988,
+          -4.667779884232682
+        ],
+        [
+          554968.6112352606,
+          4980980.619864739
+        ]
+      ],
+      "diagnostic_rms_m": 109.80105724507555,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "affine",
+      "matrix": [
+        [
+          4.690837246093526,
+          1.9411406811307983
+        ],
+        [
+          1.9621399966647892,
+          -4.669871052579491
+        ],
+        [
+          555000.3521905192,
+          4980980.883042475
+        ]
+      ],
+      "diagnostic_rms_m": 104.8026344050432,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "affine",
+      "matrix": [
+        [
+          4.696100093825602,
+          1.937681856422266
+        ],
+        [
+          2.034953258549829,
+          -4.685665040586657
+        ],
+        [
+          554883.8344593422,
+          4981009.502926807
+        ]
+      ],
+      "diagnostic_rms_m": 116.57604846727554,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "affine",
+      "matrix": [
+        [
+          4.697140782340682,
+          1.9396822245444814
+        ],
+        [
+          1.9578209493550338,
+          -4.67110603407311
+        ],
+        [
+          554985.9240686609,
+          4980981.5466371225
+        ]
+      ],
+      "diagnostic_rms_m": 110.89767602264484,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C07",
+      "model": "affine",
+      "matrix": [
+        [
+          4.699252920014308,
+          1.9360004342283539
+        ],
+        [
+          1.8938710784526407,
+          -4.644777238477692
+        ],
+        [
+          555131.1870368759,
+          4980935.735941119
+        ]
+      ],
+      "diagnostic_rms_m": 139.3480950319602,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C08",
+      "model": "affine",
+      "matrix": [
+        [
+          4.662732970460691,
+          1.9370222936036194
+        ],
+        [
+          1.922576102065513,
+          -4.671757115761726
+        ],
+        [
+          555113.6506069009,
+          4980990.2874246575
+        ]
+      ],
+      "diagnostic_rms_m": 117.66703021822967,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        4.6861132514506965,
+        1.9385433570611166
+      ],
+      [
+        1.9385433570611166,
+        -4.6861132514506965
+      ],
+      [
+        555058.7139866188,
+        4981013.776075128
+      ]
+    ],
+    "rms_ground_m": 112.68714498457048,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "affine",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.972212+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q05",
+    "Q08",
+    "Q04",
+    "Q01"
+  ],
+  "reviewed_control_ids": [
+    "C08",
+    "C07"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Crook Point has sharper historical corner than modern shore; Lost Lake elongated east end retains western outlet. Hog/Turner naming differs on scan but island geometry and southern neighbours support identity; Sheep northwest corner is recognizable. No geometric correction follows from label discrepancy.",
+  "baseline_limitations": [
+    "Eight excluded checks give RMS 107.92 m, exceeding the 100 m ceiling. Median is 72.51 m, P95 188.77 m exceeds 150 m, and maximum 209.42 m exceeds 200 m. The failed first result remains authoritative.",
+    "Checks and controls often occupy separate points on the same island, so observations are spatially correlated. The northern inland band has only Lost Lake evidence; harbour heads, complex barriers and unmeasured offshore ledges remain unvalidated.",
+    "The eastern segment of southern Halibut Island is separate in modern shoreline data; its outer eastern shore was matched, while the changed internal connection was not validated.",
+    "Generalized coast observations use 18 px working source uncertainty and Lost Lake observations 12 px. The full image remains visible despite the numerical failure."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "25d2f22d081fac15d5ad329a8d8d7a3ac66b12d0e8a6b59415947e96f83c306c"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "a0e6d8cbf1ed510dc44e4a0cbb9663963067e655a361e59db45adbb7291fe537"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "9b9b10bea4dfaa3dc2393a0be44df12baef70bbc25c874b9128504d3eab19751"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "5981fd6f82f83d43edaa79db844a4ba7ac296c5c20d0d371df258a0af46ff1ac"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "4bce6dd9bfaed3c7e72e20178a0f5405a927b0fcb8624a1bb8410befabfde639"
+    },
+    {
+      "file": "points-3.jpg",
+      "sha256": "b1a407095f83702888190ac01bbc880d019245b238d941c36802180346363f78"
+    }
+  ],
+  "control_findings": "Whyte Point broad southern curve and Lost Lake southern roof are on the intended features. Neither supports an arbitrary adjustment toward Crook Point.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

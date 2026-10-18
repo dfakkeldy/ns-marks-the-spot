@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-09-15T13:00:47.234136+00:00",
+  "promoted": "CB12",
+  "original_observation": "../observations/CB12.json",
+  "original_observation_sha256": "80f189535d7641f8de3a9e525ab6da46e3014bfc364e455868e01c2b2b510f17",
+  "first_result": "../CB12-first.json",
+  "first_result_sha256": "6af04041dfa845bbac5d89b7f491a0edc7e278a9a6cddbab02fe1595dba331ad",
+  "reason": "Verified Lake Uist mouth lies outside prior support and exposes2779.79m southwestern extrapolation error. Add western support in a separate trial; preserve first failed fresh result and exclude feature/aliases from every subsequent check set.",
+  "remaining_diagnostics": [
+    "CB04",
+    "CB09"
+  ],
+  "fresh_checks_after_promotion": 0,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "image": "area-1.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/judique-full-sheet/result/judique-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-19/sheet-19-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
+      "997d6db53e20a6d3c53258a35d87ce23a34dd93ebf6ffaef77de16bbc698ebee"
+    ],
+    "projected_bounds": [
+      -6839696.54256566,
+      5749664.75359047,
+      -6836696.54256566,
+      5752664.75359047
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  },
+  {
+    "image": "area-2.jpg",
+    "raster_paths": [
+      "/Users/dfakkeldy/Downloads/judique-full-sheet/result/judique-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-19/sheet-19-full-sheet.tif"
+    ],
+    "raster_hashes": [
+      "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
+      "997d6db53e20a6d3c53258a35d87ce23a34dd93ebf6ffaef77de16bbc698ebee"
+    ],
+    "projected_bounds": [
+      -6817370.3715531,
+      5743436.27143218,
+      -6814370.3715531,
+      5746436.27143218
+    ],
+    "crs": "EPSG:3857",
+    "scope": "Actual raster window; vector reference projected directly, not through inverse fit."
+  }
+]

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Inset Peggy Point southern shore",
+    "role": "proposal",
+    "pixel_xy": [
+      327,
+      2941
+    ],
+    "lonlat": [
+      -63.91396264485079,
+      44.491008285143046
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 12480,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 12480,
+    "nearest_unfiltered_distance_guide_px": 1.0819380685393758,
+    "selected_distance_guide_px": 1.0819380685393758,
+    "guide_reference_pixel_xy": [
+      332.57127826142823,
+      2973.0066281385953
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Inset Indian Island northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      654,
+      3167
+    ],
+    "lonlat": [
+      -63.88884843968437,
+      44.48791601044127
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 17735,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17735,
+    "nearest_unfiltered_distance_guide_px": 0.5190685282347244,
+    "selected_distance_guide_px": 0.5190685282347244,
+    "guide_reference_pixel_xy": [
+      648.1458348333254,
+      3177.501839043689
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Inset Indian Island southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      679,
+      3202
+    ],
+    "lonlat": [
+      -63.885021831902,
+      44.48586159822056
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 17735,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 17735,
+    "nearest_unfiltered_distance_guide_px": 0.3186365424942286,
+    "selected_distance_guide_px": 0.3186365424942286,
+    "guide_reference_pixel_xy": [
+      683.182370884053,
+      3238.7387145108078
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ04",
+    "label": "Inset Corney Rock northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      767,
+      3324
+    ],
+    "lonlat": [
+      -63.876521311156594,
+      44.48183728834084
+    ],
+    "guide_file": ".crown-grant-local/057-inset-name-guide.npy",
+    "reference_objectid": 23621,
+    "reference_feature_code": "WACOIS10",
+    "nearest_unfiltered_feature_code": "WACOIS10",
+    "nearest_unfiltered_objectid": 23621,
+    "nearest_unfiltered_distance_guide_px": 2.888383273152978,
+    "selected_distance_guide_px": 2.888383273152978,
+    "guide_reference_pixel_xy": [
+      765.4767174078152,
+      3364.517649575486
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

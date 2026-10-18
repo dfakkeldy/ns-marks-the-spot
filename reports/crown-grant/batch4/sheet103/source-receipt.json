@@ -1,0 +1,123 @@
+{
+  "source_url": "https://novascotia.ca/natr/land/indexmaps/103.pdf",
+  "source_dimensions": [
+    5992,
+    4111
+  ],
+  "ppi": 160,
+  "reference": {
+    "retrieved_at_utc": "2026-09-24T14:37:22.746806+00:00",
+    "bbox": [
+      -62.35,
+      45.5,
+      -61.6,
+      46.05
+    ],
+    "reference_count": 9114,
+    "truncated": false,
+    "pages": [
+      {
+        "file": "103-water-page0.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-62.35%2C45.5%2C-61.6%2C46.05&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=0",
+        "count": 2000,
+        "sha256": "76904ab3788a7e1abf2825363d6a05508fce0dee37c3ca9e505f34c95fb01e54"
+      },
+      {
+        "file": "103-water-page1.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-62.35%2C45.5%2C-61.6%2C46.05&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=2000",
+        "count": 2000,
+        "sha256": "686e23d14950e1ed680a70112e28bbcbbbad875756e6830f8b38a0dbf69c2662"
+      },
+      {
+        "file": "103-water-page2.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-62.35%2C45.5%2C-61.6%2C46.05&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=4000",
+        "count": 2000,
+        "sha256": "ddc0930ae1446405ec87e0e86f550c591d6b0d93908582021032021f46149aea"
+      },
+      {
+        "file": "103-water-page3.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-62.35%2C45.5%2C-61.6%2C46.05&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=6000",
+        "count": 2000,
+        "sha256": "6d577c75d807e179ed8eb7a13aab28f026d4a78ce1f7d1a328d357d0760e3ce1"
+      },
+      {
+        "file": "103-water-page4.geojson",
+        "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query?f=geojson&where=1%3D1&geometry=-62.35%2C45.5%2C-61.6%2C46.05&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=%2A&orderByFields=OBJECTID&resultRecordCount=2000&resultOffset=8000",
+        "count": 1114,
+        "sha256": "3a1400d89d79ea789a456d49ef03224444b7de80251d34392d29078b7b482d82"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "103.pdf",
+      "bytes": 3325965,
+      "sha256": "2aa0e08f64b14809b6269748d2b8477ff9e8ecfdbb1409569ee9ca1e2f4df561"
+    },
+    {
+      "name": "103-000.jpg",
+      "bytes": 3319846,
+      "sha256": "c85aaf6da0f79d8df12ec5ad3a11d6e6df000542060f81091aa96e152a84bb3e"
+    },
+    {
+      "name": "103-water-tight.geojson",
+      "bytes": 21229225,
+      "sha256": "4bdf246fe88cce6ffe45e43b916af4ebf6d3c79e34ad364671f977e994e665d9"
+    },
+    {
+      "name": "103-reference-receipt.json",
+      "bytes": 2519,
+      "sha256": "7355dbd96c35317cbf633a89d430c83092404a571f096ea874cd7665c6ec1968"
+    },
+    {
+      "name": "103-water-page0.geojson",
+      "bytes": 3535548,
+      "sha256": "76904ab3788a7e1abf2825363d6a05508fce0dee37c3ca9e505f34c95fb01e54"
+    },
+    {
+      "name": "103-water-page1.geojson",
+      "bytes": 3835053,
+      "sha256": "686e23d14950e1ed680a70112e28bbcbbbad875756e6830f8b38a0dbf69c2662"
+    },
+    {
+      "name": "103-water-page2.geojson",
+      "bytes": 5179426,
+      "sha256": "ddc0930ae1446405ec87e0e86f550c591d6b0d93908582021032021f46149aea"
+    },
+    {
+      "name": "103-water-page3.geojson",
+      "bytes": 5502504,
+      "sha256": "6d577c75d807e179ed8eb7a13aab28f026d4a78ce1f7d1a328d357d0760e3ce1"
+    },
+    {
+      "name": "103-water-page4.geojson",
+      "bytes": 2697671,
+      "sha256": "3a1400d89d79ea789a456d49ef03224444b7de80251d34392d29078b7b482d82"
+    },
+    {
+      "name": "103-inset-locality-guide.npy",
+      "bytes": 176,
+      "sha256": "cfc7791e00dd93e6f86adeb3a912d7dae00fc8740280148c539024a3f22ab61d"
+    },
+    {
+      "name": "103-north-arrow-discovery-guide.npy",
+      "bytes": 176,
+      "sha256": "07fb35c1c96f8036ac3ea5abcd62cfe2867ea8a361e96e7002058c73137d8ca7"
+    },
+    {
+      "name": "103-regional-discovery-guide.npy",
+      "bytes": 176,
+      "sha256": "46817fc8b638e3cdc88fc1d68a82ab2df5785f3ff385bab323224004829c7f9c"
+    },
+    {
+      "name": "103-regional-similarity-guide.npy",
+      "bytes": 176,
+      "sha256": "792ed56510c4be860d74b3ccecc0ad4bf2e7d10f5e38c283df9bfd8588360b63"
+    },
+    {
+      "name": "103-topology-discovery-guide.npy",
+      "bytes": 176,
+      "sha256": "199ceed8b5343e96d6866181658eb0bbcc33fa4883a393dee6283633e89be3ae"
+    }
+  ]
+}

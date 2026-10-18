@@ -1,0 +1,69 @@
+{
+  "sheet": "sheet-20",
+  "rumsey_id": "RUMSEY~8~1~2645~290013",
+  "source_sha256": "5102af7dc7aa8552c1c7b2aa64a6f93442a80bcca255ac0ccb02c6db1687ade6",
+  "retrieved": "2026-07-25",
+  "method": "Native printed latitude labels inspected; separate rough search guide only. Old repository observation remains unchanged. Exact native crosshairs establish each physical point.",
+  "qa_review": "Five labelled meridians and three labelled parallels were confirmed.",
+  "meridians": [
+    {
+      "pixel_x": 1656,
+      "lon": -60.833333333333336,
+      "label": "60d50mW"
+    },
+    {
+      "pixel_x": 3500,
+      "lon": -60.75,
+      "label": "60d45mW"
+    },
+    {
+      "pixel_x": 5302,
+      "lon": -60.666666666666664,
+      "label": "60d40mW"
+    },
+    {
+      "pixel_x": 7154,
+      "lon": -60.583333333333336,
+      "label": "60d35mW"
+    },
+    {
+      "pixel_x": 8976,
+      "lon": -60.5,
+      "label": "60d30mW"
+    }
+  ],
+  "parallels": [
+    {
+      "pixel_y": 3740,
+      "lat": 45.666666666666664,
+      "label": "45d40mN"
+    },
+    {
+      "pixel_y": 6344,
+      "lat": 45.583333333333336,
+      "label": "45d35mN"
+    }
+  ],
+  "check_intersections": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      4,
+      1
+    ]
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "municipality": "Municipality of the County of Victoria",
+  "source": "https://victoriacounty.com/property-tax-sale-notice/",
+  "landingPage": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
+  "retrievedDate": "2026-09-16",
+  "publishedOn": "2026-08-13",
+  "sourceFactsSha256": "bd8df1ae76e9344fd310697338e47b1c4d1200dc0454d34ea7be00696e880ac3",
+  "sourceHashPolicy": "The overwrite-prone official HTML contains assessed-owner names. This receipt hashes normalized owner-free event and row facts; the external Wayback receipt preserves the full official page bytes before ingestion.",
+  "archiveReceipt": {
+    "timestamp": "20260914201103",
+    "url": "https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/",
+    "sha256": "4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5"
+  },
+  "ownerNamesExcluded": true,
+  "eventDate": "2026-09-14",
+  "bidDeadlineTime": "12:00",
+  "venue": "Municipal Administration Building, 495 Chebucto Street, Baddeck, NS B0E 1B0",
+  "sourceRowCount": 9,
+  "opaqueRemovedRowCount": 5,
+  "listingCount": 4,
+  "parcelIdentifierCount": 4,
+  "listings": [
+    {
+      "item": 4,
+      "aan": "02266288",
+      "pids": [
+        "85066322"
+      ],
+      "description": "Big Harbour Rd., Port Bevis, Land Only 60 Acres +/- (HST Applicable)",
+      "redeemable": true,
+      "totalOwingCents": 116751,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 5,
+      "aan": "02449366",
+      "pids": [
+        "85014165"
+      ],
+      "description": "Hwy 105, Inlet Baddeck, Land Only, 20,700 Sq. Feet +/- (HST Applicable)",
+      "redeemable": true,
+      "totalOwingCents": 176636,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 6,
+      "aan": "02689154",
+      "pids": [
+        "85168979"
+      ],
+      "description": "4499 Washabuck Rd., Lower Washabuck, Land/Dwelling/Building, 4.1 Acres +/-",
+      "redeemable": true,
+      "totalOwingCents": 428197,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 7,
+      "aan": "02845776",
+      "pids": [
+        "85062669"
+      ],
+      "description": "Meat Cove Rd., Bay St. Lawrence, Land/Building, 15,00 Sq. Feet +/-",
+      "redeemable": true,
+      "totalOwingCents": 200118,
+      "listingStatus": "advertised"
+    }
+  ]
+}

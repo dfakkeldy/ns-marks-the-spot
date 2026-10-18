@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C08",
+    "label": "Island Lake upper eastern lobe in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      586,
+      3080
+    ],
+    "lonlat": [
+      -63.83973142193148,
+      44.85178989611907
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 137343,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137343,
+    "nearest_unfiltered_distance_guide_px": 0.2634713114832551,
+    "selected_distance_guide_px": 0.2634713114832551,
+    "guide_reference_pixel_xy": [
+      585.807304040296,
+      3050.179681382142
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q08",
+    "label": "Island Lake lower tip in original scan",
+    "role": "proposal",
+    "pixel_xy": [
+      623,
+      3283
+    ],
+    "lonlat": [
+      -63.84799002350444,
+      44.85875774799629
+    ],
+    "guide_file": ".crown-grant-local/055-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 137245,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV55",
+    "nearest_unfiltered_objectid": 301219,
+    "nearest_unfiltered_distance_guide_px": 6.738832552715374,
+    "selected_distance_guide_px": 10.76217997063282,
+    "guide_reference_pixel_xy": [
+      647.6553342848783,
+      3241.322154157562
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

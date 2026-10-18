@@ -1,0 +1,68 @@
+[
+  {
+    "id": "F01",
+    "label": "Bishops Lake southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      440,
+      1830
+    ],
+    "lonlat": [
+      -60.69700062688518,
+      45.70401719872535
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 125690,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      480.48776320077013,
+      1828.4485151600093
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "F02",
+    "label": "Heifer Lake eastern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4760,
+      1005
+    ],
+    "lonlat": [
+      -60.444425039163384,
+      45.81189263212975
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 138492,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4749.68698055821,
+      1009.5706202507718
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "F03",
+    "label": "MacDonald Lake western bend",
+    "role": "proposal",
+    "pixel_xy": [
+      4935,
+      1935
+    ],
+    "lonlat": [
+      -60.408977478678636,
+      45.77348884283292
+    ],
+    "guide_file": ".crown-grant-local/125-physical-search-guide.npy",
+    "reference_objectid": 136192,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      4956.101080422697,
+      1946.6462778517744
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

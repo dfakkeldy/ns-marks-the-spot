@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5597 x 3849 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 54.37 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          30,
+          95
+        ],
+        [
+          5530,
+          95
+        ],
+        [
+          5530,
+          3755
+        ],
+        [
+          30,
+          3755
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The complete mapped frame retains Whycocomagh Bay, St Patricks Channel, River Denys Basin and all printed islands. No separate inset or deliberate island displacement identified. Island checks are reported separately by region."
+    }
+  ]
+}

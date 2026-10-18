@@ -1,0 +1,65 @@
+{
+  "sheet": "057",
+  "status": "provisional-components",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; independent component scores and coverage assessed; no geographic or user acceptance",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/057.pdf",
+    "pdf_sha256": "5623fb7593c03b2942a7a71878bfac3206b9a541f13951ec656d58d321828146",
+    "jpeg_sha256": "51554d7e75d08c46c85ee5023fca804f610987829ea8ef6b7f34d85b69baf011",
+    "dimensions": [
+      5699,
+      3850
+    ],
+    "ppi": 150
+  },
+  "active_fit": "fit-main-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 7,
+      "independent_checks": 7,
+      "rms_ground_m": 59.35648090816673,
+      "rms_gate_passed": true,
+      "fit": "fit-main-affine-01.json",
+      "checks": "checks-main-affine-01.json",
+      "scores": "scores-main-affine-01.json"
+    },
+    {
+      "component": "peggy-cove-inset",
+      "controls": 3,
+      "independent_checks": 3,
+      "rms_ground_m": 35.656279033218276,
+      "rms_gate_passed": true,
+      "fit": "fit-inset-similarity-01.json",
+      "checks": "checks-inset-similarity-01.json",
+      "scores": "scores-inset-similarity-01.json"
+    }
+  ],
+  "limitations": [
+    "Main seven checks pass the 100 m RMS ceiling but all are paired with control islands or ponds; the interior, most mainland coastline and northern edge lack independent validation.",
+    "Inset three checks are on only Indian Island and Corney Rock. Its narrow coastal sample does not validate mainland interiors or the northern and southeastern edges.",
+    "Source uncertainty18 px in both components. Small generalized outlines and annotation overlap limit point precision.",
+    "Assessment completion and numerical passes do not establish geographic or user acceptance."
+  ],
+  "review": {
+    "status": "RMS PASSES 100 m \u2014 separate main and inset checks; geographic limits retained",
+    "statistics": "main: 7 checks, RMS 59.36 m; peggy-cove-inset: 3 checks, RMS 35.66 m. Gate: 100 m. No pooled score.",
+    "coverage": "Complete original mapped frame retains Prospect, Whites Lake, Terence Bay, Pennant, Sambro, Ketch Harbour, Chebucto Head, Herring Cove, all depicted offshore islands and the full Atlantic Ocean area. The rectangular Peggy Cove, Dover, Indian Island and partial Taylor Island inset is independently transformed using a complementary native mask.",
+    "focusBounds": [
+      [
+        44.34607878722342,
+        -63.93580361301363
+      ],
+      [
+        44.61117856757077,
+        -63.44417461016554
+      ]
+    ]
+  }
+}

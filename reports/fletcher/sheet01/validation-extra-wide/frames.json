@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-01-V03.jpg",
+    "point_record": "sheet01/validation-extra-candidates.json",
+    "point_id": "V03",
+    "native_box": [
+      3150,
+      4695,
+      3850,
+      5395
+    ],
+    "native_coordinates": [
+      3500,
+      5045
+    ],
+    "modern_lonlat": [
+      -60.6342323,
+      47.0098426
+    ],
+    "rotation_degrees": 0
+  }
+]

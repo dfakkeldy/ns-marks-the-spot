@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5700 x 3912 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 96.01 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          140,
+          135
+        ],
+        [
+          5605,
+          145
+        ],
+        [
+          5605,
+          3770
+        ],
+        [
+          130,
+          3750
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "The complete mapped frame retains all lake islands, Sissiboo River and lake reaches, and southeastern extensions. Eight controls and nine excluded checks sample isolated lakes; the large connected southern complex remains provisional."
+    }
+  ]
+}

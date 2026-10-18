@@ -1,0 +1,62 @@
+{
+  "source_path": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "csv_sha256": "8c53529c500f96a362bb7c9a316a0194f77a862b01355d6cc353185e428289af",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "new_observations_sha256": "4bfe372ecec1dc1f167434d7e30d6b1654a816914b09963eac8c1f8a55da76bf",
+  "transform": "GDAL TPS -et 0",
+  "crs": "EPSG:3857",
+  "control_count": 6,
+  "diagnostic_check_count": 6,
+  "fresh_validation_count": 0,
+  "geographic_acceptance": false,
+  "orientation": {
+    "sample_count": 23711,
+    "coarse_step_native_px": 200,
+    "local_control_step_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -15.502922953151007,
+      -15.076943140938152
+    ],
+    "scope": "Finite samples; not a proof of the continuous TPS surface"
+  },
+  "outputs": [
+    {
+      "path": "/var/home/dan/nsmarks-church-20260912/refined-tps/richmond-refined-tps-20m.tif",
+      "sha256": "1e9334989ddff169afe0685fbab6dda936ce889694e8dcead4f9c111bab11c8c",
+      "bytes": 26156247,
+      "size": [
+        6488,
+        4540
+      ],
+      "geotransform": [
+        -6834580.0,
+        20.0,
+        0.0,
+        5775180.0,
+        0.0,
+        -20.0
+      ],
+      "alpha_band": 4
+    },
+    {
+      "path": "/var/home/dan/nsmarks-church-20260912/refined-tps/richmond-refined-tps-5m.tif",
+      "sha256": "ad536a23a47b0616e5477a052ff131b0b24be9e3a03a3ee81d25c283259f40f0",
+      "bytes": 405620960,
+      "size": [
+        25949,
+        18159
+      ],
+      "geotransform": [
+        -6834575.0,
+        5.0,
+        0.0,
+        5775180.0,
+        0.0,
+        -5.0
+      ],
+      "alpha_band": 4
+    }
+  ]
+}

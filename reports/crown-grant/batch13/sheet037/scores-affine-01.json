@@ -1,0 +1,321 @@
+{
+  "count": 9,
+  "rms_ground_m": 46.22874562472398,
+  "median_ground_m": 36.11967737393788,
+  "p95_ground_m": 79.97741772779696,
+  "max_ground_m": 92.25560250172661,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 9.46331818696774,
+  "mean_north_ground_m": 1.492465105083034,
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Sixty Lake island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        1702,
+        1424
+      ],
+      "lonlat": [
+        -64.81518118001107,
+        44.71785537639618
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 154536,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 154536,
+      "nearest_unfiltered_distance_guide_px": 1.5135565143090735,
+      "selected_distance_guide_px": 1.5135565143090735,
+      "guide_reference_pixel_xy": [
+        1706.2805120859994,
+        1482.1930662235245
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.8147563069646,
+        44.7180356442711
+      ],
+      "error_ground_m": 39.17340059053179,
+      "east_ground_m": 33.6637922424576,
+      "north_ground_m": 20.03258359979879
+    },
+    {
+      "id": "Q02",
+      "label": "Black Duck Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3000,
+        2215
+      ],
+      "lonlat": [
+        -64.71247704364009,
+        44.70859872686208
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 125600,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 125600,
+      "nearest_unfiltered_distance_guide_px": 2.241855639181674,
+      "selected_distance_guide_px": 2.241855639181674,
+      "guide_reference_pixel_xy": [
+        3014.2537012516987,
+        2280.2274542378727
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.71261520074862,
+        44.70914386222393
+      ],
+      "error_ground_m": 61.5601405669025,
+      "east_ground_m": -10.948221977145316,
+      "north_ground_m": 60.57876973128414
+    },
+    {
+      "id": "Q03",
+      "label": "Triangle or Birch Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3532,
+        1865
+      ],
+      "lonlat": [
+        -64.68954308338223,
+        44.734711354964304
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 124662,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124662,
+      "nearest_unfiltered_distance_guide_px": 1.0224060547007776,
+      "selected_distance_guide_px": 1.0224060547007776,
+      "guide_reference_pixel_xy": [
+        3540.5852249923046,
+        1913.161652906565
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.68928395482344,
+        44.73497880636507
+      ],
+      "error_ground_m": 36.11967737393788,
+      "east_ground_m": 20.52543459030261,
+      "north_ground_m": 29.720996424692245
+    },
+    {
+      "id": "Q04",
+      "label": "Butler Lake southwest horn",
+      "role": "check",
+      "pixel_xy": [
+        3458,
+        2525
+      ],
+      "lonlat": [
+        -64.67577857230525,
+        44.70455746228669
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 124865,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 124865,
+      "nearest_unfiltered_distance_guide_px": 0.8384930864493932,
+      "selected_distance_guide_px": 0.8384930864493932,
+      "guide_reference_pixel_xy": [
+        3475.814790546603,
+        2579.1822175629204
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.6757329377024,
+        44.70463231921468
+      ],
+      "error_ground_m": 9.070721130695881,
+      "east_ground_m": 3.616582429274393,
+      "north_ground_m": 8.31855235982298
+    },
+    {
+      "id": "Q05",
+      "label": "Owl Lake large island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4050,
+        369
+      ],
+      "lonlat": [
+        -64.69818790615034,
+        44.810626015769074
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 152158,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 152158,
+      "nearest_unfiltered_distance_guide_px": 1.5901298168771767,
+      "selected_distance_guide_px": 1.5901298168771767,
+      "guide_reference_pixel_xy": [
+        4054.8437729082652,
+        392.908371974132
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.698326679551,
+        44.81068464744541
+      ],
+      "error_ground_m": 12.765811087071647,
+      "east_ground_m": -10.977815604331541,
+      "north_ground_m": 6.515634832316517
+    },
+    {
+      "id": "Q06",
+      "label": "Rocky Lake northeast of Fraxville inward western peninsula tip",
+      "role": "check",
+      "pixel_xy": [
+        5148,
+        980
+      ],
+      "lonlat": [
+        -64.61373968912518,
+        44.80576443688938
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 139241,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 139241,
+      "nearest_unfiltered_distance_guide_px": 1.7446017856751799,
+      "selected_distance_guide_px": 1.7446017856751799,
+      "guide_reference_pixel_xy": [
+        5152.078981638129,
+        993.6290754888905
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.61339231627085,
+        44.805627193415944
+      ],
+      "error_ground_m": 31.430125870834036,
+      "east_ground_m": 27.48169581006577,
+      "north_ground_m": -15.25153132178814
+    },
+    {
+      "id": "Q07",
+      "label": "Lake Molly or Upper Gully western tip",
+      "role": "check",
+      "pixel_xy": [
+        4933,
+        1366
+      ],
+      "lonlat": [
+        -64.61667964356667,
+        44.784621642031524
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 137758,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 137758,
+      "nearest_unfiltered_distance_guide_px": 0.20166822395092762,
+      "selected_distance_guide_px": 0.20166822395092762,
+      "guide_reference_pixel_xy": [
+        4937.173206742213,
+        1385.1032932572998
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.61613213567101,
+        44.78448680760204
+      ],
+      "error_ground_m": 45.8483134141868,
+      "east_ground_m": 43.33078914113062,
+      "north_ground_m": -14.983676295635115
+    },
+    {
+      "id": "Q08",
+      "label": "Clear Lake large island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3163,
+        3334
+      ],
+      "lonlat": [
+        -64.67146726738456,
+        44.66330063750485
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 143804,
+      "reference_feature_code": "WALKIS10",
+      "nearest_unfiltered_feature_code": "WALKIS10",
+      "nearest_unfiltered_objectid": 143804,
+      "nearest_unfiltered_distance_guide_px": 0.5804419370121504,
+      "selected_distance_guide_px": 0.5804419370121504,
+      "guide_reference_pixel_xy": [
+        3191.443098117248,
+        3403.1636249835137
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.67178745536475,
+        44.663396701850324
+      ],
+      "error_ground_m": 27.545856704743887,
+      "east_ground_m": -25.39318634488091,
+      "north_ground_m": 10.67521938193485
+    },
+    {
+      "id": "Q09",
+      "label": "Brown Lake southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4772,
+        3610
+      ],
+      "lonlat": [
+        -64.56464182259836,
+        44.683885159130384
+      ],
+      "guide_file": ".crown-grant-local/037-frozen-east-discovery-guide.npy",
+      "reference_objectid": 138371,
+      "reference_feature_code": "WALK20",
+      "nearest_unfiltered_feature_code": "WALK20",
+      "nearest_unfiltered_objectid": 138371,
+      "nearest_unfiltered_distance_guide_px": 0.5182122448559723,
+      "selected_distance_guide_px": 0.5182122448559723,
+      "guide_reference_pixel_xy": [
+        4804.77538374695,
+        3646.532997355913
+      ],
+      "source_uncertainty_px": 18,
+      "modern_uncertainty_m": 20,
+      "review": "Broad context and native paired crosshairs inspected; final refinements completed before first fit and score.",
+      "predicted_lonlat": [
+        -64.5645929984543,
+        44.68305569795813
+      ],
+      "error_ground_m": 92.25560250172661,
+      "east_ground_m": 3.8707933958364333,
+      "north_ground_m": -92.17436276667898
+    }
+  ],
+  "fit_sha256": "c9fc0ab379bac902e671ea1a6e47cc9771134d91459a0bd381a589065d55fe8e",
+  "checks_sha256": "f4cac99cf4dd8937fb17ceebfa5f58cd6040b1843fc1f9e183c5ec9c767f0701",
+  "status": "Reserved before first fit and score"
+}

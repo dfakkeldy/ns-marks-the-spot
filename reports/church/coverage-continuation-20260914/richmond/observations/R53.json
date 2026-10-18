@@ -1,0 +1,49 @@
+{
+  "id": "R53",
+  "label": "L\u2019Ardoise Head southern outer-shore extremum",
+  "role": "check",
+  "pixel_xy": [
+    18802.8,
+    17302.8
+  ],
+  "lonlat": [
+    -60.77824283330896,
+    45.60106981784476
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      18650,
+      17100
+    ],
+    "extent": [
+      500,
+      500
+    ],
+    "display": [
+      1250,
+      1250
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    382,
+    507
+  ],
+  "source_crop_sha256": "54ebf4e60470e58e8d191c0d53e9bbab8428f43c99ff9863da0804380b3dd2ce",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    5739
+  ],
+  "reference_vertex": {
+    "feature_id": 5739,
+    "vertex": 23
+  },
+  "reference_path": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+  "reference_sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6",
+  "uncertainty_ground_m": 130,
+  "identity_evidence": "Rounded southern tip of L\u2019Ardoise Head, with narrow neck to the north and notch on the eastern side. Western harbour and elongated eastern coastal basin corroborate identity. Select southernmost outer shore, excluding interior ponds, wharves, text and nearby Red Point. Broad rounded engraving and shoreline change limit precision; uncertainty retained. Southern extremum of original coast feature 5739 is vertex 23. The nearby lake/island proposal was withheld for ambiguous shoreline separation before any scoring.",
+  "search_proposal": "COV2-S07 lake/island withheld; distinct outer headland selected from broad topology before scoring",
+  "phase": "Additional fresh coastal check against unchanged affine14; no tuning"
+}

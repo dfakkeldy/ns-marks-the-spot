@@ -1,0 +1,105 @@
+{
+  "source_frame": "Original 5304 x 3689 JPEG; no crop-coordinate rebasing",
+  "source_union_ring_pixel_xy": [
+    [
+      150,
+      130
+    ],
+    [
+      5210,
+      115
+    ],
+    [
+      5210,
+      3530
+    ],
+    [
+      150,
+      3540
+    ]
+  ],
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 81.93 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          150,
+          130
+        ],
+        [
+          5210,
+          115
+        ],
+        [
+          5210,
+          3530
+        ],
+        [
+          150,
+          3540
+        ]
+      ],
+      "fit_file": "fit-main-affine-01.json",
+      "fit_sha256": "304b3b5676336fead00a98748522045b6eb46818ed3e086b52a9149ab71bebed",
+      "holes_pixel_xy": [
+        [
+          [
+            4580,
+            1215
+          ],
+          [
+            5145,
+            1215
+          ],
+          [
+            5145,
+            1780
+          ],
+          [
+            4580,
+            1780
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "offshore-inset",
+      "status": "RMS 63.89 m passes 100 m; limitations retained",
+      "ring_pixel_xy": [
+        [
+          4580,
+          1215
+        ],
+        [
+          5145,
+          1215
+        ],
+        [
+          5145,
+          1780
+        ],
+        [
+          4580,
+          1780
+        ]
+      ],
+      "fit_file": "fit-inset-similarity-01.json",
+      "fit_sha256": "8d18ea3301ef4ed76745f3b933a6aab06aa6e413f582d01573acfbaa08f7ecc0",
+      "matrix": [
+        [
+          5.587035967048735,
+          2.093062205081083
+        ],
+        [
+          2.093062205081083,
+          -5.587035967048735
+        ],
+        [
+          347721.9346204858,
+          4882556.944479991
+        ]
+      ]
+    }
+  ]
+}

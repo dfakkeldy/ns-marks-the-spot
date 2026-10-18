@@ -1,0 +1,104 @@
+{
+  "fit_sha256": "2b4a15579de38102ce6950f95f954c401e6d4b1f4266d2516e6757c8a671a997",
+  "collected_at_utc": "2026-09-12T11:49:00.658797+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.8397299,
+        46.2137166
+      ],
+      "source_guide_xy": [
+        1604.5817102000583,
+        2560.300476799952
+      ],
+      "objectids": [
+        270241,
+        271920,
+        272550
+      ],
+      "id": "F01",
+      "modern_node_id": "J0555",
+      "pixel_xy": [
+        1644,
+        2701
+      ],
+      "role": "check",
+      "identity_evidence": "Larger eastern branch entering Musk Rat below C16; geographically close to fitted control, limited independent coverage",
+      "status": "Personally inspected original unrotated native close crosshair, wide branch/island context and marked modern vectors before first fresh scoring. Never used in any fit.",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.7656454,
+        46.2526996
+      ],
+      "source_guide_xy": [
+        3212.363529199967,
+        1345.9020607997663
+      ],
+      "objectids": [
+        177280,
+        272593,
+        272594
+      ],
+      "id": "F02",
+      "modern_node_id": "J0285",
+      "pixel_xy": [
+        3337,
+        1403
+      ],
+      "role": "check",
+      "identity_evidence": "Northern Sam Brook fork: north main stem and eastern marsh branch above fitted lower confluence",
+      "status": "Personally inspected original unrotated native close crosshair, wide branch/island context and marked modern vectors before first fresh scoring. Never used in any fit.",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.52521565466792,
+        46.21507685099656
+      ],
+      "modern_part": 0,
+      "modern_vertex": 103,
+      "id": "F05",
+      "modern_objectid": 18364,
+      "modern_properties": {
+        "OBJECTID": 18364,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1542.963253102389
+      },
+      "pixel_xy": [
+        8497,
+        2467
+      ],
+      "role": "check",
+      "identity_evidence": "Otter Island northernmost coast. Large island south of multiple Otter Point islets and west of Big Bank; different tip on same island as C05, limited spatial independence.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original unrotated native close crosshair, wide branch/island context and marked modern vectors before first fresh scoring. Never used in any fit."
+    }
+  ],
+  "unmatched_searches": [
+    {
+      "id": "F04",
+      "feature": "Stony Island",
+      "native_search_box": [
+        2850,
+        6250,
+        3600,
+        6800
+      ],
+      "rotation_degrees": 0,
+      "native_eastern_tip_approx": [
+        3210,
+        6530
+      ],
+      "modern_reference_result": "No coastal-island line returned in search area in original or extended direct NSTDB water-line extracts. Exact modern counterpart not established; no score or fitting point. This is source-layer absence, not evidence that the island disappeared."
+    }
+  ],
+  "review_completed_at_utc": "2026-09-12T11:54:54.593791+00:00",
+  "status": "Identical new checks scored against old 14-control baseline for comparison only."
+}

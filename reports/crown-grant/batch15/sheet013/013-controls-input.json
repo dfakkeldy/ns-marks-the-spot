@@ -1,0 +1,106 @@
+[
+  [
+    "C01",
+    "Gulliver Point northern roof",
+    [
+      1880,
+      170
+    ],
+    [
+      1860,
+      180
+    ],
+    "WACO20"
+  ],
+  [
+    "C02",
+    "Delap Lake northern tip",
+    [
+      252,
+      3350
+    ],
+    [
+      226,
+      3325
+    ],
+    "WALK20"
+  ],
+  [
+    "C03",
+    "Wagner Lake northern roof",
+    [
+      1287,
+      2916
+    ],
+    [
+      1274,
+      2909
+    ],
+    "WALK20"
+  ],
+  [
+    "C04",
+    "Amirault Lake northern roof",
+    [
+      1886,
+      3568
+    ],
+    [
+      1880,
+      3563
+    ],
+    "WALK20"
+  ],
+  [
+    "C05",
+    "Mallett Lake northern horn",
+    [
+      3020,
+      3273
+    ],
+    [
+      2997,
+      3280
+    ],
+    "WALK20"
+  ],
+  [
+    "C06",
+    "Harris Lake northern roof",
+    [
+      4818,
+      2690
+    ],
+    [
+      4791,
+      2711
+    ],
+    "WALK20"
+  ],
+  [
+    "C07",
+    "Worcester Lake northern roof",
+    [
+      5288,
+      100
+    ],
+    [
+      5258,
+      140
+    ],
+    "WALK20"
+  ],
+  [
+    "C08",
+    "Annapolis Basin long island northwestern tip",
+    [
+      4969,
+      1217
+    ],
+    [
+      4946,
+      1251
+    ],
+    "WACOIS10"
+  ]
+]

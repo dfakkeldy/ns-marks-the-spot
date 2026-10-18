@@ -1,0 +1,82 @@
+[
+  {
+    "image": "sheet-14-V01.jpg",
+    "point_record": "northern-validation-20260909/sheet-14-checks.json",
+    "point_id": "V01",
+    "native_box": [
+      6930,
+      6103,
+      7150,
+      6323
+    ],
+    "native_coordinates": [
+      7040,
+      6213
+    ],
+    "modern_lonlat": [
+      -61.3454993,
+      46.1047453
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-V01.jpg",
+    "point_record": "northern-validation-20260909/sheet-16-checks.json",
+    "point_id": "V01",
+    "native_box": [
+      7320,
+      950,
+      7540,
+      1170
+    ],
+    "native_coordinates": [
+      7430,
+      1060
+    ],
+    "modern_lonlat": [
+      -61.3395704,
+      46.0884615
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-V02.jpg",
+    "point_record": "northern-validation-20260909/sheet-16-checks.json",
+    "point_id": "V02",
+    "native_box": [
+      7360,
+      913,
+      7580,
+      1133
+    ],
+    "native_coordinates": [
+      7470,
+      1023
+    ],
+    "modern_lonlat": [
+      -61.3321045,
+      46.089737
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-V03.jpg",
+    "point_record": "northern-validation-20260909/sheet-16-checks.json",
+    "point_id": "V03",
+    "native_box": [
+      7986,
+      1098,
+      8206,
+      1318
+    ],
+    "native_coordinates": [
+      8096,
+      1208
+    ],
+    "modern_lonlat": [
+      -61.3012903,
+      46.0856568
+    ],
+    "rotation_degrees": 0
+  }
+]

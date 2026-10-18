@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5749 x 3861 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 82.21 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          165,
+          115
+        ],
+        [
+          5640,
+          105
+        ],
+        [
+          5630,
+          3745
+        ],
+        [
+          155,
+          3740
+        ]
+      ],
+      "fit_file": "fit-similarity-01.json",
+      "coverage_note": "The complete mapped frame, all depicted offshore islands and the broad Atlantic area are retained. Physical validation is confined to the northern coastline and nearby islets; empty ocean does not establish geographic accuracy."
+    }
+  ]
+}

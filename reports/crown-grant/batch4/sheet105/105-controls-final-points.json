@@ -1,0 +1,226 @@
+[
+  {
+    "id": "C01",
+    "label": "Heays Lake northern lobe",
+    "role": "control",
+    "pixel_xy": [
+      1660,
+      319
+    ],
+    "lonlat": [
+      -61.693594917617396,
+      45.51024141803284
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 132944,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 132944,
+    "nearest_unfiltered_distance_guide_px": 0.9389410800260604,
+    "selected_distance_guide_px": 0.9389410800260604,
+    "guide_reference_pixel_xy": [
+      1697.5840233392082,
+      359.1582317602588
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C02",
+    "label": "Fitz Gerald Lake southern lobe",
+    "role": "control",
+    "pixel_xy": [
+      738,
+      1060
+    ],
+    "lonlat": [
+      -61.731301545206705,
+      45.46404483353546
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 127017,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127017,
+    "nearest_unfiltered_distance_guide_px": 0.7173957490348568,
+    "selected_distance_guide_px": 0.7173957490348568,
+    "guide_reference_pixel_xy": [
+      772.5225209437194,
+      1096.5084427560214
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C03",
+    "label": "Elongated lake northeast of Five Mile Lake, north tip",
+    "role": "control",
+    "pixel_xy": [
+      4987,
+      468
+    ],
+    "lonlat": [
+      -61.491618740835804,
+      45.55867188919362
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 133139,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133139,
+    "nearest_unfiltered_distance_guide_px": 11.18036426841242,
+    "selected_distance_guide_px": 11.18036426841242,
+    "guide_reference_pixel_xy": [
+      5049.686949096271,
+      503.3175833786372
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C04",
+    "label": "Square Lake northern end",
+    "role": "control",
+    "pixel_xy": [
+      714,
+      2356
+    ],
+    "lonlat": [
+      -61.70229494463566,
+      45.40946018545286
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 139693,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 139693,
+    "nearest_unfiltered_distance_guide_px": 0.9943229145150982,
+    "selected_distance_guide_px": 0.9943229145150982,
+    "guide_reference_pixel_xy": [
+      759.5579124807264,
+      2385.8906383573776
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C05",
+    "label": "Cahill Lake north tip",
+    "role": "control",
+    "pixel_xy": [
+      1824,
+      2577
+    ],
+    "lonlat": [
+      -61.630976862870156,
+      45.418428141769006
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 138894,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138894,
+    "nearest_unfiltered_distance_guide_px": 1.3525417161607138,
+    "selected_distance_guide_px": 1.3525417161607138,
+    "guide_reference_pixel_xy": [
+      1880.0373040203704,
+      2606.352027183166
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C06",
+    "label": "Grant Lake west corner",
+    "role": "control",
+    "pixel_xy": [
+      2185,
+      2628
+    ],
+    "lonlat": [
+      -61.60835527284807,
+      45.42201537670438
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 137737,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137737,
+    "nearest_unfiltered_distance_guide_px": 1.5981874671808345,
+    "selected_distance_guide_px": 1.5981874671808345,
+    "guide_reference_pixel_xy": [
+      2241.408032646519,
+      2660.7560735722072
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C07",
+    "label": "McPherson Lake southeast end",
+    "role": "control",
+    "pixel_xy": [
+      5103,
+      3609
+    ],
+    "lonlat": [
+      -61.412528441906616,
+      45.42938413129528
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 136333,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 136333,
+    "nearest_unfiltered_distance_guide_px": 0.8290402280819499,
+    "selected_distance_guide_px": 0.8290402280819499,
+    "guide_reference_pixel_xy": [
+      5180.802218953497,
+      3615.7908291358035
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  },
+  {
+    "id": "C08",
+    "label": "Hart Lake west shore",
+    "role": "control",
+    "pixel_xy": [
+      4353,
+      3110
+    ],
+    "lonlat": [
+      -61.468245264435346,
+      45.43784476679717
+    ],
+    "guide_file": ".crown-grant-local/105-refined-adjacent-guide.npy",
+    "reference_objectid": 138478,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138478,
+    "nearest_unfiltered_distance_guide_px": 2.5300492787780566,
+    "selected_distance_guide_px": 2.5300492787780566,
+    "guide_reference_pixel_xy": [
+      4428.525149465539,
+      3127.0557152658002
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 20,
+    "identity_evidence": "Lake topology and neighbouring waterways traced in broad context; paired native crosshairs inspected before first fit or score.",
+    "review": "Corrected using source image evidence before fitting; check observations excluded from all fitting."
+  }
+]

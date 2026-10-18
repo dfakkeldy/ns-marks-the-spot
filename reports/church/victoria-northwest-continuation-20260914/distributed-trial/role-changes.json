@@ -1,0 +1,58 @@
+{
+  "promoted_unchanged": [
+    "VN08",
+    "VN12",
+    "VN13"
+  ],
+  "new_controls": [
+    {
+      "id": "VN08",
+      "pixel_xy": [
+        10829.808929893501,
+        9101.94175826262
+      ],
+      "lonlat": [
+        -60.351280265709235,
+        46.8867457412278
+      ]
+    },
+    {
+      "id": "VN12",
+      "pixel_xy": [
+        8970.0,
+        2758.0
+      ],
+      "lonlat": [
+        -60.41458318933296,
+        47.036948118430104
+      ]
+    },
+    {
+      "id": "VN13",
+      "pixel_xy": [
+        2958.045074460912,
+        15425.465850741044
+      ],
+      "lonlat": [
+        -60.61647362386259,
+        46.7355832268653
+      ]
+    }
+  ],
+  "first_results": [
+    "../../distributed-review-20260913/victoria-northwest/first-scores.json",
+    "../VN12-first.json",
+    "../VN13-first.json"
+  ],
+  "excluded_from_diagnostics": [
+    "VN08",
+    "VN12",
+    "VN13"
+  ],
+  "diagnostic": [
+    "supply-04",
+    "supply-06",
+    "VN11"
+  ],
+  "geographic_acceptance": false
+}

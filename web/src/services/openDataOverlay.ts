@@ -1,0 +1,130 @@
+import sourceReceipt from "../data/openLayerSources.json";
+import type { OpenDataSource, OpenDataPart } from "../layers/openDataSources";
+import { openDatasetApi } from "../layers/openDataSources";
+import type { MapEnvelope } from "./arcGISFeatureOverlay";
+
+const PAGE_SIZE = 5000;
+const MAX_FEATURES = 12_000;
+const MAX_RESPONSE_BYTES = 24 * 1024 * 1024;
+export class OpenDataAreaTooLargeError extends Error {}
+export class OpenDataOutsideCoverageError extends Error {}
+export type OpenDataCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry, Record<string, unknown>>;
+
+function validateBounds(bounds: MapEnvelope) {
+  const { west, east, south, north } = bounds;
+  if (![west, east, south, north].every(Number.isFinite) || west >= east || south >= north || west < -180 || east > 180 || south < -90 || north > 90) throw new Error("Invalid map bounds");
+}
+
+export function openDataQuery(part: OpenDataPart, bounds: MapEnvelope, offset: number, zoom = 24): string {
+  validateBounds(bounds);
+  const { west, east, south, north } = bounds;
+  const ring = `${west} ${south},${east} ${south},${east} ${north},${west} ${north},${west} ${south}`;
+  const url = new URL(openDatasetApi(part.dataset));
+  const geometryType = sourceReceipt.datasets.find(({ id }) => id === part.dataset)?.geometryType;
+  const toleranceMetres = Math.max(0.01, Math.min(10, 156543.034 * Math.cos((south + north) / 2 * Math.PI / 180) / 2 ** zoom / 2));
+  // Socrata simplifies in the geometry's own units (degrees). Use the larger
+  // metres-per-degree axis conservatively, with enough decimals for subpixels.
+  const toleranceDegrees = toleranceMetres / 111_320;
+  // Only display geometry is simplified. Filtering always uses original geometry;
+  // this path must never supply parcel intersection or distance evidence.
+  const geometry = part.dataset !== "484g-adjn" && geometryType && geometryType !== "point" && zoom < 18
+    ? `simplify_preserve_topology(the_geom,${toleranceDegrees.toFixed(8)}) as the_geom`
+    : "the_geom";
+  url.searchParams.set("$select", [":id as source_row_id", geometry, ...part.fields].join(","));
+  url.searchParams.set("$where", `intersects(the_geom, 'POLYGON((${ring}))')${part.where ? ` AND (${part.where})` : ""}`);
+  url.searchParams.set("$order", ":id");
+  url.searchParams.set("$limit", String(PAGE_SIZE));
+  url.searchParams.set("$offset", String(offset));
+  return url.toString();
+}
+
+// One short-lived, complete collection per mounted road source. Weak keys let
+// unmounted layers release their geometry; large responses are never retained.
+const roadCache = new WeakMap<OpenDataSource, {
+  bounds: MapEnvelope; zoom: number; expires: number; collection: OpenDataCollection;
+}>();
+
+/** Complete bounded queries only. Partial, malformed and oversized layers fail closed. */
+export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal?: AbortSignal, zoom = 24): Promise<OpenDataCollection> {
+  validateBounds(bounds);
+  signal?.throwIfAborted();
+  if (source.coverageAreas && !source.coverageAreas.some(area => area.west <= bounds.east && area.east >= bounds.west && area.south <= bounds.north && area.north >= bounds.south)) {
+    throw new OpenDataOutsideCoverageError("Outside this source’s mapped coverage");
+  }
+  const cached = roadCache.get(source);
+  if (cached && cached.expires > Date.now() && cached.zoom === zoom &&
+      bounds.west >= cached.bounds.west && bounds.east <= cached.bounds.east &&
+      bounds.south >= cached.bounds.south && bounds.north <= cached.bounds.north) {
+    return cached.collection;
+  }
+  roadCache.delete(source);
+  // Ten percent per edge permits small pans without repeating a spatial query.
+  const dx = (bounds.east - bounds.west) * 0.1;
+  const dy = (bounds.north - bounds.south) * 0.1;
+  let requestedBounds = source.roads ? {
+    west: Math.max(-180, bounds.west - dx), east: Math.min(180, bounds.east + dx),
+    south: Math.max(-90, bounds.south - dy), north: Math.min(90, bounds.north + dy),
+  } : bounds;
+  let result;
+  try {
+    result = await downloadOpenDataOverlay(source, requestedBounds, signal, zoom);
+  } catch (error) {
+    // Padding must not turn an otherwise valid viewport into a zoom-in error.
+    if (!source.roads || !(error instanceof OpenDataAreaTooLargeError)) throw error;
+    signal?.throwIfAborted();
+    requestedBounds = bounds;
+    result = await downloadOpenDataOverlay(source, bounds, signal, zoom);
+  }
+  signal?.throwIfAborted();
+  if (source.roads && result.bytes <= 8 * 1024 * 1024) {
+    roadCache.set(source, { bounds: requestedBounds, zoom, expires: Date.now() + 60_000, collection: result.collection });
+  }
+  return result.collection;
+}
+
+async function downloadOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal: AbortSignal | undefined, zoom: number) {
+  const features: OpenDataCollection["features"] = [];
+  // Row id -> the part that returned it. A repeat within one part's pages
+  // means the pagination shifted; one part repeating another's row is simply
+  // drawn once.
+  const seen = new Map<string, OpenDataSource["parts"][number]>();
+  let bytes = 0;
+  for (const part of source.parts) {
+    if (part.minZoom !== undefined && zoom < part.minZoom) continue;
+    for (let offset = 0; ; offset += PAGE_SIZE) {
+      signal?.throwIfAborted();
+      const name = sourceReceipt.datasets.find(({ id }) => id === part.dataset)?.name ?? part.dataset;
+      const response = await fetch(openDataQuery(part, bounds, offset, zoom), { signal }).catch(error => {
+        if (signal?.aborted) throw error;
+        throw new Error(`${name} (${part.dataset}) could not be reached. Pan to retry.`);
+      });
+      if (!response.ok) throw new Error(`${name} (${part.dataset}) unavailable (HTTP ${response.status}). Pan to retry.`);
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("Open data response is unreadable");
+      const chunks: Uint8Array[] = [];
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          bytes += value.byteLength;
+          if (bytes > MAX_RESPONSE_BYTES) { await reader.cancel(); throw new OpenDataAreaTooLargeError("Open data area too large; zoom in"); }
+          chunks.push(value);
+        }
+      } finally { reader.releaseLock(); }
+      const data = JSON.parse(await new Blob(chunks as BlobPart[]).text()) as OpenDataCollection;
+      if (data.type !== "FeatureCollection" || !Array.isArray(data.features)) throw new Error("Invalid open data collection");
+      for (const f of data.features) {
+        if (f.type !== "Feature" || !f.geometry || !f.properties?.source_row_id) throw new Error("Open data geometry or identifier missing");
+        const id = `${part.dataset}:${f.properties.source_row_id}`;
+        const earlier = seen.get(id);
+        if (earlier === part) throw new Error("Open data pagination changed; retry");
+        if (earlier) continue;
+        seen.set(id, part);
+        features.push({ ...f, id, properties: { ...f.properties, source_dataset: part.dataset, source_color: part.color ?? source.color } });
+        if (features.length > MAX_FEATURES) throw new OpenDataAreaTooLargeError("Open data area too large; zoom in");
+      }
+      if (data.features.length < PAGE_SIZE) break;
+    }
+  }
+  return { collection: { type: "FeatureCollection", features } as OpenDataCollection, bytes };
+}

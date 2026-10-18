@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 5672 x 3926 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 25.83 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          145,
+          140
+        ],
+        [
+          5535,
+          140
+        ],
+        [
+          5535,
+          3790
+        ],
+        [
+          145,
+          3790
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Full original mapped frame retains Nictaux, Torbrook, Tremont, Harmony, South Harmony and Morristown, the Cloud Lake wilderness area, Lake George and Lake Paul; West Allen, Half Moon, Milton, Kerr, Cloud, Frog, Dog, Upper Palmer and other depicted lakes, rivers and intervening land. No inset or internal crop."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Richmond Church · terrain review</title>
+<style>
+html,body{margin:0;height:100%;font:14px system-ui;color:#193436}#map{position:absolute;inset:0}aside{position:absolute;z-index:2;left:12px;top:12px;width:245px;padding:14px;background:#fffdf5ef;border-radius:8px;box-shadow:0 2px 10px #0003}h1{font-size:17px;margin:0 0 5px}p{font-size:12px;line-height:1.4}label{display:block;margin:12px 0 5px}input[type=range],select{width:100%;min-height:30px}button{min-height:34px;margin:3px;border:1px solid #748b88;background:white;border-radius:4px;color:inherit}output{float:right;font-variant-numeric:tabular-nums}#status{font-size:12px;max-height:80px;overflow:auto}footer{position:absolute;bottom:28px;left:12px;z-index:2;background:#fffdf5df;padding:5px 8px;font-size:11px;max-width:60vw}
+</style><div id="map" aria-label="Richmond historical map over 3D terrain"></div><aside>
+<h1>Richmond · terrain review</h1><p>Provisional Church alignment. Compare basin position and drainage against the terrain.</p>
+<label for="sheet">Historical fit</label><select id="sheet"><option value="v4">Retained v4 · 10 controls</option><option value="candidate14">Candidate · 14 controls</option><option value="none">Terrain without historical map</option></select>
+<label for="opacity">Sheet opacity <output id="opacity-value">70%</output></label><input id="opacity" type="range" min="0" max="100" value="70">
+<label for="height">Height exaggeration <output id="height-value">10×</output></label><input id="height" type="range" min="1" max="10" step="0.5" value="10">
+<label for="tilt">Tilt <output id="tilt-value">55°</output></label><input id="tilt" type="range" min="0" max="65" value="55">
+<label><input id="water" type="checkbox" checked> NSTDB water outlines</label>
+<div><button id="west">McDonald / Rocky</button><button id="mcmillan">McMillan / White</button><button id="east">Framboise</button><button id="pond">Church pond</button><button id="barren">Barren Lake</button><button id="whole">Whole sheet</button></div><div><button id="left">Rotate left</button><button id="north">North up</button><button id="right">Rotate right</button></div><p>Drag to move; right-drag to tilt/rotate. Height is exaggerated for inspection.</p><button id="save">Capture view</button><div id="status" role="status">Loading terrain and historical raster…</div><img id="capture" alt="Captured terrain view" style="display:none;width:100%;margin-top:8px"></aside>
+<footer>Historical scan: David Rumsey Map Collection / Stanford Libraries · recorded CC BY-NC-SA 3.0. Water: original NSTDB. No geographic acceptance.</footer>
+<script type="module">
+import {Map} from '/src/atlas/mapLibreRuntime.ts';
+import {researchTerrainStyle} from '/src/terrain/researchStyle.ts';
+import {registerTerrainReliefProtocol} from '/src/terrain/terrainRelief.ts';
+registerTerrainReliefProtocol();
+const config=await(await fetch('/__church_review_assets/config.json')).json();
+const state={exaggeration:10,lowEnabled:false,lowExaggeration:1,lowThreshold:20};
+const map=new Map({container:'map',style:researchTerrainStyle('osm',true,state),center:[-60.969,45.719],zoom:14,pitch:55,bearing:0,maxPitch:65,attributionControl:true,pixelRatio:Math.min(devicePixelRatio,1.5)});
+const status=document.getElementById('status');let ready=false;let hadError=false;
+map.on('error',e=>{hadError=true;status.textContent='Source error: '+(e.error?.message||'unknown');});
+map.on('load',async()=>{
+ const raster=config.rasters[0];map.addSource('church',{type:'image',url:raster.url,coordinates:raster.coordinates});map.addLayer({id:'church',type:'raster',source:'church',paint:{'raster-opacity':.7,'raster-fade-duration':0}});
+ const water=await(await fetch(config.water_url)).json();map.addSource('water',{type:'geojson',data:water});map.addLayer({id:'water',type:'line',source:'water',paint:{'line-color':'#0079bc','line-width':1.5,'line-opacity':.9}});ready=true;
+});
+map.on('idle',()=>{if(ready&&!hadError)status.textContent='Ready · '+document.querySelector('#sheet option:checked').textContent+' · '+document.getElementById('height').value+'× terrain';});
+document.getElementById('sheet').onchange=e=>{if(!ready)return;const value=e.target.value;map.setLayoutProperty('church','visibility',value==='none'?'none':'visible');if(value!=='none'){const raster=config.rasters.find(r=>r.id===value);map.getSource('church').updateImage({url:raster.url,coordinates:raster.coordinates});}status.textContent='Updating historical raster…';};
+document.getElementById('opacity').oninput=e=>{document.getElementById('opacity-value').value=e.target.value+'%';if(ready)map.setPaintProperty('church','raster-opacity',Number(e.target.value)/100);};
+document.getElementById('height').oninput=e=>{document.getElementById('height-value').value=e.target.value+'×';map.setTerrain({source:'research-elevation',exaggeration:Number(e.target.value)});};
+document.getElementById('tilt').oninput=e=>{document.getElementById('tilt-value').value=e.target.value+'°';map.setPitch(Number(e.target.value));};
+document.getElementById('water').onchange=e=>{if(ready)map.setLayoutProperty('water','visibility',e.target.checked?'visible':'none');};
+for(const [id,center,zoom] of [['west',[-60.969,45.719],14],['mcmillan',[-61.159,45.633],14],['east',[-60.274,45.713],14],['pond',[-60.388727,45.711268],14],['barren',[-60.589256,45.704606],14],['whole',[-60.79,45.70],9.5]])document.getElementById(id).onclick=()=>map.jumpTo({center,zoom});
+document.getElementById('save').onclick=()=>{map.once('render',()=>{const source=map.getCanvas();const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height+52;const context=canvas.getContext('2d');context.drawImage(source,0,0);context.fillStyle='#fffdf5';context.fillRect(0,source.height,canvas.width,52);context.fillStyle='#193436';context.font='14px system-ui';const label=document.querySelector('#sheet option:checked').textContent+' · '+document.getElementById('height').value+'x terrain · '+Math.round(map.getPitch())+'° tilt';context.fillText('Richmond Church: '+label,12,source.height+20);context.fillText('Rumsey / Stanford · CC BY-NC-SA 3.0; NSTDB water; Mapzen terrain. Provisional geographic alignment.',12,source.height+41);const image=document.getElementById('capture');image.src=canvas.toDataURL('image/png');image.style.display='block';});map.triggerRepaint();};
+document.getElementById('left').onclick=()=>map.setBearing(map.getBearing()-30);document.getElementById('right').onclick=()=>map.setBearing(map.getBearing()+30);document.getElementById('north').onclick=()=>map.setBearing(0);
+</script></html>

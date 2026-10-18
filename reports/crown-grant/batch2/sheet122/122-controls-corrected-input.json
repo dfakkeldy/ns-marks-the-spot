@@ -1,0 +1,103 @@
+[
+  [
+    "C02",
+    "McLeod Brook and Middle River junction bank",
+    [
+      621,
+      2760
+    ],
+    [
+      617.26,
+      2788.57
+    ],
+    "WARV",
+    [
+      167392,
+      167393,
+      287155
+    ]
+  ],
+  [
+    "C03",
+    "Baddeck Forks northern bank wedge",
+    [
+      2935,
+      3310
+    ],
+    [
+      2955,
+      3300
+    ],
+    "WARV"
+  ],
+  [
+    "C04",
+    "North Baddeck River western tributary confluence",
+    [
+      3149,
+      1792
+    ],
+    [
+      3188.72,
+      1775.67
+    ],
+    "WARV",
+    [
+      184743,
+      272758,
+      272759
+    ]
+  ],
+  [
+    "C05",
+    "Central southern pond western end",
+    [
+      3486,
+      1154
+    ],
+    [
+      3486,
+      1115
+    ],
+    "WALK"
+  ],
+  [
+    "C06",
+    "Northeastern compact pond western corner",
+    [
+      4660,
+      650
+    ],
+    [
+      4660,
+      620
+    ],
+    "WALK"
+  ],
+  [
+    "C07",
+    "Northeastern tall lake southern tip",
+    [
+      4880,
+      688
+    ],
+    [
+      4878,
+      663
+    ],
+    "WALK"
+  ],
+  [
+    "C08",
+    "Upper Middle River western large loop northern bank crest",
+    [
+      1602,
+      980
+    ],
+    [
+      1596,
+      965
+    ],
+    "WARV10"
+  ]
+]

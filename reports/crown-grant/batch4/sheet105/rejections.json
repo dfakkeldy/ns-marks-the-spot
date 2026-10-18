@@ -1,0 +1,12 @@
+{
+  "stage": "before first fit or score",
+  "rejected": [
+    {
+      "id": "Q02",
+      "reason": "Cuddihy east shore intersects a straight parcel boundary; precise shared natural endpoint is not established."
+    }
+  ],
+  "not_proposed": [
+    "Goose Harbour and Five Mile connected lake shores: impoundment correspondence requires separate water-level investigation."
+  ]
+}

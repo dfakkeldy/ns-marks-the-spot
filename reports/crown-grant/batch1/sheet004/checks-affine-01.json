@@ -1,0 +1,514 @@
+{
+  "status": "21 independent physical island/coast checks against frozen affine-01; no fitting/model selection use; Gannet Rock excluded before scoring because no precise modern reference was obtained",
+  "points": [
+    {
+      "id": "Q01",
+      "label": "Perry Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2920,
+        1158
+      ],
+      "lonlat": [
+        -66.09164422750762,
+        43.750695474026436
+      ],
+      "reference_objectid": 20895,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2911.314472916478,
+        1200.122317387606
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q02",
+      "label": "Jacco Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2711,
+        1145
+      ],
+      "lonlat": [
+        -66.10580766055156,
+        43.74917399696883
+      ],
+      "reference_objectid": 17538,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2704.3296159043093,
+        1135.5889195449417
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q03",
+      "label": "Crawleys Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2775,
+        1215
+      ],
+      "lonlat": [
+        -66.10135725838519,
+        43.74758071812689
+      ],
+      "reference_objectid": 16700,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2750.743278161681,
+        1194.8089659101097
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q04",
+      "label": "Western Pearls Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2908,
+        1305
+      ],
+      "lonlat": [
+        -66.08930748788927,
+        43.74595724559808
+      ],
+      "reference_objectid": 19549,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2900.6182092839736,
+        1304.5622058487497
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q05",
+      "label": "Eastern Pearls Island eastern tip",
+      "role": "check",
+      "pixel_xy": [
+        3005,
+        1284
+      ],
+      "lonlat": [
+        -66.08364572549793,
+        43.748763562195464
+      ],
+      "reference_objectid": 17394,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3003.122289390303,
+        1289.023574061226
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q06",
+      "label": "Reef Island northern tip",
+      "role": "check",
+      "pixel_xy": [
+        2751,
+        1693
+      ],
+      "lonlat": [
+        -66.0868685094936,
+        43.7258926640471
+      ],
+      "reference_objectid": 20368,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2753.574356305413,
+        1697.8116362352157
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q07",
+      "label": "Ram Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3099,
+        2428
+      ],
+      "lonlat": [
+        -66.04527849070708,
+        43.70094367768753
+      ],
+      "reference_objectid": 20196,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3097.546945802518,
+        2440.317357861786
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q08",
+      "label": "Long Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3347,
+        2298
+      ],
+      "lonlat": [
+        -66.03402583531299,
+        43.712166076584495
+      ],
+      "reference_objectid": 17074,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3352.0235384770203,
+        2303.213797303848
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q09",
+      "label": "Channel Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3398,
+        2114
+      ],
+      "lonlat": [
+        -66.03626856764302,
+        43.72075962426796
+      ],
+      "reference_objectid": 27754,
+      "reference_feature_code": "WACORVIS10",
+      "guide_reference_pixel_xy": [
+        3398.517886182526,
+        2126.8784868801013
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q10",
+      "label": "Pinney Point southwest corner",
+      "role": "check",
+      "pixel_xy": [
+        2905,
+        2320
+      ],
+      "lonlat": [
+        -66.06081417503519,
+        43.70152408388042
+      ],
+      "reference_objectid": 12290,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2890.4975945055485,
+        2327.2880575815216
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q12",
+      "label": "Tucker Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4590,
+        2904
+      ],
+      "lonlat": [
+        -65.94276944759491,
+        43.71213125392531
+      ],
+      "reference_objectid": 22062,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4598.723826320493,
+        2902.603836374008
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q13",
+      "label": "Bar Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        5035,
+        3329
+      ],
+      "lonlat": [
+        -65.90434477531483,
+        43.70280686891243
+      ],
+      "reference_objectid": 17338,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        5040.566906064807,
+        3329.7608246363234
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q14",
+      "label": "Western Bar Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3831,
+        3415
+      ],
+      "lonlat": [
+        -65.97440730408366,
+        43.67446240931989
+      ],
+      "reference_objectid": 22507,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3828.77246559615,
+        3403.790777917602
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q15",
+      "label": "Lobster Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        3390,
+        3675
+      ],
+      "lonlat": [
+        -65.99362736920281,
+        43.654851296920356
+      ],
+      "reference_objectid": 19729,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3390.1409810741898,
+        3646.5063327961834
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q16",
+      "label": "Holmes Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2355,
+        3488
+      ],
+      "lonlat": [
+        -66.06052420084232,
+        43.63959103402289
+      ],
+      "reference_objectid": 17532,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2338.2550259272684,
+        3493.7143869383726
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q17",
+      "label": "Southern Spectacle Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2302,
+        3775
+      ],
+      "lonlat": [
+        -66.05547590089985,
+        43.625996821825126
+      ],
+      "reference_objectid": 20391,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2285.236373620399,
+        3782.551041662344
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q18",
+      "label": "Ellenwood Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2480,
+        3546
+      ],
+      "lonlat": [
+        -66.05055908638808,
+        43.64005122504595
+      ],
+      "reference_objectid": 18473,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2478.6785911592888,
+        3550.627085309592
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q19",
+      "label": "Allen Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2665,
+        3580
+      ],
+      "lonlat": [
+        -66.03821763358894,
+        43.64211696020904
+      ],
+      "reference_objectid": 17832,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2666.0204139772686,
+        3592.9582038308727
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q20",
+      "label": "Haymaker Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        2830,
+        3621
+      ],
+      "lonlat": [
+        -66.02732130365023,
+        43.643523636965355
+      ],
+      "reference_objectid": 18022,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        2827.6816496561514,
+        3638.1525080667343
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q21",
+      "label": "Tusket Island southern lobe",
+      "role": "check",
+      "pixel_xy": [
+        3053,
+        3800
+      ],
+      "lonlat": [
+        -66.00919095367651,
+        43.640208707519335
+      ],
+      "reference_objectid": 16903,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        3045.9512000381947,
+        3819.6692459437763
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    },
+    {
+      "id": "Q22",
+      "label": "Mike Island southern tip",
+      "role": "check",
+      "pixel_xy": [
+        4905,
+        2320
+      ],
+      "lonlat": [
+        -65.94179833103976,
+        43.743575444788554
+      ],
+      "reference_objectid": 18843,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        4893.548833880515,
+        2317.357757589314
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "Q11",
+      "label": "Gannet Rock northern tip",
+      "role": "check",
+      "pixel_xy": [
+        1135,
+        2940
+      ],
+      "lonlat": [
+        -66.14297047569313,
+        43.68554792809026
+      ],
+      "reference_objectid": 21186,
+      "reference_feature_code": "WACOIS10",
+      "guide_reference_pixel_xy": [
+        1624.5182658520644,
+        2086.8699627586175
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Broad island/shore topology and final native crosshair inspected before first score; frozen affine-01 unchanged",
+      "guide": "Frozen affine-01, search context only",
+      "reason": "Nearest available wet-line candidate is a different rock south of Green Island, far from Gannet Rock. Geoname locality corroborates identity but is not a physical shoreline checkpoint; focused hydrography point/dry-line queries return no features. Unscored, unsupported."
+    }
+  ]
+}

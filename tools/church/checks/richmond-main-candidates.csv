@@ -1,0 +1,24 @@
+# Candidate held-out check features for the Richmond MAIN measurement band.
+#
+# This is an independent 1885 Church sheet at 1:84,269, used only to test
+# whether the longitude offset diagnosed on the 1884 Inverness sheet repeats
+# off-sample. It is not a candidate production layer.
+#
+# Modern coordinates are derived by the island-centroid rule from NSTDB WACO40
+# water geometry. `emit_candidates --check` re-runs every rule and box.
+#
+# Supply was frozen BEFORE residual calculation. The 24 largest islands in the
+# band were probed with the enclosed-paper reader. Ten yielded unique numerical
+# matches; visual QA then rejected supply-02 (canal/parcel enclosure) and
+# supply-09 (settlement/road-bounded paper). The eight boxes below were visibly
+# the intended island outlines. Ambiguous, duplicate, incomplete, and otherwise
+# wrong regions remain absent rather than guessed.
+label,lon,lat,rule,box_west,box_south,box_east,box_north
+island-45-715n-60-768w,-60.768206,45.714922,island,-60.77,45.713,-60.766,45.717
+island-45-709n-60-762w,-60.762354,45.709103,island,-60.764,45.707,-60.76,45.711
+island-45-555n-61-153w,-61.152658,45.554743,island,-61.155,45.553,-61.151,45.557
+island-45-621n-60-490w,-60.490473,45.621141,island,-60.492,45.619,-60.488,45.623
+island-45-643n-60-492w,-60.491694,45.642693,island,-60.494,45.641,-60.49,45.645
+island-45-614n-61-022w,-61.021600,45.614213,island,-61.024,45.612,-61.02,45.616
+island-45-610n-60-958w,-60.957687,45.610068,island,-60.96,45.608,-60.956,45.612
+island-45-576n-60-652w,-60.652040,45.576320,island,-60.654,45.574,-60.65,45.578

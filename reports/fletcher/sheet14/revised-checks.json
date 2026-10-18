@@ -1,0 +1,134 @@
+{
+  "fit_sha256": "ce0ff13c6a3119ebd75e02b2ff6a4c7018123d1cfdaa9bb9de915c25c2ecc6c0",
+  "points": [
+    {
+      "id": "C05",
+      "role": "check",
+      "pixel_xy": [
+        8632,
+        1998
+      ],
+      "lonlat": [
+        -61.2732975,
+        46.2366431
+      ],
+      "modern_node": "J0072",
+      "modern_objectids": [
+        191032,
+        191033,
+        191658
+      ],
+      "identity_evidence": "Eastern tributary joins southeast-running western stem, downstream of the upper fork pair and before lower road crossing. Thin eastern arm distinct from the double-line road to its west.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; preliminary placement corrected from visible ink before fitting; not user point-by-point audited.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection."
+    },
+    {
+      "id": "C11",
+      "role": "check",
+      "pixel_xy": [
+        7877,
+        5822
+      ],
+      "lonlat": [
+        -61.3102471,
+        46.1134917
+      ],
+      "modern_node": "J0543",
+      "modern_objectids": [
+        191525,
+        262538,
+        262651
+      ],
+      "identity_evidence": "Eastern tributary leaves the east side of Grey Brook loop, with the main continuing south. Upper nearby short east mark is not used; this is the longer southeastern branch opposite the road.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7218,
+        3590
+      ],
+      "lonlat": [
+        -61.3386802,
+        46.1855246
+      ],
+      "modern_node": "J0204",
+      "modern_objectids": [
+        191453,
+        269171,
+        269173
+      ],
+      "identity_evidence": "Northwestern thin arm joins main above loop with a separate southern arm at its base; eastbound main continues to C07. Same catchment as C06/C07, limited independence.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        6400,
+        4940
+      ],
+      "lonlat": [
+        -61.3800562,
+        46.1431433
+      ],
+      "modern_node": "J0418",
+      "modern_objectids": [
+        195895,
+        196370,
+        196371
+      ],
+      "identity_evidence": "Eastern arm above successive northwestern and western tributaries C17; entire fork order is identifiable on native scan. Same catchment as C17.",
+      "source_uncertainty_px": 5,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        6449,
+        6363
+      ],
+      "lonlat": [
+        -61.367183,
+        46.1026316
+      ],
+      "modern_node": "J0584",
+      "modern_objectids": [
+        195713,
+        196050,
+        196696
+      ],
+      "identity_evidence": "Northern tributary enters the main at the crest of tight eastward loop upstream of C13, separate from the longer northwestern C13 branch. Boundary check near control; limited independence.",
+      "source_uncertainty_px": 7,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        9220,
+        3431
+      ],
+      "lonlat": [
+        -61.2477713,
+        46.1917461
+      ],
+      "modern_node": "J0183",
+      "modern_objectids": [
+        271538,
+        276618,
+        276759
+      ],
+      "identity_evidence": "Western tributary crosses the diagonal road, curves southeast below bridge, and joins the north\u2013south main above Loch Ban. Pixel is below road crossing at actual channel confluence, not bridge corner.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native crosshair audit before scoring; no fitting input."
+    }
+  ],
+  "status": "Six retained diagnostic checks after fitting C09 and Q08; not fresh."
+}

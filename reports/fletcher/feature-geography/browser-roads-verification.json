@@ -1,0 +1,234 @@
+{
+  "reviewed_at": "2026-09-12",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 82,
+  "export_sha256": "90ce0041997e41ae08cdb9c7cdcc73c74e5f7a1c0a9c04c76fcc2b65ad74f321",
+  "checks": [
+    {
+      "count": 82,
+      "checks": [
+        {
+          "id": "F19-JUD-022",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-027",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-037",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-052",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-053",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-055",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        }
+      ],
+      "holdbacks": [
+        "F19-JUD-026",
+        "F19-JUD-034",
+        "F19-JUD-060",
+        "F19-JUD-085",
+        "F19-JUD-101",
+        "F19-JUD-124",
+        "F19-JUD-125",
+        "F19-JUD-143",
+        "F19-JUD-156",
+        "F19-JUD-165"
+      ],
+      "errors": []
+    },
+    {
+      "count": 82,
+      "checks": [
+        {
+          "id": "F19-JUD-067",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-086",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-092",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-093",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-104",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-163",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        }
+      ],
+      "holdbacks": [
+        "F19-JUD-131",
+        "F19-JUD-133",
+        "F19-JUD-141",
+        "F19-JUD-149",
+        "F19-JUD-026",
+        "F19-JUD-034",
+        "F19-JUD-060",
+        "F19-JUD-085",
+        "F19-JUD-101",
+        "F19-JUD-124",
+        "F19-JUD-125",
+        "F19-JUD-143",
+        "F19-JUD-156",
+        "F19-JUD-165"
+      ],
+      "errors": []
+    }
+  ],
+  "additional_assertions": [
+    "Actual Modern map .layer-runtime.ready state awaited before and after selection",
+    "No Modern map did not load notice after settled selection",
+    "Pointer chosen on visible painted SVG segment; clipped starting vertices are not clicked through the sidebar"
+  ],
+  "local_checks": {
+    "python": "21 focused geometry/projection/export tests pass, including GDAL replay",
+    "web": "7 feature component tests plus PMTiles rejected-header test pass; lint and build pass"
+  },
+  "basemap_issue": {
+    "observed": "A local province source emitted Failed to fetch despite successful HTTP 206 range responses and visible partial map data. The error persisted in the source badge.",
+    "evidence": "Four relevant ranges matched the on-disk archive and decompressed correctly. Default HTTP caching reproduced the failure; browser cache:no-store avoided it. The exact browser cache internals were not further isolated.",
+    "fix": "Only Vite dev/preview PMTiles responses receive Cache-Control:no-store. Range bytes and production hosting/client failure handling are unchanged.",
+    "verification": "The original browser reproduction passes without a fetch override after the server change. Preview returns correct 206 ranges with no-store; other asset responses keep no-cache. Both road suites subsequently require a ready basemap and no failure banner."
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-first-review.json",
+      "sha256": "2d9d11cb33d249d490729d04f4026f1044a441ea30da2cee63c6f413bd78898f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-last-review.json",
+      "sha256": "bf6cd6ff11a5506a24557d41999eff4d7886fe265c180af8b93bb803543cfa34"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-first-22.png",
+      "sha256": "9b2ba68ee2ec50b97ff43b6eed7619faf2e83f295c373aff0e5bf103072cc60a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-first-27.png",
+      "sha256": "2d69ae683d24b762c0e77aee1c05a66c6a2163eb5f2ce72251084eda8ddbd1e0"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-first-55.png",
+      "sha256": "37d274547849b1f55ed881417bc1a7f2d8820f18852010b540efd03646efb053"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-last-67.png",
+      "sha256": "f14728ac4e9b42d8412c1d84234565b64a833eb099dd82729b68df7039d08c15"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-last-92.png",
+      "sha256": "1f41418101147320d39c549d3825b2e60a75502c64151dbf9879b2adc5b7a50d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-roads-last-163.png",
+      "sha256": "ffd4ef832205fdc6e7192d30d7a7241ff2bda89cd88982b678de22580cac2ff8"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/basemap-before-road-92.png",
+      "sha256": "210c1f3bd58f0e4eb112f1f2c8d3aaa6df91c689f74d641d5783983a208261a3"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/basemap-body-failure.json",
+      "sha256": "765dd4a80ee1b63be00c0ae3bd3ae8601edd231095c93b1269f00f6304c51410"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/basemap-no-store-probe.json",
+      "sha256": "b93ae7b294db157fee5cbbf7975d905a0a3ec403410423da1d0b4dc7e5e475a7"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/basemap-server-fix-probe.json",
+      "sha256": "66127dfc0fd2f360d2800a84d9c331e54efaca1c614ff1e7836b523b0620f663"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/preview-range-headers.json",
+      "sha256": "a485e0dee8bba3f98f16c4c5d27ac114756625f7dfe66494e0b73538a567d19a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-82-export/reviewed.geojson",
+      "sha256": "90ce0041997e41ae08cdb9c7cdcc73c74e5f7a1c0a9c04c76fcc2b65ad74f321"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-82-export/source.json",
+      "sha256": "b51d0d3831a11f0705e7ac3541590dd9b9940483bca9f5624ef0c19c1017fad6"
+    }
+  ],
+  "limits": "Historical road sections only; both railway proposals and two road traces remain withheld. No current route/access or production publication claim."
+}

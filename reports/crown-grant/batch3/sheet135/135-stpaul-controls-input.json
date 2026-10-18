@@ -1,0 +1,54 @@
+[
+  [
+    "SC01",
+    "St Paul southwest coastal tip",
+    [
+      4675,
+      1090
+    ],
+    [
+      4729,
+      1101
+    ],
+    "WACOIS"
+  ],
+  [
+    "SC02",
+    "St Paul northwest cape west tip",
+    [
+      4745,
+      748
+    ],
+    [
+      4770,
+      780
+    ],
+    "WACOIS"
+  ],
+  [
+    "SC03",
+    "St Paul north island north tip",
+    [
+      5340,
+      301
+    ],
+    [
+      5336,
+      326
+    ],
+    "WACOIS"
+  ],
+  [
+    "SC04",
+    "St Paul east projecting cape",
+    [
+      5260,
+      604
+    ],
+    [
+      5269,
+      662
+    ],
+    "WACOIS"
+  ]
+]

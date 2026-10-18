@@ -1,0 +1,20 @@
+{
+  "verified_at_utc": "2026-09-11T13:35:00.191573+00:00",
+  "original_draft_files_unchanged": true,
+  "prior_four_native_controls_unchanged": true,
+  "initial_eleven_controls_unchanged": true,
+  "promotions": {
+    "Q05": "C13",
+    "Q06": "C14",
+    "Q04": "C15"
+  },
+  "fresh_validation_disjoint_from_fit": true,
+  "rejected_candidates_excluded": [
+    "C05",
+    "Q03"
+  ],
+  "original_observations_unchanged": true,
+  "source_sha256_verified": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "reference_files_verified": 4,
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4"
+}

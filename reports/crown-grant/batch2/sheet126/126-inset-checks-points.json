@@ -1,0 +1,112 @@
+[
+  {
+    "id": "IQ01",
+    "label": "Marie Joseph Lake southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3095,
+      2710
+    ],
+    "lonlat": [
+      -60.35067439982476,
+      45.6789211253614
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 54773,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2978.8630852036295,
+      2808.1183892257977
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ02",
+    "label": "Wingham Point western tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3912,
+      2540
+    ],
+    "lonlat": [
+      -60.29759581511442,
+      45.706422827273784
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 7512,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3911.755435939762,
+      2543.8813115790254
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ03",
+    "label": "Fourchu central cape southern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      4478,
+      2723
+    ],
+    "lonlat": [
+      -60.257360906068335,
+      45.70802337375153
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 12377,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4476.626362728071,
+      2719.228161730687
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ04",
+    "label": "Coastal corner south of Marie Joseph Lake",
+    "role": "proposal",
+    "pixel_xy": [
+      2981,
+      2834
+    ],
+    "lonlat": [
+      -60.348653242074235,
+      45.67856816825355
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 5095,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3004.0380636357004,
+      2825.423389737727
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "IQ05",
+    "label": "Western Fourchu cape southwestern corner",
+    "role": "proposal",
+    "pixel_xy": [
+      4148,
+      2704
+    ],
+    "lonlat": [
+      -60.27718690599104,
+      45.703488717280415
+    ],
+    "guide_file": ".crown-grant-local/126-inset-locality-guide.npy",
+    "reference_objectid": 12361,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4170.627773103188,
+      2706.0659046599176
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

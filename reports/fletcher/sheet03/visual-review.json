@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 33,
+  "personally_inspected_warped_frames": 8,
+  "personally_inspected_adjacent_frames": 3,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Two fresh checks pass local thresholds but cover northeastern tributaries only",
+    "Northern, interior and southeastern areas lack distributed physical controls and independent checks",
+    "Broad western sea is unsupported extrapolation",
+    "Two initial checks remain diagnostics; no repair or promotion performed",
+    "Southern joins unaccepted; eastern Sheet2 and northern Sheet1 pending"
+  ]
+}

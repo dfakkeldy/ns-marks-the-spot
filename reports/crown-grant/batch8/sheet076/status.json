@@ -1,0 +1,46 @@
+{
+  "sheet": "076",
+  "status": "provisional-rms-failed",
+  "assessment_complete": true,
+  "geographic_accepted": false,
+  "user_accepted": false,
+  "acceptance": "PROVISIONAL; numerical RMS fails 100 m ceiling; not geographically or user accepted",
+  "criteria_version": 2,
+  "rms_gate_m": 100,
+  "source": {
+    "url": "https://novascotia.ca/natr/land/indexmaps/076.pdf",
+    "pdf_sha256": "d8b5f3ae18fd790b1db3494cdda7004ce3648494977393080030e1795d3e4e56",
+    "jpeg_sha256": "a3ede6b037b113f10f4bc40cdb901796cc00367611d1f2a2df6db2391a4c2d5f",
+    "dimensions": [
+      6070,
+      4124
+    ],
+    "ppi": 160
+  },
+  "active_fit": "fit-affine-01.json",
+  "components": "components.json",
+  "component_assessments": [
+    {
+      "component": "main",
+      "controls": 6,
+      "independent_checks": 7,
+      "rms_ground_m": 131.8263871369466,
+      "rms_gate_passed": false,
+      "fit": "fit-affine-01.json",
+      "checks": "checks-affine-01.json",
+      "scores": "scores-affine-01.json"
+    }
+  ],
+  "limitations": [
+    "Seven excluded checks give RMS 131.83 m, exceeding 100 m. Median is 51.45 m, P95 248.45 m and maximum 316.03 m; P95 and maximum also exceed companion bounds. All first results remain unchanged.",
+    "Jeddore Rock, a separate excluded offshore island, has 316.03 m error. The other six checks range from 26.47 to 90.77 m. The large discrepancy is retained without refitting or removing the check.",
+    "Four checks share islands with controls; eastern Porter island, Roger Island and Jeddore Rock are separate nearby islands. Petpeswick and Jeddore Cape controls lack separate checks on their capes.",
+    "Mainland urban/parcel regions and harbour heads remain unvalidated. Most of the original frame is featureless ocean, retained without implying independent geographic accuracy there.",
+    "Generalized coastal observations use 18 px working source uncertainty. Changed barrier shores, marsh connections and tidal edges remain unvalidated."
+  ],
+  "review": {
+    "status": "RMS EXCEEDS 100 m \u2014 coverage remains provisional",
+    "statistics": "7 independent checks: RMS 131.83 m, median 51.45 m, P95 248.45 m, maximum 316.03 m. 6 controls; fit unchanged after scoring.",
+    "coverage": "Complete original mapped frame retains Grand Desert, Seaforth, Three Fathom Harbour, Lower East Chezzetcook, Petpeswick Harbour and Head, Musquodoboit Harbour, Ostrea Lake, West and East Jeddore, Porter Lake islands, Brown, Roger, Barren, Duck and Spritsail islands, Jeddore Rock, every other mapped offshore rock and the entire original ocean frame. No displaced inset identified."
+  }
+}

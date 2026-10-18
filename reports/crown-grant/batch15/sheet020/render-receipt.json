@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "fcf89067b28d43ca655caffda4bfe0f93ea050a2ade07b44eac8e140a557de61",
+  "fit_sha256": "27d21d78ea51631be230bc8ae3d752b3c44b65fc0caf03e69c04a2702f9a0103",
+  "components_sha256": "f4ca493f2f51c44a2598f45ba54e1a8eafefa8ff179e8c902aa464c68b699e19",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 52.94 m passes 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          44.691129090397276,
+          -65.81038500587681
+        ],
+        [
+          44.95679588596008,
+          -65.37502548658112
+        ]
+      ],
+      "dimensions": [
+        6058,
+        5212
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 14448091,
+      "source_mask_pixels": 16554345,
+      "affine_determinant": -28.109958831560313,
+      "png_sha256": "40dad9396e379ef9469dfcfb81c8949a34c0aca122b2dc47ae0aa56beaa28093",
+      "tif_sha256": "97240f017856eb7810c035bbdc4a9a6c9394f46ddeb2552d3b46a98efa75efd1"
+    },
+    {
+      "id": "prim-point-inset",
+      "status": "RMS 38.33 m passes 100 m; limitations retained",
+      "png": "prim-point-inset-3857.png",
+      "tif": "prim-point-inset-3857.tif",
+      "bounds": [
+        [
+          44.63712857651722,
+          -65.91213927962555
+        ],
+        [
+          44.74349855198351,
+          -65.70955121675091
+        ]
+      ],
+      "dimensions": [
+        2819,
+        2082
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 2880443,
+      "source_mask_pixels": 3383630,
+      "affine_determinant": -27.544943907207315,
+      "png_sha256": "fa0d96af8b5811261ce2eca93a2e5d4c982fc0b78500e42c2ca2d838906d552c",
+      "tif_sha256": "574fa6ecaa81a9636e01b4efe6931bd9d1f4ba4447df2ab925dfb0a0aea7aa66"
+    }
+  ]
+}

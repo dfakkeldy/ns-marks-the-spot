@@ -1,0 +1,225 @@
+{
+  "count": 7,
+  "rms_ground_m": 123.45814689513249,
+  "median_ground_m": 62.89290815385633,
+  "p95_ground_m": 228.59533626307066,
+  "max_ground_m": 264.0167637879153,
+  "p95_method": "numpy linear empirical percentile",
+  "mean_east_ground_m": 27.548479151590094,
+  "mean_north_ground_m": -31.91411073282713,
+  "points": [
+    {
+      "id": "MQ01",
+      "label": "Tiddville northern cove inner bend",
+      "role": "check",
+      "pixel_xy": [
+        2479,
+        2161
+      ],
+      "lonlat": [
+        -66.17436943289276,
+        44.43267049131143
+      ],
+      "reference_objectid": 11970,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2485.2728694846155,
+        2167.996359572746
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -66.17496379125865,
+        44.432844132178694
+      ],
+      "error_ground_m": 51.105779868933816,
+      "east_ground_m": -47.323286715009246,
+      "north_ground_m": 19.2952654944406
+    },
+    {
+      "id": "MQ02",
+      "label": "Tiddville southern shore headland",
+      "role": "check",
+      "pixel_xy": [
+        2820,
+        2512
+      ],
+      "lonlat": [
+        -66.1430786881584,
+        44.42454765621905
+      ],
+      "reference_objectid": 3967,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        2825.1540214469424,
+        2516.6558621685253
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -66.14353427986829,
+        44.42464412459061
+      ],
+      "error_ground_m": 37.830214565471884,
+      "east_ground_m": -36.27964692100808,
+      "north_ground_m": 10.719717970013487
+    },
+    {
+      "id": "MQ06",
+      "label": "Mink Cove eastern lip",
+      "role": "check",
+      "pixel_xy": [
+        3741,
+        2046
+      ],
+      "lonlat": [
+        -66.10142484860896,
+        44.46283186557184
+      ],
+      "reference_objectid": 5470,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3736.8469808017253,
+        2035.0567073875573
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -66.1008429230223,
+        44.4624489067262
+      ],
+      "error_ground_m": 62.89290815385633,
+      "east_ground_m": 46.30998192129906,
+      "north_ground_m": -42.55471149588917
+    },
+    {
+      "id": "MQ07",
+      "label": "East Sandy Cove inner head",
+      "role": "check",
+      "pixel_xy": [
+        4140,
+        1600
+      ],
+      "lonlat": [
+        -66.08839215742672,
+        44.49015774668318
+      ],
+      "reference_objectid": 4969,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4165.405211774283,
+        1588.6621071142145
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -66.08961653130608,
+        44.48917956885226
+      ],
+      "error_ground_m": 145.94533870510014,
+      "east_ground_m": -97.39192578109255,
+      "north_ground_m": -108.6961576248055
+    },
+    {
+      "id": "MQ08",
+      "label": "East Sandy Cove southeastern lip",
+      "role": "check",
+      "pixel_xy": [
+        4300,
+        1800
+      ],
+      "lonlat": [
+        -66.0742464505553,
+        44.48449545932629
+      ],
+      "reference_objectid": 5187,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4300.413785398239,
+        1784.3722537830472
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -66.07380563433205,
+        44.483824269354905
+      ],
+      "error_ground_m": 82.41639408576533,
+      "east_ground_m": 35.06761274887618,
+      "north_ground_m": -74.58367482361695
+    },
+    {
+      "id": "MQ09",
+      "label": "Little River Cove eastern lip",
+      "role": "check",
+      "pixel_xy": [
+        3250,
+        2240
+      ],
+      "lonlat": [
+        -66.12560207154603,
+        44.44466135756879
+      ],
+      "reference_objectid": 5028,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        3245.632167156553,
+        2236.66031556495
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "reference_service": "NSTDB water layer 4",
+      "review": "Final native crosshair and contextual shore geometry inspected before first scoring; frozen main affine unchanged",
+      "predicted_lonlat": [
+        -66.12523395212729,
+        44.444605250876144
+      ],
+      "error_ground_m": 29.95995681638041,
+      "east_ground_m": 29.30408252493487,
+      "north_ground_m": -6.234561717649916
+    },
+    {
+      "id": "MQ10",
+      "label": "Weymouth outer east-bank western corner",
+      "role": "check",
+      "pixel_xy": [
+        4783,
+        2892
+      ],
+      "lonlat": [
+        -66.01485830320958,
+        44.44711164770246
+      ],
+      "guide_file": ".crown-grant-local/005-main-frozen-guide.npy",
+      "reference_objectid": 9463,
+      "reference_feature_code": "WACO20",
+      "guide_reference_pixel_xy": [
+        4740.828122116276,
+        2868.0734151734505
+      ],
+      "source_uncertainty_px": 6,
+      "modern_uncertainty_m": 20,
+      "review": "Post-score source-placement audit: original point was on the northern sloping face, not the shared western corner. Corrected from native outline; fit unchanged, original score retained.",
+      "predicted_lonlat": [
+        -66.01155243675251,
+        44.446919515033294
+      ],
+      "error_ground_m": 264.0167637879153,
+      "east_ground_m": 263.1525362831304,
+      "north_ground_m": -21.344652932282447
+    }
+  ],
+  "fit_sha256": "ff33da67fdf9fe7fc58ce6fdcd1d7c84505b9326ac4df9939911f165edad34fb",
+  "checks_sha256": "d62b04d615fc806ad266011aeca8344a278f75e292e91b77b55f3df62cc5942b",
+  "status": "Source-audited independent coastal checks; MQ10 placement corrected after first score, no fit change. Original 184.29 m RMS result retained separately."
+}

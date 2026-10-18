@@ -1,0 +1,80 @@
+[
+  {
+    "id": "C04",
+    "label": "Y Lake northern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      535,
+      3366
+    ],
+    "lonlat": [
+      -63.38734610081053,
+      44.86387510212583
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 140978,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 140978,
+    "nearest_unfiltered_distance_guide_px": 0.8704166443212836,
+    "selected_distance_guide_px": 0.8704166443212836,
+    "guide_reference_pixel_xy": [
+      537.1743369026808,
+      3392.2755096812034
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Y Lake west tip",
+    "role": "proposal",
+    "pixel_xy": [
+      483,
+      3418
+    ],
+    "lonlat": [
+      -63.38862310854591,
+      44.8606480052909
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 140977,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 237099,
+    "nearest_unfiltered_distance_guide_px": 10.44092939169385,
+    "selected_distance_guide_px": 12.676710663976333,
+    "guide_reference_pixel_xy": [
+      493.5840597419301,
+      3446.4701524031116
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Southwestern Rocky Lake southern tip",
+    "role": "proposal",
+    "pixel_xy": [
+      306,
+      3514
+    ],
+    "lonlat": [
+      -63.397588717464,
+      44.85299502215564
+    ],
+    "guide_file": ".crown-grant-local/074-adjacent-ppi-guide.npy",
+    "reference_objectid": 141820,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141820,
+    "nearest_unfiltered_distance_guide_px": 1.0935343412858918,
+    "selected_distance_guide_px": 1.0935343412858918,
+    "guide_reference_pixel_xy": [
+      309.2403974116314,
+      3541.06678322074
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

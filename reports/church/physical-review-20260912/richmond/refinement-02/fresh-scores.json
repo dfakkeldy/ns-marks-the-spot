@@ -1,0 +1,59 @@
+{
+  "fit_csv_sha256": "b7dc6719747a32d2fc4c64cc65df45514cac20ab7a9b7bad69768710035da7f6",
+  "fresh_observations_sha256": "42623e0d9760ec36c72bbbd6a91c84b7758e391f9292dea46ca1dea71454e955",
+  "fresh_check_count": 4,
+  "scope": "One northern check and three western checks spanning two western localities. No fresh check near Grand Narrows or the far eastern/southern edge; not a county-wide validation set.",
+  "fit_was_frozen_before_correspondence_selection": true,
+  "fresh_checks_used_for_fitting_or_model_selection": false,
+  "baseline_six_control_tps": {
+    "points": [
+      {
+        "label": "F01",
+        "error_ground_m": 17.928946750410603
+      },
+      {
+        "label": "F02",
+        "error_ground_m": 318.0418961931494
+      },
+      {
+        "label": "F03",
+        "error_ground_m": 366.31934387616764
+      },
+      {
+        "label": "F04",
+        "error_ground_m": 168.79378969160368
+      }
+    ],
+    "rms_ground_m": 256.97923067926735,
+    "max_ground_m": 366.31934387616764
+  },
+  "frozen_seven_control_tps": {
+    "points": [
+      {
+        "label": "F01",
+        "error_ground_m": 40.50802944644414
+      },
+      {
+        "label": "F02",
+        "error_ground_m": 324.8995167282722
+      },
+      {
+        "label": "F03",
+        "error_ground_m": 382.03591467060266
+      },
+      {
+        "label": "F04",
+        "error_ground_m": 168.9535977103973
+      }
+    ],
+    "rms_ground_m": 265.3758441801879,
+    "max_ground_m": 382.03591467060266
+  },
+  "geographic_acceptance": false,
+  "source_control_hull": {
+    "F01": true,
+    "F02": false,
+    "F03": false,
+    "F04": true
+  }
+}

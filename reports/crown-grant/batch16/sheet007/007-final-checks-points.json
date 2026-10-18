@@ -1,0 +1,245 @@
+[
+  {
+    "id": "Q01",
+    "label": "Ash Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      879,
+      558
+    ],
+    "lonlat": [
+      -66.1085533629889,
+      44.156004562914816
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 129472,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WARV50",
+    "nearest_unfiltered_objectid": 255835,
+    "nearest_unfiltered_distance_guide_px": 2.8064544993853398,
+    "selected_distance_guide_px": 9.378084800957128,
+    "guide_reference_pixel_xy": [
+      877.4647814512136,
+      556.7529277239228
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q02",
+    "label": "Northern small lake near Corberrie southern shore",
+    "role": "check",
+    "pixel_xy": [
+      3070,
+      487
+    ],
+    "lonlat": [
+      -65.97767737669218,
+      44.20274733166498
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 133110,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133110,
+    "nearest_unfiltered_distance_guide_px": 2.9707098471748257,
+    "selected_distance_guide_px": 2.9707098471748257,
+    "guide_reference_pixel_xy": [
+      3086.579423334624,
+      486.52633373625576
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q03",
+    "label": "Melanson Lake southwestern lobe southern shore",
+    "role": "check",
+    "pixel_xy": [
+      1829,
+      1607
+    ],
+    "lonlat": [
+      -66.02201688730013,
+      44.12882975444508
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 137474,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 137474,
+    "nearest_unfiltered_distance_guide_px": 0.09875497106121305,
+    "selected_distance_guide_px": 0.09875497106121305,
+    "guide_reference_pixel_xy": [
+      1834.0884626820916,
+      1618.0438964484492
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q04",
+    "label": "Tedford Lake northern small island southern shore",
+    "role": "check",
+    "pixel_xy": [
+      1721,
+      2175
+    ],
+    "lonlat": [
+      -66.01304020893173,
+      44.102226636460436
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 150361,
+    "reference_feature_code": "WALKIS10",
+    "nearest_unfiltered_feature_code": "WALKIS10",
+    "nearest_unfiltered_objectid": 150361,
+    "nearest_unfiltered_distance_guide_px": 1.1408567603314275,
+    "selected_distance_guide_px": 1.1408567603314275,
+    "guide_reference_pixel_xy": [
+      1726.991515954025,
+      2181.533398609492
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q05",
+    "label": "Edwards Lake western lobe southern shore",
+    "role": "check",
+    "pixel_xy": [
+      1802,
+      3140
+    ],
+    "lonlat": [
+      -65.9812667802974,
+      44.062806816883466
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 126653,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 126653,
+    "nearest_unfiltered_distance_guide_px": 4.5887284304277784,
+    "selected_distance_guide_px": 4.5887284304277784,
+    "guide_reference_pixel_xy": [
+      1823.59835764335,
+      3132.4504509301623
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q06",
+    "label": "Duck Lake southern shore",
+    "role": "check",
+    "pixel_xy": [
+      3813,
+      3515
+    ],
+    "lonlat": [
+      -65.85067712428138,
+      44.08520826003043
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 127936,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 127936,
+    "nearest_unfiltered_distance_guide_px": 13.392216362336356,
+    "selected_distance_guide_px": 13.392216362336356,
+    "guide_reference_pixel_xy": [
+      3821.021833280509,
+      3522.646823754534
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q07",
+    "label": "Beaver Lake eastern cape",
+    "role": "check",
+    "pixel_xy": [
+      5186,
+      3349
+    ],
+    "lonlat": [
+      -65.77352298831346,
+      44.119081157184304
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 133094,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 133094,
+    "nearest_unfiltered_distance_guide_px": 1.0532841286315984,
+    "selected_distance_guide_px": 1.0532841286315984,
+    "guide_reference_pixel_xy": [
+      5178.979571299627,
+      3357.6128985603573
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q08",
+    "label": "Whistler Lake southern tip",
+    "role": "check",
+    "pixel_xy": [
+      4877,
+      2452
+    ],
+    "lonlat": [
+      -65.81673369379408,
+      44.151947187235734
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 141641,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 141641,
+    "nearest_unfiltered_distance_guide_px": 1.371416061410831,
+    "selected_distance_guide_px": 1.371416061410831,
+    "guide_reference_pixel_xy": [
+      4866.036606643989,
+      2460.9760406011483
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  },
+  {
+    "id": "Q09",
+    "label": "Grass Lake northern shore",
+    "role": "check",
+    "pixel_xy": [
+      862,
+      921
+    ],
+    "lonlat": [
+      -66.10000010254082,
+      44.13971066886588
+    ],
+    "guide_file": ".crown-grant-local/007-frozen-east-guide.npy",
+    "reference_objectid": 138014,
+    "reference_feature_code": "WALK20",
+    "nearest_unfiltered_feature_code": "WALK20",
+    "nearest_unfiltered_objectid": 138014,
+    "nearest_unfiltered_distance_guide_px": 0.5530920048519301,
+    "selected_distance_guide_px": 0.5530920048519301,
+    "guide_reference_pixel_xy": [
+      853.5530553540448,
+      921.0063671966782
+    ],
+    "source_uncertainty_px": 24,
+    "modern_uncertainty_m": 20,
+    "review": "Eight broad pairs from two independent discovery guides, fourteen detail pairs, seventeen initial and one corrected native crosshair inspected before first fit and score."
+  }
+]

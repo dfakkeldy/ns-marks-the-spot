@@ -1,0 +1,90 @@
+[
+  {
+    "id": "Q01",
+    "label": "Enrage Cape eastern island tip",
+    "role": "proposal",
+    "pixel_xy": [
+      3091,
+      3564
+    ],
+    "lonlat": [
+      -61.01380397730889,
+      46.64602365431429
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 4141,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3067.63852820982,
+      3523.4307493387023
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q02",
+    "label": "Western Caveau Point northern apex",
+    "role": "proposal",
+    "pixel_xy": [
+      3352,
+      3500
+    ],
+    "lonlat": [
+      -60.99713120035156,
+      46.65283664380496
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 11621,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      3342.8151520008105,
+      3476.5163033611607
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q03",
+    "label": "Cap Rouge northern coastal point",
+    "role": "proposal",
+    "pixel_xy": [
+      4190,
+      2920
+    ],
+    "lonlat": [
+      -60.95707379604465,
+      46.69342153197181
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 9882,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      4179.422637118725,
+      2886.338386536576
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q04",
+    "label": "Shag Roost shoreline stream mouth",
+    "role": "proposal",
+    "pixel_xy": [
+      5421,
+      1791
+    ],
+    "lonlat": [
+      -60.905456412886736,
+      46.76472372183161
+    ],
+    "guide_file": ".crown-grant-local/119-adjacent-guide.npy",
+    "reference_objectid": 11235,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5394.00149744167,
+      1750.3353471322916
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

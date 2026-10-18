@@ -1,0 +1,60 @@
+{
+  "mask_rasterization": "GDAL native pixel-centre rasterization of pixel-edge polygons",
+  "source_sha256": "c85aaf6da0f79d8df12ec5ad3a11d6e6df000542060f81091aa96e152a84bb3e",
+  "fit_sha256": "75bc038a0157ed30e520f9d85b6fb0c493d3a8d8f8040b98a198761aa4cbcde7",
+  "components_sha256": "ba1657ef9ecc5c51afb0813e91aa3a918c877d015fb11b204bbdf23c887e5cd2",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 174.43 m exceeds 100 m; limitations retained",
+      "png": "main-3857.png",
+      "tif": "main-3857.tif",
+      "bounds": [
+        [
+          45.65410651576575,
+          -62.022836492894605
+        ],
+        [
+          45.96443511339462,
+          -61.64906546947817
+        ]
+      ],
+      "dimensions": [
+        5201,
+        6195
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 15631293,
+      "source_mask_pixels": 19189455,
+      "affine_determinant": -25.309716676750092,
+      "png_sha256": "bc6141579ed80ccbb356a52efc58ee75ca12da94a1485ea9b110f728b1489965",
+      "tif_sha256": "9eafa6ed2fce4c111eafbcd5f6771ee0607dc42c7306a77c222064942abc235c"
+    },
+    {
+      "id": "coastal-inset",
+      "status": "RMS 89.34 m passes 100 m; limitations retained",
+      "png": "coastal-inset-3857.png",
+      "tif": "coastal-inset-3857.tif",
+      "bounds": [
+        [
+          45.75179651219117,
+          -62.20263917287577
+        ],
+        [
+          45.857202403893815,
+          -61.969149064227416
+        ]
+      ],
+      "dimensions": [
+        3249,
+        2104
+      ],
+      "output_cell_projected_m": 8,
+      "opaque_pixels": 2641673,
+      "source_mask_pixels": 3547545,
+      "affine_determinant": -23.145209885543448,
+      "png_sha256": "2bf8407ca557ade2bf624f02daf39cfbb0d904ddec980312e30df11542291409",
+      "tif_sha256": "b8df162ed32d65b0894ec13e5b32ce47835cf4857fd4c621a53ca9bcc82dabe7"
+    }
+  ]
+}

@@ -64,6 +64,8 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 fastlane/README.md
+fastlane/api_key.json
+fastlane/metadata/review_information/phone_number.txt
 
 # Ruby / Bundler
 vendor/bundle/
@@ -73,3 +75,52 @@ Gemfile.lock
 # Python
 __pycache__/
 *.pyc
+
+# Web companion
+web/node_modules/
+web/dist/
+web/public/vendor/pdfjs/
+
+# Provincial vector archives are generated data artifacts, distributed via
+# object storage rather than Git. The source/checksum receipt is versioned.
+web/public/atlas/provincial/*.pmtiles
+
+# Generated Church map rasters and tiles. Never committed - shipped as GitHub
+# Release assets instead. See docs/CHURCH_MAPS.md.
+build/church/
+tiles/church-*/
+build/fletcher/
+tiles/fletcher-*/
+
+# Fletcher source scans, warps, QA images, manifests, and tile trees are
+# compute-host artifacts. Only the human-readable inventory and results belong
+# in Git.
+reports/fletcher/artifacts/
+
+# Distance-field previews written beside each shoreline report. The report JSON
+# beside them is versioned; the picture is regenerable from it and the warp.
+reports/church/*-heat.png
+
+# Agent scratch reports (session working notes, never repo content). The
+# directory's own self-ignoring `*` gitignore can't be committed, so the rule
+# lives here where it is tracked.
+.superpowers/
+
+# SwiftPM build products for the local NSMarksCore package
+NSMarksCore/.build/
+
+# Browser test evidence
+web/test-results/
+web/playwright-report/
+
+# Crown Grant scans, warps, tiles and imagery-bearing review evidence stay private.
+.crown-grant-local/
+
+# Downloaded original Rhodena PDFs stay outside distributed source
+web/scripts/.rhodena-cache/
+
+# cf CLI per-directory cache (account id and name)
+.cloudflare/
+
+# Local research notes. They are never repository content.
+/research_notes/

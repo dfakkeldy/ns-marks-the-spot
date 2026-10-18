@@ -1,0 +1,396 @@
+{
+  "sheet": "026",
+  "baseline_report": "reports/crown-grant/batch14/sheet026",
+  "baseline_fit": "fit-similarity-01.json",
+  "baseline_checks": "checks-similarity-01.json",
+  "baseline_score": "scores-similarity-01.json",
+  "source_sha256": "d07ceffb64b55a362a51a8f003049d74e05f3fa4fd1fdcc6b6e716b38b03709d",
+  "reference_sha256": "a980b7b9a39b720cf70b7971f1ab5e86eee141e58b5f69ef3150b65f812d0335",
+  "fit_sha256": "39d0fca011e3bf08d32b91c44c4d0fd695f452d7a412da824b204730ba641630",
+  "checks_sha256": "780bb6471c303126b246ad02c2f41678b458dddd5cc4cecae5340442a3b2247e",
+  "coordinate_frame": "Original embedded JPEG; pixel edge coordinates, x right and y down",
+  "baseline": {
+    "count": 5,
+    "rms_ground_m": 103.52941962631171,
+    "median_ground_m": 104.79513546566895,
+    "p95_ground_m": 133.91363640729884,
+    "max_ground_m": 135.47450223525055,
+    "p95_method": "numpy linear empirical percentile",
+    "mean_east_ground_m": -13.197069198505677,
+    "mean_north_ground_m": 42.317393778143945,
+    "points": [
+      {
+        "id": "Q01",
+        "label": "Green Harbour Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          420,
+          2306
+        ],
+        "lonlat": [
+          -65.13254661557245,
+          43.802667820952124
+        ],
+        "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+        "reference_objectid": 125091,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 125091,
+        "nearest_unfiltered_distance_guide_px": 0.5518158558283013,
+        "selected_distance_guide_px": 0.5518158558283013,
+        "guide_reference_pixel_xy": [
+          392.1672517497209,
+          2281.474141092156
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score.",
+        "predicted_lonlat": [
+          -65.13195345011958,
+          43.801828164726444
+        ],
+        "error_ground_m": 104.79513546566895,
+        "east_ground_m": 47.733609949538966,
+        "north_ground_m": -93.29267333747694
+      },
+      {
+        "id": "Q02",
+        "label": "Stewart Lake southern tip",
+        "role": "check",
+        "pixel_xy": [
+          4844,
+          2347
+        ],
+        "lonlat": [
+          -64.84431272584699,
+          43.89059740275887
+        ],
+        "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+        "reference_objectid": 140120,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 140120,
+        "nearest_unfiltered_distance_guide_px": 0.5199418354282758,
+        "selected_distance_guide_px": 0.5199418354282758,
+        "guide_reference_pixel_xy": [
+          4833.310435725434,
+          2332.417096119141
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score.",
+        "predicted_lonlat": [
+          -64.8438846094191,
+          43.89177672109488
+        ],
+        "error_ground_m": 135.47450223525055,
+        "east_ground_m": 34.399942814067366,
+        "north_ground_m": 131.03428822364702
+      },
+      {
+        "id": "Q03",
+        "label": "Cameron Lake southern shore",
+        "role": "check",
+        "pixel_xy": [
+          4463,
+          2691
+        ],
+        "lonlat": [
+          -64.8579151356479,
+          43.867566608059256
+        ],
+        "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+        "reference_objectid": 124444,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 124444,
+        "nearest_unfiltered_distance_guide_px": 0.9077638790081698,
+        "selected_distance_guide_px": 0.9077638790081698,
+        "guide_reference_pixel_xy": [
+          4476.595359301136,
+          2670.3147390551167
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score.",
+        "predicted_lonlat": [
+          -64.85878446611717,
+          43.867736425420645
+        ],
+        "error_ground_m": 72.38299549792718,
+        "east_ground_m": -69.88039481620027,
+        "north_ground_m": 18.86871637353525
+      },
+      {
+        "id": "Q04",
+        "label": "Sinclair Island southern shore",
+        "role": "check",
+        "pixel_xy": [
+          3185,
+          2378
+        ],
+        "lonlat": [
+          -64.95065133345318,
+          43.85548394278666
+        ],
+        "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+        "reference_objectid": 20383,
+        "reference_feature_code": "WACOIS10",
+        "nearest_unfiltered_feature_code": "WACOIS10",
+        "nearest_unfiltered_objectid": 20383,
+        "nearest_unfiltered_distance_guide_px": 0.6297545378542813,
+        "selected_distance_guide_px": 0.6297545378542813,
+        "guide_reference_pixel_xy": [
+          3174.595165977429,
+          2363.7941645383835
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score.",
+        "predicted_lonlat": [
+          -64.9506847869086,
+          43.85595248068247
+        ],
+        "error_ground_m": 52.128411947439986,
+        "east_ground_m": -2.689657449089385,
+        "north_ground_m": 52.05897689129668
+      },
+      {
+        "id": "Q05",
+        "label": "Forbes Lake northwestern horn",
+        "role": "check",
+        "pixel_xy": [
+          4517,
+          2721
+        ],
+        "lonlat": [
+          -64.8534808756267,
+          43.86651858943624
+        ],
+        "guide_file": ".crown-grant-local/026-frozen-south-guide.npy",
+        "reference_objectid": 140888,
+        "reference_feature_code": "WALK20",
+        "nearest_unfiltered_feature_code": "WALK20",
+        "nearest_unfiltered_objectid": 140888,
+        "nearest_unfiltered_distance_guide_px": 1.148993588685349,
+        "selected_distance_guide_px": 1.148993588685349,
+        "guide_reference_pixel_xy": [
+          4526.175394687394,
+          2714.1998672952177
+        ],
+        "source_uncertainty_px": 24,
+        "modern_uncertainty_m": 20,
+        "review": "Broad context and all native paired crosshairs inspected; type and physical shoreline corrections before first fit and score.",
+        "predicted_lonlat": [
+          -64.85442071854263,
+          43.86744485673884
+        ],
+        "error_ground_m": 127.67017309549205,
+        "east_ground_m": -75.54884649084507,
+        "north_ground_m": 102.9176607397177
+      }
+    ]
+  },
+  "control_axis_ratio": 4.4708208822205,
+  "affine_scale_ratio": 1.0,
+  "metres_per_pixel_singular_values": [
+    5.701858125747876,
+    5.701858125747876
+  ],
+  "leave_one_control_out": [
+    {
+      "omitted_control": "C01",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          5.2365293338709185,
+          2.2111053728486123
+        ],
+        [
+          2.2111053728486123,
+          -5.2365293338709185
+        ],
+        [
+          321320.32788883866,
+          4863089.404210146
+        ]
+      ],
+      "diagnostic_rms_m": 154.033641178413,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C02",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          5.2703641458977915,
+          2.192188686496634
+        ],
+        [
+          2.192188686496634,
+          -5.2703641458977915
+        ],
+        [
+          321226.2810903216,
+          4863289.637580476
+        ]
+      ],
+      "diagnostic_rms_m": 122.81167455644005,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C03",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          5.262622439935553,
+          2.184195282509069
+        ],
+        [
+          2.184195282509069,
+          -5.262622439935553
+        ],
+        [
+          321259.368388481,
+          4863290.30336314
+        ]
+      ],
+      "diagnostic_rms_m": 116.2945630384015,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C04",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          5.268938288274074,
+          2.1787711677798134
+        ],
+        [
+          2.1787711677798134,
+          -5.268938288274074
+        ],
+        [
+          321264.15219166264,
+          4863330.3891048385
+        ]
+      ],
+      "diagnostic_rms_m": 108.40926775188849,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C05",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          5.267339606370913,
+          2.1807857544778964
+        ],
+        [
+          2.1807857544778964,
+          -5.267339606370913
+        ],
+        [
+          321269.46204815654,
+          4863302.173228028
+        ]
+      ],
+      "diagnostic_rms_m": 102.55387577651594,
+      "status": "sensitivity only; omission not adopted"
+    },
+    {
+      "omitted_control": "C06",
+      "model": "reflected similarity",
+      "matrix": [
+        [
+          5.283757235193598,
+          2.158873249276767
+        ],
+        [
+          2.158873249276767,
+          -5.283757235193598
+        ],
+        [
+          321260.69896261394,
+          4863381.021511025
+        ]
+      ],
+      "diagnostic_rms_m": 67.79900155698738,
+      "status": "sensitivity only; omission not adopted"
+    }
+  ],
+  "same_controls_similarity_diagnostic": {
+    "matrix": [
+      [
+        5.268166784505072,
+        2.181193439120962
+      ],
+      [
+        2.181193439120962,
+        -5.268166784505072
+      ],
+      [
+        321260.45013578306,
+        4863304.003477222
+      ]
+    ],
+    "rms_ground_m": 103.52942008920363,
+    "policy": "Algebraic diagnostic only. Full original control set, no deletions or coordinate changes. Not a fresh result or adopted replacement."
+  },
+  "trial_policy": "Diagnostic only. No trial is adopted, no checks removed, no bias correction applied. Prior checks are known and cannot supply fresh validation.",
+  "active_model": "reflected similarity",
+  "diagnosed_at_utc": "2026-09-26T14:54:43.553232+00:00",
+  "baseline_target_history_sha": "521091b8e1c1bdba07eeed23dbd90775d98fd1ef",
+  "baseline_role_now": "Known diagnostic checks; original first-round validation status preserved in baseline record",
+  "review_scope": {
+    "context": "Complete scan/reference context and all control/check locations inspected",
+    "native_details": "Four largest-error known checks (all when fewer than four) and two largest fitting-residual controls; additional focused pairs where ambiguity required",
+    "not_claimed": "Exhaustive second native audit of every point, fresh validation on unchanged sheets, measured historical accuracy floor, or geographic/user acceptance"
+  },
+  "reviewed_check_ids": [
+    "Q02",
+    "Q05",
+    "Q01",
+    "Q03"
+  ],
+  "reviewed_control_ids": [
+    "C06",
+    "C02"
+  ],
+  "source_uncertainty_policy": "Original per-point uncertainty retained, never subtracted from errors. Generalized geometry is a possible explanation, not a measured floor or proof of historical change.",
+  "decision": "retain baseline failure; no accepted replacement",
+  "visual_findings": "Stewart tip/outlet and eastern islands identify the same southern recess; Forbes horn is highly schematized beside small Cameron pond. Green Harbour rounded southern shore identifiable but lacks a sharp extremum. No defensible sub-pixel endpoint revision; preserve constrained model with poor north/south coverage.",
+  "baseline_limitations": [
+    "All adopted controls and checks are in the southern half. The northern half, northwestern interior, river corridors and much of the coast remain independently unvalidated.",
+    "Four checks pair with control waterbodies; Forbes Lake is separate. The small Sinclair Island north/south pair provides little spatially independent information.",
+    "Thin generalized lake shores, small island depictions and cape extrema carry 24 px working source uncertainty.",
+    "A constrained similarity limits unsupported shear; a numerical pass would not establish accuracy outside the southern sampled strip.",
+    "RMS103.53m exceeds100m and median104.80m exceeds75m."
+  ],
+  "geographic_accepted": false,
+  "new_fresh_validation_count": 0,
+  "artifacts": [
+    {
+      "file": "context.jpg",
+      "sha256": "173422a783662997a855c0b7e6f1c44c13ce97d280940efa8040dc0035e4651b"
+    },
+    {
+      "file": "controls-focus.jpg",
+      "sha256": "002b1d916c0a9cd709a0909f1100cd8a67aacead790a7250ad26211134b91fcb"
+    },
+    {
+      "file": "points-0.jpg",
+      "sha256": "c41adc086c022193bcf0f0f8c3ed6e73275091d7b3776f700422316ea5c9a4d1"
+    },
+    {
+      "file": "points-1.jpg",
+      "sha256": "af28503805b1712b470c178cf8e39e57e6bc2e2cf29bf78e741f2c5588f5b92f"
+    },
+    {
+      "file": "points-2.jpg",
+      "sha256": "2021ef5bef1aa34e0600661e8f0189f6a22d40da8aea1606b726acb784f7c794"
+    }
+  ],
+  "control_findings": "Black Point southern end and Stewart southeastern projection remain identifiable; tips are broad rather than surveyed corners.",
+  "decision_basis": "No evidenced point correction or independently supported replacement established. Keep original fit, every original diagnostic check, source mask and inset placement. Lower residual under a trial alone is insufficient."
+}

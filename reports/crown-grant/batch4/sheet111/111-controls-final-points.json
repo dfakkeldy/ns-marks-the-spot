@@ -1,0 +1,218 @@
+[
+  {
+    "id": "C01",
+    "label": "Small pond west of Eddy Cove south tip",
+    "role": "control",
+    "pixel_xy": [
+      1443,
+      2421
+    ],
+    "lonlat": [
+      -61.303939591019216,
+      45.50642003146823
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 133809,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1452.5142590391333,
+      2436.7129982891493
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C02",
+    "label": "Marys Lake northwest corner",
+    "role": "control",
+    "pixel_xy": [
+      2005,
+      2562
+    ],
+    "lonlat": [
+      -61.26486534132804,
+      45.510575740653515
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 135750,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      2018.488660248404,
+      2564.2801915528253
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C03",
+    "label": "Birch Island northwest corner in River Inhabitants",
+    "role": "control",
+    "pixel_xy": [
+      3270,
+      540
+    ],
+    "lonlat": [
+      -61.23458945682997,
+      45.62224563652309
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 27661,
+    "reference_feature_code": "WACORVIS10",
+    "guide_reference_pixel_xy": [
+      3294.5918295627926,
+      550.2912244242616
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C04",
+    "label": "McNamara Island north tip",
+    "role": "control",
+    "pixel_xy": [
+      2980,
+      1360
+    ],
+    "lonlat": [
+      -61.23253715924768,
+      45.580759065522756
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 19592,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3002.213545158971,
+      1369.3871385114035
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C05",
+    "label": "McLeod Island east tip",
+    "role": "control",
+    "pixel_xy": [
+      3685,
+      1503
+    ],
+    "lonlat": [
+      -61.18386585745589,
+      45.58573415106713
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 16916,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3704.937200622633,
+      1531.1768245577114
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C06",
+    "label": "Janvrin Point west tip",
+    "role": "control",
+    "pixel_xy": [
+      3000,
+      2655
+    ],
+    "lonlat": [
+      -61.199999917404845,
+      45.52697010586086
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 16259,
+    "reference_feature_code": "WACOIS10",
+    "guide_reference_pixel_xy": [
+      3031.363260201004,
+      2590.3990116340574
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C07",
+    "label": "Cape Argos east tip",
+    "role": "control",
+    "pixel_xy": [
+      2297,
+      3276
+    ],
+    "lonlat": [
+      -61.22958384306787,
+      45.48297117287765
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 3956,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      2287.4112726338208,
+      3290.0579030674417
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C08",
+    "label": "Pond southwest of Eddy Cove west tip",
+    "role": "control",
+    "pixel_xy": [
+      1860,
+      2390
+    ],
+    "lonlat": [
+      -61.278449791982815,
+      45.51556996686101
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 129565,
+    "reference_feature_code": "WALK20",
+    "guide_reference_pixel_xy": [
+      1871.5176505586132,
+      2394.5606670022244
+    ],
+    "source_uncertainty_px": 12,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  },
+  {
+    "id": "C09",
+    "label": "O Seal peninsula southeast shoreline corner",
+    "role": "control",
+    "pixel_xy": [
+      5314,
+      1975
+    ],
+    "lonlat": [
+      -61.0688789857839,
+      45.59168392359486
+    ],
+    "guide_file": ".crown-grant-local/111-south-adjacent-guide.npy",
+    "reference_objectid": 5543,
+    "reference_feature_code": "WACO20",
+    "guide_reference_pixel_xy": [
+      5320.751115341554,
+      2024.7829598990502
+    ],
+    "source_uncertainty_px": 18,
+    "modern_uncertainty_m": 25,
+    "identity_evidence": "Broad lake, island and adjoining shore topology traced; native paired crosshair inspected before first fit or score.",
+    "review": "Final adopted physical pair audited before fitting; all checks excluded from fit."
+  }
+]

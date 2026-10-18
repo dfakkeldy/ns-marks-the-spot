@@ -1,0 +1,21 @@
+{
+  "timing": "Before first fit and score",
+  "created_at_utc": "2026-09-25T10:19:06.668666+00:00",
+  "model": "Affine EPSG:32620",
+  "controls": 8,
+  "checks": 9,
+  "reason": "Dunbar, McKeen, Dugas island, Little Uniacke, Uniacke, Colibri, Cranberry and an unnamed northeastern lake provide two-axis spread.",
+  "corrections": [
+    "Dunbar northern source moved to the actual shoreline; Dugas southern source refined."
+  ],
+  "unadopted": [
+    "Little Wallace, Bear and broad connected lake outlines inspected but not adopted.",
+    "Large Sissiboo lake/island system differs substantially from modern geometry and remains unvalidated."
+  ],
+  "limitations": [
+    "Seven checks share control waterbodies; Prevost and Wright are separate lakes. Shared historical cartography limits independence.",
+    "The large connected Sissiboo/Fourth/Long lake complex and much of the south-central interior are independently unvalidated. Historical and modern outlines differ; no forced matches were adopted there.",
+    "Eastern and southeastern support is sparse; Cranberry supplies the only far-southeastern control/check pair.",
+    "Generalized lake shores, islands and changed water connections carry 24 px working source uncertainty."
+  ]
+}

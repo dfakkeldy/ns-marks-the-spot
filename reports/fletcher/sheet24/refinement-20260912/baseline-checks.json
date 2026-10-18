@@ -1,0 +1,63 @@
+{
+  "sheet": "sheet-24",
+  "selected_at": "2026-09-12T17:40:28.367431+00:00",
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        5421,
+        5353
+      ],
+      "lonlat": [
+        -61.4126772,
+        45.4330983
+      ],
+      "modern_node_id": "J1188",
+      "objectids": [
+        136230,
+        136232,
+        197329
+      ],
+      "identity_evidence": "McPherson Lake eastern tributary inlet north of promoted outlet",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed unchanged, fresh and never fitted"
+    },
+    {
+      "lonlat": [
+        -61.49643135643709,
+        45.3957628812989
+      ],
+      "guide_xy": [
+        3508.583777902415,
+        6641.728106741793
+      ],
+      "modern_objectid": 18114,
+      "modern_part": 0,
+      "modern_vertex": 8,
+      "modern_properties": {
+        "OBJECTID": 18114,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 346.38038708987983
+      },
+      "id": "F02",
+      "role": "check",
+      "pixel_xy": [
+        3556,
+        6571
+      ],
+      "identity_evidence": "Byron Island southernmost coast, distinct from reused northern tip",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed unchanged, fresh and never fitted"
+    }
+  ],
+  "search_limit": "Hadley Cove has multiple modern tributaries without a unique native match; no new cove junction selected.",
+  "reviewed_at": "2026-09-12T17:41:51.233106+00:00",
+  "fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+  "status": "Two fresh local checks personally reviewed unchanged close/wide before first score. Byron shape differs and same-island northern diagnostic is correlated."
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "C01",
+    "label": "Longspell Point southeast shore corner",
+    "role": "proposal",
+    "pixel_xy": [
+      766,
+      2858
+    ],
+    "lonlat": [
+      -64.35120637691013,
+      45.16574807468294
+    ],
+    "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 7599,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 7599,
+    "nearest_unfiltered_distance_guide_px": 2.4074788471481225,
+    "selected_distance_guide_px": 2.4074788471481225,
+    "guide_reference_pixel_xy": [
+      856.2894479630049,
+      2775.744568616152
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  },
+  {
+    "id": "Q01",
+    "label": "Medford upper eastern projecting head",
+    "role": "proposal",
+    "pixel_xy": [
+      913,
+      2273
+    ],
+    "lonlat": [
+      -64.35678854435643,
+      45.192211564236956
+    ],
+    "guide_file": ".crown-grant-local/052-north-adjacent-ppi-guide.npy",
+    "reference_objectid": 8702,
+    "reference_feature_code": "WACO20",
+    "nearest_unfiltered_feature_code": "WACO20",
+    "nearest_unfiltered_objectid": 8702,
+    "nearest_unfiltered_distance_guide_px": 1.9712977550073376,
+    "selected_distance_guide_px": 1.9712977550073376,
+    "guide_reference_pixel_xy": [
+      999.0662069631508,
+      2237.6172999483533
+    ],
+    "source_uncertainty_px": 6,
+    "modern_uncertainty_m": 20
+  }
+]

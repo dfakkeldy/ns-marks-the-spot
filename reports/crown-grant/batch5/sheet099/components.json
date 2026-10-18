@@ -1,0 +1,29 @@
+{
+  "source_frame": "Original 6035 x 4111 JPEG",
+  "components": [
+    {
+      "id": "main",
+      "status": "RMS 49.56 m passes 100 m; regional limitations remain",
+      "ring_pixel_xy": [
+        [
+          110,
+          125
+        ],
+        [
+          5920,
+          125
+        ],
+        [
+          5920,
+          4005
+        ],
+        [
+          110,
+          4005
+        ]
+      ],
+      "fit_file": "fit-affine-01.json",
+      "coverage_note": "Complete original mapped frame retains Antigonish and its harbour islands, James and West Rivers, Beaver Mountain and Beaver Meadow, Indian and McEachern Lakes, Keppoch, Salt Springs, St Andrews, the interior valleys, Lochaber's northern reach and all eastern and southern parcel regions. No displaced inset identified. Printed features at the native sheet edges are retained."
+    }
+  ]
+}
