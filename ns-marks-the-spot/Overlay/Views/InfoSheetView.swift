@@ -145,7 +145,7 @@ struct InfoSheetView: View {
                     .frame(minHeight: 44)
                     .contentShape(Rectangle())
             }
-            Link(destination: URL(string: "https://kinnokilabs.com/privacy")!) {
+            Link(destination: URL(string: "https://dfakkeldy.github.io/ns-marks-the-spot/privacy.html")!) {
                 Text("Privacy Policy")
                     .frame(minHeight: 44)
                     .contentShape(Rectangle())
