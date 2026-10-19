@@ -352,8 +352,8 @@ movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
-`layers/contextLayerCatalog.ts` concatenates 77 default-off web-only research
-controls: the GeoNova land, infrastructure and Sentinel-2 subset (38), eight
+`layers/contextLayerCatalog.ts` concatenates 75 default-off web-only research
+controls: the GeoNova land, infrastructure, Sentinel-2 and CHM subset (36), eight
 electoral layers, six Rhodena project layers, four fishing layers, and the
 September 2026 GIS expansion (21). The original GeoNova group is composed from
 the NSTDB infrastructure/place catalogue, the land/environment catalogues, and the EOX
@@ -368,8 +368,20 @@ source dates, coverage and scale caveats remain descriptor-specific. The
 catalogue participates in categories, share state, custom themes and browser
 print without extending the native parity/offline catalogue. See the
 [GeoNova source inventory](docs/geonova-layer-expansion.md) for the GeoNova
-subset, licence distinctions, source checks and the radon reproduction receipt;
-electoral and Rhodena layers are documented with those web-only themes.
+subset, licence distinctions, source checks and the radon reproduction receipt.
+Electoral and Rhodena layers are documented with those web-only themes.
+
+The default-off `lidar-canopy-height` pilot reuses `ContextTileLayer` for
+revisioned height-class XYZ tiles from one 2017 Judique CHM sheet. The
+`lidarCanopyPilot.json` manifest pins the source hash, year, footprint and class
+palette shared with `web/scripts/chm/build_pilot.py`. No tiles ship with the
+source; an explicit `VITE_CHM_TILE_BASE_URL` enables local preview behind the
+Province acknowledgement gate. The normal build keeps the row unavailable.
+The renderer uses source-specific attribution, bounded tile requests and
+distinct zoom, outside-coverage and source-error states. The receipt records
+the original 1 m grid and the optional unchanged-value COG. Public tiles and
+print/PDF reproduction remain withheld pending licence confirmation and separate
+publication approval. See [the pilot](docs/chm-pilot.md).
 
 The September 2026 expansion adds 21 descriptors from `biodiversityLayers`,
 `waterResearchLayers` and `communityResearchLayers` to both maps.

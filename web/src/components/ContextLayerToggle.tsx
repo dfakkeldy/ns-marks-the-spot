@@ -13,7 +13,8 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
 }) {
-  const enabled = layer.licence !== "province-restricted" || licenceAccepted;
+  const licenceEnabled = layer.licence !== "province-restricted" || licenceAccepted;
+  const enabled = licenceEnabled && !layer.unavailableReason;
   return (
     <div className="context-layer-control">
       <label className="layer-row">
@@ -24,12 +25,13 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         <span>
           <strong>{layer.name}</strong>
           <small>{layer.webCaveat}</small>
+          {layer.unavailableReason ? <small>{layer.unavailableReason}</small> : null}
           <LayerMetadata openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
             coverage={layer.coverage} minZoom={layer.minZoom} maxZoom={layer.maxZoom}
             checked={enabled && checked} status={status} />
         </span>
       </label>
-      {!enabled ? (
+      {!licenceEnabled ? (
         <button className="text-button" type="button" onClick={onReviewLicence}
           aria-label={`Review Province licence for ${layer.name}`}>
           Province licence required · Review
@@ -51,6 +53,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         <p><a href={layer.sourceUrl} target="_blank" rel="noreferrer">{layer.provenance === "project-derived" ? "Project source" : layer.licence === "public-facts" ? "Assessment source" : "Official source"}</a>
           {" · "}<a href={layer.licenceUrl} target="_blank" rel="noreferrer">{layer.licence === "public-facts" ? "Original source rights retained" : "Licence"}</a></p>
         <p>Mapped records and coverage may be incomplete. An empty map does not establish absence.</p>
+        {layer.attribution ? <p>{layer.attribution}</p> : null}
       </details>
     </div>
   );

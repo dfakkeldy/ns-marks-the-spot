@@ -9,6 +9,8 @@ export interface ContextLayerDescriptor {
   serviceUrl: string;
   openData?: OpenDataSource;
   tileUrl?: string;
+  /** A configured pilot can retain its catalogue row before public tiles exist. */
+  unavailableReason?: string;
   sourceUrl: string;
   licenceUrl: string;
   licence: "public-facts" | "province-open" | "province-restricted" | "province-unrestricted" | "cc-by" | "canada-open" | "halifax-open";
