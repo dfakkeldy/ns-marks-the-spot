@@ -9,7 +9,8 @@ import provincialReceipt from "./public/atlas/provincial/source.json";
 
 /**
  * Local servers answer each focus page's HTML at its map-relative path
- * (rhodena.html at /rhodena, fishing.html at /fishing), the path it has under
+ * (rhodena.html at /rhodena, fishing.html at /fishing, pointtupper.html at
+ * /pointtupper), the path it has under
  * the published map (/apps/nsmarksthespot/map/fishing). The public short URLs
  * are KinNoKi site rewrites onto those paths. Rhodena's short URL is the same
  * /rhodena path; the fishing page's is /fishmap, which is not routed here,
@@ -17,7 +18,7 @@ import provincialReceipt from "./public/atlas/provincial/source.json";
  * routed, so the page's data files under the same name
  * (/fishing/spots.geojson) are served as files.
  */
-const FOCUS_PAGES = ["rhodena", "fishing"] as const;
+const FOCUS_PAGES = ["rhodena", "fishing", "pointtupper"] as const;
 
 function focusRoute(request: IncomingMessage, response: ServerResponse, next: () => void) {
   const url = request.url ?? "";
@@ -86,7 +87,7 @@ export default defineConfig(({ mode }) => ({
     manifest: true,
     rollupOptions: {
       input: {
-        app: "index.html", poker: "poker.html", rhodena: "rhodena.html", fishing: "fishing.html", atlas: "atlas.html", terrain: "terrain.html",
+        app: "index.html", poker: "poker.html", rhodena: "rhodena.html", fishing: "fishing.html", pointtupper: "pointtupper.html", atlas: "atlas.html", terrain: "terrain.html",
         // Exercise browser fixtures in preview without shipping them in production.
         ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html", tileCache: "e2e/tile-cache.html" } : {}),
       },

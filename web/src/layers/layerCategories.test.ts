@@ -53,6 +53,7 @@ describe("layer category contract", () => {
       "geology-resources",
       "historical-maps",
       "rhodena-project",
+      "point-tupper-site",
       "elections-districts",
       "tax-sale",
       "my-maps",
