@@ -4,6 +4,7 @@ The default-off **LiDAR canopy height · Judique pilot** control is under
 **Forestry & Ecology**. It is a project-coloured 1 m raster, separate from
 the Province's inventory-polygon **Forest stand height** layer. The normal
 build keeps its switch unavailable because the pilot tiles are not published.
+Shared links cannot activate an unavailable pilot or carry it into an export.
 An explicitly configured local host enables preview after the existing Province
 acknowledgement gate. CHM licence coverage remains provisional. Print and PDF
 reproduction stay locked independently of viewing acceptance.

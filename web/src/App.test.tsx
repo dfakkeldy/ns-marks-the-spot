@@ -1965,6 +1965,18 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: ns-topographic");
   });
 
+  it("cannot restore an unavailable CHM pilot through a shared link", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern,lidar-canopy-height");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("lidar-canopy-height");
+    openLayerCategory("Forestry & Ecology");
+    const checkbox = screen.getByRole("checkbox", { name: "LiDAR canopy height · Judique pilot" });
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")).not.toContain("lidar-canopy-height"));
+  });
+
   it("clears electoral evidence when its source fails and does not resurrect it on retry", () => {
     window.history.replaceState(null, "", "/?taxSale=off&layers=federal-ridings-2025");
     render(<App />);
