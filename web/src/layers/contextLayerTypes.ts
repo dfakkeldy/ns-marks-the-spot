@@ -5,7 +5,7 @@ import type { ArcGISExportOptions } from "./layerCatalog";
 export interface ContextLayerDescriptor {
   id: string;
   name: string;
-  category: "rhodena-project" | "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
+  category: "rhodena-project" | "point-tupper-site" | "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
   serviceUrl: string;
   openData?: OpenDataSource;
   tileUrl?: string;

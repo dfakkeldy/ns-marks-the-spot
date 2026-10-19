@@ -1,0 +1,343 @@
+/* The /pointtupper page: the research map with a site-brief panel.
+   The hero is drawn on its own night-harbour ground in both appearances, so
+   its colours are fixed; everything below it keeps the map's tokens and so
+   follows Day and Night. On #10283a: paper #f6f1e6 about 14:1, sodium
+   #f0b45a about 8.5:1, 80% paper about 10:1. */
+.pointtupper-focus {
+  --pt-deep: #10283a;
+  --pt-sodium: #f0b45a;
+  --pt-paper: #f6f1e6;
+}
+
+.pointtupper-focus .map-layout {
+  grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+}
+
+.pointtupper-focus .layer-rail {
+  padding-top: 0;
+}
+
+/* Hero -------------------------------------------------------------- */
+.pointtupper-hero {
+  margin: 0 -24px 22px;
+  overflow: hidden;
+  color: var(--pt-paper);
+  background: var(--pt-deep);
+}
+
+.pointtupper-hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 132;
+}
+
+.pointtupper-hero-beacon {
+  animation: pointtupper-beacon 2.4s ease-in-out infinite;
+}
+
+@keyframes pointtupper-beacon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pointtupper-hero-beacon {
+    animation: none;
+  }
+}
+
+.pointtupper-hero-body {
+  padding: 4px 24px 22px;
+}
+
+.pointtupper-hero-eyebrow {
+  margin: 0 0 6px;
+  color: var(--pt-sodium);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.pointtupper-focus .pointtupper-hero h2 {
+  margin: 0;
+  color: #fff8ec;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 2.15rem;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+
+.pointtupper-hero-lede {
+  margin: 10px 0 16px;
+  color: rgba(246, 241, 230, 0.84);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.pointtupper-facts {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(246, 241, 230, 0.16);
+}
+
+.pointtupper-facts > div {
+  display: grid;
+  grid-template-columns: 5.6rem minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+}
+
+.pointtupper-facts dt {
+  color: var(--pt-sodium);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pointtupper-facts dd {
+  margin: 0;
+  color: rgba(246, 241, 230, 0.9);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.pointtupper-hero a {
+  color: var(--pt-sodium);
+  text-underline-offset: 2px;
+}
+
+.pointtupper-facts dd a {
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.pointtupper-hero-note {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  color: rgba(246, 241, 230, 0.86);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  background: rgba(246, 241, 230, 0.06);
+  border-left: 3px solid var(--pt-sodium);
+  border-radius: 6px;
+}
+
+.pointtupper-hero-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.pointtupper-hero-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 16px;
+  color: var(--pt-deep);
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: linear-gradient(180deg, #f6cf8f, #f0b45a);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(240, 180, 90, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+}
+
+.pointtupper-hero-actions .pointtupper-hero-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.pointtupper-hero :focus-visible {
+  outline: 2px solid var(--pt-sodium);
+  outline-offset: 3px;
+}
+
+.pointtupper-hero-byline {
+  margin: 14px 0 0;
+  padding-top: 12px;
+  color: rgba(246, 241, 230, 0.8);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 0.86rem;
+  font-style: italic;
+  line-height: 1.4;
+  border-top: 1px solid rgba(246, 241, 230, 0.16);
+}
+
+/* Timeline ---------------------------------------------------------- */
+.pointtupper-timeline {
+  margin: 22px 0 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.pointtupper-timeline h2 {
+  margin: 0 0 10px;
+}
+
+.pointtupper-timeline ol {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pointtupper-timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px 0 8px 14px;
+  border-left: 2px solid var(--line);
+}
+
+.pointtupper-timeline li::before {
+  position: absolute;
+  top: 0.95rem;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  content: "";
+  background: var(--deep-water);
+  border-radius: 50%;
+}
+
+.pointtupper-timeline li:last-child::before {
+  background: #c0761f;
+}
+
+.pointtupper-when {
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.pointtupper-timeline p {
+  margin: 0;
+  color: var(--chart-ink);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.pointtupper-timeline a {
+  color: var(--survey-blue);
+  font-size: 0.74rem;
+}
+
+/* Footer and phone chrome ------------------------------------------- */
+.pointtupper-focus-footer {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.pointtupper-focus-footer .export-map-trigger {
+  width: 100%;
+}
+
+.pointtupper-full-map-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  color: var(--chart-ink);
+  font-weight: 650;
+  text-decoration: none;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.pointtupper-full-map-link:hover {
+  border-color: var(--deep-water);
+}
+
+.pointtupper-full-map-link span {
+  color: var(--deep-water);
+  font-size: 1.1rem;
+}
+
+.pointtupper-focus-footer p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.pointtupper-brand {
+  font: inherit;
+  cursor: pointer;
+}
+
+.pointtupper-focus .pointtupper-brand > span {
+  color: var(--pt-sodium);
+  background: var(--pt-deep);
+}
+
+.pointtupper-brand svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 860px) {
+  /* Under the sticky sheet header, whose 12px bottom margin this takes back. */
+  .pointtupper-hero {
+    margin-top: -12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .pointtupper-hero {
+    margin-inline: -16px;
+  }
+
+  .pointtupper-hero-body {
+    padding-inline: 16px;
+  }
+
+  .pointtupper-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .pointtupper-focus .mobile-map-brand strong {
+    display: inline;
+  }
+
+  .pointtupper-brand-suffix {
+    display: none;
+  }
+}
+
+@media (max-width: 379px) {
+  .pointtupper-focus .mobile-map-brand strong {
+    display: none;
+  }
+
+  .pointtupper-timeline li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}
