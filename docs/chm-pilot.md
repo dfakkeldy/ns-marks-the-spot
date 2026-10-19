@@ -127,7 +127,7 @@ caught. The [numerical receipt](chm-pilot/geographic-verification.json) records
 the method and sample counts; it is not a field-accuracy measurement.
 
 The same three notices as lidar hillshade remain in the layer attribution,
-source panel and receipt under the provisional
+live credits and receipt under the provisional
 [Unrestricted licence](https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf).
 The acknowledgement gate is not confirmation that this licence covers CHM.
 Do not upload tiles or COGs, set a public default host or deploy until Dan
