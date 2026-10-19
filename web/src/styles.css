@@ -738,6 +738,10 @@ a {
   gap: 2px;
 }
 
+.layer-provenance small {
+  display: block;
+}
+
 .layer-provenance summary {
   display: inline-flex;
   min-height: 24px;

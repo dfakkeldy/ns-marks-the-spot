@@ -1,6 +1,7 @@
 import { rhodenaLayers } from "../rhodena/catalog";
 import { electoralLayers } from "./electoralLayers";
 import { sentinel2Layer } from "./sentinel2";
+import { lidarCanopyLayer } from "./lidarCanopy";
 import { openSourceMetadata } from "./openDataSources";
 import { infrastructureLayers } from "./infrastructureLayers";
 import { landContextLayers } from "./landContextLayers";
@@ -15,6 +16,7 @@ export type ContextLayerId =
   | (typeof rhodenaLayers)[number]["id"]
   | (typeof electoralLayers)[number]["id"]
   | typeof sentinel2Layer.id
+  | typeof lidarCanopyLayer.id
   | (typeof infrastructureLayers)[number]["id"]
   | (typeof landContextLayers)[number]["id"]
   | (typeof biodiversityLayers)[number]["id"]
@@ -35,6 +37,7 @@ export const contextLayerCatalog: readonly ContextMapLayer[] = [
   ...electoralLayers,
   ...rhodenaLayers,
   sentinel2Layer,
+  lidarCanopyLayer,
 ].filter(({ id }) => forestryExclusionReason(id) === null);
 
 export const hiddenContextLayers = Object.fromEntries(

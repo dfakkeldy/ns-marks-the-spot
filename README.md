@@ -42,8 +42,10 @@ no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
-[web/README.md](web/README.md). The web map also adds 77 default-off research
-controls. The GeoNova subset remains 38: retained topography, land, water,
+[web/README.md](web/README.md). The web map also adds 75 default-off research
+controls, including the locally configured [Judique canopy-height pilot](docs/chm-pilot.md).
+The GeoNova inventory has 39 entries, including three withheld descriptors:
+retained topography, land, water,
 forest, geology, environmental-screen, and historical-coal inventories;
 15 NSTDB infrastructure and mapped-place overlays now drawn from identified
 Open Government Licence – Nova Scotia datasets instead of restricted

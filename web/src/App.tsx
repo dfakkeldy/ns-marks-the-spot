@@ -2164,6 +2164,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       contextLayerCatalog.map((layer) => [
         layer.id,
         contextLayers[layer.id] &&
+          !layer.unavailableReason &&
           (layer.licence !== "province-restricted" || licenceAccepted),
       ]),
     ) as Record<ContextLayerId, boolean>,

@@ -373,12 +373,18 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
-The web-only `contextLayerCatalog` has 77 default-off research controls.
-The original GeoNova group is 38 of those, across these categories:
+The web-only `contextLayerCatalog` has 75 default-off research controls.
+The GeoNova inventory has 39 entries, including three withheld descriptors, across these categories:
 provincial topography, 15 OGL-NS infrastructure and mapped-place overlays,
 water and forest context, geology, environmental screens, historical coal
 workings under **Historical Maps**, and the default-off Sentinel-2 2016–2017
-background (EOX CC BY 4.0 `s2cloudless_3857`). The catalog also includes
+background (EOX CC BY 4.0 `s2cloudless_3857`). The GeoNova inventory also includes
+the locally configured [Judique LiDAR canopy-height pilot](../docs/chm-pilot.md),
+whose normal-build switch is unavailable pending licence confirmation and tile
+publication. Its one 2017 sheet produces about 39 MB of height-class XYZ tiles.
+It retains the Province acknowledgement gate and keeps print/PDF reproduction
+locked; it is separate from inventory-based **Forest stand height**.
+The catalog also includes
 eight **Elections & Districts** layers, six **Rhodena Wind Project**
 layers, four fishing layers under **Water & Terrain** (see
 [Fishing page](#fishing-page)), and the 21 September 2026 habitat, water,
@@ -388,14 +394,15 @@ visible; the native offline catalogue is unchanged. Browser
 **Print / Save PDF** supports the static context layers, including static
 Rhodena geometry and the fishing layers, subject to fitted zoom and source
 readiness; the interactive Rhodena turbine viewshed and private viewpoint
-(`rhodena-visibility`) are omitted. For the GeoNova 38, generated PDF
-supports their 33 MapServer, open-data and tile entries (four feature-query
-layers and the static radon image are omitted and named as not included).
+(`rhodena-visibility`) are omitted. For GeoNova sources, generated PDF supports
+the permitted MapServer, open-data and tile entries. The four feature-query
+layers and static radon image are omitted and named as not included; the
+provisional CHM is separately reproduction-locked.
 Electoral feature overlays, Rhodena source formats and the four fishing
 layers (all feature queries) are also omitted from generated PDF and named.
 The
 [GeoNova source inventory](../docs/geonova-layer-expansion.md) lists the
-GeoNova subset, including official sources, delivery paths, licences,
+GeoNova inventory, including official sources, delivery paths, licences,
 open-data replacements, the Sentinel-2 WMTS identifier, and the
 reproducible radon image and its source receipt. Electoral and Rhodena
 controls are documented with those themes below.

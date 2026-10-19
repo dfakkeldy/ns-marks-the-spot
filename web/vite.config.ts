@@ -46,6 +46,11 @@ function localArchiveHeaders(request: IncomingMessage, response: ServerResponse,
 }
 
 export default defineConfig(({ mode }) => ({
+  // A same-origin synthetic tile endpoint exercises the real CHM controls in CI.
+  // Normal development and production builds still require an explicit host.
+  define: mode === "browser-test" ? {
+    "import.meta.env.VITE_CHM_TILE_BASE_URL": JSON.stringify("http://127.0.0.1:4173/e2e/chm-tiles"),
+  } : undefined,
   plugins: [react(), pokerOfflinePlugin(), {
     name: "focus-page-routes",
     configureServer(server: ViteDevServer) { server.middlewares.use(focusRoute); },
