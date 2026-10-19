@@ -129,6 +129,12 @@
 - [ ] Follow-up: regulation-zone polygons, starting with Recreational Fishing Area boundaries, only after context-layer descriptors gain `validFrom`/`validUntil` and a fail-closed gate that withholds rule popups after expiry
 - [ ] Follow-up: offline `/fishing` pack (Poker-style), decided after real use
 
+### Point Tupper (web)
+- [x] Web-only **Point Tupper** setup and **Point Tupper Site** category, excluded from the native presentation fixture
+- [x] One project-derived key-places layer (`point-tupper-sites`): five public-source points, no campus footprint, no parcel/title/registry data; company figures labelled as the company's own
+- [x] `/pointtupper` focus page: sourced summary, timeline, Map/Aerial switch, fishing spots and stocked waters kept off the panel
+- [ ] Publish the Point Tupper page: KinNoKi site rewrite of `/pointtupper` and `/pointtupper/` to `/apps/nsmarksthespot/map/pointtupper` plus asset-base stamping, then a live map pin; check the live `source.json` and the rendered page
+
 ## Future Considerations
 - Google Maps SDK as alternative engine
 - iCloud sync for POI collections
