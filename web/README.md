@@ -371,9 +371,10 @@ overlays are off, and **Tax Sale** is off. Layer controls are organized into ten
 collapsible categories: **Background Maps**, **Land & Property**,
 **Roads & Places**, **Water & Terrain**, **Environment & Hazards**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
-**Tax Sale**, and **My Maps**.
+**Tax Sale**, and **My Maps**. The web map also shows **Rhodena Wind
+Project**, **Point Tupper Site**, and **Elections & Districts**.
 
-The web-only `contextLayerCatalog` has 75 default-off research controls.
+The web-only `contextLayerCatalog` has 76 default-off research controls.
 The GeoNova inventory has 39 entries, including three withheld descriptors, across these categories:
 provincial topography, 15 OGL-NS infrastructure and mapped-place overlays,
 water and forest context, geology, environmental screens, historical coal
@@ -387,25 +388,27 @@ locked; it is separate from inventory-based **Forest stand height**.
 The catalog also includes
 eight **Elections & Districts** layers, six **Rhodena Wind Project**
 layers, four fishing layers under **Water & Terrain** (see
-[Fishing page](#fishing-page)), and the 21 September 2026 habitat, water,
-and community GIS overlays described next. All start off. Source-specific
+[Fishing page](#fishing-page)), one **Point Tupper Site** layer (see
+[Point Tupper page](#point-tupper-page)), and the 21 September 2026 habitat,
+water, and community GIS overlays described next. All start off. Source-specific
 legends, dates, coverage, scale caveats and licence acknowledgement remain
 visible; the native offline catalogue is unchanged. Browser
 **Print / Save PDF** supports the static context layers, including static
-Rhodena geometry and the fishing layers, subject to fitted zoom and source
-readiness; the interactive Rhodena turbine viewshed and private viewpoint
-(`rhodena-visibility`) are omitted. For GeoNova sources, generated PDF supports
-the permitted MapServer, open-data and tile entries. The four feature-query
-layers and static radon image are omitted and named as not included; the
-provisional CHM is separately reproduction-locked.
-Electoral feature overlays, Rhodena source formats and the four fishing
-layers (all feature queries) are also omitted from generated PDF and named.
+Rhodena geometry, the fishing layers, and the Point Tupper key places,
+subject to fitted zoom and source readiness; the interactive Rhodena turbine
+viewshed and private viewpoint (`rhodena-visibility`) are omitted. For GeoNova
+sources, generated PDF supports the permitted MapServer, open-data and tile
+entries. Feature-query layers and the static radon image are omitted and named
+as not included; the provisional CHM is separately reproduction-locked.
+Electoral feature overlays, Rhodena source formats, the four fishing layers
+and the Point Tupper key places (all feature queries) are also omitted from
+generated PDF and named.
 The
 [GeoNova source inventory](../docs/geonova-layer-expansion.md) lists the
 GeoNova inventory, including official sources, delivery paths, licences,
 open-data replacements, the Sentinel-2 WMTS identifier, and the
-reproducible radon image and its source receipt. Electoral and Rhodena
-controls are documented with those themes below.
+reproducible radon image and its source receipt. Electoral, Rhodena and Point
+Tupper controls are documented with those themes below.
 
 The September 2026 expansion adds **21 further optional layers** to both maps:
 provincial core habitat, federal final/proposed critical habitat, aquatic and
@@ -421,11 +424,12 @@ retains vector legends and attribution; the standalone generated-PDF path
 explicitly names unsupported vector formats as omitted. New image-service and
 Socrata geometry overlays use the existing generated-PDF rendering paths.
 
-The nine built-in map setups are **Explore Nova Scotia**,
+The ten built-in map setups are **Explore Nova Scotia**,
 **Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
-**Georeferencing**, **Poker**, **Electoral Districts**, **Rhodena**, and
-**Fishing**. Applying a setup replaces the catalogue-layer configuration
-coherently; it does not remove or change imported maps or data.
+**Georeferencing**, **Poker**, **Electoral Districts**, **Rhodena**,
+**Fishing**, and **Point Tupper**. Applying a setup replaces the
+catalogue-layer configuration coherently; it does not remove or change
+imported maps or data.
 
 Across all built-in and custom setups, the footer presents source credits on
 entry, then folds after the first map touch or five seconds. **Show licences**
@@ -472,6 +476,17 @@ away. Place names are left out too: the GeoNAMES dots bury the spot pins at
 the opening zoom, and the background already labels places. The native theme parity fixture excludes this setup. See
 [Fishing page](#fishing-page) for the layers and the `/fishing` page.
 
+**Point Tupper** is a web-only setup for the announced data-centre campus on
+the Strait of Canso: the key places, the mapped grid, pipelines, wharves,
+water and roads over the modern map. The campus footprint has not been
+published, so it is not drawn. Every layer in it is open, so
+`?theme=point-tupper` never raises the Province licence sheet. Place names
+stay off so the GeoNAMES dots do not bury the key places. The native theme
+parity fixture excludes this setup, and it filters the **Point Tupper Site**
+category out of the native presentation contract. See
+[Point Tupper page](#point-tupper-page) for the layer and the `/pointtupper`
+page.
+
 Custom themes are stored only in this browser's `localStorage`. They can save
 visible catalogue-layer IDs, supported opacity overrides, preferred categories,
 Tax Sale on/off, and current/historical mode. They do not save the selected PID,
@@ -494,7 +509,7 @@ layers need the Province licence asks for acceptance before drawing them, the
 same as a shared link would. Share links preserve Poker’s `theme` to identify
 the driveway workflow explicitly. Other built-in setups carry their name only
 when layer parameters cannot identify the selection on their own. A setup that
-has a focus page (Rhodena, Fishing) also brings that page's camera: a
+has a focus page (Rhodena, Fishing, Point Tupper) also brings that page's camera: a
 `?theme=` link with no `position` opens on the page's area, and choosing the
 setup in the picker fits the map to it.
 
@@ -664,15 +679,17 @@ generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
 
-Browser **Print / Save PDF** supports the static context layers (77 catalog
-entries, including static Rhodena geometry and the fishing layers), subject to
-selection, fitted zoom, licence acknowledgement and source readiness.
+Browser **Print / Save PDF** supports the static context layers (76 catalog
+entries, including static Rhodena geometry, the fishing layers, and the Point
+Tupper key places), subject to selection, fitted zoom, licence acknowledgement
+and source readiness.
 Interactive Rhodena turbine viewshed and private viewpoint
 (`rhodena-visibility`) are omitted. The separate **Export map (PDF)** still
 uses the MapServer, open-data and tile path for supported entries;
 unsupported vector formats, including new GIS feature overlays, electoral
-feature entries, Rhodena source formats, the four fishing layers, and the
-static radon image, are omitted and explicitly listed as not included.
+feature entries, Rhodena source formats, the four fishing layers, the Point
+Tupper key places, and the static radon image, are omitted and explicitly
+listed as not included.
 
 Attribution follows the material actually rendered or reported:
 
@@ -1844,10 +1861,11 @@ reviewed Fletcher features, opens a fresh phone visit on its summary sheet,
 drops shared layers it does not offer, keeps tax sale off, and puts
 **Open this view in the full NS Marks map** in its footer, after appearance and
 export and before the page's own note. Vite answers each page's
-map-relative path locally (`/rhodena`, `/fishing`, and their trailing-slash
-forms), the path it has under the published map. On the live site the KinNoKi
-rewrites serve each page's public short URL (`/rhodena`, and `/fishmap` for the
-fishing page) and stamp its asset base.
+map-relative path locally (`/rhodena`, `/fishing`, `/pointtupper`, and their
+trailing-slash forms), the path it has under the published map. KinNoKi
+rewrites serve a page's public short URL (`/rhodena`, and `/fishmap` for the
+fishing page) and stamp its asset base. `/pointtupper` still needs that
+rewrite and a live pin; merging here publishes none of the pages.
 
 ## Fishing page
 
@@ -2051,3 +2069,81 @@ Live river levels, regulation-zone polygons, an offline pack, and any native
 iOS fishing layer are not built; `plan.md` lists them as follow-ups. The
 **Data & licences** dialog still labels every source link **Official source**,
 including the curated spots; the layer row and popups say **Project source**.
+
+## Point Tupper page
+
+### Point Tupper layer
+
+One default-off **Point Tupper Site** layer (`src/layers/pointTupperLayers.ts`)
+is on both maps. It is web-only: `buildMapPresentationFixture` and
+`layerParity.ts` drop the category, and the **Point Tupper** setup stays out of
+the native presentation contract.
+
+- **Point Tupper · key places** (`point-tupper-sites`): five project-placed
+  points around the Strait of Canso, read from `public/point-tupper/sites.geojson`
+  and coloured by kind (EverWind terminal, power, water supply, Mi'kmaw
+  community place label). They are the project's own wording, not a publisher's
+  record, so the layer row and popups link a **Project source** (the
+  [Point Tupper receipt](../docs/point-tupper-sources.md)) and the data's own
+  `LICENCE.txt` (CC BY 4.0 for the project's wording; Wikidata positions are
+  CC0; the EverWind jetty uses the coordinates printed in the 2022 EA
+  registration). The campus footprint has not been published, so it is not
+  drawn. No parcel, title or registry data is used.
+
+Browser print includes the layer. Generated PDF omits it, as a feature query,
+and names it as not included.
+
+### The `/pointtupper` page
+
+`pointtupper.html` (`src/pointtupper/main.tsx`) is served at `/pointtupper`
+locally and would be served at `/apps/nsmarksthespot/map/pointtupper` on the
+site after the KinNoKi rewrite. It is not on kinnokilabs.com yet. It mounts
+the research map as `<App focus="pointtupper" />` with the **Point Tupper**
+setup fixed and fits the Strait when the link has no position.
+`src/pointtupper/focus.ts` offers the key places first, then roads, water,
+land, hazards and backgrounds. Water and background layers are offered by
+category, so later additions appear; the other rows are listed one by one.
+The curated fishing spots and stocked waters are never offered here: beside
+the site brief they would read as part of it. Tax sale, My Maps and the setup
+picker are hidden. A Map/Aerial switch under the 3D control swaps the
+background; aerial imagery keeps its Province licence gate. Every layer in
+the setup is open, so a first visit never raises the Province licence sheet.
+
+- **Heading.** A sourced summary of the October 2026 announcement (size, grid,
+  Richmond County loads under study, Landrie Lake cooling figures, wind, and
+  who pays for upgrades). Company figures are the company's own. A **Zoom to
+  Point Tupper** control and a link to every source sit under the facts.
+- **Timeline.** Nine dated events, oldest first, each with its public source:
+  the causeway, the mill, the Landrie Lake water system, the heavy water plant,
+  the Gulf refinery, Bear Head LNG, Port Hawkesbury Paper, the EverWind
+  hydrogen registration, and the data-centre announcement.
+- **Footer.** After the full-map link, the page's note and licence and source
+  links.
+
+Shared links drop layers the page does not offer and keep tax sale off.
+`main.tsx` drops a trailing slash from `/pointtupper/`. The page's `og:url`
+is the intended `/pointtupper` short path. There is no Point Tupper social
+card yet.
+
+The KinNoKi site must rewrite `/pointtupper` and `/pointtupper/` to
+`/apps/nsmarksthespot/map/pointtupper` and stamp this page's asset base, as it
+does for `/rhodena`, and that site rewrite must land before the page can be
+published: without it the short URL does not reach the page, and the page
+loads with the wrong base and no assets. Neither a merge here nor the site
+change proves the live page; check the live map pin's `source.json` receipt
+and the rendered `/pointtupper` page after that pin and rewrite exist.
+
+### Data files
+
+The layer reads `public/point-tupper/`, outside the JavaScript bundle. Sources
+are in [docs/point-tupper-sources.md](../docs/point-tupper-sources.md).
+
+| File | Holds |
+| --- | --- |
+| `sites.geojson` | Five key places and the project's wording; the file's `notice` must equal the layer caveat |
+| `LICENCE.txt` | CC BY 4.0 for the project's wording; Wikidata (CC0) and the EverWind EA registration for positions |
+
+Tests: `src/pointtupper/*.test.ts(x)` (places, facts, the setup, the registry
+entry), `src/focus/`, the Point Tupper setup cases in
+`src/themes/mapThemes.test.ts`, and `e2e/pointtupper-page.spec.ts` at 1440 and
+390 px.
