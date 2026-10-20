@@ -18,9 +18,15 @@ public struct HTTPTransport: Sendable {
         self.send = send
     }
 
-    /// The real thing.
+    /// The real thing, saying who is asking.
+    ///
+    /// Every fetcher's default, so this is where the identity goes on: one
+    /// line here covers every query this package sends, and a new fetcher
+    /// cannot forget it.
     public static func urlSession(_ session: URLSession = .shared) -> HTTPTransport {
-        HTTPTransport { request in try await session.data(for: request) }
+        HTTPTransport { request in
+            try await session.data(for: ClientIdentity.identified(request))
+        }
     }
 
     public func callAsFunction(_ request: URLRequest) async throws -> (Data, URLResponse) {

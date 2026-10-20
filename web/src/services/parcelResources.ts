@@ -92,12 +92,13 @@ const queries: readonly ResourceQuery[] = [
   },
   {
     layerId: "abandoned-mines",
-    url: "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query",
-    outFields: "geo_id,ShaftID,Name,Opening_ty,Degree_Haz,Protection",
+    url: "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4/query",
+    // The provincial version 9 service only accepts lower-case field names.
+    outFields: "geo_id,shaftid,name,opening_ty,degree_haz,protection",
     summarize: (attributes) => {
-      const id = String(attributes.ShaftID ?? attributes.geo_id ?? "Unnumbered");
-      const name = String(attributes.Name ?? `Abandoned mine opening ${id}`).trim();
-      const detail = [attributes.Opening_ty, attributes.Degree_Haz && `Hazard: ${attributes.Degree_Haz}`]
+      const id = String(attributes.shaftid ?? attributes.geo_id ?? "Unnumbered");
+      const name = String(attributes.name ?? `Abandoned mine opening ${id}`).trim();
+      const detail = [attributes.opening_ty, attributes.degree_haz && `Hazard: ${attributes.degree_haz}`]
         .map((value) => String(value ?? "").trim())
         .filter(Boolean)
         .join(" · ");

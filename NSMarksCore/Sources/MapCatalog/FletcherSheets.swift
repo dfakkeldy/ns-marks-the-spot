@@ -30,7 +30,7 @@ public enum FletcherSheets {
     /// re-rendered sheet lands somewhere new and no cache anywhere — on device,
     /// in a CDN, in a proxy — can serve last month's pixels for this month's
     /// build. Bumping this string is how a re-render ships.
-    public static let tileRevision = "fletcher-full-sheets-20260913.1"
+    public static let tileRevision = "fletcher-seams-20261009.2"
 
     /// Every sheet, in sheet-number order.
     public static let all: [FletcherSheet] = [

@@ -115,4 +115,12 @@ web/playwright-report/
 
 # Crown Grant scans, warps, tiles and imagery-bearing review evidence stay private.
 .crown-grant-local/
+
+# Downloaded original Rhodena PDFs stay outside distributed source
+web/scripts/.rhodena-cache/
+
+# cf CLI per-directory cache (account id and name)
 .cloudflare/
+
+# Local research notes. They are never repository content.
+/research_notes/

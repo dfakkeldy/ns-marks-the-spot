@@ -1,3 +1,4 @@
+import { requireVectorReproduction } from "./tracedProvenance";
 import type { Feature, FeatureCollection, Geometry, Position } from "geojson";
 import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
 import {
@@ -254,6 +255,7 @@ export function kmlDocumentString(
   collection: FeatureCollection,
   photoMode: KmlPhotoMode = "omit",
 ): string {
+  requireVectorReproduction(collection);
   const doc = document.implementation.createDocument(KML_NS, "kml", null);
   const documentNode = element(doc, "Document");
   documentNode.append(element(doc, "name", layerName));

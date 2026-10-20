@@ -411,6 +411,56 @@
         "flow_direc"
       ],
       "geometryType": "multipolygon"
+    },
+    {
+      "id": "vg5n-eehf",
+      "name": "Traffic Volume Sections",
+      "url": "https://data.novascotia.ca/d/vg5n-eehf",
+      "metadataUrl": "https://data.novascotia.ca/api/views/vg5n-eehf.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1776682732,
+      "metadataSha256": "37d85a95a1d447af01c8c3f9e383d4cf0edf31ba55de962988f9dd6843aab785",
+      "fields": [
+        "the_geom",
+        "anum",
+        "county",
+        "sect_desc",
+        "sectkm_dat",
+        "section_id",
+        "dir",
+        "shape_leng"
+      ],
+      "geometryType": "multiline",
+      "checkedAt": "2026-09-27T23:28:24.222569+00:00"
+    },
+    {
+      "id": "s4r5-2srh",
+      "name": "1:10,000 Nova Scotia Sub-Tertiary Watersheds",
+      "url": "https://data.novascotia.ca/d/s4r5-2srh",
+      "metadataUrl": "https://data.novascotia.ca/api/views/s4r5-2srh.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1610043473,
+      "metadataSha256": "da2cd4ef0657769da2d644e542c6c1dc34faf638bf419d30d3e5dc8c903c853e",
+      "fields": [
+        "the_geom",
+        "objectid",
+        "area",
+        "perimeter",
+        "sec_code",
+        "sd_sec_cod",
+        "sec_name",
+        "main_sec_c",
+        "sub_tertia",
+        "tertiary_1",
+        "tert_code",
+        "sub_tert_c",
+        "primary",
+        "secondary",
+        "shape_leng",
+        "shape_area"
+      ],
+      "geometryType": "multipolygon",
+      "checkedAt": "2026-09-27T23:28:24.597789+00:00"
     }
   ]
 }

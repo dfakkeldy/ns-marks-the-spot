@@ -52,3 +52,7 @@
   }
 }
 @media print { .research-terrain-controls, .research-terrain-status, .research-terrain-map { display: none; } }
+.background-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border-radius: 7px; background: rgba(18, 52, 59, 0.08); }
+.research-terrain-controls .background-switch button { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 34px; padding: 0 9px; border: 0; border-radius: 5px; font-weight: 650; }
+.research-terrain-controls .background-switch button[aria-pressed=true] { box-shadow: 0 1px 3px #12343b40; }
+.background-switch svg { flex: none; width: 16px; height: 16px; }

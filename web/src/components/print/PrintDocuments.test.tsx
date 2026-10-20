@@ -39,10 +39,10 @@ it("prints every captured context layer with its source name and a defined legen
 
   const legend = screen.getByLabelText("Active map layers");
   for (const layer of contextLayerCatalog) {
-    const row = within(legend).getByText(layer.name).closest("li")!;
+    const row = within(legend).getByText(layer.name, { selector: "strong" }).closest("li")!;
     expect(row.querySelector(".print-layer-symbol"))
       .toHaveAttribute("data-symbol-kind", "source-classes");
-    if (layer.delivery === "feature-query" || layer.delivery === "static-image") {
+    if (layer.printLegend || layer.delivery === "feature-query" || layer.delivery === "static-image" || layer.delivery === "rhodena") {
       const classes = within(row).getByLabelText(`${layer.name} classes`);
       for (const { label } of layer.legend) {
         expect(within(classes).getAllByText(label).length).toBeGreaterThan(0);
@@ -83,7 +83,7 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
   ["contours", "Contours", "NSTDB updated May 5, 2026 · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
   ["mineral-occurrences", "Mineral occurrences", "June 2024 · version 12", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["mineral-tenure", "Mineral tenure", "Live NovaROC · checked July 20, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
-  ["abandoned-mines", "Abandoned mine openings", "2024 · version 9", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["abandoned-mines", "Abandoned mine openings", "Version 9 · extract June 11, 2024", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["mineral-proximity-parcels", "Properties within 1 km of a mineral occurrence", "Mineral occurrences June 2024 · NSPRD live", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
   ["inverness-hydro-potential", "Inverness micro-hydro screen", "Watersheds 2021 · NSHN retrieved July 21, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["old-growth-policy", "Old-growth policy areas", "Policy layer as of October 24, 2025 · updated October 27, 2025", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],

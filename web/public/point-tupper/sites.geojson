@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "label": "Point Tupper site brief: key places",
+  "notice": "Key places for the Point Tupper data-centre campus, each from a public source. The campus footprint has not been published, so it is not drawn.",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "everwind-jetty",
+      "geometry": { "type": "Point", "coordinates": [-61.343530, 45.573650] },
+      "properties": {
+        "id": "everwind-jetty",
+        "name": "Point Tupper Terminal jetty (EverWind)",
+        "kind": "terminal",
+        "note": "EverWind's Point Tupper Terminal: a 7.7-million-barrel storage terminal with 39 aboveground tanks and two deep-water berths. EverWind announced the data-centre campus for Point Tupper on October 16, 2026.",
+        "located_by": "The meteorological station on the EverWind jetty, at 45°34′25.140″ N, 61°20′36.708″ W, as the registration gives it.",
+        "source": "EverWind Point Tupper Green Hydrogen/Ammonia Project, Environmental Assessment registration (December 2022), sections 3.3 and 6 (Table 6.3)",
+        "source_date": "Registered December 9, 2022; read October 19, 2026"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "point-tupper-generating-station",
+      "geometry": { "type": "Point", "coordinates": [-61.3481, 45.5869] },
+      "properties": {
+        "id": "point-tupper-generating-station",
+        "name": "Point Tupper Generating Station (Nova Scotia Power)",
+        "kind": "power",
+        "note": "Nova Scotia Power's generating station at Point Tupper. Turn on Electrical transmission lines and Electrical substations to see the mapped grid around it.",
+        "located_by": "Wikidata item Q7208178 (public-domain coordinates).",
+        "source": "Wikidata Q7208178; Nova Scotia Power, About our facilities",
+        "source_date": "Read October 19, 2026"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "landrie-lake",
+      "geometry": { "type": "Point", "coordinates": [-61.31328, 45.58962] },
+      "properties": {
+        "id": "landrie-lake",
+        "name": "Landrie Lake (industrial water supply)",
+        "kind": "water",
+        "note": "Built by the Province in 1969 to supply raw water to Point Tupper industry; now run by the Landrie Lake Water Utility. EverWind says the campus's closed-loop cooling will draw about 100,000 litres a day in phase 1 and about 500,000 litres a day after expansion, about 1% of the lake's stated safe yield of 34 million litres a day (company figures, as reported by The Canadian Press on October 16, 2026).",
+        "located_by": "Wikidata item Q22360244 (public-domain coordinates). Turn on Water features for the lake outline.",
+        "source": "Landrie Lake Water Utility, Little River Pumping and Transmission System EA registration (January 2026); The Canadian Press, October 16, 2026",
+        "source_date": "Read October 19, 2026"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "potlotek",
+      "geometry": { "type": "Point", "coordinates": [-60.7676429, 45.6831542] },
+      "properties": {
+        "id": "potlotek",
+        "name": "Potlotek First Nation",
+        "kind": "community",
+        "note": "Mi'kmaw community. Shown as a place label only; this map does not speak for any community.",
+        "located_by": "Wikidata item Q2956513 (public-domain coordinates).",
+        "source": "Wikidata Q2956513",
+        "source_date": "Read October 19, 2026"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "paqtnkek",
+      "geometry": { "type": "Point", "coordinates": [-61.7383, 45.6016] },
+      "properties": {
+        "id": "paqtnkek",
+        "name": "Paq'tnkek First Nation",
+        "kind": "community",
+        "note": "Mi'kmaw community. Shown as a place label only; this map does not speak for any community.",
+        "located_by": "Wikidata item Q7133562 (public-domain coordinates).",
+        "source": "Wikidata Q7133562",
+        "source_date": "Read October 19, 2026"
+      }
+    }
+  ]
+}

@@ -9,7 +9,8 @@ export function contextPrintColor(color: string): string {
 }
 
 export function contextFeatureLabel(layer: ContextLayerDescriptor, properties: Record<string, unknown>): string {
-  const value = layer.featureRenderer?.field ? properties[layer.featureRenderer.field] : undefined;
+  const field = layer.labelField ?? layer.featureRenderer?.field;
+  const value = field ? properties[field] : undefined;
   return typeof value === "string" || typeof value === "number"
     ? `${layer.name} · ${value}` : layer.name;
 }

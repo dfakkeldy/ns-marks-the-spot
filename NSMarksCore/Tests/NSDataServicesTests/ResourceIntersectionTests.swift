@@ -83,8 +83,8 @@ struct ResourceIntersectionQueryTests {
         #expect(plan.requests[3].url.absoluteString.hasSuffix("/NovaRoc/MapServer/7/query"))
         #expect(
             plan.requests[4].url.absoluteString
-                == "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/"
-                    + "Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query"
+                == "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/"
+                    + "Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4/query"
         )
     }
 
@@ -155,8 +155,8 @@ struct ResourceIntersectionResponseTests {
         let found = try ResourceIntersectionResponse.intersections(
             from: Data(
                 features([
-                    #"{"ShaftID":"S-1","Opening_ty":"Shaft","Degree_Haz":"High"}"#,
-                    #"{"geo_id":"G-9","Opening_ty":"Pit"}"#,
+                    #"{"shaftid":"S-1","opening_ty":"Shaft","degree_haz":"High"}"#,
+                    #"{"geo_id":"G-9","opening_ty":"Pit"}"#,
                 ]).utf8
             ),
             summary: .abandonedMine,
@@ -215,7 +215,7 @@ struct ResourceIntersectionFetcherTests {
     func oneSourceFailingIsNotThreeFailing() async throws {
         let service = Service([
             ("NovaRoc", #"{"error":{"code":500,"message":"boom"}}"#, 200),
-            ("Abandoned_Mine", features([#"{"ShaftID":"S-1"}"#]), 200),
+            ("Abandoned_Mine", features([#"{"shaftid":"S-1"}"#]), 200),
         ])
         let result = try await ResourceIntersectionFetcher(transport: service.transport)
             .intersections(for: square, clearance: cleared)

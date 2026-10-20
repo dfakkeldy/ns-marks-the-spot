@@ -121,7 +121,7 @@ describe("web native-layer parity catalog", () => {
     expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
     expect(fletcherLayerCatalog.webAvailability).toBe("available");
     expect(fletcherLayerCatalog.webCaveat).toBe(
-      "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
+      "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
     );
     expect(fletcherLayerCatalog.minZoom).toBe(8);
     // Display runs to the map maximum; the sheets' real tile depth stays 16
@@ -462,8 +462,30 @@ describe("geology and resources catalog", () => {
       coverage: "Nova Scotia",
     });
     expect(abandonedMines).toMatchObject({
-      sourceDate: "2024 · version 9",
+      sourceDate: "Version 9 · extract June 11, 2024",
       coverage: "Nova Scotia · incomplete inventory",
+    });
+  });
+
+  it("reads abandoned mine openings from the Province's version 9 service", () => {
+    const abandonedMines = resourceLayerCatalog.find(
+      ({ id }) => id === "abandoned-mines",
+    );
+
+    expect(abandonedMines?.serviceUrl).toBe(
+      "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
+    );
+    expect(abandonedMines?.licence).toBe("province-open");
+    // That service rejects mixed-case field names such as ShaftID.
+    expect(abandonedMines).toMatchObject({
+      outFields: [
+        "geo_id",
+        "shaftid",
+        "name",
+        "opening_ty",
+        "degree_haz",
+        "protection",
+      ],
     });
   });
 });

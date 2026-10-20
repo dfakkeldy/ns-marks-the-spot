@@ -7,6 +7,14 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
     private let marker = UIImageView()
     private let badge = UIView()
     private let readout = UILabel()
+    private var measurementHint: String?
+
+    // MapKit can supply its generic "Shows more info" hint even after setting
+    // accessibilityHint. This read-only annotation must keep its own caveat.
+    override var accessibilityHint: String? {
+        get { measurementHint }
+        set { measurementHint = newValue }
+    }
 
     override init(annotation: (any MKAnnotation)?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)

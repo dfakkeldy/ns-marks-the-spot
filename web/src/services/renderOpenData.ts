@@ -3,8 +3,11 @@ import type { MapEnvelope } from "./arcGISFeatureOverlay";
 import { fetchOpenDataOverlay } from "./openDataOverlay";
 import { toMercator } from "../userMaps/transform/webMercator";
 
-/** Shared on-screen/print cartography; no server-rendered images are cached. */
-export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope, size: { width: number; height: number }, zoom: number, signal?: AbortSignal) {
+/** Shared on-screen/print cartography; no server-rendered images are cached.
+ * Over aerial imagery, roads take a hybrid style: a cream line on a soft dark
+ * edge, and thin cream dashes for unpaved and minor ways, since a white casing
+ * under dashes reads as a ladder on photographs. */
+export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope, size: { width: number; height: number }, zoom: number, signal?: AbortSignal, { imagery = false }: { imagery?: boolean } = {}) {
   const collection = await fetchOpenDataOverlay(source, bounds, signal, zoom);
   signal?.throwIfAborted();
   const canvas = document.createElement("canvas");
@@ -42,12 +45,23 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.beginPath();
     const fill = path(f.geometry);
     ctx.lineJoin = "round"; ctx.lineCap = "round";
-    ctx.setLineDash(minorRoad ? [4, 3] : []);
-    if (source.roads) { ctx.strokeStyle = "#ffffff"; ctx.lineWidth = minorRoad ? 4 : 5; ctx.stroke(); }
-    ctx.strokeStyle = color; ctx.fillStyle = color;
-    ctx.lineWidth = source.roads ? 2 : 1.2;
-    if (fill) { ctx.globalAlpha = f.geometry.type.includes("Point") ? 0.85 : source.fillOpacity ?? 0.2; ctx.fill("evenodd"); ctx.globalAlpha = 1; }
-    if (source.stroke !== false) ctx.stroke();
+    if (source.roads && imagery && !fill) {
+      const major = /Highway|Trans-Canada|Arterial|Collector/i.test(desc);
+      if (minorRoad) {
+        ctx.setLineDash([5, 4]); ctx.strokeStyle = "rgba(255, 244, 222, 0.9)"; ctx.lineWidth = 1.6; ctx.stroke();
+      } else {
+        ctx.setLineDash([]);
+        ctx.strokeStyle = "rgba(18, 24, 18, 0.45)"; ctx.lineWidth = major ? 5 : 4; ctx.stroke();
+        ctx.strokeStyle = "#fff3dc"; ctx.lineWidth = major ? 2.8 : 2; ctx.stroke();
+      }
+    } else {
+      ctx.setLineDash(minorRoad ? [4, 3] : []);
+      if (source.roads) { ctx.strokeStyle = "#ffffff"; ctx.lineWidth = minorRoad ? 4 : 5; ctx.stroke(); }
+      ctx.strokeStyle = color; ctx.fillStyle = color;
+      ctx.lineWidth = source.roads ? 2 : 1.2;
+      if (fill) { ctx.globalAlpha = f.geometry.type.includes("Point") ? 0.85 : source.fillOpacity ?? 0.2; ctx.fill("evenodd"); ctx.globalAlpha = 1; }
+      if (source.stroke !== false) ctx.stroke();
+    }
     if (source.labelField && zoom >= (source.labelMinZoom ?? 0)) {
       const text = String(f.properties[source.labelField] ?? "").trim();
       const coordinates = f.geometry.type === "Point" ? [f.geometry.coordinates] : f.geometry.type === "LineString" ? f.geometry.coordinates : f.geometry.type === "MultiLineString" ? f.geometry.coordinates[0] : undefined;

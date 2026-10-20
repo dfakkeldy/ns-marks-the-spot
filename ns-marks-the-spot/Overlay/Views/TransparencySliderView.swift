@@ -144,6 +144,8 @@ struct TransparencySliderView: View {
         // stroke goes with it: glass draws its own edge, and a second one over
         // the top reads as a sticker.
         .mapChromeSurface(interactive: true, shadow: (0.15, 10, 4))
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("layer-panel")
         .sheet(isPresented: Binding(
             get: { viewModel.isShowingLicenceSheet },
             set: { if !$0 { viewModel.dismissLicenceSheet() } }
@@ -674,7 +676,7 @@ private struct LayerRowView: View {
         if !row.isAvailable {
             switch row.descriptor.availability {
             case .rightsPending:
-                return "Rights pending · not yet displayed"
+                return LayerUse.queryLockReason(for: row.descriptor) ?? "Rights pending · not yet displayed"
             case .hostingPending:
                 // Not "in this build": nothing hosts these anywhere. The
                 // Fletcher case below is the one where a build has no address

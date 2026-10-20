@@ -93,7 +93,11 @@ export function urlForTile(layer: L.TileLayer, coordinates: L.Coords): string {
 
 export async function readGridTile(layer: L.GridLayer, coords: L.Coords, signal: AbortSignal): Promise<ArrayBuffer> {
   if (layer instanceof L.TileLayer) {
-    const response = await fetch(urlForTile(layer, coords), { signal });
+    // An opaque 2D <img> can cache a response without CORS headers. Terrain
+    // needs readable bytes, so bypass that representation. CORS-enabled image
+    // layers can safely keep using their existing HTTP cache.
+    const imageUsesCors = layer.options.crossOrigin === true || typeof layer.options.crossOrigin === 'string';
+    const response = await fetch(urlForTile(layer, coords), { signal, cache: imageUsesCors ? 'default' : 'reload' });
     if (!response.ok) throw new Error(`Map tile HTTP ${response.status}`);
     return response.arrayBuffer();
   }

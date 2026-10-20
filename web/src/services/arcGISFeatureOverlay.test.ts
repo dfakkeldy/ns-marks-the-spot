@@ -16,6 +16,13 @@ describe("ArcGIS feature overlays", () => {
     vi.unstubAllGlobals();
   });
 
+  it("enforces an optional byte budget before parsing large context responses", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ type: "FeatureCollection", features: [feature(1)] }))));
+    await expect(fetchArcGISFeatureOverlay({
+      serviceUrl: "https://example.test/FeatureServer/0", bounds: { west: -62, south: 45, east: -60, north: 47 }, outFields: ["geo_id"], responseLimitBytes: 10,
+    })).rejects.toThrow(/size limit/i);
+  });
+
   it("queries only the visible WGS84 map envelope and requested fields", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
@@ -132,6 +139,22 @@ describe("ArcGIS feature overlays", () => {
     const requestUrl = new URL(fetchMock.mock.calls[0][0]);
     expect(requestUrl.searchParams.get("where")).toBe("1=1");
     expect(requestUrl.searchParams.get("orderByFields")).toBe("geo_id");
+  });
+
+  it("deduplicates by the declared source identifier before a response feature id", async () => {
+    const first = { ...feature(1), properties: { geo_id: "source-one" } };
+    const second = { ...feature(1), properties: { geo_id: "source-two" } };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      type: "FeatureCollection", features: [first, second],
+    }))));
+
+    const collection = await fetchArcGISFeatureOverlay({
+      serviceUrl: "https://example.test/FeatureServer/0",
+      bounds: { west: -62, south: 45, east: -60, north: 47 },
+      outFields: ["geo_id"],
+    });
+
+    expect(collection.features.map(({ properties }) => properties.geo_id)).toEqual(["source-one", "source-two"]);
   });
 
   it("pages and deduplicates by a caller-supplied identifier for services without geo_id", async () => {

@@ -12,3 +12,8 @@ it('recognizes the DEM even when MapLibre omits its source ID', () => {
 it('retains an unknown source identifier without inventing a name', () => {
   expect(terrainFailureMessage({ sourceId: 'unrecognized', error: new Error('network') })).toContain('Map source unrecognized');
 });
+
+it('names a dropped connection rather than blaming the source', () => {
+  expect(terrainFailureMessage({ sourceId: 'research-elevation', error: new TypeError('Load failed') }))
+    .toBe('Mapzen terrain failed to load (connection interrupted). View may be incomplete.');
+});

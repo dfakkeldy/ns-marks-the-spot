@@ -230,18 +230,18 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(upcoming.map(({ id }) => id)).toEqual([
       "inverness-county-2026-08-11",
       "annapolis-county-2026-08-31",
-      "halifax-2026-09-15",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(56);
-    expect(pidsForEvents(upcoming)).toHaveLength(59);
-    expect(advertisedPidsForEvents(upcoming)).toHaveLength(39);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(46);
+    expect(pidsForEvents(upcoming)).toHaveLength(48);
+    expect(advertisedPidsForEvents(upcoming)).toHaveLength(28);
     expect(geometryExceptionPidsForEvents(upcoming)).toEqual([]);
     expect(historical.map(({ id }) => id)).toEqual([
       "cbrm-2026-07-21",
       "middleton-2026-08-20",
       "victoria-county-2026-09-14",
+      "halifax-2026-09-15",
     ]);
-    expect(pidsForEvents(historical)).toHaveLength(74);
+    expect(pidsForEvents(historical)).toHaveLength(85);
   });
 
   it("finds exact PIDs across municipality boundaries", () => {
@@ -254,9 +254,7 @@ describe("the multi-municipality tax-sale catalog", () => {
     );
     expect(listingContextForPid("85032795")).toBeUndefined();
     expect(listingContextForPid("85066322")).toBeUndefined();
-    expect(listingContextForPid("00577643")?.event.municipalityId).toBe(
-      "halifax-regional-municipality",
-    );
+    expect(listingContextForPid("00577643")).toBeUndefined();
     expect(listingContextForPid("00015966")).toBeUndefined();
     expect(listingContextForPid("00535617")).toBeUndefined();
     expect(listingContextForPid("41274085")).toBeUndefined();

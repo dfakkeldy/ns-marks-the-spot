@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "eventId": "halifax-2026-09-15",
+  "municipality": "Halifax Regional Municipality",
+  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf",
+  "landingPage": "https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results",
+  "retrievedDate": "2026-10-04",
+  "saleDate": "2026-09-15",
+  "sourceDocumentSha256": "28ba29a327f875a0d07eb990288d124c49dcdb7a32e1e631095af90d2e658d0e",
+  "ownerNamesExcluded": true,
+  "resultRowCount": 4,
+  "missingNoticeRowCount": 6,
+  "results": [
+    {
+      "aan": "03042227",
+      "pids": [
+        "00649160"
+      ],
+      "description": "Old Public Rd Nine Mile River - Land",
+      "openingBidCents": 428673,
+      "redeemable": true,
+      "outcome": "sold",
+      "winningBidCents": 10000000
+    },
+    {
+      "aan": "03294625",
+      "pids": [
+        "40290983"
+      ],
+      "description": "206 South Rd South Section - Building",
+      "openingBidCents": 2168614,
+      "redeemable": true,
+      "outcome": "unsold",
+      "winningBidCents": null
+    },
+    {
+      "aan": "08587949",
+      "pids": [
+        "40636888"
+      ],
+      "description": "Privateer Rd Lot 4 West Dover - Land",
+      "openingBidCents": 2736877,
+      "redeemable": false,
+      "outcome": "sold",
+      "winningBidCents": 6188800
+    },
+    {
+      "aan": "08960526",
+      "pids": [
+        "40772188"
+      ],
+      "description": "Jeddore Cape Lot 2 Lower West Jeddore - Land",
+      "openingBidCents": 730640,
+      "redeemable": true,
+      "outcome": "sold",
+      "winningBidCents": 5500000
+    }
+  ]
+}

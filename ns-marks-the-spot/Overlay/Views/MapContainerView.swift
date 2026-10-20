@@ -2099,6 +2099,10 @@ struct MapContainerView: View {
     /// note carries a generation time and a reader has no way to tell a stale
     /// stamp from a fresh one.
     private func exportEvidenceNote() {
+        guard LayerUse.propertyRecordsReproductionAllowed else {
+            exportFailure = overlayVM.evidenceReproductionLockReason
+            return
+        }
         guard let note = overlayVM.evidenceNote(
             includingSourcesStillOut: sourcesHaveHadTheirTime
         ) else {

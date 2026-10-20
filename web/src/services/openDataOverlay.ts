@@ -7,6 +7,7 @@ const PAGE_SIZE = 5000;
 const MAX_FEATURES = 12_000;
 const MAX_RESPONSE_BYTES = 24 * 1024 * 1024;
 export class OpenDataAreaTooLargeError extends Error {}
+export class OpenDataOutsideCoverageError extends Error {}
 export type OpenDataCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry, Record<string, unknown>>;
 
 function validateBounds(bounds: MapEnvelope) {
@@ -47,6 +48,9 @@ const roadCache = new WeakMap<OpenDataSource, {
 export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal?: AbortSignal, zoom = 24): Promise<OpenDataCollection> {
   validateBounds(bounds);
   signal?.throwIfAborted();
+  if (source.coverageAreas && !source.coverageAreas.some(area => area.west <= bounds.east && area.east >= bounds.west && area.south <= bounds.north && area.north >= bounds.south)) {
+    throw new OpenDataOutsideCoverageError("Outside this source’s mapped coverage");
+  }
   const cached = roadCache.get(source);
   if (cached && cached.expires > Date.now() && cached.zoom === zoom &&
       bounds.west >= cached.bounds.west && bounds.east <= cached.bounds.east &&
@@ -80,7 +84,10 @@ export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEn
 
 async function downloadOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelope, signal: AbortSignal | undefined, zoom: number) {
   const features: OpenDataCollection["features"] = [];
-  const seen = new Set<string>();
+  // Row id -> the part that returned it. A repeat within one part's pages
+  // means the pagination shifted; one part repeating another's row is simply
+  // drawn once.
+  const seen = new Map<string, OpenDataSource["parts"][number]>();
   let bytes = 0;
   for (const part of source.parts) {
     if (part.minZoom !== undefined && zoom < part.minZoom) continue;
@@ -109,8 +116,10 @@ async function downloadOpenDataOverlay(source: OpenDataSource, bounds: MapEnvelo
       for (const f of data.features) {
         if (f.type !== "Feature" || !f.geometry || !f.properties?.source_row_id) throw new Error("Open data geometry or identifier missing");
         const id = `${part.dataset}:${f.properties.source_row_id}`;
-        if (seen.has(id)) throw new Error("Open data pagination changed; retry");
-        seen.add(id);
+        const earlier = seen.get(id);
+        if (earlier === part) throw new Error("Open data pagination changed; retry");
+        if (earlier) continue;
+        seen.set(id, part);
         features.push({ ...f, id, properties: { ...f.properties, source_dataset: part.dataset, source_color: part.color ?? source.color } });
         if (features.length > MAX_FEATURES) throw new OpenDataAreaTooLargeError("Open data area too large; zoom in");
       }

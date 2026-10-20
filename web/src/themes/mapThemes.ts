@@ -14,13 +14,16 @@ import {
 } from "../services/mapShareState";
 
 export type BuiltInMapThemeId =
+  | "rhodena"
   | "electoral-districts"
   | "explore-nova-scotia"
   | "tax-sale-research"
   | "forestry-field-access"
   | "historical-maps"
   | "georeferencing"
-  | "poker";
+  | "poker"
+  | "fishing"
+  | "point-tupper";
 
 export interface MapThemeState {
   readonly layerIds: readonly ShareLayerId[];
@@ -127,7 +130,72 @@ export const builtInMapThemes = [
     taxSaleEnabled: false,
     mapMode: "current",
   },
+  { id: "rhodena", kind: "built-in", name: "Rhodena", description: "The six-turbine 2024 proposal with land, water and community context.", layerIds: ["modern", "rhodena-turbines", "rhodena-infrastructure", "rhodena-study", "protected-conservation-areas", "water-features", "crown-lands", "roads", "old-growth-policy"], opacityOverrides: {}, preferredCategoryIds: ["rhodena-project"], taxSaleEnabled: false, mapMode: "current" },
   { id: "electoral-districts", kind: "built-in", name: "Electoral Districts", description: "Dated boundaries and election results, with each source on its own geometry.", layerIds: ["modern", "provincial-districts-2026", "federal-ridings-2025"], opacityOverrides: {}, preferredCategoryIds: ["elections-districts", "background-maps"], taxSaleEnabled: false, mapMode: "current" },
+  {
+    // Web-only, and fully open: `modern` is the only background, and no layer
+    // here needs the Province licence, so `?theme=fishing` never raises it.
+    // The DFO aquatic species-at-risk layers stay in the catalogue but out of
+    // this setup, so they never sit beside the spots by default. Waterfalls is
+    // left out too: turning it on fits the whole province (LayerZoomController
+    // in MapCanvas.tsx), which would move the map away from every spot. So is
+    // the Crown land overlay: it draws from zoom 12, and an opening layer that
+    // needs zoom 12 makes the same controller zoom in to a few kilometres,
+    // away from the spot overview. The Atlas background already shades Crown
+    // land, and the overlay stays one tap away on /fishing and the full map.
+    // Place names are left out as well: the GeoNAMES layer draws thousands of
+    // dark dots from zoom 8 that bury the spot and harbour markers at the
+    // opening zoom, the background already labels places, and the layer stays
+    // one tap away in Roads & Places.
+    id: "fishing",
+    kind: "built-in",
+    name: "Fishing",
+    description: "Curated spots, stocked waters and harbours, with water, land and road context.",
+    layerIds: [
+      "modern",
+      "fishing-spots",
+      "stocked-waters",
+      "dfo-small-craft-harbours-core",
+      "dfo-small-craft-harbours-non-core",
+      "water-features",
+      "nshn-spines",
+      "wsc-hydrometric-stations",
+      "wharves-coastal-structures",
+      "protected-conservation-areas",
+      "roads",
+      "campgrounds",
+    ],
+    opacityOverrides: {},
+    preferredCategoryIds: ["water-terrain", "roads-places", "land-property"],
+    taxSaleEnabled: false,
+    mapMode: "current",
+  },
+  {
+    // Web-only and fully open, like fishing: every layer here is the Province's
+    // open data or the project's own places, so `?theme=point-tupper` never
+    // raises the Province licence. Place names stay off for the same reason as
+    // on fishing (thousands of dots that bury the key places); the background
+    // labels the towns. Everything opens at zoom 11 or closer, so turning the
+    // setup on never moves the camera off the Strait.
+    id: "point-tupper",
+    kind: "built-in",
+    name: "Point Tupper",
+    description: "Key places for the announced data-centre campus, with the mapped grid, pipelines, wharves, water and roads.",
+    layerIds: [
+      "modern",
+      "point-tupper-sites",
+      "transmission-lines",
+      "substations",
+      "pipelines",
+      "wharves-coastal-structures",
+      "water-features",
+      "roads",
+    ],
+    opacityOverrides: {},
+    preferredCategoryIds: ["point-tupper-site", "roads-places", "water-terrain"],
+    taxSaleEnabled: false,
+    mapMode: "current",
+  },
 ] as const satisfies readonly MapThemeDefinition[];
 
 /**
@@ -142,7 +210,7 @@ const nativeExcludedLayerIds = new Set<CategorizedLayerId>(
 export function buildMapPresentationFixture(): MapPresentationFixture {
   return {
     version: 1,
-    categories: layerCategories.filter(c => c.id !== "elections-districts").map(({ id, name }) => ({
+    categories: layerCategories.filter(c => c.id !== "elections-districts" && c.id !== "rhodena-project" && c.id !== "point-tupper-site").map(({ id, name }) => ({
       id,
       name,
       layerIds: id === "tax-sale" || id === "my-maps"
@@ -152,7 +220,8 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
           ),
     })),
     // Poker is a web workflow; native has no driveway session controls.
-    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts").map((theme) => ({
+    // Electoral, Rhodena and Fishing name web-only context layers.
+    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts" && theme.id !== "rhodena" && theme.id !== "fishing" && theme.id !== "point-tupper").map((theme) => ({
       id: theme.id,
       name: theme.name,
       description: theme.description,

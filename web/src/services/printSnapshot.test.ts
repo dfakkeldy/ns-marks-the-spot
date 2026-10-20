@@ -434,6 +434,14 @@ describe("print map derivation", () => {
     expect(printBoundsForTemplate(capture, "field")).toEqual(capture.viewport.bounds);
   });
 
+  it("uses the captured viewport for a research map with no parcel geometry", () => {
+    const capture = {
+      selectedParcelGeometry: { type: "FeatureCollection" as const, features: [] },
+      viewport: base.viewport,
+    };
+    expect(printBoundsForTemplate(capture, "research")).toEqual(base.viewport.bounds);
+  });
+
   it("derives bounds from a sealed snapshot without a cast", () => {
     const snapshot = sealPrintSnapshot(
       startPrintCapture(base, pendingEvidence),

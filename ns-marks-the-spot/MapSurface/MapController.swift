@@ -2875,20 +2875,24 @@ extension MapController: UIGestureRecognizerDelegate {
 
     /// Whether a point on the map sits on the labelled measuring endpoint.
     ///
-    /// Uses the view's frame rather than hit-testing: the view refuses
+    /// Uses the view's bounds rather than hit-testing: the view refuses
     /// interaction so a finger can reach the map, which makes `hitTest`
     /// skip it.
     static func measurementEndpointCovers(_ point: CGPoint, in mapView: MKMapView) -> Bool {
         mapView.annotations.contains { annotation in
-            measurementEndpointCovers(point, view: mapView.view(for: annotation))
+            guard let view = mapView.view(for: annotation) else { return false }
+            // MapKit nests annotations inside its own containers. Their
+            // frames are not in the coordinate space of the map's tap.
+            return measurementEndpointCovers(view.convert(point, from: mapView), view: view)
         }
     }
 
+    /// The point is in the annotation view's local coordinate space.
     static func measurementEndpointCovers(_ point: CGPoint, view: MKAnnotationView?) -> Bool {
         guard let view = view as? MeasurementEndpointAnnotationView,
               view.accessibilityIdentifier == "measure-endpoint-label"
         else { return false }
-        return view.frame.contains(point)
+        return view.bounds.contains(point)
     }
 }
 

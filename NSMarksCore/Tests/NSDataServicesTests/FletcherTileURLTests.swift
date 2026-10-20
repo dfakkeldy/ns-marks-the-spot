@@ -140,7 +140,7 @@ struct FletcherTileURLTests {
     func matchesWebTemplate() throws {
         let base = try #require(try FletcherTileURL.normalizeBaseURL("https://tiles.test/f"))
         #expect(FletcherTileURL.tileTemplate(baseURL: base)
-            == "https://tiles.test/f/fletcher-full-sheets-20260913.1/{z}/{x}/{y}.png")
+            == "https://tiles.test/f/fletcher-seams-20261009.2/{z}/{x}/{y}.png")
         #expect(FletcherTileURL.tileTemplate(baseURL: nil) == nil)
     }
 

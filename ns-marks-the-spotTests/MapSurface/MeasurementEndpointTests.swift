@@ -91,7 +91,7 @@ struct MeasurementEndpointTests {
         )
         view.frame = CGRect(x: 10, y: 20, width: 80, height: 50)
         #expect(MapController.measurementEndpointCovers(CGPoint(x: 50, y: 40), view: view))
-        #expect(!MapController.measurementEndpointCovers(CGPoint(x: 0, y: 0), view: view))
+        #expect(!MapController.measurementEndpointCovers(CGPoint(x: -1, y: -1), view: view))
         #expect(!MapController.measurementEndpointCovers(.zero, view: MKAnnotationView()))
     }
 
@@ -111,6 +111,26 @@ struct MeasurementEndpointTests {
         controller.mapView(map, didSelect: view)
         #expect(!leaked)
         #expect(map.selectedAnnotations.isEmpty)
+    }
+
+    @Test func theMeasurementBadgeUsesMapCoordinatesInsideANestedAnnotationContainer() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = TapHitMapView(frame: CGRect(x: 0, y: 0, width: 400, height: 800))
+        let view = try #require(
+            MapController().mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        map.endpointView = view
+        map.addAnnotation(endpoint)
+        let container = UIView(frame: CGRect(x: 100, y: 150, width: 200, height: 400))
+        map.addSubview(container)
+        container.addSubview(view)
+        view.frame = CGRect(x: 10, y: 20, width: 80, height: 50)
+
+        // Container origin + view origin + half the view size.
+        #expect(MapController.measurementEndpointCovers(CGPoint(x: 150, y: 195), in: map))
+        #expect(!MapController.measurementEndpointCovers(CGPoint(x: 50, y: 40), in: map))
     }
 
     @Test func aSingleTapOnBareMapDoesNotCompeteWithMapKitsSingleTap() {
@@ -149,5 +169,10 @@ struct MeasurementEndpointTests {
 @MainActor
 private final class TapHitMapView: MKMapView {
     var hitView: UIView?
+    var endpointView: MeasurementEndpointAnnotationView?
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? { hitView }
+    override func view(for annotation: any MKAnnotation) -> MKAnnotationView? {
+        if let endpointView, endpointView.annotation === annotation { return endpointView }
+        return super.view(for: annotation)
+    }
 }

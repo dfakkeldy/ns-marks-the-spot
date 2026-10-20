@@ -1,3 +1,5 @@
+import { hasTracedFeatures } from "./export/tracedProvenance";
+import { PARCEL_REPRODUCTION_LOCK_REASON } from "../../licensing/layerUse";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { requestDurableStorage } from "../../services/durableStorage";
 import type { Feature, FeatureCollection } from "geojson";
@@ -697,6 +699,10 @@ export function useUserVectorLayers(
         // The layer was removed between render and click; nothing to write.
         return;
       }
+      if (hasTracedFeatures(data)) {
+        setStorageError(PARCEL_REPRODUCTION_LOCK_REASON);
+        return;
+      }
       if (format === "kmz") {
         const bytesById = new Map<string, Uint8Array>();
         try {
@@ -745,8 +751,13 @@ export function useUserVectorLayers(
   const exportRawRecording = useCallback(
     async (id: string) => {
       const record = recordsSnapshotRef.current.find((r) => r.id === id);
-      if (!record) {
+      if (!record || record.source !== "recorded" || record.origin.kind !== "recorded") {
         // The layer was removed between render and click; nothing to write.
+        return;
+      }
+      const data = geometriesSnapshotRef.current[id];
+      if (!data || hasTracedFeatures(data)) {
+        setStorageError(PARCEL_REPRODUCTION_LOCK_REASON);
         return;
       }
       let blob: Blob | null = null;

@@ -6,6 +6,12 @@ const source = { parts: [{ dataset: "458x-dmz3", fields: ["feat_desc"], where: "
 const feature = (id: string) => ({ type: "Feature", geometry: { type: "Point", coordinates: [-61.45, 45.85] }, properties: { source_row_id: id, feat_desc: "Falls" } });
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 describe("open-government viewport downloads", () => {
+  it("does not query a view outside documented source coverage envelopes", async () => {
+    const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
+    const covered = { ...source, coverageAreas: [{ west: -65, east: -64, south: 44, north: 45 }] };
+    await expect(fetchOpenDataOverlay(covered, bounds)).rejects.toThrow(/outside.*coverage/i);
+    expect(fetcher).not.toHaveBeenCalled();
+  });
   it("queries only the requested bounds and source classes with stable row identifiers", async () => {
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ type: "FeatureCollection", features: [feature("one")] })));
     vi.stubGlobal("fetch", fetcher);
@@ -135,4 +141,10 @@ it('does not retain large complete road responses in memory for reuse', async ()
   expect((await fetchOpenDataOverlay(roads, bounds, undefined, 13)).features).toHaveLength(1);
   await fetchOpenDataOverlay(roads, bounds, undefined, 13);
   expect(fetcher).toHaveBeenCalledTimes(2);
+});
+it("draws a row once when two parts of one dataset both return it", async () => {
+  const tiered = { color: "#654735", parts: [{ dataset: "484g-adjn", fields: ["street"], where: "roadc_desc = 'Local'" }, { dataset: "484g-adjn", fields: ["street"], where: "roadc_desc <> 'Track'", minZoom: 13 }] };
+  vi.stubGlobal("fetch", vi.fn().mockImplementation(async () => new Response(JSON.stringify({ type: "FeatureCollection", features: [feature("shared")] }))));
+  const collection = await fetchOpenDataOverlay(tiered, bounds, undefined, 14);
+  expect(collection.features.map(({ id }) => id)).toEqual(["484g-adjn:shared"]);
 });

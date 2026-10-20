@@ -198,7 +198,7 @@ nonisolated struct PrintMapCompositorTests {
     /// drew — and blank paper the reader would take for surveyed ground with
     /// nothing on it.
     @Test func aLayerThatReachesNoneOfThisGroundIsNotDrawn() async throws {
-        let output = try await Self.compose(layers: [Self.layer("fletcher")]) { _, _ in
+        let output = try await Self.compose(layers: [Self.layer("test-sheet")]) { _, _ in
             (Self.tile(.clear), .served, .outsideCoverage)
         }
 
@@ -277,7 +277,7 @@ nonisolated struct PrintMapCompositorTests {
     /// that went missing.
     @Test func oneRealSquareIsEnoughToCountAsDrawn() async throws {
         let real = Mutex(1)
-        let output = try await Self.compose(layers: [Self.layer("fletcher")]) { _, _ in
+        let output = try await Self.compose(layers: [Self.layer("test-sheet")]) { _, _ in
             real.take()
                 ? (Self.tile(.red), .served, .source)
                 : (Self.tile(.clear), .served, .outsideCoverage)
@@ -469,7 +469,7 @@ nonisolated struct PrintMapCompositorTests {
         let tiles = Mutex(0)
         let layer = MapLayerState(
             configuration: TileLayerConfiguration(
-                id: "roads", name: "Roads", source: .catalogExport(.roads)
+                id: "coastal-flood-current", name: "Coastal flood", source: .catalogExport(.coastalFloodCurrent)
             )
         )
 
@@ -501,7 +501,7 @@ nonisolated struct PrintMapCompositorTests {
     @Test func aCataloguedLayerThatDidNotRenderIsReportedFailed() async throws {
         let layer = MapLayerState(
             configuration: TileLayerConfiguration(
-                id: "roads", name: "Roads", source: .catalogExport(.roads)
+                id: "coastal-flood-current", name: "Coastal flood", source: .catalogExport(.coastalFloodCurrent)
             )
         )
 
@@ -531,9 +531,8 @@ nonisolated struct PrintMapCompositorTests {
         }
     }
 
-    /// A hole in a parcel is a piece of ground that is not in it. Filling it
-    /// would draw a boundary the record does not describe.
-    @Test func aHoleInAParcelIsNotFilled() async throws {
+    /// Retained parcel arrays must not become an export route after switching off the layer.
+    @Test func retainedParcelGeometryCannotBypassReproductionPermission() async throws {
         let parcel = ParcelShape(
             pid: "00000001",
             role: .taxSale,
@@ -543,15 +542,12 @@ nonisolated struct PrintMapCompositorTests {
             ]]
         )
 
-        let output = try await Self.compose(
-            layers: [], parcels: [parcel]
-        ) { _, _ in (Self.pixel, .served, .source) }
-
-        // Inside the outer ring, tinted by the tax-sale fill over white.
-        let filled = try #require(Self.colour(CGPoint(x: 150, y: 200), in: output.jpeg))
-        #expect(filled.blue < 0.96)
-        // Inside the hole, still the base map.
-        #expect(Self.isNear(Self.colour(CGPoint(x: 300, y: 200), in: output.jpeg), (1, 1, 1)))
+        await #expect(throws: LayerUse.Refusal.self) {
+            try await Self.compose(layers: [], parcels: [parcel]) { _, _ in
+                Issue.record("A retained parcel must be refused before any tile fetch")
+                return (Self.pixel, .served, .source)
+            }
+        }
     }
 
     /// The six-at-a-time limit is what keeps an export from being throttled by

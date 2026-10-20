@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { fetchOfficial } from "./taxSaleWatch/fetchOfficial.mjs";
 import {
   findHashableCapture,
   listCaptures,
@@ -744,12 +745,7 @@ async function pdfBbox(pdfBytes) {
 }
 
 async function fetchOk(url, accept) {
-  const response = await fetch(url, {
-    headers: { Accept: accept, "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
-  return response;
+  return fetchOfficial(url, { accept });
 }
 
 function snapshotsEquivalent(left, right) {

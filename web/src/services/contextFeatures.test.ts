@@ -53,4 +53,10 @@ describe("context feature presentation", () => {
       expect(contextFeatureLabel(layer, { class: value })).toBe(layer.name);
     }
   });
+
+  it("uses a source name independently of the classification used for styling", () => {
+    const named = { ...layer, labelField: "name" };
+    expect(contextFeatureLabel(named, { class: "high", name: "Published wetland" })).toBe(`${layer.name} · Published wetland`);
+    expect(contextFeatureLabel(named, { class: "high", name: {} })).toBe(layer.name);
+  });
 });

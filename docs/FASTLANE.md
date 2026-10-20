@@ -1,11 +1,14 @@
 # Fastlane Operations
 
-Status as of September 5, 2026.
+Re-checked: October 6, 2026.
 
-After [#330](https://github.com/dfakkeldy/ns-marks-the-spot/pull/330), Match
-covers both the app and the Live Activity extension. The Live Activity App
-Store profile was provisioned during that work, before the merge. TestFlight
-archive and upload after the merge is not recorded here.
+Match covers both the app and the Live Activity extension. A post-#330 internal
+archive/upload is now verified: October 4 build `1.0 (109)` from nightly source
+`3e7fb58130b04bba69b402a57f3473c11703c26f`. The October 5 train failed its
+measurement UI test and skipped upload. These receipts do not establish a
+current-head pass, device acceptance, App Store approval, or live availability.
+Use the [native App Store release packet](APP_STORE_RELEASE.md) for current
+branch gates, copy, assets, privacy evidence and unresolved content rights.
 
 ## Local Setup
 
@@ -115,25 +118,46 @@ release substitutes.
 
 ## Recent Proof
 
-An inspected pre-Live Activity release-train run uploaded, processed, and
-distributed TestFlight build `1.0 (4)` to internal testers. That is not proof
-of a dual-bundle archive after #330. The relevant success lines were:
+The latest inspected real internal shipping run,
+[October 4 run 37199904619](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37199904619),
+checked out `3e7fb58130b04bba69b402a57f3473c11703c26f` and reported:
 
 - "Successfully uploaded package to App Store Connect."
-- "Successfully finished processing the build 1.0 - 4 for IOS."
+- "Successfully finished processing the build 1.0 - 109 for IOS."
 - "Successfully distributed build to Internal testers."
 
-Live Activity signing was provisioned in
+The latest inspected real weekly shipping run,
+[September 28 run 36472512037](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/36472512037),
+checked out weekly `781d7b5b2206eee48cd20a00b2cfbcebea78d4d3`, uploaded and
+processed `1.0 (103)`, then reported external distribution. Verify beta review,
+group state and actual external acceptance in ASC before treating weekly as
+release-accepted. The current main Fastfile predates the external-weekly changes;
+the workflow's default-branch SHA is not the channel checkout SHA.
+
+[October 5 run 37318150629](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/37318150629)
+checked out `37a5c6228fcf83e0e544cac87ae3248e3c0fba0f`, compiled, and failed
+`MapChromeUITests.testMeasuringReportsADistanceForTapsOnTheMap` at line 103:
+the badge tap did not update both endpoint and card. Upload was skipped.
+Later green resolver-only runs are not new uploads.
+
+Historical signing provisioning was recorded in
 [Actions run 33964009282](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/33964009282)
-before #330 merged. That run skipped build and upload. The encrypted signing
-repository then contained the extension App Store profile. TestFlight archive
-verification after the merge is not recorded here.
+before #330 merged. That run skipped build and upload; it is not a shipping
+receipt. This audit did not inspect private signing assets.
 
 ## Known Gaps
 
 - `fastlane release` uploads with `submit_for_review: false`; final App Review
   submission still needs manual completion unless the lane is intentionally
   changed.
-- There is no checked-in App Store screenshot capture lane yet.
+- There is no checked-in App Store screenshot capture lane yet. The 12 tracked
+  PNGs are July 3 captures; their README now distinguishes them from the fresh
+  selected-build storyboard. Do not submit an old capture as current UI proof.
 - `ITSAppUsesNonExemptEncryption` is not currently set in the project, so export
-  compliance may add wait time during processing.
+  compliance requires an owner determination; no guessed answer was inserted.
+- Native privacy-policy access, exact-head native tests, final-archive privacy
+  coverage and the specific native/offline map rights in the release packet
+  remain preparation gates.
+- The release packet is prepared copy, not metadata already applied in ASC.
+  Main is still the July source; promote through weekly/main only with the
+  separate requested release authorization and required strict checks.

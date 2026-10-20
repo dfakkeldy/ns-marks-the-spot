@@ -1,3 +1,4 @@
+import { PARCEL_REPRODUCTION_LOCK_REASON } from "../../../licensing/layerUse";
 import type { FeatureCollection } from "geojson";
 import {
   FIELD_CAPTURE_SPEC,
@@ -29,4 +30,9 @@ export function hasTracedFeatures(collection: FeatureCollection): boolean {
       (feature.properties as Record<string, unknown>)[NSMTS_TRACED] ===
         NSMTS_TRACED_PARCEL,
   );
+}
+
+/** Local persistence keeps these records. Only outgoing interchange is locked. */
+export function requireVectorReproduction(collection: FeatureCollection): void {
+  if (hasTracedFeatures(collection)) throw new Error(PARCEL_REPRODUCTION_LOCK_REASON);
 }

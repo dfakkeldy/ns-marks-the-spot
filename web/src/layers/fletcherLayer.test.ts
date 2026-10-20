@@ -26,7 +26,7 @@ describe("direct-Rumsey Fletcher tile configuration", () => {
   });
 
   it("pins all 24 independent sheets to one immutable revision", () => {
-    expect(FLETCHER_TILE_REVISION).toBe('fletcher-full-sheets-20260913.1');
+    expect(FLETCHER_TILE_REVISION).toBe('fletcher-seams-20261009.2');
     expect(fletcherSheets).toHaveLength(24);
     expect(fletcherTileRegions).toHaveLength(1);
     expect(fletcherTileRegions[0].id).toBe('mosaic');

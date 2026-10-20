@@ -1,0 +1,1049 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "T1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.441789,
+          45.767
+        ]
+      },
+      "properties": {
+        "kind": "turbine",
+        "name": "T1 · proposed turbine",
+        "note": "2024 six-turbine assessment. Up to 7 MW each; up to 200 m above ground to blade tip. The July specification models 118 m hub + 81.5 m blade. Final turbine selection and placement are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=2",
+        "sourceDate": "July 24, 2024 · Appendix J, Table 1",
+        "accuracy": "Published coordinates; survey accuracy not stated",
+        "turbineId": 1,
+        "easting": 621160.911,
+        "northing": 5069340.739,
+        "groundElevationM": 228
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "T2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.436743,
+          45.769571
+        ]
+      },
+      "properties": {
+        "kind": "turbine",
+        "name": "T2 · proposed turbine",
+        "note": "2024 six-turbine assessment. Up to 7 MW each; up to 200 m above ground to blade tip. The July specification models 118 m hub + 81.5 m blade. Final turbine selection and placement are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=2",
+        "sourceDate": "July 24, 2024 · Appendix J, Table 1",
+        "accuracy": "Published coordinates; survey accuracy not stated",
+        "turbineId": 2,
+        "easting": 621547.71,
+        "northing": 5069634.039,
+        "groundElevationM": 236
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "T3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.429257,
+          45.77134
+        ]
+      },
+      "properties": {
+        "kind": "turbine",
+        "name": "T3 · proposed turbine",
+        "note": "2024 six-turbine assessment. Up to 7 MW each; up to 200 m above ground to blade tip. The July specification models 118 m hub + 81.5 m blade. Final turbine selection and placement are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=2",
+        "sourceDate": "July 24, 2024 · Appendix J, Table 1",
+        "accuracy": "Published coordinates; survey accuracy not stated",
+        "turbineId": 3,
+        "easting": 622125.91,
+        "northing": 5069842.039,
+        "groundElevationM": 234
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "T4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.422165,
+          45.770641
+        ]
+      },
+      "properties": {
+        "kind": "turbine",
+        "name": "T4 · proposed turbine",
+        "note": "2024 six-turbine assessment. Up to 7 MW each; up to 200 m above ground to blade tip. The July specification models 118 m hub + 81.5 m blade. Final turbine selection and placement are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=2",
+        "sourceDate": "July 24, 2024 · Appendix J, Table 1",
+        "accuracy": "Published coordinates; survey accuracy not stated",
+        "turbineId": 4,
+        "easting": 622678.812,
+        "northing": 5069775.179,
+        "groundElevationM": 252
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "T5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.423467,
+          45.758272
+        ]
+      },
+      "properties": {
+        "kind": "turbine",
+        "name": "T5 · proposed turbine",
+        "note": "2024 six-turbine assessment. Up to 7 MW each; up to 200 m above ground to blade tip. The July specification models 118 m hub + 81.5 m blade. Final turbine selection and placement are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=3",
+        "sourceDate": "July 24, 2024 · Appendix J, Table 1",
+        "accuracy": "Published coordinates; survey accuracy not stated",
+        "turbineId": 5,
+        "easting": 622604.711,
+        "northing": 5068398.939,
+        "groundElevationM": 202
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "T6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.417789,
+          45.759619
+        ]
+      },
+      "properties": {
+        "kind": "turbine",
+        "name": "T6 · proposed turbine",
+        "note": "2024 six-turbine assessment. Up to 7 MW each; up to 200 m above ground to blade tip. The July specification models 118 m hub + 81.5 m blade. Final turbine selection and placement are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=3",
+        "sourceDate": "July 24, 2024 · Appendix J, Table 1",
+        "accuracy": "Published coordinates; survey accuracy not stated",
+        "turbineId": 6,
+        "easting": 623043.311,
+        "northing": 5068557.339,
+        "groundElevationM": 217
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.437468,
+          45.752686
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor A / noise R1",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 24 h 03 min/year; maximum 26 min/day; worst case, no terrain/obstacle screening. August 15 noise model reports 37.4 dBA from modelled sources and 39.4 dBA with ambient noise; this is a prediction, not a measurement.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-B",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.424623,
+          45.735786
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor B",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 0 h/year; worst case, no terrain/obstacle screening. ",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-C",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.423872,
+          45.73601
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor C",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 0 h/year; worst case, no terrain/obstacle screening. ",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-D",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.449285,
+          45.814349
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor D",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 0 h/year; worst case, no terrain/obstacle screening. ",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-E",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.379823,
+          45.743971
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor E",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 0 h/year; worst case, no terrain/obstacle screening. ",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-F",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.420705,
+          45.737541
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor F",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 0 h/year; worst case, no terrain/obstacle screening. ",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "receptor-G",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.389391,
+          45.743413
+        ]
+      },
+      "properties": {
+        "kind": "receptor",
+        "name": "Receptor G",
+        "note": "Anonymous assessment receptor, not a complete building inventory. April 3, 2024 shadow model: 0 h/year; worst case, no terrain/obstacle screening. ",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=50",
+        "sourceDate": "April 3, 2024 shadow model; August 15, 2024 noise model",
+        "accuracy": "Published NAD83 / UTM 20N coordinates; source precision 1 m, accuracy unstated"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "model-substation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.413406,
+          45.767404
+        ]
+      },
+      "properties": {
+        "kind": "model-substation",
+        "name": "Substation · August noise model",
+        "note": "Published noise-model input. This differs from the October infrastructure drawing near T5–T6. Do not treat either location as a verified final design.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=63",
+        "sourceDate": "August 15, 2024 · Appendix L",
+        "accuracy": "Published model coordinate; conflicting source geometry"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "study",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.446183,
+              45.815309
+            ],
+            [
+              -61.425351,
+              45.817631
+            ],
+            [
+              -61.424961,
+              45.816252
+            ],
+            [
+              -61.420347,
+              45.815415
+            ],
+            [
+              -61.419676,
+              45.814033
+            ],
+            [
+              -61.421203,
+              45.80865
+            ],
+            [
+              -61.42058,
+              45.805207
+            ],
+            [
+              -61.415446,
+              45.802597
+            ],
+            [
+              -61.413551,
+              45.799532
+            ],
+            [
+              -61.415025,
+              45.796505
+            ],
+            [
+              -61.413961,
+              45.793941
+            ],
+            [
+              -61.408672,
+              45.792016
+            ],
+            [
+              -61.405497,
+              45.789722
+            ],
+            [
+              -61.401908,
+              45.787129
+            ],
+            [
+              -61.397471,
+              45.78482
+            ],
+            [
+              -61.394293,
+              45.782722
+            ],
+            [
+              -61.393624,
+              45.78134
+            ],
+            [
+              -61.390827,
+              45.780915
+            ],
+            [
+              -61.388095,
+              45.783731
+            ],
+            [
+              -61.386409,
+              45.78381
+            ],
+            [
+              -61.382123,
+              45.78111
+            ],
+            [
+              -61.376364,
+              45.775447
+            ],
+            [
+              -61.371646,
+              45.773233
+            ],
+            [
+              -61.379986,
+              45.77058
+            ],
+            [
+              -61.376213,
+              45.769948
+            ],
+            [
+              -61.374524,
+              45.764234
+            ],
+            [
+              -61.371119,
+              45.759973
+            ],
+            [
+              -61.368891,
+              45.759259
+            ],
+            [
+              -61.365888,
+              45.755788
+            ],
+            [
+              -61.363219,
+              45.755953
+            ],
+            [
+              -61.362703,
+              45.754082
+            ],
+            [
+              -61.363584,
+              45.752423
+            ],
+            [
+              -61.362771,
+              45.751236
+            ],
+            [
+              -61.364491,
+              45.749685
+            ],
+            [
+              -61.365605,
+              45.749992
+            ],
+            [
+              -61.368349,
+              45.746686
+            ],
+            [
+              -61.363608,
+              45.73966
+            ],
+            [
+              -61.379143,
+              45.734932
+            ],
+            [
+              -61.373587,
+              45.732708
+            ],
+            [
+              -61.381537,
+              45.72848
+            ],
+            [
+              -61.377401,
+              45.719596
+            ],
+            [
+              -61.374569,
+              45.72084
+            ],
+            [
+              -61.366446,
+              45.714658
+            ],
+            [
+              -61.362504,
+              45.715397
+            ],
+            [
+              -61.358745,
+              45.708481
+            ],
+            [
+              -61.368922,
+              45.704771
+            ],
+            [
+              -61.378969,
+              45.712545
+            ],
+            [
+              -61.385928,
+              45.720578
+            ],
+            [
+              -61.389592,
+              45.719736
+            ],
+            [
+              -61.395917,
+              45.725012
+            ],
+            [
+              -61.387518,
+              45.730512
+            ],
+            [
+              -61.389567,
+              45.732794
+            ],
+            [
+              -61.389115,
+              45.734163
+            ],
+            [
+              -61.378319,
+              45.740126
+            ],
+            [
+              -61.380943,
+              45.747814
+            ],
+            [
+              -61.404627,
+              45.74239
+            ],
+            [
+              -61.406452,
+              45.742313
+            ],
+            [
+              -61.407354,
+              45.745759
+            ],
+            [
+              -61.40995,
+              45.748734
+            ],
+            [
+              -61.423489,
+              45.745351
+            ],
+            [
+              -61.425926,
+              45.749208
+            ],
+            [
+              -61.434386,
+              45.747142
+            ],
+            [
+              -61.435348,
+              45.748036
+            ],
+            [
+              -61.434861,
+              45.750976
+            ],
+            [
+              -61.436048,
+              45.754327
+            ],
+            [
+              -61.440407,
+              45.753786
+            ],
+            [
+              -61.441356,
+              45.755269
+            ],
+            [
+              -61.437828,
+              45.756212
+            ],
+            [
+              -61.441607,
+              45.762831
+            ],
+            [
+              -61.441127,
+              45.765477
+            ],
+            [
+              -61.445498,
+              45.764445
+            ],
+            [
+              -61.465553,
+              45.802854
+            ],
+            [
+              -61.444524,
+              45.807927
+            ],
+            [
+              -61.446183,
+              45.815309
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "study",
+        "name": "Study area · October 2024",
+        "note": "Simplified trace of Drawing 2.2 at 1:50,000. Reported study area is 4,011 ha; this display outline is not a parcel boundary. Small holes and fine boundary detail are omitted. Do not use it for parcel inclusion or area calculations.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=2",
+        "sourceDate": "October 2024 · Drawing 2.2",
+        "accuracy": "Approximate trace · 1:50,000; allow at least 50 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "transmission",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.419664,
+            45.759348
+          ],
+          [
+            -61.417694,
+            45.759621
+          ],
+          [
+            -61.414358,
+            45.758307
+          ],
+          [
+            -61.412347,
+            45.754259
+          ],
+          [
+            -61.413376,
+            45.752209
+          ],
+          [
+            -61.40921,
+            45.750395
+          ],
+          [
+            -61.406114,
+            45.750851
+          ],
+          [
+            -61.392899,
+            45.752271
+          ],
+          [
+            -61.389541,
+            45.751938
+          ],
+          [
+            -61.387343,
+            45.749949
+          ],
+          [
+            -61.38353,
+            45.751084
+          ],
+          [
+            -61.380322,
+            45.750359
+          ],
+          [
+            -61.377368,
+            45.750718
+          ],
+          [
+            -61.374714,
+            45.750295
+          ],
+          [
+            -61.37356,
+            45.739776
+          ],
+          [
+            -61.377111,
+            45.737854
+          ],
+          [
+            -61.380627,
+            45.737404
+          ],
+          [
+            -61.384377,
+            45.732931
+          ],
+          [
+            -61.390562,
+            45.726227
+          ],
+          [
+            -61.376802,
+            45.715269
+          ],
+          [
+            -61.366436,
+            45.70916
+          ],
+          [
+            -61.360975,
+            45.708998
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "transmission",
+        "name": "Proposed transmission corridor · overview",
+        "note": "Approximate route from Drawing 2.2, classified against Drawings 2.3B–G. The drawing connects toward existing electrical infrastructure; the final route, width and land authorizations are not verified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=2",
+        "sourceDate": "October 2024 · Drawing 2.2",
+        "accuracy": "Approximate trace · 1:50,000; allow at least 50 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "access-upgrade",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.420597,
+            45.767605
+          ],
+          [
+            -61.415822,
+            45.767847
+          ],
+          [
+            -61.408898,
+            45.770027
+          ],
+          [
+            -61.402964,
+            45.771825
+          ],
+          [
+            -61.399017,
+            45.772664
+          ],
+          [
+            -61.397255,
+            45.769993
+          ],
+          [
+            -61.395795,
+            45.766442
+          ],
+          [
+            -61.395863,
+            45.763497
+          ],
+          [
+            -61.394398,
+            45.760142
+          ],
+          [
+            -61.393761,
+            45.757386
+          ],
+          [
+            -61.390906,
+            45.753525
+          ],
+          [
+            -61.387194,
+            45.75034
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "upgrade",
+        "name": "Existing access road to be upgraded · overview",
+        "note": "Approximate centreline of the existing-road upgrade route shown in Drawings 2.3A and 2.3H. Does not depict the width of widening, temporary works or final engineering.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=2",
+        "sourceDate": "October 2024 · Drawing 2.2",
+        "accuracy": "Approximate trace · 1:50,000; allow at least 50 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "drawing-substation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.419665,
+          45.759259
+        ]
+      },
+      "properties": {
+        "kind": "substation",
+        "name": "Substation · infrastructure drawing",
+        "note": "Approximate symbol position, Drawing 2.3B (October 2024). The August noise model places its substation elsewhere; these records have not been reconciled with a final design.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=4",
+        "sourceDate": "October 2024 · Drawing 2.3B",
+        "accuracy": "Approximate trace · 1:8,000; allow at least 15 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "new-road-north",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.445022,
+            45.768244
+          ],
+          [
+            -61.43674,
+            45.76958
+          ],
+          [
+            -61.435615,
+            45.770519
+          ],
+          [
+            -61.429251,
+            45.771365
+          ],
+          [
+            -61.422574,
+            45.771454
+          ],
+          [
+            -61.422173,
+            45.770633
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "new-road",
+        "name": "Proposed new road · T1–T4",
+        "note": "Centreline traced from the red dashed proposed-new-road symbol on Drawing 2.3A. Not a constructed road, public access grant or footprint.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=3",
+        "sourceDate": "October 2024 · Drawing 2.3A",
+        "accuracy": "Approximate trace · 1:8,000; allow at least 15 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "new-road-t1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.442367,
+            45.768644
+          ],
+          [
+            -61.44179,
+            45.76699
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "new-road",
+        "name": "Proposed new road · T1 spur",
+        "note": "Proposed T1 spur from Drawing 2.3A; approximate centreline only.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=3",
+        "sourceDate": "October 2024 · Drawing 2.3A",
+        "accuracy": "Approximate trace · 1:8,000; allow at least 15 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "collector-north",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.44179,
+            45.76699
+          ],
+          [
+            -61.442367,
+            45.768644
+          ],
+          [
+            -61.436744,
+            45.76947
+          ],
+          [
+            -61.435615,
+            45.770519
+          ],
+          [
+            -61.429247,
+            45.771491
+          ],
+          [
+            -61.422173,
+            45.770633
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "collector",
+        "name": "Proposed collector · T1–T4",
+        "note": "Traced magenta collector route from Drawing 2.3A. Offset from the road on screen only as drawn by the source; no inferred easement or voltage capacity.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=3",
+        "sourceDate": "October 2024 · Drawing 2.3A",
+        "accuracy": "Approximate trace · 1:8,000; allow at least 15 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "collector-link",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.422213,
+            45.770569
+          ],
+          [
+            -61.421414,
+            45.768695
+          ],
+          [
+            -61.420738,
+            45.767607
+          ],
+          [
+            -61.417694,
+            45.759621
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "collector",
+        "name": "Proposed collector · T4–T6",
+        "note": "Overview trace confirmed against Drawings 2.3A–B. Detailed alignment and widths unverified.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=2",
+        "sourceDate": "October 2024 · Drawing 2.2",
+        "accuracy": "Approximate trace · 1:50,000; allow at least 50 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "new-road-south",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.437526,
+            45.75546
+          ],
+          [
+            -61.43036,
+            45.756952
+          ],
+          [
+            -61.426917,
+            45.75799
+          ],
+          [
+            -61.425669,
+            45.758498
+          ],
+          [
+            -61.424107,
+            45.75894
+          ],
+          [
+            -61.423467,
+            45.758272
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "new-road",
+        "name": "Proposed new road · T5 approach",
+        "note": "Proposed T5 access from Drawing 2.3B; approximate centreline only.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=4",
+        "sourceDate": "October 2024 · Drawing 2.3B",
+        "accuracy": "Approximate trace · 1:8,000; allow at least 15 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "collector-south",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.423467,
+            45.758272
+          ],
+          [
+            -61.419665,
+            45.759259
+          ],
+          [
+            -61.417789,
+            45.759619
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "collector",
+        "name": "Proposed collector · T5–T6",
+        "note": "Collector route from Drawing 2.3B; approximate, not an authorization.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=4",
+        "sourceDate": "October 2024 · Drawing 2.3B",
+        "accuracy": "Approximate trace · 1:8,000; allow at least 15 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "new-road-link",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.422213,
+            45.770569
+          ],
+          [
+            -61.420738,
+            45.767607
+          ],
+          [
+            -61.417694,
+            45.759621
+          ]
+        ]
+      },
+      "properties": {
+        "kind": "new-road",
+        "name": "Proposed new road · T4–T6 link",
+        "note": "Overview centreline confirmed against Drawings 2.3A–B. Source shows a proposed new road; width and final engineering not extracted.",
+        "sourceUrl": "https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-24-9952-Rhodena-Drawing-2.1-2.3H.pdf#page=2",
+        "sourceDate": "October 2024 · Drawing 2.2",
+        "accuracy": "Approximate trace · 1:50,000; allow at least 50 m display uncertainty; not a survey",
+        "digitized": true
+      }
+    }
+  ]
+}

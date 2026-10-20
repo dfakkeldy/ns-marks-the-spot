@@ -1,3 +1,4 @@
+import { queryLockReason } from "../licensing/layerUse";
 import { openDataSourceLinks, type OpenDataSource } from "../layers/openDataSources";
 import { memo } from "react";
 import { useState } from "react";
@@ -406,13 +407,14 @@ export const ZoningLayerToggle = memo(function ZoningLayerToggle({
       <input
         type="checkbox"
         aria-label={`${layer.name} zoning`}
-        checked={checked}
+        checked={!queryLockReason(layer.id) && checked}
+        disabled={!!queryLockReason(layer.id)}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
+        <small>{queryLockReason(layer.id) ?? layer.webCaveat}</small>
         <LayerMetadata
           sourceDate={layer.sourceDate}
           scale={layer.scale}
@@ -716,10 +718,11 @@ export function WellLogAccuracyLegend() {
   );
 }
 
-export function RoadLegend() {
-  return <ul className="road-legend" aria-label="Road type legend">
+export function RoadLegend({ imagery = false }: { imagery?: boolean }) {
+  return <ul className={`road-legend${imagery ? " imagery" : ""}`} aria-label="Road type legend">
     <li><span className="road-swatch open-road" />Mapped road or transport feature</li>
     <li><span className="road-swatch open-minor" />Trail, track, driveway or unpaved feature</li>
+    <li className="road-legend-note">Resource and seasonal roads appear from zoom 13; tracks, trails and driveways from zoom 14.</li>
   </ul>;
 }
 

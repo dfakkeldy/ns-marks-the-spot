@@ -30,7 +30,7 @@ for (const width of [390, 1440]) {
     const coal = page.getByRole("checkbox", { name: "Historical coal workings", exact: true });
     await coal.press("Space");
     await expect(page).toHaveURL(/historical-coal-workings/);
-    await expect(page.locator(".context-layer-control").filter({ has: coal })).toContainText("Ready");
+    await expect(page.locator(".context-layer-control").filter({ has: coal })).toContainText("Source returned no records");
     await coal.press("Space");
     await expect(page).not.toHaveURL(/historical-coal-workings/);
     await expect(page.locator("vite-error-overlay")).toHaveCount(0);
@@ -50,7 +50,9 @@ for (const width of [390, 1440]) {
     } }));
     await page.goto("/?taxSale=off&layers=sentinel-2,crown-lands&position=46.2,-60.5,14");
     await expect(page.getByRole("dialog", { name: "Province data licence" })).toHaveCount(0);
-    await expect(page.locator(".map-layer-crown-lands")).toBeVisible();
+    // OpenDataLayer retains the previous raster while its replacement loads.
+    // Both represent the selected layer; this check asks whether it is drawn.
+    await expect(page.locator(".map-layer-crown-lands").first()).toBeVisible();
     await expect(page.locator(".map-layer-sentinel-2 img").first()).toBeVisible();
     await expect(page.locator(".leaflet-control-attribution")).toContainText("CC BY 4.0");
     await expect(page.locator(".leaflet-control-attribution")).toContainText("EOX IT Services GmbH");

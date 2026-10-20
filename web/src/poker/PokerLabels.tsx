@@ -12,8 +12,9 @@ const POSTAL_FONT = 'italic 650 12px system-ui';
 const ROAD = { font: '600 11px system-ui', size: 11, padding: 8, height: 15 };
 // Controls float over the map, so a label beneath one could not be read. Notices are left out: one can
 // vanish in the same update that moves the map, and its space would stay blank until the next pan.
+// The update notice is kept: it stays until the page reloads.
 const CHROME = ['.poker-searchbar', '.poker-options', '.poker-basemap', '.poker-locate', '.poker-measurement', '.poker-footer',
-  '.leaflet-control-zoom', '.leaflet-control-scale'];
+  '.poker-update', '.leaflet-control-zoom', '.leaflet-control-scale'];
 const CIVIC_DOT = { color: palette.ink, fillColor: '#fff', fillOpacity: 1, weight: 1 };
 const POSTAL_DOT = { color: '#17518a', fillColor: '#fff', fillOpacity: 1, weight: 1 };
 /**

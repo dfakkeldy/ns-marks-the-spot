@@ -17,7 +17,7 @@ from doc_automation.changes import CONVENTIONAL_RE, RawCommit, clean_description
 
 AUTO_START = "<!-- AUTO-DEVLOG:START -->"
 AUTO_END = "<!-- AUTO-DEVLOG:END -->"
-DEFAULT_REPO_URL = "https://github.com/dfakkeldy/Echo"
+DEFAULT_REPO_URL = "https://github.com/dfakkeldy/ns-marks-the-spot"
 DEFAULT_TIMEZONE = "America/Halifax"
 DEFAULT_MAX_ITEMS_PER_GROUP = 8
 UNIT_SEP = "\x1f"
@@ -308,7 +308,7 @@ def _parse_datetime(value: str, zone: ZoneInfo) -> dt.datetime:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Update Echo's generated weekly devlog digest.")
+    parser = argparse.ArgumentParser(description="Update NS Marks The Spot's generated weekly devlog digest.")
     parser.add_argument("--markdown", default="docs/guides/devlog.md")
     parser.add_argument("--html", default="docs/devlog.html")
     parser.add_argument("--repo-url", default=DEFAULT_REPO_URL)

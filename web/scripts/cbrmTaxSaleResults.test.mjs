@@ -41,6 +41,25 @@ const NOTICE_LISTINGS = [
 ];
 
 describe("CBRM tax-sale result ingestion", () => {
+  it("retries a transient official-source server failure with the bounded fetch policy", async () => {
+    let attempts = 0;
+    const fetchImpl = async () => {
+      attempts += 1;
+      return attempts === 1
+        ? new Response("Unavailable", { status: 503 })
+        : new Response("Official CBRM source", { status: 200 });
+    };
+
+    const response = await cbrmRefresher.fetchCbrmOfficial(
+      "https://cbrm.ns.ca/official-source",
+      "text/html",
+      { fetchImpl, sleep: async () => {} },
+    );
+
+    expect(await response.text()).toBe("Official CBRM source");
+    expect(attempts).toBe(2);
+  });
+
   it("extracts only owner-free result fields from the rendered text", () => {
     const parsed = parseCbrmResultText(RESULT_TEXT);
 

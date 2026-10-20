@@ -36,7 +36,7 @@ struct ResourcePointLabelTests {
         #expect(
             ResourcePointOverlay.label(
                 for: .abandonedMines,
-                properties: ["Name": .string("Shaft 4"), "Degree_Haz": .string("High")]
+                properties: ["name": .string("Shaft 4"), "degree_haz": .string("High")]
             ) == "Shaft 4 · Hazard: High"
         )
     }
@@ -48,7 +48,7 @@ struct ResourcePointLabelTests {
                 == "Mineral occurrence"
         )
         #expect(
-            ResourcePointOverlay.label(for: .abandonedMines, properties: ["Name": .null])
+            ResourcePointOverlay.label(for: .abandonedMines, properties: ["name": .null])
                 == "Abandoned mine opening"
         )
     }
@@ -97,7 +97,7 @@ struct ResourcePointCalloutTests {
     func anOpeningIsReadable() {
         let callout = FeatureCallouts.resourcePoint(
             record(
-                ["Name": .string("Old Shaft 4"), "Degree_Haz": .string("High")],
+                ["name": .string("Old Shaft 4"), "degree_haz": .string("High")],
                 layer: .abandonedMines
             ),
             layer: .abandonedMines,
@@ -180,7 +180,7 @@ struct ResourcePointFetcherTests {
                 """
                 {"type":"FeatureCollection","features":[{"type":"Feature","id":"1",\
                 "geometry":{"type":"Point","coordinates":[-61.35,45.65]},\
-                "properties":{"Name":"Shaft 4","Degree_Haz":"Low"}}]}
+                "properties":{"name":"Shaft 4","degree_haz":"Low"}}]}
                 """.utf8
             )
         )
@@ -191,7 +191,7 @@ struct ResourcePointFetcherTests {
         )
 
         let query = try #require(await service.urls.first?.query(percentEncoded: false))
-        #expect(query.contains("outFields=geo_id,ShaftID,Name,Opening_ty,Degree_Haz,Protection"))
+        #expect(query.contains("outFields=geo_id,shaftid,name,opening_ty,degree_haz,protection"))
         #expect(query.contains("orderByFields=geo_id"))
         #expect(points.records.map(\.label) == ["Shaft 4 · Hazard: Low"])
         #expect(points.records[0].location == GeoPoint(lat: 45.65, lng: -61.35))
@@ -205,7 +205,7 @@ struct ResourcePointFetcherTests {
                 """
                 {"type":"FeatureCollection","features":[\
                 {"type":"Feature","id":"1","geometry":{"type":"LineString",\
-                "coordinates":[[-61.35,45.65],[-61.34,45.66]]},"properties":{"Name":"Trench"}}]}
+                "coordinates":[[-61.35,45.65],[-61.34,45.66]]},"properties":{"name":"Trench"}}]}
                 """.utf8
             )
         )

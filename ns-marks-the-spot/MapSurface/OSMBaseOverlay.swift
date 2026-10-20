@@ -45,14 +45,9 @@ nonisolated enum OpenStreetMapBase {
 
     /// Who is asking. The tile policy requires a User-Agent that identifies
     /// the application — a generic or faked one is grounds for a block — and
-    /// the contact URL is where the operators can reach this project.
-    static let userAgent: String = {
-        let version = Bundle.main.object(
-            forInfoDictionaryKey: "CFBundleShortVersionString"
-        ) as? String
-        return "NSMarksTheSpot/\(version ?? "dev") iOS "
-            + "(+https://kinnokilabs.com/apps/nsmarksthespot/)"
-    }()
+    /// the contact URL is where the operators can reach this project. The
+    /// same identity every other request the app makes carries.
+    static let userAgent = ClientIdentity.userAgent
 
     /// One tile's request, User-Agent included.
     ///

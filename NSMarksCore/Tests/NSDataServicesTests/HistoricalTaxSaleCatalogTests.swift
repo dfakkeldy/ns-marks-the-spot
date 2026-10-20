@@ -30,10 +30,10 @@ struct HistoricalTaxSaleCatalogTests {
         #expect(Self.catalog.records.isEmpty == false)
     }
 
-    /// 26 sales in the dataset plus CBRM's, reconciled at load.
+    /// 27 sales in the dataset plus CBRM's, reconciled at load.
     @Test func cbrmsResultsAreReconciledOntoItsOwnNotice() throws {
-        #expect(Self.catalog.events.count == 27)
-        #expect(Self.catalog.records.count == 494)
+        #expect(Self.catalog.events.count == 28)
+        #expect(Self.catalog.records.count == 504)
 
         let cbrm = try #require(Self.catalog.event(id: "cbrm-2026-07-21"))
         #expect(cbrm.resultStatus == .verified)
@@ -48,6 +48,21 @@ struct HistoricalTaxSaleCatalogTests {
         // result PDF does not carry. Both are unknown, and neither is unsold.
         #expect(records.count { $0.outcome == .unknown } == 46)
         #expect(records.contains { $0.outcome == .unsold } == false)
+    }
+
+    @Test func halifaxSeptemberResultsKeepMissingNoticeRowsUnknown() throws {
+        let event = try #require(Self.catalog.event(id: "halifax-2026-09-15"))
+        #expect(event.resultStatus == .verified)
+        #expect(event.resultURL?.absoluteString == "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf")
+        let records = Self.catalog.records.filter { $0.eventID == event.id }
+        #expect(records.count == 10)
+        #expect(records.count { $0.outcome == .sold } == 3)
+        #expect(records.count { $0.outcome == .unsold } == 1)
+        #expect(records.count { $0.outcome == .unknown } == 6)
+        for record in records where record.outcome == .unknown {
+            #expect(record.winningBidCents == nil)
+            #expect(record.resultNote?.contains("no outcome is inferred") == true)
+        }
     }
 
     /// Middleton's own sale, whose outcome the app carries now that the

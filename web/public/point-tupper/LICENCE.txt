@@ -1,0 +1,23 @@
+NS Marks The Spot Point Tupper data have separate data licences; they are not MIT code.
+The code's MIT licence does not cover these files or replace any provider's terms.
+
+sites.geojson (project-authored wording):
+The project's own descriptions are licensed under the Creative Commons Attribution
+4.0 International licence (CC BY 4.0). Credit "NS Marks The Spot" and link to this file.
+https://creativecommons.org/licenses/by/4.0/
+CC BY 4.0 covers the project's wording only. Facts drawn from third-party documents
+(the EverWind EA registration, the Landrie Lake Water Utility EA registration,
+Nova Scotia Power, IESO Nova Scotia and news reports) keep their own terms; they are
+cited in each record and in docs/point-tupper-sources.md and are not reproduced.
+
+Positions:
+- Point Tupper Generating Station, Landrie Lake, Potlotek First Nation and
+  Paq'tnkek First Nation: Wikidata (CC0 1.0, public domain),
+  https://creativecommons.org/publicdomain/zero/1.0/
+- The EverWind jetty: the coordinates printed in the EverWind Point Tupper Green
+  Hydrogen/Ammonia Project EA registration (December 2022), a public record of the
+  Nova Scotia Department of Environment and Climate Change.
+
+The map's other layers (transmission lines, substations, pipelines, wharves, water
+features, roads) are the Province's own open datasets under the Open Government
+Licence – Nova Scotia, credited on each layer.

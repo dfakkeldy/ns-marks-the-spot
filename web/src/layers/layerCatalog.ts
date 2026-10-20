@@ -97,8 +97,9 @@ export type ZoningLayerDescriptor = {
   /** The authoritative land use by-law this layer is a rendering of. */
   bylawUrl: string;
   bylawLabel: string;
+  availability?: "available" | "rights-pending";
   licence: "municipal-open" | "municipal-no-stated-licence";
-  /** Null when the publisher states no licence terms at all. */
+  /** No applicable app query/cache/export grant is recorded here when null. */
   licenceUrl: string | null;
   /**
    * "live-query-only" sources are rendered straight from the publisher's
@@ -522,9 +523,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     licence: "rumsey-reference",
     webAvailability: "available",
     webCaveat:
-      "24-sheet mosaic · approximate alignment; positions can sit hundreds of metres off modern ground and gaps remain between sheets",
+      "24-sheet mosaic · edges adjusted for visual continuity; positions near joins are approximate",
     sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
-    scale: "Independently georeferenced · accuracy varies by sheet",
+    scale: "Georeferenced with cartographic seam adjustments · accuracy varies",
     coverage: "Cape Breton Island · 24 source sheets in one mosaic",
   },
   {
@@ -1288,8 +1289,11 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
   {
     id: "abandoned-mines",
     name: "Abandoned mine openings",
+    // The Province's own copy of DP ME 10 version 9 (extract 2024-06-11,
+    // 8,564 openings). The older ArcGIS Online copy is version 8 (2020).
+    // This service only accepts lower-case field names.
     serviceUrl:
-      "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
+      "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
     sourceUrl:
       "https://novascotia.ca/natr/meb/download/dp010.asp",
     minZoom: 11,
@@ -1299,15 +1303,15 @@ export const resourceLayerCatalog: readonly ResourceLayerDescriptor[] = [
     delivery: "feature-query",
     outFields: [
       "geo_id",
-      "ShaftID",
-      "Name",
-      "Opening_ty",
-      "Degree_Haz",
-      "Protection",
+      "shaftid",
+      "name",
+      "opening_ty",
+      "degree_haz",
+      "protection",
     ],
     markerColor: "#d1495b",
     webCaveat: "Provincial hazard inventory; locations and conditions may change",
-    sourceDate: "2024 · version 9",
+    sourceDate: "Version 9 · extract June 11, 2024",
     scale: "Approximate point inventory",
     coverage: "Nova Scotia · incomplete inventory",
   },
@@ -1388,6 +1392,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
     bylawLabel: "Plan Inverness Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1418,6 +1423,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
     bylawLabel: "Plan Victoria Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1448,6 +1454,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
     bylawLabel: "Plan Richmond Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution: EDPC_ATTRIBUTION,
@@ -1479,6 +1486,7 @@ export const zoningLayerCatalog: readonly ZoningLayerDescriptor[] = [
     bylawUrl: "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
     bylawLabel: "Cumberland Land Use By-law",
     licence: "municipal-no-stated-licence",
+    availability: "rights-pending",
     licenceUrl: null,
     redistribution: "live-query-only",
     attribution:

@@ -1,3 +1,9 @@
+import { RhodenaVisibility } from "../rhodena/RhodenaVisibility";
+import { RhodenaLayer } from "../rhodena/RhodenaLayer";
+import { FocusFit } from "../focus/FocusFit";
+import type { FocusFitRequest } from "../focus/focusDefinition";
+import { FishingSpotsLayer, type FishingSpotsPageState } from "../fishing/FishingSpotsLayer";
+import { isRhodenaLayerId } from "../rhodena/catalog";
 import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
@@ -202,6 +208,15 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
 const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
+  /** Each new revision fits the map to a focus page's area. */
+  focusFit?: FocusFitRequest;
+  /** The /fishing page's filter and selection for the curated spots; the full map passes none. */
+  fishingSpots?: FishingSpotsPageState;
+  /** A two-way Map/Aerial background switch under the 3D control. */
+  backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
+  /** A request to start choosing a viewpoint once the terrain is ready. */
+  rhodenaPickPending?: boolean;
+  onRhodenaPickStarted?: () => void;
   poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
@@ -710,15 +725,17 @@ function resourceFeatureLabel(
   layerId: ResourceLayerId,
   properties: Record<string, unknown>,
 ): string {
-  const name = String(properties.Name ?? "").trim();
   if (layerId === "mineral-occurrences") {
+    const name = String(properties.Name ?? "").trim();
     const commodity = String(
       properties.Comm_list ?? properties.Comm_prim ?? "",
     ).trim();
     return [name || "Mineral occurrence", commodity].filter(Boolean).join(" · ");
   }
 
-  const hazard = String(properties.Degree_Haz ?? "").trim();
+  // The provincial abandoned-mine service publishes lower-case field names.
+  const name = String(properties.name ?? "").trim();
+  const hazard = String(properties.degree_haz ?? "").trim();
   return [name || "Abandoned mine opening", hazard && `Hazard: ${hazard}`]
     .filter(Boolean)
     .join(" · ");
@@ -1851,7 +1868,14 @@ function LocationControlIcon() {
   );
 }
 
+const NO_FOCUS_FIT: FocusFitRequest = { revision: 0, bounds: null };
+
 export function MapCanvas({
+  focusFit = NO_FOCUS_FIT,
+  fishingSpots,
+  rhodenaPickPending = false,
+  onRhodenaPickStarted,
+  backgroundSwitch = null,
   poker = null,
   parcels,
   taxSalePids,
@@ -1997,7 +2021,8 @@ export function MapCanvas({
   const [modernMapFailed, setModernMapFailed] = useState(false);
   const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
-  const measuring = poker !== null || measureMode !== "off";
+  const [visibilityPicking, setVisibilityPicking] = useState(false);
+  const measuring = poker !== null || measureMode !== "off" || visibilityPicking;
   const [terrainRequested, setTerrainRequested] = useState(false);
   const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
   const [terrainStatus, setTerrainStatus] = useState<TerrainStatus>({ kind: "loading", message: "Loading 3D terrain…" });
@@ -2007,7 +2032,7 @@ export function MapCanvas({
   const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
   const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
-  const terrainBlocked = Boolean(isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
+  const terrainBlocked = Boolean(contextLayers["rhodena-visibility"] || isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
@@ -2602,7 +2627,7 @@ export function MapCanvas({
           onStatusChange={reportFletcherStatus}
         />
         {provinceLayerCatalog.map((layer) => layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
         ) : (
           <ArcGISMapLayer
             key={layer.id}
@@ -2627,7 +2652,14 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
-        {contextLayerCatalog.map((layer) => isElectoralLayerId(layer.id) ? (
+        <FocusFit request={focusFit} />
+        {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
+          contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} pickPending={rhodenaPickPending} onPickStarted={onRhodenaPickStarted} /> : null
+        ) : isRhodenaLayerId(layer.id) ? (
+          <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
+        ) : layer.id === "fishing-spots" ? (
+          <FishingSpotsLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} page={fishingSpots} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
+        ) : isElectoralLayerId(layer.id) ? (
           <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
           <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
@@ -2909,7 +2941,7 @@ export function MapCanvas({
             }}>
               <PokerMapTools session={poker} />
               <MeasureTool key={`poker-${poker.revision}`} driveway suspended={terrainActive} mode="distance" onModeChange={setMeasureMode} />
-            </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
+            </div> : <MeasureTool suspended={visibilityPicking} mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
         {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer key={terrainRetry} basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={reportTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
@@ -2930,6 +2962,16 @@ export function MapCanvas({
           </button>
           {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
         </div>
+        {backgroundSwitch ? <div className="background-switch" role="group" aria-label="Background">
+          <button type="button" aria-pressed={!backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(false)}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 5.2 7 3.5l6 2 4.5-1.7v11L13 16.5l-6-2-4.5 1.7Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /><path d="M7 3.5v11M13 5.5v11" stroke="currentColor" strokeWidth="1.6" /></svg>
+            Map
+          </button>
+          <button type="button" aria-pressed={backgroundSwitch.aerial} onClick={() => backgroundSwitch.onChange(true)}>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="2.5" width="15" height="15" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M2.8 13.5 7.5 9l3.2 3.2 2.3-2.2 4.2 3.8" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="13.2" cy="6.8" r="1.5" fill="currentColor" /></svg>
+            Aerial
+          </button>
+        </div> : null}
         {terrainActive && terrainSettingsOpen ? <div id="terrain-settings" className="terrain-settings-body">
           {terrainMap ? <TerrainCameraControls map={terrainMap} /> : null}
           <details className="terrain-height-settings"><summary>Terrain height</summary><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /></details>

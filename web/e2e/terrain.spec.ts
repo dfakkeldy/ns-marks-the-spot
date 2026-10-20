@@ -256,7 +256,9 @@ test('research markers retain source opacity behind exaggerated terrain', async 
   await page.getByRole('button', { name: '3D settings', exact: true }).tap();
   const covered = page.locator('.research-terrain-map .fletcher-feature-marker.maplibregl-marker-covered');
   await expect.poll(() => covered.count()).toBeGreaterThan(0);
-  await expect.poll(() => covered.evaluateAll(elements => elements.every(element => getComputedStyle(element).opacity === '1'))).toBe(true);
+  // Software-rendered terrain can delay even a successful browser evaluation
+  // beyond the default 5s deadline. Keep the exact opacity check bounded.
+  await expect.poll(() => covered.evaluateAll(elements => elements.every(element => getComputedStyle(element).opacity === '1')), { timeout: 15000 }).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('research-markers-over-ridge.png'), scale: 'css' });
 });
 

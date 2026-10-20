@@ -43,6 +43,7 @@
 - [ ] Bulk offline downloads for restricted Nova Scotia reference layers where licensing permits
 - [ ] Additional historical map collections beyond Fletcher (A.F. Church Cape Breton sheets are catalogued; tiles still pending — see `docs/CHURCH_MAPS.md`)
 - [ ] User-submitted POIs and syncing improvements
+  - [ ] Native fishing-spots POI layer behind the `MapEngine`/`MapLayer` facade, scheduled with this item (the web curated spots are web-only today)
 
 ## Online Companion
 
@@ -112,6 +113,27 @@
 - [x] TPS warping + Allmaps annotation export (PR 3)
 - [x] GeoPDF import (PR 4)
 - [ ] Evaluate geotiff.js 3.x migration (pinned to 2.1.3 in PR 1; read API changed)
+
+### Fishing (web)
+- [x] Behaviour-neutral `FocusDefinition` registry (`web/src/focus/`) with Rhodena moved onto it; `MapCanvas` takes a generic focus fit
+- [x] Web-only **Fishing** setup, excluded from the native presentation fixture
+- [x] Four Water & Terrain layers: curated spots (project-derived, CC BY 4.0 wording on OGL positions, re-pinned from open data with no OpenStreetMap facts), province-wide stocked waters (hatchery records, salmon releases withheld), and DFO core and non-core small craft harbours (live)
+- [x] `/fishing` focus page: spot cards, month and species filters, species calendar, dated rules that hide after their date, `month=`/`spot=` share links, and the fishing layers kept off `/rhodena`
+- [x] Offline `check:fishing` gate in `prebuild` (structure, hashes, public-text hygiene; never reads the clock)
+- [ ] Publish the fishing page at `https://kinnokilabs.com/fishmap`: KinNoKi site rewrite of `/fishmap` and `/fishmap/` to `/apps/nsmarksthespot/map/fishing` plus asset-base stamping (that site PR merges before this one), then check the live `source.json` and the rendered page
+- [ ] Site: link the static guide at `kinnokilabs.com/fishing/` to `/fishmap` (the fishing page's footer already links to the guide)
+- [ ] Yearly fishing refresh before 2027-03-31: `rules.json` for the 2027–28 licence year, calendar notes, spot re-checks and the stocking snapshot (checklist in `web/README.md`)
+- [ ] A fishing social card for `fishing.html` (it uses the map's generic card)
+- [x] Label project-derived sources **Project source** in the Data & licences dialog, as the layer rows and popups already do
+- [ ] Follow-up: live Water Survey of Canada river levels (provisional readings with an observed time, a staleness grey-out, and no "fishable" or "safe to wade" wording; outside print and parity)
+- [ ] Follow-up: regulation-zone polygons, starting with Recreational Fishing Area boundaries, only after context-layer descriptors gain `validFrom`/`validUntil` and a fail-closed gate that withholds rule popups after expiry
+- [ ] Follow-up: offline `/fishing` pack (Poker-style), decided after real use
+
+### Point Tupper (web)
+- [x] Web-only **Point Tupper** setup and **Point Tupper Site** category, excluded from the native presentation fixture
+- [x] One project-derived key-places layer (`point-tupper-sites`): five public-source points, no campus footprint, no parcel/title/registry data; company figures labelled as the company's own
+- [x] `/pointtupper` focus page: sourced summary, timeline, Map/Aerial switch, fishing spots and stocked waters kept off the panel
+- [ ] Publish the Point Tupper page: KinNoKi site rewrite of `/pointtupper` and `/pointtupper/` to `/apps/nsmarksthespot/map/pointtupper` plus asset-base stamping, then a live map pin; check the live `source.json` and the rendered page
 
 ## Future Considerations
 - Google Maps SDK as alternative engine

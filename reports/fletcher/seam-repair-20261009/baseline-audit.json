@@ -1,0 +1,226 @@
+{
+  "x": {
+    "01-03": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 2305
+    },
+    "01-02": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 1390
+    },
+    "02-03": {
+      "sampled_gaps": 5,
+      "max_projected_gap_m": 2905
+    },
+    "03-05": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 2555
+    },
+    "04-05": {
+      "sampled_gaps": 237,
+      "max_projected_gap_m": 1805
+    },
+    "05-06": {
+      "sampled_gaps": 197,
+      "max_projected_gap_m": 2005
+    },
+    "06-09": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 2265
+    },
+    "05-07": {
+      "sampled_gaps": 5,
+      "max_projected_gap_m": 2560
+    },
+    "07-08": {
+      "sampled_gaps": 136,
+      "max_projected_gap_m": 2435
+    },
+    "08-09": {
+      "sampled_gaps": 72,
+      "max_projected_gap_m": 2960
+    },
+    "10-11": {
+      "sampled_gaps": 55,
+      "max_projected_gap_m": 1605
+    },
+    "11-13": {
+      "sampled_gaps": 4,
+      "max_projected_gap_m": 1675
+    },
+    "13-14": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 2855
+    },
+    "12-13": {
+      "sampled_gaps": 73,
+      "max_projected_gap_m": 80
+    },
+    "13-15": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 1230
+    },
+    "15-16": {
+      "sampled_gaps": 256,
+      "max_projected_gap_m": 2595
+    },
+    "12-15": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 2415
+    },
+    "18-19": {
+      "sampled_gaps": 3,
+      "max_projected_gap_m": 2975
+    },
+    "19-22": {
+      "sampled_gaps": 6,
+      "max_projected_gap_m": 2390
+    },
+    "21-22": {
+      "sampled_gaps": 35,
+      "max_projected_gap_m": 230
+    },
+    "20-21": {
+      "sampled_gaps": 61,
+      "max_projected_gap_m": 2450
+    },
+    "23-24": {
+      "sampled_gaps": 277,
+      "max_projected_gap_m": 520
+    }
+  },
+  "y": {
+    "14-16": {
+      "sampled_gaps": 415,
+      "max_projected_gap_m": 1915
+    },
+    "19-22": {
+      "sampled_gaps": 254,
+      "max_projected_gap_m": 2920
+    },
+    "22-24": {
+      "sampled_gaps": 45,
+      "max_projected_gap_m": 2345
+    },
+    "16-19": {
+      "sampled_gaps": 108,
+      "max_projected_gap_m": 1065
+    },
+    "11-14": {
+      "sampled_gaps": 50,
+      "max_projected_gap_m": 2405
+    },
+    "13-14": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 105
+    },
+    "11-13": {
+      "sampled_gaps": 279,
+      "max_projected_gap_m": 485
+    },
+    "13-15": {
+      "sampled_gaps": 322,
+      "max_projected_gap_m": 1030
+    },
+    "09-11": {
+      "sampled_gaps": 216,
+      "max_projected_gap_m": 2920
+    },
+    "06-09": {
+      "sampled_gaps": 294,
+      "max_projected_gap_m": 2390
+    },
+    "18-21": {
+      "sampled_gaps": 178,
+      "max_projected_gap_m": 2155
+    },
+    "21-23": {
+      "sampled_gaps": 41,
+      "max_projected_gap_m": 1560
+    },
+    "15-18": {
+      "sampled_gaps": 165,
+      "max_projected_gap_m": 340
+    },
+    "03-06": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 1615
+    },
+    "10-11": {
+      "sampled_gaps": 3,
+      "max_projected_gap_m": 1580
+    },
+    "06-08": {
+      "sampled_gaps": 8,
+      "max_projected_gap_m": 970
+    },
+    "10-13": {
+      "sampled_gaps": 12,
+      "max_projected_gap_m": 865
+    },
+    "03-05": {
+      "sampled_gaps": 414,
+      "max_projected_gap_m": 2330
+    },
+    "05-06": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 145
+    },
+    "05-08": {
+      "sampled_gaps": 181,
+      "max_projected_gap_m": 1415
+    },
+    "12-13": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 2410
+    },
+    "10-12": {
+      "sampled_gaps": 119,
+      "max_projected_gap_m": 1410
+    },
+    "08-10": {
+      "sampled_gaps": 184,
+      "max_projected_gap_m": 2770
+    },
+    "01-03": {
+      "sampled_gaps": 212,
+      "max_projected_gap_m": 2970
+    },
+    "17-20": {
+      "sampled_gaps": 253,
+      "max_projected_gap_m": 1295
+    },
+    "04-08": {
+      "sampled_gaps": 5,
+      "max_projected_gap_m": 1660
+    },
+    "02-05": {
+      "sampled_gaps": 7,
+      "max_projected_gap_m": 1575
+    },
+    "04-05": {
+      "sampled_gaps": 2,
+      "max_projected_gap_m": 2720
+    },
+    "02-04": {
+      "sampled_gaps": 162,
+      "max_projected_gap_m": 1075
+    },
+    "04-07": {
+      "sampled_gaps": 53,
+      "max_projected_gap_m": 2845
+    },
+    "01-02": {
+      "sampled_gaps": 78,
+      "max_projected_gap_m": 2310
+    },
+    "07-08": {
+      "sampled_gaps": 1,
+      "max_projected_gap_m": 350
+    },
+    "07-10": {
+      "sampled_gaps": 8,
+      "max_projected_gap_m": 2425
+    }
+  }
+}

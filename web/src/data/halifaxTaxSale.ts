@@ -4,6 +4,8 @@ import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
 
 export const HALIFAX_TAX_SALE_DATASET_SHA256 =
   "e325d369945024df438fb52a47731ec586a272b4e41c3ad9ac0983f1caacf826";
+export const HALIFAX_TAX_SALE_RESULT_DATASET_SHA256 =
+  "c94a1fd9ce7347635d9976f6cc581f0582ff7bb0d603fa4e0ec1187f912888e5";
 
 const HALIFAX_EVENT_ID = "halifax-2026-09-15";
 
@@ -112,7 +114,7 @@ export const halifaxTaxSaleEvent: HalifaxTaxSaleEvent = {
   municipality: halifaxTaxSaleSnapshot.municipality,
   shortMunicipality: "Halifax",
   eventType: "sealed-tender",
-  eventStatus: "upcoming",
+  eventStatus: "historical",
   saleStartsAt: halifaxTimestamp(halifaxTaxSaleSnapshot.eventDate, halifaxTaxSaleSnapshot.bidDeadlineTime),
   venue: halifaxTaxSaleSnapshot.venue,
   sourceUrl: halifaxTaxSaleSnapshot.source,

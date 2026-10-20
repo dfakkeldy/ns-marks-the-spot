@@ -1,0 +1,37 @@
+{
+  "description": "",
+  "id": "5969cc08937a498eb32471a77d66f332",
+  "kind": "zone",
+  "last_updated": "2026-10-09T12:52:08.093107Z",
+  "name": "Fletcher immutable tile caching",
+  "phase": "http_request_cache_settings",
+  "rules": [
+    {
+      "action": "set_cache_settings",
+      "action_parameters": {
+        "cache": true,
+        "edge_ttl": {
+          "default": 31536000,
+          "mode": "override_origin",
+          "status_code_ttl": [
+            {
+              "status_code_range": {
+                "from": 400,
+                "to": 599
+              },
+              "value": -1
+            }
+          ]
+        }
+      },
+      "description": "Cache only the immutable Fletcher seam-repair revision",
+      "enabled": true,
+      "expression": "(http.host eq \"tiles.kinnokilabs.com\" and starts_with(http.request.uri.path, \"/fletcher-seams-20261009.2/\"))",
+      "id": "46a7954ab3e04af2873960f331d68913",
+      "last_updated": "2026-10-09T12:52:08.093107Z",
+      "ref": "fletcher_seams_20261009_2_cache",
+      "version": "1"
+    }
+  ],
+  "version": "1"
+}

@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { fetchOfficial } from "./taxSaleWatch/fetchOfficial.mjs";
 
 const execFile = promisify(execFileCallback);
 const LANDING_PAGE_URL =
@@ -255,14 +256,8 @@ export function buildCbrmSnapshot(
   };
 }
 
-async function fetchOk(url, accept) {
-  const response = await fetch(url, {
-    headers: { Accept: accept, "User-Agent": "NS-Marks-tax-sale-monitor/1.0" },
-  });
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}: ${url}`);
-  }
-  return response;
+export async function fetchCbrmOfficial(url, accept, options = {}) {
+  return fetchOfficial(url, { accept, ...options });
 }
 
 async function main() {
@@ -271,14 +266,16 @@ async function main() {
   );
   try {
     const landingHtml = await (
-      await fetchOk(LANDING_PAGE_URL, "text/html")
+      await fetchCbrmOfficial(LANDING_PAGE_URL, "text/html")
     ).text();
     const sourceUrl = extractLatestResultsPdfUrl(
       landingHtml,
       LANDING_PAGE_URL,
     );
     const pdfBytes = Buffer.from(
-      await (await fetchOk(sourceUrl, "application/pdf")).arrayBuffer(),
+      await (
+        await fetchCbrmOfficial(sourceUrl, "application/pdf")
+      ).arrayBuffer(),
     );
     const pdfPath = resolve(temporaryDirectory, "results.pdf");
     const textPath = resolve(temporaryDirectory, "results.txt");

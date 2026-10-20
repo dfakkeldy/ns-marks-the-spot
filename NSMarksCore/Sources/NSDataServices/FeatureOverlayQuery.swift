@@ -27,6 +27,7 @@ public enum FeatureOverlayQuery {
 
     public enum Refusal: Error, Equatable, Sendable {
         case licenceNotAccepted
+        case rightsPending
         case noServiceURL
         case malformedURL
     }
@@ -80,6 +81,8 @@ public enum FeatureOverlayQuery {
         idField: String = defaultIDField,
         clearance: ProvinceLicenceClearance
     ) throws(Refusal) -> Plan {
+        guard let layerDescriptor = LayerCatalog.descriptor(for: layer) else { throw .noServiceURL }
+        guard LayerUse.queryLockReason(for: layerDescriptor) == nil, layerDescriptor.availability == .available else { throw .rightsPending }
         guard clearance.allows(layer) else { throw .licenceNotAccepted }
         guard let descriptor = LayerCatalog.descriptor(for: layer),
               let serviceURL = descriptor.serviceURL

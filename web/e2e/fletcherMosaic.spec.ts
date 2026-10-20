@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { createCanvas } from 'canvas';
 
-const revision = 'fletcher-full-sheets-20260913.1';
+const revision = 'fletcher-seams-20261009.2';
 // Transport fixture: the real R2 pixels are checked separately during publication.
 const canvas = createCanvas(256, 256);
 const context = canvas.getContext('2d');
