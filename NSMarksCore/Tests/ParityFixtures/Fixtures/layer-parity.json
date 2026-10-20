@@ -581,6 +581,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Inverness Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/inverness_county/Plan_Inverness-LUB.pdf",
       "category": "land-property",
@@ -617,6 +618,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Victoria Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/victoria_county/Plan_Victoria-LUB.pdf",
       "category": "land-property",
@@ -653,6 +655,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Eastern District Planning Commission's public map services. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Plan Richmond Land Use By-law",
       "bylawUrl": "https://edpc.ca/plandocs/richmond_county/Richmond_County_LUB.pdf",
       "category": "land-property",
@@ -689,6 +692,7 @@
     },
     {
       "attribution": "Zoning rendered live from the Municipality of the County of Cumberland's public map service. Not an official copy of the land use by-law.",
+      "availability": "rights-pending",
       "bylawLabel": "Cumberland Land Use By-law",
       "bylawUrl": "https://www.cumberlandcounty.ns.ca/land-use-regulations.html",
       "category": "land-property",
@@ -861,15 +865,15 @@
       "opacity": 0.92,
       "outFields": [
         "geo_id",
-        "ShaftID",
-        "Name",
-        "Opening_ty",
-        "Degree_Haz",
-        "Protection"
+        "shaftid",
+        "name",
+        "opening_ty",
+        "degree_haz",
+        "protection"
       ],
       "scale": "Approximate point inventory",
-      "serviceUrl": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
-      "sourceDate": "2024 · version 9",
+      "serviceUrl": "https://dawson.novascotia.ca/arcgis/rest/services/Hosted/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/4",
+      "sourceDate": "Version 9 · extract June 11, 2024",
       "sourceUrl": "https://novascotia.ca/natr/meb/download/dp010.asp",
       "uiOrder": 29,
       "webCaveat": "Provincial hazard inventory; locations and conditions may change",

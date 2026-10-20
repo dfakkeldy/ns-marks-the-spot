@@ -1,0 +1,132 @@
+{
+  "revision": "chm-judique-2017-20261019.1",
+  "name": "LiDAR canopy height \u00b7 Judique pilot",
+  "status": "local-preview",
+  "publication": "withheld-pending-licence-confirmation-and-owner-approval",
+  "scheme": "xyz",
+  "format": "png",
+  "tileSize": 256,
+  "minzoom": 10,
+  "maxzoom": 17,
+  "bounds": [
+    -61.502006760144134,
+    45.848181793834755,
+    -61.397901959963036,
+    45.901821469423766
+  ],
+  "source": {
+    "sheet": "1045850061400",
+    "project": 201701,
+    "year": 2017,
+    "filename": "1045850061400_201701_CHM.tif",
+    "sha256": "3cd9bdebe1362fb2517f0491144d27f02a964e4edacf700d0679692cf7ff6973",
+    "archiveBytes": 233814920,
+    "rasterBytes": 192950456,
+    "resolutionMetres": 1,
+    "creator": "Leading Edge Geomatics",
+    "horizontalDatum": "NAD83(CSRS)v6",
+    "projection": "UTM Zone 20N",
+    "verticalReference": "CGVD2013",
+    "indexBounds": {
+      "west": -61.499997352,
+      "south": 45.850009508,
+      "east": -61.399997302,
+      "north": 45.900009526
+    },
+    "dimensions": [
+      7969,
+      5807
+    ],
+    "geoTransform": [
+      616306.6374000004,
+      1.0,
+      0.0,
+      5084232.308061869,
+      0.0,
+      -1.0
+    ],
+    "projectionWkt": "PROJCS[\"NAD_1983_CSRS_v6_UTM_Zone_20N\",GEOGCS[\"NAD83(CSRS)v6\",DATUM[\"North_American_Datum_of_1983_CSRS_version_6\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"1197\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"8252\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-63],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "noData": -32767.0,
+    "downloadEndpoint": "https://nsgi.novascotia.ca/WSF_DDS/DDS.svc/DownloadFileByReference",
+    "datasetId": 98,
+    "referenceId": "1045850061400_201701"
+  },
+  "sourceIndexSha256": "8121e3fca7ea63e7637e4077a4d5d659d9d7aa42e7ca64e4513fe637ec181c04",
+  "manifestSha256": "122eb0564aef883c5a2029e7c970038d4aca19a010669f2873ae8b976f56f2e9",
+  "builderSha256": "4e5b37a9c46a0f6ba833c2cb9de255b961ffd28343531f37da7365891269f6e5",
+  "licence": "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf",
+  "licenceStatus": "provisional-awaiting-confirmation",
+  "attribution": "Reproduced and distributed with the permission of the Department of Service Nova Scotia. This product has been produced by KinNoKi Labs and includes data provided by the Department of Service Nova Scotia. The incorporation of that data shall not be construed as constituting an endorsement by the Department of Service Nova Scotia of this product. Service Nova Scotia makes no representation and gives no warranty of any kind respecting the data's accuracy, usefulness, novelty, validity, scope, completeness, or currency.",
+  "classes": [
+    {
+      "minimum": 0,
+      "label": "0\u2013<2 m \u00b7 ground / low vegetation",
+      "color": "#f5e9b2",
+      "sourcePixels": 14388857
+    },
+    {
+      "minimum": 2,
+      "label": "2\u2013<5 m",
+      "color": "#c7e9b4",
+      "sourcePixels": 9376213
+    },
+    {
+      "minimum": 5,
+      "label": "5\u2013<10 m",
+      "color": "#7fcdbb",
+      "sourcePixels": 14620028
+    },
+    {
+      "minimum": 10,
+      "label": "10\u2013<15 m",
+      "color": "#41b6c4",
+      "sourcePixels": 6820734
+    },
+    {
+      "minimum": 15,
+      "label": "15\u2013<20 m",
+      "color": "#2c7fb8",
+      "sourcePixels": 1040392
+    },
+    {
+      "minimum": 20,
+      "label": "20\u2013<30 m",
+      "color": "#253494",
+      "sourcePixels": 29759
+    },
+    {
+      "minimum": 30,
+      "label": "30 m and above",
+      "color": "#7a0177",
+      "sourcePixels": 0
+    }
+  ],
+  "transparentPixels": 0,
+  "negativeHeightPixels": 0,
+  "zeroHeightPixels": 4658256,
+  "sourcePixelValuesSha256": "4c2e0c553e6e890d9414bdcca391c3865f16f07f4c9a275f1956d9d69413387c",
+  "resampling": "nearest for projection, native tiles and overviews; no class averaging",
+  "tileCount": 1558,
+  "tileBytes": 38619862,
+  "tileCountsByZoom": {
+    "10": 1,
+    "11": 1,
+    "12": 4,
+    "13": 9,
+    "14": 24,
+    "15": 88,
+    "16": 300,
+    "17": 1131
+  },
+  "inventorySha256": "4efc9fe64e7a2f7916af320b855b576cc454dbabdebce9dc4359dee9b012690f",
+  "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+  "tileGdalVersion": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
+  "cog": {
+    "file": "judique-2017-chm.cog.tif",
+    "bytes": 193910374,
+    "sha256": "0d6b4bb3c6aa62df73133ab5a54aaf88d3b7898f116e829f1aea871d52554e74",
+    "layout": "COG",
+    "pixelValuesIdentical": true
+  },
+  "caveat": "2017 heights from the Province's 2016\u20132020 collection. Not a timber cruise or current inspection. Transparent NoData is not zero height."
+}

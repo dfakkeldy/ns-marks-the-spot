@@ -1,3 +1,4 @@
+import { queryLockReason } from "../licensing/layerUse";
 import { openDataSourceLinks, type OpenDataSource } from "../layers/openDataSources";
 import { memo } from "react";
 import { useState } from "react";
@@ -406,13 +407,14 @@ export const ZoningLayerToggle = memo(function ZoningLayerToggle({
       <input
         type="checkbox"
         aria-label={`${layer.name} zoning`}
-        checked={checked}
+        checked={!queryLockReason(layer.id) && checked}
+        disabled={!!queryLockReason(layer.id)}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
+        <small>{queryLockReason(layer.id) ?? layer.webCaveat}</small>
         <LayerMetadata
           sourceDate={layer.sourceDate}
           scale={layer.scale}

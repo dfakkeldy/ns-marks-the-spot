@@ -238,6 +238,7 @@ struct LayerCatalogParityTests {
             }
 
             let webAvailability = web["webAvailability"]?.nonNull?.string
+                ?? web["availability"]?.nonNull?.string
             if let webAvailability {
                 #expect(
                     layer.availability.rawValue == webAvailability,
@@ -441,7 +442,7 @@ struct LayerCatalogParityTests {
     func everyFixtureFieldIsModelledOrDeferred() {
         let modelled: Set<String> = [
             "id", "name", "group", "uiOrder", "licence", "delivery",
-            "webAvailability", "serviceUrl", "sourceUrl", "licenceUrl",
+            "webAvailability", "availability", "serviceUrl", "sourceUrl", "licenceUrl",
             "manualUrl",
             "minZoom", "maxZoom", "maxNativeZoom", "opacity", "webDefaultVisible",
             "nativeDefaultVisibility", "requiresProvinceLicence", "webCaveat",

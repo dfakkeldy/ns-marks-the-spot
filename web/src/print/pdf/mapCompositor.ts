@@ -1,3 +1,4 @@
+import { assertReproductionAllowed } from "../../licensing/layerUse";
 import type { OpenDataSource } from "../../layers/openDataSources";
 import type { AtlasMode } from "../../atlas/palette";
 import { buildSrcMesh, drawWarpedImage } from "../../userMaps/render/mesh";
@@ -338,6 +339,7 @@ export async function composeMapImage(
     signal?: AbortSignal;
   } = {},
 ): Promise<CompositorResult> {
+  assertReproductionAllowed(layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
   const fetchImage = options.fetchImage ?? defaultFetchImage;
   const canvas = document.createElement("canvas");
   canvas.width = size.widthPx;

@@ -32,15 +32,20 @@ screens group adds the province's relative arsenic, uranium, and manganese
 well-water risk zones and surficial aquifer extent, each shown with the
 province's own legend bands and its reminder that a zone describes bedrock, not
 a test result for any property. A collapsed, default-off
-Municipal zoning group renders unofficial zoning polygons live from five
-municipal ArcGIS services—Inverness, Victoria, Richmond, Cumberland, and
-Halifax—each linked to its authoritative land use by-law; Nova Scotia publishes
+Municipal zoning group keeps catalog entries and official land-use by-law links
+for five municipal sources—Inverness, Victoria, Richmond, Cumberland, and
+Halifax. App query, cached/retained display, and reproduction are held for the
+four counties with no stated licence; Halifax/HRM zoning remains available.
+The hold matrix is in
+[docs/licensing-locks.md](docs/licensing-locks.md). Nova Scotia publishes
 no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
-[web/README.md](web/README.md). The web map also adds 73 default-off research
-controls. The GeoNova subset remains 38: retained topography, land, water,
+[web/README.md](web/README.md). The web map also adds 76 default-off research
+controls, including the locally configured [Judique canopy-height pilot](docs/chm-pilot.md).
+The GeoNova inventory has 39 entries, including three withheld descriptors:
+retained topography, land, water,
 forest, geology, environmental-screen, and historical-coal inventories;
 15 NSTDB infrastructure and mapped-place overlays now drawn from identified
 Open Government Licence – Nova Scotia datasets instead of restricted
@@ -48,18 +53,25 @@ MapServer exports; and a default-off Sentinel-2 2016–2017 background
 (EOX `s2cloudless_3857`, CC BY 4.0). That subset is inventoried in
 [docs/geonova-layer-expansion.md](docs/geonova-layer-expansion.md). The
 catalog also includes eight electoral layers, six Rhodena project layers,
-and 21 September 2026 habitat, water, and community GIS overlays (10 + 6
-+ 5). Browser print can include the static context layers, including
-static Rhodena geometry, subject to zoom and source readiness; the
-interactive Rhodena turbine viewshed and private viewpoint are omitted.
-Generated PDF still uses the MapServer / open-data / tile path for
-supported entries and names unsupported vector formats as omitted. They
-are web-only; the native offline catalogue is unchanged. Inventory,
+four fishing layers (curated spots, stocked waters, and DFO core and
+non-core small craft harbours), one Point Tupper layer (key places for the
+announced data-centre campus; sources in
+[docs/point-tupper-sources.md](docs/point-tupper-sources.md)), and 21 September
+2026 habitat, water, and community GIS overlays (10 + 6 + 5). Browser print
+can include the static context layers, including static Rhodena geometry, the
+fishing layers, and the Point Tupper key places, subject to zoom and source
+readiness; the interactive Rhodena turbine viewshed and private viewpoint are
+omitted. Generated PDF still uses the MapServer / open-data / tile path for
+supported entries and names unsupported vector formats, including the four
+fishing layers and the Point Tupper key places, as omitted.
+They are web-only; the native offline catalogue is unchanged. Inventory,
 licences, GIS receipts, and the radon source receipt are in
 [web/README.md](web/README.md),
 [docs/gis-biodiversity-sources.md](docs/gis-biodiversity-sources.md),
-[docs/gis-water-sources.md](docs/gis-water-sources.md), and
-[docs/gis-community-sources.md](docs/gis-community-sources.md). Rhodena
+[docs/gis-water-sources.md](docs/gis-water-sources.md),
+[docs/gis-community-sources.md](docs/gis-community-sources.md),
+[docs/gis-fishing-sources.md](docs/gis-fishing-sources.md), and
+[docs/point-tupper-sources.md](docs/point-tupper-sources.md). Rhodena
 product and source-prep detail are in
 [web/scripts/rhodena/README.md](web/scripts/rhodena/README.md).
 Background Maps offers NS Marks Atlas Day,
@@ -121,6 +133,33 @@ The same parcel sheet shows dated PVSC assessed-value history from the licensed
 open dataset, using an official notice AAN when available or a bounded
 point-in-parcel screen otherwise; multiple accounts remain separate and the UI
 does not treat assessment as current market value.
+
+Three focus pages open the same research map with a fixed setup, a shorter panel
+and their own heading. `/rhodena` (`web/rhodena.html`) covers the Rhodena Wind
+proposal. The fishing page (`web/fishing.html`; `/fishing` locally,
+`/fishmap` on the KinNoKi site) lists 27 hand-picked shore,
+wharf and lake spots in southern Cape Breton, the Strait of Canso area and the
+Antigonish–Guysborough lakes. Each spot card gives its months, access notes,
+cautions and sources, and the page adds a species calendar and a dated summary
+of the rules to check. That summary hides itself after its date, and the map
+never says whether a season is open. The spots are screening notes, not access
+permission or rules. The fishing data files in `web/public/fishing/` carry
+their own licences (CC BY 4.0 for the project's wording, OGL-NS and OGL-Canada
+for the data), not the code's MIT licence. Sources, checks and the yearly
+refresh are in [docs/gis-fishing-sources.md](docs/gis-fishing-sources.md) and
+[web/README.md](web/README.md). `/pointtupper` (`web/pointtupper.html`) is a
+site brief for the announced data-centre campus on the Strait of Canso: five
+key places, a sourced summary, and a timeline. The campus footprint has not
+been published, so it is not drawn. Company figures are the company's own. No
+parcel, title or registry data is used. The Point Tupper files in
+`web/public/point-tupper/` carry their own licence (CC BY 4.0 for the project's
+wording), not the code's MIT licence. Sources are in
+[docs/point-tupper-sources.md](docs/point-tupper-sources.md). The KinNoKi site
+publishes a page through its own short-URL rewrite (`/rhodena`, and `/fishmap`
+for the fishing page); merging here publishes none of them. `/pointtupper`
+still needs that rewrite and a live pin. The site's own `/fishing/` is a
+separate static fishing guide: the fishing page's footer links to it, and its
+link back to `/fishmap` is a site change.
 
 On the live map, the locate control can show the position this device reports,
 follow you as you move, and mark it into a local Field notes layer with one

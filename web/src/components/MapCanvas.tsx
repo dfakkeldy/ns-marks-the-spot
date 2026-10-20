@@ -1,6 +1,8 @@
 import { RhodenaVisibility } from "../rhodena/RhodenaVisibility";
 import { RhodenaLayer } from "../rhodena/RhodenaLayer";
-import { RhodenaFocus } from "../rhodena/RhodenaFocus";
+import { FocusFit } from "../focus/FocusFit";
+import type { FocusFitRequest } from "../focus/focusDefinition";
+import { FishingSpotsLayer, type FishingSpotsPageState } from "../fishing/FishingSpotsLayer";
 import { isRhodenaLayerId } from "../rhodena/catalog";
 import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
@@ -206,7 +208,10 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
 const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
-  rhodenaFitRevision?: number;
+  /** Each new revision fits the map to a focus page's area. */
+  focusFit?: FocusFitRequest;
+  /** The /fishing page's filter and selection for the curated spots; the full map passes none. */
+  fishingSpots?: FishingSpotsPageState;
   /** A two-way Map/Aerial background switch under the 3D control. */
   backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
   /** A request to start choosing a viewpoint once the terrain is ready. */
@@ -720,15 +725,17 @@ function resourceFeatureLabel(
   layerId: ResourceLayerId,
   properties: Record<string, unknown>,
 ): string {
-  const name = String(properties.Name ?? "").trim();
   if (layerId === "mineral-occurrences") {
+    const name = String(properties.Name ?? "").trim();
     const commodity = String(
       properties.Comm_list ?? properties.Comm_prim ?? "",
     ).trim();
     return [name || "Mineral occurrence", commodity].filter(Boolean).join(" · ");
   }
 
-  const hazard = String(properties.Degree_Haz ?? "").trim();
+  // The provincial abandoned-mine service publishes lower-case field names.
+  const name = String(properties.name ?? "").trim();
+  const hazard = String(properties.degree_haz ?? "").trim();
   return [name || "Abandoned mine opening", hazard && `Hazard: ${hazard}`]
     .filter(Boolean)
     .join(" · ");
@@ -1861,8 +1868,11 @@ function LocationControlIcon() {
   );
 }
 
+const NO_FOCUS_FIT: FocusFitRequest = { revision: 0, bounds: null };
+
 export function MapCanvas({
-  rhodenaFitRevision = 0,
+  focusFit = NO_FOCUS_FIT,
+  fishingSpots,
   rhodenaPickPending = false,
   onRhodenaPickStarted,
   backgroundSwitch = null,
@@ -2642,11 +2652,13 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
-        <RhodenaFocus revision={rhodenaFitRevision} />
+        <FocusFit request={focusFit} />
         {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
           contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} pickPending={rhodenaPickPending} onPickStarted={onRhodenaPickStarted} /> : null
         ) : isRhodenaLayerId(layer.id) ? (
           <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
+        ) : layer.id === "fishing-spots" ? (
+          <FishingSpotsLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} page={fishingSpots} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
         ) : isElectoralLayerId(layer.id) ? (
           <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (

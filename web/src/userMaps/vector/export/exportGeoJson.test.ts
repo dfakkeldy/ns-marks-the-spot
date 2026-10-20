@@ -41,23 +41,13 @@ describe("geojsonExportBlob", () => {
 });
 
 describe("traced provenance", () => {
-  it("adds the foreign member when any feature was parcel-traced", async () => {
-    const blob = geojsonExportBlob({
-      type: "FeatureCollection",
-      features: [
-        {
-          type: "Feature",
-          id: "traced",
-          geometry: { type: "LineString", coordinates: [[-61, 46], [-61, 46.001]] },
-          properties: { "nsmts:traced": "nsprd-parcel" },
-        },
-      ],
-    });
-    const parsed = JSON.parse(await blob.text()) as Record<string, unknown>;
-    const note = parsed["nsmts:provenance"];
-    expect(typeof note).toBe("string");
-    expect(note).toContain("Traced boundaries are not a survey.");
-    expect(note).toContain("Province of Nova Scotia");
+  it("refuses outgoing traced coordinates without changing the local collection", () => {
+    const collection = { type: "FeatureCollection" as const, features: [{
+      type: "Feature" as const, geometry: { type: "Point" as const, coordinates: [-61, 46] },
+      properties: { "nsmts:traced": "nsprd-parcel" },
+    }] };
+    expect(() => geojsonExportBlob(collection)).toThrow(/permission/i);
+    expect(collection.features[0].properties["nsmts:traced"]).toBe("nsprd-parcel");
   });
 
   // An imported file can carry its own "nsmts:traced" with any value. Only

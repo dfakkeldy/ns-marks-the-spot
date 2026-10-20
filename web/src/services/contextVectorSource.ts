@@ -173,7 +173,7 @@ export async function fetchContextFeatures(layer: ContextLayerDescriptor, bounds
     outFields: layer.outFields ?? [layer.idField ?? "OBJECTID"], idField: layer.idField ?? "OBJECTID", orderByFields: layer.idField ?? "OBJECTID", signal,
     ...(layer.featureWhere ? { where: layer.featureWhere } : {}),
     responseLimitBytes: MAX_BYTES,
-  }).catch((error: unknown) => {
+  }).then(collection => indexCollection(collection, layer.idField ?? "OBJECTID").collection).catch((error: unknown) => {
     if (error instanceof ArcGISFeatureSizeError) throw new ContextAreaTooLargeError(error.message);
     throw error;
   });

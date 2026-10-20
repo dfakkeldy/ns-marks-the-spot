@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 
 const mapMock = vi.hoisted(() => ({
-  doubleClickZoom: { enable: vi.fn(), disable: vi.fn() },
+  doubleClickZoom: { enabled: vi.fn(() => true), enable: vi.fn(), disable: vi.fn() },
 }));
 
 const mapEvents = vi.hoisted(() => ({
@@ -67,6 +67,7 @@ const clickAt = (lat: number, lng: number) =>
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mapMock.doubleClickZoom.enabled.mockReturnValue(true);
   mapEvents.current = {};
 });
 
@@ -92,6 +93,15 @@ describe("MeasureTool controls", () => {
     expect(mapMock.doubleClickZoom.disable).toHaveBeenCalledTimes(1);
     fireEvent.click(toggle);
     expect(mapMock.doubleClickZoom.enable).toHaveBeenCalledTimes(1);
+  });
+
+  it("preserves a pre-existing disabled double-click zoom setting", () => {
+    mapMock.doubleClickZoom.enabled.mockReturnValue(false);
+    const { unmount } = render(<Harness initialMode="distance" />);
+
+    unmount();
+
+    expect(mapMock.doubleClickZoom.enable).not.toHaveBeenCalled();
   });
 });
 
@@ -248,6 +258,59 @@ describe("distance measuring", () => {
     expect(screen.getAllByTestId("measure-vertex")).toHaveLength(3);
 
     input.remove();
+  });
+
+  it("keeps a measurement when a control consumes Escape before it reaches the window", () => {
+    render(
+      <>
+        <Harness initialMode="distance" />
+        <div role="region" aria-label="Map information" tabIndex={-1} />
+      </>,
+    );
+    clickAt(45, -61);
+    clickAt(46, -61);
+    const consumeEscape = (event: KeyboardEvent) => event.preventDefault();
+    document.addEventListener("keydown", consumeEscape, { once: true });
+
+    fireEvent.keyDown(screen.getByRole("region", { name: "Map information" }), {
+      key: "Escape",
+    });
+
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+  });
+
+  it("leaves Escape in a non-dismissible dialog without clearing the measurement", () => {
+    render(
+      <>
+        <Harness initialMode="distance" />
+        <div role="dialog" aria-modal="true" aria-label="Save track" tabIndex={-1} />
+      </>,
+    );
+    clickAt(45, -61);
+    clickAt(46, -61);
+
+    fireEvent.keyDown(screen.getByRole("dialog", { name: "Save track" }), { key: "Escape" });
+
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+  });
+
+  it.each(["button", "select", "summary"] as const)("does not finish a measurement when Enter activates another %s", (tag) => {
+    render(<Harness initialMode="distance" />);
+    clickAt(45, -61);
+    clickAt(46, -61);
+    const control = document.createElement(tag);
+    const container = tag === "summary" ? document.createElement("details") : control;
+    if (container !== control) container.append(control);
+    document.body.append(container);
+    control.focus();
+    try {
+      fireEvent.keyDown(control, { key: "Enter" });
+      clickAt(45, -60);
+
+      expect(screen.getAllByTestId("measure-vertex")).toHaveLength(3);
+    } finally {
+      container.remove();
+    }
   });
 });
 

@@ -69,15 +69,16 @@ public enum ResourcePointOverlay {
         for layer: LayerID,
         properties: [String: MappedFeatureResponse.AttributeValue]
     ) -> (name: String, detail: String) {
-        let name = text(properties["Name"])
-
         if layer == .mineralOccurrences {
+            let name = text(properties["Name"])
             let commodityList = text(properties["Comm_list"])
             let commodity = commodityList.isEmpty ? text(properties["Comm_prim"]) : commodityList
             return (name.isEmpty ? "Mineral occurrence" : name, commodity)
         }
 
-        let hazard = text(properties["Degree_Haz"])
+        // The provincial abandoned-mine service publishes lower-case fields.
+        let name = text(properties["name"])
+        let hazard = text(properties["degree_haz"])
         return (
             name.isEmpty ? "Abandoned mine opening" : name,
             hazard.isEmpty ? "" : "Hazard: \(hazard)"

@@ -24,10 +24,13 @@ export function distanceMetres(from: GeoPoint, to: GeoPoint): number {
   const haversine =
     Math.sin(deltaLat / 2) ** 2 +
     Math.cos(fromLat) * Math.cos(toLat) * Math.sin(deltaLng / 2) ** 2;
+  // Rounding at antipodes can push this fraction just above 1, making
+  // sqrt(1 - haversine) NaN for otherwise valid imported coordinates.
+  const fraction = Math.min(1, Math.max(0, haversine));
   return (
     2 *
     EARTH_RADIUS_METRES *
-    Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine))
+    Math.atan2(Math.sqrt(fraction), Math.sqrt(1 - fraction))
   );
 }
 

@@ -9,9 +9,11 @@ import {
   within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { readFileSync } from "node:fs";
 import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
+import { resetFishingDataForTests } from "./fishing/data";
 import { RUMSEY_COLLECTION_TERMS_URL } from "./licensing/rumseyLicense";
 import {
   PROVINCE_ATTRIBUTION,
@@ -28,7 +30,7 @@ import {
   type CivicAddress,
   CivicAddressGeometryError,
 } from "./services/civicAddresses";
-import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
+import { fetchParcelAtPoint, fetchParcels } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
 import {
@@ -198,8 +200,14 @@ vi.mock("./components/MapCanvas", () => ({
     exportFrame,
     onExportFrameContinue,
     backgroundSwitch,
+    focusFit,
+    fishingSpots,
+    rhodenaPickPending,
   }: {
     backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
+    fishingSpots?: unknown;
+    focusFit?: { revision: number; bounds: [[number, number], [number, number]] | null };
+    rhodenaPickPending?: boolean;
     poker?: import("./components/PokerMapTools").PokerSession | null;
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
@@ -365,6 +373,9 @@ vi.mock("./components/MapCanvas", () => ({
         : "none"}
       ; export frame: {exportFrame ? "framing" : "none"}
       ; selected PID: {selectedPid ?? "none"}
+      ; focus fit: {focusFit?.revision ?? 0}; viewpoint pick: {rhodenaPickPending ? "pending" : "none"}
+      ; focus fit bounds: {focusFit?.bounds ? focusFit.bounds.flat().join(",") : "none"}
+      ; spots page state: {fishingSpots ? "page" : "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -1058,6 +1069,239 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).not.toContain("rhodena-visibility"));
   });
 
+  it("opens the Rhodena page on the project camera unless the link carries a position", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena");
+
+    const first = render(<App focus="rhodena" />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.785,-61.405,11; preserve initial position: no");
+    expect(screen.getByRole("button", { name: "Rhodena Wind — summary and layers" })).toHaveClass("mobile-map-brand", "rhodena-brand");
+    expect(document.querySelector(".app-shell.rhodena-focus .rhodena-focus-footer .rhodena-full-map-link")).not.toBeNull();
+    first.unmount();
+
+    window.history.replaceState(null, "", "/rhodena?position=45.78,-61.4,13");
+    render(<App focus="rhodena" />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.78,-61.4,13; preserve initial position: yes");
+    // Rhodena has no spot cards, so the spots layer never takes its page state.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("spots page state: none");
+  });
+
+  it("opens the Rhodena setup on the full map at the project camera, with the full map's own chrome", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=rhodena");
+
+    render(<App />);
+
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.785,-61.405,11");
+    expect(screen.getByRole("combobox", { name: /Map setup/ })).toBeInTheDocument();
+    expect(screen.queryByRole("group", { name: "Background" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Open this view in the full NS Marks map/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "NS Marks The Spot home" })).toBeInTheDocument();
+    expect(document.querySelector(".app-shell")).not.toHaveClass("rhodena-focus");
+  });
+
+  it("zooms to the project and starts a viewpoint pick from the Rhodena summary", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena");
+
+    render(<App focus="rhodena" />);
+    const canvas = screen.getByTestId("map-canvas");
+    expect(canvas).toHaveTextContent("focus fit: 0; viewpoint pick: none");
+
+    await user.click(screen.getByRole("button", { name: "Zoom to the project area" }));
+    expect(canvas).toHaveTextContent("focus fit: 1; viewpoint pick: none");
+
+    await user.click(screen.getByRole("button", { name: "Check the view from a spot" }));
+    expect(canvas).toHaveTextContent("focus fit: 1; viewpoint pick: pending");
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).toContain("rhodena-visibility"));
+  });
+
+  it("zooms to Rhodena when its setup is chosen on the full map, and not for other setups", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+    const canvas = screen.getByTestId("map-canvas");
+    const mapSetup = screen.getByRole("combobox", { name: /Map setup/ });
+
+    await userEvent.selectOptions(mapSetup, "historical-maps");
+    expect(canvas).toHaveTextContent("focus fit: 0");
+    await userEvent.selectOptions(mapSetup, "rhodena");
+    expect(canvas).toHaveTextContent("focus fit: 1");
+  });
+
+  it("leaves a setup with no focus page at the default camera", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=electoral-districts");
+
+    render(<App />);
+
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("initial position: 45.785,-61.405,11");
+  });
+
+  describe("the /fishing page", () => {
+    // The page reads its own files from public/fishing/, like the browser.
+    beforeEach(() => {
+      resetFishingDataForTests();
+      vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+        const name = String(input).match(/fishing\/(spots\.geojson|calendar\.json|rules\.json)$/u)?.[1];
+        return name
+          ? new Response(readFileSync(`public/fishing/${name}`, "utf8"), { status: 200 })
+          : new Response("", { status: 404 });
+      }));
+    });
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      resetFishingDataForTests();
+    });
+
+    it("opens on its spots with its own summary, dedication and categories", async () => {
+      window.history.replaceState(null, "", "/fishing");
+
+      render(<App focus="fishing" />);
+
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Fishing spots — Cape Breton and the Strait of Canso");
+      expect(screen.getByRole("heading", { level: 2, name: "Fishing spots" })).toBeInTheDocument();
+      expect(screen.getByText("For Darrell, who never needed a reason to go fishing.")).toBeInTheDocument();
+      expect(screen.queryByRole("combobox", { name: /Map setup/ })).not.toBeInTheDocument();
+      // The Fishing setup needs no Province licence, on this page either.
+      expect(screen.queryByRole("dialog", { name: /province data licence/i })).not.toBeInTheDocument();
+      for (const name of [/^Water & Terrain/, /^Land & Property/, /^Roads & Places/, /^Background Maps/]) {
+        expect(screen.getByRole("button", { name })).toBeInTheDocument();
+      }
+      for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/, /^Forestry & Ecology/, /^Rhodena Wind Project/]) {
+        expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
+      }
+      expect(await screen.findByText("All 27 spots")).toBeInTheDocument();
+      expect(document.querySelectorAll(".fishing-spot")).toHaveLength(27);
+      // Either stamp, so this test does not turn red when the summary's date
+      // passes; rules.test.ts covers the gate on a fixed clock.
+      expect(await screen.findByText(/Rules summary for the 2026 licence year|The 2026 rules summary passed its date/)).toBeInTheDocument();
+      // Fitted to the spots, because the link carries no camera of its own.
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 1; viewpoint pick: none");
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit bounds: 45.3,-62.2,46.4,-60.5");
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("spots page state: page");
+      expect(document.querySelector(".app-shell.fishing-focus .fishing-focus-footer .fishing-full-map-link")).not.toBeNull();
+      // The KinNoKi site's /fishing/ is a separate static guide; the footer links to it.
+      const guide = screen.getByRole("link", { name: "Strait and Bras d'Or fishing map" });
+      expect(guide).toHaveAttribute("href", "https://kinnokilabs.com/fishing/");
+      expect(guide.closest(".fishing-focus-footer")).not.toBeNull();
+      expect(screen.getByRole("button", { name: "Fishing spots — summary and spot list" })).toHaveClass("mobile-map-brand", "fishing-brand");
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.pathname).toBe("/fishing");
+        expect(url.searchParams.get("layers")?.split(",")).toContain("fishing-spots");
+        expect(url.searchParams.has("month")).toBe(false);
+      });
+    });
+
+    it("carries its month and spot in its links, and leaves them off the full map", async () => {
+      const user = userEvent.setup();
+      window.history.replaceState(null, "", "/fishing?month=1&spot=S25");
+
+      render(<App focus="fishing" />);
+
+      expect(await screen.findByText("5 of 27 spots for January")).toBeInTheDocument();
+      expect(document.querySelector("#fishing-spot-S25 .fishing-spot-toggle")).toHaveAttribute("aria-expanded", "true");
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.searchParams.get("month")).toBe("1");
+        expect(url.searchParams.get("spot")).toBe("S25");
+      });
+      const fullMap = new URL(screen.getByRole("link", { name: /Open this view in the full NS Marks map/ }).getAttribute("href")!);
+      expect(fullMap.pathname).toBe("/");
+      expect(fullMap.searchParams.has("month")).toBe(false);
+      expect(fullMap.searchParams.has("spot")).toBe(false);
+      expect(fullMap.searchParams.get("layers")?.split(",")).toContain("fishing-spots");
+
+      // Gillis and Cameron lakes are not listed for August, so the card closes.
+      await user.selectOptions(screen.getByRole("combobox", { name: "Month" }), "8");
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.searchParams.get("month")).toBe("8");
+        expect(url.searchParams.has("spot")).toBe(false);
+      });
+      await user.click(screen.getByRole("button", { name: "Clear filters" }));
+      await waitFor(() => expect(new URL(window.location.href).searchParams.has("month")).toBe(false));
+    });
+
+    it("keeps the public short URL in its share link", async () => {
+      // The site serves the page at /fishmap, a rewrite onto the map's fishing page.
+      window.history.replaceState(null, "", "/fishmap?spot=S04");
+
+      render(<App focus="fishing" />);
+
+      expect(await screen.findByText("All 27 spots")).toBeInTheDocument();
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.pathname).toBe("/fishmap");
+        expect(url.searchParams.get("spot")).toBe("S04");
+        expect(url.searchParams.get("layers")?.split(",")).toContain("fishing-spots");
+      });
+    });
+
+    it("opens a shared camera as shared, with no fit", () => {
+      window.history.replaceState(null, "", "/fishing?position=45.6,-61,12");
+
+      render(<App focus="fishing" />);
+
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.6,-61,12; preserve initial position: yes");
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 0; viewpoint pick: none");
+    });
+
+    it("keeps the aquatic species-at-risk layers out of a shared fishing link", async () => {
+      window.history.replaceState(null, "", "/fishing?layers=modern,fishing-spots,dfo-aquatic-sar-range,dfo-aquatic-critical-habitat,mineral-tenure&taxSale=on");
+
+      render(<App focus="fishing" />);
+
+      await waitFor(() => {
+        const url = new URL(window.location.href);
+        expect(url.searchParams.get("layers")?.split(",").sort()).toEqual(["fishing-spots", "modern"]);
+        expect(url.searchParams.get("taxSale")).toBe("off");
+      });
+    });
+
+    it("zooms to all spots from the summary", async () => {
+      const user = userEvent.setup();
+      window.history.replaceState(null, "", "/fishing");
+
+      render(<App focus="fishing" />);
+      await user.click(screen.getByRole("button", { name: "Zoom to all spots" }));
+
+      expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 2; viewpoint pick: none");
+    });
+
+    it("ignores a month or spot on the full map", async () => {
+      localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+      window.history.replaceState(null, "", "/?month=10&spot=S04");
+
+      render(<App />);
+
+      await waitFor(() => expect(new URL(window.location.href).searchParams.has("layers")).toBe(true));
+      expect(new URL(window.location.href).searchParams.has("month")).toBe(false);
+      expect(new URL(window.location.href).searchParams.has("spot")).toBe(false);
+      expect(document.querySelector(".fishing-panel")).toBeNull();
+    });
+  });
+
+  it("keeps the fishing layers off the Rhodena page, in its panel and in shared links", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/rhodena?layers=modern,rhodena-turbines,fishing-spots,stocked-waters,dfo-small-craft-harbours-core&position=45.78,-61.4,13");
+    const user = userEvent.setup();
+
+    render(<App focus="rhodena" />);
+
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",").sort()).toEqual(["modern", "rhodena-turbines"]));
+    await user.click(screen.getByRole("button", { name: /^Water & Terrain/ }));
+    expect(screen.getByText("NSHN connected water spines")).toBeInTheDocument();
+    for (const name of ["Curated fishing spots", "Stocked waters (hatchery records)", "DFO small craft harbours · core fishing"]) {
+      expect(screen.queryByText(name)).not.toBeInTheDocument();
+    }
+  });
+
   it("keeps exactly one page heading, outside the parts a phone hides", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");
@@ -1171,34 +1415,10 @@ describe("NS Marks The Spot Online", () => {
     });
     await waitFor(() => expect(exportButton).toBeEnabled());
     await userEvent.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
-      taxSaleEnabled: false,
-      events: [],
-    }));
-    const exportedNote = vi.mocked(buildEvidenceNote).mock.results.at(-1)?.value;
-    expect(exportedNote?.markdown).not.toContain("Mode: Current notices");
-    expect(exportedNote?.markdown).not.toContain("## Event");
-    expect(exportedNote?.markdown).not.toContain(
-      "Tax-sale notices and results are dated source records",
-    );
-    expect(exportedNote?.markdown).toContain("## PVSC assessment accounts");
-
-    await userEvent.click(within(inspector).getByRole("button", {
-      name: "Print / export",
-    }));
-    const printDialog = await screen.findByRole("dialog", {
-      name: "Print / export",
-    });
-    const appendix = within(printDialog).getByRole("region", {
-      name: "Evidence appendix",
-    });
-    expect(appendix).not.toHaveTextContent(/tax[- ]sale/i);
-    expect(within(appendix).getByRole("heading", {
-      name: "Mapped parcel area",
-    })).toBeInTheDocument();
-    expect(within(printDialog).getByText(/Map PID count: 0/))
-      .toHaveTextContent("historical PID count: 0");
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("uses ordinary parcel evidence rather than a notice AAN while Tax Sale is off", async () => {
@@ -1662,7 +1882,7 @@ describe("NS Marks The Spot Online", () => {
     act(() => media.setMatches(true));
     expect(screen.queryByRole("button", { name: "Back to categories" }))
       .not.toBeInTheDocument();
-    expect(visibleLayerCategoryButtons()).toHaveLength(12);
+    expect(visibleLayerCategoryButtons()).toHaveLength(13);
     expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
 
     expect(media.listenerCount()).toBe(1);
@@ -1686,7 +1906,7 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.getByRole("button", { name: /^Historical Maps/ }))
         .toHaveFocus();
     });
-    expect(visibleLayerCategoryButtons()).toHaveLength(12);
+    expect(visibleLayerCategoryButtons()).toHaveLength(13);
   });
 
   it("keeps the phone sheet and focused category open when a layer toggles", async () => {
@@ -1743,6 +1963,18 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: ns-topographic");
+  });
+
+  it("cannot restore an unavailable CHM pilot through a shared link", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern,lidar-canopy-height");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("lidar-canopy-height");
+    openLayerCategory("Forestry & Ecology");
+    const checkbox = screen.getByRole("checkbox", { name: "LiDAR canopy height · Judique pilot" });
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")).not.toContain("lidar-canopy-height"));
   });
 
   it("clears electoral evidence when its source fails and does not resurrect it on retry", () => {
@@ -2011,14 +2243,10 @@ describe("NS Marks The Spot Online", () => {
     });
     await waitFor(() => expect(exportButton).toBeEnabled());
     await userEvent.click(exportButton);
-    const note = vi.mocked(buildEvidenceNote).mock.results.at(-1)?.value;
-    expect(note?.markdown).toContain(
-      "Not evaluated — this PID's NSPRD geometry is unavailable.",
-    );
-    expect(note?.markdown).not.toContain(
-      "No mapped civic address point returned inside the parcel.",
-    );
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("lists every layer's source, date, and licence behind Data & licences", async () => {
@@ -2040,6 +2268,12 @@ describe("NS Marks The Spot Online", () => {
     expect(within(dialog).getByText("Provincial-first Atlas sources")).toBeInTheDocument();
     expect(within(dialog).getAllByRole("link", { name: "Official source" })
       .length).toBeGreaterThan(10);
+    // The curated spots link to the project's own receipt, never to a
+    // publisher record, so they read "Project source" as the popup does.
+    const spotsRow = within(dialog).getByText("Curated fishing spots").closest("li")!;
+    expect(within(spotsRow).getByRole("link", { name: "Project source" }))
+      .toHaveAttribute("href", expect.stringContaining("docs/gis-fishing-sources.md"));
+    expect(within(spotsRow).queryByRole("link", { name: "Official source" })).toBeNull();
     expect(
       within(dialog).getAllByRole("link", { name: "Licence" }).length,
     ).toBeGreaterThan(10);
@@ -3616,37 +3850,13 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("names a visible zoning layer as absent from the export instead of dropping it silently", async () => {
-    const user = userEvent.setup();
-    setRestrictedGeneralShareUrl();
+  it("locks municipal app use without hiding official source links", async () => {
     renderAppWithCategoriesOpen();
-
-    await user.click(
-      screen.getByRole("button", { name: "Continue without Province layers" }),
-    );
     openLayerCategory("Land & Property");
-    await user.click(screen.getByLabelText("Inverness County zoning"));
-
-    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
-    await user.click(
-      screen.getByRole("button", { name: "Continue export frame" }),
-    );
-
-    // `buildExportLayers` carries OSM, Fletcher, and Province layers only —
-    // zoning (and six other families MapCanvas renders) never reaches the
-    // compositor. Exporting used to produce a page with no zoning on it and
-    // nothing said about that.
-    // findBy: the export dialog is lazy-loaded, so it resolves a tick after
-    // the frame step continues.
-    const dialog = await screen.findByRole("dialog", {
-      name: "Export georeferenced PDF",
-    });
-    expect(dialog).toHaveTextContent(/will not be in the exported PDF/u);
-    expect(dialog).toHaveTextContent("Inverness County zoning");
-    // A notice, not a gate.
-    expect(
-      within(dialog).getByRole("button", { name: "Download PDF" }),
-    ).toBeEnabled();
+    const toggle = screen.getByLabelText("Inverness County zoning");
+    expect(toggle).toBeDisabled();
+    expect(toggle.closest("label")).toHaveTextContent(/permission for app queries/i);
+    expect(toggle.closest("label")?.querySelector("a[href]"))?.toBeTruthy();
   });
 
   it("credits an exported layer but not a visible layer the export omits", async () => {
@@ -3658,7 +3868,12 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Continue without Province layers" }),
     );
     openLayerCategory("Land & Property");
-    await user.click(screen.getByLabelText("Inverness County zoning"));
+    // Use a confirmed-open source: the four municipal sources awaiting
+    // permission cannot become visible and do not exercise omission credits.
+    const zoning = screen.getByLabelText("Halifax Regional Municipality zoning");
+    expect(zoning).toBeEnabled();
+    await user.click(zoning);
+    expect(zoning).toBeChecked();
 
     await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
     await user.click(
@@ -3668,7 +3883,11 @@ describe("NS Marks The Spot Online", () => {
     // test warmed its chunk resolves it a tick after the frame step.
     await user.click(
       within(
-        await screen.findByRole("dialog", { name: "Export georeferenced PDF" }),
+        await screen.findByRole(
+          "dialog",
+          { name: "Export georeferenced PDF" },
+          { timeout: 5_000 },
+        ),
       ).getByRole("button", { name: "Download PDF" }),
     );
 
@@ -3683,10 +3902,10 @@ describe("NS Marks The Spot Online", () => {
     // Zoning is visible (captured) but not exported — `buildExportLayers`
     // does not carry it, and the omission is already named separately in
     // `omittedLayerNames`. Crediting it here would assert a licence over
-    // data the PDF does not contain, which the EDPC attribution text (only
+    // data the PDF does not contain, which the HRM attribution text (only
     // this layer family uses it) makes easy to catch.
     expect(attributionText).not.toContain(
-      "Eastern District Planning Commission",
+      "Open Government Licence—Halifax",
     );
   });
 
@@ -4046,6 +4265,66 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("ignores a cancelled point lookup failure after a newer parcel is selected", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    let rejectOld!: (reason: Error) => void;
+    vi.mocked(fetchParcelAtPoint)
+      .mockImplementationOnce(() => new Promise((_resolve, reject) => { rejectOld = reject; }))
+      .mockResolvedValueOnce({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    await screen.findByRole("complementary", { name: "Parcel 50251750 details" });
+    await act(async () => rejectOld(new TypeError("Connection closed during cancellation")));
+    expect(screen.queryByText("The Province parcel lookup is unavailable right now.")).not.toBeInTheDocument();
+    expect(screen.getByText("PID 50251750 selected.")).toBeInTheDocument();
+  });
+
+  it("does not report an old clipboard result for a newly selected parcel", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection", features: pids.map(parcelFeature),
+    }));
+    let finishCopy!: () => void;
+    const write = vi.spyOn(navigator.clipboard, "writeText")
+      .mockImplementationOnce(() => new Promise<void>(resolve => { finishCopy = resolve; }));
+    try {
+      render(<App />);
+      const input = screen.getByLabelText("Search by PID or civic address");
+      await user.type(input, "50251750{Enter}");
+      await user.click(await screen.findByRole("button", { name: "Copy share link" }));
+      expect(write.mock.calls[0][0]).toContain("pid=50251750");
+      await user.clear(input);
+      await user.type(input, "50334317{Enter}");
+      await screen.findByRole("complementary", { name: "Parcel 50334317 details" });
+      await act(async () => finishCopy());
+      expect(screen.queryByText("Share link copied.")).not.toBeInTheDocument();
+    } finally {
+      write.mockRestore();
+    }
+  });
+
+  it("offers the exact state link when clipboard access throws synchronously", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    vi.mocked(fetchParcels).mockImplementation(async (pids) => ({
+      type: "FeatureCollection", features: pids.map(parcelFeature),
+    }));
+    const write = vi.spyOn(navigator.clipboard, "writeText").mockImplementation(() => {
+      throw new DOMException("Clipboard access denied", "SecurityError");
+    });
+    try {
+      render(<App />);
+      await user.type(screen.getByLabelText("Search by PID or civic address"), "50251750{Enter}");
+      await user.click(await screen.findByRole("button", { name: "Copy share link" }));
+      expect(screen.getByText("Copy failed; use the exact map-state link below.")).toBeInTheDocument();
+    } finally {
+      write.mockRestore();
+    }
+  });
+
   it("suggests civic addresses while typing and selects with the keyboard", async () => {
     const user = userEvent.setup();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
@@ -4329,6 +4608,30 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByRole("button", { name: /accept/i })).toBeInTheDocument();
     expect(screen.getByTestId("map-canvas"))
       .toHaveTextContent("property boundaries: off");
+  });
+
+  it("opens the Fishing setup on a first visit without asking for the Province licence", async () => {
+    window.history.replaceState(null, "", "/?theme=fishing");
+
+    render(<App />);
+
+    expect(screen.queryByRole("dialog", { name: /province data licence/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /accept/i })).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Map setup")).toHaveValue("fishing");
+    expect(mapSetupStatus()).toHaveTextContent("Fishing");
+    // It borrows the /fishing camera, so it fits the spots as the page does.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 1");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit bounds: 45.3,-62.2,46.4,-60.5");
+    const fishing = builtInMapThemes.find(({ id }) => id === "fishing")!;
+    await waitFor(() => expect(
+      new URL(window.location.href).searchParams.get("layers")?.split(",").sort(),
+    ).toEqual([...fishing.layerIds].sort()));
+  });
+
+  it("keeps a shared camera on a Fishing setup link", () => {
+    window.history.replaceState(null, "", "/?theme=fishing&position=45.6,-61.3,13");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 0");
   });
 
   it("searches a civic address and opens its containing parcel", async () => {
@@ -5851,36 +6154,10 @@ describe("NS Marks The Spot Online", () => {
     await screen.findByText("A01-001 · On parcel");
     await user.click(screen.getByRole("button", { name: "Export evidence note" }));
 
-    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
-      shareUrl: expect.stringContaining("mineral-proximity-parcels"),
-      activeLayers: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Mineral occurrences — derived proximity input",
-          sourceUrl: "https://novascotia.ca/natr/meb/download/dp002.asp",
-          sourceDate: "June 2024 · version 12",
-        }),
-        expect.objectContaining({
-          name: "NSPRD parcel geometry — derived proximity input",
-          sourceUrl: NSPRD_LAYER_URL,
-          sourceDate: "Live service · checked July 20, 2026",
-        }),
-      ]),
-      resourceResults: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Mineral occurrences",
-          results: [
-            "A01-001 · Exact occurrence · On parcel · Occurrence · Au, Ag",
-          ],
-          emptyMessage:
-            "No published mineral occurrence was returned on or within 1 km of this parcel.",
-        }),
-      ]),
-      assessmentEvidence: {
-        status: "ready",
-        result: { matchMethod: "spatial", accounts: [] },
-      },
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("does not export mineral empty evidence while selected-parcel resources are pending", async () => {
@@ -5926,15 +6203,10 @@ describe("NS Marks The Spot Online", () => {
 
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
-      resourceResults: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Mineral occurrences",
-          results: ["A01-002 · Nearby occurrence · Within 1 km · Placer · Au"],
-        }),
-      ]),
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("waits for assessment evidence before exporting the selected parcel", async () => {
@@ -5987,14 +6259,10 @@ describe("NS Marks The Spot Online", () => {
 
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenCalledWith(expect.objectContaining({
-      assessmentEvidence: expect.objectContaining({
-        status: "ready",
-        result: expect.objectContaining({ matchMethod: "spatial" }),
-      }),
-      dwellingEvidence: expect.objectContaining({ status: "ready" }),
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
     anchorClick.mockRestore();
+
   });
 
   it("lists every unique mapped civic address", async () => {
@@ -6546,10 +6814,8 @@ describe("NS Marks The Spot Online", () => {
     const exportButton = screen.getByRole("button", { name: "Export evidence note" });
     await waitFor(() => expect(exportButton).toBeEnabled());
     await user.click(exportButton);
-    expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
-      pid: newerPid,
-      parcelGeometry: olderOutcome === "empty" ? "source-error" : "returned-empty",
-    }));
+    expect(buildEvidenceNote).not.toHaveBeenCalled();
+    expect(screen.getByText(/Export locked: permission to reproduce NSPRD/)).toBeInTheDocument();
   });
 
   it("ignores a geometry failure after closing its parcel", async () => {
@@ -6631,7 +6897,7 @@ describe("NS Marks The Spot Online", () => {
     expect(await screen.findByRole("button", { name: "Print / export" })).toBeInTheDocument();
   });
 
-  it("opens a privacy-safe print preview with a frozen parcel fit", async () => {
+  it("refuses property print output before mounting a restricted preview", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     vi.mocked(fetchParcels).mockResolvedValueOnce({
@@ -6647,26 +6913,10 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
 
-    expect(within(dialog).getAllByText("PID 01234567").length).toBeGreaterThan(0);
-    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("Parcel fit");
-    await waitFor(() =>
-      expect(within(dialog).getAllByText(PROVINCE_ATTRIBUTION).length)
-        .toBeGreaterThan(0),
-    );
-    // No assessment account was matched, so the dwelling dataset was never
-    // asked. Printing "0 accounts captured" claimed a capture that never ran.
-    expect(
-      await within(dialog).findByText(
-        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
-      ),
-    ).toBeInTheDocument();
-    expect(
-      within(dialog).queryByText("Dwelling characteristics: 0 accounts captured"),
-    ).not.toBeInTheDocument();
-    expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
-    expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
-
-    await user.click(within(dialog).getByRole("button", { name: "Close preview" }));
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission to reproduce NSPRD/i);
+    expect(within(dialog).queryByTestId("map-canvas")).toBeNull();
+    expect(within(dialog).queryByRole("button", { name: "Print / Save PDF" })).toBeNull();
+    await user.click(within(dialog).getByRole("button", { name: "Close export" }));
     expect(screen.getByRole("button", { name: "Print / export" })).toBeInTheDocument();
   });
 
@@ -6686,7 +6936,7 @@ describe("NS Marks The Spot Online", () => {
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
     await user.click(await screen.findByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
-    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
 
     await act(async () => {
       resources.resolve({
@@ -6697,10 +6947,10 @@ describe("NS Marks The Spot Online", () => {
       await resources.promise;
     });
 
-    expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
-    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
+    expect(within(dialog).queryByTestId("map-canvas")).toBeNull();
     await user.click(screen.getByLabelText("Water features"));
-    expect(within(dialog).getByTestId("map-canvas")).toHaveTextContent("water: on");
+    expect(within(dialog).queryByTestId("map-canvas")).toBeNull();
   });
 
   it("does not let an older same-PID evidence request settle a reopened print capture", async () => {
@@ -6733,7 +6983,7 @@ describe("NS Marks The Spot Online", () => {
     ));
     await user.click(screen.getByRole("button", { name: "Print / export" }));
     const dialog = await screen.findByRole("dialog", { name: "Print / export" });
-    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
 
     await act(async () => {
       olderResources.resolve({
@@ -6743,7 +6993,7 @@ describe("NS Marks The Spot Online", () => {
       });
       await olderResources.promise;
     });
-    expect(within(dialog).getByText("Waiting for research evidence to settle.")).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
     expect(within(dialog).queryByText("Older completion")).not.toBeInTheDocument();
 
     await act(async () => {
@@ -6754,8 +7004,8 @@ describe("NS Marks The Spot Online", () => {
       });
       await currentResources.promise;
     });
-    expect(await within(dialog).findByText("Resource evidence: captured")).toBeInTheDocument();
-    expect(within(dialog).getByText(/Current completion/)).toBeInTheDocument();
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(/permission/i);
+    expect(within(dialog).queryByText(/Current completion/)).toBeNull();
   });
 });
 

@@ -71,6 +71,8 @@ export type PrintLayerSource = {
   attribution: string;
   /** Null when the publisher states no licence terms for the source. */
   licenceUrl: string | null;
+  /** Set when `sourceUrl` is the project's own receipt, not a publisher record. */
+  provenance?: "project-derived";
 };
 
 export type PrintEvent = {
@@ -224,7 +226,9 @@ export function printBoundsForTemplate(
   >,
   template: PrintTemplate,
 ): PrintMapBounds {
-  return template === "research"
+  // A permitted map-only capture has no parcel to frame. Reproduction
+  // permission is checked separately before mounting the preview/map.
+  return template === "research" && capture.selectedParcelGeometry.features.length > 0
     ? boundsForParcelGeometry(capture.selectedParcelGeometry)
     : { ...capture.viewport.bounds };
 }

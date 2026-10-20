@@ -1,0 +1,872 @@
+{
+  "type": "FeatureCollection",
+  "name": "NS Marks The Spot curated fishing spots",
+  "checked": "2026-10-12",
+  "licence": "Project-authored text CC BY 4.0; positions from OGL-NS and OGL-Canada data. See LICENCE.txt.",
+  "notice": "Screening notes, not access permission or rules. Check the current Anglers' Handbook and DFO notices.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.869985, 45.652837]
+      },
+      "properties": {
+        "id": "S01",
+        "name": "St. Peter's Canal & Battery Park shore (Atlantic end)",
+        "area": "St. Peter's",
+        "water_type": "brackish-tidal",
+        "kind": "canal banks (national historic site) and provincial park shore",
+        "species": ["atlantic_mackerel", "striped_bass_maritimes", "rainbow_smelt", "cunner", "winter_flounder", "sea_run_brook_trout"],
+        "species_text": "Atlantic mackerel, striped bass, rainbow smelt, cunner, winter flounder, sea-run brook trout",
+        "best_months": [5, 6, 7, 8, 9, 10, 11],
+        "peak_months": [6, 7, 8, 9, 10],
+        "access": "Toulouse St, a municipal street, runs along the canal's west side and ends near the St. Peter's Bay shore, about 140 m south of the lock. The canal is a Parks Canada national historic site, and Battery Provincial Park lies east of the canal mouth. Park only where signs allow and give way to boats.",
+        "tip": "Fish the Atlantic end on an incoming tide at dawn or dusk with a string of small mackerel jigs or a shiny spoon. When mackerel are scarce, drop a small hook with clam or worm along the canal walls for cunner and flounder, and check the groundfish season before keeping any.",
+        "why": "St. Peter's classic shore spot, beside a national historic site and a provincial park. Tourism listings invite visitors to fish the canal banks, a 2016 travel post saw mackerel anglers at the Atlantic end and called it a spring tradition, and an old forum thread lists the canal for mackerel. That is reputation, not catch data.",
+        "caution": "Keep well back from the lock gates and approach wharves and off the swing bridge: the tide reverses the current in the cut, so either side of the lock can be downstream. Mackerel are in DFO's Critical Zone: keep only what you will eat.",
+        "evidence": "reputation",
+        "sources": [
+          "https://parks.canada.ca/lhn-nhs/ns/stpeters/visit",
+          "https://www.parks.canada.ca/lhn-nhs/ns/stpeters/securite-safety",
+          "https://novascotia.com/listing/st-peters-canal-national-historic-site/",
+          "https://themaritimeexplorer.ca/2016/06/18/st-peters-canal/",
+          "https://www.novascotiafishing.com/threads/cape-breton-mackerel-fishing.4105/",
+          "https://parks.novascotia.ca/park/battery",
+          "https://cbisland.com/things-to-do/coastal-adventure/fishing",
+          "https://www.dfo-mpo.gc.ca/fisheries-peches/decisions/fm-2025-gp/atl-16-eng.html",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "historic-canals", "parks-canada-canals", "battery-park-2026", "licence-tidal-none", "mackerel-maritimes-2026", "striped-bass-maritimes-2026", "groundfish-maritimes-2026", "smelt-2026", "trout-tidal-2026", "sportfish-night", "tidal-sportfish-gear"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.878608, 45.662208]
+      },
+      "properties": {
+        "id": "S02",
+        "name": "St. Peter's Inlet shore (Bras d'Or end, Pepperell St)",
+        "area": "St. Peter's",
+        "water_type": "brackish-tidal",
+        "kind": "roadside shore on the tidal Bras d'Or",
+        "species": ["bras_dor_trout", "rainbow_smelt"],
+        "species_text": "rainbow and brown trout (tidal Bras d'Or), rainbow smelt",
+        "best_months": [1, 2, 3, 4, 5, 10, 11, 12],
+        "peak_months": [4, 5],
+        "access": "Pepperell St (provincial, paved) passes about 10 m from the St. Peter's Inlet shore here, on the Bras d'Or side of the canal. Pull fully onto the shoulder and keep off lawns and private docks. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "In late fall and right after ice-out, cast a small spoon or a smelt-coloured streamer from shore in the morning, and expect to release most rainbows. Smelt take tiny hooks with a sliver of bait in the evening in fall and again in spring. In winter fish only where open water reaches the shore.",
+        "why": "Tidal Bras d'Or water, where rainbow and brown trout seasons run longer than inland (see the rules). The Bras d'Or trout fishery once relied on fish escaping from aquaculture and nothing shows trout are plentiful now, so treat it as a low-odds option on a public road edge.",
+        "caution": "Tidal ice is never safe: stay off the Inlet ice. Village street: never block driveways.",
+        "evidence": "inference",
+        "sources": [
+          "https://novascotia.ca/fish/documents/special-management-areas-reports/NSTroutManplandraft05.pdf",
+          "https://novascotia.ca/fish/documents/rfac/fall2010-1.pdf",
+          "https://www.lifesaving.org/public-education/water-smart-tips2/ice-safety-tips",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "bras-dor-trout-2026", "trout-inland-2026", "trout-close-dec-2026", "smelt-2026", "sportfish-night", "tidal-sportfish-gear", "licence-inland", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.964996, 45.637401]
+      },
+      "properties": {
+        "id": "S03",
+        "name": "River Bourgeois tidal shore (North Side River Bourgeois Rd)",
+        "area": "St. Peter's",
+        "water_type": "salt",
+        "kind": "roadside tidal shore",
+        "species": ["atlantic_mackerel", "cunner", "winter_flounder", "striped_bass_maritimes", "rainbow_smelt"],
+        "species_text": "Atlantic mackerel, cunner, winter flounder, striped bass, rainbow smelt",
+        "best_months": [6, 7, 8, 9, 10, 11],
+        "peak_months": [7, 8, 9],
+        "access": "North Side River Bourgeois Rd (provincial, paved) passes about 10 m from the tidal shore here, just off Hwy 4. Pull fully off the road and keep any slipway or wharf clear; their ownership is not verified, so use them only with permission. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "A sheltered tidal shore: in summer drop a small hook with clam or mussel along the edge for cunner and flounder, and in early fall cast a bucktail or swimming plug into the channel in the evening for striped bass.",
+        "why": "A quiet, little-known tidal shore fished from a provincial road edge. No catch data exist; the species are inferred from the sheltered habitat and the regional seasons.",
+        "caution": "Fish the tidal water here only; see the current salmon closures. Houses are close to the road: never block driveways or cross yards. Boats and moorings come first.",
+        "evidence": "inference",
+        "sources": ["https://data.novascotia.ca/d/484g-adjn", "https://data.novascotia.ca/d/h8jb-hzrm", "https://data.novascotia.ca/d/fpca-jrmt"],
+        "rules_ref": ["bridges", "fishway-23m", "salmon-2026", "licence-tidal-none", "mackerel-maritimes-2026", "groundfish-maritimes-2026", "striped-bass-maritimes-2026", "smelt-2026", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.7403, 45.5827]
+      },
+      "properties": {
+        "id": "S04",
+        "name": "Little Harbour (L'Ardoise) wharf",
+        "area": "Richmond Atlantic coast",
+        "water_type": "salt",
+        "kind": "DFO small craft harbour",
+        "species": ["atlantic_mackerel", "pollock", "cunner", "striped_bass_maritimes"],
+        "species_text": "Atlantic mackerel, pollock, cunner, striped bass",
+        "best_months": [7, 8, 9, 10],
+        "peak_months": [7, 8, 9],
+        "access": "DFO lists Little Harbour (L'Ardoise) as a core fishing harbour run by the Harbour Authority of Little Harbour, Richmond County. NSTDB maps a wharf beside the harbour point, and Little Harbour Rd (provincial, unpaved) passes about 85 m away. Park where the harbour authority's signs allow, clear of the wharf apron and slipway.",
+        "tip": "Open Atlantic water: in summer jig a small mackerel feather or a half-ounce metal off the end of the wharf for mackerel and pollock. Wharves are busiest in the spring lobster season, so come after it.",
+        "why": "A working fishing harbour on the open Atlantic coast, well off the tourist track. No catch data: pollock, cunner and mackerel are inferred from the exposed harbour habitat.",
+        "caution": "Working harbour: boats, hoists and unloading come first. Harbour authorities can restrict access to small craft harbours, so obey their signs, keep clear of lines and traps, and stay off in heavy swell.",
+        "evidence": "inference",
+        "sources": [
+          "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+          "https://search.open.canada.ca/qpnotes/record/dfo-mpo%2CDFO-2020-00047",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "licence-tidal-none", "mackerel-maritimes-2026", "groundfish-maritimes-2026", "striped-bass-maritimes-2026", "lobster-seasons-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.680152, 45.592301]
+      },
+      "properties": {
+        "id": "S05",
+        "name": "Point Michaud Beach Provincial Park (surf)",
+        "area": "Richmond Atlantic coast",
+        "water_type": "salt",
+        "kind": "surf beach (provincial park)",
+        "species": ["striped_bass_maritimes", "winter_flounder"],
+        "species_text": "striped bass, winter flounder",
+        "best_months": [8, 9, 10, 11],
+        "peak_months": [9, 10],
+        "access": "The park's day-use entrance is on Point Michaud Rd (provincial park entrance data), and the open coast is about 85 m beyond it. The park protects a long sand beach: use the marked paths.",
+        "tip": "Fish the low-light hours on a rising tide and cast a 4-6 inch swimming plug or a bucktail into the troughs. Lifeguards are on duty in summer, so fish early or late and well away from swimmers and surfers.",
+        "why": "A wide-open, uncrowded Atlantic surf beach in a provincial park. Surf-casting for striped bass is inferred from the habitat and the regional run, which a guide reports peaking in October and early November; no site catch reports exist.",
+        "caution": "Stay off the dunes and marram grass and never drive on the sand. Rip currents make the surf dangerous, so don't wade. Point Michaud Nature Reserve is about 1.7 km away and Basque Islands Nature Reserve lies offshore. Expect most bass to be undersized.",
+        "evidence": "inference",
+        "sources": [
+          "https://www.novascotia.com/see-do/outdoor-activities/point-michaud-beach-provincial-park/2213",
+          "https://novascotia.com/listing/point-michaud-beach-provincial-park",
+          "https://www.thefisherman.com/article/nova-scotia-stripers-of-the-northland/",
+          "https://fr.surf-forecast.com/breaks/Michaud-Point",
+          "https://data.novascotia.ca/d/c6mf-qy4u",
+          "https://data.novascotia.ca/d/ticv-5du5",
+          "https://data.novascotia.ca/d/h8jb-hzrm"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "nature-reserves", "licence-tidal-none", "striped-bass-maritimes-2026", "groundfish-maritimes-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.756095, 45.766474]
+      },
+      "properties": {
+        "id": "S06",
+        "name": "Johnstown Harbour shore (Johnstons Harbour Rd)",
+        "area": "Bras d'Or south shore",
+        "water_type": "brackish-tidal",
+        "kind": "roadside shore on the tidal Bras d'Or",
+        "species": ["bras_dor_trout", "atlantic_mackerel", "rainbow_smelt"],
+        "species_text": "rainbow and brown trout (tidal Bras d'Or), Atlantic mackerel, rainbow smelt",
+        "best_months": [4, 5, 6, 7, 8, 9, 10, 11],
+        "peak_months": [5, 6, 10],
+        "access": "Johnstons Harbour Rd (provincial, one-lane gravel) runs along the water's edge of Johnstown Harbour, about 5 m from the shore here. Park well onto the shoulder without blocking the lane, and keep off private wharves and yards. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "Calm, sheltered Bras d'Or water: in late spring and again in fall, cast small spoons or a streamer along the drop-offs in the morning for rainbows; in summer a string of small jigs can find mackerel.",
+        "why": "A quiet harbour road on the Bras d'Or shore, off the main highway. Bras d'Or trout and mackerel are documented lake-wide (DFO lists mackerel among the lake's recreational fisheries), but there is no site data.",
+        "caution": "One-lane gravel road with little room: turn around only in public spaces. Chapel Island (Potlotek) reserve land lies about 5 km away; fishing and parking on reserve land need the band's permission.",
+        "evidence": "inference",
+        "sources": [
+          "https://www.dfo-mpo.gc.ca/oceans/networks-reseaux/scotian-shelf-plateau-neo-ecossais-bay-baie-fundy/bras-or-lake-lac-eng.html",
+          "https://novascotia.ca/fish/documents/special-management-areas-reports/NSTroutManplandraft05.pdf",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-ad9208eb1067"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "bras-dor-trout-2026", "trout-inland-2026", "trout-close-dec-2026", "mackerel-maritimes-2026", "smelt-2026", "sportfish-night", "tidal-sportfish-gear", "licence-inland", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.892211, 45.686015]
+      },
+      "properties": {
+        "id": "S07",
+        "name": "Cranberry Lake (Oban Rd)",
+        "area": "Inland Richmond",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (wild fish)",
+        "species": ["wild_brook_trout", "white_perch"],
+        "species_text": "brook trout (wild), white perch",
+        "best_months": [4, 5, 6, 7, 8],
+        "peak_months": [5, 6],
+        "access": "Oban Rd (provincial, unpaved) passes about 10 m from the shore of Cranberry Lake here; park clear of the travel lane. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "Small, quiet lake: from ice-out through June cast a small spinner or fish a worm under a bobber in the morning for brook trout, then switch to small jigs or worms for white perch on summer evenings.",
+        "why": "A wild, unstocked lake with very few buildings around it. The 1974 provincial survey recorded brook trout and white perch: presence only and 50 years old, so this is a scenic gamble rather than a proven numbers lake.",
+        "caution": "The outlet brook leaves the lake about 15 m from here and passes under the road: fish the lake side of the road, never the brook below the crossing, and fish the open lake rather than stream mouths. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056. Wear hunter orange in the woods in fall.",
+        "evidence": "survey-data",
+        "sources": ["https://data.novascotia.ca/d/jgyj-d4fh", "https://data.novascotia.ca/d/484g-adjn", "https://data.novascotia.ca/d/h8jb-hzrm", "https://data.novascotia.ca/d/fpca-jrmt", "https://data.novascotia.ca/d/xf3i-vxcb"],
+        "rules_ref": ["bridges", "fishway-23m", "trout-inland-2026", "inland-limits-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.918727, 45.67677]
+      },
+      "properties": {
+        "id": "S08",
+        "name": "Long Lake (MacNeil Rd)",
+        "area": "Inland Richmond",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (wild fish)",
+        "species": ["wild_brook_trout", "white_perch"],
+        "species_text": "brook trout (wild), white perch",
+        "best_months": [4, 5, 6, 7, 8],
+        "peak_months": [5, 6],
+        "access": "MacNeil Rd (provincial, seasonal dry-weather gravel) passes about 10 m from the shore of Long Lake here; it can be impassable in spring mud or in winter. Park off the travel lane. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "An 83 ha lake with a long, quiet shoreline: cast small spinners for trout from the road edge in late spring, or fish worms on the bottom for white perch in summer.",
+        "why": "Wild and unstocked. The 1974 survey recorded brook trout, white perch, golden shiner, killifish and a historic legal tiger-trout introduction: old, presence-only evidence, so expect modest numbers.",
+        "caution": "A brook enters about 60 m from here: fish the open lake, not the brook mouth. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056. Wear hunter orange in the woods in fall.",
+        "evidence": "survey-data",
+        "sources": ["https://data.novascotia.ca/d/jgyj-d4fh", "https://data.novascotia.ca/d/484g-adjn", "https://data.novascotia.ca/d/h8jb-hzrm", "https://data.novascotia.ca/d/fpca-jrmt", "https://data.novascotia.ca/d/xf3i-vxcb"],
+        "rules_ref": ["bridges", "fishway-23m", "trout-inland-2026", "inland-limits-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.778049, 45.645567]
+      },
+      "properties": {
+        "id": "S09",
+        "name": "Garrets Lake (Salmon River Rd)",
+        "area": "Inland Richmond",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (wild fish)",
+        "species": ["wild_brook_trout", "white_perch"],
+        "species_text": "brook trout (wild), white perch",
+        "best_months": [4, 5, 6, 7, 8],
+        "peak_months": [5, 6],
+        "access": "Salmon River Rd (provincial, one-lane gravel) passes about 10 m from the shore of Garrets Lake here; park clear of the travel lane. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "For brook trout, fish worms or small spinners in the morning from ice-out through June; in summer small jigs or worms find white perch.",
+        "why": "A wild lake whose 1984 survey recorded brook trout, white perch and gaspereau; whether a gaspereau run still reaches the lake is unknown. Evidence is old and presence-only.",
+        "caution": "A brook enters about 50 m from here: fish the open lake, not the brook mouth. Chapel Island (Potlotek) reserve land is about 3.4 km away; fishing and parking on reserve land need the band's permission. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "survey-data",
+        "sources": [
+          "https://data.novascotia.ca/d/jgyj-d4fh",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb",
+          "https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-ad9208eb1067"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "trout-inland-2026", "inland-limits-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.021667, 45.592594]
+      },
+      "properties": {
+        "id": "S10",
+        "name": "Lennox Passage Provincial Park (Grandique Point)",
+        "area": "Isle Madame",
+        "water_type": "salt",
+        "kind": "provincial park shore",
+        "species": ["striped_bass_maritimes", "atlantic_mackerel", "winter_flounder", "cunner"],
+        "species_text": "striped bass, Atlantic mackerel, winter flounder, cunner",
+        "best_months": [6, 7, 8, 9, 10, 11],
+        "peak_months": [9, 10],
+        "access": "Lennox Passage Provincial Park is on Isle Madame at Grandique Point. This pin is the NS GeoNAMES point for the park, about 75 m from the shore; the day-use entrance (provincial park entrance data) is about 0.8 km south. The shore is reached from inside the park; check the park's rules and season.",
+        "tip": "Fish the last two hours of the falling tide and the first of the flood off the point, when current pushes bait past the rocks: a bucktail or swimming plug for stripers in early fall, small jigs for mackerel in summer.",
+        "why": "A provincial park with public shore on a tidal channel that likely funnels bait past the point. Striped bass use is inferred from the channel habitat; no catch data.",
+        "caution": "Strong tidal currents: fish from shore and never wade or paddle the narrows.",
+        "evidence": "inference",
+        "sources": [
+          "https://parks.novascotia.ca/content/lennox-passage",
+          "https://www.cbisland.com/businesses/lennox-passage-provincial-park",
+          "https://data.novascotia.ca/d/xf3i-vxcb",
+          "https://data.novascotia.ca/d/c6mf-qy4u",
+          "https://data.novascotia.ca/d/h8jb-hzrm"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "licence-tidal-none", "striped-bass-maritimes-2026", "mackerel-maritimes-2026", "groundfish-maritimes-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.0778, 45.51172]
+      },
+      "properties": {
+        "id": "S11",
+        "name": "West Arichat harbour",
+        "area": "Isle Madame",
+        "water_type": "salt",
+        "kind": "DFO small craft harbour",
+        "species": ["atlantic_mackerel", "cunner", "pollock", "winter_flounder", "striped_bass_maritimes"],
+        "species_text": "Atlantic mackerel, cunner, pollock, winter flounder, striped bass",
+        "best_months": [6, 7, 8, 9, 10],
+        "peak_months": [7, 8, 9],
+        "access": "DFO lists West Arichat as a non-core fishing harbour with no harbour authority. Creighton Rd (provincial, paved) passes about 75 m from the harbour point; park off the road.",
+        "tip": "Bottom-fish clam or mussel along the harbour rocks for cunner and flounder in summer, and cast a metal jig for mackerel in the evening.",
+        "why": "A small DFO harbour on Isle Madame's quiet south-west shore, reached by a provincial road. No catch data; species inferred.",
+        "caution": "Structure condition unknown (no harbour authority): stay off damaged sections and wave-washed rocks. Janvrin Island Nature Reserve is about 2.5 km away.",
+        "evidence": "inference",
+        "sources": [
+          "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/ticv-5du5"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "nature-reserves", "licence-tidal-none", "mackerel-maritimes-2026", "groundfish-maritimes-2026", "striped-bass-maritimes-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.019272, 45.52377]
+      },
+      "properties": {
+        "id": "S12",
+        "name": "Pottie Lake (Grandique Rd)",
+        "area": "Isle Madame",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (stocked)",
+        "species": ["stocked_trout", "white_perch"],
+        "species_text": "brook trout (stocked), white perch",
+        "best_months": [5, 6, 7, 8],
+        "peak_months": [5, 6],
+        "access": "On Isle Madame, Grandique Rd (provincial, paved) passes about 10 m from the shore of Pottie Lake here; pull fully off the pavement. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "Fish the first weeks after a spring stocking with small spinners, worms or a bobber-and-fly rig, then switch to white perch in summer.",
+        "why": "NS hatchery records show 1,475 catchable, 55 large and 1,000 yearling brook trout in 2023-2025, and white perch are on the survey record. It was skipped in the drought-reduced 2026 stocking. Grand, Pottie, Shaw and Forrest lakes show identical counts on two dates, so this total may be one load split four ways.",
+        "caution": "The outlet brook leaves the lake about 75 m from here: fish the open lake, not the brook. Busy paved road: wear something bright. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://www.cbc.ca/news/canada/nova-scotia/ns-fish-stocking-program-drought-9.7194053",
+          "https://data.novascotia.ca/d/jgyj-d4fh",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "trout-inland-2026", "inland-limits-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.9604, 45.5058]
+      },
+      "properties": {
+        "id": "S13",
+        "name": "Petit-de-Grat harbour",
+        "area": "Isle Madame",
+        "water_type": "salt",
+        "kind": "DFO small craft harbour",
+        "species": ["atlantic_mackerel", "pollock", "cunner", "winter_flounder", "striped_bass_maritimes"],
+        "species_text": "Atlantic mackerel, pollock, cunner, winter flounder, striped bass",
+        "best_months": [7, 8, 9, 10],
+        "peak_months": [7, 8, 9],
+        "access": "DFO lists Petit-de-Grat as a core fishing harbour run by the Administration Portuaire de Petit de Grat. NSTDB maps wharves and a breakwater here, about 150 m from Hwy 206. Park where the harbour authority allows; if it allows angling, keep to the wharf face away from boats being loaded.",
+        "tip": "Mackerel often run past harbour mouths in late summer: cast a small jig string from the outer wharf in the evening. Wharves are busiest in the spring lobster season, so come after it.",
+        "why": "An old Nova Scotia fishing forum names Petit-de-Grat as a mackerel spot (search-index summary only). It is a DFO harbour on a provincial highway.",
+        "caution": "Never fish from the Petit-de-Grat bridge. Working harbour: boats, hoists and unloading come first. Harbour authorities can restrict access to small craft harbours, so obey their signs, keep clear of lines and traps, and stay off in heavy swell.",
+        "evidence": "reputation",
+        "sources": [
+          "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+          "https://search.open.canada.ca/qpnotes/record/dfo-mpo%2CDFO-2020-00047",
+          "https://www.novascotiafishing.com/threads/cape-breton-mackerel-fishing.4105/",
+          "https://cbisland.com/blog/isle-madame",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "licence-tidal-none", "mackerel-maritimes-2026", "groundfish-maritimes-2026", "striped-bass-maritimes-2026", "lobster-seasons-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.973435, 45.497317]
+      },
+      "properties": {
+        "id": "S14",
+        "name": "Eco-Trail Pond (Cap Auget Eco Trail)",
+        "area": "Isle Madame",
+        "water_type": "fresh-lake",
+        "kind": "trail-in pond (stocked)",
+        "species": ["stocked_trout"],
+        "species_text": "rainbow trout (stocked)",
+        "best_months": [1, 2, 3, 4, 5, 6, 10, 11, 12],
+        "peak_months": [],
+        "access": "NSRN shows Boudreauville Rd continuing past its paved end as an unpaved lane with no recorded owner, ending here, where a track continues toward the pond. The Cap Auget Eco Trail is a community trail listed with parking, a picnic area and washrooms. The stocked pond is about 200 m south-west; provincial Crown land data maps nearly all of the ground between as Crown land (not proof of public access).",
+        "tip": "Bring a light spinning rod with small spinners or a worm; in winter, cut a hole only in safe, clear ice and jig a small spoon near the bottom.",
+        "why": "A stocked trout pond on a quiet coastal trail. Honest caveat: stocking records show rainbows in 2019, 2020 and 2022 (5,100 yearlings) and none since, so it will be thin unless the province restocks it.",
+        "caution": "Ice: stay off clear ice thinner than 10 centimetres (4 inches), treat white ice and any ice over current as unsafe, and stop once the spring thaw starts. Fish the pond, not its outlet brook. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://www.cbc.ca/news/canada/nova-scotia/ns-fish-stocking-program-drought-9.7194053",
+          "https://capebretonconnect.cioc.ca/record/MCR0209?Number=10",
+          "https://www.lifesaving.org/public-education/water-smart-tips2/ice-safety-tips",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/3nka-59nz"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "trout-inland-2026", "extended-season-waters-2026", "trout-close-dec-2026", "sportfish-night", "inland-night", "licence-inland", "licence-free-days", "live-fish-and-bait"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.13978, 45.530247]
+      },
+      "properties": {
+        "id": "S15",
+        "name": "Janvrin Harbour shore (Janvrin Harbour Rd)",
+        "area": "Isle Madame",
+        "water_type": "salt",
+        "kind": "roadside harbour shore",
+        "species": ["striped_bass_maritimes", "atlantic_mackerel", "cunner", "winter_flounder"],
+        "species_text": "striped bass, Atlantic mackerel, cunner, winter flounder",
+        "best_months": [7, 8, 9, 10, 11],
+        "peak_months": [9, 10],
+        "access": "Janvrin Harbour Rd (provincial, paved) passes about 20 m from the shore here, west of West Arichat; NSTDB maps a wharf about 190 m away. Park off the road and use any wharf only if it is not posted closed. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "From September into November fish a swimming plug or a soft plastic off the rocky points on the dropping tide in the morning or evening for stripers; in summer, small jigs for mackerel.",
+        "why": "A quiet harbour shore on a provincial road on the Janvrin Island side of Isle Madame. Species are inferred; no catch data.",
+        "caution": "Janvrin Island Nature Reserve is about 1 km away: do not land on the island. Shore rocks are slippery and can be wave-washed; a lifejacket is wise.",
+        "evidence": "inference",
+        "sources": ["https://data.novascotia.ca/d/484g-adjn", "https://data.novascotia.ca/d/h8jb-hzrm", "https://data.novascotia.ca/d/fpca-jrmt", "https://data.novascotia.ca/d/ticv-5du5"],
+        "rules_ref": ["bridges", "fishway-23m", "nature-reserves", "licence-tidal-none", "striped-bass-maritimes-2026", "mackerel-maritimes-2026", "groundfish-maritimes-2026", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.36372, 45.613333]
+      },
+      "properties": {
+        "id": "S16",
+        "name": "Port Hawkesbury waterfront (Water St)",
+        "area": "Strait of Canso",
+        "water_type": "salt",
+        "kind": "town waterfront",
+        "species": ["atlantic_mackerel", "striped_bass_maritimes", "rainbow_smelt", "cunner"],
+        "species_text": "Atlantic mackerel, striped bass, rainbow smelt, cunner",
+        "best_months": [7, 8, 9, 10, 11],
+        "peak_months": [8, 9, 10, 11],
+        "access": "Water St, a municipal street, runs on the water side of the railway, about 15 m from the shore here (NSRN). Cross the tracks only at a public level crossing and park only where signs allow. NSTDB maps a wharf and a slipway nearby: stay off the commercial wharf, marina docks and slipway.",
+        "tip": "Mackerel: a string of small jigs on an incoming tide at dawn or dusk in summer. Stripers: from late summer into November cast bucktails or plugs into the Strait current, best at first light.",
+        "why": "Forum anglers name the town wharf area as one of the two mackerel spots they know near Cape Breton (search-index summary), and a guide describes the Strait's striped bass fishing picking up in late summer and peaking in October and early November. The busiest spot on this map, with town services.",
+        "caution": "Ships use the Strait. Strong tidal currents: fish from shore and never wade or paddle the narrows. The Point Tupper industrial piers to the south are private. An active railway separates the town from the water: never walk on or along the tracks. Mackerel are in DFO's Critical Zone: keep only what you will eat.",
+        "evidence": "reputation",
+        "sources": [
+          "https://www.novascotiafishing.com/threads/cape-breton-mackerel-fishing.4105/",
+          "https://www.thefisherman.com/article/nova-scotia-stripers-of-the-northland/",
+          "https://www.989xfm.ca/port-hawkesburys-waterfront-development-plan-will-be-released-soon/",
+          "https://www.dfo-mpo.gc.ca/fisheries-peches/decisions/fm-2025-gp/atl-16-eng.html",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "railway-crossing", "licence-tidal-none", "mackerel-maritimes-2026", "striped-bass-maritimes-2026", "groundfish-maritimes-2026", "smelt-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.4352, 45.6482]
+      },
+      "properties": {
+        "id": "S17",
+        "name": "Auld's Cove wharf (Gulf side of the Causeway)",
+        "area": "Strait of Canso",
+        "water_type": "salt",
+        "kind": "DFO small craft harbour",
+        "species": ["atlantic_mackerel", "striped_bass_gulf", "cunner", "winter_flounder"],
+        "species_text": "Atlantic mackerel, striped bass, cunner, winter flounder",
+        "best_months": [7, 8, 9, 10],
+        "peak_months": [7, 8, 9],
+        "access": "DFO lists Aulds Cove as a non-core fishing harbour run by the Harbour Authority of Aulds Cove. NSTDB maps a wharf here, about 130 m from Hwy 104 at the mainland end of the Canso Causeway. Park clear of the plant and wharf traffic.",
+        "tip": "In summer cast jigs for mackerel. Gulf-side striped bass rules differ from the Atlantic side, so check them before keeping any. Wharves are busiest in the spring lobster season, so come after it.",
+        "why": "An old forum post names the area near the snow crab plant at Auld's Cove for mackerel (search-index summary). It is an alternative to the Causeway, which is unsafe to fish from.",
+        "caution": "Never fish from the Canso Causeway, its canal lock or swing bridge (traffic, no shoulder). Working harbour: boats, hoists and unloading come first. Harbour authorities can restrict access to small craft harbours, so obey their signs, keep clear of lines and traps, and stay off in heavy swell. This map asks you to release winter flounder: the southern Gulf stock is in DFO's Critical Zone.",
+        "evidence": "reputation",
+        "sources": [
+          "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+          "https://search.open.canada.ca/qpnotes/record/dfo-mpo%2CDFO-2020-00047",
+          "https://www.novascotiafishing.com/threads/cape-breton-mackerel-fishing.4105/",
+          "https://www.dfo-mpo.gc.ca/fisheries-peches/ifmp-gmp/flounder-limande/winter-flounder-plie-rouge-eng.html",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "licence-tidal-none", "mackerel-gulf-2026", "striped-bass-gulf-2026", "groundfish-gulf-2026", "lobster-seasons-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.5277, 45.6888]
+      },
+      "properties": {
+        "id": "S18",
+        "name": "Havre Boucher harbour",
+        "area": "Gulf shore",
+        "water_type": "salt",
+        "kind": "DFO small craft harbour",
+        "species": ["atlantic_mackerel", "cunner", "winter_flounder", "striped_bass_gulf"],
+        "species_text": "Atlantic mackerel, cunner, winter flounder, striped bass",
+        "best_months": [7, 8, 9, 10],
+        "peak_months": [8, 9],
+        "access": "DFO lists Havre Boucher as a core fishing harbour run by the Harbour Authority of Havre Boucher. NSTDB maps a wharf beside the harbour point, and Havre Boucher Rd (provincial, paved) passes about 20 m away. Park clear of the slipway and the wharf work area.",
+        "tip": "Cast a jig string from the outer wharf for late-summer mackerel; on calm days drop a small baited hook for cunner. Wharves are busiest in the spring lobster season, so come after it.",
+        "why": "A working Gulf-side harbour where the Gulf shore groundfish rules apply (see the rules). No catch data; species inferred.",
+        "caution": "Working harbour: boats, hoists and unloading come first. Harbour authorities can restrict access to small craft harbours, so obey their signs, keep clear of lines and traps, and stay off in heavy swell. This map asks you to release winter flounder: the southern Gulf stock is in DFO's Critical Zone.",
+        "evidence": "inference",
+        "sources": [
+          "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+          "https://search.open.canada.ca/qpnotes/record/dfo-mpo%2CDFO-2020-00047",
+          "https://www.dfo-mpo.gc.ca/fisheries-peches/ifmp-gmp/flounder-limande/winter-flounder-plie-rouge-eng.html",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "licence-tidal-none", "mackerel-gulf-2026", "striped-bass-gulf-2026", "groundfish-gulf-2026", "lobster-seasons-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.5035, 45.858]
+      },
+      "properties": {
+        "id": "S19",
+        "name": "Judique (Baxters Cove) harbour",
+        "area": "Gulf shore",
+        "water_type": "salt",
+        "kind": "DFO small craft harbour",
+        "species": ["atlantic_mackerel", "cunner", "winter_flounder", "striped_bass_gulf"],
+        "species_text": "Atlantic mackerel, cunner, winter flounder, striped bass",
+        "best_months": [7, 8, 9, 10],
+        "peak_months": [8, 9],
+        "access": "DFO lists Judique (Baxters Cove) as a core fishing harbour run by the Harbour Authority of Judique Baxter's. NSTDB maps a wharf and a breakwater here, and Baxters Cove Rd (provincial, one-lane gravel) passes about 30 m away. Park clear of the wharf.",
+        "tip": "Evening mackerel off the breakwater in late summer; check the Gulf striped bass rules before keeping a bass. Wharves are busiest in the spring lobster season, so come after it.",
+        "why": "A small Gulf-side harbour on Cape Breton's west coast, where the Gulf shore groundfish rules apply, off the beaten path. No catch data; species inferred.",
+        "caution": "Working harbour: boats, hoists and unloading come first. Harbour authorities can restrict access to small craft harbours, so obey their signs, keep clear of lines and traps, and stay off in heavy swell. Breakwater rocks are slippery and can be wave-washed; a lifejacket is wise. This map asks you to release winter flounder: the southern Gulf stock is in DFO's Critical Zone.",
+        "evidence": "inference",
+        "sources": [
+          "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+          "https://search.open.canada.ca/qpnotes/record/dfo-mpo%2CDFO-2020-00047",
+          "https://www.dfo-mpo.gc.ca/fisheries-peches/ifmp-gmp/flounder-limande/winter-flounder-plie-rouge-eng.html",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "licence-tidal-none", "mackerel-gulf-2026", "striped-bass-gulf-2026", "groundfish-gulf-2026", "lobster-seasons-2026"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.363498, 45.647723]
+      },
+      "properties": {
+        "id": "S20",
+        "name": "Hector Lake (Kings Rd)",
+        "area": "Port Hawkesbury-Mulgrave lakes",
+        "water_type": "fresh-lake",
+        "kind": "roadside pond (stocked)",
+        "species": ["stocked_trout"],
+        "species_text": "brook trout (stocked)",
+        "best_months": [5, 6],
+        "peak_months": [6],
+        "access": "Kings Rd (provincial, unpaved) passes about 10 m from the shore of Hector Lake here, where a brook leaves the pond under the road. Park off the road. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "Plan for the weeks after the early-June stocking: small spinners or a worm and bobber from shore.",
+        "why": "One of the few waters in this area on the drought-reduced 2026 stocking list (stocked in early June 2026), with 985 catchable, 35 large and 2,257 yearling brook trout in 2023-2025. A small, put-and-take pond.",
+        "caution": "A brook leaves the pond under the road here: fish the pond side of the road, never the brook below the crossing. This pond is close to the Port Hawkesbury protected water area: obey any watershed signs. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://www.cbc.ca/news/canada/nova-scotia/ns-fish-stocking-program-drought-9.7194053",
+          "https://data.novascotia.ca/d/jgyj-d4fh",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "port-hawkesbury-watershed", "trout-inland-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.424809, 45.625436]
+      },
+      "properties": {
+        "id": "S21",
+        "name": "Morrisons Lake (Hwy 344, Mulgrave)",
+        "area": "Port Hawkesbury-Mulgrave lakes",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (stocked derby water)",
+        "species": ["stocked_trout"],
+        "species_text": "brook trout (stocked)",
+        "best_months": [5, 6],
+        "peak_months": [6],
+        "access": "Highway 344 (provincial collector, paved) passes about 15 m from the shore of Morrisons Lake here, just outside Mulgrave. Park well off the highway. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "The Town of Mulgrave holds a derby here in mid-June right after stocking: fish the following week, mid-week, with worms, small spinners or a fly-and-bubble.",
+        "why": "Restocked for the 2026 town derby despite the drought cut, with 1,392 catchable and 200 large brook trout in 2023-2025 and 7,145 brook trout in 2019-2024.",
+        "caution": "Busy highway shoulder. A brook passes under Hwy 344 and enters the lake about 65 m from here: fish the open lake, well away from the culvert. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://www.cbc.ca/news/canada/nova-scotia/ns-fish-stocking-program-drought-9.7194053",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "trout-inland-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.109571, 45.88914]
+      },
+      "properties": {
+        "id": "S22",
+        "name": "Denys Basin shore at Seal Cove (Marble Mountain Rd)",
+        "area": "Bras d'Or (Denys Basin)",
+        "water_type": "brackish-tidal",
+        "kind": "roadside basin shore in a special trout management area",
+        "species": ["sea_run_brook_trout", "bras_dor_trout"],
+        "species_text": "sea-run brook trout, rainbow and brown trout",
+        "best_months": [5, 6, 7, 8],
+        "peak_months": [5, 6],
+        "access": "Marble Mountain Rd (provincial, paved) passes about 10 m from the Seal Cove shore of Denys Basin here, about 85 m from the road bridge. Park on the shoulder. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "Late spring is the time: on a rising tide in the morning, fish a smelt-pattern streamer or a small spoon along the basin edge. Fish are often big but bites are few, so plan a morning, not an hour.",
+        "why": "A well-documented sea-run brook trout fishery: the province tagged 341 sea-run trout here in 2008, and after a 2012 rule change the share of large trout (over 30 centimetres) in anglers' catches rose from 47% to 70% (provincial data 2008-2016). A trophy fishery, not a numbers one.",
+        "caution": "Fish the basin only; see the current salmon closures, and release any salmon at once. Seal Cove Nature Reserve is about 800 m away. Stay well away from the road bridge and never fish from it. MacKenzies Brook enters about 250 m away: fish the basin shore, not the brook mouth.",
+        "evidence": "park-or-agency",
+        "sources": [
+          "https://novascotia.ca/fish/documents/rfac/RFAC_2016_Minutes_RFA_1.pdf",
+          "https://novascotia.ca/fish/documents/rfac/fall2008_4.pdf",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb",
+          "https://data.novascotia.ca/d/ticv-5du5"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "river-denys-stma-2026", "salmon-2026", "nature-reserves", "sportfish-night", "tidal-sportfish-gear", "licence-inland", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.124883, 46.075844]
+      },
+      "properties": {
+        "id": "S23",
+        "name": "Lake Ainslie east shore (Hwy 395)",
+        "area": "Lake Ainslie",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (Crown land walk-in)",
+        "species": ["smallmouth_bass", "white_perch", "stocked_trout", "gaspereau"],
+        "species_text": "smallmouth bass, white perch, brook trout (stocked), gaspereau",
+        "best_months": [5, 6, 7, 8, 9],
+        "peak_months": [7, 8],
+        "access": "Highway 395 (provincial collector, paved) passes about 50 m from the east shore of Lake Ainslie here. Provincial Crown land data maps much of the ground between road and shore as Crown land (not proof of public access). Park well off the highway.",
+        "tip": "Smallmouth bass hit soft-plastic grubs, tubes and small crankbaits along rocky drop-offs in midsummer. Late-spring mornings are better for the stocked brook trout.",
+        "why": "This 5,700 ha lake holds an established smallmouth bass population (provincial catch rates rose from 2003 to 2008, and 2024 eDNA sampling found bass at most sites), plus white perch and yearly brook trout stocking (3,860 catchable and 225 large in 2023-2025). Taking bass out helps the native fish downstream.",
+        "caution": "Release any salmon you hook. Large, windy lake. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://novascotia.ca/fish/documents/rfac/fall2008_6.pdf",
+          "https://www.margareesalmon.ca/wp-content/uploads/MSA_Newsletter_Summer-2025.pdf",
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://data.novascotia.ca/d/jgyj-d4fh",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/3nka-59nz"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "smallmouth-bass-retention", "salmon-2026", "wilderness-areas", "trout-inland-2026", "inland-limits-2026", "gaspereau-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-60.96244, 46.276205]
+      },
+      "properties": {
+        "id": "S24",
+        "name": "Lake O'Law Provincial Park",
+        "area": "Margaree valley",
+        "water_type": "fresh-lake",
+        "kind": "provincial park lake (stocked)",
+        "species": ["stocked_trout"],
+        "species_text": "brook trout (stocked)",
+        "best_months": [5, 6],
+        "peak_months": [6],
+        "access": "Lake O'Law Provincial Park is a day-use park on the Cabot Trail; its entrance (provincial park entrance data) is about 60 m from First Lake O'Law. The lake shore is reached from the day-use area; check the park's rules and season.",
+        "tip": "Fish small spinners or worms for the stocked brook trout in June from the park shore of First Lake O'Law, in the morning or the early evening.",
+        "why": "Stocked every year 2019-2025 (3,502 catchable and 290 large across the O'Law lakes in 2023-2025) and again in June 2026, in a provincial day-use park.",
+        "caution": "Fish the lake only, never the brooks, and release any salmon, parr or small trout you cannot identify ('If you don't know, let it go'). A mapped brook is about 100 m from here: fish the open lake, not brook mouths. Middle River Wilderness Area is about 300 m away. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://cbisland.com/things-to-do/coastal-adventure/fishing",
+          "https://data.novascotia.ca/d/c6mf-qy4u",
+          "https://data.novascotia.ca/d/xf3i-vxcb",
+          "https://data.novascotia.ca/d/ticv-5du5",
+          "https://data.novascotia.ca/d/h8jb-hzrm"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "salmon-2026", "wilderness-areas", "trout-inland-2026", "sportfish-night", "inland-night", "inland-closed-without-sportfish-season", "licence-inland", "licence-free-days", "live-fish-and-bait"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.974003, 45.528398]
+      },
+      "properties": {
+        "id": "S25",
+        "name": "Gillis and Cameron lakes (Pinevale Rd)",
+        "area": "Antigonish-Guysborough lakes",
+        "water_type": "fresh-lake",
+        "kind": "roadside lakes (stocked, winter fishery)",
+        "species": ["stocked_trout", "yellow_perch", "white_perch"],
+        "species_text": "rainbow trout (stocked), brook trout (stocked), yellow perch, white perch",
+        "best_months": [1, 2, 3, 4, 5, 6, 10, 11, 12],
+        "peak_months": [5, 6, 10],
+        "access": "Pinevale Rd (provincial, one-lane gravel) passes about 10 m from the shore of Gillis Lake here; Cameron Lake lies about 1.6 km south. Park without blocking the road. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "After a fall 'Winter Fishery' rainbow stocking, fish small spoons or dough bait from shore in late fall, then through safe ice in winter; yellow perch take small jigs and worms whenever the lake is open.",
+        "why": "Among the biggest catchable loads in the region: the records list up to 7,270 catchable and 400 large trout for Gillis and up to 6,254 and 425 for Cameron in 2023-2025, including 2,000 'Winter Fishery' rainbows each in September 2025. Nine Gillis and Cameron rows are identical in date, count and length, so do not add the two lakes together. No rainbows were raised in 2026.",
+        "caution": "Ice: stay off clear ice thinner than 10 centimetres (4 inches), treat white ice and any ice over current as unsafe, and stop once the spring thaw starts. Narrow gravel road: park without blocking it. Busy after stocking and on derby days. South River Nature Reserve is about 3.5 km away. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://www.cbc.ca/news/canada/nova-scotia/ns-fish-stocking-program-drought-9.7194053",
+          "https://data.novascotia.ca/d/jgyj-d4fh",
+          "https://www.lifesaving.org/public-education/water-smart-tips2/ice-safety-tips",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb",
+          "https://data.novascotia.ca/d/ticv-5du5"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "nature-reserves", "trout-inland-2026", "extended-season-waters-2026", "trout-close-dec-2026", "perch-rfa2-2026", "inland-limits-2026", "sportfish-night", "inland-night", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-62.029239, 45.475903]
+      },
+      "properties": {
+        "id": "S26",
+        "name": "Stewart Lake (Ohio Lake Rd)",
+        "area": "Antigonish-Guysborough lakes",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (trophy trout, stocked)",
+        "species": ["stocked_trout"],
+        "species_text": "brook trout (large, stocked)",
+        "best_months": [1, 2, 3, 4, 5, 6, 10, 11, 12],
+        "peak_months": [5, 6],
+        "access": "Ohio Lake Rd (provincial, one-lane gravel) passes about 5 m from the shore of Stewart Lake here, south of Antigonish; park on the shoulder. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "A quality-over-quantity lake: the stocked fish are big, so use 6-8 lb line, fish slowly with streamers, spoons or a single worm, and bring a net.",
+        "why": "Stocked with 685 large brook trout plus 1,904 yearlings in 2023-2025 and restocked in spring 2026; the lake's trophy rules keep big fish in it. A quiet gravel road with few buildings.",
+        "caution": "Ice: stay off clear ice thinner than 10 centimetres (4 inches), treat white ice and any ice over current as unsafe, and stop once the spring thaw starts. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://www.lifesaving.org/public-education/water-smart-tips2/ice-safety-tips",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "extended-season-waters-2026", "trout-close-dec-2026", "trout-inland-2026", "sportfish-night", "inland-night", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.939867, 45.38188]
+      },
+      "properties": {
+        "id": "S27",
+        "name": "Pringle Lake (Old Country Harbour Rd)",
+        "area": "Antigonish-Guysborough lakes",
+        "water_type": "fresh-lake",
+        "kind": "roadside lake (trout and perch)",
+        "species": ["yellow_perch", "stocked_trout", "white_perch"],
+        "species_text": "yellow perch, brook trout (stocked), white perch",
+        "best_months": [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12],
+        "peak_months": [5, 6],
+        "access": "Old Country Harbour Rd (provincial, paved) passes about 10 m from the shore of Pringle Lake here, near Hwy 316; park well off the pavement. A public road is not permission to fish from, cross or park on the land beside it; ask the owner first and never cross posted, fenced or cultivated land.",
+        "tip": "Yellow perch are the reliable fish: small jigs or worms near weed edges in summer and through safe ice in winter. Trout are best in the weeks after the late-spring stocking.",
+        "why": "An extended-season water for trout and perch (see the rules), stocked in May 2026 (110 large and 3,106 yearling brook trout in 2023-2025); the provincial survey recorded yellow and white perch, lake whitefish and brook trout. Yellow perch occur only on the mainland side of this region.",
+        "caution": "Ice: stay off clear ice thinner than 10 centimetres (4 inches), treat white ice and any ice over current as unsafe, and stop once the spring thaw starts. Never move live fish or empty a bait bucket into the water; report new invasive fish to the province at 902-485-5056.",
+        "evidence": "stocking-data",
+        "sources": [
+          "https://data.novascotia.ca/d/8e4a-m6fw",
+          "https://novascotia.ca/fish/sportfishing/hatchery-stocking/stocking-update/",
+          "https://data.novascotia.ca/d/jgyj-d4fh",
+          "https://www.lifesaving.org/public-education/water-smart-tips2/ice-safety-tips",
+          "https://data.novascotia.ca/d/484g-adjn",
+          "https://data.novascotia.ca/d/h8jb-hzrm",
+          "https://data.novascotia.ca/d/fpca-jrmt",
+          "https://data.novascotia.ca/d/xf3i-vxcb"
+        ],
+        "rules_ref": ["bridges", "fishway-23m", "extended-season-waters-2026", "trout-close-dec-2026", "perch-rfa2-2026", "inland-limits-2026", "trout-inland-2026", "sportfish-night", "inland-night", "licence-inland", "licence-free-days", "live-fish-and-bait", "angling-act-banks"]
+      }
+    }
+  ]
+}

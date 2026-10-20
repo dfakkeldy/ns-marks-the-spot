@@ -5,13 +5,21 @@ import type { ArcGISExportOptions } from "./layerCatalog";
 export interface ContextLayerDescriptor {
   id: string;
   name: string;
-  category: "rhodena-project" | "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
+  category: "rhodena-project" | "point-tupper-site" | "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
   serviceUrl: string;
   openData?: OpenDataSource;
   tileUrl?: string;
+  /** A configured pilot can retain its catalogue row before public tiles exist. */
+  unavailableReason?: string;
   sourceUrl: string;
   licenceUrl: string;
   licence: "public-facts" | "province-open" | "province-restricted" | "province-unrestricted" | "cc-by" | "canada-open" | "halifax-open";
+  /**
+   * A layer this project compiled itself (its `sourceUrl` is the project's own
+   * receipt, not a publisher record). Its source links read "Project source",
+   * never "Official source".
+   */
+  provenance?: "project-derived";
   attribution?: string;
   sourceDate: string;
   scale: string;

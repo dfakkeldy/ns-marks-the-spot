@@ -50,6 +50,10 @@ struct UserVectorRowsView: View {
                     onEdit: onEdit.map { edit in { edit(row) } },
                     onExport: row.parsed.map { parsed in
                         { format in
+                            if VectorExport.hasTracedFeatures(parsed) {
+                                viewModel.reportExportShortfall(layerName: row.record.name, message: VectorExport.ReproductionRefusal().localizedDescription)
+                                return
+                            }
                             switch format {
                             case .original:
                                 Task {
@@ -257,6 +261,7 @@ struct UserVectorRowsView: View {
     static func payload(
         _ record: UserVectorLayerRecord, _ parsed: ParsedVector, _ format: ExportFormat
     ) -> SharePayload? {
+        guard !VectorExport.hasTracedFeatures(parsed) else { return nil }
         let safe = record.name
             .components(separatedBy: CharacterSet.alphanumerics.inverted)
             .filter { !$0.isEmpty }
@@ -269,8 +274,9 @@ struct UserVectorRowsView: View {
             else { return nil }
             return SharePayload(text: text, filename: filename)
         case .kml:
+            guard let text = try? VectorExport.kml(layerName: record.name, parsed: parsed) else { return nil }
             return SharePayload(
-                text: VectorExport.kml(layerName: record.name, parsed: parsed),
+                text: text,
                 filename: filename
             )
         case .kmz, .original:
@@ -294,6 +300,7 @@ struct UserVectorRowsView: View {
     private func kmzPayload(
         _ row: UserVectorsViewModel.Row, _ parsed: ParsedVector
     ) async -> SharePayload? {
+        guard !VectorExport.hasTracedFeatures(parsed) else { return nil }
         var photoBytes: [String: Data] = [:]
         for feature in parsed.features {
             for descriptor in PhotoDescriptor.read(from: feature.properties)
@@ -342,6 +349,7 @@ struct UserVectorRowsView: View {
     /// recorded layer's original came from no file, so it goes out under the
     /// layer's name with the extension it actually is: raw GPX.
     private func originalPayload(_ row: UserVectorsViewModel.Row) async -> SharePayload? {
+        guard let parsed = row.parsed, !VectorExport.hasTracedFeatures(parsed) else { return nil }
         let filename: String
         switch row.record.origin {
         case .imported(let imported, _):
@@ -356,6 +364,16 @@ struct UserVectorRowsView: View {
             return nil
         }
         guard let data = await viewModel.originalFile(for: row.id) else { return nil }
+        let refusal = await Task.detached { () -> String? in
+            do {
+                try VectorExport.requireOriginalReproduction(data, filename: filename)
+                return nil
+            } catch { return error.localizedDescription }
+        }.value
+        if let refusal {
+            viewModel.reportExportShortfall(layerName: row.record.name, message: refusal)
+            return nil
+        }
         let url = FileManager.default.temporaryDirectory.appending(path: filename)
         guard (try? data.write(to: url, options: .atomic)) != nil else { return nil }
         return SharePayload(url: url)

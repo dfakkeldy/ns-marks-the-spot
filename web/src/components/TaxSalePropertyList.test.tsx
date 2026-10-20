@@ -38,6 +38,8 @@ describe("TaxSalePropertyList", () => {
       .toBeVisible();
     await user.click(screen.getByRole("button", { name: /16 Centre Street/i }));
 
+    expect(screen.getByText("Browse properties").closest("summary")).toHaveFocus();
+
     rerender(
       <TaxSalePropertyList
         eventId="cbrm-2026-07-21"

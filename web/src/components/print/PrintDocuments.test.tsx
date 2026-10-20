@@ -83,7 +83,7 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
   ["contours", "Contours", "NSTDB updated May 5, 2026 · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
   ["mineral-occurrences", "Mineral occurrences", "June 2024 · version 12", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["mineral-tenure", "Mineral tenure", "Live NovaROC · checked July 20, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
-  ["abandoned-mines", "Abandoned mine openings", "2024 · version 9", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
+  ["abandoned-mines", "Abandoned mine openings", "Version 9 · extract June 11, 2024", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["mineral-proximity-parcels", "Properties within 1 km of a mineral occurrence", "Mineral occurrences June 2024 · NSPRD live", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
   ["inverness-hydro-potential", "Inverness micro-hydro screen", "Watersheds 2021 · NSHN retrieved July 21, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["old-growth-policy", "Old-growth policy areas", "Policy layer as of October 24, 2025 · updated October 27, 2025", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],

@@ -1,6 +1,7 @@
+import { fishingLayers } from '../layers/fishingLayers';
 import type { LayerCategoryId } from '../layers/layerCategories';
 import type { ShareLayerId } from '../services/mapShareState';
-import { contextLayerCatalog } from '../layers/contextLayerCatalog';
+import { contextLayerIdsInCategories, focusOffersLayer } from '../focus/focusDefinition';
 
 /**
  * The /rhodena page is the research map with a shorter panel: the project
@@ -56,11 +57,17 @@ export const rhodenaFocusLayerIds: ReadonlySet<ShareLayerId> = new Set<ShareLaye
   'uranium-risk-wells',
   'manganese-risk-wells',
   'surficial-aquifers',
-  ...contextLayerCatalog
-    .filter(({ category }) => rhodenaFocusCategoryIds.some(id => id === category))
-    .map(({ id }) => id),
+  // Every context layer in the page's categories, including later additions.
+  ...contextLayerIdsInCategories(rhodenaFocusCategoryIds),
 ]);
 
+/**
+ * Swept in with Water & Terrain, but denied: the fishing layers belong to
+ * /fishing and stay off the published Rhodena panel (decided 2026-10-13).
+ */
+export const rhodenaFocusDeniedLayerIds: ReadonlySet<ShareLayerId> = new Set<ShareLayerId>(fishingLayers.map(({ id }) => id));
+
+/** Whether /rhodena offers a layer: in its allow list and not denied. */
 export function inRhodenaFocus(id: string): boolean {
-  return rhodenaFocusLayerIds.has(id as ShareLayerId);
+  return focusOffersLayer({ allowLayerIds: rhodenaFocusLayerIds, denyLayerIds: rhodenaFocusDeniedLayerIds }, id);
 }

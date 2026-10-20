@@ -59,6 +59,19 @@ describe("ErrorBoundary", () => {
     expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
+  it.each([null, undefined, "unexpected tile failure"])("recovers when a child throws %s instead of an Error", (value) => {
+    function ThrowValue(): never {
+      throw value;
+    }
+    render(<ErrorBoundary><ThrowValue /></ErrorBoundary>);
+
+    expect(screen.getByRole("alert")).toHaveTextContent("The map stopped responding");
+    expect(screen.getByRole("button", { name: "Reload the map" })).toBeEnabled();
+    if (typeof value === "string") {
+      expect(screen.getByRole("alert")).toHaveTextContent(value);
+    }
+  });
+
   it("offers a reload as the recovery path", async () => {
     const user = userEvent.setup();
     const reload = vi.fn();

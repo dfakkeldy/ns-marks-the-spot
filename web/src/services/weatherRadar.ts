@@ -31,7 +31,7 @@ export function parseLatestRadarTime(capabilitiesXml: string): string | null {
   if (doc.getElementsByTagName("parsererror").length > 0) {
     return null;
   }
-  for (const dimension of Array.from(doc.getElementsByTagName("Dimension"))) {
+  for (const dimension of Array.from(doc.getElementsByTagNameNS("*", "Dimension"))) {
     if (dimension.getAttribute("name") !== "time") {
       continue;
     }

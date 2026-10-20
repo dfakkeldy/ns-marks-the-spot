@@ -1,0 +1,40 @@
+{
+  "platform_excludes": {
+    "ios": []
+  },
+  "controller_overlays": [],
+  "build_env": [
+    "PROJECT",
+    "SCHEME",
+    "DERIVED_DATA_PATH"
+  ],
+  "test_inputs": [
+    "ns-marks-the-spot/Map.swift",
+    "SharedData/map.json",
+    "ns-marks-the-spot.xcodeproj/project.pbxproj",
+    "NSMarksCore/Package.swift",
+    "Config/NSMarksTheSpot-Info.plist",
+    "NSMarksLiveActivity/Activity.swift"
+  ],
+  "schema": 1,
+  "exclude_roots": [
+    ".github",
+    ".agents",
+    ".codex",
+    ".claude",
+    ".clinerules",
+    ".superpowers",
+    "docs",
+    "web",
+    "marketing",
+    "output",
+    "reports",
+    "scratch",
+    "iTerm2"
+  ],
+  "exclude_files": [
+    "Makefile",
+    ".swift-format",
+    "skills-lock.json"
+  ]
+}

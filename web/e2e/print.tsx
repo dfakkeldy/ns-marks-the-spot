@@ -4,18 +4,20 @@ import type { PrintCapture } from "../src/services/printSnapshot";
 import "leaflet/dist/leaflet.css";
 import "../src/styles.css";
 
-// Synthetic parcel and unavailable evidence; the preview, map, templates and
-// stylesheet are the production components. No live property lookup is used.
+// OSM-only layout capture using the production preview, map and stylesheet.
+// The retained-property variant verifies the real reproduction refusal.
+// No live property lookup is used and no permission guard is mocked.
+const retainsProperty = new URLSearchParams(window.location.search).has("retained-property");
 const unavailable = { status: "not-asked", message: "Not requested in this layout fixture." } as const;
 const capture: PrintCapture = {
   token: "layout-fixture", capturedAt: "2026-09-05T12:00:00Z",
-  pid: "01234567", evidenceRequest: { pid: "01234567", generation: 1 },
+  pid: "", evidenceRequest: { pid: "", generation: 1 },
   taxSaleEnabled: false, mode: "current", eventIds: [], events: [],
   selectedParcelGeometry: {
     type: "FeatureCollection",
-    features: [{ type: "Feature", properties: { PID: "01234567" }, geometry: {
+    features: retainsProperty ? [{ type: "Feature", properties: { PID: "01234567" }, geometry: {
       type: "Polygon", coordinates: [[[-61.201, 46.3], [-61.2, 46.3], [-61.2, 46.301], [-61.201, 46.3]]],
-    } }],
+    } }] : [],
   },
   mapParcels: { type: "FeatureCollection", features: [] },
   taxSalePids: [], historicalTaxSalePids: [],

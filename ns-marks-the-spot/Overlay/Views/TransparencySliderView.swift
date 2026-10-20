@@ -676,7 +676,7 @@ private struct LayerRowView: View {
         if !row.isAvailable {
             switch row.descriptor.availability {
             case .rightsPending:
-                return "Rights pending · not yet displayed"
+                return LayerUse.queryLockReason(for: row.descriptor) ?? "Rights pending · not yet displayed"
             case .hostingPending:
                 // Not "in this build": nothing hosts these anywhere. The
                 // Fletcher case below is the one where a build has no address

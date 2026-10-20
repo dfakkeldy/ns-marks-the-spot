@@ -996,11 +996,11 @@ App N2, present:
   permissionless out-of-process, plus `CameraPicker` wrapping
   `UIImagePickerController`). Info.plist keys in both pbxproj config
   blocks: `INFOPLIST_KEY_NSCameraUsageDescription` ("Takes photos to attach
-  to your own map features. Photos stay on this device.") and
-  `INFOPLIST_KEY_NSPhotoLibraryUsageDescription` ("Shows the locations stored
-  with your photos by indexing them on this device, and attaches photos you
-  choose to your own map features. Attached photos and their locations leave
-  this device only when you export or share a layer yourself.").
+  to your map features.") and
+  `INFOPLIST_KEY_NSPhotoLibraryUsageDescription` ("Shows accessible geotagged
+  library photos on your map. Viewing a photo's area can send map and layer
+  requests to selected providers.") — both as set by #608. The earlier
+  stay-on-device Camera/Photos strings are superseded.
   `GENERATE_INFOPLIST_FILE` merges
   [`Config/NSMarksTheSpot-Info.plist`](../Config/NSMarksTheSpot-Info.plist),
   which sets `PHPhotoLibraryPreventAutomaticLimitedAccessAlert` because the

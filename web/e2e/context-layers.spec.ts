@@ -50,7 +50,9 @@ for (const width of [390, 1440]) {
     } }));
     await page.goto("/?taxSale=off&layers=sentinel-2,crown-lands&position=46.2,-60.5,14");
     await expect(page.getByRole("dialog", { name: "Province data licence" })).toHaveCount(0);
-    await expect(page.locator(".map-layer-crown-lands")).toBeVisible();
+    // OpenDataLayer retains the previous raster while its replacement loads.
+    // Both represent the selected layer; this check asks whether it is drawn.
+    await expect(page.locator(".map-layer-crown-lands").first()).toBeVisible();
     await expect(page.locator(".map-layer-sentinel-2 img").first()).toBeVisible();
     await expect(page.locator(".leaflet-control-attribution")).toContainText("CC BY 4.0");
     await expect(page.locator(".leaflet-control-attribution")).toContainText("EOX IT Services GmbH");

@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "checked": "2026-10-12",
+  "retrieved": "2026-10-13",
+  "notice": "Receipt for the curated fishing files. Hashes pin the committed bytes; edit a file deliberately, then refresh with node scripts/checkFishing.mjs --write-hashes.",
+  "licence": {
+    "projectText": "CC BY 4.0",
+    "data": [
+      "OGL-NS",
+      "OGL-Canada"
+    ],
+    "file": "LICENCE.txt"
+  },
+  "files": {
+    "spots.geojson": {
+      "sha256": "2835243d4cf677d6bb555a824ecb9f93038308657adf12b22a80a4c90b047ed7",
+      "bytes": 63422
+    },
+    "rules.json": {
+      "sha256": "b15ae705c7e63d5b1b2aec64567f4af41cf22ad3d60747167140ac17209ec761",
+      "bytes": 30801
+    },
+    "calendar.json": {
+      "sha256": "53892906192e1e878b098d61d9cf92d2d7521d84eb85f7f8e3f67aa5e373dc68",
+      "bytes": 6515
+    },
+    "LICENCE.txt": {
+      "sha256": "8aca78b24213b393d2a779ab56f001ce24a23cdbfb04e1fbac823d4c5910c4fd",
+      "bytes": 2719
+    }
+  },
+  "spots": {
+    "file": "spots.geojson",
+    "features": 27,
+    "coverageBounds": {
+      "west": -62.2,
+      "south": 45.3,
+      "east": -60.5,
+      "north": 46.4
+    },
+    "curation": "Curated by hand. Each spot keeps only the allowlisted fields below, and every free-text field is the project's own wording. spots.geojson and this receipt are the source of truth and are refreshed by hand.",
+    "allowlist": [
+      "id",
+      "name",
+      "area",
+      "water_type",
+      "kind",
+      "species",
+      "species_text",
+      "best_months",
+      "peak_months",
+      "access",
+      "tip",
+      "why",
+      "caution",
+      "evidence",
+      "sources",
+      "rules_ref"
+    ],
+    "pinPolicy": "Every pin and every location fact comes from the open datasets below. No pin, name, parking, boardwalk, trailhead or structure fact comes from OpenStreetMap, and no openstreetmap.org URL is cited. Months are fish biology and reported quality, not seasons; rule facts live in rules.json and are referenced by rules_ref.",
+    "openDatasets": [
+      {
+        "id": "484g-adjn",
+        "name": "Nova Scotia Road Network (NSRN)",
+        "url": "https://data.novascotia.ca/d/484g-adjn",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2026-10-05",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "road-edge pins (point on the named segment), road names, owners and surface classes, the S14 lane end, railway position at S16"
+      },
+      {
+        "id": "h8jb-hzrm",
+        "name": "Nova Scotia Topographic DataBase - Water Features (Poly Layer)",
+        "url": "https://data.novascotia.ca/d/h8jb-hzrm",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2026-05-05",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "shore distances (lake, coast and coast-river water polygons), wharf and breakwater presence"
+      },
+      {
+        "id": "fpca-jrmt",
+        "name": "Nova Scotia Topographic DataBase - Water Features (Line Layer)",
+        "url": "https://data.novascotia.ca/d/fpca-jrmt",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2026-05-05",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "stream, outlet and brook-mouth distances; canal and lock-gate lines at S01"
+      },
+      {
+        "id": "xf3i-vxcb",
+        "name": "Nova Scotia GeoNAMES",
+        "url": "https://data.novascotia.ca/d/xf3i-vxcb",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2026-08-05",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "the S10 pin (cgndb_key CBUJA) and water, cove and place names"
+      },
+      {
+        "id": "c6mf-qy4u",
+        "name": "Provincial Day-use and Camping Park Entrances",
+        "url": "https://data.novascotia.ca/d/c6mf-qy4u",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2026-05-05",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "S05 and S24 pins (park entrance points) and the S10 entrance distance"
+      },
+      {
+        "id": "3nka-59nz",
+        "name": "Crown Land",
+        "url": "https://data.novascotia.ca/d/3nka-59nz",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2026-10-05",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "Crown-land statements at S14 and S23 (straight-line share; not proof of public access)"
+      },
+      {
+        "id": "ticv-5du5",
+        "name": "The Nova Scotia Protected Areas System",
+        "url": "https://data.novascotia.ca/d/ticv-5du5",
+        "licence": "OGL-NS",
+        "rowsUpdated": "2024-04-03",
+        "query": "SODA intersects(the_geom, box about 700 m around each spot) on /resource/{id}.geojson",
+        "usedFor": "nature reserve and wilderness area distances"
+      },
+      {
+        "id": "262451e7-6416-47b5-8453-f31d212ea657",
+        "name": "DFO Small Craft Harbours Locations and Information",
+        "url": "https://open.canada.ca/data/en/dataset/262451e7-6416-47b5-8453-f31d212ea657",
+        "licence": "OGL-Canada",
+        "rowsUpdated": "2026-03-24",
+        "query": "small_craft_harbours_en MapServer layers 0 and 1 (listed resources of the catalogue record), where Province='NS', f=geojson",
+        "usedFor": "harbour pins (Harbour_number), harbour type and manager for S04, S11, S13, S17, S18, S19"
+      },
+      {
+        "id": "522b07b9-78e2-4819-b736-ad9208eb1067",
+        "name": "Aboriginal Lands of Canada Legislative Boundaries (NRCan CLSS)",
+        "url": "https://open.canada.ca/data/en/dataset/522b07b9-78e2-4819-b736-ad9208eb1067",
+        "licence": "OGL-Canada",
+        "rowsUpdated": "2024-02-15",
+        "query": "CLSS_Administrative_Boundaries MapServer layer 0 (a listed resource of the catalogue record), envelope -62.2,45.2,-60.4,46.4, f=geojson",
+        "usedFor": "reserve-land screen: no pin inside a reserve polygon; distances quoted at S06 and S09"
+      }
+    ],
+    "pinBasis": [
+      {
+        "id": "S01",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 96459",
+        "method": "point on Toulouse St (Municipal; ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 11,
+        "nearestReserveM": 8377
+      },
+      {
+        "id": "S02",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 1405864",
+        "method": "point on Pepperell St (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 9,
+        "nearestReserveM": 8455
+      },
+      {
+        "id": "S03",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 67979",
+        "method": "point on North Side River Bourgeois Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 10,
+        "nearestReserveM": 15713
+      },
+      {
+        "id": "S04",
+        "dataset": "dfo-small-craft-harbours",
+        "feature": "Harbour_number 1158",
+        "method": "harbour point: Little Harbour (L'Ardoise) (Core Fishing; Harbour Authority of Little Harbour, Richmond County)",
+        "waterDistanceM": 26,
+        "nearestReserveM": 10372,
+        "note": "NSTDB maps no breakwater here, so the spot is described as a wharf."
+      },
+      {
+        "id": "S05",
+        "dataset": "c6mf-qy4u",
+        "feature": "Point Michaud Beach Provincial Park",
+        "method": "provincial park entrance point (Day Use)",
+        "waterDistanceM": 83,
+        "nearestReserveM": 10956,
+        "protectedWithin5km": [
+          {
+            "name": "Point Michaud Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 1674
+          },
+          {
+            "name": "Basque Islands Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 2670
+          }
+        ]
+      },
+      {
+        "id": "S06",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 909807",
+        "method": "point on Johnstons Harbour Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 1 Lane - Unpaved)",
+        "waterDistanceM": 5,
+        "nearestReserveM": 5035
+      },
+      {
+        "id": "S07",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 999715",
+        "method": "point on Oban Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Unpaved)",
+        "waterDistanceM": 12,
+        "nearestMappedStreamM": 16,
+        "nearestReserveM": 8496
+      },
+      {
+        "id": "S08",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 903750",
+        "method": "point on MacNeil Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - Dry Weather - 1 Lane - Unpaved)",
+        "waterDistanceM": 9,
+        "nearestMappedStreamM": 58,
+        "nearestReserveM": 10798
+      },
+      {
+        "id": "S09",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 1034170",
+        "method": "point on Salmon River Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 1 Lane - Unpaved)",
+        "waterDistanceM": 11,
+        "nearestMappedStreamM": 52,
+        "nearestReserveM": 3435
+      },
+      {
+        "id": "S10",
+        "dataset": "xf3i-vxcb",
+        "feature": "cgndb_key CBUJA",
+        "method": "GeoNAMES point: Lennox Passage Provincial Park",
+        "waterDistanceM": 77,
+        "nearestReserveM": 21944,
+        "note": "The park's day-use entrance (c6mf-qy4u) is about 0.8 km south of this point."
+      },
+      {
+        "id": "S11",
+        "dataset": "dfo-small-craft-harbours",
+        "feature": "Harbour_number 1339",
+        "method": "harbour point: West Arichat (Non-Core Fishing; No harbour authority)",
+        "waterDistanceM": 10,
+        "nearestReserveM": 30492,
+        "protectedWithin5km": [
+          {
+            "name": "Janvrin Island Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 2500
+          }
+        ],
+        "note": "NSTDB maps no breakwater here, so the spot is described as a harbour."
+      },
+      {
+        "id": "S12",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 67950",
+        "method": "point on Grandique Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 12,
+        "nearestMappedStreamM": 77,
+        "nearestReserveM": 26075
+      },
+      {
+        "id": "S13",
+        "dataset": "dfo-small-craft-harbours",
+        "feature": "Harbour_number 1408",
+        "method": "harbour point: Petit-de-Grat (Core Fishing; Administration Portuaire de Petit de Grat)",
+        "waterDistanceM": 30,
+        "nearestReserveM": 24269
+      },
+      {
+        "id": "S14",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 998169",
+        "method": "end vertex of the unpaved lane (no recorded owner) past the end of Boudreauville Rd",
+        "waterDistanceM": 202,
+        "nearestMappedStreamM": 91,
+        "nearestReserveM": 25645,
+        "crownShareOfStraightLineToWater": 0.97
+      },
+      {
+        "id": "S15",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 94569",
+        "method": "point on Janvrin Harbour Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 20,
+        "nearestReserveM": 33437,
+        "protectedWithin5km": [
+          {
+            "name": "Janvrin Island Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 945
+          }
+        ],
+        "note": "NSTDB maps no breakwater here, so the spot is described as a harbour shore."
+      },
+      {
+        "id": "S16",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 54763",
+        "method": "point on Water St (Municipal; ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 14,
+        "nearestReserveM": 27140
+      },
+      {
+        "id": "S17",
+        "dataset": "dfo-small-craft-harbours",
+        "feature": "Harbour_number 1010",
+        "method": "harbour point: Aulds Cove (Non-Core Fishing; Harbour Authority of Aulds Cove)",
+        "waterDistanceM": 17,
+        "nearestReserveM": 22178
+      },
+      {
+        "id": "S18",
+        "dataset": "dfo-small-craft-harbours",
+        "feature": "Harbour_number 1124",
+        "method": "harbour point: Havre Boucher (Core Fishing; Harbour Authority of Havre Boucher)",
+        "waterDistanceM": 21,
+        "nearestReserveM": 17383
+      },
+      {
+        "id": "S19",
+        "dataset": "dfo-small-craft-harbours",
+        "feature": "Harbour_number 1139",
+        "method": "harbour point: Judique (Baxters Cove) (Core Fishing; Harbour Authority of Judique Baxter's)",
+        "waterDistanceM": 25,
+        "nearestReserveM": 28593
+      },
+      {
+        "id": "S20",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 93262",
+        "method": "point on Kings Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Unpaved)",
+        "waterDistanceM": 8,
+        "nearestMappedStreamM": 5,
+        "nearestReserveM": 27611
+      },
+      {
+        "id": "S21",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 1030281",
+        "method": "point on Highway 344 (TIR (Transportation and Infrastructure Renewal); ROAD - Collector - 2 Lanes - Paved)",
+        "waterDistanceM": 14,
+        "nearestMappedStreamM": 65,
+        "nearestReserveM": 22519
+      },
+      {
+        "id": "S22",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 962263",
+        "method": "point on Marble Mountain Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 10,
+        "nearestReserveM": 6504,
+        "protectedWithin5km": [
+          {
+            "name": "Seal Cove Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 787
+          },
+          {
+            "name": "MacDonalds Pond Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 4899
+          }
+        ]
+      },
+      {
+        "id": "S23",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 1441218",
+        "method": "point on Highway 395 (TIR (Transportation and Infrastructure Renewal); ROAD - Collector - 2 Lanes - Paved)",
+        "waterDistanceM": 51,
+        "nearestMappedStreamM": 842,
+        "nearestReserveM": 10378,
+        "protectedWithin5km": [
+          {
+            "name": "Trout Brook Wilderness Area Addition",
+            "type": "Wilderness Area",
+            "distanceM": 2082
+          },
+          {
+            "name": "Trout Brook Wilderness Area",
+            "type": "Wilderness Area",
+            "distanceM": 2273
+          }
+        ],
+        "crownShareOfStraightLineToWater": 0.67
+      },
+      {
+        "id": "S24",
+        "dataset": "c6mf-qy4u",
+        "feature": "Lake-O-Law Provincial Park",
+        "method": "provincial park entrance point (Day Use)",
+        "waterDistanceM": 59,
+        "nearestMappedStreamM": 105,
+        "nearestReserveM": 12041,
+        "protectedWithin5km": [
+          {
+            "name": "Middle River Wilderness Area",
+            "type": "Wilderness Area",
+            "distanceM": 281
+          }
+        ]
+      },
+      {
+        "id": "S25",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 1033086",
+        "method": "point on Pinevale Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 1 Lane - Unpaved)",
+        "waterDistanceM": 11,
+        "nearestMappedStreamM": 247,
+        "nearestReserveM": 14661,
+        "protectedWithin5km": [
+          {
+            "name": "South River Nature Reserve",
+            "type": "Nature Reserve",
+            "distanceM": 3479
+          }
+        ]
+      },
+      {
+        "id": "S26",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 893922",
+        "method": "point on Ohio Lake Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 1 Lane - Unpaved)",
+        "waterDistanceM": 6,
+        "nearestMappedStreamM": 264,
+        "nearestReserveM": 21419
+      },
+      {
+        "id": "S27",
+        "dataset": "484g-adjn",
+        "feature": "roadsegid 881331",
+        "method": "point on Old Country Harbour Rd (TIR (Transportation and Infrastructure Renewal); ROAD - Local - 2 Lanes - Paved)",
+        "waterDistanceM": 8,
+        "nearestMappedStreamM": 440,
+        "nearestReserveM": 25264
+      }
+    ],
+    "reserveScreen": {
+      "method": "point-in-polygon of every pin against CLSS reserve polygons",
+      "pinsChecked": 27,
+      "pinsInsideReserve": 0,
+      "nearestM": 3435
+    },
+    "editorialRules": [
+      "A spot is listed only where an open dataset places it, and its name and kind rest on open-data names and features.",
+      "No OpenStreetMap-derived positions or facts (parking lots, boardwalks, trailheads, breakwaters, park outlines, alternative names).",
+      "No travel times or routing: each spot stands on its own.",
+      "No wording that points anglers at water closed to salmon fishing.",
+      "Season, limit, licence, statute and order text lives only in rules.json, with dates and sources; spots reference it through rules_ref.",
+      "No assumed road allowances and no per-spot access-right statements; access text states observed open-data facts only.",
+      "A record-fish claim appears only where the Sportfish Angler Records dataset (7rxg-qfam) lists that record for the same water.",
+      "No Crown-land shoreline percentages computed from a provincial delivery service, and no delivery-service endpoints (provincial MapServer and tide-service URLs) among the cited sources."
+    ],
+    "limitations": [
+      "Distances are straight lines from the pin to NSTDB features, rounded in the text; they are not surveys of road allowances or ownership.",
+      "Crown-land statements describe provincial mapping only and are not proof of title or public access.",
+      "Harbour points are DFO's harbour locations; harbour authorities set access.",
+      "Species and months for most spots are inferred from habitat and regional evidence; each record's evidence class says how."
+    ]
+  },
+  "rules": {
+    "file": "rules.json",
+    "calendar": "calendar.json",
+    "rulesYear": 2026,
+    "validUntil": "2027-03-31",
+    "basis": "Built from the verified 2026 rules notes (handbook pages, MPFR and Fisheries Act sections, DFO Maritimes and Gulf pages and variation orders), checked 2026-10-12 against primary text. Entries paraphrase dated facts with their source; no handbook or order text, page image or table is reproduced.",
+    "buildCheck": "check:fishing validates structure only (the window belongs to its rules year, entry dates are ordered and in range). It never compares dates with today; the page hides expired entries at runtime.",
+    "calendarPolicy": "Months are biology and reported quality only. Atlantic salmon, landlocked salmon, American eel and chain pickerel are rules-only with no months."
+  }
+}

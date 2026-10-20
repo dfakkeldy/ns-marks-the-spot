@@ -272,6 +272,15 @@ struct RestrictedRequestImpossibilityTests {
                   text.contains("LayerCatalog.descriptor"),
                   !text.contains("ProvinceLicenceClearance")
             else { continue }
+            if url.lastPathComponent == "LayerUse.swift",
+               url.deletingLastPathComponent().lastPathComponent == "MapCatalog" {
+                // This is an independent reproduction-policy lookup, not a service-address consumer.
+                // Keep the exception exact and prove it cannot read an address or construct/send a request.
+                for requestDoor in ["serviceURL", "URLRequest", "HTTPTransport", "URLSession"] {
+                    #expect(!text.contains(requestDoor), "LayerUse acquired a request door: \(requestDoor)")
+                }
+                continue
+            }
             offenders.append(url.lastPathComponent)
         }
         #expect(

@@ -1,4 +1,5 @@
 import Foundation
+import ImageIO
 
 /// Writing a user's layer back out.
 ///
@@ -12,6 +13,12 @@ public enum VectorExport {
     /// before it goes anywhere else, and one long line is not a file anyone
     /// can check.
     public static func geoJson(_ parsed: ParsedVector) throws -> Data {
+        try requireReproduction(parsed)
+        return try storageGeoJson(parsed)
+    }
+
+    /// Local persistence must preserve existing traced records without exporting them.
+    public static func storageGeoJson(_ parsed: ParsedVector) throws -> Data {
         var features: [Any] = []
         for feature in parsed.features {
             var object: [String: Any] = [
@@ -89,14 +96,111 @@ public enum VectorExport {
         }
     }
 
+    public struct ReproductionRefusal: LocalizedError, Equatable, Sendable {
+        public var errorDescription: String? {
+            "Export locked: permission to reproduce NSPRD-derived boundary coordinates has not been confirmed. Your local record is preserved."
+        }
+        public init() {}
+    }
+
+    public static func requireReproduction(_ parsed: ParsedVector) throws {
+        if hasTracedFeatures(parsed) { throw ReproductionRefusal() }
+    }
+
+    public struct OriginalProvenanceRefusal: LocalizedError, Sendable {
+        public var errorDescription: String? {
+            "Original file export locked: the stored file's provenance could not be checked. Your local file is preserved."
+        }
+        public init() {}
+    }
+
+    /// Originals can be shared by several rows and are unchanged by editing a row.
+    /// Inspect every supported layer in the original, rather than its current edited subset.
+    public static func requireOriginalReproduction(_ data: Data, filename: String) throws {
+        if VectorImport.sniff(data) == .zip {
+            try requireArchiveReproduction(data)
+            return
+        }
+        try requireOriginalXmlProvenance(data)
+        guard let imported = try? VectorImport.read(data, filename: filename) else {
+            throw OriginalProvenanceRefusal()
+        }
+        for layer in imported.layers { try requireReproduction(layer.parsed) }
+    }
+
+    /// Import opens the main KMZ document; sharing exports every entry, including secondary documents.
+    private static func requireArchiveReproduction(_ data: Data) throws {
+        guard data.count <= VectorImport.hardLimitBytes,
+              let entries = try? ZipArchive.entries(in: data) else { throw OriginalProvenanceRefusal() }
+        // Nested/unsupported vector containers cannot inherit a plain main document's clearance.
+        let unsupportedFormats: Set<String> = ["kmz", "zip", "gpkg", "gml", "gdb"]
+        let shapefileSidecars: Set<String> = ["shp", "shx", "dbf", "prj", "cpg", "sbn", "sbx", "qix"]
+        let hasShapefile = entries.contains { $0.name.lowercased().hasSuffix(".shp") }
+        var checked = false
+        var declaredBytes = 0
+        for entry in entries {
+            if entry.name.hasSuffix("/") && entry.uncompressedSize == 0 { continue }
+            let ext = URL(fileURLWithPath: entry.name).pathExtension.lowercased()
+            if unsupportedFormats.contains(ext) { throw OriginalProvenanceRefusal() }
+            guard entry.uncompressedSize >= 0,
+                  entry.uncompressedSize <= KmzParse.maxKmlBytes - declaredBytes else {
+                throw OriginalProvenanceRefusal()
+            }
+            declaredBytes += entry.uncompressedSize
+            guard let bytes = try? ZipArchive.contents(of: entry, in: data) else {
+                throw OriginalProvenanceRefusal()
+            }
+            switch VectorImport.sniff(bytes) {
+            case .xmlCandidate, .geoJsonCandidate:
+                // Content decides the parser even when a secondary document is renamed.
+                try requireOriginalXmlProvenance(bytes)
+                guard let imported = try? VectorImport.read(bytes, filename: entry.name) else {
+                    throw OriginalProvenanceRefusal()
+                }
+                for layer in imported.layers { try requireReproduction(layer.parsed) }
+                checked = true
+            case .zip:
+                throw OriginalProvenanceRefusal()
+            case .unknown:
+                if hasShapefile && shapefileSidecars.contains(ext) { continue }
+                // Preserve normal KMZ photo assets by their detected content, not their filename.
+                guard let image = CGImageSourceCreateWithData(bytes as CFData, nil),
+                      CGImageSourceGetType(image) != nil else { throw OriginalProvenanceRefusal() }
+            }
+        }
+        if hasShapefile {
+            guard let layers = try? ShapefileParse.parse(zip: data) else { throw OriginalProvenanceRefusal() }
+            for layer in layers { try requireReproduction(layer.parsed) }
+            checked = true
+        }
+        guard checked else { throw OriginalProvenanceRefusal() }
+    }
+
+    /// A rendered import can omit malformed geometry; the original still contains its provenance.
+    private static func requireOriginalXmlProvenance(_ data: Data) throws {
+        guard VectorImport.sniff(data) == .xmlCandidate else { return }
+        guard let root = try? XmlTree.parse(data) else { throw OriginalProvenanceRefusal() }
+        let values = root.descendants(named: "Data").compactMap { element -> String? in
+            guard element.attributes["name"] == CaptureSpec.tracedKey else { return nil }
+            return element.firstChild(named: "value")?.trimmedText
+        } + root.descendants(named: "SimpleData").compactMap { element -> String? in
+            element.attributes["name"] == CaptureSpec.tracedKey ? element.trimmedText : nil
+        }
+        if values.contains(CaptureSpec.tracedParcelValue) { throw ReproductionRefusal() }
+        // Earlier app GPX exports carried the exact trace note at file level, without per-feature keys.
+        let descriptions = root.descendants(named: "desc") + root.descendants(named: "description")
+        if descriptions.contains(where: { $0.trimmedText == tracedProvenanceNote }) { throw ReproductionRefusal() }
+    }
+
     /// The layer as a KML document.
     ///
     /// Styling is deliberately not written back. The simplestyle properties
     /// survive in the GeoJSON export, and a `<Style>` block that got the
     /// colours slightly wrong would misrepresent the layer in whatever tool
     /// opens it more than an absent one does.
-    public static func kml(layerName: String, parsed: ParsedVector) -> String {
-        kmlDocument(layerName: layerName, parsed: parsed, photoMode: .omit)
+    public static func kml(layerName: String, parsed: ParsedVector) throws -> String {
+        try requireReproduction(parsed)
+        return kmlDocument(layerName: layerName, parsed: parsed, photoMode: .omit)
     }
 
     static func kmlDocument(
@@ -222,11 +326,11 @@ public enum VectorExport {
 
     /// KMZ per the field-capture interchange profile: `doc.kml`
     /// (DEFLATE-compressed) plus one STORED `files/<photoId>.jpg` per
-    /// attached photo. Nil only when the zip writer refuses, which the
-    /// photo caps make unreachable.
+    /// attached photo. Nil when reproduction is held or the zip writer refuses.
     public static func kmz(
         layerName: String, parsed: ParsedVector, photos: [String: Data]
     ) -> KmzExport? {
+        guard !hasTracedFeatures(parsed) else { return nil }
         var photosMissing = 0
         let writable = ParsedVector(
             features: parsed.features.map { feature in
