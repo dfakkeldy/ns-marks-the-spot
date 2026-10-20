@@ -42,6 +42,7 @@ import {
 } from "./components/MapThemePicker";
 import { ThemeManagerDialog } from "./components/ThemeManagerDialog";
 import { LayerCategorySection } from "./components/LayerCategorySection";
+import { UnavailableLayers } from "./components/UnavailableLayers";
 import {
   EnvironmentalHealthLayerToggle,
   FloodHazardLayerToggle,
@@ -5597,6 +5598,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               );
             })}
             </div>
+            <UnavailableLayers />
           </section>
 
           {focusDef ? (
