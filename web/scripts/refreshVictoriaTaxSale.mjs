@@ -109,16 +109,34 @@ function noticeTables(html) {
   ).filter(([headers]) => JSON.stringify(headers) === JSON.stringify(REQUIRED_HEADERS));
 }
 
+const MONTH_NAME =
+  "January|February|March|April|May|June|July|August|September|October|November|December";
+
 export function parseVictoriaNotice(html) {
   const page = pageText(html);
-  const eventDateMatch = page.match(
-    /TAX SALE BY TENDER\s+(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/u,
+  const tenderDateMatch = page.match(
+    new RegExp(`TAX SALE BY TENDER\\s+(${MONTH_NAME}) (\\d{1,2}), (\\d{4})`, "u"),
   );
-  const deadlineMatch = page.match(
-    /received by (\d{1,2}):(\d{2}) noon at the Municipal Administration Building \(([^)]+)\)/iu,
+  const auctionDateMatch = page.match(
+    new RegExp(`TAX SALE BY PUBLIC AUCTION\\s+(${MONTH_NAME}) (\\d{1,2}), (\\d{4})`, "u"),
   );
+  if (Boolean(tenderDateMatch) === Boolean(auctionDateMatch)) {
+    throw new Error("Could not parse the Victoria sale date, bid deadline, venue, and publication date.");
+  }
+  const eventDateMatch = tenderDateMatch ?? auctionDateMatch;
+  const saleMethod = tenderDateMatch ? "sealed-tender" : "public-auction";
+  const deadlineMatch = tenderDateMatch
+    ? page.match(
+        /received by (\d{1,2}):(\d{2}) noon at the Municipal Administration Building \(([^)]+)\)/iu,
+      )
+    : page.match(
+        /The tax sale will be held at (\d{1,2}):(\d{2})\s*a\.m\.\s+at (.+?\b[A-Z]\d[A-Z]\s+\d[A-Z]\d)\b/iu,
+      );
   const publishedMatch = page.match(
-    /Dated at Baddeck, N\.S\. (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/u,
+    new RegExp(
+      `Dated at Baddeck, N\\.S\\. (${MONTH_NAME}) (\\d{1,2}), (\\d{4})`,
+      "u",
+    ),
   );
   if (!eventDateMatch || !deadlineMatch || !publishedMatch) {
     throw new Error("Could not parse the Victoria sale date, bid deadline, venue, and publication date.");
@@ -180,9 +198,12 @@ export function parseVictoriaNotice(html) {
   }
 
   return {
+    saleMethod,
     eventDate: parseDate(eventDateMatch[1], eventDateMatch[2], eventDateMatch[3]),
     bidDeadlineTime: `${deadlineMatch[1].padStart(2, "0")}:${deadlineMatch[2]}`,
-    venue: `Municipal Administration Building, ${deadlineMatch[3]}`,
+    venue: saleMethod === "sealed-tender"
+      ? `Municipal Administration Building, ${deadlineMatch[3]}`
+      : deadlineMatch[3],
     publishedOn: parseDate(publishedMatch[1], publishedMatch[2], publishedMatch[3]),
     sourceRowCount: sourceRows.length,
     opaqueRemovedRowCount,
@@ -234,6 +255,7 @@ export function buildSnapshot(current, parsed, archiveReceipt, now = new Date())
     sourceHashPolicy: "The overwrite-prone official HTML contains assessed-owner names. This receipt hashes normalized owner-free event and row facts; the external Wayback receipt preserves the full official page bytes before ingestion.",
     archiveReceipt: changed ? archiveReceipt : current.archiveReceipt,
     ownerNamesExcluded: true,
+    saleMethod: parsed.saleMethod,
     eventDate: parsed.eventDate,
     bidDeadlineTime: parsed.bidDeadlineTime,
     venue: parsed.venue,
@@ -858,7 +880,7 @@ async function refreshCurrentNotice(html, modelSource) {
       }
     };
     const fetchWithTimeout = (url, options = {}) =>
-      fetch(url, { ...options, signal: AbortSignal.timeout(20_000) });
+      fetch(url, { ...options, signal: AbortSignal.timeout(60_000) });
     let timestamps = await listCaptures(SOURCE_URL, { fetchImpl: fetchWithTimeout });
     archiveReceipt = await findHashableCapture(SOURCE_URL, { fetchImpl: fetchWithTimeout, verify, timestamps });
     if (!archiveReceipt) {
@@ -872,7 +894,10 @@ async function refreshCurrentNotice(html, modelSource) {
   const datasetHash = sha256(nextSnapshotSource);
   await Promise.all([
     writeFile(SNAPSHOT_PATH, nextSnapshotSource),
-    writeFile(MODEL_PATH, updateDatasetHash(modelSource, datasetHash)),
+    writeFile(
+      MODEL_PATH,
+      updateEventStatus(updateDatasetHash(modelSource, datasetHash), "upcoming"),
+    ),
   ]);
   console.log(`Checked ${snapshot.listingCount} owner-free Victoria listings plus ${snapshot.opaqueRemovedRowCount} opaque removed row from ${SOURCE_URL}; source-facts SHA-256 ${snapshot.sourceFactsSha256}; dataset SHA-256 ${datasetHash}.`);
 }

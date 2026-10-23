@@ -3337,6 +3337,9 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.queryByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
     ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: /Victoria County.*November 23, 2026/i }),
+    ).toBeChecked();
     expect(screen.getByLabelText("Search by PID or civic address")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();

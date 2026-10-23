@@ -32,7 +32,7 @@ struct TaxSaleCatalogTests {
             "inverness-county-2026-08-11",
             "middleton-2026-08-20",
             "annapolis-county-2026-08-31",
-            "victoria-county-2026-09-14",
+            "victoria-county-2026-11-23",
             "halifax-2026-09-15",
         ])
     }
@@ -105,14 +105,14 @@ struct TaxSaleCatalogTests {
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "05078472") == nil)
     }
 
-    @Test func victoriaCarriesItsFourAdvertisedItemsAsAmountsOwing() throws {
+    @Test func victoriaCarriesItsThreeAdvertisedAuctionItemsAsAmountsOwing() throws {
         let event = try #require(
-            TaxSaleCatalog.bundled.event(id: "victoria-county-2026-09-14")
+            TaxSaleCatalog.bundled.event(id: "victoria-county-2026-11-23")
         )
 
-        #expect(event.listings.count == 4)
-        #expect(event.eventType == .sealedTender)
-        #expect(event.publishedOn == "2026-08-13")
+        #expect(event.listings.count == 3)
+        #expect(event.eventType == .publicAuction)
+        #expect(event.publishedOn == "2026-10-23")
         // What the county owes itself, not a price. Labelling it a minimum bid
         // would invent a floor the notice never set.
         for listing in event.listings {
