@@ -2,6 +2,14 @@
 
 Research snapshot: **2026-07-24**. Prototype by GDAL 3.9 CLI workflow; findings are reproducible from the public PDFs.
 
+> **26 September 2026 — publication preflight:** Deployment of the assessed
+> collection is now requested. Source permission for the complete modified
+> scans remains unresolved after checking the current official copyright terms
+> and available permission evidence. The older July statements below are not
+> a current rights determination. See the [publication preflight](../reports/crown-grant/publication-20260926/README.md)
+> for the exact blocker, verified private inputs, and source/hosting delivery path.
+> No Crown Grant imagery has been uploaded or activated by this preflight.
+
 > **19 September 2026 correction:** This remains a historical research snapshot,
 > not current permission or geographic acceptance. The user reports a substantive
 > 18 September licensing response directing the requested use to the provincial
