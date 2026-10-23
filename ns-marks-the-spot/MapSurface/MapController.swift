@@ -43,6 +43,46 @@ enum MapEvent {
 /// mutate the desired state and apply it.
 @Observable
 final class MapController: NSObject {
+#if DEBUG
+    @ObservationIgnored private var mapTapDiagnosticEntries: [String] = []
+    @ObservationIgnored private var mapTapDiagnosticSequence = 0
+
+    /// Evidence for the hosted UI diagnostic, never enabled in a release or
+    /// ordinary Debug launch. Screen positions and state only; no coordinates,
+    /// provider payloads or user files. AX retains the trace even if a gesture
+    /// never reaches the placement handler.
+    func recordMapTapDiagnostic(_ message: @autoclosure () -> String) {
+        guard ProcessInfo.processInfo.arguments.contains("UITestMode") else { return }
+        mapTapDiagnosticSequence += 1
+        let entry = "\(mapTapDiagnosticSequence) @\(ProcessInfo.processInfo.systemUptime): \(message())"
+        mapTapDiagnosticEntries.append(entry)
+        if mapTapDiagnosticEntries.count > 200 { mapTapDiagnosticEntries.removeFirst() }
+        mapView?.accessibilityValue = mapTapDiagnosticEntries.joined(separator: "\n")
+    }
+
+    /// Adds observation targets to existing recognizers. No new recognizer,
+    /// delegate, failure requirement or recognition decision is installed.
+    func observeMapTapDiagnostics(in view: UIView) {
+        guard ProcessInfo.processInfo.arguments.contains("UITestMode") else { return }
+        for recognizer in view.gestureRecognizers ?? [] {
+            recognizer.addTarget(self, action: #selector(observedMapGesture(_:)))
+            recordMapTapDiagnostic("observe \(Self.diagnosticDescription(recognizer))")
+        }
+        for child in view.subviews { observeMapTapDiagnostics(in: child) }
+    }
+
+    @objc private func observedMapGesture(_ recognizer: UIGestureRecognizer) {
+        recordMapTapDiagnostic("recognized \(Self.diagnosticDescription(recognizer))")
+    }
+
+    private static func diagnosticDescription(_ recognizer: UIGestureRecognizer) -> String {
+        var description = "\(type(of: recognizer)) name=\(recognizer.name ?? "nil") state=\(recognizer.state.rawValue)"
+        if let tap = recognizer as? UITapGestureRecognizer {
+            description += " taps=\(tap.numberOfTapsRequired) touches=\(tap.numberOfTouchesRequired)"
+        }
+        return description
+    }
+#endif
     /// Whether the reader has asked the system for less motion.
     ///
     /// SwiftUI hands its own views `\.accessibilityReduceMotion`, and the app's
@@ -1962,12 +2002,18 @@ final class MapController: NSObject {
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+#if DEBUG
+        recordMapTapDiagnostic("identify action state=\(recognizer.state.rawValue)")
+#endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
         let coordinate = mapView.convert(
             recognizer.location(in: mapView), toCoordinateFrom: mapView
         )
         guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+#if DEBUG
+        recordMapTapDiagnostic("identify emits mapTapped handler=\(events != nil)")
+#endif
         events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
     }
 
@@ -2819,12 +2865,20 @@ extension MapController: UIGestureRecognizerDelegate {
     /// matures: a drag that started on a handle and crept off it before the
     /// press timer fired is the handle's, and must not become a placement.
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+#if DEBUG
+        if gestureRecognizer.name == Self.identifyTapName {
+            recordMapTapDiagnostic("identify receives touch point=\(touch.location(in: gestureRecognizer.view)) view=\(touch.view.map { String(describing: type(of: $0)) } ?? "nil")")
+        }
+#endif
         guard gestureRecognizer.name == Self.placeLongPressName else { return true }
         return Self.longPressMayBegin(over: touch.view)
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.name == Self.identifyTapName {
+#if DEBUG
+            recordMapTapDiagnostic("identify shouldBegin=\(!isSelectingBounds)")
+#endif
             return !isSelectingBounds
         }
         if gestureRecognizer.name == Self.placeLongPressName {
@@ -2855,21 +2909,42 @@ extension MapController: UIGestureRecognizerDelegate {
                 : nil
         guard let identify, let mapView = identify.view as? MKMapView else { return false }
         let other = identify === gestureRecognizer ? otherGestureRecognizer : gestureRecognizer
+#if DEBUG
+        recordMapTapDiagnostic("simultaneous considers \(Self.diagnosticDescription(other))")
+#endif
         guard let tap = other as? UITapGestureRecognizer,
-              tap.numberOfTapsRequired == 1, tap.numberOfTouchesRequired == 1 else { return false }
+              tap.numberOfTapsRequired == 1, tap.numberOfTouchesRequired == 1 else {
+#if DEBUG
+            recordMapTapDiagnostic("simultaneous=false other is not a single-touch single tap")
+#endif
+            return false
+        }
         let point = identify.location(in: mapView)
         // MapKit also recognizes single taps on bare ground. Making those
         // compete drops map actions depending on which recognizer wins (CI
         // lost both measuring taps and the tap that dismisses the layers).
         // A measurement badge is deliberately transparent to these taps.
-        if Self.measurementEndpointCovers(point, in: mapView) { return true }
+        if Self.measurementEndpointCovers(point, in: mapView) {
+#if DEBUG
+            recordMapTapDiagnostic("simultaneous=true endpoint covers point=\(point)")
+#endif
+            return true
+        }
         var hit = mapView.hitTest(point, with: nil)
         while let view = hit {
             // A selectable marker still owns its tap; do not identify the
             // parcel underneath it as a second action.
-            if view is MKAnnotationView { return false }
+            if view is MKAnnotationView {
+#if DEBUG
+                recordMapTapDiagnostic("simultaneous=false annotation hit=\(type(of: view)) identifier=\(view.accessibilityIdentifier ?? "nil") point=\(point)")
+#endif
+                return false
+            }
             hit = view.superview
         }
+#if DEBUG
+        recordMapTapDiagnostic("simultaneous=true bare map point=\(point)")
+#endif
         return true
     }
 
