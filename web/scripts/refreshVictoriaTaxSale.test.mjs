@@ -33,6 +33,36 @@ const noticeHtml = `
   </table>
   <p>Dated at Baddeck, N.S. August 13, 2026</p>`;
 
+const auctionNoticeHtml = `
+  <h2>Property Tax Sale Notice</h2>
+  <h3>TAX SALE BY PUBLIC AUCTION</h3>
+  <h4>November 23, 2026</h4>
+  <p>The tax sale will be held at 11:00 a.m. at St.Mark&#8217;s Masonic Lodge, 24 Queen Street, Baddeck, NS B0E 1B0</p>
+  <h4>Property listings for November 23, 2026 tax sale</h4>
+  <table>
+    <tr>
+      <th>#</th><th>AAN</th><th>PID</th><th>ASSESSED TO</th>
+      <th>PROPERTY DESCRIPTION</th><th>REDEEMABLE</th>
+      <th>LAND REGISTERED</th><th>TOTAL OWING</th>
+    </tr>
+    <tr>
+      <td>1</td><td>02848155</td><td>85001774</td><td>OWNER OMITTED</td>
+      <td>ST. COLUMBA RD., IONA, LAND/DWELLING/BUILDING, 1.2 ACRES +/-</td>
+      <td>YES</td><td>NO</td><td>$3,950.48</td>
+    </tr>
+    <tr>
+      <td>2</td><td>02814013</td><td>85041416</td><td>OWNER OMITTED</td>
+      <td>47778 CABOT TRAIL, TARBOT, LAND/DWELLING, 10,000 SQ. FEET +/- (Unsightly Report Listed on Property)</td>
+      <td>NO</td><td>NO</td><td>$1,000.00</td>
+    </tr>
+    <tr>
+      <td>3</td><td>01109251</td><td>85058345</td><td>OWNER OMITTED</td>
+      <td>CABOT TRAIL, ASPY BAY, LAND ONLY, 163 ACRES +/-, HST APPLICABLE</td>
+      <td>YES</td><td>NO</td><td>1840.94 + hst</td>
+    </tr>
+  </table>
+  <p>Dated at Baddeck, N.S. October 23, 2026</p>`;
+
 async function loadModule() {
   return import(/* @vite-ignore */ "./refreshVictoriaTaxSale.mjs");
 }
@@ -44,6 +74,7 @@ describe("Victoria County September 2026 tender refresh", () => {
     const parsed = parseVictoriaNotice(noticeHtml);
 
     expect(parsed).toEqual({
+      saleMethod: "sealed-tender",
       eventDate: "2026-09-14",
       bidDeadlineTime: "12:00",
       venue:
@@ -212,6 +243,61 @@ describe("Victoria County September 2026 tender refresh", () => {
     };
     expect(() => reconcileVictoriaResults(mismatched, parsed)).toThrow(
       /location disagrees/,
+    );
+  });
+
+  it("extracts owner-free public-auction facts and fails closed on mixed sale methods", async () => {
+    const { classifyVictoriaPage, parseVictoriaNotice } = await loadModule();
+
+    expect(classifyVictoriaPage(auctionNoticeHtml)).toMatchObject({
+      kind: "current-notice",
+    });
+    const parsed = parseVictoriaNotice(auctionNoticeHtml);
+    expect(parsed).toEqual({
+      saleMethod: "public-auction",
+      eventDate: "2026-11-23",
+      bidDeadlineTime: "11:00",
+      venue: "St.Mark’s Masonic Lodge, 24 Queen Street, Baddeck, NS B0E 1B0",
+      publishedOn: "2026-10-23",
+      sourceRowCount: 3,
+      opaqueRemovedRowCount: 0,
+      listings: [
+        {
+          item: 1,
+          aan: "02848155",
+          pid: "85001774",
+          description: "ST. COLUMBA RD., IONA, LAND/DWELLING/BUILDING, 1.2 ACRES +/-",
+          redeemable: true,
+          landRegistered: false,
+          totalOwingCents: 395_048,
+          listingStatus: "advertised",
+        },
+        {
+          item: 2,
+          aan: "02814013",
+          pid: "85041416",
+          description:
+            "47778 CABOT TRAIL, TARBOT, LAND/DWELLING, 10,000 SQ. FEET +/- (Unsightly Report Listed on Property)",
+          redeemable: false,
+          landRegistered: false,
+          totalOwingCents: 100_000,
+          listingStatus: "advertised",
+        },
+        {
+          item: 3,
+          aan: "01109251",
+          pid: "85058345",
+          description: "CABOT TRAIL, ASPY BAY, LAND ONLY, 163 ACRES +/-, HST APPLICABLE",
+          redeemable: true,
+          landRegistered: false,
+          totalOwingCents: 184_094,
+          listingStatus: "advertised",
+        },
+      ],
+    });
+    expect(JSON.stringify(parsed)).not.toMatch(/OWNER OMITTED/);
+    expect(() => parseVictoriaNotice(`${noticeHtml}${auctionNoticeHtml}`)).toThrow(
+      /Could not parse the Victoria sale date/,
     );
   });
 

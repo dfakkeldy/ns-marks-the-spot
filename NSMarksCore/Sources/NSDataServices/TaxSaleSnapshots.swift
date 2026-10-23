@@ -245,6 +245,7 @@ enum TaxSaleSnapshots {
             let landingPage: String
             let retrievedDate: String
             let publishedOn: String
+            let saleMethod: String
             let eventDate: String
             let bidDeadlineTime: String
             let venue: String
@@ -252,17 +253,27 @@ enum TaxSaleSnapshots {
         }
 
         let snapshot = try JSONDecoder().decode(Snapshot.self, from: bytes)
-        let id = "victoria-county-2026-09-14"
+        let id = "victoria-county-\(snapshot.eventDate)"
+        let eventType: TaxSaleEventType
+        switch snapshot.saleMethod {
+        case "public-auction":
+            eventType = .publicAuction
+        case "sealed-tender":
+            eventType = .sealedTender
+        default:
+            throw Unreadable(field: "saleMethod")
+        }
 
         return TaxSaleEvent(
             id: id,
             municipalityID: "victoria-county",
             municipality: snapshot.municipality,
             shortMunicipality: "Victoria County",
-            eventType: .sealedTender,
+            eventType: eventType,
             eventStatus: .upcoming,
-            saleStartsAt: try instant(
-                "\(snapshot.eventDate)T\(snapshot.bidDeadlineTime):00-03:00"
+            saleStartsAt: try halifaxInstant(
+                date: snapshot.eventDate,
+                time: snapshot.bidDeadlineTime
             ),
             venue: snapshot.venue,
             sourceURL: try url(snapshot.source),
@@ -484,6 +495,34 @@ enum TaxSaleSnapshots {
     /// surfaces, not 1552914 on one of them.
     private static func cents(_ amount: Double) -> Int {
         Int((amount * 100).rounded())
+    }
+
+    /// Civil time in `America/Halifax`, matching `web/src/data/halifaxTime.ts`.
+    /// A November auction must not keep the summer offset the September tender used.
+    private static func halifaxInstant(date: String, time: String) throws -> Date {
+        guard let timeZone = TimeZone(identifier: TaxSaleFormat.timeZoneIdentifier) else {
+            throw Unreadable(field: "America/Halifax")
+        }
+        let dateParts = date.split(separator: "-").compactMap { Int($0) }
+        let timeParts = time.split(separator: ":").compactMap { Int($0) }
+        guard dateParts.count == 3, timeParts.count == 2 else {
+            throw Unreadable(field: "\(date)T\(time)")
+        }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+        var components = DateComponents()
+        components.calendar = calendar
+        components.timeZone = timeZone
+        components.year = dateParts[0]
+        components.month = dateParts[1]
+        components.day = dateParts[2]
+        components.hour = timeParts[0]
+        components.minute = timeParts[1]
+        components.second = 0
+        guard let instant = calendar.date(from: components) else {
+            throw Unreadable(field: "\(date)T\(time)")
+        }
+        return instant
     }
 
     /// Built per call rather than shared: `ISO8601DateFormatter` is not
