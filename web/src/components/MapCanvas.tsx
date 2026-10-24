@@ -210,6 +210,8 @@ const LOCATE_MIN_ZOOM = 14;
 type MapCanvasProps = {
   /** Each new revision fits the map to a focus page's area. */
   focusFit?: FocusFitRequest;
+  /** Property boundary line width in export points; a focus page may draw them bolder than the default 1.2. */
+  parcelOutlineWidth?: number;
   /** The /fishing page's filter and selection for the curated spots; the full map passes none. */
   fishingSpots?: FishingSpotsPageState;
   /** A two-way Map/Aerial background switch under the 3D control. */
@@ -507,8 +509,10 @@ function ArcGISMapLayer({
   onStatusChange,
   renderMode,
   outlineColor,
+  outlineWidth,
 }: {
   outlineColor?: string;
+  outlineWidth?: number;
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
@@ -532,7 +536,7 @@ function ArcGISMapLayer({
             {
               serviceUrl: layer.serviceUrl,
               ...options,
-              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor) } : {}),
+              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor, outlineWidth) } : {}),
             },
             {
               minZoom: layer.minZoom,
@@ -609,7 +613,7 @@ function ArcGISMapLayer({
       map.off("zoomend", reportZoom);
       tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
-  }, [layer, map, onStatusChange, renderMode, visible, outlineColor]);
+  }, [layer, map, onStatusChange, renderMode, visible, outlineColor, outlineWidth]);
 
   return null;
 }
@@ -1910,6 +1914,7 @@ export function MapCanvas({
   georeference = null,
   showModernMap,
   basemapStyle = "osm",
+  parcelOutlineWidth,
   onUseOsmBasemap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -2633,6 +2638,7 @@ export function MapCanvas({
             key={layer.id}
             layer={layer}
             outlineColor={outlineColor}
+            outlineWidth={parcelOutlineWidth}
             visible={provinceLayers[layer.id]}
             onStatusChange={reportLayerStatus}
             renderMode={renderMode}
@@ -2662,7 +2668,7 @@ export function MapCanvas({
         ) : isElectoralLayerId(layer.id) ? (
           <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} night={basemapStyle === "night"} />
         ) : layer.delivery === "tile" ? (
           <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
         ) : layer.delivery === "static-image" ? (

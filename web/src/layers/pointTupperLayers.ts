@@ -1,4 +1,4 @@
-import type { ContextFeatureStyle, ContextLayerDescriptor } from "./contextLayerTypes";
+import type { ContextFeatureStyle, ContextLayerDescriptor, ContextMarker } from "./contextLayerTypes";
 
 /** The live site is promoted from nightly, so its receipts are linked there. */
 const REPOSITORY = "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly";
@@ -12,15 +12,21 @@ export const POINT_TUPPER_SITES_COVERAGE = { west: -61.8, south: 45.5, east: -60
 
 export type PointTupperSiteKind = "terminal" | "power" | "water" | "community";
 
-/** Marker colours and legend labels by kind. */
-export const pointTupperSiteKinds: Readonly<Record<PointTupperSiteKind, { label: string; color: string }>> = {
-  terminal: { label: "EverWind terminal", color: "#9c3d10" },
-  power: { label: "Power", color: "#5b3a9e" },
-  water: { label: "Water supply", color: "#0b5f73" },
-  community: { label: "Mi'kmaw community (place label only)", color: "#3f5f2a" },
+/**
+ * Marker colours, symbols and legend labels by kind. Communities get a plain
+ * dot: the map names them and claims nothing else about them.
+ */
+export const pointTupperSiteKinds: Readonly<Record<PointTupperSiteKind, { label: string; color: string; marker: ContextMarker }>> = {
+  terminal: { label: "EverWind terminal", color: "#c2410c", marker: { glyph: "tank" } },
+  power: { label: "Power", color: "#6d28d9", marker: { glyph: "bolt" } },
+  water: { label: "Water supply", color: "#0369a1", marker: { glyph: "drop" } },
+  community: { label: "Mi'kmaw community (place label only)", color: "#3f6212", marker: { glyph: "dot" } },
 };
 
-const pin = (color: string, radius: number): ContextFeatureStyle => ({ color: "#ffffff", fillColor: color, fillOpacity: 1, weight: 2.5, radius });
+const pin = (kind: PointTupperSiteKind, radius: number): ContextFeatureStyle => {
+  const { color, marker } = pointTupperSiteKinds[kind];
+  return { color: "#ffffff", fillColor: color, fillOpacity: 1, weight: 2.5, radius, marker };
+};
 
 /**
  * A handful of key places for the /pointtupper page, each placed from a public
@@ -59,18 +65,20 @@ export const pointTupperLayers = [
       { field: "source", label: "Source" },
       { field: "source_date", label: "Date" },
     ],
+    // Short map names (`label` in sites.geojson); the popup keeps the full name.
+    permanentLabels: { minZoom: 11, field: "label" },
     featureRenderer: {
       field: "kind",
       styles: {
-        terminal: pin(pointTupperSiteKinds.terminal.color, 9),
-        power: pin(pointTupperSiteKinds.power.color, 8),
-        water: pin(pointTupperSiteKinds.water.color, 8),
-        community: pin(pointTupperSiteKinds.community.color, 7),
+        terminal: pin("terminal", 9),
+        power: pin("power", 8),
+        water: pin("water", 8),
+        community: pin("community", 7),
       },
-      defaultStyle: pin("#555555", 7),
+      defaultStyle: { color: "#ffffff", fillColor: "#555555", fillOpacity: 1, weight: 2.5, radius: 7 },
     },
     legend: (Object.keys(pointTupperSiteKinds) as PointTupperSiteKind[]).map((kind) => ({
-      label: pointTupperSiteKinds[kind].label, color: pointTupperSiteKinds[kind].color,
+      label: pointTupperSiteKinds[kind].label, color: pointTupperSiteKinds[kind].color, marker: pointTupperSiteKinds[kind].marker,
     })),
   },
 ] as const satisfies readonly ContextLayerDescriptor[];

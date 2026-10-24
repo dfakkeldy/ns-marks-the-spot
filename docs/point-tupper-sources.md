@@ -26,6 +26,8 @@ draw it. No parcel, title or registry record is used.
   by a Membertou-led First Nations consortium; EverWind's statement that it
   will pay connection and upgrade costs):
   [The Canadian Press, October 16, 2026](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/).
+- **The wind farm already on the site** (12 turbines, 22.8 MW, 2006 and
+  2010): NRCan's Canadian Wind Turbine Database; see [Wind turbines](#wind-turbines).
 - **Large loads under study in Richmond County** (325, 95 and 230 MW; customers
   not named): IESO Nova Scotia,
   [2026 10-Year System Outlook](https://www.ieso-ns.ca/wp-content/uploads/2026/09/20260628-IESO-NS-2026-10-Year-System-Outlook.pdf),
@@ -47,9 +49,40 @@ Dates come from the public sources below.
 | 2022 | EverWind registers its green hydrogen and ammonia project | [Nova Scotia EA file](https://novascotia.ca/nse/ea/everwind-point-tupper-green-hydrogen-ammonia-project/) |
 | 2026 | Data-centre campus announced | [The Canadian Press](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/) |
 
+## Wind turbines
+
+- **Installed** (`canadian-wind-turbines`, on by default): Natural Resources
+  Canada, [Canadian Wind Turbine Database](https://open.canada.ca/data/en/dataset/79fdad93-9025-49ad-ba16-c26d718cc070),
+  Open Government Licence – Canada, queried live for the view. It lists the
+  Point Tupper wind farm as 12 Enercon turbines, POT1–POT12, 22.8 MW in all:
+  one E48-800 (800 kW) commissioned in 2006 and eleven E82-2.0 (2 MW) in 2010.
+  The summary's **Turbines** line repeats those figures; they were summed from
+  the service's records on October 24, 2026 and agree with the database's own
+  project total. The inventory is not a field check: a listed turbine may have
+  been retired, and the map does not say whether one is turning. Its newest
+  Nova Scotia records are from 2018, so farms built since are missing.
+- **Planned** (`planned-wind-turbines`, on by default): positions from the
+  coordinate tables in Nova Scotia environmental assessment filings, drawn
+  hollow. Within about 45 km of Point Tupper that is six farms and 285
+  turbines, the summary's **Planned wind** line: Setapuktuk (54), Goose Harbour
+  Lake (24, under construction), Aulds Cove (21), Rhodena (6), Upper Afton (22)
+  and Ocean Lake (158), up to 2,229 MW in their filings. Every project, source
+  and caveat is in [the planned turbines receipt](planned-wind-turbines-sources.md).
+
+## The map key
+
+The page lays a translucent, collapsible key over the map
+(`web/src/pointtupper/PointTupperMapLegend.tsx`). Each row explains one layer
+and switches it on or off; it reads its colours, line widths and dashes from
+the same catalogue entries the map draws with. **Property lines** are the
+Province's NSPRD boundaries, drawn twice as bold on this page; they need the
+Province licence and show from zoom 14, so the setup leaves them off and the
+row opens the licence first.
+
 ## Other layers on the page
 
-Transmission lines, substations, pipelines, wharves, water features and roads
-are the Province's open datasets, with their own sources and caveats in the
-layer panel. A mapped line says nothing about voltage, capacity or whether a
-connection is available.
+Transmission lines, substations, pipelines, tanks, wharves, water features
+and roads are the Province's open datasets, with their own sources and caveats
+in the layer panel. A mapped line says nothing about voltage, capacity or
+whether a connection is available, and a mapped tank says nothing about its
+contents or whether it is in use.

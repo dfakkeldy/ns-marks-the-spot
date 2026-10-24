@@ -16,7 +16,7 @@ function collectErrors(page: Page) {
   return errors;
 }
 
-for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced summary and key places at ${width}px`, async ({ page }) => {
+for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced summary, key places, turbines and map key at ${width}px`, async ({ page }) => {
   test.setTimeout(90000);
   const phone = width === 390;
   await page.setViewportSize({ width, height: phone ? 844 : 900 });
@@ -40,6 +40,23 @@ for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced s
   await expect(page.locator('.leaflet-context-point-tupper-sites-pane .leaflet-interactive')).toHaveCount(3);
   await expect(page).toHaveURL(/layers=[^&]*point-tupper-sites/);
   await expect(page).toHaveURL(/layers=[^&]*transmission-lines/);
+  await expect(page).toHaveURL(/layers=[^&]*canadian-wind-turbines/);
+  await expect(page).toHaveURL(/layers=[^&]*planned-wind-turbines/);
+  // Goose Harbour Lake's turbines, across the Strait, are in every opening view.
+  await expect.poll(() => page.locator('.leaflet-context-planned-wind-turbines-pane .context-marker-turbine').count()).toBeGreaterThan(0);
+
+  // The map key: open on a desktop, folded on a phone; each row switches its layer.
+  const key = page.getByRole('complementary', { name: 'Map key' });
+  const keyToggle = key.getByRole('button', { name: 'Map key' });
+  await expect(keyToggle).toHaveAttribute('aria-expanded', phone ? 'false' : 'true');
+  if (!phone) {
+    await expect(key.getByRole('button', { name: /Wind turbines, planned/ })).toHaveAttribute('aria-pressed', 'true');
+    // Rows keep their height as status lines arrive, so a press lands on the row it aimed at.
+    await key.getByRole('button', { name: /Transmission lines/ }).click();
+    await expect(key.getByRole('button', { name: /Transmission lines/ })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page).not.toHaveURL(/layers=[^&]*transmission-lines/);
+    await expect(key.getByRole('button', { name: /Property lines/ })).toContainText('Needs the Province licence');
+  }
 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await expect(page.locator('vite-error-overlay')).toHaveCount(0);

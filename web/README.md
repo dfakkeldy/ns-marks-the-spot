@@ -386,7 +386,7 @@ URLs or export settings and do not change the production catalogue, shared/saved
 state sanitization, Province acknowledgement or PDF guards. Church's separate
 historical-map disclosure and all other categories are unchanged.
 
-The web-only `contextLayerCatalog` has 76 default-off research controls.
+The web-only `contextLayerCatalog` has 77 default-off research controls.
 The GeoNova inventory has 39 entries, including three withheld descriptors, across these categories:
 provincial topography, 15 OGL-NS infrastructure and mapped-place overlays,
 water and forest context, geology, environmental screens, historical coal
@@ -401,13 +401,16 @@ The catalog also includes
 eight **Elections & Districts** layers, six **Rhodena Wind Project**
 layers, four fishing layers under **Water & Terrain** (see
 [Fishing page](#fishing-page)), one **Point Tupper Site** layer (see
-[Point Tupper page](#point-tupper-page)), and the 21 September 2026 habitat,
+[Point Tupper page](#point-tupper-page)), one planned wind turbines layer under
+**Roads & Places** (see [Wind turbines](#wind-turbines)), and the 21 September
+2026 habitat,
 water, and community GIS overlays described next. All start off. Source-specific
 legends, dates, coverage, scale caveats and licence acknowledgement remain
 visible; the native offline catalogue is unchanged. Browser
 **Print / Save PDF** supports the static context layers, including static
-Rhodena geometry, the fishing layers, and the Point Tupper key places,
-subject to fitted zoom and source readiness; the interactive Rhodena turbine
+Rhodena geometry, the fishing layers, the Point Tupper key places and the
+planned wind turbines, subject to fitted zoom and source readiness; the
+interactive Rhodena turbine
 viewshed and private viewpoint (`rhodena-visibility`) are omitted. For GeoNova
 sources, generated PDF supports the permitted MapServer, open-data and tile
 entries. Feature-query layers and the static radon image are omitted and named
@@ -489,10 +492,11 @@ the opening zoom, and the background already labels places. The native theme par
 [Fishing page](#fishing-page) for the layers and the `/fishing` page.
 
 **Point Tupper** is a web-only setup for the announced data-centre campus on
-the Strait of Canso: the key places, the mapped grid, pipelines, wharves,
-water and roads over the modern map. The campus footprint has not been
-published, so it is not drawn. Every layer in it is open, so
-`?theme=point-tupper` never raises the Province licence sheet. Place names
+the Strait of Canso: the key places, the installed wind turbines, the mapped
+grid, pipelines, tanks, wharves, water and roads over the modern map. The
+campus footprint has not been published, so it is not drawn. Every layer in
+it is open, so `?theme=point-tupper` never raises the Province licence sheet;
+property boundaries need the licence, so they stay one tap away. Place names
 stay off so the GeoNAMES dots do not bury the key places. The native theme
 parity fixture excludes this setup, and it filters the **Point Tupper Site**
 category out of the native presentation contract. See
@@ -691,16 +695,17 @@ generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
 
-Browser **Print / Save PDF** supports the static context layers (76 catalog
-entries, including static Rhodena geometry, the fishing layers, and the Point
-Tupper key places), subject to selection, fitted zoom, licence acknowledgement
+Browser **Print / Save PDF** supports the static context layers (77 catalog
+entries, including static Rhodena geometry, the fishing layers, the Point
+Tupper key places and the planned wind turbines), subject to selection, fitted zoom, licence acknowledgement
 and source readiness.
 Interactive Rhodena turbine viewshed and private viewpoint
 (`rhodena-visibility`) are omitted. The separate **Export map (PDF)** still
 uses the MapServer, open-data and tile path for supported entries;
 unsupported vector formats, including new GIS feature overlays, electoral
 feature entries, Rhodena source formats, the four fishing layers, the Point
-Tupper key places, and the static radon image, are omitted and explicitly
+Tupper key places, the planned wind turbines, and the static radon image, are
+omitted and explicitly
 listed as not included.
 
 Attribution follows the material actually rendered or reported:
@@ -2082,6 +2087,34 @@ iOS fishing layer are not built; `plan.md` lists them as follow-ups. The
 **Data & licences** dialog still labels every source link **Official source**,
 including the curated spots; the layer row and popups say **Project source**.
 
+## Wind turbines
+
+Two default-off layers under **Roads & Places** draw wind turbines as
+turbines, across the whole province, from zoom 7. Glyphs shrink at overview
+zooms and keep their numbers on the map from zoom 15.
+
+- **Installed wind turbines (NRCan)** (`canadian-wind-turbines`): Natural
+  Resources Canada's Canadian Wind Turbine Database, queried live for the view
+  (347 turbines in Nova Scotia), drawn filled in cyan. Its newest Nova Scotia
+  records are from 2018, so farms built since are missing; the layer's caveat
+  says so.
+- **Planned wind turbines (NS EA filings)** (`planned-wind-turbines`):
+  623 positions from 17 projects across the province (approved, under
+  construction, partly built, or in Harbour Hills' case still under review),
+  read from `public/wind/planned-turbines.geojson`. Every
+  position comes from a coordinate table in a Nova Scotia environmental
+  assessment filing; UTM values were converted to WGS84 and the published
+  values are kept on each point. They are assessed layouts, subject to change,
+  not as-built surveys; alternate sites are left out so no layout is counted
+  twice. Drawn hollow in Rhodena's proposed-turbine orange, because none of
+  them stands yet. The positions are public facts compiled by the project, so
+  the row links a **Project source** (the
+  [planned turbines receipt](../docs/planned-wind-turbines-sources.md)) and
+  "Original source rights retained" (`public/wind/LICENCE.txt`).
+
+Browser print draws both as circles; generated PDF omits the planned layer, a
+feature query, and names it as not included.
+
 ## Point Tupper page
 
 ### Point Tupper layer
@@ -2093,8 +2126,9 @@ the native presentation contract.
 
 - **Point Tupper · key places** (`point-tupper-sites`): five project-placed
   points around the Strait of Canso, read from `public/point-tupper/sites.geojson`
-  and coloured by kind (EverWind terminal, power, water supply, Mi'kmaw
-  community place label). They are the project's own wording, not a publisher's
+  and drawn as glyph pins by kind (a tank for the EverWind terminal, a bolt for
+  power, a drop for the water supply, a plain dot for a Mi'kmaw community's
+  place label), each with its short `label` on the map from zoom 11. They are the project's own wording, not a publisher's
   record, so the layer row and popups link a **Project source** (the
   [Point Tupper receipt](../docs/point-tupper-sources.md)) and the data's own
   `LICENCE.txt` (CC BY 4.0 for the project's wording; Wikidata positions are
@@ -2120,10 +2154,22 @@ the site brief they would read as part of it. Tax sale, My Maps and the setup
 picker are hidden. A Map/Aerial switch under the 3D control swaps the
 background; aerial imagery keeps its Province licence gate. Every layer in
 the setup is open, so a first visit never raises the Province licence sheet.
+NSPRD property boundaries draw at 2.6 points here, twice the full map's
+weight (`parcelOutlineWidth`), for a page about a few large holdings.
+
+- **Map key.** A translucent key at the top right of the map, under the
+  Map/Aerial switch (by the licence pill on a phone)
+  (`PointTupperMapLegend.tsx`, the page's `chrome.MapOverlay`), open on a
+  desktop and folded on a phone until the reader chooses; the choice is kept
+  in this browser. Each row explains one layer with the map's own symbol,
+  colour, width and dash (read from the catalogue entries the map draws with)
+  and switches that layer. Rows say what the layer is waiting for (a zoom, a
+  load) or how many places or turbines are in view. **Property lines** opens
+  the Province licence first when it has not been accepted.
 
 - **Heading.** A sourced summary of the October 2026 announcement (size, grid,
-  Richmond County loads under study, Landrie Lake cooling figures, wind, and
-  who pays for upgrades). Company figures are the company's own. A **Zoom to
+  Richmond County loads under study, Landrie Lake cooling figures, wind, the
+  wind farm already on the site, and who pays for upgrades). Company figures are the company's own. A **Zoom to
   Point Tupper** control and a link to every source sit under the facts.
 - **Timeline.** Nine dated events, oldest first, each with its public source:
   the causeway, the mill, the Landrie Lake water system, the heavy water plant,

@@ -1,0 +1,16 @@
+NS Marks The Spot planned wind turbine data have their own terms; they are not MIT code.
+The code's MIT licence does not cover these files or replace any provider's terms.
+
+planned-turbines.geojson:
+Each turbine position, and the project facts beside it (proponent, status, capacity,
+heights), is a factual extract from a public record: the coordinate tables and text
+of Nova Scotia environmental assessment filings, posted by the Nova Scotia
+Department of Environment and Climate Change at https://novascotia.ca/nse/ea/.
+Original source rights are retained by the proponents, their consultants and the
+Province. Each record names its document and the table or page it came from, and
+docs/planned-wind-turbines-sources.md lists every source with what it supports.
+Coordinates published in UTM were converted to WGS84 by the project; the published
+values are kept beside each point. No figure or map was digitised.
+
+The positions are assessed layouts, subject to change, and not as-built surveys.
+No endorsement by any proponent or by the Province is implied.

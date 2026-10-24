@@ -7381,3 +7381,13 @@ a {
 .leaflet-tooltip.rhodena-label { padding: 1px 7px; color: #fbf6ea; font: 700 10.5px/1.5 "Inter", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.03em; background: #10313a; border: 0; border-radius: 999px; box-shadow: 0 2px 6px rgba(16, 49, 58, 0.35); }
 .leaflet-tooltip-top.rhodena-label::before { border-top-color: #10313a; }
 .leaflet-rhodena-rhodena-turbines-pane path, .leaflet-rhodena-rhodena-receptors-pane path { filter: drop-shadow(0 1px 1.5px rgba(16, 49, 58, 0.45)); }
+
+/* Context-layer point symbols (components/contextMarkers.ts) and the names
+   they keep on the map. The glyph carries its own white halo; the shadow
+   lifts it off busy aerial imagery. */
+.leaflet-marker-icon.context-marker { background: none; border: 0; filter: drop-shadow(0 1px 1.5px rgba(16, 33, 43, 0.5)); }
+.leaflet-marker-icon.context-marker svg { display: block; }
+.leaflet-marker-icon.context-marker:focus-visible { outline: 2px solid #f0b45a; outline-offset: 2px; border-radius: 50%; }
+.leaflet-tooltip.context-place-label { padding: 1px 7px; color: #fbf6ea; font: 650 11px/1.5 "Inter", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.02em; white-space: nowrap; background: rgba(16, 40, 58, 0.88); border: 0; border-radius: 999px; box-shadow: 0 2px 6px rgba(16, 40, 58, 0.3); }
+.leaflet-tooltip-top.context-place-label::before { border-top-color: rgba(16, 40, 58, 0.88); }
+.leaflet-tooltip-right.context-place-label::before { border-right-color: rgba(16, 40, 58, 0.88); }

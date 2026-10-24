@@ -26,3 +26,25 @@ it("includes the open overlay in PDF composition and reports source failure dist
   const failed = await composeMapImage(bounds, { widthPx: 200, heightPx: 200 }, layers);
   expect(failed.statuses[0].status).toBe("failed");
 });
+it("draws a cased line light on a light map and dark on the night map", async () => {
+  const line = { type: "LineString", coordinates: [[-62, 45.5], [-61, 45.5]] };
+  const cased = { parts: [{ dataset: "yjmz-hpnc", fields: ["feat_desc"] }], color: "#6f3fa6", lineWidth: 2.4, casing: "rgba(255, 255, 255, 1)" };
+  const respond = () => vi.fn().mockImplementation(async () => new Response(JSON.stringify({ type: "FeatureCollection", features: [{ type: "Feature", geometry: line, properties: { source_row_id: "line-1" } }] })));
+  /** The pixels in column 100 from the line's lowest exact-colour row down to 5 px below it. */
+  const belowLine = (context: CanvasRenderingContext2D) => {
+    let last = -1;
+    for (let y = 0; y < 200; y += 1) {
+      const [r, g, b] = context.getImageData(100, y, 1, 1).data;
+      if (r === 0x6f && g === 0x3f && b === 0xa6) last = y;
+    }
+    expect(last).toBeGreaterThan(0);
+    return Array.from({ length: 5 }, (_, i) => [...context.getImageData(100, last + 1 + i, 1, 1).data]);
+  };
+  vi.stubGlobal("fetch", respond());
+  const day = belowLine((await renderOpenData(cased, bounds, { width: 200, height: 200 }, 14)).canvas.getContext("2d")!);
+  expect(day.some(([r, g, b, a]) => Math.min(r, g, b) > 200 && a > 200)).toBe(true);
+  vi.stubGlobal("fetch", respond());
+  const night = belowLine((await renderOpenData(cased, bounds, { width: 200, height: 200 }, 14, undefined, { night: true })).canvas.getContext("2d")!);
+  expect(night.some(([r, g, b, a]) => Math.max(r, g, b) < 40 && a > 100)).toBe(true);
+  expect(night.some(([r, g, b, a]) => Math.min(r, g, b) > 200 && a > 200)).toBe(false);
+});

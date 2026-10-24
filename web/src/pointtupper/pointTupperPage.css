@@ -241,6 +241,222 @@
   font-size: 0.74rem;
 }
 
+/* Map key ------------------------------------------------------------
+   Laid over the map in the map's own surface colour, translucent and
+   blurred so the coast shows through, like the park's printed key. It
+   follows Day and Night through the shared tokens, so each swatch sits on
+   the tone the map draws it on. */
+.pointtupper-key {
+  position: absolute;
+  /* Hung under the 3D and Map/Aerial controls, so nothing below it (the
+     licence strip folding after load, a growing map) moves its rows. */
+  top: 120px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: 252px;
+  max-width: calc(100% - 24px);
+  max-height: calc(100% - 148px);
+  color: var(--chart-ink);
+  background: rgba(var(--surface-rgb), 0.8);
+  -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  backdrop-filter: blur(12px) saturate(1.25);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(16, 33, 43, 0.22);
+  overflow: hidden;
+}
+
+.pointtupper-key:not(.is-open) {
+  width: auto;
+}
+
+.pointtupper-key-toggle {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px 8px 14px;
+  color: inherit;
+  font: 700 0.68rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.pointtupper-key-toggle svg {
+  transition: transform 0.2s ease;
+}
+
+.pointtupper-key:not(.is-open) .pointtupper-key-toggle svg {
+  transform: rotate(180deg);
+}
+
+.pointtupper-key-body {
+  overflow-y: auto;
+  padding: 0 8px 10px;
+  border-top: 1px solid var(--line);
+}
+
+.pointtupper-key-group h3 {
+  margin: 10px 6px 2px;
+  color: var(--muted);
+  font: 600 0.6rem/1.2 "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pointtupper-key-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 22px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  /* Room for the label and its status line from the start: the key grows
+     from the bottom, so a row that gained a line would move every row above
+     it, out from under a pointer about to press it. */
+  min-height: 42px;
+  padding: 4px 6px;
+  color: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pointtupper-key-row:hover {
+  background: color-mix(in srgb, var(--chart-ink) 7%, transparent);
+}
+
+.pointtupper-key-toggle:focus-visible,
+.pointtupper-key-row:focus-visible {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+/* A hidden layer's row dims but stays readable: the key still says what it would show. */
+.pointtupper-key-row[aria-pressed="false"] .pointtupper-key-swatch,
+.pointtupper-key-row[aria-pressed="false"] .pointtupper-key-label {
+  opacity: 0.5;
+}
+
+.pointtupper-key-swatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+}
+
+.pointtupper-key-label small {
+  display: block;
+  margin-top: 1px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.pointtupper-key-switch {
+  position: relative;
+  width: 22px;
+  height: 12px;
+  background: color-mix(in srgb, var(--chart-ink) 24%, transparent);
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.pointtupper-key-switch::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  content: "";
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(16, 33, 43, 0.35);
+  transition: transform 0.15s ease;
+}
+
+.pointtupper-key-row[aria-pressed="true"] .pointtupper-key-switch {
+  background: var(--deep-water);
+}
+
+.pointtupper-key-row[aria-pressed="true"] .pointtupper-key-switch::after {
+  transform: translateX(10px);
+}
+
+.pointtupper-key-kinds {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px 8px;
+  margin: 0 6px 4px 48px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.2;
+  list-style: none;
+}
+
+.pointtupper-key-kinds li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pointtupper-key-kinds.is-off {
+  opacity: 0.5;
+}
+
+.pointtupper-key-marker {
+  display: inline-flex;
+  flex: none;
+  filter: drop-shadow(0 1px 1px rgba(16, 33, 43, 0.35));
+}
+
+.pointtupper-key-marker svg {
+  display: block;
+}
+
+.pointtupper-key-parcel {
+  color: #0a7180;
+}
+
+:root[data-map-appearance="night"] .pointtupper-key-parcel {
+  color: #ffe66d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .pointtupper-key-parcel {
+    color: #ffe66d;
+  }
+}
+
+.pointtupper-key-note {
+  margin: 10px 6px 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pointtupper-key-toggle svg,
+  .pointtupper-key-switch,
+  .pointtupper-key-switch::after {
+    transition: none;
+  }
+}
+
 /* Footer and phone chrome ------------------------------------------- */
 .pointtupper-focus-footer {
   display: grid;
@@ -305,6 +521,17 @@
   /* Under the sticky sheet header, whose 12px bottom margin this takes back. */
   .pointtupper-hero {
     margin-top: -12px;
+  }
+
+  /* On a phone the folded key sits by the thumb, above the licence pill (its
+     measured height, as the scale bar uses), and clears the Map/Aerial
+     switch at the top right when open. */
+  .pointtupper-key {
+    top: auto;
+    right: 8px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+    width: min(252px, calc(100% - 88px));
+    max-height: calc(100% - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 196px);
   }
 }
 
