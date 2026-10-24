@@ -20,6 +20,8 @@ export interface TimelineEvent {
 
 const CP_2026_10_16 = "https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/";
 const IESO_OUTLOOK_2026 = "https://www.ieso-ns.ca/wp-content/uploads/2026/09/20260628-IESO-NS-2026-10-Year-System-Outlook.pdf";
+const NRCAN_WIND_TURBINES = "https://open.canada.ca/data/en/dataset/79fdad93-9025-49ad-ba16-c26d718cc070";
+const PLANNED_WIND_SOURCES = "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/docs/planned-wind-turbines-sources.md";
 
 export const POINT_TUPPER_FACTS: readonly SourcedLine[] = [
   {
@@ -57,6 +59,18 @@ export const POINT_TUPPER_FACTS: readonly SourcedLine[] = [
     text: "Four EverWind wind farms on the mainland have environmental approval, 650 MW in all, 51% owned by a Membertou-led First Nations consortium. They will not be ready when the campus opens.",
     sourceLabel: "The Canadian Press",
     sourceUrl: CP_2026_10_16,
+  },
+  {
+    label: "Turbines",
+    text: "The Point Tupper wind farm already stands just east of the terminal: 12 Enercon turbines, 22.8 MW in all, one from 2006 and eleven from 2010.",
+    sourceLabel: "NRCan, Canadian Wind Turbine Database",
+    sourceUrl: NRCAN_WIND_TURBINES,
+  },
+  {
+    label: "Planned wind",
+    text: "Six wind farms with turbines within 45 km have environmental approval, and one of them, Goose Harbour Lake, is under construction: up to 2,229 MW from 285 turbines in their filed layouts, the nearest about 4 km from Point Tupper.",
+    sourceLabel: "Nova Scotia EA filings, compiled for this map",
+    sourceUrl: PLANNED_WIND_SOURCES,
   },
   {
     label: "Costs",

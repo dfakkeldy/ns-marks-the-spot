@@ -1266,11 +1266,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // opening that page's setup borrows its camera, so it fits the same way.
   const [focusFit, setFocusFit] = useState<FocusFitRequest>(() =>
     cameraFocus?.fitOnOpen && !hasSharedPosition
-      ? { revision: 1, bounds: cameraFocus.fitBounds }
+      ? { revision: 1, bounds: cameraFocus.fitBounds, insetRight: focusDef?.mapOverlayInset }
       : { revision: 0, bounds: null });
+  // Only the page itself mounts its map overlay; the full map borrowing its camera has none to clear.
   const requestFocusFit = useCallback((definition: FocusDefinition) => {
-    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds }));
-  }, []);
+    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds, insetRight: focusDef?.mapOverlayInset }));
+  }, [focusDef]);
   // A focus page's own filter and selection; only the parameters the page
   // shares are read from, and written back to, its links.
   const [focusPage, setFocusPage] = useState<FocusPageState>(() => ({
@@ -4706,8 +4707,14 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     closeMobileControls,
     fitToFocus: () => { if (focusDef) requestFocusFit(focusDef); },
     startViewpointPick: () => setRhodenaPickPending(true),
+    layerStatuses,
+    provinceLayers,
+    setProvinceLayerVisibility,
+    licenceAccepted,
+    reviewProvinceLicence,
   };
   const FocusPanel = focusDef?.chrome.Panel;
+  const FocusMapOverlay = focusDef?.chrome.MapOverlay;
 
   return (
     <>
@@ -5659,6 +5666,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           </div>
           {pokerMode && searchForm}
           <div className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
+          {FocusMapOverlay ? <FocusMapOverlay {...focusChromeContext} /> : null}
           {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] && layerStatuses[electoralSelection.layer.id]?.status === "ready" ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
           <MapCanvas
             poker={pokerMode ? {
@@ -5725,6 +5733,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             }
             georeference={georeferenceBinding}
             showModernMap={showModernMap}
+            parcelOutlineWidth={focusDef?.parcelOutlineWidth}
             showTaxSale={
               taxSaleEnabled &&
               licenceAccepted &&

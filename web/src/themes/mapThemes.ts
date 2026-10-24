@@ -176,17 +176,25 @@ export const builtInMapThemes = [
     // raises the Province licence. Place names stay off for the same reason as
     // on fishing (thousands of dots that bury the key places); the background
     // labels the towns. Everything opens at zoom 11 or closer, so turning the
-    // setup on never moves the camera off the Strait.
+    // setup on never moves the camera off the Strait. The turbines and tanks
+    // need no licence either (NRCan, OGL-Canada; EA-filing coordinates as
+    // public facts, like Rhodena's; NSTDB, OGL-NS); tanks wait for
+    // zoom 13 like the substations, which only context layers may do without
+    // moving the camera (LayerZoomController acts on province layers alone).
+    // Property boundaries stay one tap away: they need the licence.
     id: "point-tupper",
     kind: "built-in",
     name: "Point Tupper",
-    description: "Key places for the announced data-centre campus, with the mapped grid, pipelines, wharves, water and roads.",
+    description: "Key places for the announced data-centre campus, with installed and planned wind turbines, the mapped grid, pipelines, tanks, wharves, water and roads.",
     layerIds: [
       "modern",
       "point-tupper-sites",
+      "canadian-wind-turbines",
+      "planned-wind-turbines",
       "transmission-lines",
       "substations",
       "pipelines",
+      "tanks",
       "wharves-coastal-structures",
       "water-features",
       "roads",

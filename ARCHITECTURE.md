@@ -268,13 +268,15 @@ fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
 receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
-Browser print supports the static context layers (76 catalog entries, including
-static Rhodena geometry, the fishing layers, and the Point Tupper key places)
+Browser print supports the static context layers (77 catalog entries, including
+static Rhodena geometry, the fishing layers, the Point Tupper key places and the
+planned wind turbines)
 subject to fitted zoom and source readiness; the interactive Rhodena turbine
 viewshed and private viewpoint are omitted. Generated PDF still uses the
 MapServer, open-data and tile path for supported entries; unsupported vector
 formats (including September 2026 GIS feature overlays, the four fishing
-feature-query layers, and the Point Tupper key places), eight electoral
+feature-query layers, the Point Tupper key places and the planned wind
+turbines), eight electoral
 feature entries, Rhodena source-format layers, and the static radon image are
 omitted and named as not included. It preserves the on-screen image order and
 selected-parcel authority.
@@ -353,15 +355,20 @@ movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
-`layers/contextLayerCatalog.ts` concatenates 76 default-off web-only research
+`layers/contextLayerCatalog.ts` concatenates 77 default-off web-only research
 controls: the GeoNova land, infrastructure, Sentinel-2 and Judique canopy
 subset (36 after the three withheld forestry descriptors), eight electoral
 layers, six Rhodena project layers, four fishing layers, one Point Tupper
-layer, and the September 2026 GIS expansion (21). The original GeoNova group
+layer, one planned wind turbines layer, and the September 2026 GIS expansion
+(21). The original GeoNova group
 is composed from
 the NSTDB infrastructure/place catalogue, the land/environment catalogues, and the EOX
 Sentinel-2 2016 mosaic. Fifteen infrastructure/place
-overlays now query identified OGL-NS open datasets for the viewport; the
+overlays now query identified OGL-NS open datasets for the viewport (an
+`OpenDataSource` may set `lineWidth`, `dash` and `casing`: transmission lines
+draw 2.4 px over a casing, light by day or over imagery and dark on the night
+map, and pipelines draw as a dashed amber line, where both used to share one
+thin Utilities purple); the
 complete provincial topographic cartography and sixteen land/environment image
 entries still reuse the ArcGIS image adapter; four use `ContextFeatureLayer`
 with bounded, cancellable viewport queries and source-class legends; radon uses
@@ -407,6 +414,19 @@ link **Project source** instead of **Official source**. `fishing-spots` and
 `point-tupper-sites` both set it: each is the project's own wording, not a
 publisher's record.
 
+A point descriptor may name a `marker` in its feature styles (`turbine`,
+`tank`, `bolt`, `drop` or `dot`, and `hollow` for a proposed feature). In
+interactive mode `ContextFeatureLayer` then draws a keyboard-focusable
+`L.marker` whose SVG `divIcon` comes from `components/contextMarkers.ts`,
+scaled to 45% below zoom 9, 55% below zoom 11 and 75% below zoom 13, instead of a circle; print
+keeps circles, whose grey tones the printed key matches. The SVG is built
+from constants and a validated `#rrggbb` colour only. `permanentLabels: {
+minZoom, field? }` keeps each point's name on the map from that zoom. A legend
+entry may carry the same `marker`, so a key draws the map's own symbol.
+`canadian-wind-turbines` (a turbine, drawn from zoom 7 with numbers from zoom
+15) and `point-tupper-sites` (glyph pins with short names from zoom 11) use
+them.
+
 `fishing-spots` does not render through `ContextFeatureLayer`. `MapCanvas`
 gives it `fishing/FishingSpotsLayer.tsx` on every map, including print, so its
 descriptor's `popupFields` and `featureRenderer` no longer drive the map; its
@@ -421,6 +441,17 @@ the filter named rather than an empty source. `withheldFishingSources` lists
 the fishing sources reviewed and kept out; a catalogue test fails when any
 descriptor or shipped fishing file names one. Receipts are in
 `docs/gis-fishing-sources.md`.
+
+`layers/plannedWindLayers.ts` adds `planned-wind-turbines` under **Roads &
+Places**: a GeoJSON snapshot in `web/public/wind/` of turbine positions read
+from the coordinate tables of Nova Scotia environmental assessment filings,
+through `ContextFeatureLayer` with a hollow turbine marker. Like Rhodena it is
+`public-facts` (factual extracts, original source rights retained) and, being
+compiled here, `project-derived`. Its test pins the file's `notice` to the
+descriptor's caveat, the Nova Scotia envelope, unique ids and that no
+alternate site is included. Receipts are in
+`docs/planned-wind-turbines-sources.md`; the raw extracts and the merge
+script that rebuilds the file exactly are in `web/scripts/wind/`.
 
 `layers/pointTupperLayers.ts` adds one **Point Tupper Site** descriptor,
 `point-tupper-sites`. It is a project-derived GeoJSON snapshot of five key
@@ -728,17 +759,19 @@ the background already labels places. The DFO aquatic
 species-at-risk layers stay out of the setup and off the /fishing panel.
 
 The web-only Point Tupper setup (theme id `point-tupper`, `themes/mapThemes.ts`)
-names eight layers: `modern`, `point-tupper-sites`, `transmission-lines`,
-`substations`, `pipelines`, `wharves-coastal-structures`, `water-features` and
-`roads`. It is excluded from `buildMapPresentationFixture` with Poker,
+names eleven layers: `modern`, `point-tupper-sites`, `canadian-wind-turbines`,
+`planned-wind-turbines`, `transmission-lines`, `substations`, `pipelines`,
+`tanks`, `wharves-coastal-structures`, `water-features` and `roads`. It is excluded from `buildMapPresentationFixture` with Poker,
 Electoral Districts, Rhodena and Fishing, because it names web-only context
 layers the native app does not have. Its **Point Tupper Site** category is
 filtered from that fixture and from `layerParity.ts` with Elections and
-Rhodena. Every layer in it is open on the web, so `resolveTheme` returns an
-exact match and a first `?theme=point-tupper` visit raises no Province licence
-sheet. Place names stay off for the same reason as on fishing. Every opening
-layer draws at zoom 11 or closer, so turning the setup on never moves the
-camera off the Strait. `fishing-spots` and `stocked-waters` stay off the
+Rhodena. No layer in it needs the Province licence, so `resolveTheme` returns
+an exact match and a first `?theme=point-tupper` visit raises no Province
+licence sheet; NSPRD boundaries stay one tap away. Place names stay off for the
+same reason as on fishing. Every opening province layer draws at zoom 11 or
+closer, and the context layers that wait for zoom 13 (substations, tanks,
+wharves) never move the camera, so turning the setup on never moves it off the
+Strait. `fishing-spots` and `stocked-waters` stay off the
 `/pointtupper` panel so the fishing pins are not read as part of the site
 brief.
 
@@ -1097,13 +1130,23 @@ definition carries:
   `backgroundSwitch` (the Map/Aerial switch);
 - an optional `shareParams` (`month`, `spot`): the page state its links may
   carry;
-- `chrome`: the `Hero`, an optional `Panel`, the phone `brand` button and the
-  `FooterNote`. These are component types that receive a
-  `FocusChromeContext`: context-layer visibility and its setter, the page
-  state (`FocusPageState`: month, species, selected spot, and counters that
-  ask the panel or the map to reveal the selection) and its setter, opening
-  and closing the phone sheet, `fitToFocus`, and Rhodena's
-  `startViewpointPick`.
+- an optional `mapOverlayInset`: the pixels its `MapOverlay` covers on the
+  map's right; `FocusFit` frames the page's area left of it on a map wide
+  enough to spare it (the page itself only; the full map has no overlay);
+- an optional `parcelOutlineWidth`: NSPRD boundary width in export points,
+  passed through `MapCanvas` to `parcelBoundaryRenderer` (the full map's
+  default is 1.2; `/pointtupper` asks for 2.6);
+- `chrome`: the `Hero`, an optional `Panel`, an optional `MapOverlay` (chrome
+  laid over the map, mounted beside `MapCanvas`; `/pointtupper` uses it for
+  its map key), the phone `brand` button and the `FooterNote`. These are
+  component types that receive a `FocusChromeContext`: context-layer
+  visibility and its setter, the page state (`FocusPageState`: month,
+  species, selected spot, and counters that ask the panel or the map to
+  reveal the selection) and its setter, opening and closing the phone sheet,
+  `fitToFocus`, Rhodena's `startViewpointPick`, each layer's last reported
+  status, province-layer visibility and its setter, and the Province licence
+  state with `reviewProvinceLicence`. A caller checks `licenceAccepted` before
+  turning on a licensed layer, as the panel rows do.
 
 `focusOffersLayer`, `filterFocusLayerIds` (shared links keep their order) and
 `focusHides` apply a definition. App holds the page state and writes `month`

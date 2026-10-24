@@ -192,8 +192,9 @@ export const communityResearchLayers = [
     sourceDate: "Database temporal coverage through 16 September 2025; catalogue updated April 2026; service checked 27 September 2026.",
     scale: "Published turbine point locations; coordinates and equipment attributes are database records.",
     coverage: "Canadian installed wind turbines reported in the NRCan database; inventory may lag additions and retirements.",
-    webCaveat: "These are inventoried turbines, not proposals or a current field inspection. Hub height, rotor diameter, capacity and commissioning year are source attributes, not measurements made for this map.",
-    minZoom: 9,
+    webCaveat: "These are inventoried turbines, not proposals or a current field inspection. In Nova Scotia the newest records are from 2018 (checked October 24, 2026), so farms built since are missing. Hub height, rotor diameter, capacity and commissioning year are source attributes, not measurements made for this map.",
+    // About 350 turbines in Nova Scotia: few enough to draw the whole province.
+    minZoom: 7,
     maxZoom: 23,
     opacity: 0.85,
     zIndex: 238,
@@ -202,6 +203,8 @@ export const communityResearchLayers = [
     idField: "OBJECTID",
     outFields: ["OBJECTID", "Project_Name", "Turbine_Identifier", "Turbine_Rated_Capacity_kW", "Hub_Height_m", "Rotor_Diameter_m", "Commissioning"],
     labelField: "Turbine_Identifier",
+    // Close enough that a wind farm's turbines sit apart, so their numbers do not pile up.
+    permanentLabels: { minZoom: 15 },
     popupFields: [
       { field: "Project_Name", label: "Project" },
       { field: "Turbine_Rated_Capacity_kW", label: "Rated capacity (kW)" },
@@ -211,8 +214,8 @@ export const communityResearchLayers = [
     ],
     featureRenderer: {
       styles: {},
-      defaultStyle: { color: "#417b91", fillColor: "#417b91", fillOpacity: 0.85, weight: 1, radius: 6 },
+      defaultStyle: { color: "#0891b2", fillColor: "#0891b2", fillOpacity: 0.85, weight: 1, radius: 6, marker: { glyph: "turbine" } },
     },
-    legend: [{ label: "Inventoried installed turbine", color: "#417b91" }],
+    legend: [{ label: "Inventoried installed turbine", color: "#0891b2", marker: { glyph: "turbine" } }],
   },
 ] as const satisfies readonly ContextLayerDescriptor[];

@@ -9,6 +9,7 @@
       "geometry": { "type": "Point", "coordinates": [-61.343530, 45.573650] },
       "properties": {
         "id": "everwind-jetty",
+        "label": "EverWind terminal",
         "name": "Point Tupper Terminal jetty (EverWind)",
         "kind": "terminal",
         "note": "EverWind's Point Tupper Terminal: a 7.7-million-barrel storage terminal with 39 aboveground tanks and two deep-water berths. EverWind announced the data-centre campus for Point Tupper on October 16, 2026.",
@@ -23,6 +24,7 @@
       "geometry": { "type": "Point", "coordinates": [-61.3481, 45.5869] },
       "properties": {
         "id": "point-tupper-generating-station",
+        "label": "Generating station",
         "name": "Point Tupper Generating Station (Nova Scotia Power)",
         "kind": "power",
         "note": "Nova Scotia Power's generating station at Point Tupper. Turn on Electrical transmission lines and Electrical substations to see the mapped grid around it.",
@@ -37,6 +39,7 @@
       "geometry": { "type": "Point", "coordinates": [-61.31328, 45.58962] },
       "properties": {
         "id": "landrie-lake",
+        "label": "Landrie Lake",
         "name": "Landrie Lake (industrial water supply)",
         "kind": "water",
         "note": "Built by the Province in 1969 to supply raw water to Point Tupper industry; now run by the Landrie Lake Water Utility. EverWind says the campus's closed-loop cooling will draw about 100,000 litres a day in phase 1 and about 500,000 litres a day after expansion, about 1% of the lake's stated safe yield of 34 million litres a day (company figures, as reported by The Canadian Press on October 16, 2026).",
@@ -51,6 +54,7 @@
       "geometry": { "type": "Point", "coordinates": [-60.7676429, 45.6831542] },
       "properties": {
         "id": "potlotek",
+        "label": "Potlotek",
         "name": "Potlotek First Nation",
         "kind": "community",
         "note": "Mi'kmaw community. Shown as a place label only; this map does not speak for any community.",
@@ -65,6 +69,7 @@
       "geometry": { "type": "Point", "coordinates": [-61.7383, 45.6016] },
       "properties": {
         "id": "paqtnkek",
+        "label": "Paq'tnkek",
         "name": "Paq'tnkek First Nation",
         "kind": "community",
         "note": "Mi'kmaw community. Shown as a place label only; this map does not speak for any community.",

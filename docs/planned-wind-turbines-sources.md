@@ -1,0 +1,323 @@
+# Planned wind turbines: sources
+
+The **Planned wind turbines (NS EA filings)** layer (`planned-wind-turbines`,
+`web/public/wind/planned-turbines.geojson`) draws turbine positions published in
+Nova Scotia environmental assessment (EA) filings at
+<https://novascotia.ca/nse/ea/projects.asp>. Filings were read on October 24, 2026.
+
+- **Only published tables.** Every position comes from a coordinate table in a
+  filing (registration documents, their appendices: sound, shadow-flicker and
+  radio-interference studies). Nothing was digitised from a map and nothing was
+  estimated. Page numbers are PDF page numbers (the `#page=N` in each link).
+- **Conversion.** UTM values (NAD83, Zone 20) were converted to WGS84 with the
+  GRS80 transverse Mercator inverse; degrees-minutes-seconds were converted
+  directly. Each point keeps the published values in `coords_as_published`. An
+  independent re-conversion of every UTM point agreed within about 1 m (7 cm
+  near the Strait), and the six Rhodena turbines match
+  `web/src/rhodena/features.json` exactly. The raw extracts, the conversion
+  logs and the merge script are in [`web/scripts/wind/`](../web/scripts/wind/README.md);
+  rerunning the script reproduces the public file exactly.
+- **What is left out.** Operating farms, alternate and contingency sites (they
+  would count a layout twice), and withdrawn, rejected or possibly lapsed
+  projects. NRCan's Canadian Wind Turbine Database, behind the installed layer,
+  has no Nova Scotia turbine commissioned after 2018 (347 records, checked
+  October 24, 2026), so "not in NRCan" does not mean "not built": build status
+  was checked against proponents, the Canada Infrastructure Bank and news
+  reports, cited per project. Higgins Mountain (17 turbines, operating in 2026)
+  is built and missing from both layers; Benjamins Mill is partly built and
+  stays on this one.
+- **What the points are.** Assessed layouts, subject to change: each EA uses a
+  representative turbine model and none is an as-built survey. An approval does
+  not mean a farm will be built.
+
+## Summary
+
+623 turbine positions from 17 projects, counted from the published file.
+
+| Project | County | Status | Points on the map | Project MW (filed) |
+|---|---|---|---|---|
+| Aulds Cove Wind Project | Guysborough | EA approved with conditions on 13 February 2026 | 21 | 147 |
+| Bear Lake Wind Power Project | Hants / Lunenburg / Halifax | EA approved with conditions on 13 December 2023; its two-year deadline to start work has passed with no extension posted | 15 | 89 |
+| Benjamins Mill Wind Project | Hants | Partly built: 8 turbines operating since December 2025 and 3 under construction; EA approved with conditions on 13 February 2023 | 28 | 150 |
+| Eigg Mountain Wind Project | Antigonish | EA approved with conditions on 9 April 2026; construction not started | 22 | 154 |
+| Goose Harbour Lake Wind Farm | Guysborough | Under construction; EA approved with conditions on 20 March 2023 | 24 | 168 |
+| Harbour Hills Wind Project | Guysborough | EA under review, not approved; registered 24 June 2026 | 107 | 856 |
+| Kmtnuk Wind Power Project | Colchester | EA approved with conditions on 21 December 2023; its two-year deadline to start work has passed with no extension posted | 16 | 98 |
+| Melvin Lake Wind Project | Halifax; Hants | EA approved with conditions on 24 January 2025; not under construction, and work must start by 24 January 2027 unless extended | 23 | 161 |
+| Mersey River Wind Farm | Queens | Under construction; EA approved with conditions on 27 March 2023 | 33 | 148.5 |
+| Ocean Lake Wind Project (formerly EverWind Wind Farm 2) | Guysborough | EA approved with conditions on 2 July 2026 | 158 | 1,264 |
+| Rhodena Wind Project | Inverness | EA approved with conditions on 6 January 2025 | 6 | 42 |
+| Setapuktuk Wind Project (formerly EverWind Wind Farm 1) | Guysborough | EA approved with conditions on 24 November 2025 | 54 | 432 |
+| Sugar Maple Wind Energy Project | Pictou | EA approved with conditions on 22 May 2026; construction planned from 2027 | 16 | 112 |
+| Upper Afton Wind Project | Antigonish / Guysborough | EA approved with conditions on 22 April 2026 | 22 | 176 |
+| Weavers Mountain Wind Energy Project | Pictou; Antigonish | Under construction; EA approved with conditions on 27 July 2023 | 16 | 99.2 |
+| Wedgeport Wind Farm Project | Yarmouth | Under construction; EA approved with conditions on 4 May 2023 | 13 | 84 |
+| Windy Ridge Wind Power Project | Colchester / Cumberland | EA approved with conditions on 25 July 2024; its two-year deadline to start work has passed with no extension posted | 49 | 340 |
+
+## Status caveats
+
+- The conditions for Bear Lake, Kmtnuk, Windy Ridge and Rhodena require work to
+  begin within two years of approval unless the Minister grants a written
+  extension (deadlines below). The EA pages still read "Approved with
+  conditions" with no extension posted; whether work has started was not checked.
+- The press figures for EverWind's four farms (650 MW from 80 turbines; elsewhere
+  768 MW) do not match the EA filings (703 MW, 102 turbines, 108 with Upper Afton's
+  alternates), so the layouts may have changed since the filings. The map shows
+  the filed layouts.
+
+## Around the Strait of Canso, and EverWind's four farms
+
+### Setapuktuk Wind Project
+Project page: <https://novascotia.ca/nse/ea/setapuktuk-wind/>
+
+| Source | Supports |
+|---|---|
+| [Decision](https://novascotia.ca/nse/ea/setapuktuk-wind/sw-wind-ministers-decision-approval.pdf), [conditions](https://novascotia.ca/nse/ea/setapuktuk-wind/sw-wind-conditions.pdf); project page | Registered 3 Oct 2025; approved with conditions 24 Nov 2025; 54 turbines, 432 MW, about 221.7 m tip, 8 MW each |
+| [EA registration document](https://novascotia.ca/nse/ea/setapuktuk-wind/sw-wind-ea-registration-document.pdf#page=33), Table 3.4, PDF p. 33 | Goldwind GWH182-8.0 (representative): hub 130 m, rotor 183.4 m, tip 221.7 m |
+| [Appendix B-G](https://novascotia.ca/nse/ea/setapuktuk-wind/sw-appendix-b-g.pdf#page=9), Appendix C Sound, WindPRO "DECIBEL - Main Result" WTG table, PDF pp. 9-10 (calc. "250815 WF1") | **Mapped coordinates** T1-T54, UTM (north) NAD83(NSRS/CSRS) Zone 20, 0.01 m. The same 78 positions (54 + 24 Goose Harbour Lake) repeat identically in all four model runs in the appendix |
+| [Appendix A Part 4](https://novascotia.ca/nse/ea/setapuktuk-wind/sw-appendix-a-part-4.pdf#page=64), Strum EMI letter to ISED dated 31 Jul 2025, Table 1, PDF pp. 64-65 | Same 54 UTM positions plus published 6-decimal lat/lon (used as a check) and base elevations (used for `ground_elev_m_published`). The letter gives 120 m hub and 211.7 m tip, which differs from the 130/221.7 in EARD Table 3.4 |
+
+### Goose Harbour Lake Wind Farm (under construction)
+Project page: <https://novascotia.ca/nse/ea/goose-harbour-lake-wind-farm-project/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/goose-harbour-lake-wind-farm-project/ghlwf-decision-approval.pdf) | Registered 27 Jan 2023; approved with conditions 20 Mar 2023; 29 turbines, 130.5 MW, 195 m tip, 4.5 MW each (the 2023 design) |
+| [Aulds Cove EA reg. doc](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-ea-registration-document.pdf#page=28), Table 3.4, PDF p. 28 (Dec 2025) | "Under Development" status |
+| [Setapuktuk Appendix B-G](https://novascotia.ca/nse/ea/setapuktuk-wind/sw-appendix-b-g.pdf#page=10), Appendix C Sound, WTG rows 55-78, PDF pp. 9-10 | **Mapped coordinates**: 24 unlabelled NORDEX N163/7.X (7,000 kW, rotor 163 m, hub 118 m) modelled as existing turbines in a calculation titled "Goose Harbour Lake Wind Farm Phase 1 Turbines Included"; NAD83(NSRS/CSRS) |
+| [Aulds Cove Appendix B-K](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-appendix-b-k.pdf#page=10), Appendix C Noise, Table 3 "Turbines Under Construction", PDF p. 10 | IDs T5, T21, T27 and T30 for four of the 24 (each matches within 2 m). The other 20 are labelled `unlabelled-rowNN` after their row in the Setapuktuk table |
+| News (not official filings): [CTV/CP on CIB financing](https://atlantic.ctvnews.ca/nova-scotia-paper-mill-to-be-powered-by-wind-farm-with-financing-from-federal-agency-1.7166159); [RES construction start](https://reglobal.org/res-commences-construction-of-168-mw-goose-harbour-lake-wind-farm-in-nova-scotia/) | Redesigned to 24 x Nordex N163 7.0 MW = 168 MW; construction began in 2025; operation expected late 2026 |
+| [2023 EA part 10](https://novascotia.ca/nse/ea/goose-harbour-lake-wind-farm-project/ghlwf-ea-registration-document-part-10-appendix-n-q.pdf#page=3), EMI Table 1, PDF p. 3 (29 of 32 candidate locations, 120 m hub, 150 m rotor) | **Superseded; not mapped.** Turbine 14's UTM and lat/lon disagree by 270 m (digits swapped). 7 of the 24 modelled positions lie within 2 m of a 2023 location; the other 17 are 17 m to 1.6 km from the nearest one, so 2023 IDs were not carried over |
+
+Why included: the farm is not operating and not in the CWTD, so without it a map of what is
+coming near Point Tupper would miss 24 turbines 7-18 km away. Its points say `Under construction` in their status and layout.
+The positions come from a third party's model input (Strum for EverWind, Aug 2025), not the
+proponent's own filing. Ground elevations are left null because one modelled value (341.3 m at
+E 618,361) is clearly wrong; CDEM and Aulds Cove give about 171 m. Some turbines may already be
+standing.
+
+### Aulds Cove Wind Project
+Project page: <https://novascotia.ca/nse/ea/aulds-cove-wind-project/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-decision.pdf), [conditions](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-conditions.pdf) | Registered 18 Dec 2025; approved 13 Feb 2026; up to 21 turbines, 147 MW, about 199.5 m tip, up to 7 MW; entirely in Guysborough County |
+| [EA registration document](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-ea-registration-document.pdf#page=29), Table 3.5, PDF p. 29 | Nordex N163 6.X 7000 (representative): hub 118 m, rotor 163 m, tip 199.5 m |
+| [Appendix B-K](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-appendix-b-k.pdf#page=24), Appendix D Shadow Flicker, WindPRO "SHADOW - Main Result" WTG table, PDF p. 24 | **Mapped coordinates** T1-T22 with no T18 (21 turbines), UTM (north) NAD83(CSRS)v6 Zone 20, 0.01 m. Rows run in reverse order; IDs are taken from the "T22:"-style row labels |
+| Same file, Appendix C Noise, Table 1, PDF p. 9 | Same 21 positions as N01-N22, rounded to metres; N07 has a typo ("619.075 5.052.399") |
+| [Appendix A](https://novascotia.ca/nse/ea/aulds-cove-wind-project/aulds-cove-appendix-a.pdf#page=65), Strum EMI letters dated 22 Sep 2025, Table 1, PDF pp. 64-65 | 22 turbines including T18 (619225.4 / 5051750.6), which was later dropped; published 6-decimal lat/lon used as a check. T18 is not mapped |
+
+### Rhodena Wind Project
+Project page: <https://novascotia.ca/nse/ea/rhodena-wind-project/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/rhodena-wind-project/Decision_Letter_Rhodena_Wind_EA.pdf), [approval/conditions](https://novascotia.ca/nse/ea/rhodena-wind-project/EA_Approval_RhodenaWind.pdf) | Registered 6 Nov 2024; approved 6 Jan 2025; up to 6 turbines, 42 MW, up to 200 m tip, up to 7 MW |
+| [Part 8, Appendix J](https://novascotia.ca/nse/ea/rhodena-wind-project/rwp-Part-8-Appendix-J-Appendix-M.pdf#page=2), Strum EMI letter dated 24 Jul 2024, Table 1, PDF pp. 2-3 | **Mapped coordinates** T1-T6, UTM Z20 (datum not stated) with published 6-decimal lat/lon; tip 199.5 m, hub 118 m, rotor 163 m |
+| Repo `web/src/rhodena/features.json` | **Confirmed:** same six turbines, same source, within 0.05 m |
+
+### Upper Afton Wind Project (one of EverWind's four)
+Project page: <https://novascotia.ca/nse/ea/upper-afton-wind-project/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/upper-afton-wind-project/upper-afton-decision.pdf), [conditions](https://novascotia.ca/nse/ea/upper-afton-wind-project/upper-afton-conditions.pdf) | Registered 6 Mar 2026; approved 22 Apr 2026; up to 176 MW, up to 28 turbines, about 221.7 m tip, 8 MW |
+| [EA reg. doc to Appendix E](https://novascotia.ca/nse/ea/upper-afton-wind-project/upper-afton-ea-registration-document-to-appendix-e.pdf#page=21), section 2.1 (PDF p. 21) and Table 3.3 (PDF p. 30) | "fourth Phase 1 onshore wind project"; 22 turbines planned and 6 of 28 locations alternates; Goldwind GWH182-8.0: hub 130 m, rotor 183.4 m, tip 221.7 m; EARD centre 45.550643 N, 61.661264 W |
+| Same PDF, Appendix E WSP Noise Assessment (4 Feb 2026), Table 1, PDF p. 438 | **Mapped coordinates** for the 22 primary turbines (T03-T28), "UTM Zone 20T", whole metres. Identical to the WSP Shadow Flicker report Table 1 ([Appendix F-J](https://novascotia.ca/nse/ea/upper-afton-wind-project/upper-afton-appendix-f-j.pdf#page=6), PDF p. 6), whose figures state NAD83 UTM Zone 20 |
+| Same PDF, Appendix C WSP EMI letter (22 Dec 2025), Table 1, PDF p. 417 | **Mapped coordinates** for the 6 alternates (T1, T2, T6, T7, T12, T24) and **T15A**, and base elevations. The letter says 29 turbines; T15A (603451 / 5043664) is not one of the 28 EA locations and is flagged `layout_role: unclear`. It is left out of the map |
+
+### Ocean Lake Wind Project (EverWind and Membertou; not one of the four)
+Project page: <https://novascotia.ca/nse/ea/ocean-lake-wind/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/ocean-lake-wind/ocean-lake-decision.pdf), [conditions](https://novascotia.ca/nse/ea/ocean-lake-wind/ocean-lake-conditions.pdf) | Registered 13 May 2026; approved 2 Jul 2026; up to 158 turbines, up to 1,264 MW, about 221.7 m tip, 8 MW; near New Harbour, Goldboro, Larry's River, Lundy, Roachvale |
+| [EA reg. doc to Appendix C](https://novascotia.ca/nse/ea/ocean-lake-wind/ocean-lake-ea-registration-document-appendix-c.pdf#page=31), section 3.5.1 and Table 3.3, PDF p. 31 | Optional turbine locations (OTs) were assessed except in the sound and shadow models; Goldwind GWH182-8.0: hub 130, rotor 183.4, tip 221.7; project centre 45.236163 N, 61.535765 W (42.2 km from the reference point) |
+| [Appendix D-I](https://novascotia.ca/nse/ea/ocean-lake-wind/ocean-lake-appendix-d-i.pdf#page=10), Appendix E WSP Noise Assessment (27 Apr 2026), Table 1, PDF pp. 10-16 | **Mapped coordinates** for the 143 modelled turbines (source codes T001-T158), "Zone 20T", whole metres. Identical to the Shadow Flicker Table 1 in the same file |
+| EA reg. doc to Appendix C, Appendix C WSP EMI letter, Table 1, PDF pp. 483-487 | Lat/long in degrees, minutes and seconds for all 158 (datum not stated). **Mapped directly** for the 15 optional locations (T4, T22, T24, T33, T51, T82, T90, T95, T99, T107, T110, T120, T121, T125, T126); used as a check for the 143 (within 1.4 m) |
+
+
+### Windy Ridge Wind Power Project (one of EverWind's four)
+Project page: <https://novascotia.ca/nse/ea/windy-ridge-wind-power/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/windy-ridge-wind-power/wrwp-decision.pdf), [conditions](https://novascotia.ca/nse/ea/windy-ridge-wind-power/wrwp-conditions.pdf) | Registered 5 Jun 2024; approved 25 Jul 2024; 49 turbines, 340 MW, 199.5 m tip, 7 MW; near Debert |
+| [EA registration document](https://novascotia.ca/nse/ea/windy-ridge-wind-power/wrwp-ea-registration-document.pdf#page=27), PDF p. 27 and p. 312 | 52 locations on the EA figures, 49 to be built, 3 contingency alternates; Nordex N163: hub 118 m, rotor 163 m, total 199.5 m |
+| [Appendix E](https://novascotia.ca/nse/ea/windy-ridge-wind-power/wrwp-appendix-e.pdf#page=6), WSP Noise Assessment (15 Apr 2024), Table 1, PDF pp. 6-7 | **Mapped coordinates** for the 49 turbines (T01-T72, not sequential), "Zone 20", whole metres; Figure 1 (PDF p. 10) states NAD83 UTM Zone 20. Identical to the [Appendix L](https://novascotia.ca/nse/ea/windy-ridge-wind-power/wrwp-appendix-l.pdf#page=5) Shadow Flicker Table 1. The report says "EverWind Fuels LLC, majority owner of Windy Ridge" (PDF p. 5) |
+| — | The 3 alternates appear only on the EA figures; **no published coordinates**, not mapped |
+
+### Kmtnuk Wind Power Project (one of EverWind's four)
+Project page: <https://novascotia.ca/nse/ea/kmtnuk-wind-power/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-decision.pdf), [conditions](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-conditions.pdf) | Registered 1 Nov 2023; approved 21 Dec 2023; 16 turbines, 98 MW, 206.5 m tip, 7.0 MW; north of McCallum Settlement |
+| [Appendix S-V](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-appendix-s-v.pdf#page=59), Appendix T Shadow Flicker, WindPRO WTG table, PDF p. 59 | **Mapped coordinates**, NAD83(NSRS/CSRS) Zone 20; IDs from the "WTG n" labels (1, 2, 4-8, 10-17, 20) |
+| Same file, Appendix S EMI letter (18 Sep 2023), Table 1, PDF pp. 2-3 | Hub 125 m, rotor 163 m, tip 206.5 m; UTM about 1.05 m north of the WindPRO values (likely an NAD83 realisation difference) and 4-decimal lat/lon used as a check |
+
+### Bear Lake Wind Power Project (one of EverWind's four)
+Project page: <https://novascotia.ca/nse/ea/bear-lake-wind-power/>
+
+| Source | Supports |
+|---|---|
+| Project page; [decision](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-decision.pdf), [conditions](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-conditions.pdf) | Registered 24 Oct 2023; approved 13 Dec 2023; up to 15 turbines, up to 89 MW, up to 206.5 m tip; near Upper Vaughn (EA page spelling) |
+| [Appendix Q-T](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-appendix-q-t.pdf#page=62), Appendix R Shadow Flicker, WindPRO WTG table, PDF p. 62 | **Mapped coordinates**, NAD83(NSRS/CSRS) Zone 20 (unlabelled rows) |
+| Same file, Appendix Q EMI letter (15 Sep 2023), Table 1, PDF pp. 2-3 | IDs 1-15 (identical coordinates to the WindPRO rows), 4-decimal lat/lon (check), hub 125 m, rotor 163 m, tip 206.5 m |
+
+### Construction deadlines in the 2023–2025 approvals
+The conditions for Bear Lake, Kmtnuk, Windy Ridge and Rhodena (condition 3.2) require work to
+begin within two years of approval unless the Minister grants a written extension. The deadlines
+were 13 Dec 2025 (Bear Lake), 21 Dec 2025 (Kmtnuk), 25 Jul 2026 (Windy Ridge) and 6 Jan 2027
+(Rhodena). On 2026-10-24 the EA pages still read "Approved with conditions" and show no extension
+or amendment notice. EverWind and Membertou named Bear Lake, Kmtnuk and Windy Ridge as active in
+October 2026, and Nuveen announced financing for EverWind's wind projects in March 2026 (Halifax
+Examiner). Whether construction has started, or extensions were granted, was **not verified**.
+
+## Checked: no coordinates mapped
+
+### Near the Strait, not planned or no usable filing
+| Project | Why not mapped | Link |
+|---|---|---|
+| Wind Energy Project, Creignish Rear (Black River Wind, 2005; six 1.2 MW) | Historical. Approved 14 Nov 2005, deadline to begin extended to 14 Nov 2011; only CRE1 (2013) is in the CWTD; the registration PDF has no text coordinate table | <https://novascotia.ca/nse/ea/creignishwind.asp> |
+| Canso Wind Farm (Barrington Wind Energy, 2006; up to 8 turbines SE of Canso, about 39 km) | Approval presumed lapsed: condition 1.2 required work to begin within 2 years and no extension is posted; not in the CWTD; only the decision, conditions and notice are posted (no coordinates). The Canso-area farm now operating is Sable (2015, CWTD) | <https://novascotia.ca/nse/ea/cansowind.asp> |
+| Wind/Hydro Energy Project, Lake Uist (Cape Breton Explorations; up to 44 turbines) | Status "Null and void" (Class II report never filed); about 60 km | <https://novascotia.ca/nse/ea/CBWindHydro.asp> |
+| Mulgrave Community Wind (2014), Point Tupper Wind Farm (2008), Sable Wind (2013), Fairmont (2011), Maryvale (2009), Glen Dhu (2009) | Operating; in the CWTD | <https://novascotia.ca/nse/ea/projects.asp> |
+| EverWind Strait Crossing Transmission Line (approved 25 Apr 2025); EverWind Point Tupper Green Hydrogen/Ammonia Phase 1 (approved 7 Feb 2023); Bear Head Energy hydrogen/ammonia (approved 12 Apr 2023) | No wind turbines | <https://novascotia.ca/nse/ea/everwind-strait-crossing-transmission-line/>, <https://novascotia.ca/nse/ea/everwind-point-tupper-green-hydrogen-ammonia-project/>, <https://novascotia.ca/nse/ea/bear-head-energy/> |
+| Nova Sustainable Fuels Renewable Energy Park, Goldboro (approved 18 Dec 2025) | Fuel plant only; "the renewable energy project and transmission line will be assessed under another environmental assessment". No wind EA yet | <https://novascotia.ca/nse/ea/nova-sustainable-fuels-renewable-energy/> |
+| Melford, Mulgrave, Pirate Harbour, Middle Melford | Covered by Setapuktuk and Aulds Cove; no separate project found | — |
+| Richmond County (including Point Tupper industrial land) | No wind EA registration found. Council amended planning documents in 2023 to allow utility-scale turbines in heavy-industrial zones; no development agreement with coordinates found | <https://commediaportal.ca/en/media/richmond-county-examines-offshore-and-onshore-wind-possibilities> |
+| Port Hastings, Creignish (other than Rhodena), Glen Dhu, Lochaber, "Bayview" | No NS EA registration under these names found on the projects list | <https://novascotia.ca/nse/ea/projects.asp> |
+
+### Farther from the Strait
+Eigg Mountain, Sugar Maple, Weavers Mountain and the other mainland projects are under [Elsewhere in Nova Scotia](#elsewhere-in-nova-scotia). Harbour Hills is there too.
+
+### Withdrawn or rejected
+None found for wind projects near the Strait.
+
+### Other registries
+- Impact Assessment Agency of Canada: the federal Physical Activities Regulations designate offshore
+  wind facilities, not onshore wind farms, and a search found only the Regional Assessment of
+  Offshore Wind Development in Nova Scotia (registry 83514), which gives no turbine positions:
+  <https://iaac-aeic.gc.ca/050/evaluations/document/147038>
+- Municipal development agreements: none with turbine coordinates found in a quick search
+  (Richmond, Guysborough, Inverness, Antigonish). Not searched exhaustively.
+
+## Elsewhere in Nova Scotia
+
+### Eigg Mountain Wind Project (22 turbines): Antigonish County, 59.5-66.7 km from Point Tupper
+NRCan: not present; nearest NRCan turbine 1.9 km (Glen Dhu, 2011).
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/eigg-mountain-wind-project/) | Proponent (Eigg Mountain Wind Inc, RES); registered 2026-02-18; 22 turbines, 154 MW, 199.5 m tip, 7.0 MW; approved 2026-04-09; construction planned late 2026, operation 2028 |
+| [Appendix K, Shadow Flicker Assessment (Nortek, 4 Feb 2026)](https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf), Table 1, PDF p. 4 | **Coordinates** for IDs 1-22, UTM NAD83(CSRS) Zone 20. Tables 2-3 list existing Glen Dhu and Maryvale turbines in the same CRS, which were used as a check against NRCan (12-42 m) |
+| [EA registration document](https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-ea-registration-document.pdf) | Hub height 118 m, rotor 163 m (Nordex N163); centre at 45.701936 N, 62.131292 W; turbine locations A3 and A24 are "alternative turbine locations as a contingency" (p. 259). Those alternatives are not tabulated, so they are not mapped |
+| [Appendix D, Noise Impact Assessment](https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-d.pdf) | Not used for coordinates. Its "Table 1: Proposed Turbine Positions" actually reprints the receptor table (a document error) |
+| [Conditions](https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-conditions.pdf) | Condition 3.2: work must start within 2 years unless the Minister extends this (deadline 2028-04-09) |
+
+The Appendix K IDs (1-22) may not match the turbine labels on the EA figures, which include the A-prefixed alternatives.
+
+### Sugar Maple Wind Energy Project (16 turbines): Pictou County, 65-73 km from Point Tupper
+NRCan: not present; nearest NRCan turbine 14.9 km.
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/sugar-maple-wind-energy/) | Proponent (WEB Sugar Maple Wind Inc: Glooscap First Nation and SWEB Development LP); registered 2026-04-02; up to 16 turbines, 112 MW, up to 200 m tip, 7.0 MW; approved 2026-05-22; major construction spring 2027, commercial operation end of 2028 (Green Choice Program) |
+| [Appendix D, Noise Impact Assessment (Nortek, 20 Mar 2026)](https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf), Table 1, PDF p. 4 | **Coordinates** S1-S16, including "the updated position for turbine S10" (S10R); UTM NAD83(CSRS) Zone 20. The table is an embedded image, transcribed by eye |
+| [Appendix K, Shadow Flicker Assessment](https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-k.pdf), Table 1, PDF p. 4 | Second copy of the coordinates. All 16 values are identical (labelled S10 rather than S10R). Hub 118 m, rotor 163 m. Its second table lists 5 Weavers Mountain turbines "currently under construction", which match the Weavers EA coordinates |
+
+### Weavers Mountain Wind Energy Project (16 turbines): Pictou/Antigonish, 64-71 km from Point Tupper. UNDER CONSTRUCTION
+NRCan: not present; nearest NRCan turbine 10.8 km (Avondale, 2016).
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/) | Proponent; registered 2023-06-07; up to 16 turbines, 99.2 MW, 206.5 m tip, up to 6.2 MW; approved 2023-07-27 |
+| [Appendix G-P (Strum EMI consultation letters, Apr 2023)](https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf), Table 1, first at PDF p. 284 | **Coordinates** 1-16 (UTM Z20, NAD83, with 3-dp lat/lon); hub 125 m, rotor 163 m. All 15 copies are identical |
+| [CIB project page](https://cib-bic.ca/en/projects/clean-energy/weavers-mountain-wind/) | "$117.4 million (under construction)"; financed size 94.4 MW (16 Nordex turbines). The GeoJSON keeps the EA figure of 99.2 MW |
+| Sugar Maple Appendix K (above) | Independent confirmation that turbines 2, 4, 9, 12 and 15 were under construction at the EA coordinates (March 2026) |
+
+### Melvin Lake Wind Project (23 turbines): Halifax/Hants, 213+ km from Point Tupper
+NRCan: not present; nearest NRCan turbine 3.2 km (Chebucto Pockwock, 2014).
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/melvin-lake-wind-project/) | Proponent (Melvin Lake Wind Inc); registered 2024-11-28; up to 23 turbines, 161 MW, up to 206 m tip, 7 MW; decision released 2025-01-27 (the decision letter is dated 2025-01-24) |
+| [Part 5, Appendix G (part b) to N (Strum EMI letters, 19 Sep 2024)](https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf), Table 1, first at PDF p. 281 | **Coordinates** 1-23 (UTM 20N, NAD83, with 4-dp lat/lon); 206.5 m tip, 125 m hub, 163 m rotor. All 16 copies are identical. The printed lat/lon for T5 is about 85 m from its UTM position; the UTM value was used |
+| [Conditions](https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-EA-Approval.pdf) | Condition 3.2: work must start within 2 years (deadline about 2027-01-24) unless extended |
+| [ABO Energy project page](https://www.aboenergy.com/ca/company/projects/melvin-lake-wind/index.php); [East Hants council update, Oct 2025](https://www.easthants.ca/wp-content/uploads/easthants-occ/agendas/46388/attachments/27424/ABO%20Wind%20-%20Melvin%20Lake%20update%20-%20October%202025.pdf) | Melvin Lake is an ABO Energy project. It was selected in the Green Choice Program, but ABO declined the PPA in 2025. ABO is re-bidding in November 2026, with an award expected January 2027 and a target COD of 2030-12-31. Not under construction. **Watch the January 2027 commencement deadline** |
+
+### Benjamins Mill Wind Project (28 positions): Hants County. PARTLY BUILT, see the partly built list
+NRCan: not present (its 2025-2026 turbines post-date the NRCan snapshot); nearest NRCan turbine 7.8 km (South Canoe, 2015).
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/benjamins-mill-wind-project/) | Proponent; addendum 2023-01-06; up to 28 turbines, up to 150 MW, up to 200 m tip, up to 6.2 MW; approved 2023-02-13 |
+| [EA Addendum Appendix M (WindPRO DECIBEL, "Ben Mill - EA Layout Noise Model - Nov 2022")](https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf), WTGs table, PDF p. 1 (repeated p. 9) | **Coordinates** 1-28, printed as WGS84 decimal degrees, used as printed. The model turbine was an Enercon E-160 (hub 99 m), but the EA gives ranges (hub 100-131 m, rotor 138-170 m), so hub and rotor are `null` |
+| [EA Addendum Part 1](https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-part-1.pdf), Table 3 | Turbine specification ranges |
+| [Natural Forces Phase 1 page](https://www.naturalforces.ca/projects/benjamins-mill-wind-project/) | Phase 1: 8 turbines, about 34 MW; "reached Commercial Operation as of December 16, 2025" |
+| [Natural Forces Minas Highlands (Phase 2) page](https://www.naturalforces.ca/projects/minas-highlands-wind-project-benjamins-mill-wind-project-phase-2/) | Phase 2: 3 turbines under construction (tower deliveries 19-20 Sep 2026), COD 2026; permitted under the same EA |
+| [Natural Forces future-phases page](https://www.naturalforces.ca/projects/benjamins-mill-wind-project-phase-2/) | Later phases are being bid into the Green Choice Program, up to 28 turbines in total |
+
+### Mersey River Wind Farm (33 turbines): Queens County. UNDER CONSTRUCTION
+NRCan: not present; nearest NRCan turbine 8.9 km (Liverpool, 2017).
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/mersey-river-wind-farm/) | Proponent; registered 2023-02-03; 33 turbines, 148.5 MW, 180 m tip, 4.5 MW; approved 2023-03-27; conditions amended 2023-11-29 |
+| [Part 6, Appendices J-Q (Strum EMI letters, 19 Sep 2022)](https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf), Table 1, first at PDF p. 182 | **Coordinates** 1-33 (UTM Z20, NAD83, with 8-dp lat/lon, which agree with the conversion to 0.1 m); hub 105 m, rotor 150 m (Vestas V150). All 16 copies are identical |
+| [Minister's amendment letter, 2023-10-30](https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-minister-amendment-letter.pdf) | **Accuracy caveat:** the October 2023 layout revision moved "a few select turbines". The revised project description (Strum, 2023-10-12) is not published, so some mapped positions may be outdated |
+| [CIB project page](https://cib-bic.ca/en/projects/clean-power/mersey-river-wind/); [Frequency/QCCR, 2025-05-16](https://www.frequencynews.ca/news/mersey-river-wind-project-to-start-in-next-few-months/) | "$206.4 million (Under construction)". In May 2025 site clearing was largely done and the first turbines were expected by late 2026 |
+
+### Wedgeport Wind Farm Project (13 positions): Yarmouth County. UNDER CONSTRUCTION
+NRCan: not present; nearest NRCan turbine 456 m (Black Pond, 2015), a separate small project, not part of this one.
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/) | Proponent; registered 2023-03-15; up to 13 turbines, up to 200 m tip, 5.9-7.0 MW each; approved 2023-05-04 |
+| [EA registration document](https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf), Table 6-2, printed pp. 49-50 | **Coordinates** WTG1-13, UTM NAD83 **Zone 19**. Table 6-1 gives hub 110-118 m and rotor 162-175 m (ranges, so `null`) |
+| [Elemental Energy project page](https://elementalenergy.ca/project/wedgeport-wind/); [CIB, financial close May 2025](https://cib-bic.ca/en/medias/articles/cib-loans-97-million-towards-new-energy-project-wedgeport-wind/) | Under construction, with operations scheduled late 2026. The project is now **12 x 7 MW = 84 MW** (the map uses 84 MW). Which of the 13 EA positions was dropped is not published, so all 13 are mapped |
+
+### Harbour Hills Wind Project (107 turbines): Guysborough County, 52-66 km from Point Tupper. UNDER REVIEW
+| Source | Supports |
+|---|---|
+| [EA project page](https://novascotia.ca/nse/ea/harbour-hills-wind/) | EverWind and Membertou ("Wind Farm 3"); registered 2026-06-24; 107 turbines, 856 MW. On 2026-08-13 the Minister found the registration insufficient and asked for more flora and fauna information; it is under review, not approved and not rejected |
+| [Appendix B-F](https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf), Table 1, PDF pp. 42-44 | **Coordinates** for all 107 positions, printed in degrees, minutes and seconds (datum not stated in the table; the report's maps are NAD83), converted arithmetically |
+
+EverWind and Membertou therefore have six approved wind farms (Bear Lake, Kmtnuk, Windy Ridge, Setapuktuk, Upper Afton, Ocean Lake) and Harbour Hills under review. The four the data-centre announcement named are Bear Lake, Kmtnuk, Upper Afton and Windy Ridge. Bear Lake also faces a local hurdle: CBC reported in October 2025 that West Hants refused its development agreement and the decision was under appeal (not checked here).
+
+## Approval possibly lapsed (kept off the map)
+Every recent approval carries the same condition 3.2: work must start within 2 years of the approval unless the Minister grants a written extension. None of the project pages shows an extension.
+
+| Project | Approved | Deadline | Evidence work has not started | Coordinates |
+|---|---|---|---|---|
+| Westchester Wind Project (12 turbines, 50-84 MW, Natural Forces) | 2023-02-13 | 2025-02-13 | The [Natural Forces page](https://www.naturalforces.ca/projects/westchester-wind-project/) still calls it "proposed", with a Green Choice bid and an information session on 2026-10-27 | Not found in EARD Section 2 or Addendum Parts 1-2. Addendum Appendix L (sound) has no text-layer table and was not checked further. <https://novascotia.ca/nse/ea/Westchester-Wind-Project/> |
+| Clydesdale Ridge Wind Project (18 turbines, 126 MW, Natural Forces/RMS) | 2024-09-26 | 2026-09-26 | The [Natural Forces page](https://www.naturalforces.ca/projects/clydesdale-ridge-wind-project/) says "proposed", with a Green Choice bid and an information session on 2026-11-02. The deadline passed only a month ago, and an unpublished extension is possible | [EA registration document](https://novascotia.ca/nse/ea/clydesdale-ridge-wind/cwr-ea-registration-document.pdf), Table 6.3, PDF p. 32 (UTM NAD83 Z20). Not mapped while the approval may have lapsed |
+| Ellershouse 3 Wind Project (12 turbines, 66 MW, Potentia/AVFN) | 2023-07-05 | 2025-07-05 | No construction evidence found. Potentia's planned spring 2025 construction (6 turbines under the AREA PPA) is unconfirmed, and its project page now returns 404. **It may have been built**, so this needs checking | [Appendix M-P](https://novascotia.ca/nse/ea/ellershouse-3-wind/e3w-ea-registration-appendix-m-p.pdf), Table 1, PDF p. 7 (8 identical copies). Printed lon for T7 is a typo. Not mapped while the approval may have lapsed |
+
+Older approvals with no matching NRCan project, all approved 10 or more years ago with no sign of construction (approval possibly lapsed):
+- Pugwash Wind Farm (approved 2012-03-27): <https://novascotia.ca/nse/ea/pugwash.wind.farm.asp>
+- Glen Dhu South Wind Power Project (2012-03-16): <https://novascotia.ca/nse/ea/glen.dhu.south.wind.power.project.asp>
+- Clydesdale Ridge Wind Farm (2012-07-24; superseded by the 2024 registration): <https://novascotia.ca/nse/ea/clydesdale-ridge-wind-farm.asp>
+- Hampton Mountain Wind Power Project (2011-01-10): <https://novascotia.ca/nse/ea/hampton.mountain.wind.power.asp>
+- Harrietsfield Williamswood Wind Farm (2015/2016; no NRCan name match, though NRCan "Ketch Harbour", 3 turbines, 2016, is nearby and was not checked): <https://novascotia.ca/nse/ea/harrietsfield-williamswood-wind-farm-project.asp>
+- Canso Wind Farm (2006-05-19; inside the radius in any case): <https://novascotia.ca/nse/ea/cansowind.asp>
+
+All other wind entries in the EA list from 2003-2017 match NRCan installed projects by name or place.
+
+## Withdrawn / rejected / void
+- Wind / Hydro Energy Project, Cape Breton Explorations (Lake Uist; status "Null and void"): <https://novascotia.ca/nse/ea/CBWindHydro.asp>
+- No wind project in the EA list has a rejected or withdrawn status. The registry may drop withdrawn registrations, so this is not proof that none exist.
+
+## Built since the NRCan snapshot (excluded)
+- Higgins Mountain Wind Farm (17 turbines, about 100 MW; approved 2023-05-04). Elemental Energy: "achieved Commercial Operation Date (COD) in 2026... now fully operational" (<https://elementalenergy.ca/project/higgins-mountain-wind/>). EA page: <https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/>. Not in NRCan; NRCan "Higgins Mountain Riverhurst" is a different project from 2006.
+
+## Partly built
+- **Benjamins Mill**: 8 turbines operating (COD 2025-12-16) and 3 under construction (Minas Highlands, COD 2026), out of 28 EA positions. None are in NRCan or OSM, and no published table says which positions are built. All 28 are on the map, with status "Partly built": **up to 11 of these points are not planned turbines**, and which ones is not published.
+
+## No published coordinates / not EA-registered
+- New Prospect Wind (Elemental Energy, near Parrsboro, 150 MW). In development, with the EA planned for 2026-2028; not in the EA registry: <https://elementalenergy.ca/project/newprospectwind/>
+- Ellershouse 4 (Potentia, 2024 open house). Not in the EA registry: <https://www.potentiarenewables.com/wp-content/uploads/2024/05/03MAY2024_Ellershouse-4-OH-Boards_FINAL_for-print_v2.pdf>
+- Westchester: see the lapsed table; no coordinate table was found in the documents checked.
+- Federal registry (IAAC): no Nova Scotia onshore wind projects found. The only Nova Scotia wind item is the Regional Assessment of Offshore Wind Development (reference 83514), which has no turbine coordinates. Offshore wind (Wind West etc.) is out of scope.
+
+## Not yet checked
+- Westchester Addendum Appendix L (sound; image tables) and the original registration appendices, for coordinates. Low priority because the approval is possibly lapsed.
+- Whether Ellershouse 3, Westchester or Clydesdale Ridge holds an unpublished extension, and whether Ellershouse 3 was built in 2025-2026.
+- Which Benjamins Mill positions are Phase 1 and Phase 2 (11 built or under construction).
+- Which Wedgeport position was dropped (13 to 12), and the Mersey River positions relocated in October 2023.
+- Projects bid into the 2026 Green Choice RFP that have not registered for EA.
+- Per-turbine land check: only each project's centroid and first turbine were reverse-geocoded; the cluster spreads, turbine spacing and agreement with printed lat/lon make a gross error unlikely.

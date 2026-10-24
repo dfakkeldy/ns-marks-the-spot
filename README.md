@@ -42,7 +42,7 @@ no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
-[web/README.md](web/README.md). The web map also adds 76 default-off research
+[web/README.md](web/README.md). The web map also adds 77 default-off research
 controls, including the locally configured [Judique canopy-height pilot](docs/chm-pilot.md).
 The GeoNova inventory has 39 entries, including three withheld descriptors:
 retained topography, land, water,
@@ -56,14 +56,20 @@ catalog also includes eight electoral layers, six Rhodena project layers,
 four fishing layers (curated spots, stocked waters, and DFO core and
 non-core small craft harbours), one Point Tupper layer (key places for the
 announced data-centre campus; sources in
-[docs/point-tupper-sources.md](docs/point-tupper-sources.md)), and 21 September
+[docs/point-tupper-sources.md](docs/point-tupper-sources.md)), one planned
+wind turbines layer (positions from Nova Scotia environmental assessment
+filings; sources in
+[docs/planned-wind-turbines-sources.md](docs/planned-wind-turbines-sources.md)),
+and 21 September
 2026 habitat, water, and community GIS overlays (10 + 6 + 5). Browser print
 can include the static context layers, including static Rhodena geometry, the
-fishing layers, and the Point Tupper key places, subject to zoom and source
+fishing layers, the Point Tupper key places and the planned wind turbines,
+subject to zoom and source
 readiness; the interactive Rhodena turbine viewshed and private viewpoint are
 omitted. Generated PDF still uses the MapServer / open-data / tile path for
 supported entries and names unsupported vector formats, including the four
-fishing layers and the Point Tupper key places, as omitted.
+fishing layers, the Point Tupper key places and the planned wind turbines, as
+omitted.
 They are web-only; the native offline catalogue is unchanged. Inventory,
 licences, GIS receipts, and the radon source receipt are in
 [web/README.md](web/README.md),

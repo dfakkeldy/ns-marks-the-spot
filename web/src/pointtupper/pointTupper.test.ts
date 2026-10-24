@@ -42,7 +42,7 @@ describe("Point Tupper key places", () => {
     for (const feature of sites.features) {
       expect(feature.properties.id, feature.id).toBe(feature.id);
       expect(Object.keys(pointTupperSiteKinds), feature.id).toContain(feature.properties.kind);
-      for (const field of ["name", "note", "located_by", "source", "source_date"]) {
+      for (const field of ["label", "name", "note", "located_by", "source", "source_date"]) {
         expect(typeof feature.properties[field], `${feature.id}.${field}`).toBe("string");
         expect(String(feature.properties[field]).length, `${feature.id}.${field}`).toBeGreaterThan(0);
       }
@@ -99,6 +99,13 @@ describe("Point Tupper setup", () => {
     expect(theme).toBeDefined();
     expect(validateMapTheme(theme)).toEqual([]);
     expect(theme.layerIds).toEqual(expect.arrayContaining(["point-tupper-sites", "transmission-lines", "substations"]));
+  });
+
+  it("opens the installed turbines and the terminal's tanks, and leaves property lines to the reader", () => {
+    expect(theme.layerIds).toEqual(expect.arrayContaining(["canadian-wind-turbines", "tanks"]));
+    expect(theme.layerIds).not.toContain("nsprd");
+    // Bolder than the full map's 1.2 points: a few large holdings, drawn like the park's own maps.
+    expect(pointTupperFocusDefinition.parcelOutlineWidth).toBeGreaterThan(1.2);
   });
 
   it("needs no Province licence, so a first visit applies it exactly", () => {

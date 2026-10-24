@@ -1,0 +1,4385 @@
+{
+ "type": "FeatureCollection",
+ "name": "planned-turbines-ns",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.094135,
+     45.680952
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-1",
+    "turbine": "1",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 570,545 N 5,058,998 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.105089,
+     45.674513
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-2",
+    "turbine": "2",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 569,700 N 5,058,273 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.111403,
+     45.710349
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-3",
+    "turbine": "3",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 569,164 N 5,062,249 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.117489,
+     45.717966
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-4",
+    "turbine": "4",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 568,681 N 5,063,090 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.106708,
+     45.723643
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-5",
+    "turbine": "5",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 569,513 N 5,063,730 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.111831,
+     45.720658
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-6",
+    "turbine": "6",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 569,118 N 5,063,394 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.179389,
+     45.694854
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-7",
+    "turbine": "7",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 563,890 N 5,060,471 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.171535,
+     45.702232
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-8",
+    "turbine": "8",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,493 N 5,061,297 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.103016,
+     45.717457
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-9",
+    "turbine": "9",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 569,808 N 5,063,046 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.179217,
+     45.715357
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-10",
+    "turbine": "10",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 563,880 N 5,062,749 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.165211,
+     45.719747
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-11",
+    "turbine": "11",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,965 N 5,063,248 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.131063,
+     45.725073
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-12",
+    "turbine": "12",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 567,616 N 5,063,868 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.12998,
+     45.719493
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-13",
+    "turbine": "13",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 567,707 N 5,063,249 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.141523,
+     45.720075
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-14",
+    "turbine": "14",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 566,808 N 5,063,304 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.148044,
+     45.714625
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-15",
+    "turbine": "15",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 566,307 N 5,062,693 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.097945,
+     45.709983
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-16",
+    "turbine": "16",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 570,212 N 5,062,220 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.098734,
+     45.677667
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-17",
+    "turbine": "17",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 570,191 N 5,058,629 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.097062,
+     45.714566
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-18",
+    "turbine": "18",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 570,275 N 5,062,730 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.169141,
+     45.697345
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-19",
+    "turbine": "19",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,685 N 5,060,756 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.107054,
+     45.706733
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-20",
+    "turbine": "20",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 569,507 N 5,061,851 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.132073,
+     45.708834
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-21",
+    "turbine": "21",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 567,557 N 5,062,063 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.156157,
+     45.725396
+    ]
+   },
+   "properties": {
+    "id": "eigg-mountain-22",
+    "turbine": "22",
+    "project": "Eigg Mountain Wind Project",
+    "proponent": "Eigg Mountain Wind Inc (a RES Canada company)",
+    "county": "Antigonish",
+    "status": "EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)",
+    "status_date": "2026-04-09",
+    "project_turbines": 22,
+    "project_capacity_mw": 154,
+    "tip_height_m": 199.5,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 565,663 N 5,063,883 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K",
+    "source_url": "https://novascotia.ca/nse/ea/eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.231922,
+     45.462606
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S1",
+    "turbine": "S1",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 560,047 N 5,034,628 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.248485,
+     45.463661
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S2",
+    "turbine": "S2",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 558,751 N 5,034,733 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.25751,
+     45.468023
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S3",
+    "turbine": "S3",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 558,041 N 5,035,211 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.251366,
+     45.474095
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S4",
+    "turbine": "S4",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 558,515 N 5,035,890 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.262039,
+     45.476774
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S5",
+    "turbine": "S5",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 557,678 N 5,036,180 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.250446,
+     45.483612
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S6",
+    "turbine": "S6",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 558,577 N 5,036,948 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.235621,
+     45.474719
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S7",
+    "turbine": "S7",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 559,745 N 5,035,971 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.220082,
+     45.477117
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S8",
+    "turbine": "S8",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 560,957 N 5,036,249 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.211972,
+     45.464108
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S9",
+    "turbine": "S9",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561,605 N 5,034,810 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.211748,
+     45.482964
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S10R",
+    "turbine": "S10R",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561,602 N 5,036,905 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.175418,
+     45.494508
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S11",
+    "turbine": "S11",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,428 N 5,038,216 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.18975,
+     45.495529
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S12",
+    "turbine": "S12",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 563,307 N 5,038,318 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.174078,
+     45.485524
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S13",
+    "turbine": "S13",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,543 N 5,037,219 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.169725,
+     45.47957
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S14",
+    "turbine": "S14",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,890 N 5,036,561 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.169463,
+     45.465121
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S15",
+    "turbine": "S15",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564,927 N 5,034,956 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.155933,
+     45.468299
+    ]
+   },
+   "properties": {
+    "id": "sugar-maple-S16",
+    "turbine": "S16",
+    "project": "Sugar Maple Wind Energy Project",
+    "proponent": "WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)",
+    "county": "Pictou",
+    "status": "EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)",
+    "status_date": "2026-05-22",
+    "project_turbines": 16,
+    "project_capacity_mw": 112,
+    "tip_height_m": 200,
+    "hub_height_m": 118,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 565,981 N 5,035,320 (UTM, NAD83(CSRS), Zone 20)",
+    "source": "Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)",
+    "source_url": "https://novascotia.ca/nse/ea/sugar-maple-wind-energy/sugar-maple-appendix-d.pdf",
+    "source_locator": "Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.158998,
+     45.541503
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-1",
+    "turbine": "1",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 565656.46 N 5043451.31 (UTM Z20); table also lists lat 45.541, lon -62.159",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.172844,
+     45.539011
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-2",
+    "turbine": "2",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 564578.38 N 5043163.26 (UTM Z20); table also lists lat 45.539, lon -62.173",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.182258,
+     45.538723
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-3",
+    "turbine": "3",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 563843.71 N 5043123.66 (UTM Z20); table also lists lat 45.539, lon -62.182",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.201929,
+     45.542302
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-4",
+    "turbine": "4",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 562303.96 N 5043505.86 (UTM Z20); table also lists lat 45.542, lon -62.202",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.214249,
+     45.546271
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-5",
+    "turbine": "5",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561337.89 N 5043937.36 (UTM Z20); table also lists lat 45.546, lon -62.214",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.217658,
+     45.534601
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-6",
+    "turbine": "6",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561084.39 N 5042638.19 (UTM Z20); table also lists lat 45.535, lon -62.218",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.218398,
+     45.528026
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-7",
+    "turbine": "7",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561033.71 N 5041907.24 (UTM Z20); table also lists lat 45.528, lon -62.218",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.235496,
+     45.526857
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-8",
+    "turbine": "8",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 559699.82 N 5041764.52 (UTM Z20); table also lists lat 45.527, lon -62.236",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.229675,
+     45.519993
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-9",
+    "turbine": "9",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 560161.73 N 5041006.22 (UTM Z20); table also lists lat 45.52, lon -62.23",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.241483,
+     45.513596
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-10",
+    "turbine": "10",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 559246.23 N 5040286.79 (UTM Z20); table also lists lat 45.514, lon -62.241",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.246409,
+     45.520621
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-11",
+    "turbine": "11",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 558854.11 N 5041063.56 (UTM Z20); table also lists lat 45.521, lon -62.246",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.203469,
+     45.535321
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-12",
+    "turbine": "12",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 562191.5 N 5042729.16 (UTM Z20); table also lists lat 45.535, lon -62.203",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.20843,
+     45.527209
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-13",
+    "turbine": "13",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561812.97 N 5041824.1 (UTM Z20); table also lists lat 45.527, lon -62.208",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.216322,
+     45.522325
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-14",
+    "turbine": "14",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 561202 N 5041275.42 (UTM Z20); table also lists lat 45.522, lon -62.216",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.237974,
+     45.50382
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-15",
+    "turbine": "15",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 559530.57 N 5039203.29 (UTM Z20); table also lists lat 45.504, lon -62.238",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.194937,
+     45.52576
+    ]
+   },
+   "properties": {
+    "id": "weavers-mountain-16",
+    "turbine": "16",
+    "project": "Weavers Mountain Wind Energy Project",
+    "proponent": "WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)",
+    "county": "Pictou; Antigonish",
+    "status": "under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions",
+    "status_date": "2023-07-27",
+    "project_turbines": 16,
+    "project_capacity_mw": 99.2,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 562868.31 N 5041673.53 (UTM Z20); table also lists lat 45.525, lon -62.195",
+    "source": "Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P",
+    "source_url": "https://novascotia.ca/nse/ea/weavers-mountain-wind-energy/wmw-appendix-g-p.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.883608,
+     44.875816
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-1",
+    "turbine": "1",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430207.92 N 4969534.99 (UTM 20N); table also lists lat 44.8758, lon -63.8836",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.869036,
+     44.873634
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-2",
+    "turbine": "2",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 431356.25 N 4969280.19 (UTM 20N); table also lists lat 44.8736, lon -63.8690",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.867229,
+     44.869783
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-3",
+    "turbine": "3",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 431494.44 N 4968850.89 (UTM 20N); table also lists lat 44.8698, lon -63.8672",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.88115,
+     44.871559
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-4",
+    "turbine": "4",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430396.88 N 4969060.05 (UTM 20N); table also lists lat 44.8716, lon -63.8812",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.878616,
+     44.863901
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-5",
+    "turbine": "5",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430587.83 N 4968207.17 (UTM 20N); table also lists lat 44.8632, lon -63.8782",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.872201,
+     44.860852
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-6",
+    "turbine": "6",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 431091.00 N 4967863.00 (UTM 20N); table also lists lat 44.8609, lon -63.8722",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.876718,
+     44.839273
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-7",
+    "turbine": "7",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430708.29 N 4965469.78 (UTM 20N); table also lists lat 44.8393, lon -63.8767",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.878641,
+     44.834468
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-8",
+    "turbine": "8",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430550.52 N 4964937.63 (UTM 20N); table also lists lat 44.8345, lon -63.8786",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.871898,
+     44.830257
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-9",
+    "turbine": "9",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 431078.45 N 4964464.15 (UTM 20N); table also lists lat 44.8303, lon -63.8719",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.875385,
+     44.823639
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-10",
+    "turbine": "10",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430794.89 N 4963731.94 (UTM 20N); table also lists lat 44.8236, lon -63.8754",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.869043,
+     44.822453
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-11",
+    "turbine": "11",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 431294.92 N 4963594.76 (UTM 20N); table also lists lat 44.8225, lon -63.8690",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.885376,
+     44.789473
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-12",
+    "turbine": "12",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429963.74 N 4959945.15 (UTM 20N); table also lists lat 44.7895, lon -63.8854",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.88234,
+     44.785682
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-13",
+    "turbine": "13",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430199.36 N 4959521.52 (UTM 20N); table also lists lat 44.7857, lon -63.8823",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.894648,
+     44.786595
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-14",
+    "turbine": "14",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429226.80 N 4959633.51 (UTM 20N); table also lists lat 44.7866, lon -63.8946",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.894397,
+     44.781733
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-15",
+    "turbine": "15",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429240.68 N 4959093.24 (UTM 20N); table also lists lat 44.7817, lon -63.8944",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.894142,
+     44.777246
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-16",
+    "turbine": "16",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429255.39 N 4958594.57 (UTM 20N); table also lists lat 44.7772, lon -63.8941",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.900998,
+     44.771092
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-17",
+    "turbine": "17",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 428705.37 N 4957916.92 (UTM 20N); table also lists lat 44.7711, lon -63.9010",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.893299,
+     44.76811
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-18",
+    "turbine": "18",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429310.93 N 4957578.98 (UTM 20N); table also lists lat 44.7681, lon -63.8933",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.889534,
+     44.76408
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-19",
+    "turbine": "19",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429604.00 N 4957128.00 (UTM 20N); table also lists lat 44.7641, lon -63.8895",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.885048,
+     44.777348
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-20",
+    "turbine": "20",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 429975.00 N 4958598.00 (UTM 20N); table also lists lat 44.7773, lon -63.8850",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.879188,
+     44.765815
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-21",
+    "turbine": "21",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430424.81 N 4957311.85 (UTM 20N); table also lists lat 44.7658, lon -63.8792",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.876015,
+     44.868772
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-22",
+    "turbine": "22",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430799.15 N 4968746.07 (UTM 20N); table also lists lat 44.8688, lon -63.8760",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.882436,
+     44.770123
+    ]
+   },
+   "properties": {
+    "id": "melvin-lake-23",
+    "turbine": "23",
+    "project": "Melvin Lake Wind Project",
+    "proponent": "Melvin Lake Wind Inc (ABO Energy Canada)",
+    "county": "Halifax; Hants",
+    "status": "EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended",
+    "status_date": "2025-01-24",
+    "project_turbines": 23,
+    "project_capacity_mw": 161,
+    "tip_height_m": 206.5,
+    "hub_height_m": 125,
+    "rotor_diameter_m": 163,
+    "coords_as_published": "E 430173.00 N 4957793.17 (UTM 20N); table also lists lat 44.7701, lon -63.8824",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)",
+    "source_url": "https://novascotia.ca/nse/ea/melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.225756,
+     44.905495
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-1",
+    "turbine": "1",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.225756° E 44.905495° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.233462,
+     44.909295
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-2",
+    "turbine": "2",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.233462° E 44.909295° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.237236,
+     44.897905
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-3",
+    "turbine": "3",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.237236° E 44.897905° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.233444,
+     44.902541
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-4",
+    "turbine": "4",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.233444° E 44.902541° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.242003,
+     44.90318
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-5",
+    "turbine": "5",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.242003° E 44.903180° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.249728,
+     44.914417
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-6",
+    "turbine": "6",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.249728° E 44.914417° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.242021,
+     44.892764
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-7",
+    "turbine": "7",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.242021° E 44.892764° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.249506,
+     44.90424
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-8",
+    "turbine": "8",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.249506° E 44.904240° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.263209,
+     44.91306
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-9",
+    "turbine": "9",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.263209° E 44.913060° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.267282,
+     44.908446
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-10",
+    "turbine": "10",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.267282° E 44.908446° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.26178,
+     44.896452
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-11",
+    "turbine": "11",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.261780° E 44.896452° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.268193,
+     44.900384
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-12",
+    "turbine": "12",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.268193° E 44.900384° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.276129,
+     44.899419
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-13",
+    "turbine": "13",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.276129° E 44.899419° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.276611,
+     44.905589
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-14",
+    "turbine": "14",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.276611° E 44.905589° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.287064,
+     44.915942
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-15",
+    "turbine": "15",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.287064° E 44.915942° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.287294,
+     44.899644
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-16",
+    "turbine": "16",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.287294° E 44.899644° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.290491,
+     44.906835
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-17",
+    "turbine": "17",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.290491° E 44.906835° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.296416,
+     44.90046
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-18",
+    "turbine": "18",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.296416° E 44.900460° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.304215,
+     44.905873
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-19",
+    "turbine": "19",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.304215° E 44.905873° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.275101,
+     44.893833
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-20",
+    "turbine": "20",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.275101° E 44.893833° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.284516,
+     44.89348
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-21",
+    "turbine": "21",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.284516° E 44.893480° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.292906,
+     44.889217
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-22",
+    "turbine": "22",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.292906° E 44.889217° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.283837,
+     44.884932
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-23",
+    "turbine": "23",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.283837° E 44.884932° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.274849,
+     44.886597
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-24",
+    "turbine": "24",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.274849° E 44.886597° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.267888,
+     44.881154
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-25",
+    "turbine": "25",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.267888° E 44.881154° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.291824,
+     44.879354
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-26",
+    "turbine": "26",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.291824° E 44.879354° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.265369,
+     44.874268
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-27",
+    "turbine": "27",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.265369° E 44.874268° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.282144,
+     44.869642
+    ]
+   },
+   "properties": {
+    "id": "benjamins-mill-28",
+    "turbine": "28",
+    "project": "Benjamins Mill Wind Project",
+    "proponent": "Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 \"Minas Highlands\": Minas Basin Wind Ltd)",
+    "county": "Hants",
+    "status": "partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 \"Minas Highlands\" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned",
+    "status_date": "2023-02-13",
+    "project_turbines": 28,
+    "project_capacity_mw": 150,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "-64.282144° E 44.869642° N (Geo [deg]-WGS84, as printed)",
+    "source": "Natural Forces WindPRO DECIBEL noise model \"Ben Mill - EA Layout - Nov 2022\", EA Additional Information Addendum Appendix M",
+    "source_url": "https://novascotia.ca/nse/ea/benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf",
+    "source_locator": "DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.815881,
+     44.068869
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-1",
+    "turbine": "1",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 354581 N 4881125 (UTM Z20); table also lists lat 44.0688686, lon -64.8158814",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.812927,
+     44.063703
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-2",
+    "turbine": "2",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 354805 N 4880546 (UTM Z20); table also lists lat 44.06370266, lon -64.81292656",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.807622,
+     44.055981
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-3",
+    "turbine": "3",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 355211 N 4879679 (UTM Z20); table also lists lat 44.0559809, lon -64.80762222",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.805142,
+     44.049142
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-4",
+    "turbine": "4",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 355393 N 4878915 (UTM Z20); table also lists lat 44.04914162, lon -64.80514224",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.841547,
+     44.072653
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-5",
+    "turbine": "5",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 352535 N 4881591 (UTM Z20); table also lists lat 44.07265317, lon -64.84154737",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.836166,
+     44.065015
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-6",
+    "turbine": "6",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 352947 N 4880733 (UTM Z20); table also lists lat 44.06501502, lon -64.83616614",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.833673,
+     44.05706
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-7",
+    "turbine": "7",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 353127 N 4879845 (UTM Z20); table also lists lat 44.05706019, lon -64.83367299",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.828405,
+     44.05141
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-8",
+    "turbine": "8",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 353535 N 4879208 (UTM Z20); table also lists lat 44.05140955, lon -64.82840534",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.864841,
+     44.07557
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-9",
+    "turbine": "9",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 350677 N 4881957 (UTM Z20); table also lists lat 44.07557039, lon -64.86484149",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.870356,
+     44.081728
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-10",
+    "turbine": "10",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 350251 N 4882651 (UTM Z20); table also lists lat 44.08172846, lon -64.87035564",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.874172,
+     44.0875
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-11",
+    "turbine": "11",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 349960 N 4883299 (UTM Z20); table also lists lat 44.08749997, lon -64.87417244",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.889358,
+     44.088186
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-12",
+    "turbine": "12",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 348746 N 4883403 (UTM Z20); table also lists lat 44.0881861, lon -64.88935836",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.896194,
+     44.096887
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-13",
+    "turbine": "13",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 348221 N 4884382 (UTM Z20); table also lists lat 44.09688695, lon -64.8961943",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.851553,
+     44.056718
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-14",
+    "turbine": "14",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 351694 N 4879839 (UTM Z20); table also lists lat 44.05671772, lon -64.85155275",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.848085,
+     44.04597
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-15",
+    "turbine": "15",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 351945 N 4878639 (UTM Z20); table also lists lat 44.04596997, lon -64.84808477",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.843941,
+     44.038744
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-16",
+    "turbine": "16",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 352259 N 4877829 (UTM Z20); table also lists lat 44.03874428, lon -64.84394113",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.84105,
+     44.122215
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-17",
+    "turbine": "17",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 352698 N 4887095 (UTM Z20); table also lists lat 44.12221482, lon -64.84104952",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.868255,
+     44.045552
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-18",
+    "turbine": "18",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 350328 N 4878629 (UTM Z20); table also lists lat 44.04555178, lon -64.86825545",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.873069,
+     44.042241
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-19",
+    "turbine": "19",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 349934 N 4878270 (UTM Z20); table also lists lat 44.04224077, lon -64.87306906",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.878505,
+     44.057835
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-20",
+    "turbine": "20",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 349538 N 4880012 (UTM Z20); table also lists lat 44.05783518, lon -64.87850472",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.883854,
+     44.063923
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-21",
+    "turbine": "21",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 349125 N 4880698 (UTM Z20); table also lists lat 44.0639233, lon -64.88385403",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.897537,
+     44.057611
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-22",
+    "turbine": "22",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 348013 N 4880022 (UTM Z20); table also lists lat 44.0576106, lon -64.8975368",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.901079,
+     44.063359
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-23",
+    "turbine": "23",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 347744 N 4880667 (UTM Z20); table also lists lat 44.06335879, lon -64.90107918",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.905121,
+     44.069099
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-24",
+    "turbine": "24",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 347435 N 4881312 (UTM Z20); table also lists lat 44.06909852, lon -64.90512147",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.908126,
+     44.074783
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-25",
+    "turbine": "25",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 347209 N 4881949 (UTM Z20); table also lists lat 44.07478341, lon -64.90812627",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.92222,
+     44.074214
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-26",
+    "turbine": "26",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 346079 N 4881912 (UTM Z20); table also lists lat 44.07421397, lon -64.92221963",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.92438,
+     44.082289
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-27",
+    "turbine": "27",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 345927 N 4882813 (UTM Z20); table also lists lat 44.08228949, lon -64.92437965",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.928099,
+     44.088358
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-28",
+    "turbine": "28",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 345645 N 4883494 (UTM Z20); table also lists lat 44.08835794, lon -64.92809897",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.909866,
+     44.097424
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-29",
+    "turbine": "29",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 347128 N 4884467 (UTM Z20); table also lists lat 44.0974244, lon -64.90986643",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.914351,
+     44.104372
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-30",
+    "turbine": "30",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 346787 N 4885247 (UTM Z20); table also lists lat 44.10437181, lon -64.91435081",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.920372,
+     44.108565
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-31",
+    "turbine": "31",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 346316 N 4885724 (UTM Z20); table also lists lat 44.10856524, lon -64.92037156",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.939869,
+     44.096478
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-32",
+    "turbine": "32",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 344724 N 4884418 (UTM Z20); table also lists lat 44.09647758, lon -64.93986883",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.943247,
+     44.103128
+    ]
+   },
+   "properties": {
+    "id": "mersey-river-33",
+    "turbine": "33",
+    "project": "Mersey River Wind Farm",
+    "proponent": "Mersey River Wind Inc (Roswall Development / Renewall Energy)",
+    "county": "Queens",
+    "status": "under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)",
+    "status_date": "2023-03-27",
+    "project_turbines": 33,
+    "project_capacity_mw": 148.5,
+    "tip_height_m": 180,
+    "hub_height_m": 105,
+    "rotor_diameter_m": 150,
+    "coords_as_published": "E 344471 N 4885163 (UTM Z20); table also lists lat 44.10312752, lon -64.94324741",
+    "source": "Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)",
+    "source_url": "https://novascotia.ca/nse/ea/mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf",
+    "source_locator": "Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.00643,
+     43.756784
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG1",
+    "turbine": "WTG1",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740990 N 4849216 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.004846,
+     43.747703
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG2",
+    "turbine": "WTG2",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 741154 N 4848212 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.018249,
+     43.747162
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG3",
+    "turbine": "WTG3",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740077 N 4848113 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.017501,
+     43.742974
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG4",
+    "turbine": "WTG4",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740154 N 4847650 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.015852,
+     43.738907
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG5",
+    "turbine": "WTG5",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740303 N 4847203 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.01533,
+     43.734184
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG6",
+    "turbine": "WTG6",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740364 N 4846680 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.008181,
+     43.733124
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG7",
+    "turbine": "WTG7",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740944 N 4846583 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.013392,
+     43.729947
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG8",
+    "turbine": "WTG8",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740537 N 4846215 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.012313,
+     43.725696
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG9",
+    "turbine": "WTG9",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740641 N 4845746 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.004483,
+     43.723114
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG10",
+    "turbine": "WTG10",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 741282 N 4845482 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.012512,
+     43.721434
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG11",
+    "turbine": "WTG11",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740642 N 4845272 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.011561,
+     43.712613
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG12",
+    "turbine": "WTG12",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740754 N 4844295 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.013448,
+     43.708611
+    ]
+   },
+   "properties": {
+    "id": "wedgeport-WTG13",
+    "turbine": "WTG13",
+    "project": "Wedgeport Wind Farm Project",
+    "proponent": "Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)",
+    "county": "Yarmouth",
+    "status": "under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions",
+    "status_date": "2023-05-04",
+    "project_turbines": 13,
+    "project_capacity_mw": 84,
+    "tip_height_m": 200,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 740618 N 4843845 (UTM NAD83 Zone 19)",
+    "source": "Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1",
+    "source_url": "https://novascotia.ca/nse/ea/wedgeport-wind-farm-project/wwf-ea-registration-document.pdf",
+    "source_locator": "Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)",
+    "read_date": "2026-10-24"
+   }
+  }
+ ]
+}

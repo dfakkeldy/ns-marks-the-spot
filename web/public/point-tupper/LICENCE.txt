@@ -18,6 +18,8 @@ Positions:
   Hydrogen/Ammonia Project EA registration (December 2022), a public record of the
   Nova Scotia Department of Environment and Climate Change.
 
-The map's other layers (transmission lines, substations, pipelines, wharves, water
-features, roads) are the Province's own open datasets under the Open Government
-Licence – Nova Scotia, credited on each layer.
+The map's other layers (transmission lines, substations, pipelines, tanks, wharves,
+water features, roads) are the Province's own open datasets under the Open Government
+Licence – Nova Scotia, credited on each layer. Installed wind turbines are Natural
+Resources Canada's database under the Open Government Licence – Canada; planned
+turbines carry their own terms in ../wind/LICENCE.txt.

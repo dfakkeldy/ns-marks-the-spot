@@ -136,12 +136,13 @@ export function parcelOutlineColor(style: BasemapStyle, imagery: boolean): strin
   return style === 'fletcher' ? atlasPalettes.fletcher.crown : '#0a7180';
 }
 
-export function parcelBoundaryRenderer(color: string): string {
+/** `width` is in the export's points; a focus page may ask for bolder lines (FocusDefinition.parcelOutlineWidth). */
+export function parcelBoundaryRenderer(color: string, width = 1.2): string {
   const rgb = [1, 3, 5].map(offset => Number.parseInt(color.slice(offset, offset + 2), 16));
   return JSON.stringify([{ id: 0, source: { type: 'mapLayer', mapLayerId: 0 }, drawingInfo: {
     showLabels: false, labelingInfo: [], renderer: { type: 'simple', symbol: {
       type: 'esriSFS', style: 'esriSFSNull', color: [0, 0, 0, 0],
-      outline: { type: 'esriSLS', style: 'esriSLSSolid', color: [...rgb, 255], width: 1.2 },
+      outline: { type: 'esriSLS', style: 'esriSLSSolid', color: [...rgb, 255], width },
     } },
   } }]);
 }

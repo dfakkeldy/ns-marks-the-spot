@@ -48,8 +48,10 @@ export interface ContextLayerDescriptor {
     styles: Record<string, ContextFeatureStyle>;
     defaultStyle: ContextFeatureStyle;
   };
+  /** Point features keep a name on the map from this zoom (`labelField`, or `field` when given). */
+  permanentLabels?: { minZoom: number; field?: string };
   /** Source-authored classes (or the explicit filtered feature classes). */
-  legend: readonly { label: string; color?: string }[];
+  legend: readonly { label: string; color?: string; marker?: ContextMarker }[];
   /** Include a publisher-authored image legend in the printed source key. */
   printLegend?: boolean;
 }
@@ -65,4 +67,13 @@ export interface ContextFeatureStyle {
   fillOpacity?: number;
   weight?: number;
   radius?: number;
+  /** Draw points as this symbol in `fillColor` instead of a circle (interactive map only; print keeps circles). */
+  marker?: ContextMarker;
+}
+
+/** A point symbol (components/contextMarkers.ts); hollow draws a proposed feature in outline. */
+export interface ContextMarker {
+  glyph: "turbine" | "tank" | "bolt" | "drop" | "dot";
+  hollow?: boolean;
+  size?: number;
 }

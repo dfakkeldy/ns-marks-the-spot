@@ -5,6 +5,7 @@ import type { ContextMapLayer } from "../layers/contextLayerCatalog";
 import { ContextAreaTooLargeError, ContextOutsideCoverageError, fetchContextFeatures } from "../services/contextVectorSource";
 import type { MapLayerId, MapLayerStatus, MapRenderMode } from "./MapCanvas";
 import { contextFeatureStyle, contextFeatureLabel } from "../services/contextFeatures";
+import { contextMarkerAnchor, contextMarkerAtZoom, contextMarkerSize, contextMarkerSvg } from "./contextMarkers";
 
 /** Bounded viewport queries share the same cancellation/paging path as zoning. */
 export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode }: {
@@ -47,15 +48,47 @@ export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode
           ...contextFeatureStyle(layer, feature?.properties ?? {}, renderMode),
           snapIgnore: true, pmIgnore: true,
         } as PathOptions);
+        const zoom = map.getZoom();
+        const labelled = layer.permanentLabels && renderMode !== "print" && zoom >= layer.permanentLabels.minZoom ? layer.permanentLabels : undefined;
         rendered = L.geoJSON(collection, {
           pane: paneName,
           style,
           interactive: renderMode !== "print",
-          pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-            ...style(feature), radius: contextFeatureStyle(layer, feature.properties ?? {}, renderMode).radius ?? 5,
-            pane: paneName, interactive: renderMode !== "print",
-          }),
+          pointToLayer: (feature, latlng) => {
+            const featureStyle = contextFeatureStyle(layer, feature.properties ?? {}, renderMode);
+            if (featureStyle.marker && renderMode !== "print") {
+              const marker = contextMarkerAtZoom(featureStyle.marker, zoom);
+              const { width, height } = contextMarkerSize(marker);
+              return L.marker(latlng, {
+                pane: paneName,
+                icon: L.divIcon({
+                  className: `context-marker context-marker-${marker.glyph}`,
+                  html: contextMarkerSvg(marker, featureStyle.fillColor ?? featureStyle.color),
+                  iconSize: [width, height],
+                  iconAnchor: contextMarkerAnchor(marker),
+                  popupAnchor: [0, -Math.round(height * 0.6)],
+                }),
+                title: contextFeatureLabel(layer, feature.properties ?? {}),
+                riseOnHover: true,
+              });
+            }
+            return L.circleMarker(latlng, {
+              ...style(feature), radius: featureStyle.radius ?? 5,
+              pane: paneName, interactive: renderMode !== "print",
+            });
+          },
           onEachFeature: renderMode === "print" ? undefined : (feature, featureLayer) => {
+            const labelValue = labelled ? (feature.properties ?? {})[labelled.field ?? layer.labelField ?? ""] : undefined;
+            if (feature.geometry.type === "Point" && (typeof labelValue === "string" || typeof labelValue === "number")) {
+              const styleMarker = contextFeatureStyle(layer, feature.properties ?? {}, renderMode).marker;
+              const marker = styleMarker ? contextMarkerAtZoom(styleMarker, zoom) : undefined;
+              featureLayer.bindTooltip(String(labelValue), {
+                permanent: true,
+                direction: marker?.glyph === "turbine" ? "top" : "right",
+                offset: marker?.glyph === "turbine" ? [0, -Math.round(contextMarkerSize(marker).height * 0.85)] : [marker ? Math.round(contextMarkerSize(marker).width / 2) : 6, 0],
+                className: "context-place-label",
+              });
+            }
             const article = document.createElement("article");
             const title = document.createElement("strong");
             title.textContent = contextFeatureLabel(layer, feature.properties ?? {});
