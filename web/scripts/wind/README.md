@@ -63,4 +63,6 @@ used. The committed run also covers two approvals kept off the map (Ellershouse
 3 and Clydesdale Ridge, 30 positions extracted for the check only), so a rerun
 over `raw/` alone has 30 fewer rows. `site-review.txt` records what was checked by eye and how the results
 were written into the extracts. The imagery decides build status only: no
-position comes from it.
+position comes from it. The Province's NS aerial (NSODB) mosaic was considered
+instead and rejected: over most farms its photos predate construction (2010-2024;
+Wedgeport 2025), as the receipt explains.
