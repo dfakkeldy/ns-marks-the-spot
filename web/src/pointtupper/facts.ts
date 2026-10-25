@@ -4,11 +4,19 @@
  * Company figures are reported as the company's own, not as checked facts.
  */
 
+export interface SourcedNote {
+  readonly text: string;
+  readonly sourceLabel: string;
+  readonly sourceUrl: string;
+}
+
 export interface SourcedLine {
   readonly label: string;
   readonly text: string;
   readonly sourceLabel: string;
   readonly sourceUrl: string;
+  /** A qualification from a different source, shown after the line's own source. */
+  readonly note?: SourcedNote;
 }
 
 export interface TimelineEvent {
@@ -59,6 +67,11 @@ export const POINT_TUPPER_FACTS: readonly SourcedLine[] = [
     text: "Four EverWind wind farms on the mainland have environmental approval, 650 MW in all, 51% owned by a Membertou-led First Nations consortium. They will not be ready when the campus opens.",
     sourceLabel: "The Canadian Press",
     sourceUrl: CP_2026_10_16,
+    note: {
+      text: "Two of the four, Bear Lake and Kmtnuk, passed their December 2025 deadlines to start work with no extension posted, so this map leaves them off.",
+      sourceLabel: "Nova Scotia EA filings, compiled for this map",
+      sourceUrl: `${PLANNED_WIND_SOURCES}#approval-possibly-lapsed-kept-off-the-map`,
+    },
   },
   {
     label: "Turbines",

@@ -26,6 +26,13 @@ draw it. No parcel, title or registry record is used.
   by a Membertou-led First Nations consortium; EverWind's statement that it
   will pay connection and upgrade costs):
   [The Canadian Press, October 16, 2026](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/).
+- **The note on the Wind line** (two of the four EverWind farms, Bear Lake and
+  Kmtnuk, passed their December 2025 deadlines to start work with no extension
+  posted, so the map leaves them off): the
+  [planned turbines receipt](planned-wind-turbines-sources.md#approval-possibly-lapsed-kept-off-the-map),
+  from the EA conditions, the EA project pages and Sentinel-2 imagery. It sits
+  after the Canadian Press link with its own source, so the press figures stay
+  as reported.
 - **The wind farm already on the site** (12 turbines, 22.8 MW, 2006 and
   2010): NRCan's Canadian Wind Turbine Database; see [Wind turbines](#wind-turbines).
 - **Large loads under study in Richmond County** (325, 95 and 230 MW; customers

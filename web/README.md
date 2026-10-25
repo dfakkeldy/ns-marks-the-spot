@@ -2187,7 +2187,8 @@ weight (`parcelOutlineWidth`), for a page about a few large holdings.
 
 - **Heading.** A sourced summary of the October 2026 announcement (size, grid,
   Richmond County loads under study, Landrie Lake cooling figures, wind, the
-  wind farm already on the site, and who pays for upgrades). Company figures are the company's own. A **Zoom to
+  wind farm already on the site, and who pays for upgrades). Company figures are the company's own; the wind
+  line adds a separately sourced note that Bear Lake and Kmtnuk passed their deadlines to start work. A **Zoom to
   Point Tupper** control and a link to every source sit under the facts.
 - **Timeline.** Nine dated events, oldest first, each with its public source:
   the causeway, the mill, the Landrie Lake water system, the heavy water plant,

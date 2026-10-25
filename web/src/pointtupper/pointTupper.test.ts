@@ -73,7 +73,8 @@ describe("Point Tupper key places", () => {
 });
 
 describe("Point Tupper summary and timeline", () => {
-  it.each([...POINT_TUPPER_FACTS, ...POINT_TUPPER_TIMELINE])("links $sourceLabel over https", ({ sourceUrl, sourceLabel }) => {
+  const notes = POINT_TUPPER_FACTS.flatMap(({ note }) => (note ? [note] : []));
+  it.each([...POINT_TUPPER_FACTS, ...POINT_TUPPER_TIMELINE, ...notes])("links $sourceLabel over https", ({ sourceUrl, sourceLabel }) => {
     expect(sourceLabel.length).toBeGreaterThan(0);
     expect(new URL(sourceUrl).protocol).toBe("https:");
   });
