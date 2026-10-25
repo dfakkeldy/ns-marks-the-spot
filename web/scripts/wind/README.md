@@ -6,7 +6,8 @@
 
 - `raw/strait-and-everwind.geojson`: projects within about 45 km of Point Tupper
   and EverWind's four named farms (372 points, including 7 alternate or unclear
-  sites).
+  sites and the 31 Bear Lake and Kmtnuk positions the merge leaves off while
+  those approvals may have lapsed).
 - `raw/province.geojson`: other Nova Scotia projects with published coordinate
   tables (151 points, including 2 dropped Wedgeport sites).
 - `raw/harbour-hills.geojson`: Harbour Hills, under EA review (107 points).
@@ -21,7 +22,8 @@ elevations, layout notes). Positions checked against imagery also carry
 `site_check` (what the Sentinel-2 check found there) and `site_check_scene`.
 
 `merge_planned.py` sends `operating` positions to the installed file and the
-rest to the planned file, drops alternate, unclear and dropped sites, writes one
+rest to the planned file, drops alternate, unclear and dropped sites and the
+projects in `OFF_MAP` (approvals that may have lapsed), writes one
 plain status line per project (or per build state), keeps a fixed property set,
 validates positions, ids and sources, and sorts by project and turbine. From
 `web/`:

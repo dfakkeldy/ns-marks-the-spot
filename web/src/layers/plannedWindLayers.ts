@@ -59,7 +59,7 @@ export const windFilingLayers = [
     scale: "Single points from published coordinate tables; assessed layouts, not as-built surveys",
     coverage: "Nova Scotia projects with published turbine coordinates, as listed in the receipt; a project not listed is not evidence that none is planned",
     // Must equal the `notice` in planned-turbines.geojson (pinned by plannedWindLayers.test.ts).
-    webCaveat: "Wind turbine positions from tables in Nova Scotia environmental assessment filings: assessed layouts, subject to change, not as-built surveys. Some farms are under construction and one is still under review; an approval does not mean a farm will be built. Alternate and dropped sites, and turbines already operating, are left out.",
+    webCaveat: "Wind turbine positions from tables in Nova Scotia environmental assessment filings: assessed layouts, subject to change, not as-built surveys. Some farms are under construction and one is still under review; an approval does not mean a farm will be built. Alternate and dropped sites, approvals that may have lapsed, and turbines already operating are left out.",
     minZoom: 7,
     maxZoom: 23,
     opacity: 1,

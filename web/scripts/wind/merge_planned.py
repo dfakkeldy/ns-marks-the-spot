@@ -6,14 +6,16 @@ Usage, from web/:
     scripts/wind/raw/built-since-2018.geojson
 Positions whose `build_status` is "operating" go to the second (installed)
 file and the rest to the first. Drops alternate, unclear and dropped sites
-(they would double-count a layout or are no longer planned), keeps a fixed
+(they would double-count a layout or are no longer planned) and the projects in
+OFF_MAP, whose approvals may have lapsed (kept in the extracts so they can come
+back if an extension is published), keeps a fixed
 property set, validates coordinates and ids, and sorts by project then turbine
 so the files diff cleanly. Reads only the committed extracts: the Sentinel-2
 checks are already written into them (`site_check`, see pad-check.txt).
 """
 import json, re, sys
 
-NOTICE = ('Wind turbine positions from tables in Nova Scotia environmental assessment filings: assessed layouts, subject to change, not as-built surveys. Some farms are under construction and one is still under review; an approval does not mean a farm will be built. Alternate and dropped sites, and turbines already operating, are left out.')
+NOTICE = ('Wind turbine positions from tables in Nova Scotia environmental assessment filings: assessed layouts, subject to change, not as-built surveys. Some farms are under construction and one is still under review; an approval does not mean a farm will be built. Alternate and dropped sites, approvals that may have lapsed, and turbines already operating are left out.')
 INSTALLED_NOTICE = ("Wind turbines built in Nova Scotia since 2018, which NRCan's database does not list yet. Positions are from tables in each farm's environmental assessment filing, not as-built surveys: some turbines were built up to about 130 m from the tabulated spot, and each point says how far the nearest cleared pad is in Sentinel-2 imagery.")
 KEEP = ["id", "turbine", "project", "proponent", "county", "status", "status_date", "layout_role",
         "project_turbines", "project_capacity_mw", "tip_height_m", "hub_height_m", "rotor_diameter_m",
@@ -26,7 +28,12 @@ def spoken(date):
     y, m, d = (int(x) for x in date.split("-"))
     return f"{d} {MONTHS[m - 1]} {y}"
 
-PASSED = "; its two-year deadline to start work passed on {deadline} with no extension posted, and no turbine position had been cleared by 30 August 2026"
+# Two-year deadline to start work passed with no extension posted and no clearing at any
+# turbine position (Sentinel-2, 30 August 2026): off the map, like the receipt's other lapsed approvals.
+OFF_MAP = {
+    "Bear Lake Wind Power Project": "deadline 13 December 2025",
+    "Kmtnuk Wind Power Project": "deadline 21 December 2025",
+}
 MERSEY_LAYOUT = "Assessed layout; a 2023 revision moved a few turbines and the revised positions are not published"
 # Current state, plain: (status template using {date}, layout note or None[, status date]).
 # A dict picks the entry by the position's `build_status` (None for the rest).
@@ -39,9 +46,6 @@ PROJECTS = {
     "Ocean Lake Wind Project (formerly EverWind Wind Farm 2)": ("EA approved with conditions on {date}", None),
     "Windy Ridge Wind Power Project": ("EA approved with conditions on {date}; site work began between October 2025 and April 2026, before the deadline to start work, and pads were cleared at 32 of these 49 positions by 30 August 2026",
                                        "Assessed layout of 49; EverWind has since cut two turbines, moved to 8 MW and kept turbines off the west side of the East Folly Mountain River (June 2025), and the revised positions are not published"),
-    "Kmtnuk Wind Power Project": ("EA approved with conditions on {date}" + PASSED.format(deadline="21 December 2025"), "Assessed layout; EverWind now lists 16 turbines of up to 128 MW in all"),
-    "Bear Lake Wind Power Project": ("EA approved with conditions on {date}" + PASSED.format(deadline="13 December 2025"),
-                                     "Assessed layout of 15; an 11-turbine design was approved in April 2025 and its positions are not published, so at least 4 of these points will not be built"),
     "Eigg Mountain Wind Project": ("EA approved with conditions on {date}; construction not started", None),
     "Sugar Maple Wind Energy Project": ("EA approved with conditions on {date}; construction planned from 2027", None),
     "Weavers Mountain Wind Energy Project": ("Under construction, with turbines delivered from June 2026; EA approved with conditions on {date}", None),
@@ -65,11 +69,13 @@ def natural(text):
     return [int(part) if part.isdigit() else part for part in re.split(r"(\d+)", str(text))]
 
 planned_path, installed_path, *inputs = sys.argv[1:]
-planned, installed, dropped, seen = [], [], [], set()
+planned, installed, dropped, off_map, seen = [], [], [], {}, set()
 for path in inputs:
     for f in json.load(open(path, encoding="utf-8"))["features"]:
         p = f["properties"]
         role = str(p.get("layout_role") or "assessed")
+        if p["project"] in OFF_MAP:
+            off_map[p["project"]] = off_map.get(p["project"], 0) + 1; continue
         if DROP_ROLE.match(role):
             dropped.append((p["id"], role.split(" ")[0])); continue
         lon, lat = f["geometry"]["coordinates"][:2]
@@ -108,3 +114,5 @@ def write(path, label, notice, features):
 write(planned_path, "Planned wind turbines in Nova Scotia (EA filings)", NOTICE, planned)
 write(installed_path, "Wind turbines built in Nova Scotia since 2018 (EA filings)", INSTALLED_NOTICE, installed)
 print(len(dropped), "dropped:", dropped)
+for name, count in sorted(off_map.items()): print(f"off the map: {count} {name} ({OFF_MAP[name]})")
+assert set(off_map) == set(OFF_MAP), "an OFF_MAP project is missing from the extracts"

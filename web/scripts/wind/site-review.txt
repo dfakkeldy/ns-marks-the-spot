@@ -72,7 +72,7 @@ present on 2026-04-27 (S2C_20TMR_20260427), before the 2026-07-25 deadline to st
 Projects with no clearing at any position
 -----------------------------------------
 Bear Lake (15) and Kmtnuk (16): none on 2026-08-30 (S2B_20TLQ_20260830, S2B_20TMR_20260830) or in
-October. Kmtnuk T6's October "vegetation loss" is thin cloud on 2026-10-09 that SCL did not flag.
+October. With no extension posted, both are off the map (OFF_MAP in merge_planned.py). Kmtnuk T6's October "vegetation loss" is thin cloud on 2026-10-09 that SCL did not flag.
 Ellershouse 3 (12): none on 2026-08-30 (S2B_20TMQ_20260830); the October flag at position 5 is cloud.
 Clydesdale Ridge (18): none; WTG11's flag is an irregular forestry cut, not a pad.
 Aulds Cove, Setapuktuk, Ocean Lake, Upper Afton, Rhodena, Eigg Mountain, Melvin Lake, Harbour Hills: none.

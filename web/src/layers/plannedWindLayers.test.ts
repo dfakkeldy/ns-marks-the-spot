@@ -63,6 +63,11 @@ describe("wind turbines from EA filings", () => {
     expect(installed.features.every(({ properties }) => /operat/iu.test(String(properties.status)))).toBe(true);
   });
 
+  it("keeps approvals that may have lapsed off the map", () => {
+    const projects = new Set(planned.features.map(({ properties }) => String(properties.project)));
+    for (const lapsed of ["Bear Lake Wind Power Project", "Kmtnuk Wind Power Project"]) expect(projects.has(lapsed), lapsed).toBe(false);
+  });
+
   it("puts each position in one file only", () => {
     const plannedIds = new Set(planned.features.map(({ id }) => id));
     expect(installed.features.filter(({ id }) => plannedIds.has(id))).toEqual([]);

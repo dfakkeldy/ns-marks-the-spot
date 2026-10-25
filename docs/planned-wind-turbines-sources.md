@@ -52,18 +52,17 @@ Filings were read on October 24, 2026.
 
 ## Summary
 
-613 planned positions from 17 projects, and 25 built since 2018 from 2 projects,
-counted from the published files.
+582 planned positions from 15 projects, and 25 built since 2018 from 2 projects,
+counted from the published files. Bear Lake and Kmtnuk are off the map while their
+approvals may have lapsed (see [Approval possibly lapsed](#approval-possibly-lapsed-kept-off-the-map)).
 
 | Project | County | Status | Points on the map | Project MW (filed) |
 |---|---|---|---|---|
 | Aulds Cove Wind Project | Guysborough | EA approved with conditions on 13 February 2026 | 21 | 147 |
-| Bear Lake Wind Power Project | Hants / Lunenburg / Halifax | EA approved with conditions on 13 December 2023; its two-year deadline to start work passed on 13 December 2025 with no extension posted, and no turbine position had been cleared by 30 August 2026 | 15 | 89 |
 | Benjamins Mill Wind Project | Hants | 3 positions under construction (Minas Highlands); 17 not built; the 8 operating are on the installed layer | 20 | 150 |
 | Eigg Mountain Wind Project | Antigonish | EA approved with conditions on 9 April 2026; construction not started | 22 | 154 |
 | Goose Harbour Lake Wind Farm | Guysborough | Under construction, with commissioning planned for late 2026; EA approved with conditions on 20 March 2023 | 24 | 168 |
 | Harbour Hills Wind Project | Guysborough | EA under review, not approved; registered 24 June 2026 | 107 | 856 |
-| Kmtnuk Wind Power Project | Colchester | EA approved with conditions on 21 December 2023; its two-year deadline to start work passed on 21 December 2025 with no extension posted, and no turbine position had been cleared by 30 August 2026 | 16 | 98 |
 | Melvin Lake Wind Project | Halifax; Hants | EA approved with conditions on 24 January 2025; not under construction, and work must start by 24 January 2027 unless extended | 23 | 161 |
 | Mersey River Wind Farm | Queens | Under construction as phase 1 of 2, with first power planned for fall 2026; EA approved with conditions on 27 March 2023 | 33 | 148.5 |
 | Ocean Lake Wind Project (formerly EverWind Wind Farm 2) | Guysborough | EA approved with conditions on 2 July 2026 | 158 | 1,264 |
@@ -88,12 +87,14 @@ Installed since 2018 (installed layer):
   begin within two years of approval unless the Minister grants a written
   extension (deadlines below). Windy Ridge began site work before its deadline.
   Bear Lake and Kmtnuk passed theirs with no extension posted and no clearing at
-  any turbine position, which is the test that keeps Westchester, Clydesdale
-  Ridge and Ellershouse 3 off the map. They stay on it because the evidence
-  that they are still live is stronger: the Board ordered Bear Lake's
+  any turbine position, the same test that keeps Westchester, Clydesdale Ridge
+  and Ellershouse 3 off the map, so they are off it too (decided 24 October
+  2026). Both are still being pursued: the Board ordered Bear Lake's
   development agreement approved in May 2026, Nuveen financed EverWind's wind
   projects in March 2026, and EverWind named both in its October 2026
-  announcement. Taking them off is a judgement call left open.
+  announcement. Their 31 positions stay in the raw extract (`OFF_MAP` in
+  `merge_planned.py`), ready to restore if a written extension is published or
+  work starts.
 - The press figures for EverWind's four farms (650 MW from 80 turbines; elsewhere
   768 MW) do not match the EA filings (703 MW, 102 turbines, 108 with Upper Afton's
   alternates), so the layouts may have changed since the filings. The map shows
@@ -188,26 +189,26 @@ Project page: <https://novascotia.ca/nse/ea/windy-ridge-wind-power/>
 | [The Canadian Press via BNN Bloomberg, 3 Mar 2026](https://www.bnnbloomberg.ca/business/2026/03/03/everwind-lands-more-than-240m-in-financing-for-ns-wind-and-hydrogen-projects/) (news) | EverWind's CEO: the company "has begun clearing land" on Windy Ridge |
 | Sentinel-2 check (reviewed by eye, `site-review.txt`) | A round pad on a new access road at 32 positions (T1-T9, T14, T16, T17, T20, T21, T28-T35, T37-T39, T41-T46, T52) on 30 Aug 2026 (S2B_20TMR_20260830), none on 29 Sep 2025 (S2C_20TMR_20250929); the first (T16, T17, T37, T38) are visible on 27 Apr 2026 (S2C_20TMR_20260427). No clearing at T18, T47 or the 14 eastern positions T53-T72; T40 unclear. Work therefore began before the 25 Jul 2026 deadline, which corroborates the CEO's statement |
 
-### Kmtnuk Wind Power Project (one of EverWind's four)
+### Kmtnuk Wind Power Project (one of EverWind's four). OFF THE MAP: approval possibly lapsed
 Project page: <https://novascotia.ca/nse/ea/kmtnuk-wind-power/>
 
 | Source | Supports |
 |---|---|
 | Project page; [decision](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-decision.pdf), [conditions](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-conditions.pdf) | Registered 1 Nov 2023; approved 21 Dec 2023; 16 turbines, 98 MW, 206.5 m tip, 7.0 MW; north of McCallum Settlement |
-| [Appendix S-V](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-appendix-s-v.pdf#page=59), Appendix T Shadow Flicker, WindPRO WTG table, PDF p. 59 | **Mapped coordinates**, NAD83(NSRS/CSRS) Zone 20; IDs from the "WTG n" labels (1, 2, 4-8, 10-17, 20) |
+| [Appendix S-V](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-appendix-s-v.pdf#page=59), Appendix T Shadow Flicker, WindPRO WTG table, PDF p. 59 | **Coordinates** (extracted, not mapped while the approval may have lapsed), NAD83(NSRS/CSRS) Zone 20; IDs from the "WTG n" labels (1, 2, 4-8, 10-17, 20) |
 | Same file, Appendix S EMI letter (18 Sep 2023), Table 1, PDF pp. 2-3 | Hub 125 m, rotor 163 m, tip 206.5 m; UTM about 1.05 m north of the WindPRO values (likely an NAD83 realisation difference) and 4-decimal lat/lon used as a check |
 | [EverWind Kmtnuk page](https://everwindfuels.com/projects/kmtnuk-wind-project/) (fetched 2026-10-24) | 16 turbines, up to 128 MW (8 MW each); "construction is expected to begin in 2026" |
 | Sentinel-2 check | No clearing at any of the 16 positions on 30 Aug 2026 (S2B_20TMR_20260830) or in October (T6's October flag is thin cloud) |
 
-### Bear Lake Wind Power Project (one of EverWind's four)
+### Bear Lake Wind Power Project (one of EverWind's four). OFF THE MAP: approval possibly lapsed
 Project page: <https://novascotia.ca/nse/ea/bear-lake-wind-power/>
 
 | Source | Supports |
 |---|---|
 | Project page; [decision](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-decision.pdf), [conditions](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-conditions.pdf) | Registered 24 Oct 2023; approved 13 Dec 2023; up to 15 turbines, up to 89 MW, up to 206.5 m tip; near Upper Vaughn (EA page spelling) |
-| [Appendix Q-T](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-appendix-q-t.pdf#page=62), Appendix R Shadow Flicker, WindPRO WTG table, PDF p. 62 | **Mapped coordinates**, NAD83(NSRS/CSRS) Zone 20 (unlabelled rows) |
+| [Appendix Q-T](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-appendix-q-t.pdf#page=62), Appendix R Shadow Flicker, WindPRO WTG table, PDF p. 62 | **Coordinates** (extracted, not mapped while the approval may have lapsed), NAD83(NSRS/CSRS) Zone 20 (unlabelled rows) |
 | Same file, Appendix Q EMI letter (15 Sep 2023), Table 1, PDF pp. 2-3 | IDs 1-15 (identical coordinates to the WindPRO rows), 4-decimal lat/lon (check), hub 125 m, rotor 163 m, tip 206.5 m |
-| [NS Regulatory and Appeals Board, 2026 NSRAB 76, decision of 26 May 2026](https://nserbt.ca/sites/default/files/NSRAB%20Board%20Decision%20-%20Bear%20Lake%20Wind%20Ltd%20M12505.pdf), matter M12505 | "The appeal is allowed. The Board orders Council to approve the Development Agreement." Para. 8: "An updated project description was approved on April 28, 2025." Paras. 10-11: the revised project is 11 Goldwind GWH182-8.0 turbines (7 in West Hants, 3 in Halifax, 1 in Chester), 211 m tall. The revised positions are not published, so the map keeps the 15 assessed ones and says at least 4 will not be built |
+| [NS Regulatory and Appeals Board, 2026 NSRAB 76, decision of 26 May 2026](https://nserbt.ca/sites/default/files/NSRAB%20Board%20Decision%20-%20Bear%20Lake%20Wind%20Ltd%20M12505.pdf), matter M12505 | "The appeal is allowed. The Board orders Council to approve the Development Agreement." Para. 8: "An updated project description was approved on April 28, 2025." Paras. 10-11: the revised project is 11 Goldwind GWH182-8.0 turbines (7 in West Hants, 3 in Halifax, 1 in Chester), 211 m tall. The revised positions are not published; if the project returns to the map, at least 4 of the 15 assessed positions will not be built |
 | Sentinel-2 check | No clearing at any of the 15 positions on 30 Aug 2026 (S2B_20TLQ_20260830) or in October |
 
 ### Construction deadlines in the 2023–2025 approvals
@@ -225,8 +226,9 @@ although the Department has posted extensions on other pages
 - **Windy Ridge:** started. Pads were cleared at 32 positions between October 2025 and August 2026,
   the first by 27 April 2026 (see its table).
 - **Bear Lake and Kmtnuk:** no clearing at any turbine position by 30 August 2026, and no extension
-  posted. That is not proof that none was granted: an unpublished extension, or work away from the
-  turbine sites, would not show here. Bear Lake's April 2025 project change was approved without a
+  posted, so both are off the map with the other possibly lapsed approvals. That is not proof that
+  none was granted: an unpublished extension, or work away from the turbine sites, would not show
+  here. Bear Lake's April 2025 project change was approved without a
   new EA (2026 NSRAB 76, para. 57), and EverWind's pages say construction of both is expected to
   begin in 2026.
 - **Rhodena:** deadline 6 January 2027; no clearing at its six positions.
@@ -343,13 +345,15 @@ NRCan: not present; nearest NRCan turbine 456 m (Black Pond, 2015), a separate s
 | [EA project page](https://novascotia.ca/nse/ea/harbour-hills-wind/) | EverWind and Membertou ("Wind Farm 3"); registered 2026-06-24; 107 turbines, 856 MW. On 2026-08-13 the Minister found the registration insufficient and asked for more flora and fauna information; it is under review, not approved and not rejected |
 | [Appendix B-F](https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf), Table 1, PDF pp. 42-44 | **Coordinates** for all 107 positions, printed in degrees, minutes and seconds (datum not stated in the table; the report's maps are NAD83), converted arithmetically |
 
-EverWind and Membertou therefore have six approved wind farms (Bear Lake, Kmtnuk, Windy Ridge, Setapuktuk, Upper Afton, Ocean Lake) and Harbour Hills under review. The four the data-centre announcement named are Bear Lake, Kmtnuk, Upper Afton and Windy Ridge. West Hants refused Bear Lake's development agreement in September 2025; the NS Regulatory and Appeals Board allowed the appeal on 26 May 2026 and ordered Council to approve it (2026 NSRAB 76). EverWind's own pages now list 11 (Bear Lake), 16, 47 (Windy Ridge) and 22 (Upper Afton) turbines, 96 in all; the press figure of 80 turbines and 650 MW is from EverWind's data-centre FAQ ("more than 80 turbines and more than 650 MW").
+EverWind and Membertou therefore hold six wind approvals (Bear Lake, Kmtnuk, Windy Ridge, Setapuktuk, Upper Afton, Ocean Lake), two of which (Bear Lake and Kmtnuk) may have lapsed and are off the map, and Harbour Hills is under review. The four the data-centre announcement named are Bear Lake, Kmtnuk, Upper Afton and Windy Ridge. West Hants refused Bear Lake's development agreement in September 2025; the NS Regulatory and Appeals Board allowed the appeal on 26 May 2026 and ordered Council to approve it (2026 NSRAB 76). EverWind's own pages now list 11 (Bear Lake), 16, 47 (Windy Ridge) and 22 (Upper Afton) turbines, 96 in all; the press figure of 80 turbines and 650 MW is from EverWind's data-centre FAQ ("more than 80 turbines and more than 650 MW").
 
 ## Approval possibly lapsed (kept off the map)
 Every recent approval carries the same condition 3.2: work must start within 2 years of the approval unless the Minister grants a written extension. None of the project pages shows an extension.
 
 | Project | Approved | Deadline | Evidence work has not started | Coordinates |
 |---|---|---|---|---|
+| Bear Lake Wind Power Project (EverWind/Membertou; up to 15 turbines, 89 MW as filed, 11 as revised) | 2023-12-13 | 2025-12-13 | No clearing at any of the 15 positions on 30 Aug 2026 (S2B_20TLQ_20260830) or in October. EverWind's [project page](https://everwindfuels.com/projects/bear-lake-wind-project/) says "construction is expected to begin in 2026". Still pursued: development agreement ordered approved on appeal, 26 May 2026 ([2026 NSRAB 76](https://nserbt.ca/sites/default/files/NSRAB%20Board%20Decision%20-%20Bear%20Lake%20Wind%20Ltd%20M12505.pdf)) | [Appendix Q-T](https://novascotia.ca/nse/ea/bear-lake-wind-power/blwp-appendix-q-t.pdf#page=62), Appendix R WindPRO table, PDF p. 62. Extracted (`raw/strait-and-everwind.geojson`), not mapped; see its section above |
+| Kmtnuk Wind Power Project (EverWind/Membertou; 16 turbines, 98 MW as filed) | 2023-12-21 | 2025-12-21 | No clearing at any of the 16 positions on 30 Aug 2026 (S2B_20TMR_20260830) or in October. EverWind's [project page](https://everwindfuels.com/projects/kmtnuk-wind-project/) says "construction is expected to begin in 2026" | [Appendix S-V](https://novascotia.ca/nse/ea/kmtnuk-wind-power/kwp-appendix-s-v.pdf#page=59), Appendix T WindPRO table, PDF p. 59. Extracted, not mapped; see its section above |
 | Westchester Wind Project (12 turbines, 50-84 MW, Natural Forces) | 2023-02-13 | 2025-02-13 | The [Natural Forces page](https://www.naturalforces.ca/projects/westchester-wind-project/) still calls it "proposed", with a Green Choice bid and an information session on 2026-10-27 | Not found in EARD Section 2 or Addendum Parts 1-2. Addendum Appendix L (sound) has no text-layer table and was not checked further. <https://novascotia.ca/nse/ea/Westchester-Wind-Project/> |
 | Clydesdale Ridge Wind Project (18 turbines, 126 MW, Natural Forces/RMS) | 2024-09-26 | 2026-09-26 | The [Natural Forces page](https://www.naturalforces.ca/projects/clydesdale-ridge-wind-project/) says "proposed", with a Green Choice bid and an information session on 2026-11-02. No clearing at any of the 18 positions in Sentinel-2 imagery to October 2026 (WTG11 sits in a forestry cut). The deadline passed only a month ago, and an unpublished extension is possible | [EA registration document](https://novascotia.ca/nse/ea/clydesdale-ridge-wind/cwr-ea-registration-document.pdf), Table 6.3, PDF p. 32 (UTM NAD83 Z20). Not mapped while the approval may have lapsed |
 | Ellershouse 3 Wind Project (12 turbines, 66 MW, Potentia/AVFN) | 2023-07-05 | 2025-07-05 | **Not built.** No pad at any of the 12 positions on 30 Aug 2026 (S2B_20TMQ_20260830). Potentia's planned 2025 construction (6 turbines under the AREA PPA, COD December 2025) did not happen; its project page now returns 404, and IESO Nova Scotia's 2026 outlook lists no Ellershouse addition | [Appendix M-P](https://novascotia.ca/nse/ea/ellershouse-3-wind/e3w-ea-registration-appendix-m-p.pdf), Table 1, PDF p. 7 (8 identical copies). Printed lon for T7 is a typo. Not mapped while the approval may have lapsed |

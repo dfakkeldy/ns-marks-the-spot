@@ -2110,14 +2110,15 @@ zooms and keep their numbers on the map from zoom 15.
   40-130 m away). Higgins Mountain points also carry the turbine number on the
   site's signs.
 - **Planned wind turbines (NS EA filings)** (`planned-wind-turbines`):
-  613 positions from 17 projects across the province (approved, under
+  582 positions from 15 projects across the province (approved, under
   construction, being cleared, partly built, or in Harbour Hills' case still
   under review), read from `public/wind/planned-turbines.geojson`. Every
   position comes from a coordinate table in a Nova Scotia environmental
   assessment filing; UTM values were converted to WGS84 and the published
   values are kept on each point. They are assessed layouts, subject to change,
   not as-built surveys; alternate and dropped sites are left out so no layout is
-  counted twice, and operating turbines are on the layer above. Where a farm is
+  counted twice, approvals that may have lapsed (including EverWind's Bear Lake
+  and Kmtnuk) are left out, and operating turbines are on the layer above. Where a farm is
   under construction or being cleared, each point says what Sentinel-2 imagery
   shows there. Drawn hollow in Rhodena's proposed-turbine orange, because none
   of them is operating yet.
