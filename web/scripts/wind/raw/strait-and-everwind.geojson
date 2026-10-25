@@ -2797,7 +2797,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 9.0,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -2831,7 +2834,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 14.6,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -2865,7 +2871,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 9.7,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -2899,7 +2908,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 8.6,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -2933,7 +2945,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 13.2,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -2967,7 +2982,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 14.5,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3001,7 +3019,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 13.2,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3035,7 +3056,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 10.5,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3069,7 +3093,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 8.0,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -3103,7 +3130,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 7.3,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3137,7 +3167,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 8.5,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3171,7 +3204,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 11.1,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -3205,7 +3241,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 10.2,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3239,7 +3278,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 15.1,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3273,7 +3315,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 12.4,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3307,7 +3352,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 11.1,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -3341,7 +3389,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 13.5,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3375,7 +3426,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 11.8,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3409,7 +3463,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 16.5,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3443,7 +3500,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 17.6,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -3477,7 +3537,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 10.5,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 1 October 2026",
+    "site_check_scene": "S2C_20TPR_20261001_0_L2A"
    }
   },
   {
@@ -3511,7 +3574,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 7.9,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3545,7 +3611,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 11.2,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -3579,7 +3648,10 @@
     "layout_note": "Positions as modelled by a third party (Strum for EverWind, Aug 2025), not the proponent's own 2023 EA table (32 candidate locations, 29 x 4.5 MW, 150 m rotor), which is superseded. Turbine IDs are published only for T5, T21, T27, T30 (Aulds Cove EA Appendix C Table 3).",
     "distance_km_point_tupper": 11.0,
     "layout_role": "under construction",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "under construction",
+    "site_check": "a pad was cleared here by 3 October 2026",
+    "site_check_scene": "S2A_20TPR_20261003_2_L2A"
    }
   },
   {
@@ -4599,7 +4671,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4633,7 +4708,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.7,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4667,7 +4745,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.6,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4701,7 +4782,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4735,7 +4819,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4769,7 +4856,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4803,7 +4893,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 164.6,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4837,7 +4930,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 164.3,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4871,7 +4967,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 163.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4905,7 +5004,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4939,7 +5041,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 164.6,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -4973,7 +5078,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 164.7,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5007,7 +5115,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.3,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5041,7 +5151,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.5,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5075,7 +5188,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.1,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5109,7 +5225,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 167.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5143,7 +5262,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 167.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5177,7 +5299,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 167.1,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5211,7 +5336,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.7,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5245,7 +5373,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5279,7 +5410,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5313,7 +5447,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5347,7 +5484,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.3,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5381,7 +5521,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 166.1,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5415,7 +5558,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.7,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5449,7 +5595,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.2,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5483,7 +5632,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 169.5,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "clearing nearby by 30 August 2026, unclear whether a pad",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5517,7 +5668,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 168.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5551,7 +5705,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 167.0,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5585,7 +5742,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 165.5,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5619,7 +5779,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 164.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5653,7 +5816,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 163.1,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5687,7 +5853,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 162.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5721,7 +5890,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 161.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5755,7 +5926,10 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 161.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "build_status": "site work",
+    "site_check": "a pad was cleared here between 29 September 2025 and 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5789,7 +5963,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 161.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5823,7 +5999,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 160.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5857,7 +6035,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 160.2,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5891,7 +6071,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 159.9,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5925,7 +6107,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 159.1,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5959,7 +6143,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 158.5,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -5993,7 +6179,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 157.6,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6027,7 +6215,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 157.1,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6061,7 +6251,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 156.8,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6095,7 +6287,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 155.2,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6129,7 +6323,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 154.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6163,7 +6359,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 154.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6197,7 +6395,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 157.4,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {
@@ -6231,7 +6431,9 @@
     "layout_note": "49 tabulated locations; the EA figures show 52 locations (49 to be built, 3 contingency alternates whose coordinates are not tabulated).",
     "distance_km_point_tupper": 155.5,
     "layout_role": "assessed",
-    "ground_elev_m_published": null
+    "ground_elev_m_published": null,
+    "site_check": "no clearing here by 30 August 2026",
+    "site_check_scene": "S2B_20TMR_20260830_0_L2A"
    }
   },
   {

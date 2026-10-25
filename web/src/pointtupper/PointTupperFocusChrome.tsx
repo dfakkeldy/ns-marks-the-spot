@@ -83,6 +83,12 @@ export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusC
               <dd>
                 {fact.text}{' '}
                 <a href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceLabel}</a>
+                {fact.note && (
+                  <>
+                    {' '}{fact.note.text}{' '}
+                    <a href={fact.note.sourceUrl} target="_blank" rel="noreferrer">{fact.note.sourceLabel}</a>
+                  </>
+                )}
               </dd>
             </div>
           ))}

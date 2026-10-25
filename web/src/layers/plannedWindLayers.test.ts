@@ -1,17 +1,24 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { contextLayerCatalog } from "./contextLayerCatalog";
-import { PLANNED_WIND_COVERAGE, plannedWindLayers } from "./plannedWindLayers";
+import { PLANNED_WIND_COVERAGE, windFilingLayers } from "./plannedWindLayers";
 
 type Turbine = {
   id: string;
   geometry: { type: string; coordinates: [number, number] };
   properties: Record<string, unknown>;
 };
-const file = JSON.parse(readFileSync("public/wind/planned-turbines.geojson", "utf8")) as { notice: string; features: Turbine[] };
-const [layer] = plannedWindLayers;
+type TurbineFile = { notice: string; features: Turbine[] };
+const read = (name: string) => JSON.parse(readFileSync(`public/wind/${name}`, "utf8")) as TurbineFile;
+const planned = read("planned-turbines.geojson");
+const installed = read("installed-since-2018.geojson");
+const [plannedLayer, installedLayer] = windFilingLayers;
+const files = [
+  { name: "planned", layer: plannedLayer, file: planned },
+  { name: "installed since 2018", layer: installedLayer, file: installed },
+] as const;
 
-describe("planned wind turbines", () => {
+describe.each(files)("$name wind turbines", ({ layer, file }) => {
   it("keeps the layer's caveat and the file's notice identical", () => {
     expect(layer.webCaveat).toBe(file.notice);
   });
@@ -37,14 +44,38 @@ describe("planned wind turbines", () => {
     }
   });
 
-  it("leaves alternate sites out, so no layout is counted twice", () => {
-    expect(file.features.filter(({ properties }) => /^(alternate|unclear)/iu.test(String(properties.layout_role)))).toEqual([]);
+  it("leaves alternate and dropped sites out, so no layout is counted twice", () => {
+    expect(file.features.filter(({ properties }) => /^(alternate|unclear|dropped)/iu.test(String(properties.layout_role)))).toEqual([]);
   });
 
-  it("is a public-facts layer compiled by the project, drawn hollow because nothing stands yet", () => {
+  it("is a public-facts layer compiled by the project", () => {
     expect(layer.licence).toBe("public-facts");
     expect(layer.provenance).toBe("project-derived");
-    expect(layer.featureRenderer.defaultStyle.marker).toEqual({ glyph: "turbine", hollow: true });
-    expect(contextLayerCatalog.some(({ id }) => id === "planned-wind-turbines")).toBe(true);
+    expect(contextLayerCatalog.some(({ id }) => id === layer.id)).toBe(true);
+  });
+});
+
+describe("wind turbines from EA filings", () => {
+  it("draws planned turbines hollow, because none is operating yet, and built ones filled", () => {
+    expect(plannedLayer.featureRenderer.defaultStyle.marker).toEqual({ glyph: "turbine", hollow: true });
+    expect(installedLayer.featureRenderer.defaultStyle.marker).toEqual({ glyph: "turbine" });
+    expect(planned.features.some(({ properties }) => /^Operating/u.test(String(properties.status)))).toBe(false);
+    expect(installed.features.every(({ properties }) => /operat/iu.test(String(properties.status)))).toBe(true);
+  });
+
+  it("keeps approvals that may have lapsed off the map", () => {
+    const projects = new Set(planned.features.map(({ properties }) => String(properties.project)));
+    for (const lapsed of ["Bear Lake Wind Power Project", "Kmtnuk Wind Power Project"]) expect(projects.has(lapsed), lapsed).toBe(false);
+  });
+
+  it("puts each position in one file only", () => {
+    const plannedIds = new Set(planned.features.map(({ id }) => id));
+    expect(installed.features.filter(({ id }) => plannedIds.has(id))).toEqual([]);
+  });
+
+  it("says how each built turbine was checked against imagery", () => {
+    for (const { id, properties } of installed.features) {
+      expect(String(properties.layout_role), id).toMatch(/\(Sentinel-2\)$/u);
+    }
   });
 });

@@ -386,7 +386,7 @@ URLs or export settings and do not change the production catalogue, shared/saved
 state sanitization, Province acknowledgement or PDF guards. Church's separate
 historical-map disclosure and all other categories are unchanged.
 
-The web-only `contextLayerCatalog` has 77 default-off research controls.
+The web-only `contextLayerCatalog` has 78 default-off research controls.
 The GeoNova inventory has 39 entries, including three withheld descriptors, across these categories:
 provincial topography, 15 OGL-NS infrastructure and mapped-place overlays,
 water and forest context, geology, environmental screens, historical coal
@@ -401,15 +401,16 @@ The catalog also includes
 eight **Elections & Districts** layers, six **Rhodena Wind Project**
 layers, four fishing layers under **Water & Terrain** (see
 [Fishing page](#fishing-page)), one **Point Tupper Site** layer (see
-[Point Tupper page](#point-tupper-page)), one planned wind turbines layer under
-**Roads & Places** (see [Wind turbines](#wind-turbines)), and the 21 September
+[Point Tupper page](#point-tupper-page)), two wind turbine layers from
+environmental assessment filings under **Roads & Places** (planned, and built
+since 2018; see [Wind turbines](#wind-turbines)), and the 21 September
 2026 habitat,
 water, and community GIS overlays described next. All start off. Source-specific
 legends, dates, coverage, scale caveats and licence acknowledgement remain
 visible; the native offline catalogue is unchanged. Browser
 **Print / Save PDF** supports the static context layers, including static
 Rhodena geometry, the fishing layers, the Point Tupper key places and the
-planned wind turbines, subject to fitted zoom and source readiness; the
+wind turbines from EA filings, subject to fitted zoom and source readiness; the
 interactive Rhodena turbine
 viewshed and private viewpoint (`rhodena-visibility`) are omitted. For GeoNova
 sources, generated PDF supports the permitted MapServer, open-data and tile
@@ -695,16 +696,16 @@ generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
 
-Browser **Print / Save PDF** supports the static context layers (77 catalog
+Browser **Print / Save PDF** supports the static context layers (78 catalog
 entries, including static Rhodena geometry, the fishing layers, the Point
-Tupper key places and the planned wind turbines), subject to selection, fitted zoom, licence acknowledgement
+Tupper key places and the wind turbines from EA filings), subject to selection, fitted zoom, licence acknowledgement
 and source readiness.
 Interactive Rhodena turbine viewshed and private viewpoint
 (`rhodena-visibility`) are omitted. The separate **Export map (PDF)** still
 uses the MapServer, open-data and tile path for supported entries;
 unsupported vector formats, including new GIS feature overlays, electoral
 feature entries, Rhodena source formats, the four fishing layers, the Point
-Tupper key places, the planned wind turbines, and the static radon image, are
+Tupper key places, the wind turbines from EA filings, and the static radon image, are
 omitted and explicitly
 listed as not included.
 
@@ -2089,7 +2090,7 @@ including the curated spots; the layer row and popups say **Project source**.
 
 ## Wind turbines
 
-Two default-off layers under **Roads & Places** draw wind turbines as
+Three default-off layers under **Roads & Places** draw wind turbines as
 turbines, across the whole province, from zoom 7. Glyphs shrink at overview
 zooms and keep their numbers on the map from zoom 15.
 
@@ -2097,23 +2098,40 @@ zooms and keep their numbers on the map from zoom 15.
   Resources Canada's Canadian Wind Turbine Database, queried live for the view
   (347 turbines in Nova Scotia), drawn filled in cyan. Its newest Nova Scotia
   records are from 2018, so farms built since are missing; the layer's caveat
-  says so.
+  says so and points to the next layer.
+- **Installed wind turbines since 2018 (NS EA filings)**
+  (`wind-turbines-since-2018`): the farms built since, read from
+  `public/wind/installed-since-2018.geojson`, drawn filled in the same cyan:
+  Higgins Mountain (17 turbines, in operation from May 2026) and Benjamins
+  Mill phase 1 (8 turbines, operating since December 2025), 25 in all. Their
+  positions come from the farms' own EA coordinate tables, so they are not
+  as-built surveys; each point says how far the nearest cleared turbine pad is
+  in Sentinel-2 imagery (at four Higgins Mountain points the nearest pad is
+  40-130 m away). Higgins Mountain points also carry the turbine number on the
+  site's signs.
 - **Planned wind turbines (NS EA filings)** (`planned-wind-turbines`):
-  623 positions from 17 projects across the province (approved, under
-  construction, partly built, or in Harbour Hills' case still under review),
-  read from `public/wind/planned-turbines.geojson`. Every
+  582 positions from 15 projects across the province (approved, under
+  construction, being cleared, partly built, or in Harbour Hills' case still
+  under review), read from `public/wind/planned-turbines.geojson`. Every
   position comes from a coordinate table in a Nova Scotia environmental
   assessment filing; UTM values were converted to WGS84 and the published
   values are kept on each point. They are assessed layouts, subject to change,
-  not as-built surveys; alternate sites are left out so no layout is counted
-  twice. Drawn hollow in Rhodena's proposed-turbine orange, because none of
-  them stands yet. The positions are public facts compiled by the project, so
-  the row links a **Project source** (the
-  [planned turbines receipt](../docs/planned-wind-turbines-sources.md)) and
-  "Original source rights retained" (`public/wind/LICENCE.txt`).
+  not as-built surveys; alternate and dropped sites are left out so no layout is
+  counted twice, approvals that may have lapsed (including EverWind's Bear Lake
+  and Kmtnuk) are left out, and operating turbines are on the layer above. Where a farm is
+  under construction or being cleared, each point says what Sentinel-2 imagery
+  shows there. Drawn hollow in Rhodena's proposed-turbine orange, because none
+  of them is operating yet.
 
-Browser print draws both as circles; generated PDF omits the planned layer, a
-feature query, and names it as not included.
+Both EA-filing layers are public facts compiled by the project, so their rows
+link a **Project source** (the
+[wind turbines receipt](../docs/planned-wind-turbines-sources.md)) and
+"Original source rights retained" (`public/wind/LICENCE.txt`, which also
+carries the Copernicus Sentinel attribution). The files are rebuilt from
+`scripts/wind/` (see [its README](scripts/wind/README.md)).
+
+Browser print draws all three as circles; generated PDF omits the two EA-filing
+layers, which are feature queries, and names them as not included.
 
 ## Point Tupper page
 
@@ -2169,7 +2187,8 @@ weight (`parcelOutlineWidth`), for a page about a few large holdings.
 
 - **Heading.** A sourced summary of the October 2026 announcement (size, grid,
   Richmond County loads under study, Landrie Lake cooling figures, wind, the
-  wind farm already on the site, and who pays for upgrades). Company figures are the company's own. A **Zoom to
+  wind farm already on the site, and who pays for upgrades). Company figures are the company's own; the wind
+  line adds a separately sourced note that Bear Lake and Kmtnuk passed their deadlines to start work. A **Zoom to
   Point Tupper** control and a link to every source sit under the facts.
 - **Timeline.** Nine dated events, oldest first, each with its public source:
   the causeway, the mill, the Landrie Lake water system, the heavy water plant,

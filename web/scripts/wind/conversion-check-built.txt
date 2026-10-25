@@ -1,0 +1,60 @@
+CONVERSION CHECK - wind farms built since the NRCan snapshot (read date 2026-10-24)
+===================================================================================
+
+Higgins Mountain Wind Farm: EA registration Appendix O-Q (Strum Consulting, WindPRO 3.5),
+https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf
+Parsed from pdftotext -layout output; UTM (north) NAD83 Zone 20 -> EPSG:26920 -> EPSG:4326 with
+/opt/local/bin/python3.12 -I, pyproj 3.6.1 (PROJ 9.3.1); cs2cs from PROJ 9.9.0 as the independent check
+(PROJ 9.9 applies a NAD83 -> WGS84 shift of about 0.5 m; PROJ 9.3 treats them as equal).
+
+
+Copies of the WTG table found (PDF page, calculation, rows):
+  p.  2  Higgins - Real Case - Dec 2022           17 rows
+  p. 14  Higgins - Worst Case - Dec 2022          17 rows
+  p. 30  Higgins - Noise Model - Jan 2023         17 rows
+  all 3 copies identical: True
+
+Converted (EPSG:26920 -> EPSG:4326) and cs2cs check:
+   1 E 453,220 N 5,046,538 -> 45.570809, -63.599522 | cs2cs 45.570812, -63.599517 (0.54 m)
+   2 E 450,868 N 5,043,589 -> 45.544104, -63.629367 | cs2cs 45.544107, -63.629362 (0.48 m)
+   3 E 451,574 N 5,042,630 -> 45.535522, -63.620229 | cs2cs 45.535525, -63.620224 (0.49 m)
+   4 E 450,996 N 5,045,608 -> 45.562285, -63.627930 | cs2cs 45.562289, -63.627925 (0.55 m)
+   5 E 451,855 N 5,047,156 -> 45.576278, -63.617076 | cs2cs 45.576281, -63.617071 (0.49 m)
+   6 E 449,975 N 5,045,980 -> 45.565561, -63.641050 | cs2cs 45.565564, -63.641045 (0.52 m)
+   7 E 451,470 N 5,046,325 -> 45.568772, -63.621927 | cs2cs 45.568775, -63.621922 (0.55 m)
+   8 E 453,098 N 5,047,472 -> 45.579207, -63.601175 | cs2cs 45.579210, -63.601170 (0.53 m)
+   9 E 451,900 N 5,041,817 -> 45.528227, -63.615974 | cs2cs 45.528231, -63.615969 (0.55 m)
+  10 E 453,135 N 5,045,116 -> 45.558004, -63.600475 | cs2cs 45.558008, -63.600470 (0.57 m)
+  11 E 450,593 N 5,044,417 -> 45.551537, -63.632973 | cs2cs 45.551540, -63.632968 (0.49 m)
+  12 E 451,701 N 5,040,519 -> 45.516531, -63.618394 | cs2cs 45.516534, -63.618389 (0.53 m)
+  13 E 453,668 N 5,043,143 -> 45.540282, -63.593459 | cs2cs 45.540285, -63.593454 (0.54 m)
+  14 E 453,817 N 5,039,138 -> 45.504244, -63.591173 | cs2cs 45.504248, -63.591168 (0.58 m)
+  15 E 454,374 N 5,041,524 -> 45.525757, -63.584266 | cs2cs 45.525760, -63.584261 (0.54 m)
+  16 E 452,972 N 5,044,137 -> 45.549182, -63.602469 | cs2cs 45.549185, -63.602464 (0.55 m)
+  17 E 454,144 N 5,042,399 -> 45.533617, -63.587293 | cs2cs 45.533620, -63.587288 (0.51 m)
+  round-trip residual max 0.000000 m
+
+Site numbers from Elemental's signage map (Jan 2026), matched by nearest symbol
+------------------------------------------------------------------------
+Map: https://elementalenergy.ca/wp-content/uploads/2022/04/Higgins_Signage-Map_v0.6_20260120.jpg
+Axis ticks read from the map: 0.08483 px/m east, 0.08460 px/m north. Symbol centres read by eye (about +-5 px).
+Only the labels are taken from the map; every position is the EA table's.
+  row  table px      nearest symbol   gap px  gap m   2nd nearest px
+    1  (  630, 219)  T11                 2.2     26    81.5
+    2  (  430, 468)  T4                  1.4     17    62.8
+    3  (  490, 550)  T3                 10.3    121    73.5
+    4  (  441, 298)  T6                  9.2    108    59.5
+    5  (  514, 167)  T9                 14.9    175    90.9
+    6  (  355, 266)  T7                  1.1     13    83.4
+    7  (  482, 237)  T8                 17.6    208    68.4
+    8  (  620, 140)  T10                 1.9     22    79.1
+    9  (  518, 618)  T2                  1.1     12    67.7
+   10  (  623, 339)  T12                 2.3     27    80.4
+   11  (  407, 398)  T5                 12.9    152    72.4
+   12  (  501, 728)  T1                  1.1     13   111.2
+   13  (  668, 506)  T14                 1.1     13    79.5
+   14  (  681, 845)  T17                 4.9     57   209.1
+   15  (  728, 643)  T16                 2.3     27    72.1
+   16  (  609, 422)  T13                 4.5     53    86.0
+   17  (  708, 569)  T15                 4.7     56    74.3
+  all 17 matched one-to-one; each nearest symbol is more than 3x closer than the second nearest
