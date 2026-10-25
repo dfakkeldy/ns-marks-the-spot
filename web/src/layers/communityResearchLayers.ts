@@ -192,7 +192,7 @@ export const communityResearchLayers = [
     sourceDate: "Database temporal coverage through 16 September 2025; catalogue updated April 2026; service checked 27 September 2026.",
     scale: "Published turbine point locations; coordinates and equipment attributes are database records.",
     coverage: "Canadian installed wind turbines reported in the NRCan database; inventory may lag additions and retirements.",
-    webCaveat: "These are inventoried turbines, not proposals or a current field inspection. In Nova Scotia the newest records are from 2018 (checked October 24, 2026), so farms built since are missing. Hub height, rotor diameter, capacity and commissioning year are source attributes, not measurements made for this map.",
+    webCaveat: "These are inventoried turbines, not proposals or a current field inspection. In Nova Scotia the newest records are from 2018 (checked October 24, 2026), so farms built since are missing here; the “Installed wind turbines since 2018” layer adds them. Hub height, rotor diameter, capacity and commissioning year are source attributes, not measurements made for this map.",
     // About 350 turbines in Nova Scotia: few enough to draw the whole province.
     minZoom: 7,
     maxZoom: 23,

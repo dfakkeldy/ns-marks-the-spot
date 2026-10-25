@@ -60,7 +60,10 @@ Dates come from the public sources below.
   the service's records on October 24, 2026 and agree with the database's own
   project total. The inventory is not a field check: a listed turbine may have
   been retired, and the map does not say whether one is turning. Its newest
-  Nova Scotia records are from 2018, so farms built since are missing.
+  Nova Scotia records are from 2018, so farms built since are missing. The two
+  built since (Higgins Mountain and Benjamins Mill phase 1, 25 turbines) are on
+  `wind-turbines-since-2018`, which this page leaves off: both are more than
+  150 km from Point Tupper.
 - **Planned** (`planned-wind-turbines`, on by default): positions from the
   coordinate tables in Nova Scotia environmental assessment filings, drawn
   hollow. Within about 45 km of Point Tupper that is six farms and 285

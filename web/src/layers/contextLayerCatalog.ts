@@ -10,7 +10,7 @@ import { communityResearchLayers } from "./communityResearchLayers";
 import { waterResearchLayers } from "./waterResearchLayers";
 import { fishingLayers } from "./fishingLayers";
 import { pointTupperLayers } from "./pointTupperLayers";
-import { plannedWindLayers } from "./plannedWindLayers";
+import { windFilingLayers } from "./plannedWindLayers";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
 import { forestryExclusionReason } from "./forestryExclusions";
 
@@ -26,7 +26,7 @@ export type ContextLayerId =
   | (typeof waterResearchLayers)[number]["id"]
   | (typeof fishingLayers)[number]["id"]
   | (typeof pointTupperLayers)[number]["id"]
-  | (typeof plannedWindLayers)[number]["id"];
+  | (typeof windFilingLayers)[number]["id"];
 
 export type ContextMapLayer = ContextLayerDescriptor & { id: ContextLayerId };
 
@@ -36,7 +36,7 @@ export const contextLayerCatalog: readonly ContextMapLayer[] = [
   ...landContextLayers,
   ...biodiversityLayers,
   ...communityResearchLayers,
-  ...plannedWindLayers,
+  ...windFilingLayers,
   ...waterResearchLayers,
   ...fishingLayers,
   ...pointTupperLayers,
