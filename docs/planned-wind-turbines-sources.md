@@ -434,6 +434,36 @@ at 21-29 pixels, the other 17 positions at 0-3) and checked on Higgins Mountain 
 - **Licence.** Contains modified Copernicus Sentinel data 2022-2026 (also in
   `web/public/wind/LICENCE.txt`).
 
+### Why not Nova Scotia aerial imagery (NSODB)
+
+The Province's 1:10,000 orthophotos (`ns-aerial`,
+[BASE_NSODB_10k_WM84](https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer))
+are sharper than Sentinel-2. They were considered as a replacement on 25 October 2026 and
+rejected because they are too old for this check. The service is a single mosaic of "the most
+current" photos; its `Photo_Date` layer (layer 0, field `PHOTODATE`) gives one capture year per
+area and there is no multi-date archive (the only other series, `BASE_NSODB_2k`, carries no
+dates). Queried over each project's turbine positions:
+
+| Photo year | Projects |
+|---|---|
+| 2010/2011 | Mersey River |
+| 2012 | Benjamins Mill, Bear Lake, Ellershouse 3 (Melvin Lake 2012, 2013 and 2017) |
+| 2019 | Rhodena |
+| 2023 | Higgins Mountain, Windy Ridge, Kmtnuk, Weavers Mountain, Sugar Maple, Clydesdale Ridge |
+| 2024 | Goose Harbour Lake, Aulds Cove, Setapuktuk, Ocean Lake, Upper Afton, Eigg Mountain, Harbour Hills |
+| 2025 | Wedgeport |
+
+Every farm with clearing in the Sentinel-2 check was photographed before its work began, except
+Wedgeport. Both calibration sites predate their pads: exports of Benjamins Mill (2012, 2.5 m) and
+Higgins Mountain (2023, 4 m) show forestry roads and cut blocks, and no turbine pad at any of their
+built positions. Using it would turn known construction into false "no clearing" notes, so
+Sentinel-2 stays the source. The one useful read is Wedgeport: its 2025 photo (2 m export) shows pads under construction along the spine road,
+none at WTG7 or WTG10, and pads beside rather than on WTG2-5, which agrees with the Sentinel-2
+finding. The exports were viewed offline only (MapServer `/export`, `bboxSR=3857`, `f=image`,
+PNG24, no special headers, as the app requests the layer); no aerial pixels are in the repository
+or on the map, and the layer's licence gate is unchanged. Worth rechecking when the Province
+publishes new photos over Hants, Cumberland, Colchester or Queens.
+
 ## Not yet checked
 - Westchester Addendum Appendix L (sound; image tables) and the original registration appendices, for coordinates. Low priority because the approval is possibly lapsed.
 - Whether Bear Lake, Kmtnuk, Ellershouse 3, Westchester or Clydesdale Ridge holds an unpublished extension. Asking the EA Branch (ea@novascotia.ca) would settle it.
