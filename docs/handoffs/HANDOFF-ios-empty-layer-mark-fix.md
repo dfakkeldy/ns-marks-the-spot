@@ -32,5 +32,5 @@ Resume:
 ```
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-review-88eda8,
 branch feature/ios-empty-layer-readback-and-mark-fix. Check `gh pr checks 292`; if green,
-remove HANDOFF-ios-empty-layer-mark-fix.md in a final commit and merge to nightly.
+remove docs/handoffs/HANDOFF-ios-empty-layer-mark-fix.md in a final commit and merge to nightly.
 ```

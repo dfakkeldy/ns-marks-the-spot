@@ -2041,6 +2041,6 @@ issues it.
 ### Not included
 
 Live river levels, regulation-zone polygons, an offline pack, and any native
-iOS fishing layer are not built; `plan.md` lists them as follow-ups. The
+iOS fishing layer are not built; `docs/plans/plan.md` lists them as follow-ups. The
 **Data & licences** dialog still labels every source link **Official source**,
 including the curated spots; the layer row and popups say **Project source**.
