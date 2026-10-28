@@ -54,7 +54,7 @@ copyright restriction entirely.
 > Thank you for your time.
 >
 > Dan Fakkeldy
-> dfakkeldy@gmail.com
+> map@kinnokilabs.com
 
 ## Reply log
 
