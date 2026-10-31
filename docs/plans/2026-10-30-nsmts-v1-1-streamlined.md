@@ -4,11 +4,66 @@ Date: 2026-10-30. Source: nightly `096c5be6b`. Every finding comes from reading 
 
 ## 1. Summary
 
-NS Marks The Spot is careful, well-commented code. The biggest risks are at the edges of user journeys, not in the core engines. The public 1.0 release is still on hold, and that hold is real: one rights question and a handful of broken or data-losing flows have to close before a public build. After that, v1.1 has three jobs: make the map screen simpler, make performance measurable, and harden the workflows people depend on in the field. The app has no `os_signpost` or `OSSignposter` anywhere and only one XCTest launch metric, so most performance questions cannot be answered from a trace today, and instrumentation comes first. Several performance problems share one cause: views and controllers rebuild everything when only one thing changed. On UI, the layer panel copies the web's full research catalog onto a phone, and the app's core feature (the Fletcher transparency slider) sits behind closed sections. Several docs disagree with the code and with each other, including the release packet and the older agent instructions' architecture rule. This plan splits the work into a 1.0 closeout (three workstreams) and then six 1.1 workstreams, each broken into reviewable PRs. Terms are defined in the glossary at the end.
+NS Marks The Spot is careful, well-commented code. The biggest risks are at the edges of user journeys, not in the core engines. App Review rejected 1.0 (124) on 2026-10-30 because "the map did not load" on an iPad Air. R-0 diagnoses that from Cloudflare's log of the review session and fixes it first. One rights question and a handful of broken or data-losing flows also have to close before a public build. After that, v1.1 has three jobs: make the map screen simpler, make performance measurable, and harden the workflows people depend on in the field. The app has no `os_signpost` or `OSSignposter` anywhere and only one XCTest launch metric, so most performance questions cannot be answered from a trace today, and instrumentation comes first. Several performance problems share one cause: views and controllers rebuild everything when only one thing changed. On UI, the layer panel copies the web's full research catalog onto a phone, and the app's core feature (the Fletcher transparency slider) sits behind closed sections. Several docs disagree with the code and with each other, including the release packet and the older agent instructions' architecture rule. This plan splits the work into a 1.0 closeout (three workstreams) and then six 1.1 workstreams, each broken into reviewable PRs. Terms are defined in the glossary at the end.
 
 ## 2. Decision 1: what "v1.1" means while 1.0 is on hold
 
-> **Correction (2026-10-31): 1.0 was submitted, and App Review rejected it.** The repository holds no record of this, so the status paragraph below is out of date. Apple's email shows submission `5804f9be-3976-46f8-bdb7-193233467383` (version 1.0 for iOS) was sent on 2026-10-18. On 2026-10-30 Apple reported "an issue with your submission". The email does not say which guideline was cited; that is only shown on the App Review page in App Store Connect, which this plan could not open. Until the reason is known, **R-0 (fix the App Review rejection) is the first `1.0-gate` item, ahead of S1.** Once Apple's message is copied in, R-0 is either mapped to an existing item or added as a new one. If Apple only needs metadata changes or more information, the fix may be a reply on the App Review page with no new build. One unrelated warning should not be mistaken for the reason: since build 93, uploads have carried ITMS-90863 (CLBackgroundActivitySession symbols that are missing on Apple-silicon Macs). That is a delivery warning about Mac availability, not a rejection.
+> **Correction (2026-10-31): 1.0 was submitted, and App Review rejected it.** The repository held no record of this, so the status paragraph below is out of date. The 1.0 closeout now starts with **R-0** (next section), ahead of S1.
+
+### R-0. App Review rejection: "the map did not load" on iPad · `1.0-gate` · M
+
+**What Apple said.** Submission `5804f9be-3976-46f8-bdb7-193233467383`, version 1.0 (124). Submitted 2026-10-18, reviewed 2026-10-30. Guideline 2.1(a) Performance – App Completeness: "We were unable to access the app because the map did not load." The review device was an iPad Air 11-inch (M3) on iPadOS 27.0.1, with an active internet connection. Apple adds that apps available on iPad must work as expected for iPad users.
+
+**What was reviewed.** Build 124 was a manual nightly train (run 39157371372). It compiled nightly `082398fd` and uploaded it at 19:32 UTC on 2026-10-18. The tile code is the code TestFlight testers have run since 2026-09-07:
+- `AtlasBaseOverlay.swift` has one commit since then, #371.
+- The pinned revision `atlas-raster-20260907.1` still serves, with `immutable` headers and last-modified 2026-09-07.
+
+**Ruled out, with evidence:**
+- IPv6/NAT64: the tile host has an AAAA record, and `curl -6` gets 200.
+- Cloudflare blocking: the session has no 403, 5xx or challenge.
+- A deleted tile revision, and a missing tile host setting: it is set for Release, and its absence would fall back to OSM anyway.
+- An onboarding or location gate: the app opens straight onto the map.
+- A Debug vs Release difference: there is no `#if DEBUG` in the app.
+- iPad layout: the map is full-bleed, with no idiom or size-class branches.
+
+**The review session, from Cloudflare's edge log.** One client, 93.107.71.73 (Vodafone Ireland; App Review works from Cork), with the app's exact User-Agent. It made 943 requests between 12:53:29 and 12:53:51 UTC on the review date, and none before or after. Per second:
+
+| Time (UTC) | Requests | Reading |
+|---|---|---|
+| :29–:30 | 141 z9 Atlas 200, 27 z9 404, 75 Fletcher z10 200 | The default Cape Breton view at zoom 9 asks for its tiles. The 404s are open water. |
+| :30–:40 | almost nothing | Every 404 should fetch the ocean stand-in **at once** (`tileData`, AtlasBaseOverlay.swift:96–105). No ocean request reaches the edge for about 20 s. |
+| :41–:49 | z7, z6, then z5 requests; 94 of the z7 and most of the z5 are 404 | The camera goes out to continent scale, which looks like a reviewer pinching out. |
+| :50–:51 | 346 ocean stand-in requests, 199 of them for the same `ocean/5.webp` | The ocean requests from :29 finally leave the device, alongside the new ones. Nothing shares an in-flight fetch. |
+| after :51 | nothing | The app was closed. |
+
+**Diagnosis (inferred, not yet reproduced).** The host answered every request within a fraction of a second, so the 20-second gap is on the device. The likely cause is that the Atlas tile path runs out of CPU on a large iPad screen:
+- **The work per square.** Each 256-point square MapKit asks for re-fetches its 1024-px parent tile, which is shared by four squares. It decodes the parent twice (`validate` at :128–142, then `mapKitTile` at :223–241), then crops it and re-encodes a PNG.
+- **No sharing.** Nothing caches decoded parents, and nothing de-duplicates fetches in flight. `memory.ocean` is filled only after a fetch completes.
+- **Where the work runs.** All of it is synchronous image work on Swift's cooperative thread pool. A large 2× iPad viewport asks for hundreds of squares at once, so continuations such as "this was a 404, now fetch the ocean" wait behind decode and encode work.
+- **What the reviewer saw.** `canReplaceMapContent = true` (:303) hides Apple's map. Errors are logged at `.debug` only (:325) and never reach the UI. A square not yet drawn is an empty grid: the default view is mostly water, and the water squares were the ones stuck in the queue. After pinching out, the reviewer saw either the same empty grid or a flat ocean colour with no land (cause #1 in the diagnosis). Either reads as "the map did not load".
+- **Why testers never hit it.** TestFlight testers mostly use iPhones. Their viewport asks for about a quarter as many squares, and their tile caches are warm.
+
+**Still open:**
+- An iPadOS 27 drawing failure for an SDK 26.5 binary is not ruled out. Only a run on iPadOS 27 can rule it out.
+- The simulator runs on Mac CPUs, so it may hide the starvation. The acceptance run must therefore use the selected build on a physical iPad, or at least an erased iPad Air 11-inch simulator watched with Instruments.
+- App Review can be asked, on the App Review page, for a screenshot or recording. That reply is Dan's to send.
+
+**Fix, as one PR, smallest first:**
+1. **The map is never blank.** Set `canReplaceMapContent = false` on `AtlasBaseOverlay`, so Apple's map draws beneath until each Atlas square arrives. A 404 outside Nova Scotia's package bounds returns a transparent tile instead of the ocean stand-in, so a zoomed-out or out-of-province view shows Apple's map rather than a flat colour. Inside the bounds, the ocean stand-in stays. This defeats both the queueing cause and any iPadOS 27 drawing failure, because neither can leave the screen empty. It changes the look only while loading and outside the province.
+2. **Far less work.** Share one in-flight `Task` per URL, for both `tileData` and `oceanTile`. Keep an `NSCache` of decoded parent `CGImage`s, so each parent is fetched and decoded once for its four squares. Drop the duplicate decode in `validate` by checking the image header bytes. Under a counting stub, 16 concurrent squares that share one parent must make one request and one decode, and 16 concurrent z5 misses must make exactly one `ocean/5` request.
+3. **Never silent.** Wire `AtlasBaseOverlay` to `LayerLoadProgress`, as `OpacityTileOverlay` already is, so base failures are reported. Raise the failure log to `.error`, rate-limited. Correct the comment at :112–115, which claims a panel report that does not exist.
+4. **Optional product polish (Dan's call).** Limit how far out the camera can zoom, and set a `cameraBoundary` around the province. Locate outside Nova Scotia then shows a notice instead of flying to open water.
+
+**Tests and acceptance:**
+- Unit tests for items 2 and 3. Run them as focused suites, because shared URLProtocol stubs hang the whole bundle.
+- A new UI test on an iPad Air 11-inch destination. CI's destination resolver (`.github/scripts/resolve-ios-test-destination.py:47`) accepts only iPhones today. The test launches the app cold and asserts the map shows land or Apple's map within 5 s.
+- Manual run on an erased iPad Air 11-inch, iPadOS 27, in portrait, landscape and dark mode. Cold launch, wait, pinch out to continent scale, then Locate from a simulated Cork position. The pass condition is that no screen is ever empty or flat-coloured.
+- Signpost or Instruments trace of the first 10 s, before and after (this overlaps B-1).
+- Retake the iPad store screenshots. `fastlane/screenshots/en-US/ipad-13-*` dates from 2026-07-03 and shows the pre-Atlas map.
+- In the resubmission's App Review notes, say what was fixed and attach an iPad screen recording.
+
+R-0 is size M because of the tests. The code change in items 1–3 is about one file plus a small cache type.
+
 
 **Release status, as last inspected in the packet (re-checked 2026-10-06).** This plan did not re-inspect App Store Connect or TestFlight. The release packet says "Hold public release", in part because "native/offline rights remain unresolved" (`docs/APP_STORE_RELEASE.md:10-14`). The latest internal TestFlight receipt is `1.0 (109)` from October 4 (`docs/APP_STORE_RELEASE.md:21`). The October 5 train compiled but skipped its upload because a UI test failed (`docs/APP_STORE_RELEASE.md:23`). Later CI on head `1153d59c` passed the native suite, all 18 UI tests and the package tests (`docs/APP_STORE_RELEASE.md:24`). The App Store Release workflow has never run (`docs/APP_STORE_RELEASE.md:25`). The packet also requires a device acceptance record for the selected build (`docs/APP_STORE_RELEASE.md:251-252`).
 
@@ -720,6 +775,7 @@ A workstream is a goal with a list of items. It is not one PR. Each item, or eac
 
 | Workstream | Goal | Items |
 |---|---|---|
+| **S0. App Review fix (1.0, first)** | Resubmittable build: the map always shows on iPad | R-0 |
 | **S1. Field data safety (1.0)** | No silent loss of walks, saved areas or user files | C-1, C-2, C-3 (reproduce first), C-4, C-11 |
 | **S2. Broken flows, honest UI (1.0)** | Every advertised flow either works or says why not | C-5, C-6, C-7 (1.0 part), C-9, C-10 |
 | **S3. Release truth and acceptance (1.0)** | A build that can be selected, legally and mechanically | D-2, D-1, then C-8 last |
@@ -730,7 +786,7 @@ A workstream is a goal with a list of items. It is not one PR. Each item, or eac
 | **S8. CI and docs (1.1)** | Reliable trains and truthful docs | D-3, D-4, D-5, D-6, D-7, D-8 |
 | **S9. iPad and the web companion (1.1)** | A real iPad layout; a maintainable, faster web app | A-9, A-10, B-12, B-13 |
 
-**1.0: start with S1.** Its items are mostly small fixes (C-4 is S–M). They sit outside the 3,656-line container's layout code and prevent data loss in the app's headline v1 feature. S1 and S2 can run in parallel. D-2 is a factual check that can start at once. C-8 comes last, on the selected build. D-3 is cheap and may be pulled into S3 if time allows; otherwise it stays in S8.
+**1.0: start with S0 (R-0), then S1.** Its items are mostly small fixes (C-4 is S–M). They sit outside the 3,656-line container's layout code and prevent data loss in the app's headline v1 feature. S1 and S2 can run in parallel. D-2 is a factual check that can start at once. C-8 comes last, on the selected build. D-3 is cheap and may be pulled into S3 if time allows; otherwise it stays in S8.
 
 **1.1: start with one PR: B-1 plus the B-2 transport seam.** It adds signposts and makes the Atlas and OSM tile paths testable. It changes no behaviour, so it is safe to land while 1.0 closes out, and every later performance item depends on its baselines.
 
@@ -738,6 +794,7 @@ A workstream is a goal with a list of items. It is not one PR. Each item, or eac
 
 | ID | Tag | Workstream | Prerequisites |
 |---|---|---|---|
+| R-0 | 1.0-gate | S0 | none; acceptance on an iPad running iPadOS 27 |
 | C-1 | 1.0-gate | S1 | none |
 | C-2 | 1.0-gate | S1 | none |
 | C-3 | 1.0-gate (if reproduced) | S1 | development-build device reproduction (not C-8) |
