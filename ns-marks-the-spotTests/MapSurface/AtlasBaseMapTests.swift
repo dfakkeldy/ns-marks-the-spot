@@ -92,8 +92,8 @@ struct AtlasBaseMapTests {
         #expect(mapView.overlays.compactMap { $0 as? OSMBaseOverlay }.isEmpty)
     }
 
-    @Test("Choosing the Atlas replaces Apple's map and choosing back removes it")
-    func choosingTheAtlasReplacesApplesMapAndChoosingBackRemovesIt() {
+    @Test("Choosing the Atlas covers Apple's map and choosing back removes it")
+    func choosingTheAtlasCoversApplesMapAndChoosingBackRemovesIt() {
         let controller = Self.controller()
         let mapView = MKMapView()
         controller.baseMapType = .standard
@@ -104,9 +104,12 @@ struct AtlasBaseMapTests {
         let installed = mapView.overlays.compactMap { $0 as? AtlasBaseOverlay }
         #expect(installed.count == 1)
         #expect(installed.first?.style == .fletcher)
-        // Without this MapKit keeps drawing its own map underneath, and the
-        // reader is looking at two surveys at once.
-        #expect(installed.first?.canReplaceMapContent == true)
+        // Apple's map stays drawn underneath, so a square that has not
+        // arrived shows a map rather than an empty grid (plan R-0: App
+        // Review's iPad saw only grid). The Atlas's squares are opaque and
+        // sit above Apple's lettering, so a loaded view is the Atlas alone.
+        #expect(installed.first?.canReplaceMapContent == false)
+        #expect(MapController.overlayLevel(for: .atlasFletcher) == .aboveLabels)
         // MapKit's default square, because `tileSize` is the resolution it
         // expects and not a change to which square a zoom names: the zoom
         // arithmetic is `AtlasRasterBase.mapKitTile`'s. Every zoom the map
@@ -172,7 +175,7 @@ struct AtlasBaseMapTests {
         window.isHidden = true
     }
 
-    /// It replaces the base map, so everything else has to be over it —
+    /// It is the ground, drawn under every layer, so everything else has to be over it —
     /// including layers that were switched on before the ground changed.
     @Test("The Atlas goes under the layers already on the map")
     func theAtlasGoesUnderTheLayersAlreadyOnTheMap() throws {

@@ -33,14 +33,17 @@ replace them:
   state, which is how layers and annotations added before the view existed
   appear on it.
 - **Base grounds** — `MapBaseType` names Apple's maps and three
-  base-replacing tile overlays: `AtlasBaseOverlay` (the NS Marks Atlas, the
+  ground tile overlays: `AtlasBaseOverlay` (the NS Marks Atlas, the
   default, drawn from raster tiles that `web/scripts/atlasRaster` renders
   from the web's own style and archive at 512 CSS pixels per tile, so a
   rendered zoom z is the web's Leaflet zoom z + 1 and MapKit's 256-point
   square at zoom z is cut from the rendered tile at z − 1 — MapKit's
   `tileSize` is an expected resolution, not a zoom offset; a 404 is open
-  water answered by the style's ocean stand-in, anything else is retried),
-  `OSMBaseOverlay` and
+  water answered by the style's ocean stand-in, anything else is retried;
+  it covers Apple's standard map rather than replacing it, so a square still
+  loading or failed shows Apple's map instead of an empty grid, and each
+  rendered tile is fetched and decoded once however many squares are cut
+  from it), and the base-replacing `OSMBaseOverlay` and
   `BlankBaseOverlay`. `AtlasRaster` in `MapCatalog` pins the revision, zoom
   range and provincial snapshot and is tested against the web's receipts; the
   host is the `ATLAS_TILE_BASE_URL` build setting (`AtlasRasterHost`), and an
@@ -50,7 +53,7 @@ replace them:
   style (`MapShareState.basemapStyle`, the web's `basemap` parameter).
   MapKit draws its own place names and route shields over everything at
   `MKOverlayLevel.aboveRoads` whatever `canReplaceMapContent` says, so a
-  base-replacing ground and every overlay with it are installed at
+  ground that carries its own lettering and every overlay with it are installed at
   `.aboveLabels`, while Apple's grounds — NS Aerial included — keep
   `.aboveRoads` so Apple's lettering stays over the layers
   (`MapBaseType.showsAppleLabels`, `MapController.overlayLevel(for:)`;
