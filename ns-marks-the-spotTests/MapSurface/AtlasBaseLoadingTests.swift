@@ -51,7 +51,7 @@ struct AtlasBaseLoadingTests {
 
     @Test("Four squares cut from one tile share one request and one decode")
     func fourSquaresShareOneTile() async throws {
-        let host = "quarters.atlas.test"
+        let host = "quarters-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
         let fixture = TestTileFactory.pngData()
         StubURLProtocol.stub(host: host, with: .success(fixture))
         defer { StubURLProtocol.clear(host: host) }
@@ -78,7 +78,7 @@ struct AtlasBaseLoadingTests {
 
     @Test("Open water asks for the ocean once however many squares are sea")
     func openWaterAsksForTheOceanOnce() async throws {
-        let host = "ocean.atlas.test"
+        let host = "ocean-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
         StubURLProtocol.stub(host: host, matching: [
             ("/ocean/", .success(TestTileFactory.pngData(color: .systemTeal))),
             ("", .status(404)),
@@ -102,7 +102,7 @@ struct AtlasBaseLoadingTests {
 
     @Test("A failure is not remembered, so the square loads when the host answers")
     func aFailureIsNotRemembered() async throws {
-        let host = "flaky.atlas.test"
+        let host = "flaky-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
         StubURLProtocol.stub(host: host, with: .status(503))
         defer { StubURLProtocol.clear(host: host) }
         let overlay = Self.overlay(host: host)
@@ -119,7 +119,7 @@ struct AtlasBaseLoadingTests {
 
     @Test("Below the package's zooms a square is composed from the tiles it covers")
     func belowThePackageASquareIsComposed() async throws {
-        let host = "composite.atlas.test"
+        let host = "composite-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
         StubURLProtocol.stub(host: host, with: .success(TestTileFactory.pngData()))
         defer { StubURLProtocol.clear(host: host) }
         let overlay = Self.overlay(host: host)
@@ -134,9 +134,27 @@ struct AtlasBaseLoadingTests {
         #expect(UIImage(data: tile)?.cgImage?.width == AtlasRaster.imagePixels / 2)
     }
 
+    @Test("A load every square has abandoned is cancelled, and the next ask starts afresh")
+    func anAbandonedLoadIsCancelled() async throws {
+        let host = "abandoned-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
+        StubURLProtocol.stub(host: host, with: .success(TestTileFactory.pngData()))
+        defer { StubURLProtocol.clear(host: host) }
+        let overlay = Self.overlay(host: host)
+        let path = MKTileOverlayPath(x: 642, y: 720, z: 10, contentScaleFactor: 2)
+
+        let abandoned = Task { try await overlay.loadTile(at: path) }
+        abandoned.cancel()
+        _ = await abandoned.result
+
+        // Whether or not the first fetch got out, the square loads when asked
+        // again: a cancelled load is never what a later ask is handed.
+        let tile = try await overlay.loadTile(at: path)
+        #expect(UIImage(data: tile) != nil)
+    }
+
     @Test("The ground reports its load, failing included, under the modern map's id")
     func theGroundReportsItsLoad() async throws {
-        let host = "progress.atlas.test"
+        let host = "progress-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
         StubURLProtocol.stub(host: host, with: .status(500))
         defer { StubURLProtocol.clear(host: host) }
         let progress = LayerLoadProgressBox()

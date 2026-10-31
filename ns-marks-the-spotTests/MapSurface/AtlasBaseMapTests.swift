@@ -93,7 +93,7 @@ struct AtlasBaseMapTests {
     }
 
     @Test("Choosing the Atlas covers Apple's map and choosing back removes it")
-    func choosingTheAtlasReplacesApplesMapAndChoosingBackRemovesIt() {
+    func choosingTheAtlasCoversApplesMapAndChoosingBackRemovesIt() {
         let controller = Self.controller()
         let mapView = MKMapView()
         controller.baseMapType = .standard
@@ -175,7 +175,7 @@ struct AtlasBaseMapTests {
         window.isHidden = true
     }
 
-    /// It replaces the base map, so everything else has to be over it —
+    /// It is the ground, drawn under every layer, so everything else has to be over it —
     /// including layers that were switched on before the ground changed.
     @Test("The Atlas goes under the layers already on the map")
     func theAtlasGoesUnderTheLayersAlreadyOnTheMap() throws {

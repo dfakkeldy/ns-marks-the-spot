@@ -92,7 +92,15 @@ nonisolated enum AtlasRasterBase {
     /// four times over is what kept App Review's map blank (plan R-0).
     private struct Memory {
         var missing: Set<String> = []
-        var loading: [String: Task<DecodedTile, any Error>] = [:]
+        var loading: [String: Loading] = [:]
+    }
+
+    /// A load in flight, how many squares are waiting on it, and a token so
+    /// a load that finishes late cannot remove the one that replaced it.
+    private struct Loading {
+        let task: Task<DecodedTile, any Error>
+        let token: UUID
+        var waiters: Int
     }
 
     private static let memory = OSAllocatedUnfairLock(initialState: Memory())
@@ -165,6 +173,7 @@ nonisolated enum AtlasRasterBase {
                 return try await oceanImage(style: style, z: z, baseURL: baseURL, session: session)
             }
             try validate(response: response)
+            try Task.checkCancellation()
             return DecodedTile(key: key, image: try await offPool { try decode(data, baseURL: baseURL) })
         }
     }
@@ -184,6 +193,7 @@ nonisolated enum AtlasRasterBase {
             let url = AtlasRasterTileURL.oceanTileURL(style: style, z: z, baseURL: baseURL)
             let (data, response) = try await session.data(for: request(url))
             try validate(response: response)
+            try Task.checkCancellation()
             return DecodedTile(key: key, image: try await offPool { try decode(data, baseURL: baseURL) })
         }
     }
@@ -194,33 +204,62 @@ nonisolated enum AtlasRasterBase {
     ///
     /// The load is its own task rather than the caller's, so MapKit
     /// abandoning one square does not cancel the tile its neighbours are
-    /// waiting on. A failure is never cached: the next ask starts again. A
-    /// load that resolves to another key's tile — an address that turned out
-    /// to be open water — is returned but not cached under this key, because
-    /// the missing set already sends the next ask to the ocean.
+    /// waiting on — but once every square waiting on it has been abandoned,
+    /// it is cancelled too, so a pan does not leave downloads and decodes for
+    /// a view the reader has left queued ahead of the one they are looking
+    /// at. A failure is never cached: the next ask starts again. A load that
+    /// resolves to another key's tile — an address that turned out to be
+    /// open water — is returned but not cached under this key, because the
+    /// missing set already sends the next ask to the ocean.
     private static func shared(
         _ key: String, load: @escaping @Sendable () async throws -> DecodedTile
     ) async throws -> DecodedTile {
         if let hit = decoded.object(forKey: key as NSString) { return hit }
-        let task = memory.withLock { state -> Task<DecodedTile, any Error> in
-            if let running = state.loading[key] { return running }
+        let (task, token) = memory.withLock { state -> (Task<DecodedTile, any Error>, UUID?) in
+            if var running = state.loading[key] {
+                running.waiters += 1
+                state.loading[key] = running
+                return (running.task, running.token)
+            }
             // Checked again under the lock: a load may have finished between
             // the miss above and here.
-            if let hit = decoded.object(forKey: key as NSString) { return Task { hit } }
+            if let hit = decoded.object(forKey: key as NSString) { return (Task { hit }, nil) }
+            let token = UUID()
             let task = Task<DecodedTile, any Error> {
                 // Runs only once the lock is released, so its entry is in
                 // `loading` before it can take it out.
-                defer { memory.withLock { _ = $0.loading.removeValue(forKey: key) } }
+                defer {
+                    memory.withLock {
+                        if $0.loading[key]?.token == token { $0.loading[key] = nil }
+                    }
+                }
                 let tile = try await load()
                 if tile.key == key {
                     decoded.setObject(tile, forKey: key as NSString, cost: tile.cost)
                 }
                 return tile
             }
-            state.loading[key] = task
-            return task
+            state.loading[key] = Loading(task: task, token: token, waiters: 1)
+            return (task, token)
         }
-        return try await task.value
+        guard let token else { return try await task.value }
+        return try await withTaskCancellationHandler {
+            try await task.value
+        } onCancel: {
+            let abandoned = memory.withLock { state -> Bool in
+                guard var running = state.loading[key], running.token == token else { return false }
+                running.waiters -= 1
+                guard running.waiters <= 0 else {
+                    state.loading[key] = running
+                    return false
+                }
+                // Out of the table now, so a square asked for again starts a
+                // fresh load rather than joining one that is being cancelled.
+                state.loading[key] = nil
+                return true
+            }
+            if abandoned { task.cancel() }
+        }
     }
 
     /// Runs image work on `imageWork` and waits for it without holding a
@@ -313,6 +352,7 @@ nonisolated enum AtlasRasterBase {
             for try await piece in group { pieces.append(piece) }
             return pieces
         }
+        try Task.checkCancellation()
         let image = try await offPool { () throws -> CGImage in
             let side = AtlasRaster.imagePixels
             let cell = CGFloat(side) / CGFloat(n)
@@ -481,8 +521,8 @@ nonisolated final class AtlasBaseOverlay: MKTileOverlay, @unchecked Sendable {
 
     override func loadTile(at path: MKTileOverlayPath) async throws -> Data {
         // Reported under the modern map's id, as the other layers report
-        // under theirs, so a ground that is failing is a phase the app can
-        // read rather than a line in a debug log.
+        // under theirs. A failing ground shows Apple's map through it, so the
+        // credit strip reads this phase and says so (`MapAttributionStrip`).
         let token = progress?.began(AtlasRasterBase.layerID)
         do {
             let data = try await AtlasRasterBase.mapKitTile(
