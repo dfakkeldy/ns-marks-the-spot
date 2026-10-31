@@ -1543,6 +1543,9 @@ struct MapContainerView: View {
                             handleEditTap(session: editSession, latitude: latitude, longitude: longitude)
                         }
                     case .mapTapped(let latitude, let longitude):
+#if DEBUG
+                        controller.recordMapTapDiagnostic("mapTapped route layers=\(isLayersMenuExpanded) measuring=\(measure != nil)")
+#endif
                         // An open layers panel takes the first tap on the map
                         // and spends it on closing itself.
                         //
@@ -3120,9 +3123,15 @@ struct MapContainerView: View {
     /// The single path by which a measurement changes: mutate it, then redraw.
     private func updateMeasure(_ change: (inout MeasureSession) -> Void) {
         guard var session = measure else { return }
+#if DEBUG
+        controller.recordMapTapDiagnostic("measure before count=\(session.points.count) finished=\(session.isFinished) readout=\(session.readout)")
+#endif
         change(&session)
         measure = session
         pushMeasureShape()
+#if DEBUG
+        controller.recordMapTapDiagnostic("measure published count=\(session.points.count) finished=\(session.isFinished) readout=\(session.readout)")
+#endif
     }
 
     /// Draws the measured shape with the drawing tool's rubber band. Same
