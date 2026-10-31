@@ -129,6 +129,15 @@
 - [ ] Follow-up: regulation-zone polygons, starting with Recreational Fishing Area boundaries, only after context-layer descriptors gain `validFrom`/`validUntil` and a fail-closed gate that withholds rule popups after expiry
 - [ ] Follow-up: offline `/fishing` pack (Poker-style), decided after real use
 
+### Point Tupper (web)
+- [x] Web-only **Point Tupper** setup and **Point Tupper Site** category, excluded from the native presentation fixture
+- [x] One project-derived key-places layer (`point-tupper-sites`): five public-source points, no campus footprint, no parcel/title/registry data; company figures labelled as the company's own
+- [x] `/pointtupper` focus page: sourced summary, timeline, Map/Aerial switch, fishing spots and stocked waters kept off the panel
+- [x] Turbines on the page and province-wide: NRCan installed turbines from zoom 7 and a `planned-wind-turbines` layer from NS EA coordinate tables, drawn as turbine glyphs (filled installed, hollow planned)
+- [x] Map key over the map (`chrome.MapOverlay`): translucent, collapsible, rows that switch their layers; glyph pins and short labels for the key places; tanks in the setup; cased grid lines and dashed amber pipelines; NSPRD drawn bold on this page when turned on
+- [ ] Planned turbines: re-check the construction-start deadlines in the 2023–2024 approvals (Bear Lake, Kmtnuk, Windy Ridge) and refresh layouts if revised filings appear
+- [ ] Publish the Point Tupper page: KinNoKi site rewrite of `/pointtupper` and `/pointtupper/` to `/apps/nsmarksthespot/map/pointtupper` plus asset-base stamping, then a live map pin; check the live `source.json` and the rendered page
+
 ## Future Considerations
 - Google Maps SDK as alternative engine
 - iCloud sync for POI collections

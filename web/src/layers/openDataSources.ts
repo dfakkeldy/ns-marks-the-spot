@@ -17,6 +17,12 @@ export type OpenDataSource = {
   labelMinZoom?: number;
   roads?: boolean;
   stroke?: boolean;
+  /** Line width in CSS pixels (default 1.2). */
+  lineWidth?: number;
+  /** Canvas dash pattern for lines and outlines. */
+  dash?: readonly number[];
+  /** A wider, solid line drawn under each line so it reads over the background. */
+  casing?: string;
   /** Conservative envelopes from the publisher's known, limited coverage. */
   coverageAreas?: readonly { west: number; south: number; east: number; north: number }[];
 };
@@ -89,10 +95,13 @@ const infrastructureDatasets: Record<string, Record<number, string>> = {
   Designated_Areas: { 1: "ty4r-gcnk" },
   Water: { 3: "fpca-jrmt", 6: "h8jb-hzrm" },
 };
-export function openInfrastructureSource(theme: string, selections: readonly (readonly [number, readonly string[]])[]): OpenDataSource {
+export type OpenDataStyle = Pick<OpenDataSource, "color" | "fillOpacity" | "lineWidth" | "dash" | "casing">;
+
+export function openInfrastructureSource(theme: string, selections: readonly (readonly [number, readonly string[]])[], style: Partial<OpenDataStyle> = {}): OpenDataSource {
   return {
     color: theme === "Water" ? "#267cad" : theme === "Utilities" ? "#7e538d" : "#7e6842",
     fillOpacity: 0.25,
+    ...style,
     parts: selections.map(([layer, descriptions]) => {
       const dataset = infrastructureDatasets[theme]?.[layer];
       if (!dataset) throw new Error(`Missing open NSTDB source: ${theme}/${layer}`);

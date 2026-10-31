@@ -13,7 +13,8 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
 }) {
-  const enabled = layer.licence !== "province-restricted" || licenceAccepted;
+  const licenceEnabled = layer.licence !== "province-restricted" || licenceAccepted;
+  const enabled = licenceEnabled && !layer.unavailableReason;
   return (
     <div className="context-layer-control">
       <label className="layer-row">
@@ -24,12 +25,13 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         <span>
           <strong>{layer.name}</strong>
           <small>{layer.webCaveat}</small>
+          {layer.unavailableReason ? <small>{layer.unavailableReason}</small> : null}
           <LayerMetadata openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
             coverage={layer.coverage} minZoom={layer.minZoom} maxZoom={layer.maxZoom}
             checked={enabled && checked} status={status} />
         </span>
       </label>
-      {!enabled ? (
+      {!licenceEnabled ? (
         <button className="text-button" type="button" onClick={onReviewLicence}
           aria-label={`Review Province licence for ${layer.name}`}>
           Province licence required · Review

@@ -1,4 +1,5 @@
 import { fishingFocusDefinition } from "../fishing/focusDefinition";
+import { pointTupperFocusDefinition } from "../pointtupper/focusDefinition";
 import { rhodenaFocusDefinition } from "../rhodena/focusDefinition";
 import type { FocusDefinition } from "./focusDefinition";
 
@@ -9,6 +10,7 @@ import type { FocusDefinition } from "./focusDefinition";
 export const focusDefinitions = {
   rhodena: rhodenaFocusDefinition,
   fishing: fishingFocusDefinition,
+  pointtupper: pointTupperFocusDefinition,
 } as const satisfies Readonly<Record<string, FocusDefinition>>;
 
 export type FocusId = keyof typeof focusDefinitions;

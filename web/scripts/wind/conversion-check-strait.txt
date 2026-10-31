@@ -1,0 +1,343 @@
+conversion-check.txt — planned wind turbines near Point Tupper (read date 2026-10-24)
+==================================================================================
+
+WHAT WAS CONVERTED
+357 of 372 points were published as UTM zone 20 north easting/northing; they were
+converted to latitude/longitude. The other 15 (Ocean Lake optional locations) were
+published as latitude/longitude in degrees-minutes-seconds and were only changed to
+decimal degrees. Nothing was digitised from maps and nothing was estimated.
+
+TOOL
+pyproj 3.6.1 (MacPorts /opt/local/bin/python3.12, run with -I).
+Source CRS EPSG:2961 = NAD83(CSRS) / UTM zone 20N; target EPSG:4617 = NAD83(CSRS)
+geographic. This is the pure inverse transverse Mercator on the GRS80 ellipsoid
+(k0 0.9996, central meridian 63 W, false easting 500 000 m); no datum shift is applied.
+
+DATUM NOTE (why no shift)
+The filings state their datum differently: "NAD83(CSRS)v6" (Aulds Cove WindPRO),
+"NAD83(NSRS/CSRS)" (Setapuktuk, Kmtnuk, Bear Lake WindPRO), "NAD83" (Windy Ridge and
+Upper Afton report figures) or nothing ("UTM Z20", "Zone 20T"). In Nova Scotia
+NAD83(original), NAD83(CSRS) and WGS84 differ by about 1-1.5 m. Three pairs of tables
+inside the filings show exactly this kind of offset, which confirms the size:
+  - Setapuktuk EMI letter lat/lon vs its own UTM: +1.35 m north, -0.25 m east (constant)
+  - Kmtnuk EMI UTM vs WindPRO UTM for the same turbines: 1.05 m north, 0.15 m east
+  - Ocean Lake EMI lat/long vs noise-table UTM: up to 1.38 m
+That is below what a public web map can show and well below the "subject to change"
+uncertainty of every layout, so the output lon/lat is labelled WGS84 without a shift.
+
+CONVERSION CODE USED (excerpt from pt-scripts/build_planned_turbines.py)
+------------------------------------------------------------------------
+# UTM zone 20N on GRS80 -> geographic. Pure inverse projection: no datum shift
+# is applied between NAD83(original), NAD83(CSRS) and WGS84 (all ~1-2 m apart
+# in NS), see conversion-check.txt.
+TO_GEO = Transformer.from_crs("EPSG:2961", "EPSG:4617", always_xy=True)
+
+def utm_to_ll(e, n):
+    lon, lat = TO_GEO.transform(e, n)
+    return lat, lon
+
+Coordinates are written to GeoJSON as [lon, lat] rounded to 6 decimals (about 0.1 m).
+
+INDEPENDENT CHECK CODE (pt-scripts/conversion_check.py, full listing)
+--------------------------------------------------------------------
+"""Independent checks of the UTM -> lat/lon conversion used for planned-turbines.geojson.
+Run with: /opt/local/bin/python3.12 -I conversion_check.py
+"""
+import json
+import math
+import re
+import statistics
+import time
+import urllib.request
+from pathlib import Path
+
+from pyproj import Transformer
+
+ROOT = Path("<scratch>")
+GJ = ROOT / "planned-turbines" / "planned-turbines.geojson"
+OUTLOG = ROOT / "pt-scripts" / "conversion_check_log.txt"
+CACHE = ROOT / "pt-scripts" / "cdem_cache.json"
+lines = []
+
+
+def log(s=""):
+    lines.append(s)
+    print(s)
+
+
+# ---- independent transverse Mercator (Krueger n-series, Karney 2011, 6th order) on GRS80
+A = 6378137.0
+F = 1 / 298.257222101  # GRS80
+K0 = 0.9996
+LON0 = math.radians(-63.0)  # UTM zone 20 central meridian
+FE, FN = 500000.0, 0.0
+n = F / (2 - F)
+A_ = A / (1 + n) * (1 + n**2 / 4 + n**4 / 64 + n**6 / 256)
+alpha = [None,
+         n/2 - 2*n**2/3 + 5*n**3/16 + 41*n**4/180 - 127*n**5/288 + 7891*n**6/37800,
+         13*n**2/48 - 3*n**3/5 + 557*n**4/1440 + 281*n**5/630 - 1983433*n**6/1935360,
+         61*n**3/240 - 103*n**4/140 + 15061*n**5/26880 + 167603*n**6/181440,
+         49561*n**4/161280 - 179*n**5/168 + 6601661*n**6/7257600,
+         34729*n**5/80640 - 3418889*n**6/1995840,
+         212378941*n**6/319334400]
+beta = [None,
+        n/2 - 2*n**2/3 + 37*n**3/96 - n**4/360 - 81*n**5/512 + 96199*n**6/604800,
+        n**2/48 + n**3/15 - 437*n**4/1440 + 46*n**5/105 - 1118711*n**6/3870720,
+        17*n**3/480 - 37*n**4/840 - 209*n**5/4480 + 5569*n**6/90720,
+        4397*n**4/161280 - 11*n**5/504 - 830251*n**6/7257600,
+        4583*n**5/161280 - 108847*n**6/3991680,
+        20648693*n**6/638668800]
+E2 = F * (2 - F)
+E = math.sqrt(E2)
+
+
+def forward(lat_deg, lon_deg):
+    phi = math.radians(lat_deg)
+    lam = math.radians(lon_deg) - LON0
+    t = math.sinh(math.atanh(math.sin(phi)) - E * math.atanh(E * math.sin(phi)))
+    xi_p = math.atan2(t, math.cos(lam))
+    eta_p = math.atanh(math.sin(lam) / math.sqrt(1 + t * t))
+    xi, eta = xi_p, eta_p
+    for j in range(1, 7):
+        xi += alpha[j] * math.sin(2 * j * xi_p) * math.cosh(2 * j * eta_p)
+        eta += alpha[j] * math.cos(2 * j * xi_p) * math.sinh(2 * j * eta_p)
+    return FE + K0 * A_ * eta, FN + K0 * A_ * xi
+
+
+def inverse(e, nn):
+    xi = (nn - FN) / (K0 * A_)
+    eta = (e - FE) / (K0 * A_)
+    xi_p, eta_p = xi, eta
+    for j in range(1, 7):
+        xi_p -= beta[j] * math.sin(2 * j * xi) * math.cosh(2 * j * eta)
+        eta_p -= beta[j] * math.cos(2 * j * xi) * math.sinh(2 * j * eta)
+    chi = math.asin(math.sin(xi_p) / math.cosh(eta_p))
+    lam = math.atan2(math.sinh(eta_p), math.cos(xi_p))
+    # conformal latitude chi -> geodetic phi by Newton iteration on tau = tan(phi)
+    tau_p = math.tan(chi)
+    tau = tau_p
+    for _ in range(10):
+        sphi = tau / math.sqrt(1 + tau * tau)
+        tp = math.sinh(math.atanh(sphi) - E * math.atanh(E * sphi))  # tan(conformal lat) for this tau
+        dtau = (tau_p - tp) / math.sqrt(1 + tp * tp) * (1 + (1 - E2) * tau * tau) / ((1 - E2) * math.sqrt(1 + tau * tau))
+        tau += dtau
+        if abs(dtau) < 1e-14:
+            break
+    return math.degrees(math.atan(tau)), math.degrees(lam + LON0)
+
+
+def m_between(lat1, lon1, lat2, lon2):
+    r = 6371008.8
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    h = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lon2 - lon1) / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(h))
+
+
+log("Conversion checks for planned-turbines.geojson  (run 2026-10-24)")
+log("=" * 72)
+
+# 1. textbook point: on the central meridian E = 500000 and N = k0 * meridian arc
+lat_t, lon_t = inverse(500000.0, 4982950.40)
+log(f"1. Known-point test: UTM20 E 500000, N 4982950.40 (= 0.9996 x GRS80 meridian arc to 45N, 4,984,944.38 m)")
+log(f"   own inverse -> {lat_t:.8f}, {lon_t:.8f} (expect 45.00000000, -63.00000000)")
+assert abs(lat_t - 45.0) < 1e-7 and abs(lon_t + 63.0) < 1e-9
+
+# 2. own implementation vs pyproj on every feature
+pj = Transformer.from_crs("EPSG:2961", "EPSG:4617", always_xy=True)
+fc = json.loads(GJ.read_text())
+worst_inv = 0.0
+worst_rt = 0.0
+n_utm = 0
+dms_feats = []
+for f in fc["features"]:
+    m = re.match(r"E ([\d,]+(?:\.\d+)?) N ([\d,]+(?:\.\d+)?)", f["properties"]["coords_as_published"])
+    if not m:
+        dms_feats.append(f)
+        continue
+    n_utm += 1
+    e, nn = float(m.group(1).replace(",", "")), float(m.group(2).replace(",", ""))
+    lon_p, lat_p = pj.transform(e, nn)
+    lat_o, lon_o = inverse(e, nn)
+    worst_inv = max(worst_inv, m_between(lat_p, lon_p, lat_o, lon_o))
+    glon, glat = f["geometry"]["coordinates"]
+    e2, n2 = forward(glat, glon)
+    worst_rt = max(worst_rt, math.hypot(e2 - e, n2 - nn))
+log(f"2. Own Krueger-series inverse vs pyproj EPSG:2961->EPSG:4617 on all {n_utm} UTM-published features: max difference {worst_inv*1000:.3f} mm")
+log(f"3. Round trip: own forward(lon/lat written to GeoJSON at 6 dp) vs published E/N: max {worst_rt:.3f} m (6-dp rounding allows up to ~0.08 m)")
+assert worst_inv < 0.01 and worst_rt < 0.12
+worst_dms = 0.0
+for f in dms_feats:
+    m = re.search(r'(\d+)°\s*(\d+)\'\s*([\d.]+)"\s*N\s+0?(\d+)°\s*(\d+)\'\s*([\d.]+)"\s*W', f["properties"]["coords_as_published"])
+    lat = int(m.group(1)) + int(m.group(2)) / 60 + float(m.group(3)) / 3600
+    lon = -(int(m.group(4)) + int(m.group(5)) / 60 + float(m.group(6)) / 3600)
+    glon, glat = f["geometry"]["coordinates"]
+    worst_dms = max(worst_dms, m_between(lat, lon, glat, glon))
+log(f"3b. {len(dms_feats)} features published only as lat/long (DMS): re-parsed DMS vs GeoJSON position, max {worst_dms:.3f} m (no projection involved)")
+assert worst_dms < 0.12
+
+# 4. published lat/lon comparisons from the build log
+log("4. Converted positions vs latitude/longitude published in the same filings (from build_log.txt):")
+for line in (ROOT / "pt-scripts" / "build_log.txt").read_text().splitlines():
+    if "published lat/lon" in line or "repo web/src" in line or "internal typo" in line or "centroid" in line or "planar difference" in line or "noise Table 1 (Appendix C)" in line:
+        log("   " + line.strip())
+
+# 5. on-land / position check against NRCan CDEM ground elevation
+cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+diffs = {}
+nonpos = []
+for f in fc["features"]:
+    lon, lat = f["geometry"]["coordinates"]
+    key = f"{lat:.6f},{lon:.6f}"
+    if key not in cache:
+        url = f"https://geogratis.gc.ca/services/elevation/cdem/altitude?lat={lat:.6f}&lon={lon:.6f}"
+        for attempt in range(3):
+            try:
+                with urllib.request.urlopen(url, timeout=30) as r:
+                    cache[key] = json.loads(r.read().decode())["altitude"]
+                break
+            except Exception as exc:  # noqa: BLE001
+                time.sleep(2)
+                cache[key] = None
+        time.sleep(0.15)
+    alt = cache[key]
+    p = f["properties"]
+    if alt is None or alt <= 0:
+        nonpos.append((p["id"], alt))
+    pub = p.get("ground_elev_m_published")
+    if alt is not None and pub is not None:
+        diffs.setdefault(p["project"], []).append(alt - pub)
+    diffs.setdefault("_all_alt_" + p["project"], []).append(alt)
+CACHE.write_text(json.dumps(cache))
+log("5. NRCan CDEM ground elevation (geogratis.gc.ca/services/elevation/cdem/altitude) at every converted point:")
+log(f"   points with CDEM altitude <= 0 m or no value (would suggest water/off-map): {nonpos or 'none'}")
+for k, v in diffs.items():
+    if k.startswith("_all_alt_"):
+        log(f"   {k[9:]}: CDEM altitude range {min(v):.0f}-{max(v):.0f} m")
+for k, v in diffs.items():
+    if not k.startswith("_all_alt_"):
+        log(f"   {k}: CDEM minus published ground elevation: median {statistics.median(v):+.1f} m, max |diff| {max(abs(x) for x in v):.1f} m (n={len(v)})")
+OUTLOG.write_text("\n".join(lines) + "\n")
+
+
+RESULTS OF THE CHECKS
+---------------------
+A. Build-time checks (pt-scripts/build_log.txt): every converted point compared with
+   latitude/longitude that the same filing publishes, and tables cross-checked.
+   == Rhodena Wind Project
+     [OK] Rhodena: UTM->lat/lon vs Table 1 published lat/lon (6 dp): 6 points, max |converted - published| = 0.05 m (tolerance 1.0 m)
+     [OK] Rhodena: max difference vs repo web/src/rhodena/features.json = 0.05 m (6 repo turbines)
+   == Aulds Cove Wind Project
+     [OK] Aulds Cove: converted vs EMI letter Table 1 published lat/lon (Appendix A): 21 points, max |converted - published| = 0.07 m (tolerance 1.5 m)
+     centroid 45.61923, -61.47733; EA summary 'project centre' 45.62278, -61.46889 -> 0.77 km apart
+     [NOTE] Aulds Cove noise Table 1 (Appendix C) vs shadow WTG table: 21 rows, max diff 2.65 m; unparseable rows: ["T7 ('619.075', '5.052.399')"]
+   == Setapuktuk Wind Project
+     [OK] Setapuktuk: converted vs EMI letter Table 1 published lat/lon (Appendix A Part 4): 54 points, max |converted - published| = 1.39 m (tolerance 1.5 m)
+     centroid 45.50976, -61.35151 (EA: near Pirate Harbour, Middle Melford, Sand Point, Hadleyville, Manchester)
+   == Goose Harbour Lake Wind Farm (under construction)
+     24 positions; IDs matched from Aulds Cove Table 3: ['T5', 'T21', 'T27', 'T30']
+     [OK] Goose Harbour Lake 2023 EA table (superseded, not mapped): converted vs published lat/lon (8 dp), rows that agree: 28 points, max |converted - published| = 0.00 m (tolerance 1.0 m)
+     [NOTE] GHL 2023 EA rows whose own UTM and lat/lon disagree (internal typo in the source table): [('14', 622634.0, 5047253.0, 45.57043568, -61.42835655, 270.2)]
+     nearest 2023-EA location per modelled row (row, EA id, metres): 55:1:54.6, 56:2:88.0, 57:3:1.3, 58:4:479.8, 59:20:833.5, 60:7:623.7, 61:8:17.4, 62:23:1563.1, 63:13:1.3, 64:14:39.9, 65:15:1.3, 66:16:1.3, 67:17:1.3, 68:19:394.1, 69:23:852.3, 70:21:133.9, 71:22:122.6, 72:23:1.8, 73:25:175.6, 74:26:1.3, 75:27:50.5, 76:28:27.0, 77:24:713.5, 78:27:980.1
+   == Upper Afton Wind Project
+     [OK] Upper Afton noise Table 1 vs shadow Table 1: max planar difference 0.00 m; ids only in first table: none
+     [OK] Upper Afton noise Table 1 vs EMI Table 1: max planar difference 1.00 m; ids only in first table: none
+     29 points; centroid 45.54727, -61.66703; EARD centre 45.550643, -61.661264 -> 0.59 km apart
+     alternates/other: ['T1', 'T12', 'T15A', 'T2', 'T24', 'T6', 'T7']
+   == Windy Ridge Wind Power Project
+     [OK] Windy Ridge noise Table 1 vs shadow Table 1: max planar difference 0.00 m; ids only in first table: none
+     centroid 45.54983, -63.43752; EARD central coordinate 45.5337665, -63.4428053 -> 1.83 km apart
+   == Kmtnuk Wind Power Project
+     [OK] Kmtnuk: converted vs EMI Table 1 published lat/lon (4 dp, ~11 m resolution): 16 points, max |converted - published| = 6.52 m (tolerance 8.0 m)
+     [OK] Kmtnuk WindPRO vs EMI Table 1 UTM: max planar difference 1.07 m; ids only in first table: none
+   == Bear Lake Wind Power Project
+     [OK] Bear Lake: converted vs EMI Table 1 published lat/lon (4 dp, ~11 m resolution): 15 points, max |converted - published| = 6.09 m (tolerance 8.0 m)
+   == Ocean Lake Wind Project
+     [OK] Ocean Lake noise Table 1 vs shadow Table 1: max planar difference 0.00 m; ids only in first table: none
+     [OK] Ocean Lake: converted noise-table UTM vs EMI Table 1 published lat/long (DMS, 0.01 s): 143 points, max |converted - published| = 1.38 m (tolerance 2.0 m)
+     optional locations (EMI only): ['T4', 'T22', 'T24', 'T33', 'T51', 'T82', 'T90', 'T95', 'T99', 'T107', 'T110', 'T120', 'T121', 'T125', 'T126']
+   == Written 372 features
+     Rhodena Wind Project: 6 points, 19.8-21.3 km from Point Tupper reference
+     Aulds Cove Wind Project: 21 points, 8.5-13.5 km from Point Tupper reference
+     Setapuktuk Wind Project (formerly EverWind Wind Farm 1): 54 points, 4.0-16.5 km from Point Tupper reference
+     Goose Harbour Lake Wind Farm: 24 points, 7.3-17.6 km from Point Tupper reference
+     Upper Afton Wind Project: 29 points, 21.6-28.8 km from Point Tupper reference
+     Windy Ridge Wind Power Project: 49 points, 154.4-169.5 km from Point Tupper reference
+     Kmtnuk Wind Power Project: 16 points, 148.5-155.0 km from Point Tupper reference
+     Bear Lake Wind Power Project: 15 points, 240.8-245.1 km from Point Tupper reference
+     Ocean Lake Wind Project (formerly EverWind Wind Farm 2): 158 points, 32.1-48.3 km from Point Tupper reference
+
+B. Independent checks (pt-scripts/conversion_check_log.txt)
+   Conversion checks for planned-turbines.geojson  (run 2026-10-24)
+   ========================================================================
+   1. Known-point test: UTM20 E 500000, N 4982950.40 (= 0.9996 x GRS80 meridian arc to 45N, 4,984,944.38 m)
+      own inverse -> 45.00000000, -63.00000000 (expect 45.00000000, -63.00000000)
+   2. Own Krueger-series inverse vs pyproj EPSG:2961->EPSG:4617 on all 357 UTM-published features: max difference 0.000 mm
+   3. Round trip: own forward(lon/lat written to GeoJSON at 6 dp) vs published E/N: max 0.066 m (6-dp rounding allows up to ~0.08 m)
+   3b. 15 features published only as lat/long (DMS): re-parsed DMS vs GeoJSON position, max 0.060 m (no projection involved)
+   4. Converted positions vs latitude/longitude published in the same filings (from build_log.txt):
+      [OK] Rhodena: UTM->lat/lon vs Table 1 published lat/lon (6 dp): 6 points, max |converted - published| = 0.05 m (tolerance 1.0 m)
+      [OK] Rhodena: max difference vs repo web/src/rhodena/features.json = 0.05 m (6 repo turbines)
+      [OK] Aulds Cove: converted vs EMI letter Table 1 published lat/lon (Appendix A): 21 points, max |converted - published| = 0.07 m (tolerance 1.5 m)
+      centroid 45.61923, -61.47733; EA summary 'project centre' 45.62278, -61.46889 -> 0.77 km apart
+      [NOTE] Aulds Cove noise Table 1 (Appendix C) vs shadow WTG table: 21 rows, max diff 2.65 m; unparseable rows: ["T7 ('619.075', '5.052.399')"]
+      [OK] Setapuktuk: converted vs EMI letter Table 1 published lat/lon (Appendix A Part 4): 54 points, max |converted - published| = 1.39 m (tolerance 1.5 m)
+      centroid 45.50976, -61.35151 (EA: near Pirate Harbour, Middle Melford, Sand Point, Hadleyville, Manchester)
+      [OK] Goose Harbour Lake 2023 EA table (superseded, not mapped): converted vs published lat/lon (8 dp), rows that agree: 28 points, max |converted - published| = 0.00 m (tolerance 1.0 m)
+      [NOTE] GHL 2023 EA rows whose own UTM and lat/lon disagree (internal typo in the source table): [('14', 622634.0, 5047253.0, 45.57043568, -61.42835655, 270.2)]
+      [OK] Upper Afton noise Table 1 vs shadow Table 1: max planar difference 0.00 m; ids only in first table: none
+      [OK] Upper Afton noise Table 1 vs EMI Table 1: max planar difference 1.00 m; ids only in first table: none
+      29 points; centroid 45.54727, -61.66703; EARD centre 45.550643, -61.661264 -> 0.59 km apart
+      [OK] Windy Ridge noise Table 1 vs shadow Table 1: max planar difference 0.00 m; ids only in first table: none
+      centroid 45.54983, -63.43752; EARD central coordinate 45.5337665, -63.4428053 -> 1.83 km apart
+      [OK] Kmtnuk: converted vs EMI Table 1 published lat/lon (4 dp, ~11 m resolution): 16 points, max |converted - published| = 6.52 m (tolerance 8.0 m)
+      [OK] Kmtnuk WindPRO vs EMI Table 1 UTM: max planar difference 1.07 m; ids only in first table: none
+      [OK] Bear Lake: converted vs EMI Table 1 published lat/lon (4 dp, ~11 m resolution): 15 points, max |converted - published| = 6.09 m (tolerance 8.0 m)
+      [OK] Ocean Lake noise Table 1 vs shadow Table 1: max planar difference 0.00 m; ids only in first table: none
+      [OK] Ocean Lake: converted noise-table UTM vs EMI Table 1 published lat/long (DMS, 0.01 s): 143 points, max |converted - published| = 1.38 m (tolerance 2.0 m)
+   5. NRCan CDEM ground elevation (geogratis.gc.ca/services/elevation/cdem/altitude) at every converted point:
+      points with CDEM altitude <= 0 m or no value (would suggest water/off-map): none
+      Rhodena Wind Project: CDEM altitude range 210-258 m
+      Aulds Cove Wind Project: CDEM altitude range 103-148 m
+      Setapuktuk Wind Project (formerly EverWind Wind Farm 1): CDEM altitude range 44-168 m
+      Goose Harbour Lake Wind Farm: CDEM altitude range 154-187 m
+      Upper Afton Wind Project: CDEM altitude range 137-218 m
+      Windy Ridge Wind Power Project: CDEM altitude range 235-358 m
+      Kmtnuk Wind Power Project: CDEM altitude range 231-324 m
+      Bear Lake Wind Power Project: CDEM altitude range 198-263 m
+      Ocean Lake Wind Project (formerly EverWind Wind Farm 2): CDEM altitude range 14-206 m
+      Rhodena Wind Project: CDEM minus published ground elevation: median +5.5 m, max |diff| 9.0 m (n=6)
+      Aulds Cove Wind Project: CDEM minus published ground elevation: median +0.5 m, max |diff| 4.7 m (n=21)
+      Setapuktuk Wind Project (formerly EverWind Wind Farm 1): CDEM minus published ground elevation: median +1.1 m, max |diff| 8.0 m (n=54)
+      Upper Afton Wind Project: CDEM minus published ground elevation: median +1.0 m, max |diff| 5.0 m (n=29)
+      Kmtnuk Wind Power Project: CDEM minus published ground elevation: median +0.9 m, max |diff| 6.5 m (n=16)
+      Bear Lake Wind Power Project: CDEM minus published ground elevation: median +0.0 m, max |diff| 1.8 m (n=15)
+      Ocean Lake Wind Project (formerly EverWind Wind Farm 2): CDEM minus published ground elevation: median -0.1 m, max |diff| 9.3 m (n=158)
+
+INTERPRETATION
+- The projection maths is right: an independent Krueger-series implementation agrees
+  with pyproj to well under a millimetre, the textbook central-meridian point comes back
+  exactly, and a forward round trip reproduces the published E/N within rounding.
+- The positions are the published ones: Rhodena, Aulds Cove and Setapuktuk publish
+  6-decimal lat/lon next to their UTM; the conversion lands within 0.05-1.4 m of them.
+  Bear Lake and Kmtnuk publish 4-decimal lat/lon (about 11 m resolution); max
+  difference 6.1-6.5 m, as expected from the rounding. Ocean Lake's published DMS agrees
+  within 1.4 m. Rhodena matches the repo's web/src/rhodena/features.json to 0.05 m.
+- Every point is on land: NRCan CDEM gives positive ground elevation at all 372 points,
+  and for each project the CDEM elevation at the converted point matches the filing's own
+  "base of turbine" elevation (median difference -0.1 to +5.5 m; max 9.3 m). A wrongly
+  placed point (wrong zone, swapped digits) would miss by tens to hundreds of metres.
+- Project centroids sit 0.6-1.8 km from the project-centre coordinates stated in the EA
+  documents (Aulds Cove 0.77 km, Upper Afton 0.59 km, Windy Ridge 1.83 km; the Windy
+  Ridge centre covers a larger project area including its transmission line).
+
+SOURCE-TABLE ERRORS FOUND (not carried into the dataset)
+- Aulds Cove noise report Table 1 (Appendix C, PDF p. 9) prints N07 as "619.075 5.052.399"
+  (full stops instead of commas) and rounds to whole metres; the WindPRO shadow table and
+  the EMI letter give 619,075.38 / 5,052,400.62, which was used.
+- Goose Harbour Lake 2023 EA EMI Table 1 (part 10, PDF p. 3), turbine 14: UTM
+  622634 / 5047253 but lat/lon 45.57043568 / -61.42835655, which is N 5047523 (digits
+  swapped, 270 m apart). That table is superseded and is not mapped.
+- Setapuktuk Appendix C models the under-construction Goose Harbour Lake turbine at
+  E 618,361 N 5,049,776 with a ground elevation of 341.3 m; CDEM and the Aulds Cove model
+  give about 171 m. This looks like a modelling-input error in the elevation only, so
+  Goose Harbour Lake elevations are left null.

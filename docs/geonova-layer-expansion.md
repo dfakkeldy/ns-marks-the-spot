@@ -4,11 +4,12 @@ Source checks: **2026-09-07** for remaining MapServer, FeatureServer and radon
 receipts; **2026-09-12** for OGL-NS open-data replacements
 ([`openLayerSources.json`](../web/src/data/openLayerSources.json)) and the EOX
 Sentinel-2 2016 edition ([`sentinel2.ts`](../web/src/layers/sentinel2.ts)).
-This inventory covers the 38 default-off, web-only controls in
+The CHM pilot was checked **2026-10-19**. This inventory covers 39 source
+entries, including three withheld descriptors and 36 default-off controls in
 [`contextLayerCatalog`](../web/src/layers/contextLayerCatalog.ts): 15 NSTDB
 infrastructure/place overlays from identified OGL-NS datasets, the retained
 restricted topographic MapServer background, 21 land, water, forest and geology
-entries, and the default-off Sentinel-2 mosaic. It does not change the
+entries, the default-off Sentinel-2 mosaic and the locally configured CHM pilot. It does not change the
 native/offline catalogue. The descriptors carry source dates, coverage, scale,
 licence links, legends and screening caveats; the check date is not a claim
 that every feature was observed that day.
@@ -47,6 +48,11 @@ source descriptors are kept for provenance only.
   Lidar hillshade carries that licence's three required notices, distinct from
   OGL, while retaining the app's acknowledgement gate. The descriptor's gate
   flag does not change the licence named by its link.
+- **U? — provisional CHM terms.** The downloadable CHM pilot retains the same
+  acknowledgement gate and three notices as hillshade, but this does not
+  establish that the licence covers the derived products. Public tiles are
+  withheld and print/PDF reproduction is locked pending confirmation and Dan's
+  separate publication approval. See the [pilot build and receipt](chm-pilot.md).
 - **C — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).** Sentinel-2
   uses EOX's 2016 cloudless mosaic (`s2cloudless_3857`). Newer EOX editions
   have additional restrictions and must not be substituted by changing the
@@ -127,6 +133,7 @@ selection on a remaining MapServer row is the publisher's layer ID.
 | --- | --- | --- | --- |
 | Leading forest species (`forest-leading-species`) | [Source](https://data.novascotia.ca/d/c8ai-fjbt) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 5 | O |
 | Forest stand height (`forest-height`) | [Source](https://data.novascotia.ca/d/c8ai-fjbt) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 7 | O |
+| LiDAR canopy height · Judique pilot (`lidar-canopy-height`) | [Elevation Explorer](https://nsgi.novascotia.ca/datalocator/elevation/) · [10K product index](https://nsgiwa.novascotia.ca/arcgis/rest/services/ELEV/ELEV_LIDAR_ELEVATION_UT83/MapServer/3) · [build receipt](chm-pilot/source.json) | Sheet 1045850061400, project 201701; local height-class XYZ tiles, 2017 acquisition | U? (local preview only) |
 | Recorded forest treatments (`forest-treatments`) | [Source](https://nsgi.novascotia.ca/plv/help/help.htm) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_ProvLandscapeViewer_UT83/MapServer) | 2,3 | F (withheld) |
 | Crown harvest plans (`crown-harvest-plans`) | [Source](https://data.novascotia.ca/d/ag3d-ztdm) · [Service](https://nsgiwa.novascotia.ca/arcgis/rest/services/PLAN/PLAN_CrownHarvestPlans_UT83/MapServer) | 0 | O |
 

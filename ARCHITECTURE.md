@@ -33,14 +33,17 @@ replace them:
   state, which is how layers and annotations added before the view existed
   appear on it.
 - **Base grounds** — `MapBaseType` names Apple's maps and three
-  base-replacing tile overlays: `AtlasBaseOverlay` (the NS Marks Atlas, the
+  ground tile overlays: `AtlasBaseOverlay` (the NS Marks Atlas, the
   default, drawn from raster tiles that `web/scripts/atlasRaster` renders
   from the web's own style and archive at 512 CSS pixels per tile, so a
   rendered zoom z is the web's Leaflet zoom z + 1 and MapKit's 256-point
   square at zoom z is cut from the rendered tile at z − 1 — MapKit's
   `tileSize` is an expected resolution, not a zoom offset; a 404 is open
-  water answered by the style's ocean stand-in, anything else is retried),
-  `OSMBaseOverlay` and
+  water answered by the style's ocean stand-in, anything else is retried;
+  it covers Apple's standard map rather than replacing it, so a square still
+  loading or failed shows Apple's map instead of an empty grid, and each
+  rendered tile is fetched and decoded once however many squares are cut
+  from it), and the base-replacing `OSMBaseOverlay` and
   `BlankBaseOverlay`. `AtlasRaster` in `MapCatalog` pins the revision, zoom
   range and provincial snapshot and is tested against the web's receipts; the
   host is the `ATLAS_TILE_BASE_URL` build setting (`AtlasRasterHost`), and an
@@ -50,7 +53,7 @@ replace them:
   style (`MapShareState.basemapStyle`, the web's `basemap` parameter).
   MapKit draws its own place names and route shields over everything at
   `MKOverlayLevel.aboveRoads` whatever `canReplaceMapContent` says, so a
-  base-replacing ground and every overlay with it are installed at
+  ground that carries its own lettering and every overlay with it are installed at
   `.aboveLabels`, while Apple's grounds — NS Aerial included — keep
   `.aboveRoads` so Apple's lettering stays over the layers
   (`MapBaseType.showsAppleLabels`, `MapController.overlayLevel(for:)`;
@@ -269,14 +272,17 @@ receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
 Browser print supports the static context layers (77 catalog entries, including
-static Rhodena geometry and the fishing layers) subject to fitted zoom and
-source readiness; the interactive Rhodena turbine viewshed and private
-viewpoint are omitted. Generated PDF still uses the MapServer, open-data and
-tile path for supported entries; unsupported vector formats (including
-September 2026 GIS feature overlays and the four fishing feature-query
-layers), eight electoral feature entries, Rhodena source-format layers, and
-the static radon image are omitted and named as not included. It preserves the
-on-screen image order and selected-parcel authority.
+static Rhodena geometry, the fishing layers, the Point Tupper key places and the
+planned wind turbines)
+subject to fitted zoom and source readiness; the interactive Rhodena turbine
+viewshed and private viewpoint are omitted. Generated PDF still uses the
+MapServer, open-data and tile path for supported entries; unsupported vector
+formats (including September 2026 GIS feature overlays, the four fishing
+feature-query layers, the Point Tupper key places and the planned wind
+turbines), eight electoral
+feature entries, Rhodena source-format layers, and the static radon image are
+omitted and named as not included. It preserves the on-screen image order and
+selected-parcel authority.
 
 The exact receipt is derived only after the print map resolves. It uses the
 existing map-share format with the captured PID, mode and event IDs, the
@@ -353,12 +359,19 @@ denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
 `layers/contextLayerCatalog.ts` concatenates 77 default-off web-only research
-controls: the GeoNova land, infrastructure and Sentinel-2 subset (38), eight
-electoral layers, six Rhodena project layers, four fishing layers, and the
-September 2026 GIS expansion (21). The original GeoNova group is composed from
+controls: the GeoNova land, infrastructure, Sentinel-2 and Judique canopy
+subset (36 after the three withheld forestry descriptors), eight electoral
+layers, six Rhodena project layers, four fishing layers, one Point Tupper
+layer, one planned wind turbines layer, and the September 2026 GIS expansion
+(21). The original GeoNova group
+is composed from
 the NSTDB infrastructure/place catalogue, the land/environment catalogues, and the EOX
 Sentinel-2 2016 mosaic. Fifteen infrastructure/place
-overlays now query identified OGL-NS open datasets for the viewport; the
+overlays now query identified OGL-NS open datasets for the viewport (an
+`OpenDataSource` may set `lineWidth`, `dash` and `casing`: transmission lines
+draw 2.4 px over a casing, light by day or over imagery and dark on the night
+map, and pipelines draw as a dashed amber line, where both used to share one
+thin Utilities purple); the
 complete provincial topographic cartography and sixteen land/environment image
 entries still reuse the ArcGIS image adapter; four use `ContextFeatureLayer`
 with bounded, cancellable viewport queries and source-class legends; radon uses
@@ -369,7 +382,8 @@ catalogue participates in categories, share state, custom themes and browser
 print without extending the native parity/offline catalogue. See the
 [GeoNova source inventory](docs/geonova-layer-expansion.md) for the GeoNova
 subset, licence distinctions, source checks and the radon reproduction receipt;
-electoral and Rhodena layers are documented with those web-only themes.
+electoral, Rhodena and Point Tupper layers are documented with those web-only
+themes.
 
 The September 2026 expansion adds 21 descriptors from `biodiversityLayers`,
 `waterResearchLayers` and `communityResearchLayers` to both maps.
@@ -399,10 +413,22 @@ service layer, so each layer is its own id. `fishing-spots` reads
 `fishing/data.ts` cache, with the calendar and rules files. The descriptor
 type gains an optional `provenance: "project-derived"` field; with it,
 `ContextFeatureLayer` popups and `ContextLayerToggle` rows label the source
-link **Project source** instead of **Official source**. Only `fishing-spots`
-sets it, because the spots are the project's own screening notes, not a
-publisher's record. The Data & licences dialog in `App.tsx` does not branch on
-it yet.
+link **Project source** instead of **Official source**. `fishing-spots` and
+`point-tupper-sites` both set it: each is the project's own wording, not a
+publisher's record.
+
+A point descriptor may name a `marker` in its feature styles (`turbine`,
+`tank`, `bolt`, `drop` or `dot`, and `hollow` for a proposed feature). In
+interactive mode `ContextFeatureLayer` then draws a keyboard-focusable
+`L.marker` whose SVG `divIcon` comes from `components/contextMarkers.ts`,
+scaled to 45% below zoom 9, 55% below zoom 11 and 75% below zoom 13, instead of a circle; print
+keeps circles, whose grey tones the printed key matches. The SVG is built
+from constants and a validated `#rrggbb` colour only. `permanentLabels: {
+minZoom, field? }` keeps each point's name on the map from that zoom. A legend
+entry may carry the same `marker`, so a key draws the map's own symbol.
+`canadian-wind-turbines` (a turbine, drawn from zoom 7 with numbers from zoom
+15) and `point-tupper-sites` (glyph pins with short names from zoom 11) use
+them.
 
 `fishing-spots` does not render through `ContextFeatureLayer`. `MapCanvas`
 gives it `fishing/FishingSpotsLayer.tsx` on every map, including print, so its
@@ -418,6 +444,26 @@ the filter named rather than an empty source. `withheldFishingSources` lists
 the fishing sources reviewed and kept out; a catalogue test fails when any
 descriptor or shipped fishing file names one. Receipts are in
 `docs/gis-fishing-sources.md`.
+
+`layers/plannedWindLayers.ts` adds `planned-wind-turbines` under **Roads &
+Places**: a GeoJSON snapshot in `web/public/wind/` of turbine positions read
+from the coordinate tables of Nova Scotia environmental assessment filings,
+through `ContextFeatureLayer` with a hollow turbine marker. Like Rhodena it is
+`public-facts` (factual extracts, original source rights retained) and, being
+compiled here, `project-derived`. Its test pins the file's `notice` to the
+descriptor's caveat, the Nova Scotia envelope, unique ids and that no
+alternate site is included. Receipts are in
+`docs/planned-wind-turbines-sources.md`; the raw extracts and the merge
+script that rebuilds the file exactly are in `web/scripts/wind/`.
+
+`layers/pointTupperLayers.ts` adds one **Point Tupper Site** descriptor,
+`point-tupper-sites`. It is a project-derived GeoJSON snapshot of five key
+places, served from `web/public/point-tupper/` outside the bundle, through
+`ContextFeatureLayer`. The data-centre campus footprint has not been published,
+so no campus shape is drawn. Company figures on the `/pointtupper` page are
+the company's own; no parcel, title or registry data is used. Receipts are in
+`docs/point-tupper-sources.md`. The new category is filtered out of
+`buildMapPresentationFixture` and `layerParity.ts` with Elections and Rhodena.
 
 `MineralProximityParcelLayer` is the only derived resource renderer. It asks
 `mineralProximity.ts` for occurrence points around the viewport and submits the
@@ -678,8 +724,8 @@ next-address controls. A civic point is never promoted to a house location.
 
 The web-only Rhodena theme lives in `web/src/rhodena/` (theme id `rhodena`,
 category `rhodena-project`). It is a research-map setup, excluded from
-`buildMapPresentationFixture` and `layerParity.ts` with Poker and Electoral
-Districts. The six catalog
+`buildMapPresentationFixture` and `layerParity.ts` with Poker, Electoral
+Districts and Point Tupper. The six catalog
 ids are `rhodena-visibility`, `rhodena-turbines`, `rhodena-infrastructure`,
 `rhodena-study`, `rhodena-receptors`, and `rhodena-distance-rings`. Combined
 and per-turbine bare-earth viewsheds run in `visibility.worker.ts` against a
@@ -701,19 +747,36 @@ The web-only Fishing setup (theme id `fishing`, `themes/mapThemes.ts`) names
 12 layers: `modern`, the four fishing layers, `water-features`,
 `nshn-spines`, `wsc-hydrometric-stations`, `wharves-coastal-structures`,
 `protected-conservation-areas`, `roads` and `campgrounds`. It is
-excluded from `buildMapPresentationFixture` with Poker, Electoral Districts and
-Rhodena, because it names web-only context layers the native app does not
-have. It adds no category, so `layerParity.ts` needs no filter for it, and the
-native fixtures are unchanged. Every layer in it is open on the web, so
-`resolveTheme` returns an exact match and a first `?theme=fishing` visit
-raises no Province licence sheet. Three layers are left out on purpose, and
-tests pin each omission: `waterfalls`, whose discovery fit in
+excluded from `buildMapPresentationFixture` with Poker, Electoral Districts,
+Rhodena and Point Tupper, because it names web-only context layers the native
+app does not have. It adds no category, so `layerParity.ts` needs no filter
+for it, and the native fixtures are unchanged. Every layer in it is open on
+the web, so `resolveTheme` returns an exact match and a first `?theme=fishing`
+visit raises no Province licence sheet. Three layers are left out on purpose,
+and tests pin each omission: `waterfalls`, whose discovery fit in
 `LayerZoomController` moves the map to the whole province, and `crown-lands`,
 whose zoom-12 floor makes the same controller zoom in to a few kilometres,
 either of which would move the view away from the spots; and `place-names`,
 whose thousands of GeoNAMES dots bury the spot pins at the opening zoom while
 the background already labels places. The DFO aquatic
 species-at-risk layers stay out of the setup and off the /fishing panel.
+
+The web-only Point Tupper setup (theme id `point-tupper`, `themes/mapThemes.ts`)
+names eleven layers: `modern`, `point-tupper-sites`, `canadian-wind-turbines`,
+`planned-wind-turbines`, `transmission-lines`, `substations`, `pipelines`,
+`tanks`, `wharves-coastal-structures`, `water-features` and `roads`. It is excluded from `buildMapPresentationFixture` with Poker,
+Electoral Districts, Rhodena and Fishing, because it names web-only context
+layers the native app does not have. Its **Point Tupper Site** category is
+filtered from that fixture and from `layerParity.ts` with Elections and
+Rhodena. No layer in it needs the Province licence, so `resolveTheme` returns
+an exact match and a first `?theme=point-tupper` visit raises no Province
+licence sheet; NSPRD boundaries stay one tap away. Place names stay off for the
+same reason as on fishing. Every opening province layer draws at zoom 11 or
+closer, and the context layers that wait for zoom 13 (substations, tanks,
+wharves) never move the camera, so turning the setup on never moves it off the
+Strait. `fishing-spots` and `stocked-waters` stay off the
+`/pointtupper` panel so the fishing pins are not read as part of the site
+brief.
 
 The same civic service owns sidebar address discovery. It sends normalized user
 text through Socrata's full-text `$q` index, returns bounded labelled Civic
@@ -1070,13 +1133,23 @@ definition carries:
   `backgroundSwitch` (the Map/Aerial switch);
 - an optional `shareParams` (`month`, `spot`): the page state its links may
   carry;
-- `chrome`: the `Hero`, an optional `Panel`, the phone `brand` button and the
-  `FooterNote`. These are component types that receive a
-  `FocusChromeContext`: context-layer visibility and its setter, the page
-  state (`FocusPageState`: month, species, selected spot, and counters that
-  ask the panel or the map to reveal the selection) and its setter, opening
-  and closing the phone sheet, `fitToFocus`, and Rhodena's
-  `startViewpointPick`.
+- an optional `mapOverlayInset`: the pixels its `MapOverlay` covers on the
+  map's right; `FocusFit` frames the page's area left of it on a map wide
+  enough to spare it (the page itself only; the full map has no overlay);
+- an optional `parcelOutlineWidth`: NSPRD boundary width in export points,
+  passed through `MapCanvas` to `parcelBoundaryRenderer` (the full map's
+  default is 1.2; `/pointtupper` asks for 2.6);
+- `chrome`: the `Hero`, an optional `Panel`, an optional `MapOverlay` (chrome
+  laid over the map, mounted beside `MapCanvas`; `/pointtupper` uses it for
+  its map key), the phone `brand` button and the `FooterNote`. These are
+  component types that receive a `FocusChromeContext`: context-layer
+  visibility and its setter, the page state (`FocusPageState`: month,
+  species, selected spot, and counters that ask the panel or the map to
+  reveal the selection) and its setter, opening and closing the phone sheet,
+  `fitToFocus`, Rhodena's `startViewpointPick`, each layer's last reported
+  status, province-layer visibility and its setter, and the Province licence
+  state with `reviewProvinceLicence`. A caller checks `licenceAccepted` before
+  turning on a licensed layer, as the panel rows do.
 
 `focusOffersLayer`, `filterFocusLayerIds` (shared links keep their order) and
 `focusHides` apply a definition. App holds the page state and writes `month`
@@ -1087,14 +1160,17 @@ and choosing the setup fits its bounds. `MapCanvas` takes a `focusFit` request
 (`{ revision, bounds }`) and renders `focus/FocusFit.tsx`, which fits the
 bounds each time the revision rises; it replaced Rhodena's own fit component.
 In `vite.config.ts`, `focusRoute` serves each page's map-relative path
-(`/rhodena`, `/fishing`) in dev and preview and redirects its trailing-slash
-form. It routes only those two paths, so data files under the same name
-(`/fishing/spots.geojson`) are served as files. The public short URLs are
-KinNoKi site rewrites onto the published map's paths. Rhodena's short URL is
-the same `/rhodena` path; the fishing page's is `/fishmap`, which is not routed
-locally. `rollupOptions.input` lists each HTML entry. A page keeps its
-definition in a `.ts` module and its components in a sibling `.tsx` (React
-Refresh exports components only). `focus/registry.test.ts` checks every
+(`/rhodena`, `/fishing`, `/pointtupper`) in dev and preview and redirects its
+trailing-slash form. It routes only those three paths, so data files under the
+same name (`/fishing/spots.geojson`) are served as files. The Point Tupper data
+lives at `point-tupper/` (hyphen), which does not collide with `/pointtupper`.
+The public short URLs are KinNoKi site rewrites onto the published map's
+paths. Rhodena's short URL is the same `/rhodena` path; the fishing page's is
+`/fishmap`, which is not routed locally; Point Tupper's intended short URL is
+the same `/pointtupper` path. `rollupOptions.input` lists each HTML entry. A
+page keeps its definition in a `.ts` module and its components in a sibling
+`.tsx` (React Refresh exports components only). `focus/registry.test.ts` checks
+every
 entry: the key equals the id, setups are unique, every setup layer is
 offered, every allowed or denied id exists, every offered id sits in one of
 the page's categories, a hidden feature has no panel section, and the
@@ -1176,3 +1252,31 @@ page's PR. Vite answers the map-relative `/fishing` locally.
 (`fishing/pagePath.ts`) and keeps the path the visitor arrived on, so share
 links carry `/fishmap` on the live site. Neither proves a live map pin was
 updated.
+
+### Point Tupper focused page
+
+`web/pointtupper.html` keeps `<base href="./" />` for the site's base stamping
+and loads `web/src/pointtupper/main.tsx`, which mounts
+`<App focus="pointtupper" />`. `pointtupper/focusDefinition.ts` fixes the
+Point Tupper setup, and `pointtupper/focus.ts` lists six panel categories:
+the key places, roads, water, land, hazards and backgrounds. Water and
+background layers are offered by category, so later additions appear; the
+other rows are listed one by one. `fishing-spots` and `stocked-waters` are
+denied, so the fishing pins never sit on the site brief. Tax sale, My Maps
+and the setup picker are hidden. A **Map | Aerial** switch under the 3D
+control swaps the opaque background; aerial imagery keeps the Province
+licence gate. The page fits the Strait bounds on open when the link has no
+position.
+
+The chrome is `PointTupperFocusChrome.tsx`: the hero (sourced announcement
+facts, a zoom-to-site control, and links to
+`docs/point-tupper-sources.md`), a timeline panel of nine dated events, the
+brand mark and the footer note. Company figures are labelled as the
+company's own. The campus footprint has not been published, so it is not
+drawn. No parcel, title or registry data is used. There is no service worker
+and no offline pack. Vite answers `/pointtupper` locally.
+`pointtupper/main.tsx` drops a trailing slash from `/pointtupper/`. Short-URL
+rewrite (`/pointtupper` onto this HTML) and asset-base stamping are KinNoKi
+site publishing concerns; the page is not on the live site until that
+rewrite and a map pin land. Neither a merge here nor the rewrite proves a
+live map pin was updated.

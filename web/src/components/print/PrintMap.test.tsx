@@ -4,6 +4,7 @@ import type { MapLayerId, MapLayerStatus } from "../MapCanvas";
 import { PrintMap } from "./PrintMap";
 import type { PrintSnapshot } from "../../services/printSnapshot";
 import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
+import { reproductionLockReason } from "../../licensing/layerUse";
 
 const mapCanvasProps = vi.hoisted(() => ({
   current: undefined as Record<string, unknown> | undefined,
@@ -43,15 +44,15 @@ describe("PrintMap", () => {
     vi.unstubAllEnvs();
   });
 
-  it("restores every captured context layer and waits for its rendered status", () => {
+  it("restores every permitted captured context layer and waits for its rendered status", () => {
     const onReadinessChange = vi.fn();
-    const layerIds = contextLayerCatalog.map(({ id }) => id);
+    const layerIds = contextLayerCatalog.filter(({ id }) => !reproductionLockReason(id)).map(({ id }) => id);
     render(<PrintMap snapshot={{ ...snapshot, layerIds }}
       bounds={snapshot.viewport.bounds} includeAerial={false}
       onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
 
     expect(mapCanvasProps.current?.contextLayers).toEqual(
-      Object.fromEntries(layerIds.map((id) => [id, id !== "rhodena-visibility"])),
+      Object.fromEntries(contextLayerCatalog.map(({ id }) => [id, layerIds.includes(id) && id !== "rhodena-visibility"])),
     );
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "loading", renderedLayerIds: [], failedLayerIds: [], belowZoomLayerIds: [],
@@ -60,6 +61,15 @@ describe("PrintMap", () => {
     expect(onReadinessChange).toHaveBeenLastCalledWith({
       status: "ready", renderedLayerIds: layerIds.filter(id => id !== "rhodena-visibility"), belowZoomLayerIds: [],
     });
+  });
+
+  it("refuses the provisional CHM before mounting a print map", () => {
+    mapCanvasProps.current = undefined;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: ["lidar-canopy-height"] }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={vi.fn()} onResolvedPosition={vi.fn()} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(/canopy-height licence.*confirmation/i);
+    expect(mapCanvasProps.current).toBeUndefined();
   });
 
   it("keeps a failed context layer out of the rendered print receipt", () => {

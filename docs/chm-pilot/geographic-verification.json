@@ -1,0 +1,20 @@
+{
+  "allTilesUseOnlyPaletteColours": true,
+  "unexpectedColourTiles": [],
+  "geographicSamplesChecked": 25510,
+  "classBoundarySamplesExcluded": 19991,
+  "stableNeighbourhoodComparisons": 5519,
+  "classOrGeographicMismatches": 0,
+  "mismatchExamples": [],
+  "method": "Web Mercator XYZ pixel centres transformed independently to source UTM grid. Compare cells whose full 3x3 source neighbourhood shares one height class; omit class-edge ambiguity. Verify every tile colour belongs to the declared palette.",
+  "forestContext": {
+    "objectId": 140404,
+    "mapStand": "S038-01993",
+    "photoYear": 2008,
+    "screenshotPointInsideStand": true,
+    "interiorPoint": [
+      45.89244240857242,
+      -61.42968084996542
+    ]
+  }
+}

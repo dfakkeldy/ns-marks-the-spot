@@ -22,7 +22,8 @@ export type BuiltInMapThemeId =
   | "historical-maps"
   | "georeferencing"
   | "poker"
-  | "fishing";
+  | "fishing"
+  | "point-tupper";
 
 export interface MapThemeState {
   readonly layerIds: readonly ShareLayerId[];
@@ -169,6 +170,40 @@ export const builtInMapThemes = [
     taxSaleEnabled: false,
     mapMode: "current",
   },
+  {
+    // Web-only and fully open, like fishing: every layer here is the Province's
+    // open data or the project's own places, so `?theme=point-tupper` never
+    // raises the Province licence. Place names stay off for the same reason as
+    // on fishing (thousands of dots that bury the key places); the background
+    // labels the towns. Everything opens at zoom 11 or closer, so turning the
+    // setup on never moves the camera off the Strait. The turbines and tanks
+    // need no licence either (NRCan, OGL-Canada; EA-filing coordinates as
+    // public facts, like Rhodena's; NSTDB, OGL-NS); tanks wait for
+    // zoom 13 like the substations, which only context layers may do without
+    // moving the camera (LayerZoomController acts on province layers alone).
+    // Property boundaries stay one tap away: they need the licence.
+    id: "point-tupper",
+    kind: "built-in",
+    name: "Point Tupper",
+    description: "Key places for the announced data-centre campus, with installed and planned wind turbines, the mapped grid, pipelines, tanks, wharves, water and roads.",
+    layerIds: [
+      "modern",
+      "point-tupper-sites",
+      "canadian-wind-turbines",
+      "planned-wind-turbines",
+      "transmission-lines",
+      "substations",
+      "pipelines",
+      "tanks",
+      "wharves-coastal-structures",
+      "water-features",
+      "roads",
+    ],
+    opacityOverrides: {},
+    preferredCategoryIds: ["point-tupper-site", "roads-places", "water-terrain"],
+    taxSaleEnabled: false,
+    mapMode: "current",
+  },
 ] as const satisfies readonly MapThemeDefinition[];
 
 /**
@@ -183,7 +218,7 @@ const nativeExcludedLayerIds = new Set<CategorizedLayerId>(
 export function buildMapPresentationFixture(): MapPresentationFixture {
   return {
     version: 1,
-    categories: layerCategories.filter(c => c.id !== "elections-districts" && c.id !== "rhodena-project").map(({ id, name }) => ({
+    categories: layerCategories.filter(c => c.id !== "elections-districts" && c.id !== "rhodena-project" && c.id !== "point-tupper-site").map(({ id, name }) => ({
       id,
       name,
       layerIds: id === "tax-sale" || id === "my-maps"
@@ -194,7 +229,7 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
     })),
     // Poker is a web workflow; native has no driveway session controls.
     // Electoral, Rhodena and Fishing name web-only context layers.
-    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts" && theme.id !== "rhodena" && theme.id !== "fishing").map((theme) => ({
+    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts" && theme.id !== "rhodena" && theme.id !== "fishing" && theme.id !== "point-tupper").map((theme) => ({
       id: theme.id,
       name: theme.name,
       description: theme.description,

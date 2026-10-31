@@ -1,0 +1,38 @@
+{
+  "revision": "chm-judique-2017-20261019.1",
+  "name": "LiDAR canopy height · Judique pilot",
+  "indexUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/ELEV/ELEV_LIDAR_ELEVATION_UT83/MapServer/3",
+  "sourceUrl": "https://nsgi.novascotia.ca/datalocator/elevation/",
+  "licenceUrl": "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf",
+  "licenceStatus": "provisional-awaiting-confirmation",
+  "attribution": "Reproduced and distributed with the permission of the Department of Service Nova Scotia. This product has been produced by KinNoKi Labs and includes data provided by the Department of Service Nova Scotia. The incorporation of that data shall not be construed as constituting an endorsement by the Department of Service Nova Scotia of this product. Service Nova Scotia makes no representation and gives no warranty of any kind respecting the data's accuracy, usefulness, novelty, validity, scope, completeness, or currency.",
+  "minZoom": 10,
+  "maxNativeZoom": 17,
+  "bounds": { "west": -61.502006760144134, "south": 45.848181793834755, "east": -61.397901959963036, "north": 45.901821469423766 },
+  "sheets": [
+    {
+      "sheet": "1045850061400",
+      "project": 201701,
+      "year": 2017,
+      "filename": "1045850061400_201701_CHM.tif",
+      "sha256": "3cd9bdebe1362fb2517f0491144d27f02a964e4edacf700d0679692cf7ff6973",
+      "archiveBytes": 233814920,
+      "rasterBytes": 192950456,
+      "resolutionMetres": 1,
+      "creator": "Leading Edge Geomatics",
+      "horizontalDatum": "NAD83(CSRS)v6",
+      "projection": "UTM Zone 20N",
+      "verticalReference": "CGVD2013",
+      "indexBounds": { "west": -61.499997352, "south": 45.850009508, "east": -61.399997302, "north": 45.900009526 }
+    }
+  ],
+  "classes": [
+    { "minimum": 0, "label": "0–<2 m · ground / low vegetation", "color": "#f5e9b2" },
+    { "minimum": 2, "label": "2–<5 m", "color": "#c7e9b4" },
+    { "minimum": 5, "label": "5–<10 m", "color": "#7fcdbb" },
+    { "minimum": 10, "label": "10–<15 m", "color": "#41b6c4" },
+    { "minimum": 15, "label": "15–<20 m", "color": "#2c7fb8" },
+    { "minimum": 20, "label": "20–<30 m", "color": "#253494" },
+    { "minimum": 30, "label": "30 m and above", "color": "#7a0177" }
+  ]
+}

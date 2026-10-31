@@ -5,10 +5,12 @@ import type { ArcGISExportOptions } from "./layerCatalog";
 export interface ContextLayerDescriptor {
   id: string;
   name: string;
-  category: "rhodena-project" | "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
+  category: "rhodena-project" | "point-tupper-site" | "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
   serviceUrl: string;
   openData?: OpenDataSource;
   tileUrl?: string;
+  /** A configured pilot can retain its catalogue row before public tiles exist. */
+  unavailableReason?: string;
   sourceUrl: string;
   licenceUrl: string;
   licence: "public-facts" | "province-open" | "province-restricted" | "province-unrestricted" | "cc-by" | "canada-open" | "halifax-open";
@@ -46,8 +48,10 @@ export interface ContextLayerDescriptor {
     styles: Record<string, ContextFeatureStyle>;
     defaultStyle: ContextFeatureStyle;
   };
+  /** Point features keep a name on the map from this zoom (`labelField`, or `field` when given). */
+  permanentLabels?: { minZoom: number; field?: string };
   /** Source-authored classes (or the explicit filtered feature classes). */
-  legend: readonly { label: string; color?: string }[];
+  legend: readonly { label: string; color?: string; marker?: ContextMarker }[];
   /** Include a publisher-authored image legend in the printed source key. */
   printLegend?: boolean;
 }
@@ -63,4 +67,13 @@ export interface ContextFeatureStyle {
   fillOpacity?: number;
   weight?: number;
   radius?: number;
+  /** Draw points as this symbol in `fillColor` instead of a circle (interactive map only; print keeps circles). */
+  marker?: ContextMarker;
+}
+
+/** A point symbol (components/contextMarkers.ts); hollow draws a proposed feature in outline. */
+export interface ContextMarker {
+  glyph: "turbine" | "tank" | "bolt" | "drop" | "dot";
+  hollow?: boolean;
+  size?: number;
 }

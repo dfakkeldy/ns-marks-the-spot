@@ -1,0 +1,762 @@
+Sentinel-2 pad check: now 2026-07-01/2026-10-24, baseline 2022-06-01/2022-09-30
+bare = NDVI < 0.25; counts are bare pixels of the 29 within 30 m; clearing >= 15, partial 5-14;
+'ndvi' is the mean NDVI within 30 m and 'drop' its fall from the baseline; a drop of 0.3 or more without a pad
+reads 'vegetation loss' (earthworks or a forestry cut: look before calling it construction).
+'nearest' is the distance to the nearest 30 m disk with >= 15 bare pixels within 300 m.
+
+Aulds Cove Wind Project (21 positions): none 21
+  now scenes: S2A_20TPR_20261003_2_L2A, S2C_20TPR_20261001_0_L2A
+  baseline scenes: S2A_20TPR_20220704_0_L2A, S2A_20TPR_20220902_0_L2A, S2B_20TPR_20220828_0_L2A
+  aulds-cove-T1                    now  0  base  0  ndvi 0.82 drop +0.08  nearest      -  2026-10-03  none
+  aulds-cove-T2                    now  0  base  0  ndvi 0.89 drop +0.02  nearest      -  2026-10-01  none
+  aulds-cove-T3                    now  0  base  0  ndvi 0.75 drop +0.16  nearest  174 m  2026-10-03  none
+  aulds-cove-T4                    now  0  base  0  ndvi 0.85 drop +0.06  nearest      -  2026-10-03  none
+  aulds-cove-T5                    now  0  base  0  ndvi 0.80 drop +0.07  nearest      -  2026-10-01  none
+  aulds-cove-T6                    now  0  base  0  ndvi 0.87 drop +0.04  nearest      -  2026-10-01  none
+  aulds-cove-T7                    now  0  base  0  ndvi 0.92 drop -0.01  nearest      -  2026-10-01  none
+  aulds-cove-T8                    now  0  base  0  ndvi 0.81 drop -0.05  nearest      -  2026-10-01  none
+  aulds-cove-T9                    now  0  base  0  ndvi 0.80 drop +0.02  nearest      -  2026-10-03  none
+  aulds-cove-T10                   now  0  base  0  ndvi 0.84 drop -0.03  nearest  268 m  2026-10-03  none
+  aulds-cove-T11                   now  0  base  0  ndvi 0.79 drop +0.01  nearest      -  2026-10-01  none
+  aulds-cove-T12                   now  0  base  0  ndvi 0.80 drop +0.10  nearest      -  2026-10-03  none
+  aulds-cove-T13                   now  0  base  0  ndvi 0.84 drop +0.04  nearest      -  2026-10-03  none
+  aulds-cove-T14                   now  0  base  0  ndvi 0.73 drop +0.16  nearest      -  2026-10-03  none
+  aulds-cove-T15                   now  0  base  0  ndvi 0.88 drop +0.02  nearest      -  2026-10-01  none
+  aulds-cove-T16                   now  0  base  0  ndvi 0.87 drop +0.05  nearest  367 m  2026-10-01  none
+  aulds-cove-T17                   now  0  base  0  ndvi 0.85 drop +0.07  nearest      -  2026-10-03  none
+  aulds-cove-T19                   now  0  base  0  ndvi 0.80 drop +0.09  nearest  390 m  2026-10-03  none
+  aulds-cove-T20                   now  0  base  0  ndvi 0.81 drop +0.09  nearest  320 m  2026-10-03  none
+  aulds-cove-T21                   now  0  base  0  ndvi 0.89 drop +0.04  nearest      -  2026-10-01  none
+  aulds-cove-T22                   now  0  base  0  ndvi 0.73 drop +0.09  nearest      -  2026-10-01  none
+
+Bear Lake Wind Power Project (15 positions): none 15
+  now scenes: S2C_20TLQ_20261024_0_L2A
+  baseline scenes: S2B_20TLQ_20220930_0_L2A
+  bear-lake-T1                     now  0  base  0  ndvi 0.72 drop +0.02  nearest      -  2026-10-24  none
+  bear-lake-T2                     now  0  base  0  ndvi 0.87 drop +0.00  nearest      -  2026-10-24  none
+  bear-lake-T3                     now  0  base  0  ndvi 0.88 drop +0.00  nearest      -  2026-10-24  none
+  bear-lake-T4                     now  0  base  0  ndvi 0.66 drop +0.09  nearest      -  2026-10-24  none
+  bear-lake-T5                     now  0  base  0  ndvi 0.84 drop -0.04  nearest      -  2026-10-24  none
+  bear-lake-T6                     now  0  base  0  ndvi 0.68 drop +0.10  nearest      -  2026-10-24  none
+  bear-lake-T7                     now  0  base  0  ndvi 0.79 drop -0.02  nearest      -  2026-10-24  none
+  bear-lake-T8                     now  0  base  0  ndvi 0.79 drop +0.02  nearest      -  2026-10-24  none
+  bear-lake-T9                     now  0  base  0  ndvi 0.81 drop +0.01  nearest      -  2026-10-24  none
+  bear-lake-T10                    now  0  base  0  ndvi 0.78 drop +0.02  nearest      -  2026-10-24  none
+  bear-lake-T11                    now  0  base  0  ndvi 0.81 drop +0.01  nearest      -  2026-10-24  none
+  bear-lake-T12                    now  0  base  0  ndvi 0.65 drop +0.10  nearest      -  2026-10-24  none
+  bear-lake-T13                    now  0  base  0  ndvi 0.85 drop -0.01  nearest      -  2026-10-24  none
+  bear-lake-T14                    now  0  base  0  ndvi 0.74 drop +0.09  nearest      -  2026-10-24  none
+  bear-lake-T15                    now  0  base  0  ndvi 0.88 drop -0.01  nearest      -  2026-10-24  none
+
+Benjamins Mill Wind Project (28 positions): new clearing 11, none 17
+  now scenes: S2C_20TLQ_20261024_0_L2A
+  baseline scenes: S2B_20TLQ_20220930_0_L2A
+  benjamins-mill-1                 now  0  base  0  ndvi 0.67 drop +0.09  nearest      -  2026-10-24  none
+  benjamins-mill-2                 now  0  base  0  ndvi 0.74 drop +0.06  nearest      -  2026-10-24  none
+  benjamins-mill-3                 now  0  base  0  ndvi 0.74 drop +0.05  nearest      -  2026-10-24  none
+  benjamins-mill-4                 now  0  base  0  ndvi 0.63 drop +0.10  nearest      -  2026-10-24  none
+  benjamins-mill-5                 now  0  base  0  ndvi 0.72 drop +0.07  nearest      -  2026-10-24  none
+  benjamins-mill-6                 now 29  base  0  ndvi 0.07 drop +0.73  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-7                 now  0  base  0  ndvi 0.63 drop +0.13  nearest      -  2026-10-24  none
+  benjamins-mill-8                 now 24  base  0  ndvi 0.15 drop +0.61  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-9                 now 25  base  0  ndvi 0.13 drop +0.55  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-10                now  0  base  0  ndvi 0.69 drop +0.06  nearest      -  2026-10-24  none
+  benjamins-mill-11                now  0  base  0  ndvi 0.77 drop -0.00  nearest      -  2026-10-24  none
+  benjamins-mill-12                now  0  base  0  ndvi 0.60 drop +0.11  nearest  113 m  2026-10-24  none
+  benjamins-mill-13                now  3  base  0  ndvi 0.64 drop +0.12  nearest  180 m  2026-10-24  none
+  benjamins-mill-14                now 23  base  0  ndvi 0.13 drop +0.65  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-15                now 27  base  0  ndvi 0.09 drop +0.72  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-16                now  0  base  0  ndvi 0.83 drop +0.01  nearest      -  2026-10-24  none
+  benjamins-mill-17                now 25  base  0  ndvi 0.14 drop +0.59  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-18                now 29  base  0  ndvi 0.05 drop +0.73  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-19                now 22  base  0  ndvi 0.17 drop +0.63  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-20                now 22  base  0  ndvi 0.15 drop +0.70  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-21                now 29  base  0  ndvi 0.11 drop +0.64  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-22                now 23  base  0  ndvi 0.13 drop +0.69  nearest    0 m  2026-10-24  new clearing
+  benjamins-mill-23                now  0  base  0  ndvi 0.79 drop +0.00  nearest      -  2026-10-24  none
+  benjamins-mill-24                now  0  base  0  ndvi 0.63 drop -0.13  nearest      -  2026-10-24  none
+  benjamins-mill-25                now  0  base  0  ndvi 0.68 drop +0.03  nearest      -  2026-10-24  none
+  benjamins-mill-26                now  0  base  0  ndvi 0.60 drop +0.24  nearest      -  2026-10-24  none
+  benjamins-mill-27                now  0  base  0  ndvi 0.78 drop +0.01  nearest      -  2026-10-24  none
+  benjamins-mill-28                now  0  base  0  ndvi 0.75 drop +0.07  nearest      -  2026-10-24  none
+
+Clydesdale Ridge Wind Project (18 positions): none 17, vegetation loss 1
+  now scenes: S2B_20TMR_20261006_0_L2A, S2B_20TMR_20261009_0_L2A
+  baseline scenes: S2B_20TMR_20220930_0_L2A
+  clydesdale-ridge-WTG1            now  0  base  0  ndvi 0.61 drop +0.14  nearest  320 m  2026-10-09  none
+  clydesdale-ridge-WTG2            now  0  base  0  ndvi 0.71 drop +0.02  nearest  366 m  2026-10-09  none
+  clydesdale-ridge-WTG3            now  0  base  0  ndvi 0.80 drop -0.06  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG4            now  0  base  0  ndvi 0.70 drop +0.15  nearest      -  2026-10-06  none
+  clydesdale-ridge-WTG5            now  0  base  0  ndvi 0.91 drop +0.04  nearest  181 m  2026-10-09  none
+  clydesdale-ridge-WTG6            now  0  base  0  ndvi 0.84 drop +0.04  nearest  322 m  2026-10-09  none
+  clydesdale-ridge-WTG7            now  0  base  0  ndvi 0.83 drop -0.10  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG8            now  0  base  0  ndvi 0.85 drop -0.06  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG9            now  0  base  0  ndvi 0.74 drop -0.01  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG10           now  0  base  0  ndvi 0.80 drop -0.04  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG11           now  0  base  0  ndvi 0.56 drop +0.34  nearest      -  2026-10-09  vegetation loss
+  clydesdale-ridge-WTG12           now  0  base  0  ndvi 0.72 drop +0.05  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG13           now  0  base  0  ndvi 0.75 drop -0.03  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG14           now  0  base  0  ndvi 0.75 drop -0.07  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG15           now  0  base  0  ndvi 0.78 drop +0.00  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG16           now  0  base  0  ndvi 0.70 drop -0.02  nearest      -  2026-10-09  none
+  clydesdale-ridge-WTG17           now  0  base  0  ndvi 0.60 drop +0.19  nearest  248 m  2026-10-09  none
+  clydesdale-ridge-WTG18           now  0  base  0  ndvi 0.82 drop +0.07  nearest      -  2026-10-06  none
+
+Eigg Mountain Wind Project (22 positions): none 22
+  now scenes: S2C_20TNR_20261021_0_L2A
+  baseline scenes: S2B_20TNR_20220930_0_L2A
+  eigg-mountain-1                  now  0  base  0  ndvi 0.75 drop +0.06  nearest      -  2026-10-21  none
+  eigg-mountain-2                  now  0  base  0  ndvi 0.60 drop +0.16  nearest      -  2026-10-21  none
+  eigg-mountain-3                  now  0  base  0  ndvi 0.60 drop +0.11  nearest      -  2026-10-21  none
+  eigg-mountain-4                  now  0  base  0  ndvi 0.62 drop +0.12  nearest      -  2026-10-21  none
+  eigg-mountain-5                  now  0  base  0  ndvi 0.68 drop +0.14  nearest      -  2026-10-21  none
+  eigg-mountain-6                  now  0  base  0  ndvi 0.58 drop +0.15  nearest      -  2026-10-21  none
+  eigg-mountain-7                  now  0  base  0  ndvi 0.78 drop +0.11  nearest      -  2026-10-21  none
+  eigg-mountain-8                  now  0  base  0  ndvi 0.69 drop -0.00  nearest      -  2026-10-21  none
+  eigg-mountain-9                  now  0  base  0  ndvi 0.60 drop +0.13  nearest      -  2026-10-21  none
+  eigg-mountain-10                 now  0  base  0  ndvi 0.86 drop +0.07  nearest      -  2026-10-21  none
+  eigg-mountain-11                 now  0  base  0  ndvi 0.80 drop +0.10  nearest      -  2026-10-21  none
+  eigg-mountain-12                 now  0  base  0  ndvi 0.56 drop +0.18  nearest      -  2026-10-21  none
+  eigg-mountain-13                 now  0  base  0  ndvi 0.58 drop +0.23  nearest      -  2026-10-21  none
+  eigg-mountain-14                 now  0  base  0  ndvi 0.66 drop +0.09  nearest      -  2026-10-21  none
+  eigg-mountain-15                 now  0  base  0  ndvi 0.58 drop +0.19  nearest      -  2026-10-21  none
+  eigg-mountain-16                 now  0  base  0  ndvi 0.62 drop +0.11  nearest      -  2026-10-21  none
+  eigg-mountain-17                 now  0  base  0  ndvi 0.65 drop +0.12  nearest      -  2026-10-21  none
+  eigg-mountain-18                 now  0  base  0  ndvi 0.62 drop +0.15  nearest      -  2026-10-21  none
+  eigg-mountain-19                 now  0  base  0  ndvi 0.67 drop +0.12  nearest      -  2026-10-21  none
+  eigg-mountain-20                 now  0  base  0  ndvi 0.62 drop +0.18  nearest      -  2026-10-21  none
+  eigg-mountain-21                 now  0  base  0  ndvi 0.59 drop +0.07  nearest      -  2026-10-21  none
+  eigg-mountain-22                 now  0  base  0  ndvi 0.79 drop +0.09  nearest      -  2026-10-21  none
+
+Ellershouse 3 Wind Project (12 positions): none 11, vegetation loss 1
+  now scenes: S2B_20TMQ_20261009_0_L2A, S2C_20TMQ_20261004_0_L2A, S2C_20TMQ_20261024_0_L2A
+  baseline scenes: S2B_20TMQ_20220930_0_L2A
+  ellershouse-3-1                  now  0  base  0  ndvi 0.75 drop +0.02  nearest      -  2026-10-24  none
+  ellershouse-3-2                  now  0  base  0  ndvi 0.61 drop +0.16  nearest      -  2026-10-24  none
+  ellershouse-3-3                  now  0  base  0  ndvi 0.67 drop +0.04  nearest      -  2026-10-09  none
+  ellershouse-3-4                  now  0  base  0  ndvi 0.43 drop +0.25  nearest  286 m  2026-10-09  none
+  ellershouse-3-5                  now  0  base  0  ndvi 0.35 drop +0.36  nearest   85 m  2026-10-24  vegetation loss
+  ellershouse-3-6                  now  0  base  0  ndvi 0.46 drop +0.23  nearest      -  2026-10-24  none
+  ellershouse-3-7                  now  0  base  0  ndvi 0.82 drop -0.09  nearest      -  2026-10-04  none
+  ellershouse-3-8                  now  0  base  0  ndvi 0.58 drop +0.14  nearest      -  2026-10-24  none
+  ellershouse-3-9                  now  0  base  0  ndvi 0.62 drop +0.07  nearest      -  2026-10-24  none
+  ellershouse-3-10                 now  0  base  0  ndvi 0.60 drop +0.15  nearest      -  2026-10-24  none
+  ellershouse-3-11                 now  0  base  0  ndvi 0.68 drop +0.06  nearest      -  2026-10-24  none
+  ellershouse-3-12                 now  0  base  0  ndvi 0.71 drop +0.02  nearest      -  2026-10-24  none
+
+Goose Harbour Lake Wind Farm (24 positions): clearing (also in baseline) 1, new clearing 23
+  now scenes: S2A_20TPR_20261003_2_L2A, S2C_20TPR_20261001_0_L2A
+  baseline scenes: S2A_20TPR_20220704_0_L2A, S2B_20TPR_20220629_0_L2A, S2B_20TPR_20220709_0_L2A, S2B_20TPR_20220828_0_L2A, S2B_20TPR_20220907_0_L2A
+  goose-harbour-lake-unlabelled-row55 now 29  base  0  ndvi 0.07 drop +0.81  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row56 now 29  base  0  ndvi 0.05 drop +0.80  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row57 now 29  base  0  ndvi 0.07 drop +0.83  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-T5            now 29  base  0  ndvi 0.05 drop +0.81  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row59 now 29  base  0  ndvi 0.06 drop +0.79  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row60 now 29  base  0  ndvi 0.08 drop +0.77  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row61 now 29  base  0  ndvi 0.08 drop +0.75  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row62 now 29  base  0  ndvi 0.06 drop +0.79  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row63 now 29  base  0  ndvi 0.05 drop +0.79  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row64 now 29  base  0  ndvi 0.05 drop +0.81  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row65 now 29  base  0  ndvi 0.08 drop +0.79  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row66 now 29  base  0  ndvi 0.04 drop +0.82  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row67 now 29  base  0  ndvi 0.06 drop +0.82  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row68 now 29  base  0  ndvi 0.07 drop +0.84  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row69 now 29  base  0  ndvi 0.06 drop +0.74  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-T21           now 29  base  0  ndvi 0.07 drop +0.76  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row71 now 29  base  0  ndvi 0.05 drop +0.79  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row72 now 29  base  0  ndvi 0.06 drop +0.78  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row73 now 29  base 28  ndvi 0.08 drop +0.06  nearest    0 m  2026-10-03  clearing (also in baseline) [under construction]
+  goose-harbour-lake-unlabelled-row74 now 29  base  0  ndvi 0.04 drop +0.85  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-T27           now 29  base  0  ndvi 0.06 drop +0.79  nearest    0 m  2026-10-01  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row76 now 29  base  0  ndvi 0.08 drop +0.82  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-unlabelled-row77 now 29  base  0  ndvi 0.09 drop +0.78  nearest    0 m  2026-10-03  new clearing [under construction]
+  goose-harbour-lake-T30           now 29  base  0  ndvi 0.09 drop +0.74  nearest    0 m  2026-10-03  new clearing [under construction]
+
+Harbour Hills Wind Project (107 positions): none 107
+  now scenes: S2A_20TNQ_20261003_0_L2A, S2A_20TNR_20261003_1_L2A, S2B_20TNR_20261009_0_L2A
+  baseline scenes: S2A_20TNQ_20220902_0_L2A, S2A_20TNR_20220902_0_L2A, S2A_20TNR_20220925_0_L2A, S2B_20TNQ_20220828_0_L2A, S2B_20TNQ_20220917_0_L2A, S2B_20TNR_20220828_0_L2A, S2B_20TNR_20220907_0_L2A, S2B_20TNR_20220910_0_L2A, S2B_20TNR_20220917_0_L2A, S2B_20TNR_20220930_0_L2A
+  harbour-hills-T1                 now  0  base  0  ndvi 0.82 drop +0.06  nearest      -  2026-10-09  none
+  harbour-hills-T2                 now  0  base  0  ndvi 0.71 drop +0.12  nearest      -  2026-10-09  none
+  harbour-hills-T3                 now  0  base  0  ndvi 0.82 drop +0.02  nearest      -  2026-10-09  none
+  harbour-hills-T4                 now  0  base  0  ndvi 0.89 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T5                 now  0  base  0  ndvi 0.79 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T6                 now  0  base  0  ndvi 0.85 drop +0.04  nearest  375 m  2026-10-03  none
+  harbour-hills-T7                 now  0  base  0  ndvi 0.79 drop -0.18  nearest      -  2026-10-09  none
+  harbour-hills-T8                 now  0  base  0  ndvi 0.79 drop +0.06  nearest      -  2026-10-03  none
+  harbour-hills-T9                 now  0  base  0  ndvi 0.88 drop -0.00  nearest      -  2026-10-03  none
+  harbour-hills-T10                now  0  base  0  ndvi 0.81 drop -0.00  nearest      -  2026-10-03  none
+  harbour-hills-T11                now  0  base  0  ndvi 0.85 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T12                now  0  base  0  ndvi 0.74 drop +0.04  nearest      -  2026-10-03  none
+  harbour-hills-T13                now  0  base  0  ndvi 0.78 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T14                now  0  base  0  ndvi 0.71 drop +0.07  nearest      -  2026-10-09  none
+  harbour-hills-T15                now  0  base  0  ndvi 0.77 drop -0.02  nearest      -  2026-10-03  none
+  harbour-hills-T16                now  0  base  0  ndvi 0.78 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T17                now  0  base  0  ndvi 0.82 drop -0.01  nearest      -  2026-10-09  none
+  harbour-hills-T18                now  0  base  0  ndvi 0.82 drop +0.00  nearest      -  2026-10-03  none
+  harbour-hills-T19                now  0  base  0  ndvi 0.83 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T20                now  0  base  0  ndvi 0.83 drop -0.00  nearest      -  2026-10-03  none
+  harbour-hills-T21                now  0  base  0  ndvi 0.84 drop +0.07  nearest      -  2026-10-09  none
+  harbour-hills-T22                now  0  base  0  ndvi 0.84 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T23                now  0  base  0  ndvi 0.83 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T24                now  0  base  0  ndvi 0.87 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T25                now  0  base  0  ndvi 0.81 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T26                now  0  base  0  ndvi 0.89 drop +0.00  nearest      -  2026-10-09  none
+  harbour-hills-T27                now  0  base  0  ndvi 0.81 drop +0.02  nearest      -  2026-10-09  none
+  harbour-hills-T28                now  0  base  0  ndvi 0.75 drop +0.06  nearest      -  2026-10-03  none
+  harbour-hills-T29                now  0  base  0  ndvi 0.76 drop +0.07  nearest      -  2026-10-03  none
+  harbour-hills-T30                now  0  base  0  ndvi 0.83 drop +0.04  nearest      -  2026-10-03  none
+  harbour-hills-T31                now  0  base  0  ndvi 0.78 drop +0.04  nearest      -  2026-10-03  none
+  harbour-hills-T32                now  0  base  0  ndvi 0.78 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T33                now  0  base  0  ndvi 0.76 drop +0.10  nearest      -  2026-10-03  none
+  harbour-hills-T34                now  0  base  0  ndvi 0.76 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T35                now  0  base  0  ndvi 0.82 drop +0.06  nearest      -  2026-10-09  none
+  harbour-hills-T36                now  0  base  0  ndvi 0.78 drop +0.06  nearest      -  2026-10-03  none
+  harbour-hills-T37                now  0  base  0  ndvi 0.77 drop +0.08  nearest      -  2026-10-09  none
+  harbour-hills-T38                now  0  base  0  ndvi 0.74 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T39                now  0  base  0  ndvi 0.87 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T40                now  0  base  0  ndvi 0.75 drop +0.11  nearest      -  2026-10-03  none
+  harbour-hills-T41                now  0  base  0  ndvi 0.74 drop +0.13  nearest      -  2026-10-09  none
+  harbour-hills-T42                now  0  base  0  ndvi 0.84 drop -0.04  nearest      -  2026-10-03  none
+  harbour-hills-T43                now  0  base  0  ndvi 0.76 drop +0.09  nearest      -  2026-10-03  none
+  harbour-hills-T44                now  0  base  0  ndvi 0.76 drop +0.06  nearest  269 m  2026-10-03  none
+  harbour-hills-T45                now  0  base  0  ndvi 0.87 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T46                now  0  base  0  ndvi 0.86 drop -0.14  nearest      -  2026-10-03  none
+  harbour-hills-T47                now  0  base  0  ndvi 0.78 drop +0.09  nearest      -  2026-10-03  none
+  harbour-hills-T48                now  0  base  0  ndvi 0.74 drop +0.13  nearest      -  2026-10-03  none
+  harbour-hills-T49                now  0  base  0  ndvi 0.74 drop +0.07  nearest      -  2026-10-03  none
+  harbour-hills-T50                now  0  base  0  ndvi 0.81 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T51                now  0  base  0  ndvi 0.78 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T52                now  0  base  0  ndvi 0.77 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T53                now  0  base  0  ndvi 0.77 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T54                now  0  base  0  ndvi 0.75 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T55                now  0  base  0  ndvi 0.77 drop -0.01  nearest  284 m  2026-10-03  none
+  harbour-hills-T56                now  0  base  0  ndvi 0.75 drop +0.12  nearest      -  2026-10-03  none
+  harbour-hills-T57                now  0  base  0  ndvi 0.91 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T58                now  0  base  0  ndvi 0.82 drop +0.00  nearest  302 m  2026-10-03  none
+  harbour-hills-T59                now  0  base  0  ndvi 0.73 drop +0.06  nearest      -  2026-10-03  none
+  harbour-hills-T60                now  0  base  0  ndvi 0.77 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T61                now  0  base  0  ndvi 0.78 drop +0.08  nearest      -  2026-10-03  none
+  harbour-hills-T62                now  0  base  0  ndvi 0.79 drop +0.08  nearest      -  2026-10-03  none
+  harbour-hills-T63                now  0  base  0  ndvi 0.78 drop -0.03  nearest      -  2026-10-03  none
+  harbour-hills-T64                now  0  base  0  ndvi 0.80 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T65                now  0  base  0  ndvi 0.75 drop +0.07  nearest      -  2026-10-03  none
+  harbour-hills-T66                now  0  base  0  ndvi 0.85 drop +0.03  nearest  206 m  2026-10-03  none
+  harbour-hills-T67                now  0  base  0  ndvi 0.86 drop +0.06  nearest      -  2026-10-03  none
+  harbour-hills-T68                now  0  base  0  ndvi 0.87 drop -0.03  nearest      -  2026-10-03  none
+  harbour-hills-T69                now  0  base  0  ndvi 0.88 drop -0.00  nearest      -  2026-10-03  none
+  harbour-hills-T70                now  0  base  0  ndvi 0.70 drop +0.04  nearest  282 m  2026-10-03  none
+  harbour-hills-T71                now  0  base  0  ndvi 0.85 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T72                now  0  base  0  ndvi 0.91 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T73                now  0  base  0  ndvi 0.84 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T74                now  0  base  0  ndvi 0.82 drop +0.07  nearest      -  2026-10-03  none
+  harbour-hills-T75                now  0  base  0  ndvi 0.78 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T76                now  0  base  0  ndvi 0.83 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T77                now  0  base  0  ndvi 0.91 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T78                now  0  base  0  ndvi 0.75 drop +0.08  nearest      -  2026-10-03  none
+  harbour-hills-T79                now  0  base  0  ndvi 0.77 drop +0.06  nearest  336 m  2026-10-03  none
+  harbour-hills-T80                now  0  base  0  ndvi 0.82 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T81                now  0  base  0  ndvi 0.82 drop +0.07  nearest      -  2026-10-03  none
+  harbour-hills-T82                now  0  base  0  ndvi 0.78 drop +0.08  nearest      -  2026-10-03  none
+  harbour-hills-T83                now  0  base  0  ndvi 0.77 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T84                now  0  base  0  ndvi 0.79 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T85                now  0  base  0  ndvi 0.79 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T86                now  0  base  0  ndvi 0.79 drop +0.07  nearest      -  2026-10-03  none
+  harbour-hills-T87                now  0  base  0  ndvi 0.83 drop -0.04  nearest  288 m  2026-10-03  none
+  harbour-hills-T88                now  0  base  0  ndvi 0.86 drop +0.03  nearest      -  2026-10-03  none
+  harbour-hills-T89                now  0  base  0  ndvi 0.80 drop +0.10  nearest      -  2026-10-03  none
+  harbour-hills-T90                now  0  base  0  ndvi 0.82 drop +0.04  nearest  250 m  2026-10-03  none
+  harbour-hills-T91                now  0  base  0  ndvi 0.87 drop -0.00  nearest      -  2026-10-03  none
+  harbour-hills-T92                now  0  base  0  ndvi 0.79 drop +0.05  nearest      -  2026-10-03  none
+  harbour-hills-T93                now  0  base  0  ndvi 0.81 drop +0.08  nearest      -  2026-10-03  none
+  harbour-hills-T94                now  0  base  0  ndvi 0.88 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T95                now  0  base  0  ndvi 0.82 drop +0.06  nearest  286 m  2026-10-03  none
+  harbour-hills-T96                now  0  base  0  ndvi 0.73 drop +0.10  nearest      -  2026-10-03  none
+  harbour-hills-T97                now  0  base  0  ndvi 0.79 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T98                now  0  base  0  ndvi 0.77 drop +0.12  nearest      -  2026-10-03  none
+  harbour-hills-T99                now  0  base  0  ndvi 0.84 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T100               now  0  base  0  ndvi 0.87 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T101               now  0  base  0  ndvi 0.82 drop +0.02  nearest      -  2026-10-03  none
+  harbour-hills-T102               now  0  base  0  ndvi 0.88 drop +0.00  nearest  368 m  2026-10-03  none
+  harbour-hills-T103               now  0  base  0  ndvi 0.83 drop +0.01  nearest      -  2026-10-03  none
+  harbour-hills-T104               now  0  base  0  ndvi 0.91 drop -0.03  nearest      -  2026-10-03  none
+  harbour-hills-T105               now  0  base  0  ndvi 0.85 drop -0.01  nearest      -  2026-10-03  none
+  harbour-hills-T106               now  0  base  0  ndvi 0.64 drop +0.21  nearest      -  2026-10-03  none
+  harbour-hills-T107               now  0  base  0  ndvi 0.89 drop +0.00  nearest      -  2026-10-03  none
+
+Higgins Mountain Wind Farm (17 positions): new clearing 10, none 4, vegetation loss 3
+  now scenes: S2C_20TMR_20261004_0_L2A, S2C_20TMR_20261024_0_L2A
+  baseline scenes: S2B_20TMR_20220930_0_L2A
+  higgins-mountain-1               now 29  base  0  ndvi 0.19 drop +0.51  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-2               now 29  base  0  ndvi 0.06 drop +0.62  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-3               now 13  base  0  ndvi 0.25 drop +0.66  nearest   10 m  2026-10-24  vegetation loss
+  higgins-mountain-4               now 29  base  0  ndvi 0.11 drop +0.64  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-5               now  0  base  5  ndvi 0.36 drop +0.02  nearest   86 m  2026-10-24  none
+  higgins-mountain-6               now 29  base  0  ndvi 0.10 drop +0.78  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-7               now  0  base  0  ndvi 0.62 drop +0.05  nearest   50 m  2026-10-24  none
+  higgins-mountain-8               now 26  base  0  ndvi 0.11 drop +0.68  nearest    0 m  2026-10-04  new clearing
+  higgins-mountain-9               now 14  base  0  ndvi 0.25 drop +0.42  nearest   10 m  2026-10-24  vegetation loss
+  higgins-mountain-10              now 29  base  0  ndvi 0.04 drop +0.86  nearest    0 m  2026-10-04  new clearing
+  higgins-mountain-11              now  0  base  0  ndvi 0.55 drop +0.24  nearest  130 m  2026-10-24  none
+  higgins-mountain-12              now 28  base  0  ndvi 0.09 drop +0.49  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-13              now 19  base  0  ndvi 0.21 drop +0.47  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-14              now 29  base  0  ndvi 0.12 drop +0.49  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-15              now 29  base  0  ndvi 0.06 drop +0.63  nearest    0 m  2026-10-24  new clearing
+  higgins-mountain-16              now  7  base  0  ndvi 0.29 drop +0.62  nearest   20 m  2026-10-24  vegetation loss
+  higgins-mountain-17              now  0  base  0  ndvi 0.55 drop +0.22  nearest   36 m  2026-10-24  none
+
+Kmtnuk Wind Power Project (16 positions): none 15, vegetation loss 1
+  now scenes: S2B_20TMR_20261009_0_L2A, S2C_20TMR_20261004_0_L2A
+  baseline scenes: S2B_20TMR_20220930_0_L2A
+  kmtnuk-T1                        now  0  base  0  ndvi 0.87 drop -0.01  nearest      -  2026-10-04  none
+  kmtnuk-T2                        now  0  base  0  ndvi 0.84 drop +0.03  nearest      -  2026-10-04  none
+  kmtnuk-T4                        now  0  base  0  ndvi 0.82 drop +0.04  nearest      -  2026-10-04  none
+  kmtnuk-T5                        now  0  base  0  ndvi 0.81 drop +0.01  nearest      -  2026-10-04  none
+  kmtnuk-T6                        now  0  base  0  ndvi 0.51 drop +0.31  nearest      -  2026-10-09  vegetation loss
+  kmtnuk-T7                        now  0  base  0  ndvi 0.74 drop +0.08  nearest      -  2026-10-09  none
+  kmtnuk-T8                        now  0  base  0  ndvi 0.69 drop +0.05  nearest      -  2026-10-09  none
+  kmtnuk-T10                       now  0  base  0  ndvi 0.76 drop -0.02  nearest      -  2026-10-04  none
+  kmtnuk-T11                       now  0  base  0  ndvi 0.79 drop -0.05  nearest      -  2026-10-04  none
+  kmtnuk-T12                       now  0  base  0  ndvi 0.70 drop -0.01  nearest      -  2026-10-09  none
+  kmtnuk-T13                       now  0  base  0  ndvi 0.70 drop -0.05  nearest  262 m  2026-10-09  none
+  kmtnuk-T14                       now  0  base  0  ndvi 0.74 drop -0.13  nearest      -  2026-10-04  none
+  kmtnuk-T15                       now  0  base  0  ndvi 0.81 drop -0.07  nearest      -  2026-10-04  none
+  kmtnuk-T16                       now  0  base  0  ndvi 0.74 drop -0.05  nearest  180 m  2026-10-09  none
+  kmtnuk-T17                       now  0  base  0  ndvi 0.88 drop +0.04  nearest  261 m  2026-10-09  none
+  kmtnuk-T20                       now  0  base  0  ndvi 0.62 drop +0.11  nearest      -  2026-10-09  none
+
+Melvin Lake Wind Project (23 positions): none 23
+  now scenes: S2B_20TMQ_20261009_0_L2A, S2C_20TMQ_20261004_0_L2A, S2C_20TMQ_20261024_0_L2A
+  baseline scenes: S2A_20TMQ_20220925_0_L2A, S2B_20TMQ_20220930_0_L2A
+  melvin-lake-1                    now  0  base  0  ndvi 0.74 drop +0.00  nearest      -  2026-10-24  none
+  melvin-lake-2                    now  0  base  0  ndvi 0.78 drop -0.02  nearest      -  2026-10-04  none
+  melvin-lake-3                    now  0  base  0  ndvi 0.80 drop +0.03  nearest      -  2026-10-24  none
+  melvin-lake-4                    now  0  base  0  ndvi 0.70 drop +0.02  nearest      -  2026-10-24  none
+  melvin-lake-5                    now  0  base  0  ndvi 0.76 drop +0.03  nearest      -  2026-10-24  none
+  melvin-lake-6                    now  0  base  0  ndvi 0.85 drop +0.02  nearest      -  2026-10-24  none
+  melvin-lake-7                    now  0  base  0  ndvi 0.74 drop +0.07  nearest      -  2026-10-24  none
+  melvin-lake-8                    now  0  base  0  ndvi 0.69 drop +0.06  nearest      -  2026-10-24  none
+  melvin-lake-9                    now  0  base  0  ndvi 0.75 drop +0.13  nearest      -  2026-10-24  none
+  melvin-lake-10                   now  0  base  0  ndvi 0.83 drop +0.03  nearest      -  2026-10-04  none
+  melvin-lake-11                   now  0  base  0  ndvi 0.68 drop +0.04  nearest      -  2026-10-24  none
+  melvin-lake-12                   now  0  base  0  ndvi 0.75 drop +0.09  nearest      -  2026-10-24  none
+  melvin-lake-13                   now  0  base  0  ndvi 0.87 drop +0.01  nearest      -  2026-10-24  none
+  melvin-lake-14                   now  0  base  0  ndvi 0.84 drop -0.04  nearest      -  2026-10-24  none
+  melvin-lake-15                   now  0  base  0  ndvi 0.90 drop -0.01  nearest      -  2026-10-04  none
+  melvin-lake-16                   now  0  base  0  ndvi 0.87 drop -0.01  nearest      -  2026-10-04  none
+  melvin-lake-17                   now  0  base  0  ndvi 0.86 drop -0.02  nearest      -  2026-10-04  none
+  melvin-lake-18                   now  0  base  0  ndvi 0.84 drop -0.03  nearest      -  2026-10-04  none
+  melvin-lake-19                   now  0  base  0  ndvi 0.69 drop -0.15  nearest      -  2026-10-04  none
+  melvin-lake-20                   now  0  base  0  ndvi 0.84 drop +0.03  nearest      -  2026-10-04  none
+  melvin-lake-21                   now  0  base  0  ndvi 0.61 drop -0.07  nearest      -  2026-10-04  none
+  melvin-lake-22                   now  0  base  0  ndvi 0.75 drop +0.00  nearest      -  2026-10-24  none
+  melvin-lake-23                   now  0  base  0  ndvi 0.57 drop +0.29  nearest  210 m  2026-10-09  none
+
+Mersey River Wind Farm (33 positions): new clearing 14, none 17, vegetation loss 2
+  now scenes: S2C_20TLP_20260924_0_L2A, S2C_20TLP_20261024_0_L2A
+  baseline scenes: S2A_20TLP_20220925_0_L2A
+  mersey-river-1                   now 29  base  0  ndvi 0.06 drop +0.81  nearest    0 m  2026-10-24  new clearing
+  mersey-river-2                   now 29  base  0  ndvi 0.05 drop +0.83  nearest    0 m  2026-10-24  new clearing
+  mersey-river-3                   now 29  base  0  ndvi 0.05 drop +0.78  nearest    0 m  2026-10-24  new clearing
+  mersey-river-4                   now 29  base  0  ndvi 0.05 drop +0.77  nearest    0 m  2026-09-24  new clearing
+  mersey-river-5                   now 29  base  0  ndvi 0.08 drop +0.79  nearest    0 m  2026-10-24  new clearing
+  mersey-river-6                   now 18  base  0  ndvi 0.25 drop +0.60  nearest    0 m  2026-10-24  new clearing
+  mersey-river-7                   now  5  base  0  ndvi 0.54 drop +0.34  nearest   20 m  2026-10-24  vegetation loss
+  mersey-river-8                   now 29  base  0  ndvi 0.05 drop +0.72  nearest    0 m  2026-10-24  new clearing
+  mersey-river-9                   now  0  base  0  ndvi 0.74 drop +0.17  nearest      -  2026-10-24  none
+  mersey-river-10                  now  0  base  0  ndvi 0.77 drop +0.05  nearest      -  2026-10-24  none
+  mersey-river-11                  now  0  base  0  ndvi 0.73 drop +0.17  nearest      -  2026-10-24  none
+  mersey-river-12                  now  0  base  0  ndvi 0.77 drop +0.12  nearest      -  2026-10-24  none
+  mersey-river-13                  now  0  base  0  ndvi 0.76 drop +0.07  nearest      -  2026-10-24  none
+  mersey-river-14                  now  0  base  0  ndvi 0.81 drop +0.06  nearest      -  2026-10-24  none
+  mersey-river-15                  now  0  base  0  ndvi 0.78 drop +0.09  nearest   58 m  2026-10-24  none
+  mersey-river-16                  now  7  base  0  ndvi 0.51 drop +0.34  nearest   22 m  2026-10-24  vegetation loss
+  mersey-river-17                  now  0  base  0  ndvi 0.69 drop +0.13  nearest      -  2026-10-24  none
+  mersey-river-18                  now 29  base  0  ndvi 0.04 drop +0.81  nearest    0 m  2026-10-24  new clearing
+  mersey-river-19                  now  0  base  0  ndvi 0.75 drop +0.12  nearest      -  2026-10-24  none
+  mersey-river-20                  now 29  base  0  ndvi 0.05 drop +0.79  nearest    0 m  2026-10-24  new clearing
+  mersey-river-21                  now 29  base  0  ndvi 0.07 drop +0.81  nearest    0 m  2026-10-24  new clearing
+  mersey-river-22                  now 29  base  0  ndvi 0.08 drop +0.73  nearest    0 m  2026-10-24  new clearing
+  mersey-river-23                  now 29  base  0  ndvi 0.06 drop +0.66  nearest    0 m  2026-10-24  new clearing
+  mersey-river-24                  now 29  base  0  ndvi 0.10 drop +0.78  nearest    0 m  2026-10-24  new clearing
+  mersey-river-25                  now 28  base  0  ndvi 0.12 drop +0.53  nearest    0 m  2026-10-24  new clearing
+  mersey-river-26                  now  0  base  0  ndvi 0.81 drop +0.07  nearest  100 m  2026-10-24  none
+  mersey-river-27                  now  0  base  0  ndvi 0.61 drop +0.11  nearest      -  2026-10-24  none
+  mersey-river-28                  now  0  base  0  ndvi 0.74 drop +0.16  nearest      -  2026-10-24  none
+  mersey-river-29                  now  0  base  0  ndvi 0.69 drop +0.14  nearest      -  2026-10-24  none
+  mersey-river-30                  now  0  base  0  ndvi 0.71 drop +0.16  nearest      -  2026-10-24  none
+  mersey-river-31                  now  0  base  0  ndvi 0.82 drop +0.05  nearest      -  2026-10-24  none
+  mersey-river-32                  now  0  base  0  ndvi 0.65 drop +0.17  nearest      -  2026-10-24  none
+  mersey-river-33                  now  0  base  0  ndvi 0.66 drop +0.10  nearest      -  2026-10-24  none
+
+Ocean Lake Wind Project (formerly EverWind Wind Farm 2) (158 positions): none 158
+  now scenes: S2A_20TNR_20261003_1_L2A, S2A_20TPR_20261003_2_L2A, S2B_20TNR_20261006_0_L2A
+  baseline scenes: S2A_20TNR_20220902_0_L2A, S2A_20TPR_20220902_0_L2A, S2B_20TNR_20220828_0_L2A, S2B_20TNR_20220907_0_L2A, S2B_20TNR_20220917_0_L2A, S2B_20TPR_20220828_0_L2A, S2B_20TPR_20220907_0_L2A
+  ocean-lake-T1                    now  0  base  0  ndvi 0.82 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T2                    now  0  base  0  ndvi 0.81 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T3                    now  0  base  0  ndvi 0.85 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T5                    now  0  base  0  ndvi 0.79 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T6                    now  0  base  0  ndvi 0.84 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T7                    now  0  base  0  ndvi 0.80 drop +0.05  nearest      -  2026-10-03  none
+  ocean-lake-T8                    now  0  base  0  ndvi 0.81 drop +0.05  nearest      -  2026-10-03  none
+  ocean-lake-T9                    now  0  base  0  ndvi 0.70 drop +0.17  nearest      -  2026-10-03  none
+  ocean-lake-T10                   now  0  base  0  ndvi 0.81 drop +0.06  nearest      -  2026-10-03  none
+  ocean-lake-T11                   now  0  base  0  ndvi 0.85 drop +0.04  nearest      -  2026-10-03  none
+  ocean-lake-T12                   now  0  base  0  ndvi 0.86 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T13                   now  0  base  0  ndvi 0.82 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T14                   now  0  base  0  ndvi 0.81 drop +0.06  nearest      -  2026-10-03  none
+  ocean-lake-T15                   now  0  base  0  ndvi 0.86 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T16                   now  0  base  0  ndvi 0.86 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T17                   now  0  base  0  ndvi 0.77 drop -0.03  nearest      -  2026-10-03  none
+  ocean-lake-T18                   now  0  base  0  ndvi 0.90 drop -0.05  nearest      -  2026-10-03  none
+  ocean-lake-T19                   now  0  base  0  ndvi 0.88 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T20                   now  0  base  0  ndvi 0.83 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T21                   now  0  base  0  ndvi 0.87 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T23                   now  0  base  0  ndvi 0.87 drop -0.06  nearest      -  2026-10-03  none
+  ocean-lake-T25                   now  0  base  0  ndvi 0.83 drop -0.09  nearest      -  2026-10-03  none
+  ocean-lake-T26                   now  0  base  0  ndvi 0.90 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T27                   now  0  base  0  ndvi 0.88 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T28                   now  0  base  0  ndvi 0.86 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T29                   now  0  base  0  ndvi 0.88 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T30                   now  0  base  0  ndvi 0.87 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T31                   now  0  base  0  ndvi 0.83 drop -0.16  nearest      -  2026-10-03  none
+  ocean-lake-T32                   now  0  base  0  ndvi 0.69 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T34                   now  0  base  0  ndvi 0.80 drop +0.06  nearest      -  2026-10-03  none
+  ocean-lake-T35                   now  0  base  0  ndvi 0.87 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T36                   now  0  base  0  ndvi 0.71 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T37                   now  0  base  0  ndvi 0.83 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T38                   now  0  base  0  ndvi 0.73 drop +0.08  nearest      -  2026-10-03  none
+  ocean-lake-T39                   now  0  base  0  ndvi 0.57 drop +0.03  nearest  190 m  2026-10-03  none
+  ocean-lake-T40                   now  0  base  0  ndvi 0.90 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T41                   now  0  base  0  ndvi 0.79 drop -0.01  nearest  333 m  2026-10-03  none
+  ocean-lake-T42                   now  0  base  0  ndvi 0.74 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T43                   now  0  base  0  ndvi 0.81 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T44                   now  0  base  0  ndvi 0.79 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T45                   now  0  base  0  ndvi 0.82 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T46                   now  0  base  0  ndvi 0.84 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T47                   now  0  base  0  ndvi 0.81 drop +0.06  nearest  176 m  2026-10-03  none
+  ocean-lake-T48                   now  0  base  0  ndvi 0.83 drop +0.04  nearest      -  2026-10-03  none
+  ocean-lake-T49                   now  0  base  0  ndvi 0.64 drop +0.06  nearest      -  2026-10-03  none
+  ocean-lake-T50                   now  0  base  0  ndvi 0.71 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T52                   now  0  base  0  ndvi 0.71 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T53                   now  0  base  0  ndvi 0.69 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T54                   now  0  base  0  ndvi 0.87 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T55                   now  0  base  0  ndvi 0.84 drop +0.05  nearest  169 m  2026-10-03  none
+  ocean-lake-T56                   now  0  base  0  ndvi 0.68 drop -0.14  nearest      -  2026-10-03  none
+  ocean-lake-T57                   now  0  base  0  ndvi 0.75 drop +0.04  nearest      -  2026-10-03  none
+  ocean-lake-T58                   now  0  base  0  ndvi 0.64 drop +0.19  nearest  256 m  2026-10-06  none
+  ocean-lake-T59                   now  0  base  0  ndvi 0.71 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T60                   now  0  base  0  ndvi 0.71 drop +0.08  nearest      -  2026-10-03  none
+  ocean-lake-T61                   now  0  base  0  ndvi 0.68 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T62                   now  0  base  0  ndvi 0.75 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T63                   now  0  base  0  ndvi 0.85 drop -0.05  nearest  178 m  2026-10-03  none
+  ocean-lake-T64                   now  0  base  0  ndvi 0.81 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T65                   now  0  base  0  ndvi 0.86 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T66                   now  0  base  0  ndvi 0.66 drop -0.10  nearest      -  2026-10-03  none
+  ocean-lake-T67                   now  0  base  0  ndvi 0.60 drop +0.30  nearest  186 m  2026-10-06  none
+  ocean-lake-T68                   now  0  base  0  ndvi 0.67 drop +0.20  nearest      -  2026-10-03  none
+  ocean-lake-T69                   now  0  base  0  ndvi 0.75 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T70                   now  0  base  0  ndvi 0.91 drop -0.03  nearest  162 m  2026-10-03  none
+  ocean-lake-T71                   now  0  base  0  ndvi 0.72 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T72                   now  0  base  0  ndvi 0.72 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T73                   now  0  base  0  ndvi 0.78 drop +0.10  nearest      -  2026-10-03  none
+  ocean-lake-T74                   now  0  base  0  ndvi 0.71 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T75                   now  0  base  0  ndvi 0.82 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T76                   now  0  base  0  ndvi 0.84 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T77                   now  0  base  0  ndvi 0.60 drop +0.24  nearest      -  2026-10-06  none
+  ocean-lake-T78                   now  0  base  0  ndvi 0.73 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T79                   now  0  base  0  ndvi 0.83 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T80                   now  0  base  0  ndvi 0.88 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T81                   now  0  base  0  ndvi 0.79 drop +0.04  nearest  284 m  2026-10-03  none
+  ocean-lake-T83                   now  0  base  0  ndvi 0.89 drop -0.05  nearest  290 m  2026-10-03  none
+  ocean-lake-T84                   now  0  base  0  ndvi 0.76 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T85                   now  0  base  0  ndvi 0.89 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T86                   now  0  base  0  ndvi 0.63 drop +0.24  nearest  358 m  2026-10-06  none
+  ocean-lake-T87                   now  0  base  0  ndvi 0.78 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T88                   now  0  base  0  ndvi 0.75 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T89                   now  0  base  0  ndvi 0.79 drop +0.10  nearest      -  2026-10-03  none
+  ocean-lake-T91                   now  0  base  0  ndvi 0.75 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T92                   now  0  base  0  ndvi 0.85 drop -0.05  nearest  344 m  2026-10-03  none
+  ocean-lake-T93                   now  0  base  0  ndvi 0.88 drop -0.08  nearest      -  2026-10-03  none
+  ocean-lake-T94                   now  0  base  0  ndvi 0.78 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T96                   now  0  base  0  ndvi 0.92 drop -0.03  nearest      -  2026-10-03  none
+  ocean-lake-T97                   now  0  base  0  ndvi 0.74 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T98                   now  0  base  0  ndvi 0.85 drop +0.02  nearest  424 m  2026-10-03  none
+  ocean-lake-T100                  now  0  base  0  ndvi 0.80 drop +0.10  nearest      -  2026-10-03  none
+  ocean-lake-T101                  now  0  base  0  ndvi 0.82 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T102                  now  0  base  0  ndvi 0.87 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T103                  now  0  base  0  ndvi 0.80 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T104                  now  0  base  0  ndvi 0.86 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T105                  now  0  base  0  ndvi 0.77 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T106                  now  0  base  0  ndvi 0.84 drop -0.05  nearest      -  2026-10-03  none
+  ocean-lake-T108                  now  0  base  0  ndvi 0.74 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T109                  now  0  base  0  ndvi 0.82 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T111                  now  0  base  0  ndvi 0.74 drop -0.00  nearest      -  2026-10-03  none
+  ocean-lake-T112                  now  0  base  0  ndvi 0.85 drop -0.05  nearest      -  2026-10-03  none
+  ocean-lake-T113                  now  0  base  0  ndvi 0.70 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T114                  now  0  base  0  ndvi 0.81 drop +0.04  nearest      -  2026-10-03  none
+  ocean-lake-T115                  now  0  base  0  ndvi 0.74 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T116                  now  0  base  0  ndvi 0.85 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T117                  now  0  base  0  ndvi 0.72 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T118                  now  0  base  0  ndvi 0.79 drop -0.20  nearest      -  2026-10-03  none
+  ocean-lake-T119                  now  0  base  0  ndvi 0.82 drop +0.05  nearest      -  2026-10-03  none
+  ocean-lake-T122                  now  0  base  0  ndvi 0.89 drop -0.05  nearest      -  2026-10-03  none
+  ocean-lake-T123                  now  0  base  0  ndvi 0.82 drop -0.01  nearest  306 m  2026-10-03  none
+  ocean-lake-T124                  now  0  base  0  ndvi 0.76 drop +0.06  nearest  259 m  2026-10-03  none
+  ocean-lake-T127                  now  0  base  0  ndvi 0.83 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T128                  now  0  base  0  ndvi 0.82 drop -0.23  nearest      -  2026-10-03  none
+  ocean-lake-T129                  now  0  base  0  ndvi 0.88 drop -0.03  nearest      -  2026-10-03  none
+  ocean-lake-T130                  now  0  base  0  ndvi 0.85 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T131                  now  0  base  0  ndvi 0.80 drop +0.04  nearest      -  2026-10-03  none
+  ocean-lake-T132                  now  0  base  0  ndvi 0.87 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T133                  now  0  base  0  ndvi 0.84 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T134                  now  0  base  0  ndvi 0.73 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T135                  now  0  base  0  ndvi 0.81 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T136                  now  0  base  0  ndvi 0.75 drop +0.05  nearest      -  2026-10-03  none
+  ocean-lake-T137                  now  0  base  0  ndvi 0.82 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T138                  now  0  base  0  ndvi 0.85 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T139                  now  0  base  0  ndvi 0.81 drop +0.04  nearest      -  2026-10-03  none
+  ocean-lake-T140                  now  0  base  0  ndvi 0.76 drop +0.12  nearest      -  2026-10-03  none
+  ocean-lake-T141                  now  0  base  0  ndvi 0.84 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T142                  now  0  base  0  ndvi 0.87 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T143                  now  0  base  0  ndvi 0.93 drop -0.02  nearest      -  2026-10-03  none
+  ocean-lake-T144                  now  0  base  0  ndvi 0.88 drop -0.04  nearest      -  2026-10-03  none
+  ocean-lake-T145                  now  0  base  0  ndvi 0.83 drop +0.05  nearest      -  2026-10-03  none
+  ocean-lake-T146                  now  0  base  0  ndvi 0.81 drop -0.03  nearest      -  2026-10-03  none
+  ocean-lake-T147                  now  0  base  0  ndvi 0.87 drop -0.04  nearest      -  2026-10-03  none
+  ocean-lake-T148                  now  0  base  0  ndvi 0.85 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T149                  now  0  base  0  ndvi 0.79 drop -0.10  nearest      -  2026-10-03  none
+  ocean-lake-T150                  now  0  base  0  ndvi 0.88 drop -0.01  nearest      -  2026-10-03  none
+  ocean-lake-T151                  now  0  base  0  ndvi 0.80 drop +0.00  nearest      -  2026-10-03  none
+  ocean-lake-T152                  now  0  base  0  ndvi 0.89 drop +0.01  nearest      -  2026-10-03  none
+  ocean-lake-T153                  now  0  base  0  ndvi 0.81 drop +0.03  nearest      -  2026-10-03  none
+  ocean-lake-T154                  now  0  base  0  ndvi 0.83 drop -0.03  nearest      -  2026-10-03  none
+  ocean-lake-T155                  now  0  base  0  ndvi 0.71 drop +0.02  nearest      -  2026-10-03  none
+  ocean-lake-T156                  now  0  base  0  ndvi 0.83 drop -0.04  nearest      -  2026-10-03  none
+  ocean-lake-T157                  now  0  base  0  ndvi 0.85 drop -0.00  nearest  290 m  2026-10-03  none
+  ocean-lake-T158                  now  0  base  0  ndvi 0.86 drop -0.03  nearest  358 m  2026-10-03  none
+  ocean-lake-T4                    now  0  base  0  ndvi 0.77 drop +0.07  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T22                   now  0  base  0  ndvi 0.82 drop +0.02  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T24                   now  0  base  0  ndvi 0.84 drop +0.03  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T33                   now  0  base  0  ndvi 0.90 drop -0.01  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T51                   now  0  base  0  ndvi 0.89 drop +0.02  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T82                   now  0  base  0  ndvi 0.73 drop +0.13  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T90                   now  0  base  0  ndvi 0.76 drop +0.09  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T95                   now  0  base  0  ndvi 0.80 drop +0.03  nearest  240 m  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T99                   now  0  base  0  ndvi 0.88 drop +0.01  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T107                  now  0  base  0  ndvi 0.78 drop +0.01  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T110                  now  0  base  0  ndvi 0.77 drop +0.02  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T120                  now  0  base  0  ndvi 0.82 drop -0.01  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T121                  now  0  base  0  ndvi 0.82 drop +0.05  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T125                  now  0  base  0  ndvi 0.89 drop +0.02  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+  ocean-lake-T126                  now  0  base  0  ndvi 0.78 drop -0.04  nearest      -  2026-10-03  none [optional (not in sound/shadow models)]
+
+Rhodena Wind Project (6 positions): none 6
+  now scenes: S2A_20TPR_20261003_2_L2A, S2C_20TPR_20261001_0_L2A
+  baseline scenes: S2A_20TPR_20220902_0_L2A, S2B_20TPR_20220828_0_L2A
+  rhodena-T1                       now  0  base  0  ndvi 0.84 drop +0.06  nearest      -  2026-10-01  none
+  rhodena-T2                       now  0  base  0  ndvi 0.77 drop +0.11  nearest      -  2026-10-03  none
+  rhodena-T3                       now  0  base  0  ndvi 0.83 drop +0.06  nearest      -  2026-10-01  none
+  rhodena-T4                       now  0  base  0  ndvi 0.82 drop +0.06  nearest      -  2026-10-01  none
+  rhodena-T5                       now  0  base  0  ndvi 0.85 drop +0.05  nearest      -  2026-10-01  none
+  rhodena-T6                       now  0  base  0  ndvi 0.79 drop -0.02  nearest      -  2026-10-01  none
+
+Setapuktuk Wind Project (formerly EverWind Wind Farm 1) (54 positions): none 54
+  now scenes: S2A_20TPR_20261003_2_L2A
+  baseline scenes: S2A_20TPR_20220704_0_L2A, S2A_20TPR_20220902_0_L2A, S2B_20TPR_20220629_0_L2A, S2B_20TPR_20220709_0_L2A, S2B_20TPR_20220828_0_L2A
+  setapuktuk-T1                    now  0  base  0  ndvi 0.82 drop +0.02  nearest      -  2026-10-03  none
+  setapuktuk-T2                    now  0  base  0  ndvi 0.81 drop +0.07  nearest      -  2026-10-03  none
+  setapuktuk-T3                    now  0  base  0  ndvi 0.84 drop +0.01  nearest      -  2026-10-03  none
+  setapuktuk-T4                    now  0  base  0  ndvi 0.81 drop +0.08  nearest      -  2026-10-03  none
+  setapuktuk-T5                    now  0  base  0  ndvi 0.80 drop +0.05  nearest      -  2026-10-03  none
+  setapuktuk-T6                    now  0  base  0  ndvi 0.88 drop -0.02  nearest      -  2026-10-03  none
+  setapuktuk-T7                    now  0  base  0  ndvi 0.86 drop +0.03  nearest      -  2026-10-03  none
+  setapuktuk-T8                    now  0  base  0  ndvi 0.69 drop +0.17  nearest      -  2026-10-03  none
+  setapuktuk-T9                    now  0  base  0  ndvi 0.84 drop +0.00  nearest  223 m  2026-10-03  none
+  setapuktuk-T10                   now  0  base  0  ndvi 0.87 drop +0.03  nearest      -  2026-10-03  none
+  setapuktuk-T11                   now  0  base  0  ndvi 0.77 drop -0.10  nearest      -  2026-10-03  none
+  setapuktuk-T12                   now  0  base  0  ndvi 0.79 drop +0.08  nearest      -  2026-10-03  none
+  setapuktuk-T13                   now  0  base  0  ndvi 0.86 drop +0.04  nearest      -  2026-10-03  none
+  setapuktuk-T14                   now  0  base  0  ndvi 0.81 drop +0.10  nearest  344 m  2026-10-03  none
+  setapuktuk-T15                   now  0  base  0  ndvi 0.82 drop -0.00  nearest      -  2026-10-03  none
+  setapuktuk-T16                   now  0  base  0  ndvi 0.86 drop -0.00  nearest      -  2026-10-03  none
+  setapuktuk-T17                   now  0  base  0  ndvi 0.86 drop +0.05  nearest      -  2026-10-03  none
+  setapuktuk-T18                   now  0  base  0  ndvi 0.77 drop +0.10  nearest      -  2026-10-03  none
+  setapuktuk-T19                   now  0  base  0  ndvi 0.87 drop +0.03  nearest      -  2026-10-03  none
+  setapuktuk-T20                   now  0  base  0  ndvi 0.83 drop +0.00  nearest      -  2026-10-03  none
+  setapuktuk-T21                   now  0  base  0  ndvi 0.85 drop +0.03  nearest      -  2026-10-03  none
+  setapuktuk-T22                   now  0  base  0  ndvi 0.85 drop +0.02  nearest      -  2026-10-03  none
+  setapuktuk-T23                   now  0  base  0  ndvi 0.92 drop -0.04  nearest      -  2026-10-03  none
+  setapuktuk-T24                   now  0  base  0  ndvi 0.84 drop +0.05  nearest  114 m  2026-10-03  none
+  setapuktuk-T25                   now  0  base  0  ndvi 0.82 drop -0.04  nearest  264 m  2026-10-03  none
+  setapuktuk-T26                   now  0  base  0  ndvi 0.85 drop +0.04  nearest      -  2026-10-03  none
+  setapuktuk-T27                   now  0  base  0  ndvi 0.83 drop +0.07  nearest      -  2026-10-03  none
+  setapuktuk-T28                   now  0  base  0  ndvi 0.79 drop +0.07  nearest      -  2026-10-03  none
+  setapuktuk-T29                   now  0  base  0  ndvi 0.88 drop -0.03  nearest      -  2026-10-03  none
+  setapuktuk-T30                   now  0  base  0  ndvi 0.78 drop -0.01  nearest      -  2026-10-03  none
+  setapuktuk-T31                   now  0  base  0  ndvi 0.83 drop +0.05  nearest  140 m  2026-10-03  none
+  setapuktuk-T32                   now  0  base  0  ndvi 0.78 drop +0.04  nearest      -  2026-10-03  none
+  setapuktuk-T33                   now  0  base  0  ndvi 0.89 drop +0.01  nearest      -  2026-10-03  none
+  setapuktuk-T34                   now  0  base  0  ndvi 0.82 drop +0.02  nearest      -  2026-10-03  none
+  setapuktuk-T35                   now  0  base  0  ndvi 0.91 drop +0.01  nearest      -  2026-10-03  none
+  setapuktuk-T36                   now  0  base  0  ndvi 0.89 drop -0.00  nearest      -  2026-10-03  none
+  setapuktuk-T37                   now  0  base  0  ndvi 0.84 drop -0.01  nearest      -  2026-10-03  none
+  setapuktuk-T38                   now  0  base  0  ndvi 0.79 drop -0.02  nearest      -  2026-10-03  none
+  setapuktuk-T39                   now  0  base  0  ndvi 0.86 drop +0.05  nearest      -  2026-10-03  none
+  setapuktuk-T40                   now  0  base  0  ndvi 0.81 drop +0.08  nearest      -  2026-10-03  none
+  setapuktuk-T41                   now  0  base  0  ndvi 0.76 drop +0.01  nearest  205 m  2026-10-03  none
+  setapuktuk-T42                   now  0  base  0  ndvi 0.86 drop +0.04  nearest      -  2026-10-03  none
+  setapuktuk-T43                   now  0  base  0  ndvi 0.85 drop -0.05  nearest      -  2026-10-03  none
+  setapuktuk-T44                   now  0  base  0  ndvi 0.87 drop +0.04  nearest      -  2026-10-03  none
+  setapuktuk-T45                   now  0  base  0  ndvi 0.84 drop +0.05  nearest  261 m  2026-10-03  none
+  setapuktuk-T46                   now  0  base  0  ndvi 0.88 drop +0.04  nearest  328 m  2026-10-03  none
+  setapuktuk-T47                   now  0  base  0  ndvi 0.86 drop +0.05  nearest      -  2026-10-03  none
+  setapuktuk-T48                   now  0  base  0  ndvi 0.83 drop +0.06  nearest      -  2026-10-03  none
+  setapuktuk-T49                   now  0  base  0  ndvi 0.82 drop +0.09  nearest      -  2026-10-03  none
+  setapuktuk-T50                   now  0  base  0  ndvi 0.77 drop +0.11  nearest      -  2026-10-03  none
+  setapuktuk-T51                   now  0  base  0  ndvi 0.87 drop +0.03  nearest      -  2026-10-03  none
+  setapuktuk-T52                   now  0  base  0  ndvi 0.88 drop +0.02  nearest      -  2026-10-03  none
+  setapuktuk-T53                   now  0  base  0  ndvi 0.90 drop -0.02  nearest  319 m  2026-10-03  none
+  setapuktuk-T54                   now  0  base  0  ndvi 0.79 drop +0.03  nearest      -  2026-10-03  none
+
+Sugar Maple Wind Energy Project (16 positions): new clearing 1, none 13, vegetation loss 2
+  now scenes: S2C_20TNR_20261021_0_L2A
+  baseline scenes: S2A_20TNR_20220925_0_L2A, S2B_20TNR_20220910_0_L2A, S2B_20TNR_20220917_0_L2A, S2B_20TNR_20220930_0_L2A
+  sugar-maple-S1                   now  0  base  0  ndvi 0.45 drop +0.46  nearest      -  2026-10-21  vegetation loss
+  sugar-maple-S2                   now  0  base  0  ndvi 0.45 drop +0.27  nearest      -  2026-10-21  none
+  sugar-maple-S3                   now  0  base  0  ndvi 0.69 drop +0.10  nearest      -  2026-10-21  none
+  sugar-maple-S4                   now  0  base  0  ndvi 0.75 drop +0.10  nearest      -  2026-10-21  none
+  sugar-maple-S5                   now  0  base  0  ndvi 0.56 drop +0.22  nearest      -  2026-10-21  none
+  sugar-maple-S6                   now  0  base  0  ndvi 0.62 drop +0.13  nearest      -  2026-10-21  none
+  sugar-maple-S7                   now  0  base  0  ndvi 0.47 drop +0.11  nearest  282 m  2026-10-21  none
+  sugar-maple-S8                   now  0  base  0  ndvi 0.37 drop +0.10  nearest      -  2026-10-21  none
+  sugar-maple-S9                   now  0  base  0  ndvi 0.90 drop -0.02  nearest      -  2026-10-21  none
+  sugar-maple-S10R                 now 18  base  0  ndvi 0.24 drop +0.51  nearest    0 m  2026-10-21  new clearing
+  sugar-maple-S11                  now  0  base  0  ndvi 0.47 drop +0.37  nearest      -  2026-10-21  vegetation loss
+  sugar-maple-S12                  now  0  base  0  ndvi 0.82 drop -0.39  nearest      -  2026-10-21  none
+  sugar-maple-S13                  now  0  base  0  ndvi 0.72 drop +0.18  nearest      -  2026-10-21  none
+  sugar-maple-S14                  now  0  base  0  ndvi 0.73 drop +0.13  nearest      -  2026-10-21  none
+  sugar-maple-S15                  now  0  base  0  ndvi 0.67 drop +0.21  nearest      -  2026-10-21  none
+  sugar-maple-S16                  now  0  base  0  ndvi 0.78 drop +0.03  nearest      -  2026-10-21  none
+
+Upper Afton Wind Project (29 positions): none 29
+  now scenes: S2C_20TNR_20261021_0_L2A
+  baseline scenes: S2A_20TNR_20220724_0_L2A, S2A_20TNR_20220902_0_L2A, S2B_20TNR_20220709_0_L2A, S2B_20TNR_20220828_0_L2A, S2B_20TNR_20220907_0_L2A, S2B_20TNR_20220917_0_L2A
+  upper-afton-T3                   now  0  base  0  ndvi 0.72 drop +0.15  nearest      -  2026-10-21  none
+  upper-afton-T4                   now  0  base  0  ndvi 0.73 drop +0.17  nearest      -  2026-10-21  none
+  upper-afton-T5                   now  0  base  0  ndvi 0.67 drop +0.21  nearest      -  2026-10-21  none
+  upper-afton-T8                   now  0  base  0  ndvi 0.67 drop +0.20  nearest      -  2026-10-21  none
+  upper-afton-T9                   now  0  base  0  ndvi 0.77 drop +0.06  nearest      -  2026-10-21  none
+  upper-afton-T10                  now  0  base  0  ndvi 0.69 drop +0.18  nearest      -  2026-10-21  none
+  upper-afton-T11                  now  0  base  0  ndvi 0.81 drop +0.06  nearest      -  2026-10-21  none
+  upper-afton-T13                  now  0  base  0  ndvi 0.88 drop -0.07  nearest      -  2026-10-21  none
+  upper-afton-T14                  now  0  base  0  ndvi 0.88 drop +0.02  nearest      -  2026-10-21  none
+  upper-afton-T15                  now  0  base  0  ndvi 0.73 drop +0.13  nearest      -  2026-10-21  none
+  upper-afton-T16                  now  0  base  0  ndvi 0.91 drop -0.05  nearest      -  2026-10-21  none
+  upper-afton-T17                  now  0  base  0  ndvi 0.93 drop -0.07  nearest      -  2026-10-21  none
+  upper-afton-T18                  now  0  base  0  ndvi 0.58 drop +0.26  nearest      -  2026-10-21  none
+  upper-afton-T19                  now  0  base  0  ndvi 0.60 drop +0.21  nearest      -  2026-10-21  none
+  upper-afton-T20                  now  0  base  0  ndvi 0.72 drop +0.01  nearest      -  2026-10-21  none
+  upper-afton-T21                  now  0  base  0  ndvi 0.66 drop +0.22  nearest      -  2026-10-21  none
+  upper-afton-T22                  now  0  base  3  ndvi 0.71 drop -0.23  nearest      -  2026-10-21  none
+  upper-afton-T23                  now  0  base  0  ndvi 0.69 drop +0.16  nearest      -  2026-10-21  none
+  upper-afton-T25                  now  0  base  0  ndvi 0.92 drop -0.07  nearest      -  2026-10-21  none
+  upper-afton-T26                  now  0  base  0  ndvi 0.83 drop +0.04  nearest      -  2026-10-21  none
+  upper-afton-T27                  now  0  base  0  ndvi 0.92 drop -0.04  nearest      -  2026-10-21  none
+  upper-afton-T28                  now  0  base  0  ndvi 0.77 drop -0.04  nearest      -  2026-10-21  none
+  upper-afton-T1                   now  0  base  0  ndvi 0.70 drop +0.20  nearest      -  2026-10-21  none [alternate]
+  upper-afton-T2                   now  0  base  0  ndvi 0.80 drop +0.09  nearest      -  2026-10-21  none [alternate]
+  upper-afton-T6                   now  0  base  0  ndvi 0.60 drop +0.30  nearest  180 m  2026-10-21  none [alternate]
+  upper-afton-T7                   now  0  base  0  ndvi 0.78 drop +0.12  nearest      -  2026-10-21  none [alternate]
+  upper-afton-T12                  now  0  base  0  ndvi 0.92 drop -0.08  nearest      -  2026-10-21  none [alternate]
+  upper-afton-T15A                 now  0  base  0  ndvi 0.59 drop +0.29  nearest      -  2026-10-21  none [unclear (EMI letter only; not one of the 28 EA locations)]
+  upper-afton-T24                  now  0  base  0  ndvi 0.81 drop +0.11  nearest      -  2026-10-21  none [alternate]
+
+Weavers Mountain Wind Energy Project (16 positions): new clearing 15, partial 1
+  now scenes: S2C_20TNR_20261021_0_L2A
+  baseline scenes: S2B_20TNR_20220930_0_L2A
+  weavers-mountain-1               now 29  base  0  ndvi 0.05 drop +0.75  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-2               now 29  base  0  ndvi 0.04 drop +0.69  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-3               now  6  base  0  ndvi 0.58 drop +0.27  nearest   36 m  2026-10-21  partial
+  weavers-mountain-4               now 29  base  0  ndvi 0.05 drop +0.76  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-5               now 29  base  0  ndvi 0.04 drop +0.83  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-6               now 29  base  0  ndvi 0.05 drop +0.81  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-7               now 29  base  0  ndvi 0.04 drop +0.80  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-8               now 29  base  0  ndvi 0.04 drop +0.66  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-9               now 29  base  0  ndvi 0.03 drop +0.68  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-10              now 29  base  0  ndvi 0.05 drop +0.76  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-11              now 29  base  0  ndvi 0.05 drop +0.36  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-12              now 29  base  0  ndvi 0.06 drop +0.68  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-13              now 24  base  0  ndvi 0.16 drop +0.58  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-14              now 29  base  0  ndvi 0.05 drop +0.81  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-15              now 29  base  0  ndvi 0.04 drop +0.77  nearest    0 m  2026-10-21  new clearing
+  weavers-mountain-16              now 29  base  0  ndvi 0.06 drop +0.79  nearest    0 m  2026-10-21  new clearing
+
+Wedgeport Wind Farm Project (13 positions): new clearing 4, none 7, vegetation loss 2
+  now scenes: S2C_19TGJ_20261007_0_L2A, S2C_19TGJ_20261024_0_L2A
+  baseline scenes: S2A_19TGJ_20220928_0_L2A
+  wedgeport-WTG1                   now 16  base  0  ndvi 0.31 drop +0.49  nearest    0 m  2026-10-07  new clearing
+  wedgeport-WTG2                   now  0  base  0  ndvi 0.75 drop +0.03  nearest  100 m  2026-10-07  none
+  wedgeport-WTG3                   now  0  base  0  ndvi 0.77 drop +0.09  nearest  142 m  2026-10-24  none
+  wedgeport-WTG4                   now  0  base  0  ndvi 0.64 drop +0.15  nearest  180 m  2026-10-24  none
+  wedgeport-WTG5                   now  0  base  0  ndvi 0.74 drop +0.04  nearest  235 m  2026-10-07  none
+  wedgeport-WTG6                   now  9  base  0  ndvi 0.43 drop +0.36  nearest   14 m  2026-10-24  vegetation loss
+  wedgeport-WTG7                   now  0  base  0  ndvi 0.62 drop +0.21  nearest  272 m  2026-10-24  none
+  wedgeport-WTG8                   now 25  base  0  ndvi 0.14 drop +0.67  nearest    0 m  2026-10-24  new clearing
+  wedgeport-WTG9                   now  8  base  0  ndvi 0.40 drop +0.44  nearest   20 m  2026-10-24  vegetation loss
+  wedgeport-WTG10                  now  0  base  0  ndvi 0.65 drop +0.15  nearest  278 m  2026-10-24  none
+  wedgeport-WTG11                  now  0  base  0  ndvi 0.63 drop +0.23  nearest   80 m  2026-10-24  none
+  wedgeport-WTG12                  now 29  base  0  ndvi 0.05 drop +0.79  nearest    0 m  2026-10-24  new clearing
+  wedgeport-WTG13                  now 29  base  0  ndvi 0.14 drop +0.69  nearest    0 m  2026-10-24  new clearing
+
+Windy Ridge Wind Power Project (49 positions): new clearing 1, none 32, vegetation loss 16
+  now scenes: S2B_20TMR_20261009_0_L2A, S2C_20TMR_20261004_0_L2A, S2C_20TMR_20261024_0_L2A
+  baseline scenes: S2B_20TMR_20220930_0_L2A
+  windy-ridge-T1                   now  0  base  0  ndvi 0.37 drop +0.51  nearest      -  2026-10-09  vegetation loss
+  windy-ridge-T2                   now  0  base  0  ndvi 0.44 drop +0.43  nearest      -  2026-10-04  vegetation loss
+  windy-ridge-T3                   now  1  base  0  ndvi 0.32 drop +0.52  nearest  116 m  2026-10-04  vegetation loss
+  windy-ridge-T4                   now  0  base  0  ndvi 0.42 drop +0.38  nearest      -  2026-10-09  vegetation loss
+  windy-ridge-T5                   now  0  base  0  ndvi 0.40 drop +0.47  nearest      -  2026-10-04  vegetation loss
+  windy-ridge-T6                   now  0  base  0  ndvi 0.38 drop +0.51  nearest  296 m  2026-10-24  vegetation loss
+  windy-ridge-T7                   now  0  base  0  ndvi 0.47 drop +0.44  nearest      -  2026-10-09  vegetation loss
+  windy-ridge-T8                   now  0  base  0  ndvi 0.53 drop +0.29  nearest      -  2026-10-09  none
+  windy-ridge-T9                   now  0  base  0  ndvi 0.51 drop +0.32  nearest  202 m  2026-10-24  vegetation loss
+  windy-ridge-T14                  now  0  base  0  ndvi 0.61 drop +0.15  nearest      -  2026-10-09  none
+  windy-ridge-T16                  now 18  base  0  ndvi 0.25 drop +0.69  nearest    0 m  2026-10-04  new clearing
+  windy-ridge-T17                  now  6  base  0  ndvi 0.34 drop +0.57  nearest   22 m  2026-10-04  vegetation loss
+  windy-ridge-T18                  now  0  base  0  ndvi 0.75 drop -0.02  nearest      -  2026-10-09  none
+  windy-ridge-T20                  now  0  base  0  ndvi 0.54 drop +0.15  nearest  194 m  2026-10-24  none
+  windy-ridge-T21                  now  0  base  0  ndvi 0.50 drop +0.23  nearest      -  2026-10-24  none
+  windy-ridge-T28                  now  0  base  0  ndvi 0.45 drop +0.27  nearest      -  2026-10-24  none
+  windy-ridge-T29                  now  0  base  0  ndvi 0.52 drop +0.16  nearest      -  2026-10-24  none
+  windy-ridge-T30                  now  0  base  0  ndvi 0.37 drop +0.50  nearest      -  2026-10-24  vegetation loss
+  windy-ridge-T31                  now  0  base  0  ndvi 0.59 drop +0.12  nearest      -  2026-10-24  none
+  windy-ridge-T32                  now  0  base  0  ndvi 0.49 drop +0.21  nearest      -  2026-10-24  none
+  windy-ridge-T33                  now  0  base  0  ndvi 0.37 drop +0.39  nearest      -  2026-10-24  vegetation loss
+  windy-ridge-T34                  now  0  base  0  ndvi 0.71 drop -0.01  nearest      -  2026-10-04  none
+  windy-ridge-T35                  now  0  base  0  ndvi 0.50 drop +0.20  nearest      -  2026-10-24  none
+  windy-ridge-T37                  now 10  base  0  ndvi 0.31 drop +0.55  nearest   20 m  2026-10-04  vegetation loss
+  windy-ridge-T38                  now  0  base  0  ndvi 0.51 drop +0.19  nearest      -  2026-10-24  none
+  windy-ridge-T39                  now  0  base  0  ndvi 0.37 drop +0.48  nearest      -  2026-10-24  vegetation loss
+  windy-ridge-T40                  now  0  base  0  ndvi 0.53 drop +0.12  nearest      -  2026-10-24  none
+  windy-ridge-T41                  now  0  base  0  ndvi 0.47 drop +0.13  nearest      -  2026-10-24  none
+  windy-ridge-T42                  now  2  base  0  ndvi 0.37 drop +0.23  nearest      -  2026-10-24  none
+  windy-ridge-T43                  now  0  base  0  ndvi 0.44 drop +0.32  nearest  304 m  2026-10-24  vegetation loss
+  windy-ridge-T44                  now  0  base  0  ndvi 0.40 drop +0.35  nearest      -  2026-10-24  vegetation loss
+  windy-ridge-T45                  now  0  base  0  ndvi 0.47 drop +0.24  nearest  304 m  2026-10-24  none
+  windy-ridge-T46                  now  0  base  0  ndvi 0.52 drop +0.35  nearest  256 m  2026-10-24  vegetation loss
+  windy-ridge-T47                  now  0  base  0  ndvi 0.78 drop -0.07  nearest      -  2026-10-09  none
+  windy-ridge-T52                  now  0  base  0  ndvi 0.54 drop +0.15  nearest  225 m  2026-10-04  none
+  windy-ridge-T53                  now  0  base  0  ndvi 0.81 drop +0.00  nearest      -  2026-10-04  none
+  windy-ridge-T55                  now  0  base  0  ndvi 0.80 drop -0.10  nearest      -  2026-10-04  none
+  windy-ridge-T56                  now  0  base  0  ndvi 0.75 drop -0.02  nearest      -  2026-10-04  none
+  windy-ridge-T57                  now  0  base  0  ndvi 0.83 drop -0.03  nearest      -  2026-10-04  none
+  windy-ridge-T58                  now  0  base  0  ndvi 0.87 drop -0.00  nearest      -  2026-10-04  none
+  windy-ridge-T60                  now  0  base  0  ndvi 0.83 drop +0.05  nearest      -  2026-10-24  none
+  windy-ridge-T61                  now  0  base  0  ndvi 0.68 drop +0.10  nearest      -  2026-10-24  none
+  windy-ridge-T62                  now  0  base  0  ndvi 0.85 drop +0.06  nearest      -  2026-10-24  none
+  windy-ridge-T63                  now  0  base  0  ndvi 0.57 drop +0.19  nearest  271 m  2026-10-24  none
+  windy-ridge-T65                  now  0  base  0  ndvi 0.90 drop +0.01  nearest      -  2026-10-04  none
+  windy-ridge-T67                  now  0  base  0  ndvi 0.81 drop -0.08  nearest      -  2026-10-04  none
+  windy-ridge-T68                  now  0  base  0  ndvi 0.74 drop -0.02  nearest      -  2026-10-04  none
+  windy-ridge-T69                  now  0  base  0  ndvi 0.76 drop -0.07  nearest      -  2026-10-04  none
+  windy-ridge-T72                  now  0  base  0  ndvi 0.78 drop -0.07  nearest      -  2026-10-04  none
