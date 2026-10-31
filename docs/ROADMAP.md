@@ -2,6 +2,12 @@
 
 Status as of July 1, 2026.
 
+> **Superseded in part (2026-10-30).** The current 1.0 release checklist is
+> [`APP_STORE_RELEASE.md`](APP_STORE_RELEASE.md). The proposed 1.0 closeout and
+> v1.1 program, with a reconciliation of the lists below, is in
+> [`plans/2026-10-30-nsmts-v1-1-streamlined.md`](plans/2026-10-30-nsmts-v1-1-streamlined.md).
+> The lists below stay unchanged until Dan ratifies that plan's tags.
+
 ## v1.0 Release Candidate
 
 The v1.0 goal is a field-ready historical map viewer for Nova Scotia:
