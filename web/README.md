@@ -4,8 +4,8 @@ Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
 The tax-sale catalog is a set of dated snapshots—the August 11, 2026 Inverness
 County auction, the August 31, 2026 Annapolis County tax sale by tender, the
-September 14, 2026 Victoria County tender, and the September 15, 2026 Halifax
-tender—each pinned to its official notice date. Whether a catalogued event is
+November 23, 2026 Victoria County public auction, and the September 15, 2026
+Halifax tender—each pinned to its official notice date. Whether a catalogued event is
 presented as current or past is decided at runtime from its advertised start
 time and any verified result dataset, as described under Data flow below.
 Completed Middleton and CBRM events remain in historical-record mode with only
@@ -1475,35 +1475,40 @@ closed on an unrecognized winning-bid value or identifier mismatch.
   `ccfe84b6452c25fce271a8a83ebd9f18fe2055d126d426efac79c415ea84d87b`
   so either repository cannot drift silently.
 
-## Victoria September 2026 source receipt
+## Victoria November 2026 source receipt
 
 - Official landing page: [Victoria County Tax Sales](https://victoriacounty.com/residents/property-taxation-services/tax-sales/)
-- Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
-  dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
-  Administration Building in Baddeck.
-- The official table contains nine numbered rows. Rows 1, 2, 3, 8, and 9 now
-  print `REMOVED` in every public field, including AAN and PID, so they remain
-  five opaque removed-row counts without parcel identities. The other four rows
-  publish exact AAN/PID pairs, descriptions, redeemability, and total owing.
-  Two land-only rows print TOTAL OWING as `$digits.cents + hst`; the advertised
+- Current official source: [November 23, 2026 Tax Sale by Public Auction](https://victoriacounty.com/property-tax-sale-notice/),
+  dated October 23, 2026. Catalog event `victoria-county-2026-11-23`. The
+  snapshot stores `saleMethod` `public-auction`, sale start 11:00, and venue
+  St.Mark’s Masonic Lodge, 24 Queen Street, Baddeck, NS B0E 1B0.
+- The official table contains three numbered rows. All three publish exact
+  AAN/PID pairs, descriptions, redeemability, and total owing; there are no
+  opaque `REMOVED` rows. One description prints `HST APPLICABLE`; the advertised
   dollar amount is stored and HST is not added.
 - The assessed-name column is discarded before normalized facts or the public
   snapshot are written. Land-registration values are validated for known
   `YES`/`NO` input but are not added to the public map schema. The normalized
   owner-free source-facts SHA-256 is
-  `bd8df1ae76e9344fd310697338e47b1c4d1200dc0454d34ea7be00696e880ac3`;
+  `3bf3ac7b28add5b5eb82b929e908a23318d8a43adddbc19e212ab34dc8352290`;
   the byte-for-byte public dataset SHA-256 is
-  `c91f5a8b2b2268454d3282395318b3bc238f7224aaf895d58ee396a4d6466a87`.
+  `ef3ceceb96c400e48d260b5b2e614e328f1a4a86b0103c51ff09e3019721160e`.
 - Because the municipality overwrites this HTML notice as properties are
   removed, the page was archived before ingestion. The raw replay bytes are
-  preserved at the [Wayback Machine](https://web.archive.org/web/20260914201103id_/https://victoriacounty.com/property-tax-sale-notice/)
+  preserved at the [Wayback Machine](https://web.archive.org/web/20261023200058id_/https://victoriacounty.com/property-tax-sale-notice/)
   with SHA-256
-  `4da4fdd8d90cbc8385c123799e55ede9b63b3f05420b108a737bdff9d43cc9b5`.
+  `44b302a4acb16355ddafc41cc1a08afc1322456fcbbdab450d23e278f9b91d23`.
+  The September 14, 2026 tender results remain in `historicalTaxSales.json` /
+  `victoriaTaxSaleResults.snapshot.json`; that historical event is unchanged.
 
-Run `npm run refresh:victoria-tax-sale` to reparse the official table. A partial
-removal, malformed or duplicate identifier, unfamiliar `YES`/`NO` state, row
-count regression, or changed notice that cannot first be matched to a verified
-archive capture fails closed.
+Run `npm run refresh:victoria-tax-sale` to reparse the official table. The
+refresher classifies `TAX SALE BY PUBLIC AUCTION` versus `TAX SALE BY TENDER`,
+stores `saleMethod` on the snapshot, and fails closed if both headings appear
+or sale date, bid deadline, venue, or publication date cannot be parsed. A
+page that mixes an empty-notice statement with a property table is refused
+rather than guessed. A partial removal, malformed or duplicate identifier,
+unfamiliar `YES`/`NO` state, row count regression, or changed notice that
+cannot first be matched to a verified archive capture also fails closed.
 
 ## Halifax September 2026 source receipt
 
