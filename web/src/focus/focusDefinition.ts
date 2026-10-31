@@ -3,6 +3,8 @@ import { contextLayerCatalog, type ContextLayerId } from "../layers/contextLayer
 import type { LayerCategoryId } from "../layers/layerCategories";
 import type { MapPosition, ShareLayerId } from "../services/mapShareState";
 import type { BuiltInMapThemeId } from "../themes/mapThemes";
+import type { MapLayerId, MapLayerStatus } from "../components/MapCanvas";
+import type { ProvinceLayerId } from "../layers/layerCatalog";
 
 /** South-west and north-east corners, in the order Leaflet's fitBounds takes. */
 export type FocusBounds = [[number, number], [number, number]];
@@ -53,12 +55,22 @@ export interface FocusChromeContext {
   readonly fitToFocus: () => void;
   /** Ask `rhodena-visibility` to start a viewpoint pick once its terrain is ready. */
   readonly startViewpointPick: () => void;
+  /** Each layer's last reported state (loading, zoom floor, count), for keys that explain an empty map. */
+  readonly layerStatuses: Readonly<Partial<Record<MapLayerId, MapLayerStatus>>>;
+  readonly provinceLayers: Readonly<Record<ProvinceLayerId, boolean>>;
+  /** Callers check `licenceAccepted` first for a licensed layer, as the panel rows do. */
+  readonly setProvinceLayerVisibility: (id: ProvinceLayerId, visible: boolean) => void;
+  readonly licenceAccepted: boolean;
+  /** Open the Province licence dialog to review and accept it. */
+  readonly reviewProvinceLicence: () => void;
 }
 
 /** Each time `revision` rises, the map fits `bounds`. */
 export interface FocusFitRequest {
   readonly revision: number;
   readonly bounds: FocusBounds | null;
+  /** Pixels on the map's right kept clear of the fitted area on a wide map (`mapOverlayInset`). */
+  readonly insetRight?: number;
 }
 
 /**
@@ -94,11 +106,23 @@ export interface FocusDefinition {
   readonly fitOnOpen?: boolean;
   /** Page state the page's links carry; the rest stays out of the URL. */
   readonly shareParams?: ReadonlySet<FocusShareParam>;
+  /**
+   * Pixels a `chrome.MapOverlay` covers on the map's right on a wide screen,
+   * so fitting the page's area frames it beside the overlay, not under it.
+   */
+  readonly mapOverlayInset?: number;
+  /**
+   * Draw property boundaries bolder than the map's 1.2-point default, in
+   * export points: for a page about a few large holdings, not dense lots.
+   */
+  readonly parcelOutlineWidth?: number;
   readonly chrome: {
     /** Replaces the rail's "Explore Nova Scotia" heading. */
     readonly Hero: ComponentType<FocusChromeContext>;
     /** Optional page content between the setup controls and the layer list. */
     readonly Panel?: ComponentType<FocusChromeContext>;
+    /** Optional chrome laid over the map itself, such as a key. */
+    readonly MapOverlay?: ComponentType<FocusChromeContext>;
     /** The phone's map-chrome button that opens the page's summary sheet. */
     readonly brand: { readonly label: string; readonly Mark: ComponentType };
     /** Closes the footer, after the full-map link. */

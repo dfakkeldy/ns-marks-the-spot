@@ -12,6 +12,9 @@ struct MapAttributionStrip: View {
     /// Which ground the layers are drawn over, because the OpenStreetMap base
     /// carries a credit of its own that must show whenever its tiles do.
     let baseMap: MapBaseType
+    /// Whether the Atlas ground's tiles are failing, so Apple's map is what
+    /// shows where they are missing.
+    var groundFailing: Bool = false
     /// Somewhere to send a reader who wants the whole catalogue rather than
     /// what happens to be switched on.
     let onOpenSources: () -> Void
@@ -28,6 +31,14 @@ struct MapAttributionStrip: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
+            if groundFailing, baseMap.isAtlas {
+                Label(ActiveAttribution.atlasFailingNotice, systemImage: "exclamationmark.triangle")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("map-attribution-ground-failing")
+            }
+
             Button {
                 withAnimation(.snappy(duration: 0.2).unlessReduced(reduceMotion)) {
                     isExpanded.toggle()

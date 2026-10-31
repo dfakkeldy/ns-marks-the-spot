@@ -68,7 +68,7 @@ describe("fishing layer descriptors", () => {
     for (const id of ["dfo-small-craft-harbours-core", "dfo-small-craft-harbours-non-core"] as const) {
       expect(layer(id)).toMatchObject({ licence: "canada-open", licenceUrl: "https://open.canada.ca/en/open-government-licence-canada" });
     }
-    expect(contextLayerCatalog.filter((entry) => entry.provenance === "project-derived").map(({ id }) => id)).toEqual(["fishing-spots"]);
+    expect(fishingLayers.filter((entry) => "provenance" in entry && entry.provenance === "project-derived").map(({ id }) => id)).toEqual(["fishing-spots"]);
     for (const { licence } of fishingLayers) expect(licence).not.toBe("province-restricted");
   });
 });

@@ -507,10 +507,11 @@ final class MapController: NSObject {
             // NS Aerial renders as a tile overlay above the standard basemap.
             return .standard
         case .atlas, .atlasDay, .atlasNight, .atlasFletcher, .openStreetMap, .blank:
-            // Whatever is set here is covered by the base-replacing overlay —
+            // Whatever is set here is covered by the ground's overlay —
             // `AtlasBaseOverlay`, `OSMBaseOverlay` or `BlankBaseOverlay`;
             // MapKit requires a map type and has no case for "someone else's
-            // tiles" or "none".
+            // tiles" or "none". Standard is also what shows through the
+            // Atlas while its squares load.
             return .standard
         }
     }
@@ -568,7 +569,7 @@ final class MapController: NSObject {
         applyBaseOverlay(for: .atlas, on: mapView)
     }
 
-    /// Puts in the base-replacing overlay the chosen background draws with,
+    /// Puts in the overlay the chosen background draws with,
     /// and takes the others out.
     ///
     /// Installed through the draw order like any other overlay, so it lands
@@ -594,6 +595,10 @@ final class MapController: NSObject {
             // one in below, rather than a second Atlas stacked on the first.
             if let atlas = overlay as? AtlasBaseOverlay, atlas.style != wantsAtlas {
                 mapView.removeOverlay(overlay)
+                // The ground that was failing is gone; the next one starts
+                // its own count.
+                progress.reset(AtlasRasterBase.layerID)
+                layerLoadPhases[AtlasRasterBase.layerID] = .idle
             }
         }
         if wantsBlank, mapView.overlays.compactMap({ $0 as? BlankBaseOverlay }).isEmpty {
@@ -608,7 +613,9 @@ final class MapController: NSObject {
         if let style = wantsAtlas, let baseURL = atlasRasterBaseURL,
            !mapView.overlays.contains(where: { ($0 as? AtlasBaseOverlay)?.style == style })
         {
-            mapView.installInDrawOrder(AtlasBaseOverlay(style: style, baseURL: baseURL), level: level)
+            mapView.installInDrawOrder(
+                AtlasBaseOverlay(style: style, baseURL: baseURL, progress: progress), level: level
+            )
         }
     }
 

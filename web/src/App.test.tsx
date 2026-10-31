@@ -1882,7 +1882,7 @@ describe("NS Marks The Spot Online", () => {
     act(() => media.setMatches(true));
     expect(screen.queryByRole("button", { name: "Back to categories" }))
       .not.toBeInTheDocument();
-    expect(visibleLayerCategoryButtons()).toHaveLength(12);
+    expect(visibleLayerCategoryButtons()).toHaveLength(13);
     expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
 
     expect(media.listenerCount()).toBe(1);
@@ -1906,7 +1906,7 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.getByRole("button", { name: /^Historical Maps/ }))
         .toHaveFocus();
     });
-    expect(visibleLayerCategoryButtons()).toHaveLength(12);
+    expect(visibleLayerCategoryButtons()).toHaveLength(13);
   });
 
   it("keeps the phone sheet and focused category open when a layer toggles", async () => {
@@ -1963,6 +1963,18 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: ns-topographic");
+  });
+
+  it("cannot restore an unavailable CHM pilot through a shared link", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=modern,lidar-canopy-height");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("lidar-canopy-height");
+    openLayerCategory("Forestry & Ecology");
+    const checkbox = screen.getByRole("checkbox", { name: "LiDAR canopy height · Judique pilot" });
+    expect(checkbox).toBeDisabled();
+    expect(checkbox).not.toBeChecked();
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")).not.toContain("lidar-canopy-height"));
   });
 
   it("clears electoral evidence when its source fails and does not resurrect it on retry", () => {
@@ -3325,6 +3337,9 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.queryByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
     ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("checkbox", { name: /Victoria County.*November 23, 2026/i }),
+    ).toBeChecked();
     expect(screen.getByLabelText("Search by PID or civic address")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeEnabled();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
@@ -3668,6 +3683,44 @@ describe("NS Marks The Spot Online", () => {
       (element) => element.textContent,
     );
     expect(layerNames.at(-1)).toBe("Fletcher historical map");
+  });
+
+  it.each([
+    { surface: "main", focus: undefined, accepted: false },
+    { surface: "main", focus: undefined, accepted: true },
+    { surface: "Rhodena", focus: "rhodena" as const, accepted: false },
+    { surface: "Rhodena", focus: "rhodena" as const, accepted: true },
+  ])("keeps unavailable layers informational on $surface with viewing acknowledgement $accepted", async ({ focus, accepted }) => {
+    if (accepted) localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", `${focus ? "/rhodena" : "/"}?layers=modern,wam-relative-wetness,wam-predicted-flow,forest-treatments&taxSale=off`);
+    const user = userEvent.setup();
+    render(<App focus={focus} />);
+    const summary = screen.getByText("Unavailable layers");
+    const group = summary.closest("details")!;
+    expect(group).not.toHaveAttribute("open");
+    expect(within(group).getByText("WAM relative wetness")).not.toBeVisible();
+    await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")).toBe("modern"));
+    const shareState = window.location.search;
+    const mapState = screen.getByTestId("map-canvas").textContent;
+
+    await user.click(summary);
+    expect(group).toHaveAttribute("open");
+    const rows = within(group).getAllByRole("listitem");
+    expect(rows).toHaveLength(3);
+    for (const row of rows) expect(row).toHaveAttribute("aria-disabled", "true");
+    for (const name of ["WAM relative wetness", "WAM predicted flow", "Recorded forest treatments"]) {
+      expect(within(group).getByText(name)).toBeVisible();
+      expect(screen.queryByRole("checkbox", { name })).not.toBeInTheDocument();
+    }
+    expect(within(group).getAllByText("Data-quality concerns")).toHaveLength(2);
+    expect(within(group).getByText("Permission unavailable")).toBeVisible();
+    expect(within(group).queryByText(/permission pending|permission not granted|refused/i)).not.toBeInTheDocument();
+    expect(group.querySelectorAll("input, button, select, textarea, a")).toHaveLength(0);
+    expect(screen.getByTestId("map-canvas").textContent).toBe(mapState);
+    expect(window.location.search).toBe(shareState);
+    expect(localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY)).toBe(accepted ? "accepted" : null);
+    await user.click(summary);
+    expect(group).not.toHaveAttribute("open");
   });
 
   it("keeps Church county maps collapsed by default without changing map state", async () => {
@@ -6700,13 +6753,17 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 28;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 31;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 1;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 4;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
+    );
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 3;");
+    await user.click(
+      screen.getByRole("checkbox", { name: /Victoria County.*November 23, 2026/i }),
     );
     expect(screen.queryByRole("checkbox", { name: /Halifax.*September 15, 2026/i })).not.toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 0;");

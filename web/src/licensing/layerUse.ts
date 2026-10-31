@@ -34,6 +34,7 @@ function isDocumentedOpenReplacement(id: string, source?: OpenDataSource): boole
 }
 
 export function reproductionLockReason(id: string, source?: OpenDataSource): string | null {
+  if (id === "lidar-canopy-height") return "Export locked: canopy-height licence coverage needs confirmation before reproduction.";
   if (isDocumentedOpenReplacement(id, source)) return null;
   if (id === "fletcher" || id.startsWith("fletcher-")) return FLETCHER_REPRODUCTION_LOCK_REASON;
   if (id === "selected-parcel" || (PROVINCE_REPRODUCTION_LOCK_IDS as readonly string[]).includes(id)) {

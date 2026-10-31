@@ -4,6 +4,7 @@ This change holds uses whose applicable permission has not been established. It 
 
 | Source/use | Native | Web |
 | --- | --- | --- |
+| Judique LiDAR canopy-height pilot | Web-only; no native change | Explicit local host and existing acknowledgement gate for preview; public tiles and print/PDF reproduction withheld pending CHM licence confirmation and separate publication approval |
 | Inverness County, Victoria County, Richmond County and Cumberland County zoning | No app query or cached/retained display; no reproduction | Same query/render/export lock; official by-law links remain |
 | Province restricted raster services and NSPRD-derived parcels/property records | Viewing clearance remains separate; no exported pixels, geometry or evidence files | Restricted original sources remain held; verified OGL dataset replacements remain usable |
 | Fletcher historical mosaic | Approved free native viewing/offline paths remain; PDF/pixel reproduction held | Historical image reproduction held; viewing remains |

@@ -1,0 +1,570 @@
+/* The /pointtupper page: the research map with a site-brief panel.
+   The hero is drawn on its own night-harbour ground in both appearances, so
+   its colours are fixed; everything below it keeps the map's tokens and so
+   follows Day and Night. On #10283a: paper #f6f1e6 about 14:1, sodium
+   #f0b45a about 8.5:1, 80% paper about 10:1. */
+.pointtupper-focus {
+  --pt-deep: #10283a;
+  --pt-sodium: #f0b45a;
+  --pt-paper: #f6f1e6;
+}
+
+.pointtupper-focus .map-layout {
+  grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+}
+
+.pointtupper-focus .layer-rail {
+  padding-top: 0;
+}
+
+/* Hero -------------------------------------------------------------- */
+.pointtupper-hero {
+  margin: 0 -24px 22px;
+  overflow: hidden;
+  color: var(--pt-paper);
+  background: var(--pt-deep);
+}
+
+.pointtupper-hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 132;
+}
+
+.pointtupper-hero-beacon {
+  animation: pointtupper-beacon 2.4s ease-in-out infinite;
+}
+
+@keyframes pointtupper-beacon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pointtupper-hero-beacon {
+    animation: none;
+  }
+}
+
+.pointtupper-hero-body {
+  padding: 4px 24px 22px;
+}
+
+.pointtupper-hero-eyebrow {
+  margin: 0 0 6px;
+  color: var(--pt-sodium);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.pointtupper-focus .pointtupper-hero h2 {
+  margin: 0;
+  color: #fff8ec;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 2.15rem;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+
+.pointtupper-hero-lede {
+  margin: 10px 0 16px;
+  color: rgba(246, 241, 230, 0.84);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.pointtupper-facts {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(246, 241, 230, 0.16);
+}
+
+.pointtupper-facts > div {
+  display: grid;
+  grid-template-columns: 5.6rem minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+}
+
+.pointtupper-facts dt {
+  color: var(--pt-sodium);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pointtupper-facts dd {
+  margin: 0;
+  color: rgba(246, 241, 230, 0.9);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.pointtupper-hero a {
+  color: var(--pt-sodium);
+  text-underline-offset: 2px;
+}
+
+.pointtupper-facts dd a {
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.pointtupper-hero-note {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  color: rgba(246, 241, 230, 0.86);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  background: rgba(246, 241, 230, 0.06);
+  border-left: 3px solid var(--pt-sodium);
+  border-radius: 6px;
+}
+
+.pointtupper-hero-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.pointtupper-hero-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 16px;
+  color: var(--pt-deep);
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: linear-gradient(180deg, #f6cf8f, #f0b45a);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(240, 180, 90, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+}
+
+.pointtupper-hero-actions .pointtupper-hero-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.pointtupper-hero :focus-visible {
+  outline: 2px solid var(--pt-sodium);
+  outline-offset: 3px;
+}
+
+.pointtupper-hero-byline {
+  margin: 14px 0 0;
+  padding-top: 12px;
+  color: rgba(246, 241, 230, 0.8);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 0.86rem;
+  font-style: italic;
+  line-height: 1.4;
+  border-top: 1px solid rgba(246, 241, 230, 0.16);
+}
+
+/* Timeline ---------------------------------------------------------- */
+.pointtupper-timeline {
+  margin: 22px 0 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.pointtupper-timeline h2 {
+  margin: 0 0 10px;
+}
+
+.pointtupper-timeline ol {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pointtupper-timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px 0 8px 14px;
+  border-left: 2px solid var(--line);
+}
+
+.pointtupper-timeline li::before {
+  position: absolute;
+  top: 0.95rem;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  content: "";
+  background: var(--deep-water);
+  border-radius: 50%;
+}
+
+.pointtupper-timeline li:last-child::before {
+  background: #c0761f;
+}
+
+.pointtupper-when {
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.pointtupper-timeline p {
+  margin: 0;
+  color: var(--chart-ink);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.pointtupper-timeline a {
+  color: var(--survey-blue);
+  font-size: 0.74rem;
+}
+
+/* Map key ------------------------------------------------------------
+   Laid over the map in the map's own surface colour, translucent and
+   blurred so the coast shows through, like the park's printed key. It
+   follows Day and Night through the shared tokens, so each swatch sits on
+   the tone the map draws it on. */
+.pointtupper-key {
+  position: absolute;
+  /* Hung under the 3D and Map/Aerial controls, so nothing below it (the
+     licence strip folding after load, a growing map) moves its rows. */
+  top: 120px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: 252px;
+  max-width: calc(100% - 24px);
+  max-height: calc(100% - 148px);
+  color: var(--chart-ink);
+  background: rgba(var(--surface-rgb), 0.8);
+  -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  backdrop-filter: blur(12px) saturate(1.25);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(16, 33, 43, 0.22);
+  overflow: hidden;
+}
+
+.pointtupper-key:not(.is-open) {
+  width: auto;
+}
+
+.pointtupper-key-toggle {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px 8px 14px;
+  color: inherit;
+  font: 700 0.68rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.pointtupper-key-toggle svg {
+  transition: transform 0.2s ease;
+}
+
+.pointtupper-key:not(.is-open) .pointtupper-key-toggle svg {
+  transform: rotate(180deg);
+}
+
+.pointtupper-key-body {
+  overflow-y: auto;
+  padding: 0 8px 10px;
+  border-top: 1px solid var(--line);
+}
+
+.pointtupper-key-group h3 {
+  margin: 10px 6px 2px;
+  color: var(--muted);
+  font: 600 0.6rem/1.2 "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pointtupper-key-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 22px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  /* Room for the label and its status line from the start: the key grows
+     from the bottom, so a row that gained a line would move every row above
+     it, out from under a pointer about to press it. */
+  min-height: 42px;
+  padding: 4px 6px;
+  color: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pointtupper-key-row:hover {
+  background: color-mix(in srgb, var(--chart-ink) 7%, transparent);
+}
+
+.pointtupper-key-toggle:focus-visible,
+.pointtupper-key-row:focus-visible {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+/* A hidden layer's row dims but stays readable: the key still says what it would show. */
+.pointtupper-key-row[aria-pressed="false"] .pointtupper-key-swatch,
+.pointtupper-key-row[aria-pressed="false"] .pointtupper-key-label {
+  opacity: 0.5;
+}
+
+.pointtupper-key-swatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+}
+
+.pointtupper-key-label small {
+  display: block;
+  margin-top: 1px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.pointtupper-key-switch {
+  position: relative;
+  width: 22px;
+  height: 12px;
+  background: color-mix(in srgb, var(--chart-ink) 24%, transparent);
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.pointtupper-key-switch::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  content: "";
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(16, 33, 43, 0.35);
+  transition: transform 0.15s ease;
+}
+
+.pointtupper-key-row[aria-pressed="true"] .pointtupper-key-switch {
+  background: var(--deep-water);
+}
+
+.pointtupper-key-row[aria-pressed="true"] .pointtupper-key-switch::after {
+  transform: translateX(10px);
+}
+
+.pointtupper-key-kinds {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px 8px;
+  margin: 0 6px 4px 48px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.2;
+  list-style: none;
+}
+
+.pointtupper-key-kinds li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pointtupper-key-kinds.is-off {
+  opacity: 0.5;
+}
+
+.pointtupper-key-marker {
+  display: inline-flex;
+  flex: none;
+  filter: drop-shadow(0 1px 1px rgba(16, 33, 43, 0.35));
+}
+
+.pointtupper-key-marker svg {
+  display: block;
+}
+
+.pointtupper-key-parcel {
+  color: #0a7180;
+}
+
+:root[data-map-appearance="night"] .pointtupper-key-parcel {
+  color: #ffe66d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .pointtupper-key-parcel {
+    color: #ffe66d;
+  }
+}
+
+.pointtupper-key-note {
+  margin: 10px 6px 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pointtupper-key-toggle svg,
+  .pointtupper-key-switch,
+  .pointtupper-key-switch::after {
+    transition: none;
+  }
+}
+
+/* Footer and phone chrome ------------------------------------------- */
+.pointtupper-focus-footer {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.pointtupper-focus-footer .export-map-trigger {
+  width: 100%;
+}
+
+.pointtupper-full-map-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  color: var(--chart-ink);
+  font-weight: 650;
+  text-decoration: none;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.pointtupper-full-map-link:hover {
+  border-color: var(--deep-water);
+}
+
+.pointtupper-full-map-link span {
+  color: var(--deep-water);
+  font-size: 1.1rem;
+}
+
+.pointtupper-focus-footer p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.pointtupper-brand {
+  font: inherit;
+  cursor: pointer;
+}
+
+.pointtupper-focus .pointtupper-brand > span {
+  color: var(--pt-sodium);
+  background: var(--pt-deep);
+}
+
+.pointtupper-brand svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 860px) {
+  /* Under the sticky sheet header, whose 12px bottom margin this takes back. */
+  .pointtupper-hero {
+    margin-top: -12px;
+  }
+
+  /* On a phone the folded key sits by the thumb, above the licence pill (its
+     measured height, as the scale bar uses), and clears the Map/Aerial
+     switch at the top right when open. */
+  .pointtupper-key {
+    top: auto;
+    right: 8px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+    width: min(252px, calc(100% - 88px));
+    max-height: calc(100% - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 196px);
+  }
+}
+
+@media (max-width: 560px) {
+  .pointtupper-hero {
+    margin-inline: -16px;
+  }
+
+  .pointtupper-hero-body {
+    padding-inline: 16px;
+  }
+
+  .pointtupper-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .pointtupper-focus .mobile-map-brand strong {
+    display: inline;
+  }
+
+  .pointtupper-brand-suffix {
+    display: none;
+  }
+}
+
+@media (max-width: 379px) {
+  .pointtupper-focus .mobile-map-brand strong {
+    display: none;
+  }
+
+  .pointtupper-timeline li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}

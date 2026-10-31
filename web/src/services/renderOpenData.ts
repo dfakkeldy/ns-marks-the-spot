@@ -7,7 +7,7 @@ import { toMercator } from "../userMaps/transform/webMercator";
  * Over aerial imagery, roads take a hybrid style: a cream line on a soft dark
  * edge, and thin cream dashes for unpaved and minor ways, since a white casing
  * under dashes reads as a ladder on photographs. */
-export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope, size: { width: number; height: number }, zoom: number, signal?: AbortSignal, { imagery = false }: { imagery?: boolean } = {}) {
+export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope, size: { width: number; height: number }, zoom: number, signal?: AbortSignal, { imagery = false, night = false }: { imagery?: boolean; night?: boolean } = {}) {
   const collection = await fetchOpenDataOverlay(source, bounds, signal, zoom);
   signal?.throwIfAborted();
   const canvas = document.createElement("canvas");
@@ -55,10 +55,13 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
         ctx.strokeStyle = "#fff3dc"; ctx.lineWidth = major ? 2.8 : 2; ctx.stroke();
       }
     } else {
-      ctx.setLineDash(minorRoad ? [4, 3] : []);
+      const lineWidth = source.roads ? 2 : source.lineWidth ?? 1.2;
+      // A light casing lifts a line off a light map or a photograph; on the night map a dark one does, without a glow.
+      if (source.casing && !fill) { ctx.setLineDash([]); ctx.strokeStyle = night && !imagery ? "rgba(8, 20, 28, 0.7)" : source.casing; ctx.lineWidth = lineWidth + 2.5; ctx.stroke(); }
+      ctx.setLineDash(minorRoad ? [4, 3] : source.dash ? [...source.dash] : []);
       if (source.roads) { ctx.strokeStyle = "#ffffff"; ctx.lineWidth = minorRoad ? 4 : 5; ctx.stroke(); }
       ctx.strokeStyle = color; ctx.fillStyle = color;
-      ctx.lineWidth = source.roads ? 2 : 1.2;
+      ctx.lineWidth = lineWidth;
       if (fill) { ctx.globalAlpha = f.geometry.type.includes("Point") ? 0.85 : source.fillOpacity ?? 0.2; ctx.fill("evenodd"); ctx.globalAlpha = 1; }
       if (source.stroke !== false) ctx.stroke();
     }
