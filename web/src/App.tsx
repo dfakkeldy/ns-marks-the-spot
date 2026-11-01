@@ -4904,6 +4904,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         <option value="day">Atlas · Day</option>
                         <option value="night">Atlas · Night</option>
                         <option value="fletcher">Atlas · Fletcher</option>
+                        <option value="handdrawn">Atlas · Hand-drawn</option>
                         <option value="osm">OpenStreetMap</option>
                       </select>
                     </label>

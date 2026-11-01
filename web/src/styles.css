@@ -7198,6 +7198,14 @@ a {
   transform-origin: 0 0;
 }
 .atlas-basemap canvas { display: block; }
+/* The Hand-drawn sheet darkens toward its edges like old parchment; screen only, not in exports. */
+.atlas-basemap--handdrawn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(74, 48, 24, 0.24) 100%);
+}
 .basemap-style-control {
   display: grid;
   gap: 6px;
@@ -7316,6 +7324,24 @@ a {
   --fog-rgb: 233, 220, 185;
   --paper-rgb: 243, 233, 207;
   --tint-blue: #eee1ba;
+  color: var(--chart-ink);
+  background: var(--fog);
+}
+/* Sepia ink on parchment for the Hand-drawn style's controls. */
+:root[data-map-appearance="handdrawn"] {
+  color-scheme: light;
+  --chart-ink: #3b2614;
+  --deep-water: #4f3a24;
+  --survey-blue: #8c4a26;
+  --fog: #e6d3a8;
+  --paper: #efe2bf;
+  --white: #f6ecd2;
+  --line: rgba(59, 38, 20, .26);
+  --muted: rgba(59, 38, 20, .76);
+  --surface-rgb: 246, 236, 210;
+  --fog-rgb: 230, 211, 168;
+  --paper-rgb: 239, 226, 191;
+  --tint-blue: #ead8ae;
   color: var(--chart-ink);
   background: var(--fog);
 }
