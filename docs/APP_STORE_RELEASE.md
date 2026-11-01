@@ -16,10 +16,15 @@ unchanged and not part of the rejection.
 
 Two release-path facts changed since October 31. The scheduled nightly train
 uploaded build **127** on November 1, so the App Store lane's next build is
-128 or later; the review notes no longer name a build number. And deliver's
-HTML-preview prompt and purchase precheck still block `release`; the two
-options proposed on October 31 remain unapplied pending the owner's decision.
-App Store Connect sign-in also still needs renewing before the build can be
+128 or later; the review notes no longer name a build number.
+[PR #644](https://github.com/dfakkeldy/ns-marks-the-spot/pull/644) applied
+both deliver options: `force: true` skips only the HTML-preview confirmation,
+and `precheck_include_in_app_purchases: false` disables only the
+in-app-purchase precheck, which needs an Apple ID session and fails under
+API-key auth. The app has no in-app purchases; the rest of precheck still
+runs. `submit_for_review` stays false, so upload is not submission. The next
+step is to rerun App Store Release from main for build 128 or later. App
+Store Connect sign-in also still needs renewing before the build can be
 attached and the review reply sent.
 
 ## October 31, 2026 — 1.0 resubmission preparation
