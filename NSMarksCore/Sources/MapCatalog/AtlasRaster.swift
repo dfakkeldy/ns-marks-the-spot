@@ -59,6 +59,30 @@ public enum AtlasRaster {
     /// answered by the style's ocean stand-in.
     public static let zoomRange: ClosedRange<Int> = 5...13
 
+    /// The one tile the package renders at its shallowest zoom, which every
+    /// deeper tile lies inside: 67.5°–56.25° W, 40.98°–48.92° N, Nova Scotia
+    /// with the Gulf, the Bay of Fundy and the near Atlantic around it. The
+    /// revision's `coverage.json` lists exactly this tile at zoom 5.
+    ///
+    /// Inside it, an address with no tile is open water, which the ocean
+    /// stand-in draws. Outside it the package has nothing to say, and the map
+    /// beneath is left to show: drawn as ocean, California was a blank blue
+    /// screen to App Review after Current Location (2026-10-31 diagnosis).
+    public static let footprint = (z: 5, x: 10, y: 11)
+
+    /// Whether the square at `z`/`x`/`y`, in the standard XYZ scheme,
+    /// touches the footprint — inside it from the package's zooms down, or
+    /// containing it above them.
+    public static func covers(z: Int, x: Int, y: Int) -> Bool {
+        guard z >= 0 else { return false }
+        if z >= footprint.z {
+            let shift = z - footprint.z
+            return x >> shift == footprint.x && y >> shift == footprint.y
+        }
+        let shift = footprint.z - z
+        return footprint.x >> shift == x && footprint.y >> shift == y
+    }
+
     /// A tile covers the standard XYZ extent for its zoom and is drawn 512
     /// CSS pixels wide, MapLibre's convention, so a rendered tile at zoom z
     /// shows the web's map at Leaflet zoom z + 1. MapKit and the printed page

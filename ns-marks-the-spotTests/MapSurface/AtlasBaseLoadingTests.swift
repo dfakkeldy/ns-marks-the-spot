@@ -60,7 +60,7 @@ struct AtlasBaseLoadingTests {
         // back rather than assumed.
         let tileWidth = try #require(UIImage(data: fixture)?.cgImage?.width)
 
-        let tiles = try await Self.loadAll(Self.quarters(z: 10, parentX: 321, parentY: 360), on: overlay)
+        let tiles = try await Self.loadAll(Self.quarters(z: 10, parentX: 165, parentY: 182), on: overlay)
 
         #expect(tiles.count == 4)
         #expect(StubURLProtocol.requestCount(host: host) == 1)
@@ -71,7 +71,7 @@ struct AtlasBaseLoadingTests {
         }
 
         // A square asked for again is cut from the tile already decoded.
-        _ = try await overlay.loadTile(at: Self.quarters(z: 10, parentX: 321, parentY: 360)[0])
+        _ = try await overlay.loadTile(at: Self.quarters(z: 10, parentX: 165, parentY: 182)[0])
         #expect(StubURLProtocol.requestCount(host: host) == 1)
         #expect(AtlasRasterBase.decodeCount(baseURL: overlay.baseURL) == 1)
     }
@@ -86,8 +86,8 @@ struct AtlasBaseLoadingTests {
         defer { StubURLProtocol.clear(host: host) }
         let overlay = Self.overlay(host: host)
 
-        let paths = Self.quarters(z: 10, parentX: 300, parentY: 340)
-            + Self.quarters(z: 10, parentX: 301, parentY: 340)
+        let paths = Self.quarters(z: 10, parentX: 170, parentY: 186)
+            + Self.quarters(z: 10, parentX: 171, parentY: 186)
         let tiles = try await Self.loadAll(paths, on: overlay)
 
         #expect(tiles.count == 8)
@@ -106,7 +106,7 @@ struct AtlasBaseLoadingTests {
         StubURLProtocol.stub(host: host, with: .status(503))
         defer { StubURLProtocol.clear(host: host) }
         let overlay = Self.overlay(host: host)
-        let path = MKTileOverlayPath(x: 642, y: 720, z: 10, contentScaleFactor: 2)
+        let path = MKTileOverlayPath(x: 330, y: 364, z: 10, contentScaleFactor: 2)
 
         await #expect(throws: (any Error).self) {
             _ = try await overlay.loadTile(at: path)
@@ -117,7 +117,7 @@ struct AtlasBaseLoadingTests {
         #expect(UIImage(data: tile) != nil)
     }
 
-    @Test("Below the package's zooms a square is composed from the tiles it covers")
+    @Test("Below the package's zooms a square is composed from the footprint's tile")
     func belowThePackageASquareIsComposed() async throws {
         let host = "composite-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
         StubURLProtocol.stub(host: host, with: .success(TestTileFactory.pngData()))
@@ -125,13 +125,93 @@ struct AtlasBaseLoadingTests {
         let overlay = Self.overlay(host: host)
 
         // MapKit's zoom 5 is cut from rendered zoom 4, which the package
-        // does not have: it is drawn from the four zoom-5 tiles beneath.
+        // does not have: it is drawn from the zoom-5 tiles beneath, and the
+        // footprint is the only one of the four the package renders.
         let tile = try await overlay.loadTile(
-            at: MKTileOverlayPath(x: 20, y: 22, z: 5, contentScaleFactor: 2)
+            at: MKTileOverlayPath(x: 10, y: 11, z: 5, contentScaleFactor: 2)
         )
 
-        #expect(StubURLProtocol.requestCount(host: host) == 4)
+        #expect(StubURLProtocol.requestCount(host: host) == 1)
         #expect(UIImage(data: tile)?.cgImage?.width == AtlasRaster.imagePixels / 2)
+    }
+
+    /// The alpha of one pixel, `x` and `y` counted from the top left.
+    private static func alpha(of tile: Data, x: Int, y: Int) throws -> UInt8 {
+        let image = try #require(UIImage(data: tile)?.cgImage)
+        let context = try #require(CGContext(
+            data: nil, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ))
+        context.clear(CGRect(x: 0, y: 0, width: 1, height: 1))
+        // Core Graphics counts rows from the bottom.
+        context.draw(image, in: CGRect(
+            x: -x, y: y - image.height + 1, width: image.width, height: image.height
+        ))
+        let pixel = try #require(context.data).assumingMemoryBound(to: UInt8.self)
+        return pixel[3]
+    }
+
+    /// App Review works in Cupertino. Drawn as the Atlas's ocean, Current
+    /// Location there was a blank blue screen (2026-10-31 diagnosis).
+    @Test("Outside the footprint a square is clear, and nothing is asked for it")
+    func outsideTheFootprintASquareIsClear() async throws {
+        let host = "outside-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
+        // Any request at all would fail and report the ground as failing.
+        StubURLProtocol.stub(host: host, with: .status(503))
+        defer { StubURLProtocol.clear(host: host) }
+        let progress = LayerLoadProgressBox()
+        let overlay = Self.overlay(host: host, progress: progress)
+
+        let cupertino = [
+            MKTileOverlayPath(x: 164, y: 397, z: 10, contentScaleFactor: 2),
+            MKTileOverlayPath(x: 2639, y: 6358, z: 14, contentScaleFactor: 2),
+            MKTileOverlayPath(x: 0, y: 1, z: 2, contentScaleFactor: 2),
+        ]
+        for path in cupertino {
+            let tile = try await overlay.loadTile(at: path)
+            #expect(tile == AtlasRasterBase.outsideFootprint)
+            #expect(try Self.alpha(of: tile, x: 128, y: 128) == 0)
+        }
+
+        #expect(StubURLProtocol.requestCount(host: host) == 0)
+        #expect(AtlasRasterBase.decodeCount(baseURL: overlay.baseURL) == 0)
+        #expect(progress.phase(for: AtlasRasterBase.layerID) == .ready)
+
+        let (_, outcome, substance) = await AtlasRasterBase.exportTile(
+            style: .day, z: 10, x: 164, y: 397, baseURL: overlay.baseURL
+        )
+        #expect(outcome == .served)
+        #expect(substance == .outsideCoverage)
+    }
+
+    /// Pinched out to the continent, the province is drawn where it is and
+    /// the rest of the square shows Apple's map, not a sea.
+    @Test("Pinched out, the province is drawn and the rest of the square is clear")
+    func pinchedOutTheRestOfTheSquareIsClear() async throws {
+        let host = "continent-\(UUID().uuidString.prefix(8).lowercased()).atlas.test"
+        StubURLProtocol.stub(host: host, with: .success(TestTileFactory.pngData()))
+        defer { StubURLProtocol.clear(host: host) }
+        let overlay = Self.overlay(host: host)
+
+        // MapKit's zoom 4 square 5/5 is the bottom-right quarter of rendered
+        // zoom 3 square 2/2, which spans zoom-5 tiles 8–11 × 8–11. Only the
+        // footprint, 10/11, is fetched: the bottom-left quarter of this square.
+        let tile = try await overlay.loadTile(
+            at: MKTileOverlayPath(x: 5, y: 5, z: 4, contentScaleFactor: 2)
+        )
+        let side = try #require(UIImage(data: tile)?.cgImage?.width)
+
+        #expect(StubURLProtocol.requestCount(host: host) == 1)
+        #expect(try Self.alpha(of: tile, x: side / 4, y: side * 3 / 4) == 255)
+        #expect(try Self.alpha(of: tile, x: side * 3 / 4, y: side / 4) == 0)
+        #expect(try Self.alpha(of: tile, x: side / 4, y: side / 4) == 0)
+        #expect(try Self.alpha(of: tile, x: side * 3 / 4, y: side * 3 / 4) == 0)
+
+        // The whole world in one square: still one request, and still a map.
+        let world = try await overlay.loadTile(at: MKTileOverlayPath(x: 0, y: 0, z: 0, contentScaleFactor: 2))
+        #expect(UIImage(data: world) != nil)
+        #expect(StubURLProtocol.requestCount(host: host) == 1)
     }
 
     @Test("A load every square has abandoned is cancelled, and the next ask starts afresh")
@@ -140,7 +220,7 @@ struct AtlasBaseLoadingTests {
         StubURLProtocol.stub(host: host, with: .success(TestTileFactory.pngData()))
         defer { StubURLProtocol.clear(host: host) }
         let overlay = Self.overlay(host: host)
-        let path = MKTileOverlayPath(x: 642, y: 720, z: 10, contentScaleFactor: 2)
+        let path = MKTileOverlayPath(x: 330, y: 364, z: 10, contentScaleFactor: 2)
 
         let abandoned = Task { try await overlay.loadTile(at: path) }
         abandoned.cancel()
@@ -159,7 +239,7 @@ struct AtlasBaseLoadingTests {
         defer { StubURLProtocol.clear(host: host) }
         let progress = LayerLoadProgressBox()
         let overlay = Self.overlay(host: host, progress: progress)
-        let path = MKTileOverlayPath(x: 642, y: 720, z: 10, contentScaleFactor: 2)
+        let path = MKTileOverlayPath(x: 330, y: 364, z: 10, contentScaleFactor: 2)
 
         _ = try? await overlay.loadTile(at: path)
         #expect(progress.phase(for: AtlasRasterBase.layerID) == .failing)
