@@ -1,5 +1,41 @@
 # Native App Store release packet
 
+## October 31, 2026 — 1.0 resubmission preparation
+
+The Atlas map-loading mitigation in [PR #636](https://github.com/dfakkeldy/ns-marks-the-spot/pull/636)
+reached main through the required [nightly → weekly](https://github.com/dfakkeldy/ns-marks-the-spot/pull/637)
+and [weekly → main](https://github.com/dfakkeldy/ns-marks-the-spot/pull/639)
+promotions. Their required `Build gate + tests` checks passed. Selected main
+source is `0cb4f5d5f44a40af1ccdb29780b88cbc3bb6079e`, with the same tree as
+the reviewed fix merge `f218ba2b52829e2b2763fd5beecc0dbd06975c4a`.
+
+[App Store Release run 41228750750](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/41228750750)
+passed native tests and exported a signed **1.0 (127)** archive. Fastlane then
+rejected `fastlane/metadata/testflight` as an unsupported App Store metadata
+directory, before binary upload. The failed job retained no IPA artifact.
+**No new App Store build upload, Resolution Center reply, or resubmission is
+established by that run.**
+
+The beta-only metadata has now moved to `fastlane/testflight/en-US`, with its
+single Fastfile reader path updated. App Store metadata stays in
+`fastlane/metadata`. Fastlane's directory validation accepts the repaired
+layout with validation enabled; tests, signing, numbering and
+`submit_for_review: false` retain their existing behavior.
+
+The [screenshot pack](../fastlane/screenshots/en-US/README.md) now contains six
+fresh iPhone and six fresh iPad captures of a Release simulator build of that
+source. The map is drawn wherever visible; source credits and licence gates
+remain visible. Review notes include the build-124 rejection response with the
+explicit simulator-only verification limit. The original blank-map result was
+not reproduced, and no physical-iPad acceptance is claimed.
+
+The existing version's App Store release option was **manual** when inspected.
+Upload and resubmission remain separate from public release. After the layout
+repair merges, rerun App Store Release from main and verify the actual uploaded
+build and final screenshots/notes in App Store Connect before resubmitting.
+
+## Historical October 6 audit
+
 Re-checked: **2026-10-06**. Scope: the native iPhone/iPad app and its Live
 Activity extension. Browser-map publication does not establish native readiness.
 This packet prepares a release; it does not authorize promotion, upload,
