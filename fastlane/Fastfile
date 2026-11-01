@@ -429,6 +429,12 @@ platform :ios do
         "en-US" => require_https_url!(MARKETING_URL_PATH)
       },
       skip_screenshots: !staged_screenshots?,
+      # CI cannot answer deliver's "does the HTML preview look okay?" prompt;
+      # the metadata and screenshots are reviewed in their PRs instead.
+      force: true,
+      # Precheck's in-app purchase check needs an Apple ID session and fails
+      # under API-key auth. The app sells nothing, so the rest of precheck runs.
+      precheck_include_in_app_purchases: false,
       submit_for_review: false
     )
   end
