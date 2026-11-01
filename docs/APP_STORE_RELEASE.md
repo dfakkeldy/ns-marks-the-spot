@@ -1,5 +1,27 @@
 # Native App Store release packet
 
+## November 1, 2026 — out-of-province map fix
+
+The October 31 diagnosis showed a featureless blue Atlas map after a
+simulated San Francisco Current Location. App Review works in Cupertino, and
+its Cloudflare trace shows the reviewer pinching out to continent scale. Main
+still drew that: every Atlas square outside a rendered tile was the opaque
+ocean stand-in, and below zoom 3 the whole world was. A hotfix now answers
+squares outside the package's footprint (its one zoom-5 tile, 67.5°–56.25° W,
+40.98°–48.92° N) with a transparent tile and no request, so Apple's map shows
+there. Inside the footprint nothing changes, so the twelve screenshots stand.
+Inside-footprint land outside Nova Scotia (parts of New Brunswick, PEI and
+Maine) can still show as Atlas ocean where the package has no tile; that is
+unchanged and not part of the rejection.
+
+Two release-path facts changed since October 31. The scheduled nightly train
+uploaded build **127** on November 1, so the App Store lane's next build is
+128 or later; the review notes no longer name a build number. And deliver's
+HTML-preview prompt and purchase precheck still block `release`; the two
+options proposed on October 31 remain unapplied pending the owner's decision.
+App Store Connect sign-in also still needs renewing before the build can be
+attached and the review reply sent.
+
 ## October 31, 2026 — 1.0 resubmission preparation
 
 The Atlas map-loading mitigation in [PR #636](https://github.com/dfakkeldy/ns-marks-the-spot/pull/636)

@@ -38,9 +38,12 @@ replace them:
   from the web's own style and archive at 512 CSS pixels per tile, so a
   rendered zoom z is the web's Leaflet zoom z + 1 and MapKit's 256-point
   square at zoom z is cut from the rendered tile at z − 1 — MapKit's
-  `tileSize` is an expected resolution, not a zoom offset; a 404 is open
-  water answered by the style's ocean stand-in, anything else is retried;
-  it covers Apple's standard map rather than replacing it, so a square still
+  `tileSize` is an expected resolution, not a zoom offset; inside the
+  package's footprint, its one zoom-5 tile (`AtlasRaster.footprint`), a 404
+  is open water answered by the style's ocean stand-in, anything else is
+  retried; outside it a square is transparent and nothing is fetched, so
+  Apple's map shows beyond Atlantic Canada and around the province at
+  continent scale; it covers Apple's standard map rather than replacing it, so a square still
   loading or failed shows Apple's map instead of an empty grid, and each
   rendered tile is fetched and decoded once however many squares are cut
   from it), and the base-replacing `OSMBaseOverlay` and

@@ -113,4 +113,47 @@ struct AtlasRasterTests {
         #expect(AtlasRaster.tileRevision.hasPrefix("atlas-raster-"))
         #expect(AtlasRaster.packageDirectory == "atlas-raster")
     }
+
+    /// The XYZ tile holding a point, as `web/scripts/atlasRaster` computes it.
+    private static func tile(lon: Double, lat: Double, z: Int) -> (x: Int, y: Int) {
+        let n = Double(1 << z)
+        let φ = lat * .pi / 180
+        return (
+            Int(((lon + 180) / 360 * n).rounded(.down)),
+            Int(((1 - log(tan(φ) + 1 / cos(φ)) / .pi) / 2 * n).rounded(.down))
+        )
+    }
+
+    /// The province's far corners are inside the footprint at every zoom the
+    /// map asks for, and App Review's Cupertino is not.
+    @Test("The footprint holds the province and not the rest of the world")
+    func theFootprintHoldsTheProvince() {
+        let province = [
+            (-61.50, 45.87), // Judique
+            (-66.12, 43.84), // Yarmouth
+            (-60.42, 47.03), // Cape North
+            (-59.99, 43.93), // Sable Island
+        ]
+        let elsewhere = [
+            (-122.01, 37.33), // Apple Park, Cupertino
+            (-73.99, 40.73), // New York
+            (-0.13, 51.51), // London
+        ]
+        for z in 0...23 {
+            for (lon, lat) in province {
+                let t = Self.tile(lon: lon, lat: lat, z: z)
+                #expect(AtlasRaster.covers(z: z, x: t.x, y: t.y), "(\(lon), \(lat)) at z\(z)")
+            }
+        }
+        // Below zoom 2 a single square takes in half the world, Nova Scotia
+        // included, so "elsewhere" means from there down.
+        for z in 2...23 {
+            for (lon, lat) in elsewhere {
+                let t = Self.tile(lon: lon, lat: lat, z: z)
+                #expect(!AtlasRaster.covers(z: z, x: t.x, y: t.y), "(\(lon), \(lat)) at z\(z)")
+            }
+        }
+        #expect(AtlasRaster.covers(z: 0, x: 0, y: 0))
+        #expect(!AtlasRaster.covers(z: -1, x: 0, y: 0))
+    }
 }
