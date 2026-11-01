@@ -305,9 +305,9 @@ nonisolated enum AtlasRasterBase {
     ///
     /// Within the package's zooms it is one tile. Below them — the reader has
     /// pinched out past the province — it is composed from the shallowest
-    /// rendered tiles it covers, up to sixteen of them, which are almost all
-    /// the ocean stand-in. Further out than that, Nova Scotia is a few
-    /// pixels wide and the stand-in alone is the honest picture.
+    /// rendered tiles it covers. Only the footprint's own tile is drawn into
+    /// it; the rest of the square stays clear, so Apple's map shows around
+    /// the province instead of an ocean the size of a continent.
     private static func renderedImage(
         style: AtlasRasterStyle, z: Int, x: Int, y: Int, baseURL: URL, session: URLSession
     ) async throws -> DecodedTile {
@@ -319,9 +319,6 @@ nonisolated enum AtlasRasterBase {
             throw TileFetcherError.invalidHTTPStatus(404)
         }
         let levels = zooms.lowerBound - z
-        guard levels <= 2 else {
-            return try await oceanImage(style: style, z: zooms.lowerBound, baseURL: baseURL, session: session)
-        }
         let key = address(baseURL, "composite", style.rawValue, z, x, y)
         return try await shared(key) {
             try await composite(
@@ -331,7 +328,8 @@ nonisolated enum AtlasRasterBase {
     }
 
     /// The `2^levels`-square block of rendered tiles that covers one shallower
-    /// square, drawn down into a single tile-sized image.
+    /// square, drawn down into a single tile-sized image. Pieces outside the
+    /// footprint are neither fetched nor drawn, and stay transparent.
     private static func composite(
         key: String, style: AtlasRasterStyle, z: Int, x: Int, y: Int, levels: Int,
         baseURL: URL, session: URLSession
@@ -339,7 +337,7 @@ nonisolated enum AtlasRasterBase {
         let n = 1 << levels
         let pieces = try await withThrowingTaskGroup(of: (Int, Int, DecodedTile).self) { group in
             for dy in 0..<n {
-                for dx in 0..<n {
+                for dx in 0..<n where AtlasRaster.covers(z: z + levels, x: x * n + dx, y: y * n + dy) {
                     group.addTask {
                         (dx, dy, try await tileImage(
                             style: style, z: z + levels, x: x * n + dx, y: y * n + dy,
@@ -359,9 +357,10 @@ nonisolated enum AtlasRasterBase {
             guard let context = CGContext(
                 data: nil, width: side, height: side, bitsPerComponent: 8, bytesPerRow: 0,
                 space: CGColorSpaceCreateDeviceRGB(),
-                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
             ) else { throw TileFetcherError.invalidImageData }
             context.interpolationQuality = .high
+            context.clear(CGRect(x: 0, y: 0, width: side, height: side))
             for (dx, dy, piece) in pieces {
                 // Core Graphics counts rows from the bottom; the tile grid
                 // counts them from the top.
@@ -392,10 +391,14 @@ nonisolated enum AtlasRasterBase {
     /// MapKit reads `tileSize` as the image resolution it expects, not as a
     /// change to which square `z` names — a 512-point setting still asked for
     /// zoom-14 squares at zoom 14 — so the arithmetic lives here instead.
+    ///
+    /// A square outside the package's footprint is answered at once with a
+    /// transparent tile and no request, so Apple's map shows there.
     static func mapKitTile(
         style: AtlasRasterStyle, z: Int, x: Int, y: Int, baseURL: URL,
         session: URLSession = .shared
     ) async throws -> Data {
+        guard AtlasRaster.covers(z: z, x: x, y: y) else { return outsideFootprint }
         let rendered = min(AtlasRaster.zoomRange.upperBound, z - 1)
         let levels = z - rendered
         let parent = try await renderedImage(
@@ -415,15 +418,22 @@ nonisolated enum AtlasRasterBase {
         }
     }
 
+    /// What a square outside the footprint is: clear, so the map beneath
+    /// shows. Empty bytes only if the transparent tile could not be drawn.
+    static let outsideFootprint = TileComposite.transparent ?? Data()
+
     /// The square the print export asks for, with the outcome the page's
     /// legend is built from instead of a thrown error.
     ///
-    /// Always `.source` when it arrives: the ocean stand-in is the same
-    /// renderer's picture of open water in the same style, not ground the
-    /// map lacks.
+    /// `.source` when it arrives: the ocean stand-in is the same renderer's
+    /// picture of open water in the same style, not ground the map lacks.
+    /// Outside the footprint nothing was asked, and the page is told so.
     static func exportTile(
         style: AtlasRasterStyle, z: Int, x: Int, y: Int, baseURL: URL
     ) async -> (Data, TileLoadOutcome, TileSubstance) {
+        guard AtlasRaster.covers(z: z, x: x, y: y) else {
+            return (outsideFootprint, .served, .outsideCoverage)
+        }
         do {
             return (try await mapKitTile(style: style, z: z, x: x, y: y, baseURL: baseURL), .served, .source)
         } catch {
@@ -465,6 +475,10 @@ nonisolated enum AtlasRasterBase {
 /// grid, and a map that never drew — App Review's iPad, 2026-10-30 — was
 /// nothing but grid. Without it, the same square shows Apple's map until the
 /// Atlas arrives: a map either way.
+///
+/// Outside the package's footprint (`AtlasRaster.footprint`) its squares are
+/// transparent, so a reader who locates themselves in California, or pinches
+/// out to the continent, sees Apple's map there rather than open sea.
 ///
 /// `nonisolated` for the reason the other tile overlays are: MapKit asks for
 /// tiles on its own queues, and nothing here holds mutable state.
