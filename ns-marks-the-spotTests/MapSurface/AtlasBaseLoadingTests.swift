@@ -165,7 +165,7 @@ struct AtlasBaseLoadingTests {
 
         let cupertino = [
             MKTileOverlayPath(x: 164, y: 397, z: 10, contentScaleFactor: 2),
-            MKTileOverlayPath(x: 2639, y: 6359, z: 14, contentScaleFactor: 2),
+            MKTileOverlayPath(x: 2639, y: 6358, z: 14, contentScaleFactor: 2),
             MKTileOverlayPath(x: 0, y: 1, z: 2, contentScaleFactor: 2),
         ]
         for path in cupertino {

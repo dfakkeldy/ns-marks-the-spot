@@ -145,9 +145,10 @@ struct AtlasRasterTests {
                 #expect(AtlasRaster.covers(z: z, x: t.x, y: t.y), "(\(lon), \(lat)) at z\(z)")
             }
         }
-        // Below zoom 2 a single square takes in half the world, Nova Scotia
-        // included, so "elsewhere" means from there down.
-        for z in 2...23 {
+        // Below zoom 3 the square holding Nova Scotia also holds New York and
+        // London (zoom 2's is 90° W–0°, 0°–66° N), so "elsewhere" starts there.
+        // Cupertino is in another square from zoom 2 down.
+        for z in 3...23 {
             for (lon, lat) in elsewhere {
                 let t = Self.tile(lon: lon, lat: lat, z: z)
                 #expect(!AtlasRaster.covers(z: z, x: t.x, y: t.y), "(\(lon), \(lat)) at z\(z)")
