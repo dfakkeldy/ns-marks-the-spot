@@ -67,5 +67,9 @@ unsupported App Store metadata directory. These are prepared candidate assets,
 not an upload or App Review submission receipt. Final delivery state belongs in
 the [release packet](../../../docs/APP_STORE_RELEASE.md).
 
+The beta metadata now lives outside the App Store metadata root at
+`fastlane/testflight/en-US`; the release workflow must be rerun from main after
+the repair merges. Its actual uploaded build number remains a separate check.
+
 The former July 3 screenshot files remain recoverable from
 [the pre-refresh main commit](https://github.com/dfakkeldy/ns-marks-the-spot/tree/0cb4f5d5f44a40af1ccdb29780b88cbc3bb6079e/fastlane/screenshots/en-US).

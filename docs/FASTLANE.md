@@ -35,9 +35,9 @@ Production metadata:
 
 TestFlight metadata:
 
-- `fastlane/metadata/testflight/en-US/description.txt`
-- `fastlane/metadata/testflight/en-US/feedback_email.txt`
-- `fastlane/metadata/testflight/en-US/what_to_test.txt`
+- `fastlane/testflight/en-US/description.txt`
+- `fastlane/testflight/en-US/feedback_email.txt`
+- `fastlane/testflight/en-US/what_to_test.txt`
 
 `fastlane ios lint_metadata` checks that required metadata files exist, are not
 empty, and that `keywords.txt` stays within the 100-byte App Store Connect limit.

@@ -16,6 +16,12 @@ directory, before binary upload. The failed job retained no IPA artifact.
 **No new App Store build upload, Resolution Center reply, or resubmission is
 established by that run.**
 
+The beta-only metadata has now moved to `fastlane/testflight/en-US`, with its
+single Fastfile reader path updated. App Store metadata stays in
+`fastlane/metadata`. Fastlane's directory validation accepts the repaired
+layout with validation enabled; tests, signing, numbering and
+`submit_for_review: false` retain their existing behavior.
+
 The [screenshot pack](../fastlane/screenshots/en-US/README.md) now contains six
 fresh iPhone and six fresh iPad captures of a Release simulator build of that
 source. The map is drawn wherever visible; source credits and licence gates
@@ -24,9 +30,9 @@ explicit simulator-only verification limit. The original blank-map result was
 not reproduced, and no physical-iPad acceptance is claimed.
 
 The existing version's App Store release option was **manual** when inspected.
-Upload and resubmission remain separate from public release. Resolve the
-metadata-directory blocker and verify the actual uploaded build and final
-screenshots/notes in App Store Connect before resubmitting.
+Upload and resubmission remain separate from public release. After the layout
+repair merges, rerun App Store Release from main and verify the actual uploaded
+build and final screenshots/notes in App Store Connect before resubmitting.
 
 ## Historical October 6 audit
 
