@@ -448,22 +448,6 @@ struct MapOpeningAndLocationTests {
         #expect(controller.userTrackingState == .idle)
     }
 
-    /// Once refused, the same error is the refusal, said where it arrives.
-    @Test func aDeniedErrorAfterARefusalSaysSo() {
-        let controller = MapController()
-        let mapView = MKMapView()
-        controller.mapView = mapView
-        controller.authorization = { .notDetermined }
-        controller.centerOnUserLocation()
-        controller.authorization = { .denied }
-        controller.servicesEnabled = { true }
-
-        controller.mapView(mapView, didFailToLocateUserWithError: CLError(.denied))
-
-        #expect(controller.locationMessage == .denied)
-        #expect(controller.userTrackingState == .idle)
-    }
-
     @Test func onlyAnAnsweredPromptMakesADeniedErrorARefusal() {
         #expect(MapController.refusalForDeniedLocate(status: .notDetermined, servicesEnabled: true) == nil)
         #expect(MapController.refusalForDeniedLocate(status: .denied, servicesEnabled: true) == .denied)
@@ -1096,16 +1080,21 @@ struct MapOpeningAndLocationTests {
         #expect(controller.locationMessage == .failed)
     }
 
-    /// A refusal delivered as a failure is reported as the refusal it is.
+    /// A refusal delivered as a failure is reported as the refusal it is:
+    /// the prompt answered between the tap and the error.
     @Test func aFailureThatIsARefusalSaysSo() {
         let controller = MapController()
         let mapView = MKMapView()
         controller.mapView = mapView
+        controller.authorization = { .notDetermined }
         controller.centerOnUserLocation()
+        controller.authorization = { .denied }
+        controller.servicesEnabled = { true }
 
         controller.mapView(mapView, didFailToLocateUserWithError: CLError(.denied))
 
         #expect(controller.isWaitingToCenterOnUserLocation == false)
+        #expect(controller.userTrackingState == .idle)
         #expect(controller.locationMessage == .denied)
     }
 
@@ -1282,7 +1271,10 @@ struct MapOpeningAndLocationTests {
         let controller = MapController()
         let mapView = MKMapView()
         controller.mapView = mapView
+        controller.authorization = { .notDetermined }
         controller.centerOnUserLocation()
+        controller.authorization = { .denied }
+        controller.servicesEnabled = { true }
         controller.mapView(mapView, didFailToLocateUserWithError: CLError(.denied))
         #expect(controller.locationMessage == .denied)
 
