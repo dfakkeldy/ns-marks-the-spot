@@ -2,7 +2,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createExpression, validateStyleMin } from '@maplibre/maplibre-gl-style-spec';
-import { atlasGlyphUrl, atlasSpriteUrl, buildAtlasStyle } from './style';
+import { atlasFonts, atlasGlyphUrl, atlasSpriteUrl, buildAtlasStyle } from './style';
+import { HAND_DRAWN_LOCAL_ZOOM } from './handDrawnStyle';
 
 // Vitest runs from web/; the generated glyphs and sprite ship from public/.
 const publicDir = `${resolve(process.cwd(), 'public')}/`;
@@ -24,7 +25,7 @@ function advance(stack: string, character: string) {
   varint(); message(index + varint(), false);
   return glyphs.get(character.codePointAt(0)!);
 }
-const evaluate = (layerId: string, properties: Record<string, unknown>, zoom = 13, mode: 'day' | 'fletcher' = 'day') => {
+const evaluate = (layerId: string, properties: Record<string, unknown>, zoom = 13, mode: 'day' | 'fletcher' | 'handdrawn' = 'day') => {
   const layer = buildAtlasStyle(mode).layers.find(layer => layer.id === layerId)!;
   const expression = createExpression('filter' in layer ? layer.filter : null, 'filter');
   expect(expression.result).toBe('success');
@@ -33,7 +34,7 @@ const evaluate = (layerId: string, properties: Record<string, unknown>, zoom = 1
 
 // A valid style is essential: an invalid expression can blank the whole map.
 describe('atlas cartography', () => {
-  it.each(['day', 'night', 'fletcher'] as const)('renders a schema-valid %s style', (mode) => {
+  it.each(['day', 'night', 'fletcher', 'handdrawn'] as const)('renders a schema-valid %s style', (mode) => {
     expect(validateStyleMin(buildAtlasStyle(mode))).toEqual([]);
   });
   it('uses provincial road names and does not draw competing OSM road labels', () => {
@@ -102,15 +103,20 @@ describe('fletcher-inspired texture and lettering', () => {
     expect(atlasGlyphUrl('https://example.org/map/index.html')).toBe('https://example.org/map/atlas/fonts/{fontstack}/{range}.pbf');
     expect(atlasSpriteUrl('https://example.org/map/index.html')).toBe('https://example.org/map/atlas/sprite/sprite');
   });
-  it.each(['day', 'night', 'fletcher'] as const)('ships every glyph range and sprite image the %s style names', (mode) => {
+  it.each(['day', 'night', 'fletcher', 'handdrawn'] as const)('ships every glyph range and sprite image the %s style names', (mode) => {
     const style = buildAtlasStyle(mode);
+    // Fonts and icons may be zoom expressions; collect every literal name inside them.
+    const names = (value: unknown): string[] => typeof value === 'string' ? [value] : Array.isArray(value) ? value.flatMap(names) : [];
+    const operators = new Set(['step', 'zoom', 'literal', 'interpolate', 'linear']);
     const receipt = JSON.parse(readFileSync(`${publicDir}atlas/fonts/source.json`, 'utf8')) as { fonts: { stack: string }[] };
     const stacks = new Set<string>();
     const images = new Set<string>();
     for (const layer of style.layers) {
       const layout = 'layout' in layer ? layer.layout as Record<string, unknown> : {};
       const paint = 'paint' in layer ? layer.paint as Record<string, unknown> : {};
-      for (const font of (layout['text-font'] as string[] | undefined) ?? []) stacks.add(font);
+      for (const font of names(layout['text-font']).filter(name => !operators.has(name))) stacks.add(font);
+      // Sprite names are hyphenated lower case; operators and property names are not.
+      for (const image of names(layout['icon-image']).filter(name => /^[a-z]+-[a-z0-9-]+$/.test(name))) images.add(image);
       for (const key of ['fill-pattern', 'line-pattern', 'background-pattern']) if (typeof paint[key] === 'string') images.add(paint[key] as string);
     }
     expect(stacks.size).toBeGreaterThan(0);
@@ -163,5 +169,60 @@ describe('fletcher-inspired texture and lettering', () => {
       expect(style.layers.find(layer => layer.id === id)).toBeUndefined();
     }
     expect(style.layers.find(layer => layer.id === 'surface-road-edge')?.maxzoom).toBeUndefined();
+  });
+});
+
+describe('hand-drawn sketchbook style', () => {
+  const style = () => buildAtlasStyle('handdrawn');
+  const layer = (id: string) => style().layers.find(candidate => candidate.id === id)!;
+  it('ships the faces it claims: Quill and Hand metrics differ from each other and from the Atlas serif', () => {
+    const widths = Object.values(atlasFonts).map(stack => [advance(stack, 'H'), advance(stack, 'm'), advance(stack, 'J')].join());
+    expect(new Set(widths).size).toBe(widths.length);
+  });
+  it('draws shore ripples and inked shores only from NSTDB shoreline lines, never from water polygon edges', () => {
+    expect(style().layers.filter(candidate => candidate.type === 'line' && 'source-layer' in candidate && candidate['source-layer'] === 'water')).toEqual([]);
+    for (const id of ['shore-moat', 'shore-ripple-1', 'shore-ripple-2', 'shore-ripple-3', 'shore-bleed', 'shoreline', 'shoreline-inked']) {
+      const shore = layer(id);
+      expect('source-layer' in shore && shore['source-layer']).toBe('waterways');
+      expect(shore.minzoom).toBeGreaterThanOrEqual(11);
+      expect(evaluate(id, { feat_desc: 'Coast - Water to the right line' }, 13, 'handdrawn')).toBe(true);
+      expect(evaluate(id, { feat_desc: 'River - Single Line' }, 13, 'handdrawn')).toBe(false);
+    }
+  });
+  it('places mountain marks from the elevation model, never on gazetteer points', () => {
+    const mountains = layer('mountains');
+    expect('source' in mountains && mountains.source).toBe('relief');
+    expect(style().sources.relief).toMatchObject({ type: 'geojson' });
+    expect(style().layers.filter(candidate => 'layout' in candidate && candidate.layout && 'icon-image' in candidate.layout && 'source-layer' in candidate && candidate['source-layer'] === 'names'
+      && JSON.stringify(candidate.layout['icon-image']).match(/hand-(peak|mesa)/))).toEqual([]);
+  });
+  it('switches from the old book face to the felt-pen hand at the local scale', () => {
+    const font = (id: string, zoom: number) => {
+      const value = (layer(id) as { layout: { 'text-font': unknown } }).layout['text-font'];
+      const expression = createExpression(value as never, 'text-font' as never);
+      expect(expression.result).toBe('success');
+      return expression.result === 'success' ? expression.value.evaluate({ zoom }, { type: 1, properties: {} }) : undefined;
+    };
+    expect(font('town-names', 8)).toEqual([atlasFonts.quill]);
+    expect(font('town-names', HAND_DRAWN_LOCAL_ZOOM + 1)).toEqual([atlasFonts.handBold]);
+    expect(font('water-names', 10)).toEqual([atlasFonts.quillItalic]);
+    expect(font('water-names', HAND_DRAWN_LOCAL_ZOOM)).toEqual([atlasFonts.hand]);
+    expect((layer('village-names') as { maxzoom?: number }).maxzoom).toBe(HAND_DRAWN_LOCAL_ZOOM);
+    expect((layer('village-cottages') as { minzoom?: number }).minzoom).toBe(HAND_DRAWN_LOCAL_ZOOM);
+  });
+  it('trades ink asterisks for doodled trees as the map closes in, and keeps parchment beneath every label', () => {
+    expect(layer('woodland-asterisks').maxzoom).toBe(HAND_DRAWN_LOCAL_ZOOM);
+    expect(layer('woodland-trees').minzoom).toBeLessThan(HAND_DRAWN_LOCAL_ZOOM);
+    const ids = style().layers.map(candidate => candidate.id);
+    expect(ids.indexOf('paper-grain')).toBeGreaterThan(ids.indexOf('ferries'));
+    // The mountain marks sit under the parchment like the rest of the ink; lettering stays above it.
+    expect(ids.indexOf('mountains')).toBeLessThan(ids.indexOf('paper-grain'));
+    expect(ids.indexOf('paper-grain')).toBeLessThan(style().layers.findIndex(candidate => 'layout' in candidate && candidate.layout && 'text-field' in candidate.layout));
+  });
+  it('keeps the ordinary-road and track rules of the other styles', () => {
+    expect(evaluate('roads', { roadc_desc: 'Local', feat_desc: 'ROAD - Abandoned - Local - 1 Lane - Unpaved' }, 14, 'handdrawn')).toBe(false);
+    expect(evaluate('roads', { roadc_desc: 'Local', feat_desc: 'ROAD - Local - 1 Lane - Unpaved' }, 14, 'handdrawn')).toBe(true);
+    expect(evaluate('tracks-and-paths', { roadc_desc: 'Track', feat_desc: 'TRACK' }, 14, 'handdrawn')).toBe(true);
+    expect(evaluate('road-names', { street: 'Track', roadc_desc: 'Private Use', feat_desc: 'ROAD - Local' }, 14, 'handdrawn')).toBe(false);
   });
 });

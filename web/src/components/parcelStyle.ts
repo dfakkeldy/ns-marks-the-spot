@@ -133,6 +133,7 @@ function interactiveParcelStyleForFeature(
 /** Background contrast only; selected and sale evidence keep their own symbols. */
 export function parcelOutlineColor(style: BasemapStyle, imagery: boolean): string {
   if (imagery || style === 'night') return '#ffe66d';
+  if (style === 'handdrawn') return atlasPalettes.handdrawn.accent;
   return style === 'fletcher' ? atlasPalettes.fletcher.crown : '#0a7180';
 }
 

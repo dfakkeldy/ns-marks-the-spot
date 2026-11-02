@@ -24,7 +24,7 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
     let frame = 0;
     let watchdog = 0;
     const node = document.createElement('div');
-    node.className = `atlas-basemap leaflet-zoom-animated${print ? ' print-layer-modern' : ''}`;
+    node.className = `atlas-basemap atlas-basemap--${mode} leaflet-zoom-animated${print ? ' print-layer-modern' : ''}`;
     node.setAttribute('aria-hidden', 'true');
     leaflet.getContainer().prepend(node);
     const report = (next: MapLayerStatus) => { if (!disposed) status.current(next); };

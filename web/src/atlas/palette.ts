@@ -11,6 +11,11 @@
  * land ground wherever no tree cover is mapped, olive is tree cover, ochre is
  * farmland and bare paper is water. Nothing here redraws historical geology,
  * and the sheets' hatching is deliberately left out.
+ *
+ * Hand-drawn is a playful sketchbook map: sepia ink on parchment, with the
+ * forest, marsh and fields carried by doodled textures (see
+ * scripts/buildAtlasSprite.mjs) rather than by strong colour, so the fills
+ * stay close to the paper.
  */
 export const atlasPalettes = {
   day: {
@@ -78,6 +83,28 @@ export const atlasPalettes = {
     halo: '#f3e9cf',        // burnished paper behind lettering, as on the sheets
     boundary: '#4d4a5c',    // cool slate so district lines never read as tracks
     accent: '#c1452b',      // Fletcher's vermilion; reserved for annotations, unused by the basemap
+  },
+  handdrawn: {
+    land: '#efe1bc',        // parchment
+    water: '#c8b082',       // a deeper tea wash under the pen hatching, so the coast carries without a line
+    waterLine: '#5a3d22',
+    shore: '#dcc89d',       // ripple lines set off the coast into the water
+    wood: '#e9d9b0',        // barely tinted: the tree doodles do the work
+    crown: '#d6be78',       // an ochre wash so Crown Land still reads under the doodles
+    grass: '#ebdcb3',
+    farmland: '#eadaab',
+    residential: '#e2cfa2',
+    building: '#c9a878',
+    road: '#f3e7c6',
+    roadEdge: '#4a3018',
+    highway: '#8c4a26',     // main routes in a rust-red ink
+    path: '#9a3b22',        // red-brown dashes, a treasure-map trail
+    ink: '#3b2614',
+    mutedInk: '#5a3d22',
+    waterInk: '#4f3a24',
+    halo: '#f1e5c4',
+    boundary: '#6e4b2e',
+    accent: '#a8321e',
   },
 } as const;
 

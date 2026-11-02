@@ -61,5 +61,124 @@
     "width": 192,
     "height": 16,
     "pixelRatio": 2
+  },
+  "hand-paper": {
+    "x": 0,
+    "y": 1140,
+    "width": 512,
+    "height": 512,
+    "pixelRatio": 2
+  },
+  "hand-sea": {
+    "x": 0,
+    "y": 1652,
+    "width": 128,
+    "height": 128,
+    "pixelRatio": 2
+  },
+  "hand-trees-far": {
+    "x": 0,
+    "y": 1780,
+    "width": 320,
+    "height": 320,
+    "pixelRatio": 2
+  },
+  "hand-trees": {
+    "x": 0,
+    "y": 2100,
+    "width": 512,
+    "height": 512,
+    "pixelRatio": 2
+  },
+  "hand-marsh": {
+    "x": 0,
+    "y": 2612,
+    "width": 80,
+    "height": 80,
+    "pixelRatio": 2
+  },
+  "hand-field": {
+    "x": 0,
+    "y": 2692,
+    "width": 48,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-peak-0": {
+    "x": 0,
+    "y": 2740,
+    "width": 72,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-mesa-0": {
+    "x": 0,
+    "y": 2788,
+    "width": 72,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-peak-1": {
+    "x": 0,
+    "y": 2836,
+    "width": 72,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-mesa-1": {
+    "x": 0,
+    "y": 2884,
+    "width": 72,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-peak-2": {
+    "x": 0,
+    "y": 2932,
+    "width": 72,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-mesa-2": {
+    "x": 0,
+    "y": 2980,
+    "width": 72,
+    "height": 48,
+    "pixelRatio": 2
+  },
+  "hand-town": {
+    "x": 0,
+    "y": 3028,
+    "width": 28,
+    "height": 28,
+    "pixelRatio": 2
+  },
+  "hand-house": {
+    "x": 0,
+    "y": 3056,
+    "width": 28,
+    "height": 28,
+    "pixelRatio": 2
+  },
+  "hand-ink": {
+    "x": 0,
+    "y": 3084,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "hand-ink-water": {
+    "x": 0,
+    "y": 3100,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "hand-road-edges": {
+    "x": 0,
+    "y": 3116,
+    "width": 256,
+    "height": 24,
+    "pixelRatio": 2
   }
 }
