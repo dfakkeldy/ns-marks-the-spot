@@ -46,6 +46,8 @@ const tier = ([major, secondary, local]: Tier): ExpressionSpecification =>
   ['match', roadClass, majorRoads, major, secondaryRoads, secondary, local];
 const roadWidth = (extra = 0): ExpressionSpecification => ['interpolate', ['exponential', 1.5], ['zoom'],
   ...tierWidths.flatMap(([zoom, widths]) => [zoom, tier(widths.map(width => width + (zoom >= LOCAL ? extra : 0)) as Tier)])];
+/** Byroads become double lines here, once they are about 4 px wide. */
+const DOUBLE_LINE_ZOOM = 15;
 const tunnel: ExpressionSpecification = ['==', ['slice', description, 0, 6], 'TUNNEL'];
 const trailClasses = ['Track', 'Trail', 'Dryweather', 'Seasonal'];
 /** Flat-topped tablelands or pointed peaks for the mountain marks. */
@@ -145,7 +147,13 @@ export function handDrawnLayers(p: Palette): LayerSpecification[] {
     { id: 'roads', type: 'line', ...roads, filter: ['all', ordinaryRoad, ['!', tunnel]],
       layout: { 'line-cap': 'round', 'line-join': 'round' },
       paint: {
-        'line-color': ['step', ['zoom'], ['match', roadClass, majorRoads, p.highway, p.mutedInk], LOCAL, ['match', roadClass, majorRoads, '#d79a68', secondaryRoads, '#ecd6aa', p.road]],
+        // Byroads stay sepia pen lines until they are wide enough for the double line to read;
+        // a pale fill any earlier vanishes into the parchment.
+        'line-color': ['interpolate', ['linear'], ['zoom'],
+          LOCAL - 0.25, ['match', roadClass, majorRoads, p.highway, p.mutedInk],
+          LOCAL, ['match', roadClass, majorRoads, '#d79a68', p.mutedInk],
+          DOUBLE_LINE_ZOOM - 0.5, ['match', roadClass, majorRoads, '#d79a68', p.mutedInk],
+          DOUBLE_LINE_ZOOM + 0.5, ['match', roadClass, majorRoads, '#d79a68', secondaryRoads, '#ecd6aa', p.road]],
         'line-width': roadWidth(),
         // Byways arrive with the sketch scale and local roads just before the streets.
         'line-opacity': ['interpolate', ['linear'], ['zoom'],
@@ -154,7 +162,9 @@ export function handDrawnLayers(p: Palette): LayerSpecification[] {
     // Up close every street becomes a double line: two freehand edges over the paper fill.
     { id: 'road-edges', type: 'line', ...roads, minzoom: LOCAL, filter: ['all', ordinaryRoad, ['!', tunnel]],
       layout: { 'line-join': 'round' },
-      paint: { 'line-pattern': 'hand-road-edges', 'line-width': roadWidth(1.2), 'line-opacity': fade(LOCAL, LOCAL + 0.5) } },
+      paint: { 'line-pattern': 'hand-road-edges', 'line-width': roadWidth(1.2),
+        'line-opacity': ['interpolate', ['linear'], ['zoom'], LOCAL, ['match', roadClass, majorRoads, 1, 0],
+          DOUBLE_LINE_ZOOM - 0.5, ['match', roadClass, majorRoads, 1, 0], DOUBLE_LINE_ZOOM + 0.5, 1] } },
     // A treasure-map trail: tracks and paths in red-brown dashes, abandoned routes dotted.
     { id: 'tracks-and-paths', type: 'line', ...roads, minzoom: 12.5,
       filter: ['all', ['!', abandoned], ['any', nonOrdinary, ['match', roadClass, trailClasses, true, false]]],
