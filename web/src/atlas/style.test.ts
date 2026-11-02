@@ -115,7 +115,8 @@ describe('fletcher-inspired texture and lettering', () => {
       const layout = 'layout' in layer ? layer.layout as Record<string, unknown> : {};
       const paint = 'paint' in layer ? layer.paint as Record<string, unknown> : {};
       for (const font of names(layout['text-font']).filter(name => !operators.has(name))) stacks.add(font);
-      for (const image of names(layout['icon-image']).filter(name => !operators.has(name) && name !== '')) images.add(image);
+      // Sprite names are hyphenated lower case; operators and property names are not.
+      for (const image of names(layout['icon-image']).filter(name => /^[a-z]+-[a-z0-9-]+$/.test(name))) images.add(image);
       for (const key of ['fill-pattern', 'line-pattern', 'background-pattern']) if (typeof paint[key] === 'string') images.add(paint[key] as string);
     }
     expect(stacks.size).toBeGreaterThan(0);
@@ -180,13 +181,20 @@ describe('hand-drawn sketchbook style', () => {
   });
   it('draws shore ripples and inked shores only from NSTDB shoreline lines, never from water polygon edges', () => {
     expect(style().layers.filter(candidate => candidate.type === 'line' && 'source-layer' in candidate && candidate['source-layer'] === 'water')).toEqual([]);
-    for (const id of ['shore-ripple-1', 'shore-ripple-2', 'shore-ripple-3', 'shoreline', 'shoreline-inked']) {
+    for (const id of ['shore-moat', 'shore-ripple-1', 'shore-ripple-2', 'shore-ripple-3', 'shore-bleed', 'shoreline', 'shoreline-inked']) {
       const shore = layer(id);
       expect('source-layer' in shore && shore['source-layer']).toBe('waterways');
       expect(shore.minzoom).toBeGreaterThanOrEqual(11);
       expect(evaluate(id, { feat_desc: 'Coast - Water to the right line' }, 13, 'handdrawn')).toBe(true);
       expect(evaluate(id, { feat_desc: 'River - Single Line' }, 13, 'handdrawn')).toBe(false);
     }
+  });
+  it('places mountain marks from the elevation model, never on gazetteer points', () => {
+    const mountains = layer('mountains');
+    expect('source' in mountains && mountains.source).toBe('relief');
+    expect(style().sources.relief).toMatchObject({ type: 'geojson' });
+    expect(style().layers.filter(candidate => 'layout' in candidate && candidate.layout && 'icon-image' in candidate.layout && 'source-layer' in candidate && candidate['source-layer'] === 'names'
+      && JSON.stringify(candidate.layout['icon-image']).match(/hand-(peak|mesa)/))).toEqual([]);
   });
   it('switches from the old book face to the felt-pen hand at the local scale', () => {
     const font = (id: string, zoom: number) => {
@@ -207,7 +215,9 @@ describe('hand-drawn sketchbook style', () => {
     expect(layer('woodland-trees').minzoom).toBeLessThan(HAND_DRAWN_LOCAL_ZOOM);
     const ids = style().layers.map(candidate => candidate.id);
     expect(ids.indexOf('paper-grain')).toBeGreaterThan(ids.indexOf('ferries'));
-    expect(ids.indexOf('paper-grain')).toBeLessThan(style().layers.findIndex(candidate => candidate.type === 'symbol'));
+    // The mountain marks sit under the parchment like the rest of the ink; lettering stays above it.
+    expect(ids.indexOf('mountains')).toBeLessThan(ids.indexOf('paper-grain'));
+    expect(ids.indexOf('paper-grain')).toBeLessThan(style().layers.findIndex(candidate => 'layout' in candidate && candidate.layout && 'text-field' in candidate.layout));
   });
   it('keeps the ordinary-road and track rules of the other styles', () => {
     expect(evaluate('roads', { roadc_desc: 'Local', feat_desc: 'ROAD - Abandoned - Local - 1 Lane - Unpaved' }, 14, 'handdrawn')).toBe(false);

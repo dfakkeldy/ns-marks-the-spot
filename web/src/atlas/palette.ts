@@ -85,15 +85,15 @@ export const atlasPalettes = {
     accent: '#c1452b',      // Fletcher's vermilion; reserved for annotations, unused by the basemap
   },
   handdrawn: {
-    land: '#ead9b0',        // parchment
-    water: '#d3c095',       // a deeper tea wash under the pen cross-hatching
+    land: '#efe1bc',        // parchment
+    water: '#c8b082',       // a deeper tea wash under the pen hatching, so the coast carries without a line
     waterLine: '#5a3d22',
     shore: '#dcc89d',       // ripple lines set off the coast into the water
-    wood: '#e2d1a2',        // barely tinted: the tree doodles do the work
+    wood: '#e9d9b0',        // barely tinted: the tree doodles do the work
     crown: '#d6be78',       // an ochre wash so Crown Land still reads under the doodles
-    grass: '#e6d6a8',
-    farmland: '#e7d3a0',
-    residential: '#ddc596',
+    grass: '#ebdcb3',
+    farmland: '#eadaab',
+    residential: '#e2cfa2',
     building: '#c9a878',
     road: '#f3e7c6',
     roadEdge: '#4a3018',
@@ -102,7 +102,7 @@ export const atlasPalettes = {
     ink: '#3b2614',
     mutedInk: '#5a3d22',
     waterInk: '#4f3a24',
-    halo: '#efe2bf',
+    halo: '#f1e5c4',
     boundary: '#6e4b2e',
     accent: '#a8321e',
   },

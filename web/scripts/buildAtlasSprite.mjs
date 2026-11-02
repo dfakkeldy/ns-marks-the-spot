@@ -15,9 +15,11 @@
 //   hand-trees-far / hand-trees      ink asterisks for forest at regional scale,
 //                                    then doodled pines and round trees up close
 //   hand-marsh / hand-field          grass tufts for wetland, furrows for farmland
-//   hand-mountain / hand-hill        hachured ridges placed on named heights
+//   hand-peak-N / hand-mesa-N        little inked mountains, pointed or flat-topped,
+//                                    placed on DEM uplands (three variants each)
 //   hand-town / hand-house           a ringed town mark and a little cottage
-//   hand-ink[-water|-road]           the hand-inked stroke in sepia
+//   hand-ink[-water]                 the hand-inked stroke in sepia
+//   hand-road-edges                  the two freehand edges of a double-line street
 //
 // Everything is procedural from a fixed seed, so `node scripts/buildAtlasSprite.mjs`
 // reproduces public/atlas/sprite byte-for-byte on the same canvas build.
@@ -149,7 +151,7 @@ function handPaper(size, scale) {
   const image = context.createImageData(size, size);
   const rand = random(1720);
   const phases = random(33);
-  const waves = [[1, 1, 1], [1, 2, 0.8], [2, 1, 0.7], [3, 2, 0.45], [2, 3, 0.4], [4, 5, 0.2], [5, 3, 0.2]]
+  const waves = [[3, 4, 0.25], [4, 5, 0.2], [5, 3, 0.2], [7, 6, 0.12]]
     .map(wave => [...wave, phases() * Math.PI * 2, phases() * Math.PI * 2]);
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
@@ -157,13 +159,13 @@ function handPaper(size, scale) {
       for (const [fx, fy, amplitude, px, py] of waves) {
         value += amplitude * Math.sin((x / size) * fx * Math.PI * 2 + px) * Math.cos((y / size) * fy * Math.PI * 2 + py);
       }
-      const cloud = value / 3.75;                       // broad, seamless tea stains
-      const stain = Math.max(0, Math.abs(cloud) - 0.45) * 0.9; // darker blotch rims
+      // Only fine mottle: a tile with no broad structure shows no repeat.
+      const cloud = value / 0.77;
       const grain = rand() - 0.5;
       const fleck = rand() < 0.008 / scale ? 0.35 : 0;
-      let alpha = cloud * 0.11 + stain + grain * 0.09 + fleck;
+      let alpha = cloud * 0.05 + grain * 0.11 + fleck;
       const [r, g, b] = alpha < 0 ? [255, 248, 228] : [92, 58, 24];
-      alpha = Math.min(0.3, Math.abs(alpha));
+      alpha = Math.min(0.16, Math.abs(alpha));
       const offset = (y * size + x) * 4;
       image.data[offset] = r; image.data[offset + 1] = g; image.data[offset + 2] = b;
       image.data[offset + 3] = Math.round(alpha * 255);
@@ -180,52 +182,72 @@ function handPaper(size, scale) {
   return canvas;
 }
 
-/** Two families of loose diagonal pen strokes; the spacing divides the tile so it repeats. */
+/**
+ * Lines a*x + b*y = c with integer a and b repeat on a square tile when c steps by
+ * size/n, so a family of them tiles seamlessly at a slope other than 45 degrees.
+ * Each line is seeded by its index modulo n, so wrapped copies match exactly.
+ */
+function hatchFamily(context, size, [a, b], n, { seed, width, alpha, wobble, lift }) {
+  const span = Math.abs(a) + Math.abs(b);
+  for (let k = -span * n; k <= span * n; k++) {
+    const rand = random(seed + (((k % n) + n) % n));
+    const c = (k + (rand() - 0.5) * 0.6) * size / n;
+    // Endpoints where the line crosses y = 0 and y = size (b is never zero here).
+    const x0 = c / a, x1 = (c - b * size) / a;
+    if (Math.max(x0, x1) < -size || Math.min(x0, x1) > 2 * size) continue;
+    context.lineWidth = width[0] + rand() * width[1];
+    context.globalAlpha = alpha[0] + rand() * alpha[1];
+    if (rand() < lift) {
+      // A pen lift: the stroke breaks for a few pixels somewhere along its length.
+      const t = 0.2 + rand() * 0.6, gap = (0.04 + rand() * 0.05);
+      penLine(context, rand, x0, 0, x0 + (x1 - x0) * t, size * t, wobble);
+      penLine(context, rand, x0 + (x1 - x0) * (t + gap), size * (t + gap), x1, size, wobble);
+    } else penLine(context, rand, x0, 0, x1, size, wobble);
+  }
+}
+
+/** A shallow main hatch crossed, more faintly, at 45 degrees to it: engraved water, not a mesh. */
 function handSea(scale) {
-  const size = 48 * scale;
+  const size = 64 * scale;
   const canvas = createCanvas(size, size);
   const context = canvas.getContext('2d');
-  const rand = random(1606);
   context.strokeStyle = SEPIA;
   context.lineCap = 'round';
-  for (const [family, alpha] of [[1, 0.3], [-1, 0.2]]) {
-    const gap = size / 6;
-    for (let i = -6; i < 12; i++) {
-      context.globalAlpha = alpha * (0.75 + rand() * 0.5);
-      context.lineWidth = (0.45 + rand() * 0.3) * scale;
-      const start = i * gap + (rand() - 0.5) * gap * 0.25;
-      // A 45-degree line through the tile; drawn long so every wrap is covered.
-      const x0 = family > 0 ? start : start + size, x1 = family > 0 ? start + size : start;
-      penLine(context, rand, x0, 0, x1, size, 1.2 * scale);
-    }
-  }
+  hatchFamily(context, size, [1, -2], 10, { seed: 1606, width: [0.35 * scale, 0.2 * scale], alpha: [0.18, 0.08], wobble: 1.4 * scale, lift: 0.15 });
+  hatchFamily(context, size, [3, -1], 3, { seed: 1607, width: [0.35 * scale, 0], alpha: [0.07, 0.03], wobble: 1.2 * scale, lift: 0.4 });
   return canvas;
 }
 
+/** A scrawled asterisk: one overshooting near-vertical stem and three shorter arms. */
 function asterisk(context, rand, x, y, radius) {
-  const arms = 3 + Math.floor(rand() * 2);
-  const turn = rand() * Math.PI;
-  for (let i = 0; i < arms; i++) {
-    const angle = turn + (i / arms) * Math.PI + (rand() - 0.5) * 0.3;
-    const r = radius * (0.8 + rand() * 0.4);
+  const stem = Math.PI / 2 + (rand() - 0.5) * 0.4;
+  penLine(context, rand, x - Math.cos(stem) * radius * 1.4, y - Math.sin(stem) * radius * 1.4,
+    x + Math.cos(stem) * radius * 1.4, y + Math.sin(stem) * radius * 1.4, radius * 0.12);
+  for (let i = 1; i <= 3; i++) {
+    const angle = stem + (i / 4) * Math.PI + (rand() - 0.5) * 0.8;
+    const r = radius * (0.75 + rand() * 0.35);
     penLine(context, rand, x - Math.cos(angle) * r, y - Math.sin(angle) * r, x + Math.cos(angle) * r, y + Math.sin(angle) * r, radius * 0.15);
   }
 }
 
+/** A few bold scrawled asterisks, off any obvious lattice, as on the reference charts. */
 function handTreesFar(scale) {
-  const size = 72 * scale;
+  const size = 160 * scale;
   const canvas = createCanvas(size, size);
   const context = canvas.getContext('2d');
   const rand = random(1749);
-  context.strokeStyle = SEPIA;
+  context.strokeStyle = '#2a1a0c';
   context.lineCap = 'round';
-  const spots = [[0.2, 0.25], [0.7, 0.15], [0.45, 0.62], [0.9, 0.7], [0.12, 0.85]];
-  for (const [u, v] of spots) {
-    context.globalAlpha = 0.5 + rand() * 0.25;
-    context.lineWidth = (0.9 + rand() * 0.4) * scale;
-    const radius = (3.2 + rand() * 1.3) * scale;
-    const x = (u + (rand() - 0.5) * 0.08) * size, y = (v + (rand() - 0.5) * 0.08) * size;
-    wrapped(size, x, y, radius * 2, (cx, cy) => asterisk(context, random(Math.round(u * 1000 + v * 77)), cx, cy, radius));
+  const spots = [[0.22, 0.3, true], [0.71, 0.58, true], [0.38, 0.86, false], [0.86, 0.12, false]];
+  for (const [u, v, big] of spots) {
+    const radius = (big ? 7 + rand() * 2 : 4 + rand()) * scale;
+    const width = (big ? 1.6 + rand() * 0.3 : 1.1) * scale;
+    const seed = Math.round(u * 1000 + v * 77);
+    wrapped(size, u * size, v * size, radius * 2, (cx, cy) => {
+      context.lineWidth = width;
+      context.globalAlpha = big ? 0.85 : 0.5;
+      asterisk(context, random(seed), cx, cy, radius);
+    });
   }
   return canvas;
 }
@@ -272,25 +294,44 @@ function roundTree(context, rand, x, y, height) {
   penLine(context, rand, x, cy + radius * 0.9, x, y, 0.4);
 }
 
+/** A seamless forest: trees in loose clumps with glades, sized mostly small, never in rows. */
 function handTrees(scale) {
-  const size = 96 * scale;
+  const size = 256 * scale;
   const canvas = createCanvas(size, size);
   const context = canvas.getContext('2d');
   const rand = random(1867);
   context.strokeStyle = SEPIA;
-  context.fillStyle = 'rgba(122, 104, 52, 0.28)';
+  context.fillStyle = 'rgba(122, 104, 52, 0.18)';
   context.lineJoin = 'round';
   context.lineCap = 'round';
-  context.lineWidth = 0.95 * scale;
-  context.globalAlpha = 0.78;
-  // Loosely staggered rows so the forest reads as a stand, not a grid.
-  const spots = [[0.15, 0.3, 'pine'], [0.48, 0.22, 'round'], [0.8, 0.34, 'pine'], [0.3, 0.68, 'pine'],
-    [0.62, 0.62, 'pine'], [0.92, 0.82, 'round'], [0.05, 0.95, 'pine']];
-  for (const [u, v, kind] of spots) {
-    const height = (13 + rand() * 4) * scale;
-    const x = (u + (rand() - 0.5) * 0.05) * size, y = (v + (rand() - 0.5) * 0.05) * size;
-    const seed = Math.round(u * 997 + v * 131);
-    wrapped(size, x, y, height * 1.2, (cx, cy) => (kind === 'pine' ? pine : roundTree)(context, random(seed), cx, cy, height));
+  const wrappedDistance = (a, b) => {
+    const dx = Math.min(Math.abs(a[0] - b[0]), size - Math.abs(a[0] - b[0]));
+    const dy = Math.min(Math.abs(a[1] - b[1]), size - Math.abs(a[1] - b[1]));
+    return Math.hypot(dx, dy);
+  };
+  const clumps = [[0.2, 0.25], [0.68, 0.2], [0.35, 0.7], [0.82, 0.72]].map(([u, v]) => [u * size, v * size]);
+  const glades = [[0.55, 0.47], [0.05, 0.52]].map(([u, v]) => [u * size, v * size]);
+  const placed = [];
+  for (let attempt = 0; attempt < 4000 && placed.length < 34; attempt++) {
+    const clump = clumps[Math.floor(rand() * clumps.length)];
+    const spread = 58 * scale;
+    const point = [(clump[0] + (rand() - 0.5) * 2 * spread + size) % size, (clump[1] + (rand() - 0.5) * 2 * spread + size) % size];
+    if (glades.some(glade => wrappedDistance(point, glade) < 22 * scale)) continue;
+    if (placed.some(other => wrappedDistance(point, other) < 17 * scale)) continue;
+    placed.push(point);
+  }
+  for (const [index, [x, y]] of placed.entries()) {
+    const height = (9 + rand() ** 2 * 9) * scale;
+    const kind = rand() < 0.7 ? pine : roundTree;
+    const mirror = rand() < 0.5 ? -1 : 1, tilt = (rand() - 0.5) * 0.14;
+    const width = (0.8 + rand() * 0.3) * scale, alpha = 0.6 + rand() * 0.25;
+    wrapped(size, x, y, height * 1.2, (cx, cy) => {
+      context.save();
+      context.translate(cx, cy); context.rotate(tilt); context.scale(mirror, 1);
+      context.lineWidth = width; context.globalAlpha = alpha;
+      kind(context, random(1900 + index), 0, 0, height);
+      context.restore();
+    });
   }
   return canvas;
 }
@@ -334,36 +375,43 @@ function handField(scale) {
   return canvas;
 }
 
-/** A ridge drawn as a peaked line with hachure strokes falling away on the shaded side. */
-function handMountain(scale, { width, height, peaks }) {
-  const canvas = createCanvas(width * scale, height * scale);
+/**
+ * A little mountain as the old charts drew them: a quick inked ridge, steeper on the
+ * left, with a comb of shading strokes falling from the right-hand flank. `flat` gives
+ * the crest a short level top, for Nova Scotia's tableland highlands.
+ */
+function handMountain(scale, seed, { flat, shoulder }) {
+  const width = 36 * scale, height = 24 * scale;
+  const canvas = createCanvas(width, height);
   const context = canvas.getContext('2d');
-  const rand = random(width * 13 + peaks);
+  const rand = random(seed);
   context.strokeStyle = SEPIA;
   context.lineCap = 'round';
   context.lineJoin = 'round';
-  const base = (height - 2) * scale;
-  const ridge = [];
-  for (let p = 0; p < peaks; p++) {
-    const left = (2 + (p / peaks) * (width - 4)) * scale, right = (2 + ((p + 1) / peaks) * (width - 4)) * scale;
-    const top = (2 + (p % 2) * height * 0.22 + rand() * 2) * scale;
-    ridge.push([left, base - (p ? height * 0.3 * scale : 0)], [(left + right) / 2 + (rand() - 0.5) * 2 * scale, top]);
-  }
-  ridge.push([(width - 2) * scale, base]);
-  context.lineWidth = 1.5 * scale;
-  context.beginPath();
-  ridge.forEach(([x, y], index) => (index ? context.lineTo(x, y) : context.moveTo(x, y)));
-  context.stroke();
-  // Hachures down the right-hand (shaded) flank of each peak.
-  context.lineWidth = 0.9 * scale;
-  for (let i = 1; i < ridge.length - 1; i += 2) {
-    const [px, py] = ridge[i], [qx, qy] = ridge[i + 1];
-    for (let k = 1; k <= 4; k++) {
-      const t = k / 5;
-      const x = px + (qx - px) * t, y = py + (qy - py) * t;
-      penLine(context, rand, x, y + 1 * scale, x - 2.5 * scale, y + (base - y) * 0.75, 0.6 * scale);
+  const base = height - 2.5 * scale;
+  const ridge = (left, right, top, alpha, weight) => {
+    const span = right - left;
+    const crest = flat ? span * (0.22 + rand() * 0.1) : 0;
+    const peak = left + span * (0.38 + rand() * 0.1);
+    const [crestLeft, crestRight] = [peak - crest / 2, peak + crest / 2];
+    context.globalAlpha = alpha;
+    context.lineWidth = weight * scale;
+    penLine(context, rand, left, base, crestLeft, top, 0.7 * scale);
+    if (flat) penLine(context, rand, crestLeft, top, crestRight, top + (rand() - 0.5) * scale, 0.5 * scale);
+    penLine(context, rand, crestRight, top, right, base, 0.7 * scale);
+    // Shading: strokes from the right flank down toward the foot, longer near the crest.
+    context.lineWidth = weight * 0.62 * scale;
+    const strokes = 4 + Math.floor(rand() * 3);
+    for (let i = 1; i <= strokes; i++) {
+      const t = i / (strokes + 1);
+      const x = crestRight + (right - crestRight) * t, y = top + (base - top) * t;
+      const length = (base - y) * (0.75 + rand() * 0.2);
+      penLine(context, rand, x - 0.6 * scale, y + 1.2 * scale, x - length * 0.45, y + length, 0.35 * scale);
     }
-  }
+  };
+  // Some marks carry a lower shoulder behind, as ranges do.
+  if (shoulder) ridge(width * 0.42, width - 1.5 * scale, height * 0.42, 0.6, 1.1);
+  ridge(1.5 * scale, width * (0.68 + rand() * 0.1), 2.5 * scale + rand() * 2 * scale, 0.92, 1.5);
   return canvas;
 }
 
@@ -406,6 +454,33 @@ function handHouse(scale) {
   return canvas;
 }
 
+/**
+ * A double-line street drawn freehand: two wobbling pen edges with an open middle,
+ * laid over the road fill so the paper shows through. Periodic so the tile repeats.
+ */
+function handRoadEdges(scale) {
+  const width = 128 * scale, height = 12 * scale;
+  const canvas = createCanvas(width, height);
+  const context = canvas.getContext('2d');
+  const rand = random(1791);
+  context.fillStyle = SEPIA;
+  for (const edge of [0, 1]) {
+    const points = 10, wander = [], weight = [];
+    for (let i = 0; i < points; i++) { wander.push((rand() - 0.5) * 0.9); weight.push(0.9 + rand() * 0.7); }
+    const at = (t, values) => {
+      const i = Math.floor(t) % points, next = (i + 1) % points, frac = t - Math.floor(t);
+      return values[i] * (1 - frac) + values[next] * frac;
+    };
+    const centre = (s) => (edge ? height - 1.6 * scale : 1.6 * scale) + at(s * points, wander) * scale;
+    context.beginPath();
+    for (let x = 0; x <= width; x++) { const y = centre(x / width) - at((x / width) * points, weight) * scale / 2; x ? context.lineTo(x, y) : context.moveTo(x, y); }
+    for (let x = width; x >= 0; x--) context.lineTo(x, centre(x / width) + at((x / width) * points, weight) * scale / 2);
+    context.closePath();
+    context.fill();
+  }
+  return canvas;
+}
+
 async function build(scale) {
   const images = [
     ['paper-grain', paperGrain(256 * scale, scale, { night: false })],
@@ -425,13 +500,15 @@ async function build(scale) {
     ['hand-trees', handTrees(scale)],
     ['hand-marsh', handMarsh(scale)],
     ['hand-field', handField(scale)],
-    ['hand-mountain', handMountain(scale, { width: 30, height: 18, peaks: 2 })],
-    ['hand-hill', handMountain(scale, { width: 18, height: 12, peaks: 1 })],
+    ...[0, 1, 2].flatMap(variant => [
+      [`hand-peak-${variant}`, handMountain(scale, 1700 + variant, { flat: false, shoulder: variant > 0 })],
+      [`hand-mesa-${variant}`, handMountain(scale, 1700 + variant, { flat: true, shoulder: variant > 0 })],
+    ]),
     ['hand-town', handTown(scale)],
     ['hand-house', handHouse(scale)],
     ['hand-ink', inkLine(scale, '#3b2614')],
-    ['hand-ink-water', inkLine(scale, '#5a3d22')],
-    ['hand-ink-road', inkLine(scale, '#4a3018')],
+    ['hand-ink-water', inkLine(scale, '#6b4a2a')],
+    ['hand-road-edges', handRoadEdges(scale)],
   ];
   const width = Math.max(...images.map(([, canvas]) => canvas.width));
   const height = images.reduce((sum, [, canvas]) => sum + canvas.height, 0);
@@ -456,7 +533,7 @@ await writeFile(path.join(outDir, 'README.txt'), `NS Marks Atlas sprite
 
 Procedurally generated textures (paper grain, shore stipple, hand-inked stroke)
 for the Fletcher-inspired Atlas basemap, and the sepia sketchbook set (parchment,
-sea hatching, tree doodles, hachured hills, cottages) for the Hand-drawn style. Regenerate with
+sea hatching, tree doodles, little mountains, cottages) for the Hand-drawn style. Regenerate with
 \`node scripts/buildAtlasSprite.mjs\`. Project-generated cartography; no source
 imagery is embedded.
 `);

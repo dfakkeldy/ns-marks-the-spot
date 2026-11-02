@@ -7,7 +7,7 @@ export type BasemapPreference = BasemapStyle | 'system';
 /** Display names for the Atlas styles; the Fletcher style is modern geography in historical colours. */
 export const atlasStyleLabels = { day: 'Day', night: 'Night', fletcher: 'Fletcher', handdrawn: 'Hand-drawn' } as const;
 export const FLETCHER_STYLE_NOTE = "Fletcher style: modern geography drawn in the colours and lettering of Hugh Fletcher's 1884 Cape Breton sheets; not a historical map.";
-export const HAND_DRAWN_STYLE_NOTE = 'Hand-drawn style: modern geography sketched in sepia ink for fun; doodled trees, hills and cottages are decoration, not mapped features.';
+export const HAND_DRAWN_STYLE_NOTE = 'Hand-drawn style: modern geography sketched in sepia ink for fun; doodled trees and cottages are decoration, not mapped features. Mountain marks follow uplands in NRCan MRDEM elevation (contains information licensed under the Open Government Licence – Canada) but are decorative, not survey data.';
 const styleNote = (style: BasemapStyle) => style === 'fletcher' ? ` ${FLETCHER_STYLE_NOTE}` : style === 'handdrawn' ? ` ${HAND_DRAWN_STYLE_NOTE}` : '';
 
 export function isBasemapStyle(value: unknown): value is BasemapStyle {

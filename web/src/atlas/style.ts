@@ -6,7 +6,7 @@ import {
   atlasGlyphUrl, atlasSpriteUrl, atlasFonts, paperSheet, roadClass, description, abandoned, nonOrdinary, majorRoads, secondaryRoads,
   ordinaryRoad, trackClasses, genericStreetNames, streams, surfaceWater, shoreFilter, towardWater,
 } from './styleCommon';
-import { handDrawnLayers } from './handDrawnStyle';
+import { handDrawnLayers, handDrawnReliefUrl, HAND_DRAWN_RELIEF_ATTRIBUTION } from './handDrawnStyle';
 
 export { atlasFonts, atlasGlyphUrl, atlasSpriteUrl } from './styleCommon';
 
@@ -33,7 +33,11 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       geography: { type: 'vector', url: 'https://tiles.openfreemap.org/planet',
         attribution: '<a href="https://openfreemap.org/">OpenFreeMap</a> · <a href="https://openmaptiles.org/">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>' },
     }, layers });
-  if (mode === 'handdrawn') return style(handDrawnLayers(atlasPalettes.handdrawn));
+  if (mode === 'handdrawn') {
+    const sheet = style(handDrawnLayers(atlasPalettes.handdrawn));
+    sheet.sources.relief = { type: 'geojson', data: handDrawnReliefUrl(), attribution: HAND_DRAWN_RELIEF_ATTRIBUTION };
+    return sheet;
+  }
   // Fletcher carries the engraved treatment: serif lettering, paper grain, shore
   // stipple and hand-inked strokes. Day and Night stay clean and sans-serif.
   const engraved = mode === 'fletcher';
