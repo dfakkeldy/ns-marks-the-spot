@@ -153,8 +153,9 @@ receipt. This audit did not inspect private signing assets.
 - There is no checked-in App Store screenshot capture lane yet. The 12 tracked
   PNGs are July 3 captures; their README now distinguishes them from the fresh
   selected-build storyboard. Do not submit an old capture as current UI proof.
-- `ITSAppUsesNonExemptEncryption` is not currently set in the project, so export
-  compliance requires an owner determination; no guessed answer was inserted.
+- `ITSAppUsesNonExemptEncryption` is set to `NO` in the app's Info.plist (the
+  owner's export-compliance answer of 2026-11-01), so uploads no longer stop
+  at "Missing Compliance".
 - Native privacy-policy access, exact-head native tests, final-archive privacy
   coverage and the specific native/offline map rights in the release packet
   remain preparation gates.

@@ -424,6 +424,37 @@ struct MapOpeningAndLocationTests {
         #expect(controller.locationMessage == nil)
     }
 
+    /// MapKit says "denied" as soon as the dot is switched on with the system
+    /// prompt still up. That is the question open, not a refusal: no notice,
+    /// and the search waits for the answer rather than ending under it.
+    @Test func aDeniedErrorWhileThePromptIsUpIsNotARefusal() {
+        let controller = MapController()
+        let mapView = MKMapView()
+        controller.mapView = mapView
+        controller.authorization = { .notDetermined }
+        controller.centerOnUserLocation()
+
+        controller.mapView(mapView, didFailToLocateUserWithError: CLError(.denied))
+
+        #expect(controller.locationMessage == .searching)
+        #expect(controller.userTrackingState == .searching)
+
+        // The answer, when it comes, is what is said.
+        controller.authorization = { .denied }
+        controller.servicesEnabled = { true }
+        controller.authorizationChanged(to: .denied)
+
+        #expect(controller.locationMessage == .denied)
+        #expect(controller.userTrackingState == .idle)
+    }
+
+    @Test func onlyAnAnsweredPromptMakesADeniedErrorARefusal() {
+        #expect(MapController.refusalForDeniedLocate(status: .notDetermined, servicesEnabled: true) == nil)
+        #expect(MapController.refusalForDeniedLocate(status: .denied, servicesEnabled: true) == .denied)
+        #expect(MapController.refusalForDeniedLocate(status: .denied, servicesEnabled: false) == .servicesOff)
+        #expect(MapController.refusalForDeniedLocate(status: .restricted, servicesEnabled: true) == .restricted)
+    }
+
     /// The approximate caveat is about the followed dot: a pan away takes it
     /// down, because the dot may no longer be on screen to be approximate.
     @Test func approximateComesDownWhenTheFollowEnds() {
@@ -1049,16 +1080,21 @@ struct MapOpeningAndLocationTests {
         #expect(controller.locationMessage == .failed)
     }
 
-    /// A refusal delivered as a failure is reported as the refusal it is.
+    /// A refusal delivered as a failure is reported as the refusal it is:
+    /// the prompt answered between the tap and the error.
     @Test func aFailureThatIsARefusalSaysSo() {
         let controller = MapController()
         let mapView = MKMapView()
         controller.mapView = mapView
+        controller.authorization = { .notDetermined }
         controller.centerOnUserLocation()
+        controller.authorization = { .denied }
+        controller.servicesEnabled = { true }
 
         controller.mapView(mapView, didFailToLocateUserWithError: CLError(.denied))
 
         #expect(controller.isWaitingToCenterOnUserLocation == false)
+        #expect(controller.userTrackingState == .idle)
         #expect(controller.locationMessage == .denied)
     }
 
@@ -1235,7 +1271,10 @@ struct MapOpeningAndLocationTests {
         let controller = MapController()
         let mapView = MKMapView()
         controller.mapView = mapView
+        controller.authorization = { .notDetermined }
         controller.centerOnUserLocation()
+        controller.authorization = { .denied }
+        controller.servicesEnabled = { true }
         controller.mapView(mapView, didFailToLocateUserWithError: CLError(.denied))
         #expect(controller.locationMessage == .denied)
 

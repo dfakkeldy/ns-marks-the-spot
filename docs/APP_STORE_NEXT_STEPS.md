@@ -28,7 +28,7 @@ metadata, and Axiom's App Store submission checklist.
    App Store Connect requires a privacy policy URL. Axiom's checklist also expects the policy to be accessible inside the app or an equivalent in-app support/about surface.
 
 4. Decide export compliance.
-   The app appears to use standard networking. If it does not use non-exempt encryption, add `ITSAppUsesNonExemptEncryption = NO` so Fastlane/TestFlight does not need to pause on export-compliance confirmation.
+   The app appears to use standard networking. If it does not use non-exempt encryption, add `ITSAppUsesNonExemptEncryption = NO` so Fastlane/TestFlight does not need to pause on export-compliance confirmation. Done 2026-11-01: the owner answered "None of the algorithms mentioned above" and the key is now `NO` in `Config/NSMarksTheSpot-Info.plist`.
 
 5. Capture current App Store screenshots.
    Required current sizes include iPhone 6.9-inch or 6.5-inch screenshots and iPad 13-inch screenshots if iPad remains supported. Screenshots must show the actual current UI, not just marketing art.
@@ -54,7 +54,7 @@ metadata, and Axiom's App Store submission checklist.
 - No checked-in screenshot automation exists for App Store screenshots yet.
 - App Review may expect in-app privacy/support links, not just App Store metadata URLs.
 - Recent GitHub Actions logs show a Swift warning in `OfflineAreasViewModel.swift` about an `await` with no async operations. It did not block archive/upload, but it should be cleaned up before review if time allows.
-- The Fastlane upload flow notes that setting `ITSAppUsesNonExemptEncryption` in Info.plist would avoid a processing wait.
+- The Fastlane upload flow notes that setting `ITSAppUsesNonExemptEncryption` in Info.plist would avoid a processing wait. (Set to `NO` on 2026-11-01.)
 - TestFlight upload success does not prove App Store metadata, screenshots, age rating, privacy labels, or final review answers are complete.
 
 ## Pre-Submission Checklist
