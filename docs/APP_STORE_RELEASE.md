@@ -1,5 +1,35 @@
 # Native App Store release packet
 
+## November 1, 2026 — 1.0 (128) resubmitted
+
+App Review's own rejection screenshot (build 124) shows zoom 5 over Quebec.
+The whole screen is Atlas ocean except the Atlas's one zoom-5 tile. That is
+the out-of-footprint case [#643](https://github.com/dfakkeldy/ns-marks-the-spot/pull/643)
+fixes, so the cause is now evidenced, not inferred.
+
+- [#643](https://github.com/dfakkeldy/ns-marks-the-spot/pull/643) (map fix)
+  and [#644](https://github.com/dfakkeldy/ns-marks-the-spot/pull/644) (deliver
+  `force: true` and `precheck_include_in_app_purchases: false`, approved by the
+  owner) merged to main, then back-merged in #645 and #646.
+- [App Store Release run 41357158330](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/41357158330)
+  uploaded **1.0 (128)** with the metadata, review notes and twelve
+  screenshots. Precheck passed, and nothing was submitted.
+- Build 128 arrived as *Missing Compliance*. The owner answered "None of the
+  algorithms mentioned above". `ITSAppUsesNonExemptEncryption` is still not in
+  the Info.plist, so each new build asks again.
+- Simulator check: a Release build of main `230723fdb` on a freshly erased
+  iPad Air 11-inch (M4) simulator, iOS 27.0, with location at Apple Park.
+  - Current Location showed Apple's street map within 3 s.
+  - Zoom 3 showed Apple's world map with the Atlas as one rectangle.
+  - Zoom 6 off Maine showed Apple's map around the Atlas rectangle.
+  - No physical iPad was tested.
+- In App Store Connect, build 128 replaced 124 on version 1.0 and the reply
+  went to App Review. Changing the build moves the version back to *Prepare
+  for Submission*, and *Resubmit* stays disabled until **Update Review** on the
+  version page puts the edited version back into the existing submission.
+- Resubmitted 2026-11-01 23:45 UTC: submission `5804f9be` and version 1.0 are
+  *Waiting for Review*. Release type is still **manual**.
+
 ## November 1, 2026 — out-of-province map fix
 
 The October 31 diagnosis showed a featureless blue Atlas map after a
