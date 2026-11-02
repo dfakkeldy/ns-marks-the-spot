@@ -7,6 +7,14 @@
 	<key>AtlasTileBaseURL</key>
 	<string>$(ATLAS_TILE_BASE_URL)</string>
 
+	<!-- Export compliance, declared so App Store Connect does not mark every
+	     upload "Missing Compliance". The owner's answer for build 128
+	     (2026-11-01) was "None of the algorithms mentioned above": the app
+	     uses only Apple's built-in HTTPS and hashing, and ships no
+	     encryption of its own. Revisit this before adding any. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+
 	<!-- The photo map's row presents the limited-library picker itself from
 	     "Manage"; without this key iOS raises its own "Select More Photos"
 	     alert on every launch with limited access. -->

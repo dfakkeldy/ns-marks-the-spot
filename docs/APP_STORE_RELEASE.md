@@ -261,10 +261,15 @@ attachments and explicit sharing exist; no public social feed was found. Use
 that evidence when the owner reviews the current age/social-media questionnaire;
 do not infer an age rating from the Reference category.
 
-`ITSAppUsesNonExemptEncryption` is absent. Source uses system HTTPS and hashing
-for data integrity; no custom encryption library was found. Export-compliance
-questions, intended territories and any required documentation remain an
-authorized-owner determination. Do not insert a guessed plist answer.
+`ITSAppUsesNonExemptEncryption` is set to `NO` in
+`Config/NSMarksTheSpot-Info.plist`. Source uses system HTTPS and hashing for
+data integrity; no custom encryption library was found. The owner made the
+determination on 2026-11-01, answering "None of the algorithms mentioned
+above" for build 128, and the key records that answer so App Store Connect no
+longer marks each upload "Missing Compliance" and asks again. The key belongs
+to the app's own Info.plist; the Live Activity extension's plist does not carry
+it. Adding any encryption beyond Apple's built-in HTTPS and hashing reopens
+the question: change the key and answer it again in App Store Connect.
 
 ## Content rights: specific unresolved items
 

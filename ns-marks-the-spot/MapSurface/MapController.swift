@@ -1199,6 +1199,13 @@ final class MapController: NSObject {
     private var hasReducedAccuracy: Bool {
         isReducedAccuracy?() ?? (locationManager.accuracyAuthorization == .reducedAccuracy)
     }
+    /// This app's location authorization. Injected for tests, which cannot
+    /// give a `CLLocationManager` a status; CoreLocation's own reading is the
+    /// default.
+    @ObservationIgnored var authorization: (() -> CLAuthorizationStatus)?
+    private var authorizationStatus: CLAuthorizationStatus {
+        authorization?() ?? locationManager.authorizationStatus
+    }
     /// A fix stamped a moment ahead of the clock is jitter (and, in the
     /// simulator, every simulated fix); one stamped an hour ahead is not a
     /// fix to trust.
@@ -1288,7 +1295,7 @@ final class MapController: NSObject {
         readerHasClaimedTheCamera = true
         cameraClaimGeneration += 1
         dismissedReducedAccuracy = false
-        let status = locationManager.authorizationStatus
+        let status = authorizationStatus
         if let refusal = Self.locationMessage(
             for: status, readerAsked: true,
             servicesEnabled: status == .denied ? servicesEnabled() : true
@@ -2268,6 +2275,28 @@ extension MapController: MKMapViewDelegate {
         centerIfTheFixIsGoodEnough(now: now)
     }
 
+    /// What MapKit's "denied" locate error is worth telling the reader.
+    ///
+    /// MapKit reports `kCLErrorDenied` the moment the dot is switched on with
+    /// the system prompt still up: not allowed *yet*, which is not a refusal.
+    /// Said as one, it put "permission was not granted" beside the prompt
+    /// still asking for it. Nil while the question is open; otherwise the
+    /// refusal as it stands, and `.denied` for a status that has just moved.
+    static func refusalForDeniedLocate(
+        status: CLAuthorizationStatus, servicesEnabled: Bool
+    ) -> LocationMessage? {
+        guard status != .notDetermined else { return nil }
+        return locationMessage(for: status, readerAsked: true, servicesEnabled: servicesEnabled)
+            ?? .denied
+    }
+
+    private func deniedLocateRefusal() -> LocationMessage? {
+        let status = authorizationStatus
+        return Self.refusalForDeniedLocate(
+            status: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        )
+    }
+
     func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: any Error) {
         guard mapView === self.mapView else { return }
         let code = (error as? CLError)?.code
@@ -2277,13 +2306,13 @@ extension MapController: MKMapViewDelegate {
                 // CoreLocation keeps trying after this one; the deadline decides.
                 return
             case .denied:
+                guard let refusal = deniedLocateRefusal() else {
+                    // The system prompt is still up: the search waits on the
+                    // answer, which `authorizationChanged` acts on.
+                    return
+                }
                 stopLocating()
-                report(
-                    Self.locationMessage(
-                        for: locationManager.authorizationStatus, readerAsked: true,
-                        servicesEnabled: servicesEnabled()
-                    ) ?? .denied
-                )
+                report(refusal)
             default:
                 // Not the sky: a network error, most often. Said as a failure
                 // to try again, not as a position that could not be found.
@@ -2308,13 +2337,9 @@ extension MapController: MKMapViewDelegate {
                 setTracking(.follow)
             }
         case .denied:
+            guard let refusal = deniedLocateRefusal() else { return }
             endFollowing()
-            report(
-                Self.locationMessage(
-                    for: locationManager.authorizationStatus, readerAsked: true,
-                    servicesEnabled: servicesEnabled()
-                ) ?? .denied
-            )
+            report(refusal)
         default:
             // A network error, most often: following cannot go on without
             // fixes, and saying so beats a glyph that claims otherwise.
@@ -2944,7 +2969,7 @@ extension MapController: @preconcurrency CLLocationManagerDelegate {
     /// still up may describe a cause the reader has since changed in
     /// Settings.
     func reconcileLocationNotice() {
-        authorizationChanged(to: locationManager.authorizationStatus)
+        authorizationChanged(to: authorizationStatus)
     }
 
     /// The authorization answer, apart from the delegate so a test can give
