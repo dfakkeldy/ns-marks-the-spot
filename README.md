@@ -81,9 +81,9 @@ licences, GIS receipts, and the radon source receipt are in
 product and source-prep detail are in
 [web/scripts/rhodena/README.md](web/scripts/rhodena/README.md).
 Background Maps offers NS Marks Atlas Day,
-Night, Fletcher, System appearance (the default), and OpenStreetMap raster;
+Night, Fletcher, Hand-drawn, System appearance (the default), and OpenStreetMap raster;
 atlas detail is in [web/README.md](web/README.md). The iOS app opens on the
-same Atlas and offers the same three styles, drawn from raster tiles that
+same Atlas and offers Day, Night and Fletcher, drawn from raster tiles that
 `web/scripts/atlasRaster` renders with the web's own MapLibre build from the
 same style, glyphs, sprite and provincial archive (revision
 `atlas-raster-20260907.1` on `https://tiles.kinnokilabs.com`; an empty
