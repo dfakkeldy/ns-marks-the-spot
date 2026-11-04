@@ -3,14 +3,14 @@
   "municipality": "Municipality of the County of Victoria",
   "source": "https://victoriacounty.com/property-tax-sale-notice/",
   "landingPage": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
-  "retrievedDate": "2026-10-23",
+  "retrievedDate": "2026-11-04",
   "publishedOn": "2026-10-23",
-  "sourceFactsSha256": "3bf3ac7b28add5b5eb82b929e908a23318d8a43adddbc19e212ab34dc8352290",
+  "sourceFactsSha256": "7650def275c9c63c89b785624fcbd2adfbefe93453b7c301b22fd98e807f6317",
   "sourceHashPolicy": "The overwrite-prone official HTML contains assessed-owner names. This receipt hashes normalized owner-free event and row facts; the external Wayback receipt preserves the full official page bytes before ingestion.",
   "archiveReceipt": {
-    "timestamp": "20261023200058",
-    "url": "https://web.archive.org/web/20261023200058id_/https://victoriacounty.com/property-tax-sale-notice/",
-    "sha256": "44b302a4acb16355ddafc41cc1a08afc1322456fcbbdab450d23e278f9b91d23"
+    "timestamp": "20261104205818",
+    "url": "https://web.archive.org/web/20261104205818id_/https://victoriacounty.com/property-tax-sale-notice/",
+    "sha256": "995ace0ca78fd80eae7572eae48fd2eb5d37d242c7ebb3194e3fd849407395f4"
   },
   "ownerNamesExcluded": true,
   "saleMethod": "public-auction",
@@ -30,7 +30,7 @@
       ],
       "description": "ST. COLUMBA RD., IONA, LAND/DWELLING/BUILDING, 1.2 ACRES +/-",
       "redeemable": true,
-      "totalOwingCents": 395048,
+      "totalOwingCents": 399002,
       "listingStatus": "advertised"
     },
     {
@@ -52,7 +52,7 @@
       ],
       "description": "CABOT TRAIL, ASPY BAY, LAND ONLY, 163 ACRES +/-, HST APPLICABLE",
       "redeemable": true,
-      "totalOwingCents": 184094,
+      "totalOwingCents": 185793,
       "listingStatus": "advertised"
     }
   ]
