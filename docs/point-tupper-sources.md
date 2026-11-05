@@ -24,7 +24,8 @@ draw it. No parcel, title or registry record is used.
 
 The summary has two groups. **What EverWind says** is the company's own
 account; **On the public record** is what records and reporting outside the
-company show. Each line links its source, and a qualification from a different
+company show. The timeline follows them on the same panel and ends with a
+dashed segment to the day the sources were last read. Each line links its source, and a qualification from a different
 source sits on its own line under the fact, with its own link.
 
 What EverWind says:
@@ -40,15 +41,20 @@ What EverWind says:
     build-out; the expansion needs "refreshed system studies, additional
     transmission infrastructure, tariff and cost-allocation treatment" and the
     applicable approvals, and "will not be energized until those requirements
-    are complete".
+    are complete". Its system impact study has since been published, so the
+    summary says the expansion "still needs new transmission and its own
+    approvals".
   - Grid: phase 1 connects "through the existing 138 kV service at the EverWind
     terminal"; the campus is interruptible, "required to reduce electricity
     taken from the grid on 10-minutes notice"; battery storage and diesel
     generators for backup; the IESO Nova Scotia System Impact Study and the
     Nova Scotia Power Facilities Study "have been completed" (the company's
-    statement; no study result is published on the operator's or the utility's
-    pages); EverWind "will fund connection, network-upgrade and other
-    electricity-system costs attributable to the development".
+    statement; IESO's system impact studies are now published, see **Grid
+    studies** below, and no facilities study is); EverWind "will fund
+    connection, network-upgrade and other electricity-system costs
+    attributable to the development". The summary's Grid line keeps the
+    connection, interruptibility, backup and cost claims and leaves the study
+    results to the public-record group.
   - Water: closed-loop cooling; about 100,000 litres a day for phase 1 and
     about 500,000 at the full 420 MW. The same page gives Landrie Lake's safe
     yield as both 34 and 36 million litres a day, so the summary leaves that
@@ -67,18 +73,46 @@ What EverWind says:
 
 On the public record:
 
-- **Under study** (325, 95 and 230 MW under study in Richmond County;
-  customers not named): IESO Nova Scotia,
-  [2026 10-Year System Outlook](https://www.ieso-ns.ca/wp-content/uploads/2026/09/20260628-IESO-NS-2026-10-Year-System-Outlook.pdf),
-  section 5.2.2, Table 8 (Large-Load SIS).
-- **Permits**: Richmond County's warden said "there is still no building permit
+- **Grid studies**: IESO Nova Scotia's System Impact Study reports, published
+  on its [transmission planning page](https://www.ieso-ns.ca/transmission-planning/)
+  in October 2026. Both name the customer's facility ("Everwind Terminal",
+  "Everwind Load Facility", "Everwind Data Center" models), so they are tied
+  to the campus by the reports themselves, not by inference.
+  - [SIS-005-R1, IRL03 – Everwind Terminal, July 16, 2026](https://www.ieso-ns.ca/wp-content/uploads/2026/10/IESO-NS-SIS-005-IRL03_Redacted.pdf#page=26):
+    95 MW at the existing 138 kV substation 46C Point Tupper Marine Terminal;
+    section 7, "no adverse impacts on the reliability of the Nova Scotia grid,
+    provided the items below are addressed"; the study assumes the facility's
+    battery "will be in service no later than Q4 2027".
+  - The note, [SIS-011-R2, IRL01 – Everwind Load Facility, October 27, 2026](https://www.ieso-ns.ca/wp-content/uploads/2026/10/IESO-NS-SIS-011-IRL-001-R3_Redacted.pdf#page=26):
+    325 MW through a new switching station, 122C Crandall Rd, on the 230 kV
+    lines L-7011 and L-7012, with two new 13 km 230 kV lines to the customer's
+    substation; the same reliability conclusion; "Facility is to be curtailed
+    or go to Behind the Meter generation when insufficient system generation
+    is available"; section 6, Table 6, "very preliminary non binding" total
+    of $73,910,000.
+  These studies replace the summary's earlier line on the 2026 10-Year System
+  Outlook's Table 8 (325, 95 and 230 MW under study, customers unnamed): the
+  studies name the facility and give results. A study is not a connection
+  agreement; none is published.
+- **Approvals**: Nova Scotia House of Assembly, Standing Committee on Natural
+  Resources and Economic Development,
+  [Hansard, October 27, 2026, "The Proposed Data Centre in Point Tupper"](https://nslegislature.ca/sites/default/files/pdfs/committees/ne/ne_20261027.pdf#page=17).
+  Lora MacEachern, Deputy Minister of Environment and Climate Change, on the
+  on-site generation: "there's an application that's currently before us. No
+  decisions have been made. It's under review." On Landrie Lake: the utility
+  holds the only water-withdrawal approval, whose sustainable level "was just
+  reviewed within the last couple of months and a new approval issued". She
+  gave no number or limit, and no replacement approval is posted in the
+  records the tracker searched, so the summary gives her statement as made.
+  The note: Richmond County's warden said "there is still no building permit
   application submitted for the project", as reported by
   [Global News, October 19, 2026](https://globalnews.ca/news/12107998/backlash-nova-scotia-ai-data-centre-point-tupper/).
-  The note: Environment Minister Tim Halman said the company submitted an
-  industrial approval application for diesel generators about a week earlier,
-  as reported by
-  [CBC News, October 20, 2026](https://www.cbc.ca/news/canada/nova-scotia/government-data-centre-everwind-anthropic-scott-armstrong-tim-houston-claudia-chender-tim-halman-9.7388702).
-  Both are reported statements, not permit records.
+- **Rates**: the same Hansard,
+  [page 11](https://nslegislature.ca/sites/default/files/pdfs/committees/ne/ne_20261027.pdf#page=11).
+  Stephen MacDonald, Deputy Minister of Energy: Nova Scotia Power "would make
+  an application to the Energy Board to identify what rate class the load
+  would belong to and what rate would be associated with that. I think that
+  still has to be determined as part of this process".
 - **Partners**: "Membertou is not partnered on the data center project. We're
   currently assessing and learning about the project in deeper detail and
   haven't invested at this time":
@@ -87,13 +121,16 @@ On the public record:
   First Nations consortium led by Membertou Development Corporation for an
   ownership stake in the data centre campus, subject to completion of the
   applicable agreements".
-- **Turbines** (the wind farm already on the site: 12 turbines, 22.8 MW, 2006
-  and 2010): NRCan's Canadian Wind Turbine Database; see
+- **Wind nearby**: the wind farm already on the site (12 turbines, 22.8 MW,
+  2006 and 2010) is from NRCan's Canadian Wind Turbine Database; the note (six
+  approved farms within 45 km, one under construction, up to 2,229 MW from 285
+  turbines, the nearest about 4 km away) is from the
+  [planned turbines receipt](planned-wind-turbines-sources.md). See
   [Wind turbines](#wind-turbines).
-- **Planned wind** (six approved farms within 45 km, Goose Harbour Lake under
-  construction, up to 2,229 MW from 285 turbines): the
-  [planned turbines receipt](planned-wind-turbines-sources.md); see
-  [Wind turbines](#wind-turbines).
+
+Facts about something the map draws (the terminal, the generating station,
+Landrie Lake and the turbines) carry the map key's own symbol beside their
+label, so a reader can find each on the map.
 
 ## The timeline
 
