@@ -1370,8 +1370,17 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // screen reader on the map the sheet now covers. The Close button is the
   // first control inside and the way back out, so it is where focus lands; the
   // sheet header is sticky, so landing there scrolls nothing.
+  // A focus page's sheet that is already open on load is the first thing in
+  // the document, so the first Tab reaches its Close button anyway; moving
+  // focus there unasked would only draw a focus ring over the summary. Focus
+  // moves once the sheet has been closed and is opened again.
+  const sheetHasClosedRef = useRef(false);
   useEffect(() => {
-    if (!mobileControlsOpen) return;
+    if (!mobileControlsOpen) {
+      sheetHasClosedRef.current = true;
+      return;
+    }
+    if (!sheetHasClosedRef.current) return;
     mobileSheetCloseRef.current?.focus({ preventScroll: true });
   }, [mobileControlsOpen]);
   const closeMobileControls = useCallback(() => {
@@ -4737,7 +4746,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           aria-label="Map controls"
         >
           <div className="mobile-sheet-header">
-            <strong>Search &amp; layers</strong>
+            <strong>{focusDef?.chrome.sheetTitle ?? "Search & layers"}</strong>
             <button
               ref={mobileSheetCloseRef}
               type="button"

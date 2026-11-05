@@ -123,6 +123,8 @@ export interface FocusDefinition {
     readonly Panel?: ComponentType<FocusChromeContext>;
     /** Optional chrome laid over the map itself, such as a key. */
     readonly MapOverlay?: ComponentType<FocusChromeContext>;
+    /** The phone sheet's header; "Search & layers" when absent. */
+    readonly sheetTitle?: string;
     /** The phone's map-chrome button that opens the page's summary sheet. */
     readonly brand: { readonly label: string; readonly Mark: ComponentType };
     /** Closes the footer, after the full-map link. */

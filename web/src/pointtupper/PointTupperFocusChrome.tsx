@@ -1,6 +1,6 @@
 import type { FocusChromeContext } from '../focus/focusDefinition';
 import { POINT_TUPPER_LICENCE_URL, POINT_TUPPER_SOURCES_URL } from '../layers/pointTupperLayers';
-import { POINT_TUPPER_FACTS, POINT_TUPPER_TIMELINE } from './facts';
+import { POINT_TUPPER_CHECKED, POINT_TUPPER_FACT_GROUPS, POINT_TUPPER_TIMELINE, type SourcedLine } from './facts';
 
 /**
  * A decorative dusk view across the Strait: tanks, a jetty, a stack and a
@@ -64,6 +64,31 @@ function StraitIllustration() {
   );
 }
 
+function factGroupId(title: string): string {
+  return `pointtupper-facts-${title.toLowerCase().replace(/[^a-z]+/gu, '-')}`;
+}
+
+/** One summary line: the fact, its source, then any qualification with its own source. */
+function FactRow({ fact }: { fact: SourcedLine }) {
+  return (
+    <div>
+      <dt>{fact.label}</dt>
+      <dd>
+        <p>
+          {fact.text}{' '}
+          <a href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceLabel}</a>
+        </p>
+        {fact.note && (
+          <p className="pointtupper-fact-note">
+            {fact.note.text}{' '}
+            <a href={fact.note.sourceUrl} target="_blank" rel="noreferrer">{fact.note.sourceLabel}</a>
+          </p>
+        )}
+      </dd>
+    </div>
+  );
+}
+
 /** The /pointtupper summary: what was announced, each fact with its source. */
 export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusChromeContext) {
   return (
@@ -76,26 +101,19 @@ export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusC
           Where the announced data-centre campus would go: the terminal, the grid, the water and seventy
           years of industry on the Strait. Every line names its source.
         </p>
-        <dl className="pointtupper-facts">
-          {POINT_TUPPER_FACTS.map((fact) => (
-            <div key={fact.label}>
-              <dt>{fact.label}</dt>
-              <dd>
-                {fact.text}{' '}
-                <a href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceLabel}</a>
-                {fact.note && (
-                  <>
-                    {' '}{fact.note.text}{' '}
-                    <a href={fact.note.sourceUrl} target="_blank" rel="noreferrer">{fact.note.sourceLabel}</a>
-                  </>
-                )}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <p className="pointtupper-checked">
+          Sources checked <time dateTime={POINT_TUPPER_CHECKED.iso}>{POINT_TUPPER_CHECKED.text}</time>
+        </p>
+        {POINT_TUPPER_FACT_GROUPS.map((group) => (
+          <section key={group.title} className="pointtupper-fact-group" aria-labelledby={factGroupId(group.title)}>
+            <h3 id={factGroupId(group.title)}>{group.title}</h3>
+            <dl className="pointtupper-facts">
+              {group.facts.map((fact) => <FactRow key={fact.label} fact={fact} />)}
+            </dl>
+          </section>
+        ))}
         <p className="pointtupper-hero-note">
-          The campus footprint has not been published, so the map does not draw it. Company figures are the
-          company&apos;s own.
+          The campus footprint has not been published, so the map does not draw it.
         </p>
         <div className="pointtupper-hero-actions">
           <button

@@ -1,8 +1,11 @@
 # Point Tupper site brief: sources
 
 The `/pointtupper` page and its **Point Tupper · key places** layer use only the
-public sources below. Each was read on October 19, 2026. Company figures are
-reported as the company's own claims, not as checked facts.
+public sources below. The key places and the timeline were first read on
+October 19, 2026; every source behind the summary was re-read on
+November 5, 2026, the date the page shows. Company figures are reported as the
+company's own claims, not as checked facts, and the summary keeps them in their
+own group, apart from the public record.
 
 The data-centre campus footprint has not been published, so the page does not
 draw it. No parcel, title or registry record is used.
@@ -13,32 +16,84 @@ draw it. No parcel, title or registry record is used.
 | --- | --- | --- |
 | Point Tupper Terminal jetty (EverWind) | The jetty meteorological station's coordinates, 45°34′25.140″ N, 61°20′36.708″ W, in the [EverWind EA registration](https://novascotia.ca/nse/ea/everwind-point-tupper-green-hydrogen-ammonia-project/everwind-ea-registration-document.pdf) (section 6, Table 6.3) | The same registration, section 3.3: a 7.7-million-barrel storage terminal with 39 aboveground tanks and two berths. Project page: [EverWind Point Tupper Green Hydrogen/Ammonia Project](https://novascotia.ca/nse/ea/everwind-point-tupper-green-hydrogen-ammonia-project/) |
 | Point Tupper Generating Station | [Wikidata Q7208178](https://www.wikidata.org/wiki/Q7208178) (CC0) | [Nova Scotia Power, About our facilities](https://www.nspower.ca/cleanandgreen/environmental-initiatives/coal-ash/about-our-facilities) |
-| Landrie Lake | [Wikidata Q22360244](https://www.wikidata.org/wiki/Q22360244) (CC0) | Built in 1969 by the Province: [Landrie Lake Water Utility, Little River Pumping and Transmission System EA registration](https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/). Cooling-water figures: [The Canadian Press, October 16, 2026](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/) (company figures) |
+| Landrie Lake | [Wikidata Q22360244](https://www.wikidata.org/wiki/Q22360244) (CC0) | Built in 1969 by the Province: [Landrie Lake Water Utility, Little River Pumping and Transmission System EA registration](https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/). Cooling-water figures: [EverWind's campus site](https://everwinddc.com/) (company figures) |
 | Potlotek First Nation | [Wikidata Q2956513](https://www.wikidata.org/wiki/Q2956513) (CC0) | Place label only |
 | Paq'tnkek First Nation | [Wikidata Q7133562](https://www.wikidata.org/wiki/Q7133562) (CC0) | Place label only |
 
 ## The page's summary card
 
-- **The announcement** (95 MW phase 1 in late 2027; a 325 MW expansion
-  expected in mid-2028, 420 MW in all; a 20-year lease; Anthropic as the
-  tenant, as EverWind announced; the existing grid at first; about 200 MWh of
-  batteries; four EverWind wind farms with EA approval, 650 MW in all, 51% owned
-  by a Membertou-led First Nations consortium; EverWind's statement that it
-  will pay connection and upgrade costs):
+The summary has two groups. **What EverWind says** is the company's own
+account; **On the public record** is what records and reporting outside the
+company show. Each line links its source, and a qualification from a different
+source sits on its own line under the fact, with its own link.
+
+What EverWind says:
+
+- **Announced** (October 16, 2026; a data-centre campus at EverWind's Point
+  Tupper industrial site; Anthropic as tenant on a 20-year lease):
   [The Canadian Press, October 16, 2026](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/).
+- **Size**, **Grid**, **Water** and **Wind**: EverWind's campus site,
+  [everwinddc.com](https://everwinddc.com/), read November 5, 2026 ("About the
+  project", "Our commitments" and the questions and answers on the same page):
+  - Size: phase 1 is 95 MW "targeted to be online in late 2027"; the 325 MW
+    expansion is "targeted to begin coming online in 2028", 420 MW at full
+    build-out; the expansion needs "refreshed system studies, additional
+    transmission infrastructure, tariff and cost-allocation treatment" and the
+    applicable approvals, and "will not be energized until those requirements
+    are complete".
+  - Grid: phase 1 connects "through the existing 138 kV service at the EverWind
+    terminal"; the campus is interruptible, "required to reduce electricity
+    taken from the grid on 10-minutes notice"; battery storage and diesel
+    generators for backup; the IESO Nova Scotia System Impact Study and the
+    Nova Scotia Power Facilities Study "have been completed" (the company's
+    statement; no study result is published on the operator's or the utility's
+    pages); EverWind "will fund connection, network-upgrade and other
+    electricity-system costs attributable to the development".
+  - Water: closed-loop cooling; about 100,000 litres a day for phase 1 and
+    about 500,000 at the full 420 MW. The same page gives Landrie Lake's safe
+    yield as both 34 and 36 million litres a day, so the summary leaves that
+    figure out.
+  - Wind: more than 650 MW across Bear Lake, Windy Ridge, Kmtnuk and Upper
+    Afton, "expected to reach commercial operation in 2028 and 2029"; "a 51%
+    equity interest for a Membertou-led Mi'kmaw consortium at financial close".
+    Until November 5 the page gave the Canadian Press figures (a mid-2028
+    expansion, "51% owned"); the campus site is the company's own, later and
+    more precise account, so the summary now cites it.
 - **The note on the Wind line** (two of the four EverWind farms, Bear Lake and
   Kmtnuk, passed their December 2025 deadlines to start work with no extension
   posted, so the map leaves them off): the
   [planned turbines receipt](planned-wind-turbines-sources.md#approval-possibly-lapsed-kept-off-the-map),
-  from the EA conditions, the EA project pages and Sentinel-2 imagery. It sits
-  after the Canadian Press link with its own source, so the press figures stay
-  as reported.
-- **The wind farm already on the site** (12 turbines, 22.8 MW, 2006 and
-  2010): NRCan's Canadian Wind Turbine Database; see [Wind turbines](#wind-turbines).
-- **Large loads under study in Richmond County** (325, 95 and 230 MW; customers
-  not named): IESO Nova Scotia,
+  from the EA conditions, the EA project pages and Sentinel-2 imagery.
+
+On the public record:
+
+- **Under study** (325, 95 and 230 MW under study in Richmond County;
+  customers not named): IESO Nova Scotia,
   [2026 10-Year System Outlook](https://www.ieso-ns.ca/wp-content/uploads/2026/09/20260628-IESO-NS-2026-10-Year-System-Outlook.pdf),
   section 5.2.2, Table 8 (Large-Load SIS).
+- **Permits**: Richmond County's warden said "there is still no building permit
+  application submitted for the project", as reported by
+  [Global News, October 19, 2026](https://globalnews.ca/news/12107998/backlash-nova-scotia-ai-data-centre-point-tupper/).
+  The note: Environment Minister Tim Halman said the company submitted an
+  industrial approval application for diesel generators about a week earlier,
+  as reported by
+  [CBC News, October 20, 2026](https://www.cbc.ca/news/canada/nova-scotia/government-data-centre-everwind-anthropic-scott-armstrong-tim-houston-claudia-chender-tim-halman-9.7388702).
+  Both are reported statements, not permit records.
+- **Partners**: "Membertou is not partnered on the data center project. We're
+  currently assessing and learning about the project in deeper detail and
+  haven't invested at this time":
+  [Membertou, Community Update on Partnership with Everwind Fuels, October 20, 2026](https://membertou.ca/membertou-community-update-on-partnership-with-everwind-fuels/).
+  The note: EverWind's campus site says negotiations are under way "with a
+  First Nations consortium led by Membertou Development Corporation for an
+  ownership stake in the data centre campus, subject to completion of the
+  applicable agreements".
+- **Turbines** (the wind farm already on the site: 12 turbines, 22.8 MW, 2006
+  and 2010): NRCan's Canadian Wind Turbine Database; see
+  [Wind turbines](#wind-turbines).
+- **Planned wind** (six approved farms within 45 km, Goose Harbour Lake under
+  construction, up to 2,229 MW from 285 turbines): the
+  [planned turbines receipt](planned-wind-turbines-sources.md); see
+  [Wind turbines](#wind-turbines).
 
 ## The timeline
 
@@ -54,7 +109,7 @@ Dates come from the public sources below.
 | 2003–2022 | Bear Head LNG proposed as an import, then an export terminal; never operated | [Nova Scotia EA file](https://novascotia.ca/nse/ea/bearHeadLNGTerminal.asp) |
 | 2012 | Mill restarts as Port Hawkesbury Paper ("PHP resumed operations in early October 2012") | [NAFTA tribunal award, Resolute v. Canada](https://www.italaw.com/sites/default/files/case-documents/italaw170763.pdf) |
 | 2022 | EverWind registers its green hydrogen and ammonia project | [Nova Scotia EA file](https://novascotia.ca/nse/ea/everwind-point-tupper-green-hydrogen-ammonia-project/) |
-| 2026 | Data-centre campus announced | [The Canadian Press](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/) |
+| 2026 | EverWind announces the data-centre campus | [The Canadian Press](https://www.cp24.com/news/canada/2026/10/16/everwind-says-10b-ai-data-centre-proposal-largest-private-investment-in-ns-history/) |
 
 ## Wind turbines
 

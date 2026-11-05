@@ -25,6 +25,7 @@ export const pointTupperFocusDefinition: FocusDefinition = {
     Hero: PointTupperFocusHero,
     Panel: PointTupperTimelinePanel,
     MapOverlay: PointTupperMapLegend,
+    sheetTitle: 'Site brief & layers',
     brand: { label: 'Point Tupper — summary and layers', Mark: PointTupperBrandMark },
     FooterNote: PointTupperFooterNote,
   },

@@ -15,7 +15,7 @@ import { focusDefinitions, focusForTheme } from "../focus/registry";
 import type { ShareLayerId } from "../services/mapShareState";
 import { buildMapPresentationFixture, builtInMapThemes, validateMapTheme } from "../themes/mapThemes";
 import { matchTheme, resolveTheme } from "../themes/themeState";
-import { POINT_TUPPER_FACTS, POINT_TUPPER_TIMELINE } from "./facts";
+import { POINT_TUPPER_CHECKED, POINT_TUPPER_FACT_GROUPS, POINT_TUPPER_FACTS, POINT_TUPPER_TIMELINE } from "./facts";
 import { POINT_TUPPER_BOUNDS, POINT_TUPPER_POSITION } from "./focus";
 import { pointTupperFocusDefinition } from "./focusDefinition";
 
@@ -82,6 +82,26 @@ describe("Point Tupper summary and timeline", () => {
   it("labels every fact once", () => {
     const labels = POINT_TUPPER_FACTS.map(({ label }) => label);
     expect(new Set(labels).size).toBe(labels.length);
+  });
+
+  it("keeps the company's account apart from the public record", () => {
+    expect(POINT_TUPPER_FACT_GROUPS.map(({ title }) => title)).toEqual(["What EverWind says", "On the public record"]);
+    const [company, record] = POINT_TUPPER_FACT_GROUPS;
+    expect(company.facts.length).toBeGreaterThan(0);
+    expect(record.facts.length).toBeGreaterThan(0);
+    // The record group never rests a line on EverWind's own pages; a company
+    // statement there can only be a note under a record, with its own link.
+    for (const fact of record.facts) {
+      expect(new URL(fact.sourceUrl).hostname, fact.label).not.toMatch(/everwind/u);
+    }
+    expect(POINT_TUPPER_FACTS).toEqual(POINT_TUPPER_FACT_GROUPS.flatMap(({ facts }) => facts));
+  });
+
+  it("dates the last check as a real day, written out the same way", () => {
+    const day = new Date(`${POINT_TUPPER_CHECKED.iso}T12:00:00Z`);
+    expect(Number.isNaN(day.getTime())).toBe(false);
+    expect(day.toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }))
+      .toBe(POINT_TUPPER_CHECKED.text);
   });
 });
 

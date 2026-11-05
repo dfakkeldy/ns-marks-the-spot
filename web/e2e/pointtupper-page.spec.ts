@@ -58,7 +58,33 @@ for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced s
     await expect(key.getByRole('button', { name: /Property lines/ })).toContainText('Needs the Province licence');
   }
 
+  // When the sources were last read, and the company's account kept apart from the record.
+  await expect(page.getByText(/^Sources checked/).first()).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'What EverWind says' })).toBeAttached();
+  await expect(page.getByRole('heading', { level: 3, name: 'On the public record' })).toBeAttached();
+  if (phone) {
+    // The summary sheet opens on arrival without pulling focus onto its Close button.
+    await expect(page.locator('.mobile-sheet-header strong')).toHaveText('Site brief & layers');
+    await expect(page.getByRole('button', { name: 'Close map controls' })).not.toBeFocused();
+  } else {
+    // The panel keeps the research map's width.
+    expect(await page.locator('.layer-rail').evaluate((rail) => Math.round(rail.getBoundingClientRect().width))).toBe(320);
+  }
+
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await expect(page.locator('vite-error-overlay')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('on a small laptop the map key starts folded, leaving the site clear', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const errors = collectErrors(page);
+  await isolateExternal(page);
+  await page.goto('/pointtupper?basemap=osm');
+  await expect(page.getByRole('heading', { level: 2, name: 'Point Tupper' })).toBeVisible();
+  const key = page.getByRole('complementary', { name: 'Map key' });
+  await expect(key.getByRole('button', { name: 'Map key' })).toHaveAttribute('aria-expanded', 'false');
+  expect(await page.locator('.layer-rail').evaluate((rail) => Math.round(rail.getBoundingClientRect().width))).toBe(320);
   expect(errors).toEqual([]);
 });

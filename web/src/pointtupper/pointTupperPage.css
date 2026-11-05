@@ -7,12 +7,16 @@
   --pt-deep: #10283a;
   --pt-sodium: #f0b45a;
   --pt-paper: #f6f1e6;
+  /* Four type steps for the page's own text: the name, a section title,
+     reading text, and mono captions (labels, dates, the eyebrow). */
+  --pt-step-display: 2.15rem;
+  --pt-step-title: 1rem;
+  --pt-step-body: 0.875rem;
+  --pt-step-caption: 0.66rem;
 }
 
-.pointtupper-focus .map-layout {
-  grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
-}
-
+/* The panel keeps the research map's own width (styles.css, .map-layout), so
+   the brief gives the map the room the site needs. */
 .pointtupper-focus .layer-rail {
   padding-top: 0;
 }
@@ -55,7 +59,7 @@
   margin: 0 0 6px;
   color: var(--pt-sodium);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.66rem;
+  font-size: var(--pt-step-caption);
   font-weight: 600;
   letter-spacing: 0.12em;
   line-height: 1.3;
@@ -66,64 +70,121 @@
   margin: 0;
   color: #fff8ec;
   font-family: "Fraunces", Georgia, serif;
-  font-size: 2.15rem;
+  font-size: var(--pt-step-display);
   letter-spacing: -0.01em;
   line-height: 1.02;
 }
 
 .pointtupper-hero-lede {
-  margin: 10px 0 16px;
+  margin: 10px 0 12px;
   color: rgba(246, 241, 230, 0.84);
-  font-size: 0.9rem;
+  font-size: var(--pt-step-body);
   line-height: 1.5;
+}
+
+/* The date the sources were last re-read: a reader can tell how current the
+   summary is without opening a source. */
+.pointtupper-checked {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  color: rgba(246, 241, 230, 0.74);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--pt-step-caption);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.pointtupper-checked::before {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  content: "";
+  background: var(--pt-sodium);
+  border-radius: 50%;
+}
+
+.pointtupper-checked time {
+  color: var(--pt-paper);
+}
+
+.pointtupper-fact-group {
+  margin: 0 0 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(246, 241, 230, 0.16);
+}
+
+.pointtupper-fact-group h3 {
+  margin: 0 0 12px;
+  color: #fff8ec;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: var(--pt-step-title);
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .pointtupper-facts {
   display: grid;
-  gap: 10px;
-  margin: 0 0 14px;
-  padding: 14px 0 0;
-  border-top: 1px solid rgba(246, 241, 230, 0.16);
+  gap: 14px;
+  margin: 0;
+  padding: 0;
 }
 
+/* Label over text: the panel is the research map's width, too narrow for a
+   label column beside the text. */
 .pointtupper-facts > div {
   display: grid;
-  grid-template-columns: 5.6rem minmax(0, 1fr);
-  gap: 10px;
-  align-items: baseline;
+  gap: 3px;
 }
 
 .pointtupper-facts dt {
   color: var(--pt-sodium);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.64rem;
+  font-size: var(--pt-step-caption);
   font-weight: 600;
   letter-spacing: 0.08em;
+  line-height: 1.3;
   text-transform: uppercase;
 }
 
 .pointtupper-facts dd {
   margin: 0;
   color: rgba(246, 241, 230, 0.9);
-  font-size: 0.82rem;
-  line-height: 1.45;
+  font-size: var(--pt-step-body);
+  line-height: 1.5;
+}
+
+.pointtupper-facts dd p {
+  margin: 0;
+}
+
+/* A qualification from another source: its own line, set in from the fact,
+   so each source link sits beside the claim it supports. */
+.pointtupper-facts dd .pointtupper-fact-note {
+  margin-top: 6px;
+  padding-left: 10px;
+  color: rgba(246, 241, 230, 0.78);
+  border-left: 2px solid rgba(240, 180, 90, 0.45);
 }
 
 .pointtupper-hero a {
   color: var(--pt-sodium);
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-.pointtupper-facts dd a {
-  font-size: 0.74rem;
-  white-space: nowrap;
+.pointtupper-hero a:hover {
+  color: #f6cf8f;
 }
 
 .pointtupper-hero-note {
   margin: 0 0 16px;
   padding: 10px 12px;
   color: rgba(246, 241, 230, 0.86);
-  font-size: 0.76rem;
+  font-size: var(--pt-step-body);
   line-height: 1.45;
   background: rgba(246, 241, 230, 0.06);
   border-left: 3px solid var(--pt-sodium);
@@ -142,7 +203,7 @@
   min-height: 46px;
   padding: 10px 16px;
   color: var(--pt-deep);
-  font-size: 0.9rem;
+  font-size: var(--pt-step-body);
   font-weight: 700;
   background: linear-gradient(180deg, #f6cf8f, #f0b45a);
   border: 0;
@@ -156,7 +217,7 @@
   align-items: center;
   justify-content: center;
   min-height: 40px;
-  font-size: 0.86rem;
+  font-size: var(--pt-step-body);
   font-weight: 600;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
@@ -172,7 +233,7 @@
   padding-top: 12px;
   color: rgba(246, 241, 230, 0.8);
   font-family: "Fraunces", Georgia, serif;
-  font-size: 0.86rem;
+  font-size: var(--pt-step-body);
   font-style: italic;
   line-height: 1.4;
   border-top: 1px solid rgba(246, 241, 230, 0.16);
@@ -185,8 +246,16 @@
   border-top: 1px solid var(--line);
 }
 
-.pointtupper-timeline h2 {
-  margin: 0 0 10px;
+/* The same serif title step as the summary's group headings, so the
+   timeline reads as part of the brief rather than the layer panel. */
+.pointtupper-focus .pointtupper-timeline h2 {
+  margin: 0 0 12px;
+  color: var(--chart-ink);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: var(--pt-step-title);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.25;
 }
 
 .pointtupper-timeline ol {
@@ -200,7 +269,7 @@
 .pointtupper-timeline li {
   position: relative;
   display: grid;
-  grid-template-columns: 5.2rem minmax(0, 1fr);
+  grid-template-columns: 4.8rem minmax(0, 1fr);
   gap: 10px;
   padding: 8px 0 8px 14px;
   border-left: 2px solid var(--line);
@@ -224,7 +293,8 @@
 .pointtupper-when {
   color: var(--chart-ink);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.72rem;
+  font-size: var(--pt-step-caption);
+  line-height: 1.9;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -232,13 +302,14 @@
 .pointtupper-timeline p {
   margin: 0;
   color: var(--chart-ink);
-  font-size: 0.82rem;
-  line-height: 1.45;
+  font-size: var(--pt-step-body);
+  line-height: 1.5;
 }
 
 .pointtupper-timeline a {
   color: var(--survey-blue);
-  font-size: 0.74rem;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 /* Map key ------------------------------------------------------------
@@ -497,7 +568,7 @@
 .pointtupper-focus-footer p {
   margin: 0 0 8px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: var(--pt-step-body);
   line-height: 1.45;
 }
 
@@ -542,11 +613,6 @@
 
   .pointtupper-hero-body {
     padding-inline: 16px;
-  }
-
-  .pointtupper-facts > div {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2px;
   }
 
   .pointtupper-focus .mobile-map-brand strong {

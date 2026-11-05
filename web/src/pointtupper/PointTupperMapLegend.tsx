@@ -21,14 +21,21 @@ const SHORT_KIND_LABELS: Readonly<Record<PointTupperSiteKind, string>> = {
 
 const OPEN_KEY = 'ns-marks-the-spot:pointtupper-key-open:v1';
 
-/** Open on a desktop, folded on a phone, until the reader chooses. */
+/**
+ * Open where the map is wide enough to keep the fitted site clear of it, folded
+ * on a phone or a small laptop, until the reader chooses. 1168px is the 320px
+ * panel plus the map width at which FocusFit starts keeping the key's
+ * `mapOverlayInset` clear (twice the inset plus 320px).
+ */
+const KEY_OPEN_QUERY = '(min-width: 1168px)';
+
 function initiallyOpen(): boolean {
   try {
     const saved = localStorage.getItem(OPEN_KEY);
     if (saved === 'open') return true;
     if (saved === 'closed') return false;
   } catch { /* Storage can be blocked; fall back to the width. */ }
-  return typeof window.matchMedia !== 'function' || !window.matchMedia('(max-width: 860px)').matches;
+  return typeof window.matchMedia !== 'function' || window.matchMedia(KEY_OPEN_QUERY).matches;
 }
 
 /** Markup built from catalogue constants only (contextMarkers.ts), never from source data. */
