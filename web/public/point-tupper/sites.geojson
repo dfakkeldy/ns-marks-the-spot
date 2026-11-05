@@ -27,7 +27,7 @@
         "label": "Generating station",
         "name": "Point Tupper Generating Station (Nova Scotia Power)",
         "kind": "power",
-        "note": "Nova Scotia Power's generating station at Point Tupper. Turn on Electrical transmission lines and Electrical substations to see the mapped grid around it.",
+        "note": "Nova Scotia Power's generating station at Point Tupper. The transmission lines and substations around it are the Province's mapped grid; switch them in the map key.",
         "located_by": "Wikidata item Q7208178 (public-domain coordinates).",
         "source": "Wikidata Q7208178; Nova Scotia Power, About our facilities",
         "source_date": "Read October 19, 2026"
