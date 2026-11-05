@@ -1,6 +1,21 @@
 import type { FocusChromeContext } from '../focus/focusDefinition';
-import { POINT_TUPPER_LICENCE_URL, POINT_TUPPER_SOURCES_URL } from '../layers/pointTupperLayers';
+import { POINT_TUPPER_LICENCE_URL, POINT_TUPPER_SOURCES_URL, pointTupperSiteKinds } from '../layers/pointTupperLayers';
 import { POINT_TUPPER_CHECKED, POINT_TUPPER_FACT_GROUPS, POINT_TUPPER_TIMELINE, type SourcedLine } from './facts';
+import { pointMarker, type Swatch } from './mapKey';
+import { MarkerSwatch } from './PointTupperMapLegend';
+
+/**
+ * The key's own symbol beside the facts about something the map draws, so the
+ * brief teaches the map: the terminal, the generating station, Landrie Lake
+ * and the turbines. Facts about decisions and people get none.
+ */
+const FACT_GLYPHS: Readonly<Record<string, Swatch>> = {
+  Announced: { kind: 'marker', marker: pointTupperSiteKinds.terminal.marker, color: pointTupperSiteKinds.terminal.color },
+  Grid: { kind: 'marker', marker: pointTupperSiteKinds.power.marker, color: pointTupperSiteKinds.power.color },
+  Water: { kind: 'marker', marker: pointTupperSiteKinds.water.marker, color: pointTupperSiteKinds.water.color },
+  Wind: pointMarker('planned-wind-turbines'),
+  'Wind nearby': pointMarker('canadian-wind-turbines'),
+};
 
 /**
  * A decorative dusk view across the Strait: tanks, a jetty, a stack and a
@@ -70,9 +85,17 @@ function factGroupId(title: string): string {
 
 /** One summary line: the fact, its source, then any qualification with its own source. */
 function FactRow({ fact }: { fact: SourcedLine }) {
+  const glyph = FACT_GLYPHS[fact.label];
   return (
     <div>
-      <dt>{fact.label}</dt>
+      <dt>
+        {glyph?.kind === 'marker' ? (
+          <span className="pointtupper-fact-glyph" aria-hidden="true">
+            <MarkerSwatch marker={glyph.marker} color={glyph.color} size={glyph.marker.glyph === 'turbine' ? 16 : 14} />
+          </span>
+        ) : null}
+        {fact.label}
+      </dt>
       <dd>
         <p>
           {fact.text}{' '}
@@ -89,13 +112,38 @@ function FactRow({ fact }: { fact: SourcedLine }) {
   );
 }
 
-/** The /pointtupper summary: what was announced, each fact with its source. */
+/** Seventy years of big projects on the Strait, oldest first, ending on the day the record was last read. */
+function StraitTimeline() {
+  return (
+    <section className="pointtupper-timeline" aria-labelledby="pointtupper-timeline-title">
+      <h3 id="pointtupper-timeline-title">Seventy years on the Strait</h3>
+      <ol>
+        {POINT_TUPPER_TIMELINE.map((event) => (
+          <li key={`${event.when}-${event.text}`}>
+            <span className="pointtupper-when">{event.when}</span>
+            <p>
+              {event.text}{' '}
+              <a href={event.sourceUrl} target="_blank" rel="noreferrer">{event.sourceLabel}</a>
+            </p>
+          </li>
+        ))}
+        {/* The record is unfinished: the line runs on, dashed, to the day it was last read. */}
+        <li className="pointtupper-timeline-now">
+          <span className="pointtupper-when">Now</span>
+          <p>The record so far, read <time dateTime={POINT_TUPPER_CHECKED.iso}>{POINT_TUPPER_CHECKED.text}</time>.</p>
+        </li>
+      </ol>
+    </section>
+  );
+}
+
+/** The /pointtupper summary: what was announced and what the record shows, each fact with its source. */
 export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusChromeContext) {
   return (
     <section className="pointtupper-hero" aria-labelledby="pointtupper-hero-title">
       <StraitIllustration />
       <div className="pointtupper-hero-body">
-        <p className="pointtupper-hero-eyebrow">Strait of Canso · Richmond County, Nova Scotia</p>
+        <p className="pointtupper-hero-eyebrow">Strait of Canso · Richmond County, Nova&nbsp;Scotia</p>
         <h2 id="pointtupper-hero-title">Point Tupper</h2>
         <p className="pointtupper-hero-lede">
           Where the announced data-centre campus would go: the terminal, the grid, the water and seventy
@@ -112,9 +160,13 @@ export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusC
             </dl>
           </section>
         ))}
+        <StraitTimeline />
         <p className="pointtupper-hero-note">
           The campus footprint has not been published, so the map does not draw it.
         </p>
+        <a className="pointtupper-hero-link" href={POINT_TUPPER_SOURCES_URL} target="_blank" rel="noreferrer">
+          Every source, and what it supports
+        </a>
         <div className="pointtupper-hero-actions">
           <button
             type="button"
@@ -126,32 +178,13 @@ export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusC
           >
             Zoom to Point Tupper
           </button>
-          <a className="pointtupper-hero-link" href={POINT_TUPPER_SOURCES_URL} target="_blank" rel="noreferrer">
-            Every source, and what it supports
-          </a>
         </div>
         <p className="pointtupper-hero-byline">Built by Dan Fakkeldy with Claude Code, from public sources.</p>
       </div>
-    </section>
-  );
-}
-
-/** Seventy years of big projects on the Strait, oldest first. */
-export function PointTupperTimelinePanel() {
-  return (
-    <section className="pointtupper-timeline" aria-labelledby="pointtupper-timeline-title">
-      <h2 id="pointtupper-timeline-title">Seventy years on the Strait</h2>
-      <ol>
-        {POINT_TUPPER_TIMELINE.map((event) => (
-          <li key={`${event.when}-${event.text}`}>
-            <span className="pointtupper-when">{event.when}</span>
-            <p>
-              {event.text}{' '}
-              <a href={event.sourceUrl} target="_blank" rel="noreferrer">{event.sourceLabel}</a>
-            </p>
-          </li>
-        ))}
-      </ol>
+      {/* The far shore's line, closing the night room before the map's tools. */}
+      <svg className="pointtupper-hero-shore" viewBox="0 0 360 14" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 0 H360 V6 C330 8 292 2 250 4 C206 6 170 14 130 10 C86 6 40 4 0 9 Z" />
+      </svg>
     </section>
   );
 }
@@ -171,6 +204,10 @@ export function PointTupperBrandMark() {
     <>
       <span aria-hidden="true"><PointTupperGlyph /></span>
       <strong>Point Tupper<span className="pointtupper-brand-suffix"> site</span></strong>
+      {/* The sheet rises from below, so the pill points up to it. */}
+      <svg className="pointtupper-brand-chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+        <path d="M2.5 7.5 6 4 9.5 7.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     </>
   );
 }

@@ -66,7 +66,7 @@ export const pointTupperLayers = [
       { field: "source_date", label: "Date" },
     ],
     // Short map names (`label` in sites.geojson); the popup keeps the full name.
-    permanentLabels: { minZoom: 11, field: "label" },
+    permanentLabels: { minZoom: 11, field: "label", sideField: "label_side" },
     featureRenderer: {
       field: "kind",
       styles: {

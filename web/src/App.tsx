@@ -4791,7 +4791,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           {FocusPanel ? <FocusPanel {...focusChromeContext} /> : null}
 
           <section className="rail-section" aria-labelledby="layers-heading">
-            <h2 id="layers-heading">Map layers</h2>
+            {/* Focusable by script, so a page's own chrome can bring a reader here. */}
+            <h2 id="layers-heading" tabIndex={-1}>Map layers</h2>
             {phoneCategoryLayout && focusedCategoryId !== null ? (
               <button
                 ref={categoryBackButtonRef}

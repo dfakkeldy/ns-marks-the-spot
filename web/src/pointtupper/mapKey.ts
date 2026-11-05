@@ -44,7 +44,7 @@ const openArea = (id: ContextLayerId, kind: 'area' | 'tanks' = 'area'): Swatch =
   return { kind, color: style?.color ?? '#555555', fillOpacity: style?.fillOpacity ?? 0.25 };
 };
 
-const pointMarker = (id: ContextLayerId): Swatch => {
+export const pointMarker = (id: ContextLayerId): Swatch => {
   const style = catalogueEntry(id).featureRenderer?.defaultStyle;
   if (!style?.marker) throw new Error(`Point Tupper key expects a marker on ${id}`);
   return { kind: 'marker', marker: style.marker, color: style.fillColor ?? style.color };

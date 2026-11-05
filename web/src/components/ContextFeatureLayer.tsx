@@ -82,10 +82,19 @@ export function ContextFeatureLayer({ layer, visible, onStatusChange, renderMode
             if (feature.geometry.type === "Point" && (typeof labelValue === "string" || typeof labelValue === "number")) {
               const styleMarker = contextFeatureStyle(layer, feature.properties ?? {}, renderMode).marker;
               const marker = styleMarker ? contextMarkerAtZoom(styleMarker, zoom) : undefined;
+              const sideValue = labelled?.sideField ? (feature.properties ?? {})[labelled.sideField] : undefined;
+              const side = sideValue === "left" || sideValue === "right" || sideValue === "top" || sideValue === "bottom" ? sideValue : undefined;
+              const markerSize = marker ? contextMarkerSize(marker) : undefined;
+              const halfWidth = markerSize ? Math.round(markerSize.width / 2) : 6;
+              const halfHeight = markerSize ? Math.round(markerSize.height / 2) : 6;
               featureLayer.bindTooltip(String(labelValue), {
                 permanent: true,
-                direction: marker?.glyph === "turbine" ? "top" : "right",
-                offset: marker?.glyph === "turbine" ? [0, -Math.round(contextMarkerSize(marker).height * 0.85)] : [marker ? Math.round(contextMarkerSize(marker).width / 2) : 6, 0],
+                direction: side ?? (marker?.glyph === "turbine" ? "top" : "right"),
+                offset: side === "left" ? [-halfWidth, 0]
+                  : side === "top" ? [0, -halfHeight]
+                  : side === "bottom" ? [0, halfHeight]
+                  : marker?.glyph === "turbine" && !side ? [0, -Math.round(contextMarkerSize(marker).height * 0.85)]
+                  : [halfWidth, 0],
                 className: "context-place-label",
               });
             }

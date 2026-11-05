@@ -1,6 +1,6 @@
 import type { FocusDefinition, FocusHiddenFeature } from '../focus/focusDefinition';
 import { POINT_TUPPER_BOUNDS, POINT_TUPPER_POSITION, pointTupperFocusCategoryIds, pointTupperFocusDeniedLayerIds, pointTupperFocusLayerIds } from './focus';
-import { PointTupperBrandMark, PointTupperFocusHero, PointTupperFooterNote, PointTupperTimelinePanel } from './PointTupperFocusChrome';
+import { PointTupperBrandMark, PointTupperFocusHero, PointTupperFooterNote } from './PointTupperFocusChrome';
 import { PointTupperMapLegend } from './PointTupperMapLegend';
 
 /** The /pointtupper page (`web/pointtupper.html`, `<App focus="pointtupper" />`). */
@@ -23,7 +23,6 @@ export const pointTupperFocusDefinition: FocusDefinition = {
   mapOverlayInset: 264,
   chrome: {
     Hero: PointTupperFocusHero,
-    Panel: PointTupperTimelinePanel,
     MapOverlay: PointTupperMapLegend,
     sheetTitle: 'Site brief & layers',
     brand: { label: 'Point Tupper — summary and layers', Mark: PointTupperBrandMark },
