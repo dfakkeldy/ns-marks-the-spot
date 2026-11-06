@@ -1,6 +1,6 @@
 import { queryLockReason } from "../licensing/layerUse";
 import { openDataSourceLinks, type OpenDataSource } from "../layers/openDataSources";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useState } from "react";
 import type {
   EnvironmentalHealthLayerDescriptor,
@@ -16,6 +16,8 @@ import type {
   FletcherLayerId,
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
+import { LayerSwatch } from "./LayerSwatch";
+import { openDataSwatch } from "./layerSwatchSpec";
 import { radarObservedLabel } from "../services/weatherRadar";
 import {
   WELL_ACCURACY_BANDS,
@@ -121,6 +123,8 @@ export const LayerToggle = memo(function LayerToggle({
   onReviewLicence: () => void;
 }) {
   const enabled = layer.licence === "province-open" || licenceAccepted;
+  // Only project-rendered open data carries its symbol in the catalogue.
+  const swatch = useMemo(() => (layer.openData ? openDataSwatch(layer.openData) : null), [layer.openData]);
   return (
     <label className="layer-row">
       <input
@@ -132,7 +136,7 @@ export const LayerToggle = memo(function LayerToggle({
       />
       <span className="switch" aria-hidden="true" />
       <span>
-        <strong>{layer.name}</strong>
+        <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
         <small>
           {enabled ? layer.webCaveat : "Province licence required"}
         </small>

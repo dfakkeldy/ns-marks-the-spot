@@ -1,7 +1,9 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import type { ContextMapLayer } from "../layers/contextLayerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 import { LayerMetadata } from "./LayerRows";
+import { LayerSwatch } from "./LayerSwatch";
+import { contextLayerSwatch } from "./layerSwatchSpec";
 
 export const ContextLayerToggle = memo(function ContextLayerToggle({
   layer, checked, licenceAccepted, status, onChange, onReviewLicence,
@@ -15,6 +17,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
 }) {
   const licenceEnabled = layer.licence !== "province-restricted" || licenceAccepted;
   const enabled = licenceEnabled && !layer.unavailableReason;
+  const swatch = useMemo(() => contextLayerSwatch(layer), [layer]);
   return (
     <div className="context-layer-control">
       <label className="layer-row">
@@ -23,7 +26,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
           onChange={(event) => onChange(event.target.checked)} />
         <span className="switch" aria-hidden="true" />
         <span>
-          <strong>{layer.name}</strong>
+          <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
           <small>{layer.webCaveat}</small>
           {!licenceEnabled ? <small>Province licence required</small> : null}
           {layer.unavailableReason ? <small>{layer.unavailableReason}</small> : null}

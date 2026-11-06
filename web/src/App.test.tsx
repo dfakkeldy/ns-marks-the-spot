@@ -201,12 +201,14 @@ vi.mock("./components/MapCanvas", () => ({
     onExportFrameContinue,
     backgroundSwitch,
     focusFit,
+    themeCamera,
     fishingSpots,
     rhodenaPickPending,
   }: {
     backgroundSwitch?: { aerial: boolean; onChange: (aerial: boolean) => void } | null;
     fishingSpots?: unknown;
     focusFit?: { revision: number; bounds: [[number, number], [number, number]] | null };
+    themeCamera?: import("./themes/themeCameras").ThemeCameraRequest;
     rhodenaPickPending?: boolean;
     poker?: import("./components/PokerMapTools").PokerSession | null;
     parcels: { features: unknown[] };
@@ -376,6 +378,7 @@ vi.mock("./components/MapCanvas", () => ({
       ; focus fit: {focusFit?.revision ?? 0}; viewpoint pick: {rhodenaPickPending ? "pending" : "none"}
       ; focus fit bounds: {focusFit?.bounds ? focusFit.bounds.flat().join(",") : "none"}
       ; spots page state: {fishingSpots ? "page" : "none"}
+      ; theme camera: {themeCamera?.camera ? `${themeCamera.camera.kind}#${themeCamera.revision}` : "none"}
       <button type="button" onClick={() => onIdentifyParcel(46.059488, -61.414138)}>
         Tap map parcel
       </button>
@@ -1088,13 +1091,14 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("spots page state: none");
   });
 
-  it("opens the Rhodena setup on the full map at the project camera, with the full map's own chrome", () => {
+  it("opens the Rhodena setup on the full map at the turbines, with the full map's own chrome", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?theme=rhodena");
 
     render(<App />);
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.785,-61.405,11");
+    // Zoom 13, where the T1-T6 badges stand apart (themes/themeCameras.ts).
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.765,-61.43,13");
     expect(screen.getByRole("combobox", { name: /Map setup/ })).toBeInTheDocument();
     expect(screen.queryByRole("group", { name: "Background" })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /Open this view in the full NS Marks map/ })).not.toBeInTheDocument();
@@ -1119,18 +1123,51 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => expect(new URL(window.location.href).searchParams.get("layers")?.split(",")).toContain("rhodena-visibility"));
   });
 
-  it("zooms to Rhodena when its setup is chosen on the full map, and not for other setups", async () => {
+  it("moves to each setup's own camera when it is chosen on the full map", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");
 
     render(<App />);
     const canvas = screen.getByTestId("map-canvas");
     const mapSetup = screen.getByRole("combobox", { name: /Map setup/ });
+    expect(canvas).toHaveTextContent("theme camera: none");
 
+    // Historical Maps frames the 24 Fletcher sheets (an area fit).
     await userEvent.selectOptions(mapSetup, "historical-maps");
-    expect(canvas).toHaveTextContent("focus fit: 0");
-    await userEvent.selectOptions(mapSetup, "rhodena");
     expect(canvas).toHaveTextContent("focus fit: 1");
+    expect(canvas).toHaveTextContent("theme camera: fit#1");
+    await userEvent.selectOptions(mapSetup, "rhodena");
+    expect(canvas).toHaveTextContent("theme camera: position#2");
+    expect(canvas).toHaveTextContent("focus fit: 1");
+    await userEvent.selectOptions(mapSetup, "tax-sale-research");
+    expect(canvas).toHaveTextContent("theme camera: notice-extent#3");
+    await userEvent.selectOptions(mapSetup, "forestry-field-access");
+    expect(canvas).toHaveTextContent("theme camera: zoom-floor#4");
+    // Explore keeps the home camera: nothing new is requested.
+    await userEvent.selectOptions(mapSetup, "explore-nova-scotia");
+    expect(canvas).toHaveTextContent("theme camera: zoom-floor#4");
+    // Fishing still borrows its focus page's fit.
+    await userEvent.selectOptions(mapSetup, "fishing");
+    expect(canvas).toHaveTextContent("focus fit: 2");
+  });
+
+  it("opens a setup's zoom floor and area fit on a cold link, and none with a shared position", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=forestry-field-access");
+    const { unmount } = render(<App />);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 46.08,-60.92,14");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("theme camera: zoom-floor#1");
+    unmount();
+
+    window.history.replaceState(null, "", "/?theme=historical-maps");
+    const second = render(<App />);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 1");
+    second.unmount();
+
+    window.history.replaceState(null, "", "/?theme=forestry-field-access&position=45.5,-61.5,10");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("initial position: 45.5,-61.5,10");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("theme camera: none");
   });
 
   it("leaves a setup with no focus page at the default camera", () => {

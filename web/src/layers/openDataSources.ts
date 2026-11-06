@@ -26,6 +26,8 @@ export type OpenDataSource = {
   /** Points draw as small hollow rings with a light halo instead of filled
    * discs: the mark locates the record without blotting out the map. */
   pointRing?: boolean;
+  /** Every record is a point (drawn as a filled disc); the layer row's swatch shows a dot. */
+  symbol?: "point";
   /** Conservative envelopes from the publisher's known, limited coverage. */
   coverageAreas?: readonly { west: number; south: number; east: number; north: number }[];
 };
@@ -48,7 +50,7 @@ export const ROAD_TIER_ZOOMS = { unpaved: 13, minor: 14 } as const;
 export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
   "crown-lands": { parts: [part("3nka-59nz", ["dnr_id", "partialown", "symbol"])], color: "#268744", fillOpacity: 0.18, stroke: false },
   "flood-risk": { parts: [part("569x-2wnq", ["river", "primary_co"]), part("ynkv-x6rx", ["sec_name", "sec_code"]), part("6htv-yzkm", ["sec_name", "tert_code"])], color: "#487f9b", fillOpacity: 0 },
-  "waterfalls": { parts: [part("458x-dmz3", ["feat_code", "feat_desc"], "feat_desc = 'Falls -  On a single line river point'")], color: "#0078ff" },
+  "waterfalls": { parts: [part("458x-dmz3", ["feat_code", "feat_desc"], "feat_desc = 'Falls -  On a single line river point'")], color: "#0078ff", symbol: "point" },
   "water-features": { parts: [part("h8jb-hzrm"), part("fpca-jrmt"), { ...part("458x-dmz3"), minZoom: 14 }], color: "#267cad", fillOpacity: 0.2 },
   "roads": { parts: [
     part("484g-adjn", ROAD_FIELDS, `${ROAD_FEATURES} AND roadc_desc IN (${THROUGH_ROAD_CLASSES}) AND feat_desc NOT LIKE '%Unpaved%'`),

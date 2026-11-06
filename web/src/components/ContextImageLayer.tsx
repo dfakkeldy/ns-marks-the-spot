@@ -33,7 +33,7 @@ export function ContextImageLayer({ layer, visible, onStatusChange }: {
     report();
     overlay.addTo(map);
     map.on("zoomend", report);
-    return () => { map.off("zoomend", report); overlay.off(); overlay.remove(); };
+    return () => { map.off("zoomend", report); overlay.remove(); overlay.off(); /* remove first: see FletcherTileLayer */ };
   }, [layer, map, onStatusChange, visible]);
   return null;
 }

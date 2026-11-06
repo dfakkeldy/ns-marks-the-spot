@@ -37,7 +37,14 @@ for (const viewport of [{width:390,height:844},{width:1440,height:1000}]) {
     await input.press('Enter');
     if(mode==='poker') {
       await expect(input).toHaveValue('117 Example Rd, Long Point, Inverness');
-      await expect(page.locator('.poker-civic-number')).toContainText('117');
+      // Poker opens at civic-number zoom, so a reading can already be on the map
+      // when the address is chosen; while its label re-places, Leaflet briefly
+      // holds an empty second tooltip. Wait for the settled label.
+      const civicLabel = page.locator('.poker-civic-number', { hasText: '117' });
+      await expect(civicLabel).toHaveCount(1);
+      await expect(civicLabel).toBeVisible();
+      // ...and no empty tooltip is left behind once it has.
+      await expect(page.locator('.poker-civic-number')).toHaveCount(1);
     } else {
       const evidence=page.getByRole('region',{name:'Mailing address evidence'});
       await expect(evidence).toContainText('Mailing: 117 EXAMPLE RD, JUDIQUE, NS B0E 1P0');

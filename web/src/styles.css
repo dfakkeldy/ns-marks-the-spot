@@ -770,6 +770,59 @@ a {
   font-size: var(--type-body);
 }
 
+/* The row's map key: the layer's own symbol beside its name, so the rail
+   doubles as the legend (components/layerSwatchSpec.ts). Sized to the cap height. */
+.layer-swatch {
+  /* The light map ground the symbols are drawn on, in either appearance. */
+  --swatch-paper: #f6f3ea;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 16px;
+  height: 11px;
+  margin-right: 7px;
+  vertical-align: -1px;
+  border: 1.5px solid transparent;
+  border-radius: 2px;
+}
+
+.layer-swatch--area {
+  background-color: var(--swatch-paper);
+}
+
+.layer-swatch--line {
+  height: 0;
+  filter: drop-shadow(0 0 1px var(--swatch-paper));
+  vertical-align: 4px;
+  border-width: 2.5px 0 0;
+  border-radius: 0;
+}
+
+.layer-swatch--road {
+  border-top-width: 3.5px;
+  border-radius: 2px;
+}
+
+.layer-swatch--dot,
+.layer-swatch--ring {
+  width: 10px;
+  height: 10px;
+  margin-inline: 3px 10px;
+  border-radius: 50%;
+}
+
+.layer-swatch--dot,
+.layer-swatch--ring {
+  box-shadow: 0 0 0 1.5px var(--swatch-paper);
+}
+
+.layer-swatch--ring {
+  background: var(--swatch-paper);
+}
+
+.layer-swatch--classes {
+  border: 1px solid rgba(var(--shadow-rgb), 0.28);
+}
+
 .layer-row small {
   color: var(--lichen);
   font-size: var(--type-caption);
