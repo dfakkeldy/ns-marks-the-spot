@@ -180,5 +180,12 @@
     "width": 128,
     "height": 12,
     "pixelRatio": 1
+  },
+  "crown-hatch": {
+    "x": 0,
+    "y": 1570,
+    "width": 8,
+    "height": 8,
+    "pixelRatio": 1
   }
 }
