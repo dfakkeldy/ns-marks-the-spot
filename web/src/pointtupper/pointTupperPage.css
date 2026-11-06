@@ -276,10 +276,10 @@
   left: 0;
   height: 24px;
   content: "";
-  /* Solid for the first 16px, so a line passing under the title, underline
+  /* Solid for the first 20px, so a line passing under the title, underline
      and all, dissolves instead of showing cut in half; short enough not to
      read as an empty band. */
-  background: linear-gradient(var(--pt-deep) 16px, rgba(16, 40, 58, 0));
+  background: linear-gradient(var(--pt-deep) 20px, rgba(16, 40, 58, 0));
   pointer-events: none;
 }
 
@@ -936,9 +936,10 @@
 
 .pointtupper-focus-footer .export-map-trigger {
   width: 100%;
-  /* One ground for the footer's buttons: the page's surface, as the
-     full-map link below it. */
+  /* One ground and one corner for the footer's buttons, as the full-map
+     link below it. */
   background: rgb(var(--surface-rgb));
+  border-radius: 12px;
 }
 
 /* The appearance picker lines up with the footer's other controls, not the
