@@ -1350,6 +1350,14 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     () => Boolean(focusDef) && !hasRecognizedShareState
       && (window.matchMedia?.("(max-width: 860px)").matches ?? false),
   );
+  // The phone sheet opens at half height, so the map it changes stays in
+  // view; dragging or tapping its grabber, typing, or scrolling the list
+  // takes it to full height. Point Tupper's page keeps its own sheet.
+  const [sheetDetent, setSheetDetent] = useState<"half" | "full">("half");
+  const sheetDetents = focusDef?.id !== "pointtupper";
+  const sheetDragRef = useRef<{ y: number; pointerId: number } | null>(null);
+  // A drag that starts on the grabber ends in a click on it; that click is not a tap.
+  const sheetDraggedRef = useRef(false);
   const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
     () => window.matchMedia?.("(max-width: 860px)").matches ?? false,
   );
@@ -1414,6 +1422,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   useEffect(() => {
     if (!mobileControlsOpen) {
       sheetHasClosedRef.current = true;
+      setSheetDetent("half");
       return;
     }
     if (!sheetHasClosedRef.current) return;
@@ -4810,9 +4819,50 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           id="map-controls"
           className={`layer-rail mode-${mapMode}${mobileControlsOpen ? " mobile-open" : ""}`}
           aria-label="Map controls"
+          data-sheet-detent={sheetDetents ? sheetDetent : undefined}
+          onFocus={sheetDetents ? (event) => {
+            if (event.target instanceof HTMLElement && event.target.matches('input:not([type]), input[type="search"], input[type="text"], textarea')) setSheetDetent("full");
+          } : undefined}
+          onScroll={sheetDetents && sheetDetent === "half" ? (event) => {
+            if (event.currentTarget.scrollTop > 24) setSheetDetent("full");
+          } : undefined}
         >
-          <div className="mobile-sheet-header">
-            <strong>{focusDef?.chrome.sheetTitle ?? "Search & layers"}</strong>
+          <div
+            className="mobile-sheet-header"
+            onPointerDown={sheetDetents ? (event) => {
+              if ((event.target as HTMLElement).closest("button:not(.mobile-sheet-grabber)")) return;
+              sheetDragRef.current = { y: event.clientY, pointerId: event.pointerId };
+            } : undefined}
+            onPointerUp={sheetDetents ? (event) => {
+              const start = sheetDragRef.current;
+              sheetDragRef.current = null;
+              if (!start || start.pointerId !== event.pointerId) return;
+              const moved = event.clientY - start.y;
+              sheetDraggedRef.current = Math.abs(moved) > 32;
+              if (moved < -32) setSheetDetent("full");
+              else if (moved > 32) {
+                if (sheetDetent === "full") setSheetDetent("half");
+                else closeMobileControls();
+              }
+            } : undefined}
+            onPointerCancel={() => { sheetDragRef.current = null; }}
+          >
+            {sheetDetents ? (
+              <button
+                type="button"
+                className="mobile-sheet-grabber"
+                aria-label={sheetDetent === "half" ? "Show more of the controls" : "Show more of the map"}
+                aria-expanded={sheetDetent === "full"}
+                aria-controls="map-controls"
+                onClick={() => {
+                  if (sheetDraggedRef.current) { sheetDraggedRef.current = false; return; }
+                  setSheetDetent((current) => current === "half" ? "full" : "half");
+                }}
+              >
+                <span aria-hidden="true" />
+              </button>
+            ) : null}
+            <strong className={focusDef ? undefined : "visually-hidden"}>{focusDef?.chrome.sheetTitle ?? "Search & layers"}</strong>
             <button
               ref={mobileSheetCloseRef}
               type="button"

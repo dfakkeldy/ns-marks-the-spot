@@ -3904,6 +3904,54 @@ a {
     bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
   }
 
+  /* Half height leaves the top of the map in view, so a switched layer shows
+     at once. Same bottom edge, so nothing under the sheet moves. */
+  .layer-rail.mobile-open[data-sheet-detent="half"] {
+    max-height: min(520px, calc((var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)) * 0.58));
+  }
+
+  .layer-rail.mobile-open[data-sheet-detent] {
+    transition: max-height 0.22s ease;
+  }
+
+  .mobile-sheet-header {
+    touch-action: none;
+  }
+
+  .mobile-sheet-header .mobile-sheet-grabber {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    flex: none;
+    width: 96px;
+    height: 24px;
+    background: none;
+    border: 0;
+    border-radius: 12px;
+    transform: translateX(-50%);
+    cursor: grab;
+  }
+
+  .mobile-sheet-grabber span {
+    display: block;
+    width: 40px;
+    height: 5px;
+    margin: 0 auto;
+    background: var(--muted);
+    border-radius: 3px;
+    opacity: 0.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .layer-rail.mobile-open[data-sheet-detent] {
+      transition: none;
+    }
+  }
+
+  .mobile-sheet-header > button:last-child {
+    margin-left: auto;
+  }
+
   .search-row input {
     font-size: 16px;
   }
@@ -7607,6 +7655,9 @@ a {
 /* Placed names sit on the map like lettering, not like popups: no arrow, no pointer. */
 .leaflet-tooltip.electoral-map-label { padding: 0; pointer-events: none; line-height: 1.2; }
 .leaflet-tooltip.electoral-map-label::before { display: none; }
+/* Names take their boundary's colour, so they never read as the basemap's towns. */
+.electoral-map-label-provincial { color: #174f9e; }
+.electoral-map-label-provincial.electoral-map-label-night { color: #a9cdfb; }
 /* Federal ridings: the riding line's deep water, spaced capitals, a step smaller. */
 .electoral-map-label-federal { color: #0a4f5c; font-size: var(--type-micro); letter-spacing: .08em; text-transform: uppercase; }
 .electoral-map-label-federal.electoral-map-label-night { color: #9fd6e2; }

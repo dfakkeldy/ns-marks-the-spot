@@ -67,7 +67,7 @@ export function ElectoralFeatureLayer({ layer, visible, licenceAccepted, mode, n
         const fill = electoralFill(layer, properties, mode, night);
         return `${electoralLabel(layer, properties)}${mode === 'boundaries' ? '' : ` · ${fill.label}`}`;
       };
-      const labelClass = `electoral-map-label${federal ? ' electoral-map-label-federal' : ''}${night ? ' electoral-map-label-night' : ''}`;
+      const labelClass = `electoral-map-label${federal ? ' electoral-map-label-federal' : municipal || mode !== 'boundaries' ? '' : ' electoral-map-label-provincial'}${night ? ' electoral-map-label-night' : ''}`;
       const line = federal ? (night ? '#9fd6e2' : '#0a4f5c') : municipal ? (night ? '#a9c98a' : '#5a7343') : (night ? '#8cc0ff' : '#1e66cc');
       drawn = L.geoJSON(features, {
         pane: paneName, interactive: renderMode !== 'print', bubblingMouseEvents: false,
