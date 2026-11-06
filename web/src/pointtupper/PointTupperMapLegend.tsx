@@ -116,17 +116,6 @@ export function PointTupperMapLegend(context: FocusChromeContext) {
     context.setContextLayerVisibility(row.layer.id, !context.contextLayers[row.layer.id]);
   };
   const sitesOn = context.contextLayers['point-tupper-sites'];
-  /** Bring the panel's layer list, where each layer keeps its source and caveats, into view. */
-  const showLayerList = () => {
-    context.openMobileControls();
-    // On a phone the sheet renders on the next frame.
-    requestAnimationFrame(() => {
-      const heading = document.getElementById('layers-heading');
-      const still = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      heading?.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
-      heading?.focus({ preventScroll: true });
-    });
-  };
 
   return (
     <aside className={`pointtupper-key${open ? ' is-open' : ''}`} aria-label="Map key">
@@ -179,10 +168,7 @@ export function PointTupperMapLegend(context: FocusChromeContext) {
             })}
           </section>
         ))}
-        <p className="pointtupper-key-note">
-          Select a place on the map for its source and date. Each layer&apos;s source and caveats are in the{' '}
-          <button type="button" className="pointtupper-key-link" onClick={showLayerList}>layer list</button>.
-        </p>
+        <p className="pointtupper-key-note">Select a place on the map for its source and date.</p>
       </div>
     </aside>
   );

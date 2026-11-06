@@ -35,7 +35,7 @@ const WATER: MappedPlace = {
 };
 const TURBINES: MappedPlace = {
   name: 'the Point Tupper wind farm',
-  label: '12 turbines',
+  label: 'Point Tupper wind farm',
   swatch: pointMarker('canadian-wind-turbines'),
   bounds: POINT_TUPPER_PLACE_BOUNDS.turbines,
 };
@@ -86,32 +86,57 @@ function phoneSheetInset(): number {
 }
 
 /**
- * The phone sheet opens at 60%, with the site in the map above it, and rises
- * to full height once the reader scrolls into the brief; scrolling back to
- * the top returns it to 60%.
+ * Watches the panel's scroll. On a phone the sheet opens at 60%, with the site
+ * in the map above it, rises to full height as soon as the reader scrolls into
+ * the brief, and returns to 60% back at the top. Everywhere, a section title
+ * that is stuck at the top of the panel is marked, so only then does it fade
+ * the text passing beneath it.
  */
-function usePhoneSheetStops(heroRef: RefObject<HTMLElement | null>) {
+function usePanelScroll(heroRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
-    const rail = heroRef.current?.closest<HTMLElement>('.layer-rail');
-    if (!rail) return undefined;
-    const onScroll = () => {
-      if (!isPhone()) return;
-      if (rail.scrollTop > 120) rail.classList.add(SHEET_FULL);
-      else if (rail.scrollTop < 24) rail.classList.remove(SHEET_FULL);
+    const hero = heroRef.current;
+    const rail = hero?.closest<HTMLElement>('.layer-rail');
+    if (!hero || !rail) return undefined;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      // The phone sheet rises as soon as the reader starts into the brief.
+      if (isPhone()) {
+        if (rail.scrollTop > 4) rail.classList.add(SHEET_FULL);
+        else rail.classList.remove(SHEET_FULL);
+      }
+      // A section title is stuck when it has left its place under its mark;
+      // only then does it fade the text passing beneath it.
+      for (const title of hero.querySelectorAll<HTMLElement>('h3')) {
+        const mark = title.previousElementSibling;
+        if (!mark?.classList.contains('pointtupper-stick-mark')) continue;
+        const resting = parseFloat(getComputedStyle(title).marginTop) || 0;
+        const offset = title.getBoundingClientRect().top - mark.getBoundingClientRect().top - resting;
+        title.classList.toggle('is-stuck', offset > 1);
+      }
     };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     rail.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       rail.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
       rail.classList.remove(SHEET_FULL);
     };
   }, [heroRef]);
 }
 
-/** A source link: it opens in a new tab, and says so. */
-function SourceLink({ href, children }: { href: string; children: ReactNode }) {
+/**
+ * A source link: it opens in a new tab, and says so by eye (an arrow kept on
+ * the line with the link's last word) and to a screen reader.
+ */
+function SourceLink({ href, children }: { href: string; children: string }) {
+  const split = children.lastIndexOf(' ');
+  const head = split === -1 ? '' : children.slice(0, split + 1);
+  const last = split === -1 ? children : children.slice(split + 1);
   return (
     <a className="pointtupper-source" href={href} target="_blank" rel="noreferrer">
-      {children}<span className="visually-hidden"> (opens in a new tab)</span>
+      {head}<span className="pointtupper-source-end">{last}<span className="pointtupper-new-tab" aria-hidden="true">{'\u2197'}</span></span>
+      <span className="visually-hidden"> (opens in a new tab)</span>
     </a>
   );
 }
@@ -191,7 +216,7 @@ function FactRow({ fact, onShowPlace }: { fact: SourcedLine; onShowPlace: (place
       <dt>
         <span>{fact.label}</span>
         {place ? (
-          <button type="button" className="pointtupper-place" aria-label={`Show ${place.name} on the map`} onClick={() => onShowPlace(place)}>
+          <button type="button" className="pointtupper-place" aria-label={`Show ${place.label} on the map`} onClick={() => onShowPlace(place)}>
             <span className="pointtupper-place-glyph" aria-hidden="true"><Glyph swatch={place.swatch} size={12} /></span>
             {place.label}
           </button>
@@ -217,6 +242,7 @@ function FactRow({ fact, onShowPlace }: { fact: SourcedLine; onShowPlace: (place
 function StraitTimeline({ onShowPlace }: { onShowPlace: (place: MappedPlace) => void }) {
   return (
     <section className="pointtupper-timeline" aria-labelledby="pointtupper-timeline-title">
+      <span className="pointtupper-stick-mark" aria-hidden="true" />
       <h3 id="pointtupper-timeline-title">Seventy years on the Strait</h3>
       <ol>
         {POINT_TUPPER_TIMELINE.map((event) => {
@@ -226,7 +252,7 @@ function StraitTimeline({ onShowPlace }: { onShowPlace: (place: MappedPlace) => 
               <span className="pointtupper-when">
                 {event.when}
                 {place ? (
-                  <button type="button" className="pointtupper-timeline-place" aria-label={`Show ${place.name} on the map`} onClick={() => onShowPlace(place)}>
+                  <button type="button" className="pointtupper-timeline-place" aria-label={`Show ${place.label} on the map`} onClick={() => onShowPlace(place)}>
                     <Glyph swatch={place.swatch} size={12} />
                   </button>
                 ) : null}
@@ -255,7 +281,7 @@ function StraitTimeline({ onShowPlace }: { onShowPlace: (place: MappedPlace) => 
 /** The /pointtupper summary: what was announced and what the record shows, each fact with its source. */
 export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileControls }: FocusChromeContext) {
   const heroRef = useRef<HTMLElement>(null);
-  usePhoneSheetStops(heroRef);
+  usePanelScroll(heroRef);
   const showPlace = (place: MappedPlace) => {
     const rail = heroRef.current?.closest<HTMLElement>('.layer-rail');
     if (rail && isPhone()) {
@@ -285,6 +311,7 @@ export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileContr
         </p>
         {POINT_TUPPER_FACT_GROUPS.map((group) => (
           <section key={group.title} className="pointtupper-fact-group" aria-labelledby={factGroupId(group.title)}>
+            <span className="pointtupper-stick-mark" aria-hidden="true" />
             <h3 id={factGroupId(group.title)}>{group.title}</h3>
             <dl className="pointtupper-facts">
               {group.facts.map((fact) => <FactRow key={fact.label} fact={fact} onShowPlace={showPlace} />)}
@@ -306,9 +333,9 @@ export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileContr
           >
             Zoom to Point Tupper
           </button>
-          {/* The key, which says this on a wide screen, is folded or hidden on a phone. */}
-          <p className="pointtupper-hero-hint">Then tap a place for its source and date.</p>
         </div>
+        {/* Shown while the map key, which says the same, is folded (pointTupperPage.css). */}
+        <p className="pointtupper-hero-hint">Then select a place on the map for its source and date.</p>
         <p className="pointtupper-hero-byline">Built by Dan Fakkeldy with Claude Code, from public sources.</p>
       </div>
       {/* The far shore's line, closing the night room before the map's tools. */}
