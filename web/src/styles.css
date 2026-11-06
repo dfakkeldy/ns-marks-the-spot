@@ -8166,3 +8166,52 @@ a {
     padding: 12px 18px 18px;
   }
 }
+
+/* Civic results stop at a whole row (useWholeRowList); while more rows wait
+   below, the list fades out at its foot so it reads as scrollable. */
+.address-search-results {
+  max-height: 236px;
+}
+
+.address-search-results[data-more="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+}
+
+/* Background Maps: a 32 x 20 key of the basemap's land and water. */
+.basemap-swatch {
+  display: inline-block;
+  flex: none;
+  width: 32px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: -5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+.basemap-swatch--neutral {
+  background: linear-gradient(135deg, #e8e8e8 0 55%, #c9c9c9 55% 100%);
+}
+
+/* Map setup: one material, the warm panel with a hairline, and the export
+   it feeds full width beneath it. */
+.layer-rail .map-theme-picker {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.layer-rail > .export-map-trigger {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* The category list's label: a quiet 11px small-caps name, not a title. */
+.rail-section h2#layers-heading {
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-caps: all-small-caps;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}

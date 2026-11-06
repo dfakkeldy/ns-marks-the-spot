@@ -17,7 +17,7 @@ import type {
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 import { LayerSwatch } from "./LayerSwatch";
-import { openDataSwatch } from "./layerSwatchSpec";
+import { contextLayerSwatch, openDataSwatch, type LayerSwatchSpec } from "./layerSwatchSpec";
 import { radarObservedLabel } from "../services/weatherRadar";
 import {
   WELL_ACCURACY_BANDS,
@@ -132,6 +132,7 @@ export const LayerToggle = memo(function LayerToggle({
   status,
   onChange,
   onReviewLicence,
+  symbol,
 }: {
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   checked: boolean;
@@ -139,10 +140,13 @@ export const LayerToggle = memo(function LayerToggle({
   status: MapLayerStatus;
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
+  /** The map symbol when the caller draws it (the parcel styler's outline). */
+  symbol?: LayerSwatchSpec | null;
 }) {
   const enabled = layer.licence === "province-open" || licenceAccepted;
-  // Only project-rendered open data carries its symbol in the catalogue.
-  const swatch = useMemo(() => (layer.openData ? openDataSwatch(layer.openData) : null), [layer.openData]);
+  // Project-rendered open data carries its symbol in the catalogue; a caller
+  // that styles the layer itself passes the symbol it draws.
+  const swatch = useMemo(() => symbol ?? (layer.openData ? openDataSwatch(layer.openData) : null), [layer.openData, symbol]);
   return (
     <label className="layer-row">
       <input
@@ -522,6 +526,8 @@ export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthL
   onReviewLicence: () => void;
 }) {
   const enabled = layer.licence === "province-open" || licenceAccepted;
+  // The risk bands are sampled from the service's own renderer.
+  const swatch = useMemo(() => contextLayerSwatch({ legend: layer.riskBands }), [layer.riskBands]);
   return (
     <label className="layer-row environmental-health-layer-row">
       <input
@@ -533,7 +539,7 @@ export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthL
       />
       <span className="switch" aria-hidden="true" />
       <span>
-        <strong>{layer.name}</strong>
+        <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
         <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
         {/* The province's own guidance rides with the layer: these rasters are
             tile overlays with no popup, so this row is the only place a reader

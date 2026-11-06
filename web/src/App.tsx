@@ -43,6 +43,9 @@ import {
   type MapThemeStatus,
 } from "./components/MapThemePicker";
 import { ThemeManagerDialog } from "./components/ThemeManagerDialog";
+import { useWholeRowList } from "./components/useWholeRowList";
+import { parcelOutlineColor } from "./components/parcelStyle";
+import type { LayerSwatchSpec } from "./components/layerSwatchSpec";
 import { LayerCategorySection } from "./components/LayerCategorySection";
 import { UnavailableLayers } from "./components/UnavailableLayers";
 import {
@@ -4613,6 +4616,15 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     setShareMessage(`Evidence note exported as ${note.filename}.`);
   };
 
+  // The property row's key: the outline the parcel styler draws on this
+  // basemap (parcelStyle.ts), with no fill, as on the map.
+  const parcelImagery = Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]);
+  const parcelSymbol = useMemo<LayerSwatchSpec>(() => {
+    const color = parcelOutlineColor(basemapStyle, parcelImagery);
+    return { shape: "area", color, fill: color, fillOpacity: 0, outline: true };
+  }, [basemapStyle, parcelImagery]);
+  // Whole result rows only, with a fade while more wait below.
+  const addressResultsRef = useWholeRowList<HTMLUListElement>(3, [addressSearchResults]);
   const searchForm = (
     <form className={`pid-search${pokerMode ? " poker-search" : ""}`} onSubmit={submitPidSearch}
       onBlur={(event) => {
@@ -4710,6 +4722,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       </span>
       {addressSearchResults.length > 0 ? (
         <ul
+          ref={addressResultsRef}
           id="address-search-results"
           role="listbox"
           className="address-search-results"
@@ -5015,7 +5028,19 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       />
                       <span className="switch" aria-hidden="true" />
                       <span>
-                        <strong>Modern map</strong>
+                        <strong>
+                          {/* The style's own land and water (atlas/palette.ts);
+                              OpenStreetMap's colours are not ours to sample,
+                              so its key is neutral. */}
+                          <span
+                            className={`basemap-swatch${basemapStyle === "osm" ? " basemap-swatch--neutral" : ""}`}
+                            aria-hidden="true"
+                            style={basemapStyle === "osm" ? undefined : {
+                              background: `linear-gradient(135deg, ${atlasPalettes[basemapStyle].land} 0 55%, ${atlasPalettes[basemapStyle].water} 55% 100%)`,
+                            }}
+                          />
+                          Modern map
+                        </strong>
                         <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
                         {/* MapCanvas's AerialGapUnderlay draws this map under NS
                             Aerial until the photograph can; the switch stays off
@@ -5072,6 +5097,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         status={layerStatuses[layer.id]}
                         onChange={provinceToggleFor(layer.id)}
                         onReviewLicence={reviewProvinceLicence}
+                        symbol={layer.id === "nsprd" ? parcelSymbol : undefined}
                       />
                       {layer.id === "roads" && provinceLayers.roads ? (
                         <RoadLegend imagery={provinceLayers["ns-aerial"] || contextLayers["sentinel-2"]} />

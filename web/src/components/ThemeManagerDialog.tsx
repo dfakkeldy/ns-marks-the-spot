@@ -102,7 +102,7 @@ function ThemeManagerRow({
 }
 
 /** What "Save current setup" stores, read from the same state it saves. */
-export function savePreview(state: ThemeComparableState): string {
+function savePreview(state: ThemeComparableState): string {
   const layers = state.layerIds.length;
   const opacity = Object.keys(state.opacityOverrides).length;
   return [
