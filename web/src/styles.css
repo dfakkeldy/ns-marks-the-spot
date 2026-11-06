@@ -3866,6 +3866,16 @@ a {
     padding: 0;
   }
 
+  /* Unfolded on a phone, the Province disclaimer and the survey caveat read as
+     one pair after the source credits, and the software credit goes last. */
+  .map-attribution > :is(.province-attribution, .survey-caveat) {
+    order: 1;
+  }
+
+  .map-attribution > .source-code-link {
+    order: 4;
+  }
+
   /* Attribution wraps to different heights across phone widths and font
      sizes. Keep the complete scale above its measured border box. */
   .leaflet-bottom.leaflet-left {

@@ -4542,6 +4542,21 @@ describe("NS Marks The Spot Online", () => {
     expect(region).toHaveClass("attribution-folded");
   });
 
+  it.each([
+    ["a licensed Province layer is on", "/?taxSale=off&layers=modern,nsprd", true],
+    ["only open layers are on", "/?taxSale=off&layers=modern", false],
+  ] as const)("names the Province licence in the folded credit only when %s", (_, url, licensed) => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", url);
+    render(<App />);
+    const footer = screen.getByRole("contentinfo");
+    fireEvent.pointerDown(screen.getByRole("region", { name: "Map and parcel details" }));
+    const folded = footer.querySelector(".map-attribution-folded-credit");
+    expect(folded).toHaveTextContent(/Boundaries are not a survey/);
+    if (licensed) expect(folded).toHaveTextContent("© OpenStreetMap contributors · Province of NS (licensed) · Boundaries are not a survey");
+    else expect(folded).not.toHaveTextContent(/Province of NS/);
+  });
+
   it.each(builtInMapThemes)("folds the attribution strip after five seconds in $name", ({ id }) => {
     vi.useFakeTimers();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");

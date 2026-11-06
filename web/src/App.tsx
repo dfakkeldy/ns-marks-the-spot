@@ -6123,6 +6123,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         {attributionCollapsed ? (
           <span className="map-attribution-folded-credit">
             <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
+            {/* The same gate as the licence dialog: a Province-restricted
+                layer (or tax-sale parcels) actually drawn under an accepted
+                licence. */}
+            {licenceAccepted && (taxSaleEnabled || activeLayerIds.some((id) => restrictedThemeLayerIds.has(id)))
+              ? <>{" · "}Province of NS (licensed)</>
+              : null}
             {" · "}Boundaries are not a survey
           </span>
         ) : null}
@@ -6149,6 +6155,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
           ) : null}
           <a
+            className="source-code-link"
             href="https://github.com/dfakkeldy/ns-marks-the-spot"
             target="_blank"
             rel="noreferrer"
@@ -6190,7 +6197,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef ? <span>
             Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
           </span> : null}
-          <span>Boundaries are not a survey</span>
+          <span className="survey-caveat">Boundaries are not a survey</span>
           <button type="button" onClick={() => setDataSourcesOpen(true)}>
             Data &amp; licences
           </button>
