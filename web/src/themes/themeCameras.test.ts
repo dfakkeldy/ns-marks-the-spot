@@ -8,6 +8,7 @@ import {
   builtInThemeCameras,
   FLETCHER_COVERAGE_BOUNDS,
   POKER_CIVIC_MIN_ZOOM,
+  POKER_OPENING_POSITION,
   RHODENA_TURBINES_POSITION,
   themeCameraFor,
   themeOpeningPosition,
@@ -36,7 +37,8 @@ describe("setup cameras", () => {
   });
 
   it("opens Poker at the zoom where civic numbers load", () => {
-    expect(themeCameraFor("poker")).toEqual({ kind: "zoom-floor", zoom: POKER_CIVIC_MIN_ZOOM });
+    expect(themeCameraFor("poker")).toEqual({ kind: "position", position: POKER_OPENING_POSITION });
+    expect(POKER_OPENING_POSITION.zoom).toBe(POKER_CIVIC_MIN_ZOOM);
     expect(POKER_CIVIC_MIN_ZOOM).toBe(16);
   });
 

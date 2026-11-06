@@ -90,7 +90,7 @@ export const builtInMapThemes = [
     id: "forestry-field-access",
     kind: "built-in",
     name: "Forestry & Field Access",
-    description: "Aerial, land, access, terrain, and old-growth policy context.",
+    description: "Crown land, old-growth policy and property lines over aerial, with roads, water and contours.",
     layerIds: ["ns-aerial", "nsprd", "crown-lands", "roads", "water-features", "contours", "old-growth-policy"],
     opacityOverrides: {},
     preferredCategoryIds: ["forestry-ecology", "land-property", "roads-places", "water-terrain"],
@@ -101,7 +101,7 @@ export const builtInMapThemes = [
     id: "historical-maps",
     kind: "built-in",
     name: "Historical Maps",
-    description: "Fletcher mapping with modern roads and place references.",
+    description: "Hugh Fletcher's 1882–1884 sheets of Cape Breton, with today's towns and main roads.",
     layerIds: ["modern", "fletcher", "place-names", "main-roads"],
     opacityOverrides: {},
     preferredCategoryIds: ["historical-maps", "roads-places"],
@@ -130,7 +130,7 @@ export const builtInMapThemes = [
     taxSaleEnabled: false,
     mapMode: "current",
   },
-  { id: "rhodena", kind: "built-in", name: "Rhodena", description: "The six-turbine 2024 proposal with land, water and community context.", layerIds: ["modern", "rhodena-turbines", "rhodena-infrastructure", "rhodena-study", "protected-conservation-areas", "water-features", "crown-lands", "roads", "old-growth-policy"], opacityOverrides: {}, preferredCategoryIds: ["rhodena-project"], taxSaleEnabled: false, mapMode: "current" },
+  { id: "rhodena", kind: "built-in", name: "Rhodena", description: "ABO Energy's 2024 six-turbine proposal (EA), with land, water and community context.", layerIds: ["modern", "rhodena-turbines", "rhodena-infrastructure", "rhodena-study", "protected-conservation-areas", "water-features", "crown-lands", "roads", "old-growth-policy"], opacityOverrides: {}, preferredCategoryIds: ["rhodena-project"], taxSaleEnabled: false, mapMode: "current" },
   { id: "electoral-districts", kind: "built-in", name: "Electoral Districts", description: "Dated boundaries and election results, with each source on its own geometry.", layerIds: ["modern", "provincial-districts-2026", "federal-ridings-2025"], opacityOverrides: {}, preferredCategoryIds: ["elections-districts", "background-maps"], taxSaleEnabled: false, mapMode: "current" },
   {
     // Web-only, and fully open: `modern` is the only background, and no layer
@@ -187,7 +187,7 @@ export const builtInMapThemes = [
     id: "point-tupper",
     kind: "built-in",
     name: "Point Tupper",
-    description: "Key places for the announced data-centre campus, with installed and planned wind turbines, the mapped grid, pipelines, tanks, wharves, water and roads.",
+    description: "The announced data-centre campus, with installed and planned turbines, the grid, pipelines and wharves.",
     layerIds: [
       "modern",
       "point-tupper-sites",
