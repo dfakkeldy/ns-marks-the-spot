@@ -1,6 +1,6 @@
 import type { FocusDefinition, FocusHiddenFeature } from '../focus/focusDefinition';
-import { POINT_TUPPER_BOUNDS, POINT_TUPPER_POSITION, pointTupperFocusCategoryIds, pointTupperFocusDeniedLayerIds, pointTupperFocusLayerIds } from './focus';
-import { PointTupperBrandMark, PointTupperFocusHero, PointTupperFooterNote, PointTupperTimelinePanel } from './PointTupperFocusChrome';
+import { POINT_TUPPER_BOUNDS, POINT_TUPPER_PHONE_BOUNDS, POINT_TUPPER_PHONE_SHEET_SHARE, POINT_TUPPER_POSITION, pointTupperFocusCategoryIds, pointTupperFocusDeniedLayerIds, pointTupperFocusLayerIds } from './focus';
+import { PointTupperBrandMark, PointTupperFocusHero, PointTupperFooterNote } from './PointTupperFocusChrome';
 import { PointTupperMapLegend } from './PointTupperMapLegend';
 
 /** The /pointtupper page (`web/pointtupper.html`, `<App focus="pointtupper" />`). */
@@ -21,11 +21,14 @@ export const pointTupperFocusDefinition: FocusDefinition = {
   parcelOutlineWidth: 2.6,
   // The map key's width and margin (pointTupperPage.css).
   mapOverlayInset: 264,
+  // The phone sheet's arrival height (pointTupperPage.css), so the site opens in view above it.
+  phoneSheetShare: POINT_TUPPER_PHONE_SHEET_SHARE,
+  phoneFitBounds: POINT_TUPPER_PHONE_BOUNDS,
   chrome: {
     Hero: PointTupperFocusHero,
-    Panel: PointTupperTimelinePanel,
     MapOverlay: PointTupperMapLegend,
-    brand: { label: 'Point Tupper — summary and layers', Mark: PointTupperBrandMark },
+    sheetTitle: 'Site brief & layers',
+    brand: { label: 'Point Tupper brief: summary and layers', Mark: PointTupperBrandMark },
     FooterNote: PointTupperFooterNote,
   },
 };

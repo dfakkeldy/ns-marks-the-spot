@@ -2597,6 +2597,20 @@ a {
   border-color: rgba(18, 52, 59, 0.55);
 }
 
+/* Leaflet's white text shadow smears light text on the night surface, and
+   its dark border disappears there. */
+:root[data-map-appearance="night"] .leaflet-control-scale-line {
+  text-shadow: none;
+  border-color: var(--line);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .leaflet-control-scale-line {
+    text-shadow: none;
+    border-color: var(--line);
+  }
+}
+
 .display-scale-readout {
   position: absolute;
   z-index: 500;
@@ -7417,3 +7431,8 @@ a {
 .leaflet-tooltip.context-place-label { padding: 1px 7px; color: #fbf6ea; font: 650 11px/1.5 "Inter", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.02em; white-space: nowrap; background: rgba(16, 40, 58, 0.88); border: 0; border-radius: 999px; box-shadow: 0 2px 6px rgba(16, 40, 58, 0.3); }
 .leaflet-tooltip-top.context-place-label::before { border-top-color: rgba(16, 40, 58, 0.88); }
 .leaflet-tooltip-right.context-place-label::before { border-right-color: rgba(16, 40, 58, 0.88); }
+.leaflet-tooltip-left.context-place-label::before { border-left-color: rgba(16, 40, 58, 0.88); }
+.leaflet-tooltip-bottom.context-place-label::before { border-bottom-color: rgba(16, 40, 58, 0.88); }
+/* On the night map the navy pill is the ground's own colour; a paper rim keeps it a label. */
+:root[data-map-appearance="night"] .leaflet-tooltip.context-place-label { box-shadow: 0 0 0 1px rgba(251, 246, 234, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35); }
+@media (prefers-color-scheme: dark) { :root:not([data-map-appearance]) .leaflet-tooltip.context-place-label { box-shadow: 0 0 0 1px rgba(251, 246, 234, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35); } }

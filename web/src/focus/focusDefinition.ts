@@ -53,6 +53,11 @@ export interface FocusChromeContext {
   readonly closeMobileControls: () => void;
   /** Fit the map to the page's `fitBounds`. */
   readonly fitToFocus: () => void;
+  /**
+   * Fit the map to an area the page names, such as one of its key places;
+   * `insetBottom` keeps that many pixels at the map's foot clear, under a phone sheet left open.
+   */
+  readonly fitToBounds: (bounds: FocusBounds, options?: { readonly insetBottom?: number }) => void;
   /** Ask `rhodena-visibility` to start a viewpoint pick once its terrain is ready. */
   readonly startViewpointPick: () => void;
   /** Each layer's last reported state (loading, zoom floor, count), for keys that explain an empty map. */
@@ -71,6 +76,8 @@ export interface FocusFitRequest {
   readonly bounds: FocusBounds | null;
   /** Pixels on the map's right kept clear of the fitted area on a wide map (`mapOverlayInset`). */
   readonly insetRight?: number;
+  /** Pixels at the map's foot kept clear, for a phone sheet open over the map's lower part. */
+  readonly insetBottom?: number;
 }
 
 /**
@@ -112,6 +119,14 @@ export interface FocusDefinition {
    */
   readonly mapOverlayInset?: number;
   /**
+   * The share of the viewport the phone sheet takes when it opens on arrival
+   * (the page's CSS gives the sheet the same height), so the opening fit
+   * frames the page's area in the band of map above it.
+   */
+  readonly phoneSheetShare?: number;
+  /** A closer area for that arrival fit on a phone, whose band of map above the sheet is short. */
+  readonly phoneFitBounds?: FocusBounds;
+  /**
    * Draw property boundaries bolder than the map's 1.2-point default, in
    * export points: for a page about a few large holdings, not dense lots.
    */
@@ -123,6 +138,8 @@ export interface FocusDefinition {
     readonly Panel?: ComponentType<FocusChromeContext>;
     /** Optional chrome laid over the map itself, such as a key. */
     readonly MapOverlay?: ComponentType<FocusChromeContext>;
+    /** The phone sheet's header; "Search & layers" when absent. */
+    readonly sheetTitle?: string;
     /** The phone's map-chrome button that opens the page's summary sheet. */
     readonly brand: { readonly label: string; readonly Mark: ComponentType };
     /** Closes the footer, after the full-map link. */

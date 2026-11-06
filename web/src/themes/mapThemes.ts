@@ -200,7 +200,8 @@ export const builtInMapThemes = [
       "roads",
     ],
     opacityOverrides: {},
-    preferredCategoryIds: ["point-tupper-site", "roads-places", "water-terrain"],
+    // The map key switches the setup's layers, so the panel opens only the site's own list.
+    preferredCategoryIds: ["point-tupper-site"],
     taxSaleEnabled: false,
     mapMode: "current",
   },

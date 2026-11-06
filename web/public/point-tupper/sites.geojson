@@ -10,6 +10,7 @@
       "properties": {
         "id": "everwind-jetty",
         "label": "EverWind terminal",
+        "label_side": "left",
         "name": "Point Tupper Terminal jetty (EverWind)",
         "kind": "terminal",
         "note": "EverWind's Point Tupper Terminal: a 7.7-million-barrel storage terminal with 39 aboveground tanks and two deep-water berths. EverWind announced the data-centre campus for Point Tupper on October 16, 2026.",
@@ -25,9 +26,10 @@
       "properties": {
         "id": "point-tupper-generating-station",
         "label": "Generating station",
+        "label_side": "left",
         "name": "Point Tupper Generating Station (Nova Scotia Power)",
         "kind": "power",
-        "note": "Nova Scotia Power's generating station at Point Tupper. Turn on Electrical transmission lines and Electrical substations to see the mapped grid around it.",
+        "note": "Nova Scotia Power's generating station at Point Tupper. The transmission lines and substations around it are the Province's mapped grid; switch them in the map key.",
         "located_by": "Wikidata item Q7208178 (public-domain coordinates).",
         "source": "Wikidata Q7208178; Nova Scotia Power, About our facilities",
         "source_date": "Read October 19, 2026"
@@ -40,6 +42,7 @@
       "properties": {
         "id": "landrie-lake",
         "label": "Landrie Lake",
+        "label_side": "top",
         "name": "Landrie Lake (industrial water supply)",
         "kind": "water",
         "note": "Built by the Province in 1969 to supply raw water to Point Tupper industry; now run by the Landrie Lake Water Utility. EverWind says the campus's closed-loop cooling will draw about 100,000 litres a day in phase 1 and about 500,000 litres a day after expansion, about 1% of the lake's stated safe yield of 34 million litres a day (company figures, as reported by The Canadian Press on October 16, 2026).",

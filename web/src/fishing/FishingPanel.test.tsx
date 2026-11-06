@@ -27,7 +27,7 @@ const ready = (overrides: Partial<{ rules: typeof rules }> = {}): FishingDataSta
   data: { spots, rejectedSpots: 0, calendar, rules: "rules" in overrides ? overrides.rules ?? null : rules },
 });
 
-const actions = { closeMobileControls: vi.fn(), openMobileControls: vi.fn(), fitToFocus: vi.fn(), setContextLayerVisibility: vi.fn() };
+const actions = { closeMobileControls: vi.fn(), openMobileControls: vi.fn(), fitToFocus: vi.fn(), fitToBounds: vi.fn(), setContextLayerVisibility: vi.fn() };
 
 function Harness({ initial = {}, spotsLayerOn = true }: { initial?: Partial<FocusPageState>; spotsLayerOn?: boolean }) {
   const [pageState, setState] = useState<FocusPageState>({ ...EMPTY_FOCUS_PAGE_STATE, ...initial });

@@ -48,8 +48,12 @@ export interface ContextLayerDescriptor {
     styles: Record<string, ContextFeatureStyle>;
     defaultStyle: ContextFeatureStyle;
   };
-  /** Point features keep a name on the map from this zoom (`labelField`, or `field` when given). */
-  permanentLabels?: { minZoom: number; field?: string };
+  /**
+   * Point features keep a name on the map from this zoom (`labelField`, or
+   * `field` when given). `sideField` names a point property ("left", "right",
+   * "top" or "bottom") that moves one label off a neighbour it would cover.
+   */
+  permanentLabels?: { minZoom: number; field?: string; sideField?: string };
   /** Source-authored classes (or the explicit filtered feature classes). */
   legend: readonly { label: string; color?: string; marker?: ContextMarker }[];
   /** Include a publisher-authored image legend in the printed source key. */
