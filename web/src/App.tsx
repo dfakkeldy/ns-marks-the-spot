@@ -4657,7 +4657,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         {searchError ??
           (searchingAddresses
             ? "Searching mapped civic addresses…"
-            : "Enter an 8-digit PID or a Nova Scotia civic address.")}
+            : "Type an 8-digit PID or a civic address.")}
       </p>
       <span className="sr-only" role="status">
         {addressSearchResults.length > 0
@@ -4727,6 +4727,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE });
       }}
     >
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M5 2.5h6.5L15 6v11.5H5Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M11.5 2.5V6H15M10 9v5.5m-2.5-2.5L10 14.5l2.5-2.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
       Export map (PDF)
     </button>
   );
@@ -4797,8 +4801,6 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           )}
           {!pokerMode && searchForm}
           {/* A focus page carries these in its footer instead. */}
-          {!focusDef ? exportMapButton : null}
-
           {!focusHides(focusDef, "setup-picker") ? <MapThemePicker
             themes={mapThemes}
             activeThemeId={activeThemeId}
@@ -4812,6 +4814,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
           /> : null}
+
+          {/* An output of the map as set up, so it follows the setup rather
+              than competing with search for the first look. */}
+          {!focusDef ? exportMapButton : null}
 
           {FocusPanel ? <FocusPanel {...focusChromeContext} /> : null}
 

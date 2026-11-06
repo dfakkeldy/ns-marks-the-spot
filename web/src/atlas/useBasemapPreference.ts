@@ -47,6 +47,13 @@ export function useBasemapPreference(shared?: BasemapStyle) {
       else delete root.dataset.mapAppearance;
     };
   }, [interfaceStyle]);
+  // The basemap itself, separately from the interface it tints: Atlas Day and
+  // OpenStreetMap share the light interface, but only Atlas is warm paper.
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.mapBasemap = style;
+    return () => { delete root.dataset.mapBasemap; };
+  }, [style]);
   const setPreference = useCallback((value: BasemapPreference) => {
     updatePreference(value);
     try { localStorage.setItem(STORAGE_KEY, value); } catch { /* Keep the choice for this session. */ }

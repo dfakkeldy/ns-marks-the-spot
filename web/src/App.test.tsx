@@ -4991,7 +4991,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(searchSignal?.aborted).toBe(true);
     expect(
-      screen.getByText("Enter an 8-digit PID or a Nova Scotia civic address."),
+      screen.getByText("Type an 8-digit PID or a civic address."),
     ).toBeInTheDocument();
   });
 

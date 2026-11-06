@@ -142,6 +142,19 @@
 
 :root[data-map-appearance="day"] { color-scheme: light; }
 
+/* Atlas Day is cream paper and sage, so its interface is warm paper too: the
+   cool white rail and blue-washed card read as a different material beside
+   it. OpenStreetMap keeps the neutral light room; its map is not paper. */
+:root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
+  --white: #fdfbf6;
+  --fog: #f4f1e8;
+  --paper: #f8f3e6;
+  --tint-blue: #f3efe3;
+  --surface-rgb: 253, 251, 246;
+  --fog-rgb: 244, 241, 232;
+  --paper-rgb: 248, 243, 230;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -409,7 +422,7 @@ a {
   margin: 12px 0 0;
   padding: 12px;
   background: var(--tint-blue);
-  border: 1px solid rgba(47, 128, 237, 0.28);
+  border: 1px solid color-mix(in srgb, var(--survey-blue) 26%, transparent);
   border-radius: 8px;
 }
 
@@ -887,16 +900,35 @@ a {
 }
 
 .layer-category-heading::after {
+  /* A disclosure chevron on the title's own line: right when closed, down
+     when open. The old +/− sat between the title and its summary, in a pale
+     green that read as status rather than as a control. */
   grid-column: 2;
-  grid-row: 1 / span 2;
-  color: var(--lichen);
-  content: "+";
-  font-size: 1.25rem;
-  font-weight: 400;
+  grid-row: 1;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  content: "";
+  border-right: 2px solid var(--chart-ink);
+  border-bottom: 2px solid var(--chart-ink);
+  opacity: 0.7;
+  transform: rotate(-45deg);
+  transition: transform 160ms ease;
 }
 
 .layer-category-heading[aria-expanded="true"]::after {
-  content: "−";
+  transform: rotate(45deg);
+}
+
+.layer-category-heading:hover::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer-category-heading::after {
+    transition: none;
+  }
 }
 
 .layer-category-heading:focus-visible {
@@ -5491,8 +5523,19 @@ a {
 }
 
 .export-map-trigger {
-  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin: 12px 0 4px;
+  padding: 0 16px;
+  font-size: var(--type-small);
+}
+
+.export-map-trigger svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--survey-blue);
 }
 
 /* GeoPDF export dialog. Its own backdrop (rather than reusing
@@ -7715,4 +7758,32 @@ a {
   min-height: 44px;
   font-size: var(--type-small);
   font-weight: 600;
+}
+
+/* One disclosure mark for every row's source details. "Source & scale" lost
+   its triangle when it became a flex box, while "Source & legend" kept the
+   browser's; both now carry the same small chevron. */
+:is(.layer-provenance, .context-layer-source) > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+:is(.layer-provenance, .context-layer-source) > summary::-webkit-details-marker {
+  display: none;
+}
+
+:is(.layer-provenance, .context-layer-source) > summary::before {
+  width: 5px;
+  height: 5px;
+  content: "";
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 160ms ease;
+}
+
+:is(.layer-provenance, .context-layer-source)[open] > summary::before {
+  transform: rotate(45deg);
 }

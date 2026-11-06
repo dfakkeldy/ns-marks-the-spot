@@ -45,6 +45,11 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.beginPath();
     const fill = path(f.geometry);
     ctx.lineJoin = "round"; ctx.lineCap = "round";
+    if (source.pointRing && f.geometry.type.includes("Point") && !source.labelField && zoom < 11) {
+      // The basemap is lettering these names itself (labelField was taken
+      // away for it); below zoom 11 an anchor ring per name only speckles it.
+      continue;
+    }
     if (source.pointRing && f.geometry.type.includes("Point")) {
       // A gazetteer point marks where the official name is anchored. At
       // overview zooms thousands of filled discs buried the map they were
