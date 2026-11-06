@@ -7915,3 +7915,46 @@ a {
   width: 40px;
   height: 40px;
 }
+
+/* The dialog card takes focus only so Escape and Tab start inside it; its
+   controls carry their own focus rings, so the card itself draws none. */
+.licence-dialog:focus {
+  outline: none;
+}
+
+/* The corner close floats over scrolling text; a ring of the card's own
+   colour keeps the words from running underneath it. */
+.dialog-close {
+  box-shadow: 0 0 0 6px var(--white);
+}
+
+/* "Historical records" fits its half of the switch on one line. */
+.map-mode-buttons button {
+  padding-inline: 4px;
+  white-space: nowrap;
+}
+
+.crown-land-key-lead {
+  display: block;
+  color: var(--muted);
+  font-size: var(--type-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* The export frame reads on the dimmed map in any room's accent: a white
+   line with the accent outside it. */
+.export-frame {
+  border-color: #fff;
+  outline: 2px solid var(--survey-blue);
+}
+
+/* Data & licences: both sections named in the same mono kicker voice. */
+.data-sources-dialog > details > summary {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

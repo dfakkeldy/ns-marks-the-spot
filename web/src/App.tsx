@@ -4961,7 +4961,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                     {!focusDef ? appearanceControl : null}
                     {basemapStyle !== "osm" && <p className="crown-land-key">
                       <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
-                      <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
+                      <span><span className="crown-land-key-lead">Drawn in every Atlas style</span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
                     </p>}
                     {basemapStyle === 'fletcher' && !focusDef ? <>
                       <label className="fletcher-features-toggle">

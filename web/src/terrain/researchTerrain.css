@@ -63,3 +63,7 @@
 .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) { padding: 0; background: transparent; box-shadow: none; overflow: visible; }
 .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button { min-height: 46px; padding-inline: 18px; border: 0; border-radius: 23px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35); outline: 1px solid var(--control-edge, transparent); outline-offset: -1px; }
 .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button[aria-pressed=true] { background: var(--survey-blue, #1e66cc); color: var(--white, #fff); }
+/* With the Map/Aerial switch beside it (Rhodena, Fishing), the 3D switch is
+   still a pill of the family inside the card, not a bordered box. */
+.research-terrain-controls:has(.background-switch) .terrain-control-bar button { border: 0; border-radius: 999px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 3px rgba(var(--shadow-rgb, 18, 52, 59), 0.25); }
+.research-terrain-controls:has(.background-switch) .terrain-control-bar button[aria-pressed=true] { background: var(--survey-blue, #1e66cc); color: var(--white, #fff); }
