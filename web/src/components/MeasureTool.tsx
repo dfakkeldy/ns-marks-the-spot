@@ -218,8 +218,13 @@ function MeasureCapture({
 
   return (
     <>
+      {driveway && isEmpty ? (
+        // Before the first tap the three actions have nothing to act on, and
+        // three disabled buttons said nothing about how to start.
+        <p className="measure-control measure-start-hint">Tap the road, then the house</p>
+      ) : null}
       <div
-        className="measure-control measure-actions"
+        className={`measure-control measure-actions${driveway && isEmpty ? " measure-actions--idle" : ""}`}
         ref={(node) => {
           // Poker's containing dock owns propagation, including touch taps.
           if (node && !driveway) {
@@ -309,11 +314,16 @@ function MeasureCapture({
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}
         {!finished && points.length > 0
-          ? " · double-click or Enter to finish · Esc to clear"
+          ? (coarsePointer() ? " · tap Finish when done" : " · double-click or Enter to finish · Esc to clear")
           : null}
       </p>}
     </>
   );
+}
+
+/** A touch screen has no double-click or Esc to mention. */
+function coarsePointer(): boolean {
+  return typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches === true;
 }
 
 function readoutText(mode: ActiveMeasureMode, points: readonly GeoPoint[]): string {

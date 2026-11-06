@@ -43,6 +43,11 @@
   /* The one tinted panel that is neither paper nor fog: the theme picker's
      blue wash. */
   --tint-blue: #f3f8ff;
+  /* Historical records: the violet the tax-sale record mode is drawn in. */
+  --record-violet: #5a4385;
+  /* The colour every shadow is cast in, per room: teal ink by day, black by
+     night, the sheet's own ink on Fletcher and Hand-drawn. */
+  --shadow-rgb: 18, 52, 59;
   /* Both, and in this order: the browser paints its own form controls,
      scrollbars and focus rings from this, and without it a phone reading the
      system as dark renders a select on a light card as dark-on-dark. */
@@ -99,6 +104,9 @@
     --fog-rgb: 13, 31, 36;
     --paper-rgb: 21, 43, 49;
     --tint-blue: #16303c;
+    --record-violet: #c3b1ef;
+    --shadow-rgb: 0, 0, 0;
+    --control-edge: rgba(232, 241, 240, 0.3);
   }
 }
 
@@ -126,6 +134,9 @@
     --fog-rgb: 13, 31, 36;
     --paper-rgb: 21, 43, 49;
     --tint-blue: #16303c;
+    --record-violet: #c3b1ef;
+    --shadow-rgb: 0, 0, 0;
+    --control-edge: rgba(232, 241, 240, 0.3);
   color-scheme: dark;
 }
 
@@ -248,7 +259,7 @@ a {
   overflow-y: auto;
   background: var(--white);
   border-right: 1px solid var(--line);
-  box-shadow: 6px 0 24px rgba(18, 52, 59, 0.08);
+  box-shadow: 6px 0 24px rgba(var(--shadow-rgb), 0.08);
 }
 
 /* `.layer-rail > h2` is the rail's own heading, not the headings inside it:
@@ -578,11 +589,14 @@ a {
 }
 
 .map-mode-switcher {
-  margin: 18px -12px 0;
+  /* Tinted from the tokens, not fixed hex: a fixed blush stayed light on the
+     dark interface and left its caption unreadable. It also sits in the
+     rail's column now instead of bleeding 12px past it. */
+  margin: 18px 0 0;
   padding: 12px;
-  border: 2px solid rgba(190, 77, 60, 0.38);
+  border: 1px solid color-mix(in srgb, var(--survey-red) 42%, transparent);
   border-radius: 8px;
-  background: #fff7f4;
+  background: color-mix(in srgb, var(--survey-red) 7%, var(--white));
 }
 
 .tax-sale-master {
@@ -614,9 +628,9 @@ a {
 }
 
 .map-mode-switcher.historical {
-  color: #49336f;
-  background: #f5f0fc;
-  border-color: rgba(90, 67, 133, 0.48);
+  color: var(--record-violet);
+  background: color-mix(in srgb, var(--record-violet) 8%, var(--white));
+  border-color: color-mix(in srgb, var(--record-violet) 48%, transparent);
 }
 
 .map-mode-buttons {
@@ -645,8 +659,8 @@ a {
 
 .map-mode-buttons button.selected:last-child {
   color: var(--white);
-  background: #5a4385;
-  border-color: #5a4385;
+  background: var(--record-violet);
+  border-color: var(--record-violet);
 }
 
 .map-mode-switcher > p {
@@ -665,8 +679,8 @@ a {
 .layer-rail.mode-historical .historical-layer-controls {
   margin-inline: -12px;
   padding-inline: 12px;
-  background: linear-gradient(#f7f3fc, rgba(247, 243, 252, 0));
-  border-top: 4px solid #5a4385;
+  background: linear-gradient(color-mix(in srgb, var(--record-violet) 8%, transparent), transparent);
+  border-top: 4px solid var(--record-violet);
 }
 
 .layer-row {
@@ -715,7 +729,7 @@ a {
   content: "";
   background: var(--white);
   border-radius: 50%;
-  box-shadow: 0 1px 4px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.35);
   transition: transform 160ms ease;
 }
 
@@ -807,31 +821,34 @@ a {
 
 .layer-runtime {
   width: fit-content;
-  padding: 2px 5px;
+  padding: 2px 6px;
   color: var(--chart-ink) !important;
   font-weight: 800;
-  background: rgba(18, 52, 59, 0.1);
+  background: color-mix(in srgb, var(--chart-ink) 10%, transparent);
   border-radius: 999px;
 }
 
+/* State pills tinted from each room's own tokens. Fixed pastel slabs read as
+   bright green on Night and as modern UI on the Fletcher and Hand-drawn
+   sheets. Text mixes toward the ink so it holds contrast on every ground. */
 .layer-runtime.loading {
-  color: #704600 !important;
-  background: #fff0c4;
+  color: color-mix(in srgb, var(--paper-peach) 40%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--paper-peach) 24%, transparent);
 }
 
 .layer-runtime.ready {
-  color: #24551d !important;
-  background: #e1f2dc;
+  color: color-mix(in srgb, var(--lichen) 75%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--lichen) 16%, transparent);
 }
 
 .layer-runtime.error {
-  color: #812a23 !important;
-  background: #f8deda;
+  color: color-mix(in srgb, var(--survey-red) 80%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--survey-red) 14%, transparent);
 }
 
 .layer-runtime.zoom {
-  color: #234e87 !important;
-  background: #e1edff;
+  color: color-mix(in srgb, var(--survey-blue) 85%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--survey-blue) 13%, transparent);
 }
 
 .layer-row.unavailable {
@@ -1557,7 +1574,7 @@ a {
 }
 
 .historical-layer-controls {
-  --historical-ink: #5a4385;
+  --historical-ink: var(--record-violet);
   --historical-pale: #f4f0fb;
 }
 
@@ -2065,8 +2082,10 @@ a {
   margin: 8px 0 0 12px;
   overflow: hidden;
   border: 0;
+  outline: 1px solid var(--control-edge, transparent);
+  outline-offset: -1px;
   border-radius: 23px;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
 }
 
 .map-canvas .leaflet-control-zoom a {
@@ -2105,9 +2124,9 @@ a {
   color: var(--survey-blue);
   font-size: 1.8rem;
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2133,9 +2152,9 @@ a {
   place-items: center;
   color: var(--survey-blue);
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2146,6 +2165,26 @@ a {
 
 .measure-control.measure-actions {
   left: 66px;
+}
+
+.measure-actions--idle {
+  display: none;
+}
+
+.measure-control.measure-start-hint {
+  left: 66px;
+  margin: 0;
+  padding: 0 16px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  color: var(--chart-ink);
+  font-size: var(--type-small);
+  font-weight: 600;
+  background: rgba(var(--surface-rgb), 0.96);
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
+  pointer-events: none;
 }
 
 .measure-actions button {
@@ -2162,7 +2201,7 @@ a {
      imagery; only the label steps back. Opacity washed the whole button into
      the map. */
   color: var(--muted);
-  box-shadow: 0 1px 4px rgba(18, 52, 59, 0.2);
+  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.2);
   cursor: default;
 }
 
@@ -2243,9 +2282,9 @@ a {
   place-items: center;
   color: var(--survey-blue);
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2261,9 +2300,9 @@ a {
   font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 23px;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2274,7 +2313,7 @@ a {
   line-height: 1.2;
   background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.18);
 }
 
 /* Recording HUD: elapsed, distance, vertex count, and the fix-quality dot,
@@ -2294,7 +2333,7 @@ a {
   background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .location-hud-stats {
@@ -2375,7 +2414,7 @@ a {
   color: var(--chart-ink);
   background: var(--white);
   border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 12px 40px rgba(var(--shadow-rgb), 0.35);
 }
 
 .save-track-dialog h2 {
@@ -2481,7 +2520,7 @@ a {
   color: var(--chart-ink);
   background: var(--white);
   border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 12px 40px rgba(var(--shadow-rgb), 0.35);
 }
 
 .bulk-photos-dialog h2 {
@@ -2618,7 +2657,7 @@ a {
   background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .modern-map-error button {
@@ -2645,7 +2684,7 @@ a {
   line-height: 1.3;
   background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .location-message:empty {
@@ -2740,7 +2779,7 @@ a {
   background: rgba(var(--surface-rgb), 0.95);
   border: 1px solid var(--line);
   border-radius: 4px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
   /* It sits over the inspector so it can be read; it must not take the
      inspector's close button with it. Nothing here is interactive. */
   pointer-events: none;
@@ -3502,6 +3541,23 @@ a {
   border-left: 1px solid var(--line);
 }
 
+.mobile-controls-glyph {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* Credits first: the toggle, then the licence lines for what is on screen,
+   then feedback and the page links. Feedback used to take the front slot,
+   and on a phone that pushed the Province line below the strip's fold. */
+.map-attribution > .feedback-link {
+  order: 2;
+}
+
+.map-attribution > button:not(:first-child) {
+  order: 3;
+}
+
 /* The shared text-button reset zeroes a button's padding and border, which
    ran "Data & licences" and "About this map" together with no divider. */
 .map-attribution > button:not(:first-child) {
@@ -3701,12 +3757,14 @@ a {
        only the inline sides: a bare env() would take the bottom to 0 on a
        phone with no inset. */
     min-height: calc(32px + env(safe-area-inset-bottom));
-    max-height: calc(72px + env(safe-area-inset-bottom));
+    /* Tall enough that the Province attribution shows on opening rather
+       than below a fold nobody knows scrolls. */
+    max-height: calc(min(40dvh, 240px) + env(safe-area-inset-bottom));
     overflow-y: auto;
     padding-inline: 12px;
     padding-bottom: max(2px, env(safe-area-inset-bottom));
     background: rgba(var(--paper-rgb), 0.9);
-    box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
+    box-shadow: 0 -1px 10px rgba(var(--shadow-rgb), 0.16);
     backdrop-filter: blur(14px);
   }
 
@@ -3732,7 +3790,7 @@ a {
     overflow: visible;
     border-top: 0;
     border-radius: 22px;
-    box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+    box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   }
 
   .map-attribution.collapsed > :first-child {
@@ -3767,7 +3825,7 @@ a {
     background: rgba(var(--surface-rgb), 0.98);
     border: 1px solid rgba(var(--surface-rgb), 0.7);
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(18, 52, 59, 0.36);
+    box-shadow: 0 20px 60px rgba(var(--shadow-rgb), 0.36);
     backdrop-filter: blur(18px);
   }
 
@@ -3863,7 +3921,7 @@ a {
     background: rgba(var(--surface-rgb), 0.92);
     border: 1px solid rgba(var(--surface-rgb), 0.76);
     border-radius: 999px;
-    box-shadow: 0 4px 18px rgba(18, 52, 59, 0.24);
+    box-shadow: 0 4px 18px rgba(var(--shadow-rgb), 0.24);
     backdrop-filter: blur(16px);
     pointer-events: auto;
   }
@@ -3886,7 +3944,7 @@ a {
     font-family: "IBM Plex Mono", monospace;
     font-size: var(--type-micro);
     font-weight: 700;
-    background: var(--deep-water);
+    background: var(--brand-ground, var(--deep-water));
     border-radius: 50%;
   }
 
@@ -5423,7 +5481,7 @@ a {
   padding: 6px;
   background: rgba(var(--surface-rgb), 0.96);
   border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   pointer-events: auto;
 }
 
@@ -5701,7 +5759,7 @@ a {
   background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .vector-edit-write-error button {
@@ -6000,7 +6058,7 @@ a {
   background: rgba(var(--surface-rgb), 0.85);
   border: 3px solid #b85c1e;
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+  box-shadow: 0 0 4px rgba(var(--shadow-rgb), 0.5);
 }
 
 .snap-indicator-vertex {
@@ -6144,7 +6202,7 @@ a {
   background: #b85c1e;
   border: 2px solid #fff;
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+  box-shadow: 0 0 4px rgba(var(--shadow-rgb), 0.5);
 }
 
 .vector-edit-field {
@@ -7071,7 +7129,7 @@ a {
   font-size: var(--type-micro);
   font-weight: 700;
   background: var(--survey-blue);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
   box-shadow: 0 1px 3px rgb(10 20 22 / 45%);
 }
@@ -7485,6 +7543,10 @@ a {
   --fog-rgb: 233, 220, 185;
   --paper-rgb: 243, 233, 207;
   --tint-blue: #eee1ba;
+  --shadow-rgb: 53, 44, 29;
+  /* The brand disc in the sheet's ink, not the default teal, the one cool
+     colour on a salmon and olive screen. */
+  --brand-ground: #4a3220;
   color: var(--chart-ink);
   background: var(--fog);
 }
@@ -7503,6 +7565,8 @@ a {
   --fog-rgb: 230, 211, 168;
   --paper-rgb: 239, 226, 191;
   --tint-blue: #ead8ae;
+  --shadow-rgb: 59, 38, 20;
+  --brand-ground: #4f3a24;
   color: var(--chart-ink);
   background: var(--fog);
 }
@@ -7532,7 +7596,7 @@ a {
 .rhodena-popup { line-height: 1.4; }
 .rhodena-popup p { margin-block: 0.65rem; }
 /* The viewshed panel. Swatch colours match the worker's raster classes. */
-.rhodena-visibility-control { width: 304px; max-width: calc(100vw - 90px); max-height: 48vh; overflow: auto; margin-bottom: 45px !important; padding: 14px 16px; color: var(--chart-ink); font-size: 12.5px; line-height: 1.45; background: rgba(var(--surface-rgb), 0.97); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 36px rgba(18, 52, 59, 0.24); backdrop-filter: blur(14px); }
+.rhodena-visibility-control { width: 304px; max-width: calc(100vw - 90px); max-height: 48vh; overflow: auto; margin-bottom: 45px !important; padding: 14px 16px; color: var(--chart-ink); font-size: 12.5px; line-height: 1.45; background: rgba(var(--surface-rgb), 0.97); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 36px rgba(var(--shadow-rgb), 0.24); backdrop-filter: blur(14px); }
 .rhodena-visibility-details > summary { display: flex; align-items: center; gap: 8px; font-family: "Fraunces", Georgia, serif; font-size: 1.02rem; font-weight: 700; list-style: none; cursor: pointer; }
 .rhodena-visibility-details > summary::-webkit-details-marker { display: none; }
 .rhodena-visibility-details > summary::after { content: ""; width: 7px; height: 7px; margin-left: auto; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.15s ease; }
@@ -7597,3 +7661,58 @@ a {
 /* On the night map the navy pill is the ground's own colour; a paper rim keeps it a label. */
 :root[data-map-appearance="night"] .leaflet-tooltip.context-place-label { box-shadow: 0 0 0 1px rgba(251, 246, 234, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35); }
 @media (prefers-color-scheme: dark) { :root:not([data-map-appearance]) .leaflet-tooltip.context-place-label { box-shadow: 0 0 0 1px rgba(251, 246, 234, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35); } }
+
+/* Every page, not only /pointtupper: while the phone sheet is open the map's
+   own controls would only peek out above its top edge, cut off. They step
+   aside and come back with the map. */
+@media (max-width: 860px) {
+  .app-shell :is(.mobile-map-chrome, .leaflet-top, .leaflet-control-scale, .measure-control, .research-terrain-controls, .location-button, .location-cluster, .display-scale-readout) {
+    transition: opacity 0.2s ease, visibility 0.2s;
+  }
+
+  .app-shell:has(.layer-rail.mobile-open) :is(.mobile-map-chrome, .leaflet-top, .leaflet-control-scale, .measure-control, .research-terrain-controls, .location-button, .location-cluster, .display-scale-readout) {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+/* The long dialogs keep a way out in reach: a round close in the top corner
+   that stays put while the text scrolls, the same 44px target as the phone
+   sheet's own close. The Close button at the end remains. */
+.dialog-close {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  float: right;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin: -12px -12px 0 12px;
+  place-items: center;
+  color: var(--chart-ink);
+  font-size: 1.4rem;
+  line-height: 1;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dialog-close:hover {
+  background: var(--white);
+}
+
+/* One body voice in About: paragraphs and list items in the same ink. */
+.about-dialog p,
+.about-dialog li {
+  color: var(--chart-ink);
+  line-height: 1.55;
+}
+
+/* The licence gate's Close is the least of its three choices. */
+.licence-dialog .dialog-quiet-action {
+  justify-self: center;
+  min-height: 44px;
+  font-size: var(--type-small);
+  font-weight: 600;
+}

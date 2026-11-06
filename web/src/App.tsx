@@ -935,7 +935,7 @@ function LicenceDialog({
             Continue without Province layers
           </button>
           {onClose ? (
-            <button className="secondary-action" type="button" onClick={onClose}>
+            <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
               Close
             </button>
           ) : null}
@@ -957,6 +957,9 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-labelledby="about-title"
       >
+        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+          <span aria-hidden="true">×</span>
+        </button>
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
@@ -1063,6 +1066,9 @@ function DataSourcesDialog({
         aria-modal="true"
         aria-labelledby="data-sources-title"
       >
+        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+          <span aria-hidden="true">×</span>
+        </button>
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
@@ -4784,7 +4790,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           {focusDef ? (
             <focusDef.chrome.Hero {...focusChromeContext} />
           ) : (
-            <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
+            // The rail is the room the reader is in, so it carries the
+            // active setup's name; a shared link that matches no setup falls
+            // back to the product's own name rather than another setup's.
+            <h2>{pokerMode ? "Poker" : mapThemes.find(({ id }) => id === activeThemeId)?.name ?? "NS Marks The Spot"}</h2>
           )}
           {!pokerMode && searchForm}
           {/* A focus page carries these in its footer instead. */}
@@ -5690,7 +5699,14 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               aria-expanded={mobileControlsOpen}
               onClick={() => setMobileControlsOpen(true)}
             >
-              <span aria-hidden="true">⌕</span>
+              {pokerMode ? (
+                // Poker's search lives on the map, so this pill opens layers
+                // only and says so with a stack, not a magnifier.
+                <svg className="mobile-controls-glyph" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <path d="M10 3 2.5 7 10 11l7.5-4Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                  <path d="m2.5 10.5 7.5 4 7.5-4M2.5 14l7.5 4 7.5-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                </svg>
+              ) : <span aria-hidden="true">⌕</span>}
               {pokerMode ? "Layers" : "Search & layers"}
             </button>
           </div>
@@ -6015,7 +6031,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           >
             © OpenStreetMap contributors
           </a>
-          {showModernMap && basemapStyle !== "osm" ? (
+          {/* NS Aerial below its zoom floor has the Atlas map drawn under it
+              (MapCanvas's AerialGapUnderlay), so its credit shows then too. */}
+          {(showModernMap || provinceLayers["ns-aerial"]) && basemapStyle !== "osm" ? (
             <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
               {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
               {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>

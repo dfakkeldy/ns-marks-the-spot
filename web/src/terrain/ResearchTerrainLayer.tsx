@@ -94,6 +94,12 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     mapRef.current = gl;
     gl.addControl(new NavigationControl({ showZoom: false, visualizePitch: true }), 'top-left');
     gl.addControl(new AttributionControl({ compact: true }), 'bottom-right');
+    // MapLibre opens its compact credit expanded, which on a phone covered a
+    // third of the 3D view and repeated the licence strip. It starts as the
+    // (i) button there; the full text is one tap away and stays in the strip.
+    if (window.matchMedia?.('(max-width: 860px)').matches) {
+      node.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+    }
 
     const showPopup = (layer: L.Layer, source: L.Popup | undefined, latlng: L.LatLng, autoPan: boolean | undefined) => {
       const content = source?.getContent();
