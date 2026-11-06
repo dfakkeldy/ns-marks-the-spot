@@ -57,7 +57,7 @@ describe("setup cameras", () => {
   });
 
   it("opens Rhodena at zoom 13 with all six turbines inside a phone-width view", () => {
-    const turbines = (rhodenaFeatures as { features: { id?: string; geometry: { coordinates: [number, number] } }[] }).features
+    const turbines = (rhodenaFeatures as unknown as { features: { id?: string; geometry: { coordinates: [number, number] } }[] }).features
       .filter(({ id }) => /^T[1-6]$/.test(id ?? ""));
     expect(turbines).toHaveLength(6);
     expect(RHODENA_TURBINES_POSITION.zoom).toBe(13);
