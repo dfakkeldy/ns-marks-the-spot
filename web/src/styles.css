@@ -2200,26 +2200,7 @@ a {
   left: 66px;
 }
 
-.measure-actions--idle {
-  display: none;
-}
 
-.measure-control.measure-start-hint {
-  left: 66px;
-  margin: 0;
-  padding: 0 16px;
-  min-height: 46px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: var(--chart-ink);
-  font-size: var(--type-small);
-  font-weight: 600;
-  background: rgba(var(--surface-rgb), 0.96);
-  border-radius: 23px;
-  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
-  pointer-events: none;
-}
 
 .measure-actions button {
   width: auto;
@@ -3791,9 +3772,10 @@ a {
        only the inline sides: a bare env() would take the bottom to 0 on a
        phone with no inset. */
     min-height: calc(32px + env(safe-area-inset-bottom));
-    /* Tall enough that the Province attribution shows on opening rather
-       than below a fold nobody knows scrolls. */
-    max-height: calc(min(40dvh, 240px) + env(safe-area-inset-bottom));
+    /* Kept low so the map stays usable while the strip shows on arrival;
+       the credits-first order below puts the licence lines in its first
+       rows, ahead of feedback and the page links. */
+    max-height: calc(72px + env(safe-area-inset-bottom));
     overflow-y: auto;
     padding-inline: 12px;
     padding-bottom: max(2px, env(safe-area-inset-bottom));

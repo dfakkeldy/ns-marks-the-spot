@@ -67,17 +67,10 @@
     flex: none;
     gap: 6px;
   }
-  /* Before the first tap the dock holds how to start, in the buttons' place
-     and at their height, so nothing below it moves when they arrive. */
-  .poker-workspace .measure-actions.measure-actions--idle {
-    display: none;
-  }
-  .poker-workspace .measure-control.measure-start-hint {
-    position: static;
-    flex: none;
-    justify-content: center;
-    min-height: 44px;
-    box-shadow: none;
+  /* Three to a row at 320px: the dock's buttons keep their tight padding so
+     "Undo point" stays on one line and the dock keeps its height. */
+  .poker-workspace .measure-actions button {
+    padding-inline: 8px;
   }
   .leaflet-container:has(.poker-workspace) .display-scale-readout {
     left: auto;

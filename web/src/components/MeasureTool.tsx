@@ -218,13 +218,8 @@ function MeasureCapture({
 
   return (
     <>
-      {driveway && isEmpty ? (
-        // Before the first tap the three actions have nothing to act on, and
-        // three disabled buttons said nothing about how to start.
-        <p className="measure-control measure-start-hint">Tap the road, then the house</p>
-      ) : null}
       <div
-        className={`measure-control measure-actions${driveway && isEmpty ? " measure-actions--idle" : ""}`}
+        className="measure-control measure-actions"
         ref={(node) => {
           // Poker's containing dock owns propagation, including touch taps.
           if (node && !driveway) {
