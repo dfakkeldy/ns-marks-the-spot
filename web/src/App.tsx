@@ -3875,7 +3875,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
 
     if (categoryId === "tax-sale") {
       const summary = taxSaleEnabled ? "On" : "Off";
-      return licenceAccepted ? summary : `${summary} · Province licence required`;
+      return licenceAccepted ? summary : `${summary} · Province licence needed`;
     }
 
     const activeCount = activeLayerIds.filter(
@@ -3899,7 +3899,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         (layerId) => layerCategoryByLayerId[layerId] === categoryId,
       )
     ) {
-      notices.push("Some layers: Province licence required");
+      notices.push("Province licence needed for some");
     }
 
     return [summary, ...notices].join(" · ");
@@ -4738,16 +4738,21 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     </form>
   );
 
+  // Four short choices read better as one segmented row than as a menu.
+  // Native radios share a name, so arrow keys move the choice for free.
   const appearanceControl = (
-    <label className="basemap-style-control interface-appearance-control">
-      Appearance
-      <select aria-label="Interface appearance" value={appearance} onChange={event => setAppearance(event.target.value as typeof appearance)}>
-        <option value="map">Match map</option>
-        <option value="system">System</option>
-        <option value="day">Light</option>
-        <option value="night">Dark</option>
-      </select>
-    </label>
+    <div className="basemap-style-control interface-appearance-control">
+      <span aria-hidden="true">Appearance</span>
+      <div className="appearance-segments" role="radiogroup" aria-label="Interface appearance">
+        {([["map", "Match map"], ["system", "System"], ["day", "Light"], ["night", "Dark"]] as const).map(([value, label]) => (
+          <label key={value} className={appearance === value ? "selected" : undefined}>
+            <input type="radio" name="interface-appearance" value={value}
+              checked={appearance === value} onChange={() => setAppearance(value)} />
+            <span>{label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
   );
   // Deliberately NOT gated on `licenceAccepted`. Declining the Province
   // licence runs `continueWithoutProvinceLayers`, which never sets that flag —
@@ -5479,23 +5484,29 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                             type="button"
                             className={mapMode === "current" ? "selected" : ""}
                             aria-pressed={mapMode === "current"}
+                            aria-label="Current notices"
                             onClick={() => changeMapMode("current")}
                           >
-                            Current notices
+                            {/* One word per half so neither wraps in the
+                                rail; the full name stays the button's name
+                                and the caption below spells it out. */}
+                            Current
                           </button>
                           <button
                             type="button"
                             className={mapMode === "historical" ? "selected" : ""}
                             aria-pressed={mapMode === "historical"}
+                            aria-label="Historical records"
                             onClick={() => changeMapMode("historical")}
                           >
-                            Historical records
+                            Historical
                           </button>
                         </div>
-                        <p>
+                        <p className="map-mode-caption">
+                          <span className="map-mode-chip">{mapMode === "current" ? "Current" : "Historical"}</span>{" "}
                           {mapMode === "current"
-                            ? "CURRENT · advertised notices that still require municipal verification"
-                            : "HISTORICAL · dated notices and verified outcomes, never current offerings"}
+                            ? "Advertised notices that still require municipal verification."
+                            : "Dated notices and verified outcomes, never current offerings."}
                         </p>
                           </section>
 
@@ -5544,8 +5555,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                                       <small>
                                         {geometryExceptions.length > 0
-                                          ? `${advertisedCount} advertised · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
-                                          : `${advertisedCount} advertised · ${withdrawnCount} withdrawn · ${pidCount} active PIDs`}
+                                          ? `${advertisedCount} advertised notices · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
+                                          : `${advertisedCount} advertised notices · ${withdrawnCount} withdrawn · ${pidCount} PIDs in advertised notices`}
                                       </small>
                                       <small>
                                         Snapshot retrieved {snapshotDateLabel(event)}

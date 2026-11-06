@@ -106,7 +106,7 @@ describe("TaxSalePropertyList", () => {
       />,
     );
 
-    expect(screen.getByText("1 parcel mapped · 2 unavailable")).toBeVisible();
+    expect(screen.getByText("1 parcel listed · 2 unavailable in NSPRD")).toBeVisible();
     await user.click(screen.getByText("Browse properties"));
     expect(screen.getByRole("list", { name: "Halifax unavailable tax-sale properties" })).toBeVisible();
     expect(screen.getByText(/AAN 09417036 · PID 41051889/u)).toBeVisible();

@@ -61,6 +61,28 @@ function layerRuntimeLabel(
   }
 }
 
+type ProvenanceFieldsProps = {
+  sourceDate: string;
+  openData?: OpenDataSource;
+  scale: string;
+  coverage: string;
+  minZoom: number;
+  maxZoom: number;
+};
+
+/** The source facts a row's disclosure lists: links, date, scale, coverage, zoom. */
+export function ProvenanceFields({ sourceDate, openData, scale, coverage, minZoom, maxZoom }: ProvenanceFieldsProps) {
+  return (
+    <>
+      {openData ? openDataSourceLinks(openData).map(({ url, name }) => <small key={url}><a href={url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>{name}</a></small>) : null}
+      <small>Source date: {sourceDate}</small>
+      <small>Scale: {scale}</small>
+      <small>Coverage: {coverage}</small>
+      <small>Zoom: {minZoom}–{maxZoom}</small>
+    </>
+  );
+}
+
 export const LayerMetadata = memo(function LayerMetadata({
   sourceDate,
   openData,
@@ -70,15 +92,12 @@ export const LayerMetadata = memo(function LayerMetadata({
   maxZoom,
   checked,
   status,
-}: {
-  sourceDate: string;
-  openData?: OpenDataSource;
-  scale: string;
-  coverage: string;
-  minZoom: number;
-  maxZoom: number;
+  provenance = true,
+}: ProvenanceFieldsProps & {
   checked: boolean;
   status: MapLayerStatus;
+  /** False when the row lists these facts in its own disclosure instead. */
+  provenance?: boolean;
 }) {
   const [provenanceOpen, setProvenanceOpen] = useState(false);
   return (
@@ -86,23 +105,22 @@ export const LayerMetadata = memo(function LayerMetadata({
       <small className={`layer-runtime ${checked ? status.status : "off"}`}>
         {layerRuntimeLabel(checked, status)}
       </small>
-      <details className="layer-provenance" open={provenanceOpen}>
-        {/* preventDefault keeps this summary click from also toggling the
-            row's wrapping <label> checkbox; state drives the open attribute */}
-        <summary
-          onClick={(event) => {
-            event.preventDefault();
-            setProvenanceOpen((open) => !open);
-          }}
-        >
-          Source &amp; scale
-        </summary>
-        {openData ? openDataSourceLinks(openData).map(({ url, name }) => <small key={url}><a href={url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>{name}</a></small>) : null}
-        <small>Source date: {sourceDate}</small>
-        <small>Scale: {scale}</small>
-        <small>Coverage: {coverage}</small>
-        <small>Zoom: {minZoom}–{maxZoom}</small>
-      </details>
+      {provenance ? (
+        <details className="layer-provenance" open={provenanceOpen}>
+          {/* preventDefault keeps this summary click from also toggling the
+              row's wrapping <label> checkbox; state drives the open attribute */}
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              setProvenanceOpen((open) => !open);
+            }}
+          >
+            Source &amp; scale
+          </summary>
+          <ProvenanceFields sourceDate={sourceDate} openData={openData} scale={scale}
+            coverage={coverage} minZoom={minZoom} maxZoom={maxZoom} />
+        </details>
+      ) : null}
     </span>
   );
 });

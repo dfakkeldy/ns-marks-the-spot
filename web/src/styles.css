@@ -8050,3 +8050,119 @@ a {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+
+/* Round 5 (rail) ------------------------------------------------------- */
+
+/* A context row's one disclosure carries the source facts the separate
+   "Source & scale" disclosure used to hold. */
+.context-layer-facts {
+  display: grid;
+  gap: 2px;
+  margin-top: 0.45rem;
+}
+
+.context-layer-facts small {
+  display: block;
+  font-size: var(--type-caption);
+  line-height: 1.3;
+}
+
+/* Interface appearance: four radios drawn as one segmented row. */
+.appearance-segments {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 2px;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.appearance-segments label {
+  position: relative;
+  display: grid;
+  min-height: 36px;
+  place-items: center;
+  padding: 0 4px;
+  color: var(--chart-ink);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* The radio itself covers its segment, so a click or tap lands on it. */
+.appearance-segments input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.appearance-segments label.selected {
+  color: var(--white);
+  background: var(--deep-water);
+}
+
+.appearance-segments label:has(input:focus-visible) {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 1px;
+}
+
+/* Tax Sale: the mode caption in body type, led by a small chip. */
+.map-mode-switcher > p.map-mode-caption {
+  font-family: inherit;
+  font-size: var(--type-caption);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.map-mode-chip {
+  display: inline-block;
+  padding: 1px 7px;
+  color: var(--white);
+  font-size: var(--type-micro);
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: 1px;
+  background: var(--survey-red);
+  border-radius: 999px;
+}
+
+.map-mode-switcher.historical .map-mode-chip {
+  background: var(--record-violet);
+}
+
+/* Theme manager: the name field fills its row; Save rides in the footer. */
+.theme-manager-save {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.theme-manager-preview {
+  color: var(--chart-ink);
+  font-size: var(--type-caption);
+}
+
+.theme-manager-footer {
+  position: sticky;
+  z-index: 1;
+  bottom: 0;
+  margin-inline: -24px;
+  margin-bottom: -24px;
+  padding: 12px 24px 24px;
+  background: var(--white);
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 560px) {
+  .theme-manager-footer {
+    bottom: 0;
+    margin-inline: -18px;
+    margin-bottom: -18px;
+    padding: 12px 18px 18px;
+  }
+}

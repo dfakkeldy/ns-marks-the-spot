@@ -39,6 +39,12 @@ export function TaxSalePropertyList({
   onSelectPid,
 }: TaxSalePropertyListProps) {
   const count = propertyCount(listings);
+  // The list follows the redemption filter and keeps withdrawn notice rows,
+  // so its count is not the event row's advertised-PID count; say so.
+  const withdrawnCount = propertyCount(
+    listings.filter(({ listingStatus }) => listingStatus === "withdrawn"),
+  );
+  const listed = `${count} ${count === 1 ? "parcel" : "parcels"} listed${withdrawnCount > 0 ? ` (incl. ${withdrawnCount} withdrawn)` : ""}`;
   const unavailableCount = geometryExceptions.reduce(
     (total, exception) => total + exception.pids.length,
     0,
@@ -62,8 +68,8 @@ export function TaxSalePropertyList({
         <span>Browse properties</span>
         <small>
           {unavailableCount > 0
-            ? `${count} ${count === 1 ? "parcel" : "parcels"} mapped · ${unavailableCount} unavailable`
-            : `${count} ${count === 1 ? "parcel" : "parcels"} shown`}
+            ? `${listed} · ${unavailableCount} unavailable in NSPRD`
+            : listed}
         </small>
       </summary>
       <div className="tax-sale-property-list-body">

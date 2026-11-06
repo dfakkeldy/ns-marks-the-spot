@@ -278,7 +278,7 @@ test('Poker enters 3D and restores its driveway measurement on return', async ({
   });
   await page.goto('/?basemap=osm&position=45.835,-61.405,18');
   await page.getByRole('button', { name: 'Search & layers', exact: true }).tap();
-  await page.getByRole('combobox', { name: 'Map setup', exact: true }).selectOption('poker');
+  await page.getByRole('combobox', { name: 'Change setup', exact: true }).selectOption('poker');
   await expect(page.getByRole('button', { name: '3D terrain', exact: true })).toBeEnabled();
   await expect(page.locator('.poker-civic-number')).toHaveText(['117']);
   const map = page.locator('.map-canvas .leaflet-container');
