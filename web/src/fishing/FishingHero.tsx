@@ -75,7 +75,7 @@ export function FishingHero({ data, activeMonth, onShowMonth, onFit }: {
           <button type="button" className="fishing-hero-primary" onClick={() => onShowMonth(showingThisMonth ? null : currentMonth)}>
             {showingThisMonth ? "Show every month" : `Spots for ${monthName(currentMonth)}`}
           </button>
-          <button type="button" className="fishing-hero-link" onClick={onFit}>
+          <button type="button" className="fishing-hero-secondary" onClick={onFit}>
             Zoom to all spots
           </button>
         </div>

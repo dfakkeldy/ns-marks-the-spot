@@ -43,7 +43,7 @@ export function AtlasStudy() {
       <section className="atlas-section" aria-labelledby="appearance-title">
         <h2 id="appearance-title">Appearance</h2>
         <div className="atlas-modes" role="group" aria-label="Basemap appearance">
-          {(['day', 'night', 'fletcher', 'handdrawn', 'osm'] as const).map(value => <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)}>
+          {(['day', 'night', 'fletcher', 'handdrawn', 'osm'] as const).map(value => <button key={value} type="button" className={value === 'osm' ? 'atlas-mode-osm' : undefined} aria-pressed={mode === value} onClick={() => setMode(value)}>
             {value === 'osm' ? 'OSM' : atlasStyleLabels[value]}
           </button>)}
         </div>

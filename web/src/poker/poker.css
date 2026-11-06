@@ -96,3 +96,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 @media (orientation: landscape) and (max-height: 500px) {
   .poker-measurement { left: auto; right: 8px; transform: none; width: min(360px, 48%); }
 }
+/* Round 5: the family's controls. Round 44px buttons, a pill search field,
+   and the standard "Show licences" pill in place of the small Sources chip. */
+.poker-options, .poker-locate { width: 44px; height: 44px; padding: 0; border-radius: 50%; }
+.poker-basemap { min-height: 44px; padding: 0 16px; border-radius: 999px; }
+.poker-searchbar input { border-radius: 999px; padding-inline: 18px; }
+.poker-footer { padding: 0; border-radius: 999px; }
+.poker-footer > span { padding-left: 12px; }
+.poker-footer .poker-licences { min-height: 36px; padding: 0 14px; font-size: 12px; font-weight: 600; border-radius: 999px; }
