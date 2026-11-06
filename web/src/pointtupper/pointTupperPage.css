@@ -78,6 +78,11 @@
   stroke: rgba(246, 241, 230, 0.6);
 }
 
+/* The shared panel's cards in the paper family by day, not mint. */
+.pointtupper-focus .layer-rail {
+  --fog: #f2ecdf;
+}
+
 /* The shared panel's fields and cards, in the night surface's own family
    instead of teal. */
 :root[data-map-appearance="night"] .pointtupper-focus .layer-rail {
@@ -248,6 +253,11 @@
   letter-spacing: 0;
   line-height: 1.25;
   background: var(--pt-deep);
+}
+
+/* While stuck, a hairline marks the title's lower edge, like the sheet's own
+   header; at rest the section's rule above is the only line. */
+.pointtupper-focus .pointtupper-hero h3.is-stuck {
   box-shadow: 0 1px 0 var(--pt-rule);
 }
 
@@ -353,8 +363,9 @@
   margin: -4px 0 -4px 6px;
   padding: 0;
   vertical-align: middle;
+  /* The marker carries its own ring; the button adds only a hover fill. */
   background: transparent;
-  border: 1px solid rgba(240, 180, 90, 0.45);
+  border: 0;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -432,7 +443,8 @@
 .pointtupper-timeline li {
   position: relative;
   display: grid;
-  grid-template-columns: 4.6rem minmax(0, 1fr);
+  /* Wide enough for "Early 1960s" on one line, so every entry shares a top edge. */
+  grid-template-columns: 4.9rem minmax(0, 1fr);
   align-items: first baseline;
   gap: 8px;
   padding: 0 0 12px 18px;
@@ -572,6 +584,7 @@
 .pointtupper-hero-hint {
   display: none;
   margin: 10px 0 0;
+  text-wrap: balance;
   color: var(--pt-paper-2);
   font-size: var(--pt-step-body);
   line-height: 1.4;
@@ -841,6 +854,28 @@
   grid-template-columns: 34px minmax(0, 1fr) auto;
 }
 
+.pointtupper-key-link {
+  padding: 0;
+  color: var(--survey-blue);
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.pointtupper-key-link::after {
+  content: " \2193" / "";
+}
+
+.pointtupper-key-link:focus-visible {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 .pointtupper-key-note {
   margin: 10px 6px 0;
   color: var(--muted);
@@ -1040,20 +1075,29 @@
     justify-content: flex-start;
   }
 
-  /* The way back to the map travels with the reader and comes to rest at the
-     end of the brief. */
-  .pointtupper-hero-actions {
+  /* At the 60% stop the map above already shows the site, so the way back to
+     it scrolls with the brief and the first fact has the room. Once the
+     sheet rises it travels with the reader, with its hint, and comes to rest
+     at the end of the brief. */
+  .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-actions {
     position: sticky;
     /* Above the stuck titles (3) and their fades. */
     z-index: 4;
     /* Sticky stops at the sheet's 20px bottom padding; reach past it to the
-       sheet's edge, so nothing scrolls by underneath. */
+       sheet's edge, so nothing scrolls by underneath. The extra 20px of
+       padding is taken back by the negative margin at rest. */
     bottom: -20px;
-    /* The extra 20px reaches past the sheet's bottom padding while stuck; the
-       negative margin takes it back at rest, before the hint. */
     margin: 0 -24px -20px;
-    padding: 12px 24px calc(30px + env(safe-area-inset-bottom));
-    background: linear-gradient(rgba(16, 40, 58, 0), var(--pt-deep) 12px);
+    padding: 24px 24px calc(30px + env(safe-area-inset-bottom));
+    background: linear-gradient(rgba(16, 40, 58, 0), var(--pt-deep) 24px);
+  }
+
+  .pointtupper-focus .layer-rail:not(.pointtupper-sheet-full) .pointtupper-hero-hint {
+    display: none;
+  }
+
+  .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-hint {
+    display: block;
   }
 
   .pointtupper-hero-primary {
@@ -1066,8 +1110,10 @@
     background: #f6cf8f;
   }
 
+  /* The resting band already leaves 10px under the hint; this makes the
+     close's one 16px step. */
   .pointtupper-hero-byline {
-    margin-top: 16px;
+    margin-top: 6px;
   }
 
   /* The key grows upward from its toggle, which stays by the thumb. */
@@ -1109,7 +1155,7 @@
     padding-inline: 16px;
   }
 
-  .pointtupper-hero-actions,
+  .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-actions,
   .pointtupper-focus .pointtupper-hero h3 {
     margin-inline: -16px;
     padding-inline: 16px;

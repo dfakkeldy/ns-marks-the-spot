@@ -333,9 +333,10 @@ export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileContr
           >
             Zoom to Point Tupper
           </button>
+          {/* Shown while the map key, which says the same, is folded; on a phone,
+              once the sheet is at full height (pointTupperPage.css). */}
+          <p className="pointtupper-hero-hint">Then select a place for its source and date.</p>
         </div>
-        {/* Shown while the map key, which says the same, is folded (pointTupperPage.css). */}
-        <p className="pointtupper-hero-hint">Then select a place on the map for its source and date.</p>
         <p className="pointtupper-hero-byline">Built by Dan Fakkeldy with Claude Code, from public sources.</p>
       </div>
       {/* The far shore's line, closing the night room before the map's tools. */}
