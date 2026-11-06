@@ -67,3 +67,8 @@
    still a pill of the family inside the card, not a bordered box. */
 .research-terrain-controls:has(.background-switch) .terrain-control-bar button { border: 0; border-radius: 999px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 3px rgba(var(--shadow-rgb, 18, 52, 59), 0.25); }
 .research-terrain-controls:has(.background-switch) .terrain-control-bar button[aria-pressed=true] { background: var(--survey-blue, #1e66cc); color: var(--white, #fff); }
+/* The 3D credit (i) on the same 40px white disc and shadow as the tilt control
+   above it. Expanded, the disc grows into a pill that holds the full credit. */
+.research-terrain-map .maplibregl-ctrl-attrib.maplibregl-compact { box-sizing: border-box; min-width: 40px; min-height: 40px; padding: 0 40px 0 0; background: #fff; border-radius: 20px; box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35); }
+.research-terrain-map .maplibregl-ctrl-attrib.maplibregl-compact-show { padding: 11px 44px 11px 14px; }
+.research-terrain-map .maplibregl-ctrl-attrib.maplibregl-compact .maplibregl-ctrl-attrib-button { top: auto; right: 0; bottom: 0; width: 40px; height: 40px; background-color: transparent; background-position: center; background-repeat: no-repeat; border-radius: 20px; }

@@ -2224,7 +2224,7 @@ a {
 .measure-control {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 148px; /* a 16px gap below the locate disc: view controls, then tools */
   left: 12px;
   display: flex;
   flex-direction: column;
@@ -2389,7 +2389,7 @@ a {
 .location-hud {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 148px;
   left: 66px;
   display: flex;
   flex-direction: column;
@@ -4146,15 +4146,15 @@ a {
   }
 
   .location-hud {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
   }
 
   .location-message {
-    top: max(262px, calc(env(safe-area-inset-top) + 224px));
+    top: max(272px, calc(env(safe-area-inset-top) + 234px));
   }
 
   .measure-control {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
   }
 
   /* Share Poker's bare button row with distance and area measurements. */
@@ -4168,15 +4168,14 @@ a {
     gap: 6px;
   }
 
+  /* Solid pills: a half-clear outline read as a disabled control over imagery. */
   .measure-actions button {
     min-width: 0;
     height: 44px;
     padding: 0 4px;
-    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    border: 1px solid var(--line);
     box-shadow: 0 1px 6px #12343b33;
-    background: color-mix(in srgb, var(--white) 50%, transparent);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
+    background: var(--white);
     font-size: 13px;
   }
 
@@ -4254,7 +4253,7 @@ a {
   /* Shares the recording HUD's row, so it moves when that row moves rather
      than splitting off and landing across the measure buttons. */
   .modern-map-error {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
     right: 12px;
     left: 12px;
     justify-content: space-between;
