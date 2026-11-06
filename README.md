@@ -155,15 +155,17 @@ for the data), not the code's MIT licence. Sources, checks and the yearly
 refresh are in [docs/gis-fishing-sources.md](docs/gis-fishing-sources.md) and
 [web/README.md](web/README.md). `/pointtupper` (`web/pointtupper.html`) is a
 site brief for the announced data-centre campus on the Strait of Canso: five
-key places, a sourced summary, and a timeline. The campus footprint has not
-been published, so it is not drawn. Company figures are the company's own. No
-parcel, title or registry data is used. The Point Tupper files in
+key places, a 320 px panel, and a two-group brief (**What EverWind says** and
+**On the public record**) with the timeline in the night brief. The campus
+footprint has not been published, so it is not drawn. Company figures are the
+company's own. No parcel, title or registry data is used. The Point Tupper
+files in
 `web/public/point-tupper/` carry their own licence (CC BY 4.0 for the project's
 wording), not the code's MIT licence. Sources are in
 [docs/point-tupper-sources.md](docs/point-tupper-sources.md). The KinNoKi site
-publishes a page through its own short-URL rewrite (`/rhodena`, and `/fishmap`
-for the fishing page); merging here publishes none of them. `/pointtupper`
-still needs that rewrite and a live pin. The site's own `/fishing/` is a
+rewrites `/pointtupper` to `/apps/nsmarksthespot/map/pointtupper` (as it does
+`/rhodena`, and `/fishmap` for the fishing page); merging here does not update
+the live map pin. The site's own `/fishing/` is a
 separate static fishing guide: the fishing page's footer links to it, and its
 link back to `/fishmap` is a site change.
 
