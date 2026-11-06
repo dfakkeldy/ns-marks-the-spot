@@ -3368,7 +3368,7 @@ describe("NS Marks The Spot Online", () => {
     }, { timeout: 10_000 });
     expect(
       await screen.findByText(
-        "27 advertised notices · 18 withdrawn · 27 PIDs in advertised notices",
+        "27 advertised notices · 18 withdrawn notices · 27 PIDs in advertised notices",
         undefined,
         { timeout: 10_000 },
       ),

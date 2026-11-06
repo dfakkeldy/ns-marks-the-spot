@@ -5613,7 +5613,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                       <small>
                                         {geometryExceptions.length > 0
                                           ? `${advertisedCount} advertised notices · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
-                                          : `${advertisedCount} advertised notices · ${withdrawnCount} withdrawn · ${pidCount} PIDs in advertised notices`}
+                                          : `${advertisedCount} advertised notices · ${withdrawnCount} withdrawn notices · ${pidCount} PIDs in advertised notices`}
                                       </small>
                                       <small>
                                         Snapshot retrieved {snapshotDateLabel(event)}
