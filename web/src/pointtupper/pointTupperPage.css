@@ -274,11 +274,12 @@
   top: 100%;
   right: 0;
   left: 0;
-  height: 28px;
+  height: 24px;
   content: "";
-  /* Solid for the first 12px, so a line passing under the title, underline
-     and all, dissolves instead of showing cut in half. */
-  background: linear-gradient(var(--pt-deep) 12px, rgba(16, 40, 58, 0));
+  /* Solid for the first 16px, so a line passing under the title, underline
+     and all, dissolves instead of showing cut in half; short enough not to
+     read as an empty band. */
+  background: linear-gradient(var(--pt-deep) 16px, rgba(16, 40, 58, 0));
   pointer-events: none;
 }
 
@@ -373,6 +374,9 @@
   cursor: pointer;
 }
 
+/* Inside a door's sodium ring the marker drops its own white one, the same in
+   the fact pills and the timeline. */
+.pointtupper-place-glyph svg > circle,
 .pointtupper-timeline-place svg > circle {
   stroke: none;
 }
@@ -887,6 +891,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .pointtupper-hero-hint,
   .pointtupper-focus .layer-rail.mobile-open,
   .pointtupper-focus .mobile-map-chrome,
   .pointtupper-focus .leaflet-top,
@@ -931,6 +936,9 @@
 
 .pointtupper-focus-footer .export-map-trigger {
   width: 100%;
+  /* One ground for the footer's buttons: the page's surface, as the
+     full-map link below it. */
+  background: rgb(var(--surface-rgb));
 }
 
 /* The appearance picker lines up with the footer's other controls, not the
@@ -1130,9 +1138,18 @@
   }
 
   /* The hint is about what follows the button, so it waits for the band to
-     come to rest rather than riding along over the brief. */
+     come to rest rather than riding along over the brief, and eases in so
+     the close below slides rather than jumps. */
+  .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-hint {
+    max-height: 3em;
+    overflow: hidden;
+    transition: max-height 0.2s ease, margin-top 0.2s ease, opacity 0.2s ease;
+  }
+
   .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-actions.is-stuck .pointtupper-hero-hint {
-    display: none;
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
   }
 
   .pointtupper-hero-primary {
