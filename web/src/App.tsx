@@ -6023,6 +6023,15 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           : <span className="poker-civic-status" role="status">
             {pokerCivicStatus} <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.
           </span>)}
+        {/* Folded, the strip still states the two lines true of every view:
+            the OpenStreetMap credit and the survey caveat. The full set for
+            what is on screen is one click away. Phones fold to a pill. */}
+        {attributionCollapsed ? (
+          <span className="map-attribution-folded-credit">
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
+            {" · "}Boundaries are not a survey
+          </span>
+        ) : null}
         {!attributionCollapsed && <>
           <a
             className="feedback-link"

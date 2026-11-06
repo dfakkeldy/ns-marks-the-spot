@@ -61,5 +61,5 @@
    one white pill with one shadow, not a bordered button boxed in a card. The
    card returns when it has more to hold (the background switch or settings). */
 .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) { padding: 0; background: transparent; box-shadow: none; overflow: visible; }
-.research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button { min-height: 46px; padding-inline: 18px; border: 0; border-radius: 23px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35); }
+.research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button { min-height: 46px; padding-inline: 18px; border: 0; border-radius: 23px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35); outline: 1px solid var(--control-edge, transparent); outline-offset: -1px; }
 .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button[aria-pressed=true] { background: var(--survey-blue, #1e66cc); color: var(--white, #fff); }

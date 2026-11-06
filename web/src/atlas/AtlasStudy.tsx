@@ -38,7 +38,7 @@ export function AtlasStudy() {
       </header>
       <section className="atlas-intro">
         <h1>A Nova Scotia atlas.</h1>
-        <p>Four Atlas styles for modern geography: Day, Night, Fletcher in the colours and lettering of the 1884 Cape Breton sheets, and Hand-drawn, a sepia sketchbook that turns folksy as you zoom in.</p>
+        <p>Four Atlas styles for modern geography: Day, Night, Fletcher in the colours and lettering of the 1884 Cape Breton sheets, and Hand-drawn, a sepia sketchbook that turns folksy as you zoom in. Standard OpenStreetMap is the fifth button, for comparison.</p>
       </section>
       <section className="atlas-section" aria-labelledby="appearance-title">
         <h2 id="appearance-title">Appearance</h2>

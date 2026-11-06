@@ -18,6 +18,7 @@ export const rhodenaFocusDefinition: FocusDefinition = {
   hiddenFeatures: new Set<FocusHiddenFeature>(['tax-sale', 'my-maps', 'setup-picker']),
   backgroundSwitch: true,
   chrome: {
+    sheetTitle: 'Wind project & layers',
     Hero: RhodenaFocusHero,
     brand: { label: 'Rhodena Wind — summary and layers', Mark: RhodenaBrandMark },
     FooterNote: RhodenaFooterNote,

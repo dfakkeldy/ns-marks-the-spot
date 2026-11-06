@@ -4477,7 +4477,9 @@ describe("NS Marks The Spot Online", () => {
     const toggle = within(footer).getByRole("button", { name: "Show licences" });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(region).toHaveClass("attribution-folded");
-    expect(within(footer).queryByRole("link", { name: "© OpenStreetMap contributors" })).not.toBeInTheDocument();
+    // Folded, the strip keeps the credit and caveat true of every view.
+    expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    expect(within(footer).getByText(/Boundaries are not a survey/)).toBeInTheDocument();
     expect(within(footer).queryByRole("button", { name: "Data & licences" })).not.toBeInTheDocument();
     expect(within(footer).queryByText(OPEN_GOVERNMENT_ATTRIBUTION)).not.toBeInTheDocument();
     // The civic-source status is still announced while folded, not shown.

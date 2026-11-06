@@ -160,9 +160,12 @@ export function ThemeManagerDialog({
               onChange={(event) => setNewThemeName(event.target.value)}
             />
           </label>
-          <button type="submit" disabled={!newThemeName.trim()}>
+          <button type="submit" disabled={!newThemeName.trim()} aria-describedby="theme-manager-save-hint">
             Save current setup
           </button>
+          <small id="theme-manager-save-hint" className="theme-manager-hint">
+            {newThemeName.trim() ? "Saves the layers, opacity and mode on the map now." : "Name it to save it."}
+          </small>
         </form>
 
         {customThemes.length > 0 ? (
@@ -187,7 +190,7 @@ export function ThemeManagerDialog({
             ))}
           </ul>
         ) : (
-          <p className="theme-manager-empty">No saved themes yet. Name the map as it is now, with its layers, opacity and mode, to come back to it later.</p>
+          <p className="theme-manager-empty">No saved themes yet. Saved themes appear here to rename, update, copy or delete.</p>
         )}
 
         <div className="theme-manager-footer">

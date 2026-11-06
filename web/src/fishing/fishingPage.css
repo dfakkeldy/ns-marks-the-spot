@@ -863,3 +863,11 @@ div.fishing-panel-status p {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* As on /pointtupper: zoom level, coordinates and a nominal screen scale are
+   research readouts; on this page the scale bar alone tells readers how far
+   things are. The full map keeps them. */
+.fishing-focus .position-readout,
+.fishing-focus .display-scale-readout {
+  display: none;
+}
