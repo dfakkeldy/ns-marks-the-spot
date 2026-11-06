@@ -59,11 +59,13 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     }
     await expect(page.locator(".poker-civic-number")).toHaveCount(1);
     // The attribution strip was shown on entering Poker and folded at the
-    // first map interaction (the search's Find button); the folded row keeps
-    // only its toggle and the civic status, and the toggle restores it.
+    // first map interaction (the search's Find button). Folded, a wide screen
+    // keeps its toggle, the civic status and the OpenStreetMap credit with
+    // the survey caveat; a phone folds to the toggle pill. The toggle
+    // restores the full strip.
     const showLicences = page.getByRole("button", { name: "Show licences", exact: true });
     await expect(showLicences).toBeVisible();
-    await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toHaveCount(viewport.width > 860 ? 1 : 0);
     expect((await box(page.locator(".map-attribution"))).height).toBeLessThanOrEqual(52);
     await activate(showLicences);
     await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toBeVisible();

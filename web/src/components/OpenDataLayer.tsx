@@ -45,7 +45,7 @@ export function OpenDataLayer({ layer, visible, zIndex, onStatusChange, renderMo
       const timeout = window.setTimeout(() => active.abort(), 30_000);
       const b = map.getBounds(); const size = map.getSize();
       onStatusChange?.(layer.id, { status: "loading" });
-      void renderOpenData(source, { west: b.getWest(), east: b.getEast(), south: b.getSouth(), north: b.getNorth() }, { width: Math.max(1, Math.round(size.x)), height: Math.max(1, Math.round(size.y)) }, map.getZoom(), active.signal, { imagery, night }).then(({ canvas, count }) => {
+      void renderOpenData(source, { west: b.getWest(), east: b.getEast(), south: b.getSouth(), north: b.getNorth() }, { width: Math.max(1, Math.round(size.x)), height: Math.max(1, Math.round(size.y)) }, map.getZoom(), active.signal, { imagery, night }).then(({ canvas, count, fetched }) => {
         if (generation !== request) return;
         const paneName = `open-${layer.id}`;
         const pane = map.getPane(paneName) ?? map.createPane(paneName, map.getPane("tilePane"));
@@ -54,7 +54,7 @@ export function OpenDataLayer({ layer, visible, zIndex, onStatusChange, renderMo
         image = L.imageOverlay(canvas.toDataURL("image/png"), b, { pane: paneName, opacity: layer.opacity, interactive: false, className: renderMode === "print" ? `print-layer-${layer.id}` : `map-layer-${layer.id}` });
         images.add(image);
         const replacement = image;
-        image.once("load", () => { if (generation !== request) return; for (const old of images) if (old !== replacement) { old.remove(); images.delete(old); } if (generation === request && !imageFailed) onStatusChange?.(layer.id, count === 0 && source.coverageAreas ? { status: "returned-empty" } : { status: "ready", count }); });
+        image.once("load", () => { if (generation !== request) return; for (const old of images) if (old !== replacement) { old.remove(); images.delete(old); } if (generation === request && !imageFailed) onStatusChange?.(layer.id, fetched === 0 && source.coverageAreas ? { status: "returned-empty" } : { status: "ready", count }); });
         image.once("error", () => { if (generation !== request) return; imageFailed = true; clearImages(); if (generation === request) onStatusChange?.(layer.id, { status: "error" }); });
         image.addTo(map);
       }).catch((error: unknown) => { if (generation === request) { clearImages(); onStatusChange?.(layer.id, error instanceof OpenDataOutsideCoverageError ? { status: "outside-coverage" } : error instanceof OpenDataAreaTooLargeError ? { status: "zoom", minZoom: Math.ceil(map.getZoom()) + 1 } : { status: "error", message: active.signal.aborted ? "Source timed out after 30 seconds. Pan to retry." : error instanceof Error ? error.message : "Open-data source unavailable. Pan to retry." }); } }).finally(() => window.clearTimeout(timeout));

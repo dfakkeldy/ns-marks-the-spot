@@ -67,6 +67,11 @@
     flex: none;
     gap: 6px;
   }
+  /* Three to a row at 320px: the dock's buttons keep their tight padding so
+     "Undo point" stays on one line and the dock keeps its height. */
+  .poker-workspace .measure-actions button {
+    padding-inline: 8px;
+  }
   .leaflet-container:has(.poker-workspace) .display-scale-readout {
     left: auto;
     right: 8px;

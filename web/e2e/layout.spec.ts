@@ -129,7 +129,7 @@ test("theme controls expose keyboard focus and open the manager", async ({ page 
   await page.keyboard.press("Enter");
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
-  await keyboardFocus(page, dialog.getByRole("button", { name: "Cancel", exact: true }));
+  await keyboardFocus(page, dialog.getByRole("button", { name: "Done", exact: true }));
   await page.keyboard.press("Enter");
   await expect(dialog).toBeHidden();
 });

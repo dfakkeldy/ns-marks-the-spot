@@ -116,7 +116,10 @@ for (const width of [390, 1440]) {
       };
       await verifyTextContrast();
       if (width === 1440) {
-        await page.getByRole("combobox", { name: "Interface appearance", exact: true }).selectOption({ label: "Dark" });
+        // Appearance lives with Basemap style under Background Maps.
+        const appearance = page.getByRole("combobox", { name: "Interface appearance", exact: true });
+        if (!(await appearance.isVisible())) await page.getByRole("button", { name: /^Background Maps/ }).click();
+        await appearance.selectOption({ label: "Dark" });
         await expect(page.locator("html")).toHaveAttribute("data-map-appearance", "night");
         await verifyTextContrast();
         await group.evaluate(element => element.scrollIntoView({ block: "end" }));

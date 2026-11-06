@@ -317,3 +317,11 @@
     display: none;
   }
 }
+
+/* As on /pointtupper: zoom level, coordinates and a nominal screen scale are
+   research readouts; on this page the scale bar alone tells readers how far
+   things are. The full map keeps them. */
+.rhodena-focus .position-readout,
+.rhodena-focus .display-scale-readout {
+  display: none;
+}

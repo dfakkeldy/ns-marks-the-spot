@@ -309,11 +309,16 @@ function MeasureCapture({
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}
         {!finished && points.length > 0
-          ? " · double-click or Enter to finish · Esc to clear"
+          ? (coarsePointer() ? " · tap Finish when done" : " · double-click or Enter to finish · Esc to clear")
           : null}
       </p>}
     </>
   );
+}
+
+/** A touch screen has no double-click or Esc to mention. */
+function coarsePointer(): boolean {
+  return typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches === true;
 }
 
 function readoutText(mode: ActiveMeasureMode, points: readonly GeoPoint[]): string {

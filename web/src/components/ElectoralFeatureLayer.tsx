@@ -61,7 +61,7 @@ export function ElectoralFeatureLayer({ layer, visible, licenceAccepted, mode, n
         pane: paneName, interactive: renderMode !== 'print', bubblingMouseEvents: false,
         style: f => {
           const fill = electoralFill(layer,f?.properties ?? {},mode,night);
-          return { color: line, weight: federal ? 2.1 : municipal ? 1 : 1.4, dashArray: federal ? '9 4' : municipal ? '1 4' : undefined,
+          return { color: line, weight: federal ? 2.6 : municipal ? 1 : 1.6, dashArray: federal ? '12 6' : municipal ? '1 4' : undefined,
             fillColor: fill.colour, fillOpacity: mode === 'boundaries' ? 0 : mode === 'winner' ? 0.28 : 0.65,
             pmIgnore: true, snapIgnore: true } as PathOptions;
         },

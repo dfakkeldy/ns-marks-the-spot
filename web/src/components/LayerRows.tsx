@@ -81,7 +81,7 @@ export const LayerMetadata = memo(function LayerMetadata({
   const [provenanceOpen, setProvenanceOpen] = useState(false);
   return (
     <span className="layer-metadata">
-      <small className={`layer-runtime ${status.status}`}>
+      <small className={`layer-runtime ${checked ? status.status : "off"}`}>
         {layerRuntimeLabel(checked, status)}
       </small>
       <details className="layer-provenance" open={provenanceOpen}>

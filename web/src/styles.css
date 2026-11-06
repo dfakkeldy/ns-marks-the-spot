@@ -6,6 +6,15 @@
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  /* Five text steps for the interface. Every rem size under 1rem in this
+     sheet maps to the nearest one; between-sizes were indecision made
+     visible (there were about twenty-five). Display headings keep their own
+     sizes. */
+  --type-micro: 0.68rem;
+  --type-caption: 0.72rem;
+  --type-small: 0.8rem;
+  --type-body: 0.88rem;
+  --type-title: 0.96rem;
   --chart-ink: #12343b;
   --deep-water: #0a4f5c;
   /* #1e66cc, not the original #2f80ed: white text on the old blue measured
@@ -34,6 +43,11 @@
   /* The one tinted panel that is neither paper nor fog: the theme picker's
      blue wash. */
   --tint-blue: #f3f8ff;
+  /* Historical records: the violet the tax-sale record mode is drawn in. */
+  --record-violet: #5a4385;
+  /* The colour every shadow is cast in, per room: teal ink by day, black by
+     night, the sheet's own ink on Fletcher and Hand-drawn. */
+  --shadow-rgb: 18, 52, 59;
   /* Both, and in this order: the browser paints its own form controls,
      scrollbars and focus rings from this, and without it a phone reading the
      system as dark renders a select on a light card as dark-on-dark. */
@@ -90,6 +104,9 @@
     --fog-rgb: 13, 31, 36;
     --paper-rgb: 21, 43, 49;
     --tint-blue: #16303c;
+    --record-violet: #c3b1ef;
+    --shadow-rgb: 0, 0, 0;
+    --control-edge: rgba(232, 241, 240, 0.3);
   }
 }
 
@@ -117,10 +134,26 @@
     --fog-rgb: 13, 31, 36;
     --paper-rgb: 21, 43, 49;
     --tint-blue: #16303c;
+    --record-violet: #c3b1ef;
+    --shadow-rgb: 0, 0, 0;
+    --control-edge: rgba(232, 241, 240, 0.3);
   color-scheme: dark;
 }
 
 :root[data-map-appearance="day"] { color-scheme: light; }
+
+/* Atlas Day is cream paper and sage, so its interface is warm paper too: the
+   cool white rail and blue-washed card read as a different material beside
+   it. OpenStreetMap keeps the neutral light room; its map is not paper. */
+:root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
+  --white: #fdfbf6;
+  --fog: #f4f1e8;
+  --paper: #f8f3e6;
+  --tint-blue: #f3efe3;
+  --surface-rgb: 253, 251, 246;
+  --fog-rgb: 244, 241, 232;
+  --paper-rgb: 248, 243, 230;
+}
 
 * {
   box-sizing: border-box;
@@ -192,7 +225,7 @@ a {
   display: flex;
   align-items: center;
   gap: 28px;
-  font-size: 0.96rem;
+  font-size: var(--type-title);
 }
 
 .header-action,
@@ -239,7 +272,7 @@ a {
   overflow-y: auto;
   background: var(--white);
   border-right: 1px solid var(--line);
-  box-shadow: 6px 0 24px rgba(18, 52, 59, 0.08);
+  box-shadow: 6px 0 24px rgba(var(--shadow-rgb), 0.08);
 }
 
 /* `.layer-rail > h2` is the rail's own heading, not the headings inside it:
@@ -263,7 +296,7 @@ a {
 .rail-section h4.nested-rail-heading {
   display: block;
   margin: 0 0 9px;
-  font-size: 0.96rem;
+  font-size: var(--type-title);
   font-weight: 800;
 }
 
@@ -318,7 +351,7 @@ a {
   min-height: 18px;
   margin: 7px 0 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   line-height: 1.35;
 }
 
@@ -343,7 +376,7 @@ a {
   width: 100%;
   padding: 10px 11px;
   color: var(--chart-ink);
-  font-size: 0.76rem;
+  font-size: var(--type-small);
   line-height: 1.35;
   text-align: left;
   background: var(--white);
@@ -389,7 +422,7 @@ a {
   margin: 12px 0 0;
   padding: 12px;
   background: var(--tint-blue);
-  border: 1px solid rgba(47, 128, 237, 0.28);
+  border: 1px solid var(--line);
   border-radius: 8px;
 }
 
@@ -399,7 +432,7 @@ a {
 }
 
 .map-theme-picker h2 {
-  font-size: 0.96rem;
+  font-size: var(--type-title);
 }
 
 .map-theme-picker select {
@@ -420,13 +453,13 @@ a {
 
 .map-theme-picker .map-theme-description {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.4;
 }
 
 .map-theme-picker [role="status"] {
   color: var(--deep-water);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   line-height: 1.4;
 }
@@ -436,7 +469,7 @@ a {
   min-height: 44px;
   padding: 6px 0;
   color: var(--survey-blue);
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-decoration: underline;
   background: none;
@@ -476,7 +509,10 @@ a {
 }
 
 .theme-manager-dialog h2 {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1.1;
 }
 
 .theme-manager-save,
@@ -535,10 +571,23 @@ a {
   border-radius: 6px;
 }
 
-.theme-manager-confirmation p,
-.theme-manager-empty {
+.theme-manager-confirmation p {
   margin: 0;
   color: var(--muted);
+}
+
+.theme-manager-empty {
+  margin: 18px 0;
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: var(--type-body);
+  line-height: 1.45;
+  background: var(--fog);
+  border-radius: 6px;
+}
+
+.theme-manager-footer {
+  justify-content: flex-end;
 }
 
 .theme-manager-notice {
@@ -553,11 +602,14 @@ a {
 }
 
 .map-mode-switcher {
-  margin: 18px -12px 0;
+  /* Tinted from the tokens, not fixed hex: a fixed blush stayed light on the
+     dark interface and left its caption unreadable. It also sits in the
+     rail's column now instead of bleeding 12px past it. */
+  margin: 18px 0 0;
   padding: 12px;
-  border: 2px solid rgba(190, 77, 60, 0.38);
+  border: 1px solid color-mix(in srgb, var(--survey-red) 42%, transparent);
   border-radius: 8px;
-  background: #fff7f4;
+  background: color-mix(in srgb, var(--survey-red) 7%, var(--white));
 }
 
 .tax-sale-master {
@@ -567,7 +619,7 @@ a {
   min-height: 44px;
   padding: 8px 4px;
   color: var(--chart-ink);
-  font-size: 0.84rem;
+  font-size: var(--type-small);
   font-weight: 800;
   cursor: pointer;
 }
@@ -589,9 +641,9 @@ a {
 }
 
 .map-mode-switcher.historical {
-  color: #49336f;
-  background: #f5f0fc;
-  border-color: rgba(90, 67, 133, 0.48);
+  color: var(--record-violet);
+  background: color-mix(in srgb, var(--record-violet) 8%, var(--white));
+  border-color: color-mix(in srgb, var(--record-violet) 48%, transparent);
 }
 
 .map-mode-buttons {
@@ -604,7 +656,7 @@ a {
   min-height: 44px;
   padding: 7px 8px;
   color: var(--chart-ink);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -620,14 +672,14 @@ a {
 
 .map-mode-buttons button.selected:last-child {
   color: var(--white);
-  background: #5a4385;
-  border-color: #5a4385;
+  background: var(--record-violet);
+  border-color: var(--record-violet);
 }
 
 .map-mode-switcher > p {
   margin: 9px 2px 0;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.64rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: 0.025em;
@@ -640,19 +692,26 @@ a {
 .layer-rail.mode-historical .historical-layer-controls {
   margin-inline: -12px;
   padding-inline: 12px;
-  background: linear-gradient(#f7f3fc, rgba(247, 243, 252, 0));
-  border-top: 4px solid #5a4385;
+  background: linear-gradient(color-mix(in srgb, var(--record-violet) 8%, transparent), transparent);
+  border-top: 4px solid var(--record-violet);
 }
 
 .layer-row {
   position: relative;
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr) auto;
-  align-items: center;
+  /* The switch sits on the name's line, not in the middle of the caveat and
+     metadata below it: a tall row centred it a paragraph away from its label. */
+  align-items: start;
   gap: 12px;
   min-height: 59px;
+  padding-block: 12px 10px;
   cursor: pointer;
-  border-top: 1px solid rgba(18, 52, 59, 0.12);
+  border-top: 1px solid var(--line);
+}
+
+.layer-row > .switch {
+  margin-top: -1px;
 }
 
 .layer-row:first-of-type {
@@ -683,7 +742,7 @@ a {
   content: "";
   background: var(--white);
   border-radius: 50%;
-  box-shadow: 0 1px 4px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.35);
   transition: transform 160ms ease;
 }
 
@@ -708,28 +767,44 @@ a {
 }
 
 .layer-row strong {
-  font-size: 0.88rem;
+  font-size: var(--type-body);
 }
 
 .layer-row small {
   color: var(--lichen);
-  font-size: 0.73rem;
+  font-size: var(--type-caption);
 }
 
 .layer-metadata {
-  display: grid;
-  gap: 2px;
-  margin: 4px 0 7px;
-  padding: 6px 7px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  margin: 2px 0 0;
   color: var(--muted);
+}
+
+/* "Off" repeats what the switch already shows. It stays for screen readers,
+   which hear the runtime state as part of the row. */
+.layer-runtime.off {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.layer-provenance[open] {
+  flex-basis: 100%;
+  padding: 6px 8px;
   background: rgba(var(--fog-rgb), 0.75);
-  border-left: 2px solid rgba(18, 52, 59, 0.22);
-  border-radius: 0 4px 4px 0;
+  border-radius: 4px;
 }
 
 .layer-metadata small {
   color: inherit;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.3;
 }
 
@@ -748,7 +823,7 @@ a {
   align-items: center;
   width: fit-content;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   cursor: pointer;
   list-style-position: inside;
 }
@@ -759,31 +834,34 @@ a {
 
 .layer-runtime {
   width: fit-content;
-  padding: 2px 5px;
+  padding: 2px 6px;
   color: var(--chart-ink) !important;
   font-weight: 800;
-  background: rgba(18, 52, 59, 0.1);
+  background: color-mix(in srgb, var(--chart-ink) 10%, transparent);
   border-radius: 999px;
 }
 
+/* State pills tinted from each room's own tokens. Fixed pastel slabs read as
+   bright green on Night and as modern UI on the Fletcher and Hand-drawn
+   sheets. Text mixes toward the ink so it holds contrast on every ground. */
 .layer-runtime.loading {
-  color: #704600 !important;
-  background: #fff0c4;
+  color: color-mix(in srgb, var(--paper-peach) 40%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--paper-peach) 24%, transparent);
 }
 
 .layer-runtime.ready {
-  color: #24551d !important;
-  background: #e1f2dc;
+  color: color-mix(in srgb, var(--lichen) 75%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--lichen) 16%, transparent);
 }
 
 .layer-runtime.error {
-  color: #812a23 !important;
-  background: #f8deda;
+  color: color-mix(in srgb, var(--survey-red) 80%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--survey-red) 14%, transparent);
 }
 
 .layer-runtime.zoom {
-  color: #234e87 !important;
-  background: #e1edff;
+  color: color-mix(in srgb, var(--survey-blue) 85%, var(--chart-ink)) !important;
+  background: color-mix(in srgb, var(--survey-blue) 13%, transparent);
 }
 
 .layer-row.unavailable {
@@ -813,7 +891,7 @@ a {
   padding: 8px 4px;
   color: var(--chart-ink);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: var(--type-body);
   font-weight: 800;
   text-align: left;
   background: transparent;
@@ -822,16 +900,35 @@ a {
 }
 
 .layer-category-heading::after {
+  /* A disclosure chevron on the title's own line: right when closed, down
+     when open. The old +/− sat between the title and its summary, in a pale
+     green that read as status rather than as a control. */
   grid-column: 2;
-  grid-row: 1 / span 2;
-  color: var(--lichen);
-  content: "+";
-  font-size: 1.25rem;
-  font-weight: 400;
+  grid-row: 1;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  content: "";
+  border-right: 2px solid var(--chart-ink);
+  border-bottom: 2px solid var(--chart-ink);
+  opacity: 0.7;
+  transform: rotate(-45deg);
+  transition: transform 160ms ease;
 }
 
 .layer-category-heading[aria-expanded="true"]::after {
-  content: "−";
+  transform: rotate(45deg);
+}
+
+.layer-category-heading:hover::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer-category-heading::after {
+    transition: none;
+  }
 }
 
 .layer-category-heading:focus-visible {
@@ -847,7 +944,7 @@ a {
   padding: 8px 14px;
   color: var(--chart-ink);
   font: inherit;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--fog);
   border: 1px solid var(--line);
@@ -863,7 +960,7 @@ a {
 .layer-category-summary {
   grid-column: 1;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
@@ -874,7 +971,7 @@ a {
 .layer-category-description {
   margin: 0 0 7px;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -894,7 +991,7 @@ a {
   min-height: 59px;
   cursor: pointer;
   color: var(--chart-ink);
-  font-size: 0.88rem;
+  font-size: var(--type-body);
   font-weight: 700;
   list-style: none;
 }
@@ -919,7 +1016,7 @@ a {
 .resource-layer-group > summary small {
   grid-column: 1;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 500;
 }
 
@@ -944,20 +1041,20 @@ a {
 
 .unavailable-layers strong {
   display: block;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
 }
 
 .unavailable-layer-reason {
   display: block;
   margin-top: 4px;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
 .unavailable-layers p {
   margin: 6px 0 10px;
   color: var(--chart-ink);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -985,14 +1082,14 @@ a {
   display: block;
   width: fit-content;
   margin: -4px 0 9px 54px;
-  font-size: 0.73rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
 .resource-source-note {
   margin: 9px 0 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.45;
 }
 
@@ -1015,7 +1112,7 @@ a {
 
 .fletcher-opacity small {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
 }
 
 .fletcher-opacity input[type="range"] {
@@ -1044,7 +1141,7 @@ a {
   margin: 5px 0 0;
   padding: 0;
   list-style: none;
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   color: var(--muted);
 }
 
@@ -1078,7 +1175,7 @@ a {
   margin: 5px 0 0;
   padding: 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   list-style: none;
 }
 
@@ -1111,7 +1208,7 @@ a {
   margin-top: 8px;
   padding: 10px;
   color: var(--muted);
-  font-size: 0.67rem;
+  font-size: var(--type-micro);
   background: rgba(var(--surface-rgb), 0.74);
   border: 1px solid rgba(8, 118, 155, 0.18);
   border-radius: 5px;
@@ -1200,7 +1297,7 @@ a {
   margin: 0 0 3px;
   color: #08769b;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1236,7 +1333,7 @@ a {
 .hydro-potential-popup > p:last-child {
   margin: 10px 0 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.4;
 }
 
@@ -1254,7 +1351,7 @@ a {
   margin: 0 0 3px;
   color: #166534;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1268,19 +1365,19 @@ a {
 
 .old-growth-policy-popup > p:not(.old-growth-policy-popup-eyebrow) {
   margin: 5px 0;
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
 }
 
 .old-growth-policy-popup .old-growth-policy-popup-note {
   color: var(--muted);
-  font-size: 0.66rem;
+  font-size: var(--type-micro);
   line-height: 1.4;
 }
 
 .old-growth-policy-popup a {
   display: inline-block;
   margin-top: 3px;
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
@@ -1288,7 +1385,7 @@ a {
   margin: 0 0 3px;
   color: #6a4a12;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1308,7 +1405,7 @@ a {
   margin-top: 8px;
   padding: 10px;
   color: var(--muted);
-  font-size: 0.67rem;
+  font-size: var(--type-micro);
   background: rgba(var(--surface-rgb), 0.74);
   border: 1px solid rgba(2, 132, 199, 0.18);
   border-radius: 5px;
@@ -1406,7 +1503,7 @@ a {
   border-radius: 4px;
   background: rgba(127, 127, 127, 0.12);
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
 }
 
 .camera-popup small {
@@ -1417,7 +1514,7 @@ a {
   margin: 0 0 3px;
   color: #0284c7;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1432,26 +1529,26 @@ a {
 .zoning-popup .zoning-popup-plan-area {
   margin: 0 0 8px;
   color: var(--muted);
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
 }
 
 .zoning-popup .zoning-popup-bylaw {
   display: inline-block;
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
 .zoning-popup .zoning-popup-note {
   margin: 9px 0 0;
   color: var(--muted);
-  font-size: 0.66rem;
+  font-size: var(--type-micro);
   line-height: 1.4;
 }
 
 .zoning-layer-row .layer-bylaw-link {
   display: inline-block;
   margin-top: 4px;
-  font-size: 0.66rem;
+  font-size: var(--type-micro);
 }
 
 .well-log-popup h3 {
@@ -1465,7 +1562,7 @@ a {
 .well-log-popup .well-log-popup-accuracy {
   margin: 0 0 9px;
   padding: 6px 8px;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.4;
   background: rgba(2, 132, 199, 0.08);
   border-left: 3px solid #0ea5e9;
@@ -1504,12 +1601,12 @@ a {
 .well-log-popup .well-log-popup-note {
   margin: 10px 0 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.4;
 }
 
 .historical-layer-controls {
-  --historical-ink: #5a4385;
+  --historical-ink: var(--record-violet);
   --historical-pale: #f4f0fb;
 }
 
@@ -1563,14 +1660,14 @@ a {
 }
 
 .tax-sale-property-list summary > span {
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-weight: 800;
 }
 
 .tax-sale-property-list summary small {
   grid-column: 1;
   color: var(--muted);
-  font-size: 0.66rem;
+  font-size: var(--type-micro);
   font-weight: 500;
 }
 
@@ -1581,7 +1678,7 @@ a {
 .tax-sale-property-list-body > p {
   margin: 0 0 8px;
   color: var(--muted);
-  font-size: 0.67rem;
+  font-size: var(--type-micro);
   line-height: 1.4;
 }
 
@@ -1625,14 +1722,14 @@ a {
 }
 
 .tax-sale-property-list button strong {
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.3;
 }
 
 .tax-sale-property-list button span {
   color: var(--muted);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.25;
 }
 
@@ -1658,14 +1755,14 @@ a {
 }
 
 .tax-sale-property-list .tax-sale-property-list-unavailable strong {
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.3;
 }
 
 .tax-sale-property-list .tax-sale-property-list-unavailable span {
   color: var(--muted);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.35;
 }
 
@@ -1694,7 +1791,7 @@ a {
   align-items: center;
   gap: 10px;
   color: var(--chart-ink);
-  font-size: 0.73rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
@@ -1716,7 +1813,7 @@ a {
   margin: 9px 0 0;
   color: var(--historical-ink);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
@@ -1726,7 +1823,7 @@ a {
   margin-bottom: 12px;
   padding: 11px;
   color: #49336f;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.35;
   background: #e9e1f7;
   border: 1px solid rgba(90, 67, 133, 0.28);
@@ -1734,7 +1831,7 @@ a {
 }
 
 .historical-mode-summary strong {
-  font-size: 0.82rem;
+  font-size: var(--type-small);
 }
 
 .road-legend {
@@ -1744,7 +1841,7 @@ a {
   margin: -2px 0 12px 54px;
   padding: 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   list-style: none;
 }
 
@@ -1753,7 +1850,7 @@ a {
   align-items: flex-start;
   gap: 0.5rem;
   margin: 0.5rem 0;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.5;
 }
 
@@ -1805,7 +1902,7 @@ a {
 .section-intro {
   margin: -2px 0 9px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: var(--type-small);
   line-height: 1.4;
 }
 
@@ -1832,8 +1929,9 @@ a {
 }
 
 .data-sources-list {
+  /* No inner scroll box: the dialog itself scrolls, and a list scrolling
+     inside a scrolling card hid half the receipts behind a second bar. */
   display: grid;
-  max-height: 44vh;
   margin: 0;
   padding: 0 4px 0 0;
   gap: 10px;
@@ -1845,7 +1943,7 @@ a {
   display: grid;
   gap: 2px;
   padding-bottom: 8px;
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   border-bottom: 1px solid var(--line);
 }
 
@@ -1869,7 +1967,7 @@ a {
   min-height: 38px;
   padding: 6px 5px;
   color: var(--chart-ink);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   background: var(--white);
   border: 0;
   border-left: 1px solid rgba(18, 52, 59, 0.25);
@@ -1892,7 +1990,7 @@ a {
   gap: 5px;
   margin-top: 15px;
   padding: 14px;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
   line-height: 1.4;
   background: #f5f9ff;
   border: 1px solid rgba(47, 128, 237, 0.35);
@@ -1931,12 +2029,12 @@ a {
 
 .offline-card p {
   margin: 0 0 8px;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   line-height: 1.45;
 }
 
 .offline-card a {
-  font-size: 0.8rem;
+  font-size: var(--type-small);
   font-weight: 800;
 }
 
@@ -2007,6 +2105,34 @@ a {
   background-color: var(--fog);
 }
 
+/* One family of map buttons: the tool circles below are 46px white discs with
+   one soft shadow, so the zoom bar is the same 46px width, rounded to the same
+   radius and lit the same way, rather than Leaflet's 30px grey-rimmed square.
+   Two 36px halves end 6px above the locate button at 86px, the gap the tool
+   circles keep between themselves. The phone block later in this sheet sets
+   its own 44px squares and wins on source order. */
+.map-canvas .leaflet-top.leaflet-left .leaflet-control-zoom {
+  margin: 8px 0 0 12px;
+  overflow: hidden;
+  border: 0;
+  outline: 1px solid var(--control-edge, transparent);
+  outline-offset: -1px;
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
+}
+
+.map-canvas .leaflet-control-zoom a {
+  width: 46px;
+  height: 36px;
+  color: var(--survey-blue);
+  font-size: 22px;
+  line-height: 36px;
+}
+
+.map-canvas .leaflet-control-zoom a:first-child {
+  border-bottom: 1px solid var(--line);
+}
+
 /* Leaflet draws the seam between + and − and the bar's edge in its own
    greys, which disappear into a dark card. */
 .leaflet-bar,
@@ -2031,9 +2157,9 @@ a {
   color: var(--survey-blue);
   font-size: 1.8rem;
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2059,9 +2185,9 @@ a {
   place-items: center;
   color: var(--survey-blue);
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2074,16 +2200,23 @@ a {
   left: 66px;
 }
 
+
+
 .measure-actions button {
   width: auto;
-  padding: 0 12px;
-  border-radius: 8px;
+  padding: 0 16px;
+  /* Pills, the same family as the discs beside them and the 3D switch. */
+  border-radius: 23px;
   font-size: 14px;
   font-weight: 600;
 }
 
 .measure-actions button:disabled {
-  opacity: 0.65;
+  /* Keep the white disc so the control still reads as a control on dark
+     imagery; only the label steps back. Opacity washed the whole button into
+     the map. */
+  color: var(--muted);
+  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.2);
   cursor: default;
 }
 
@@ -2123,7 +2256,7 @@ a {
   padding: 4px 9px;
   color: var(--chart-ink);
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   background: rgba(var(--surface-rgb), 0.94);
   border: 1px solid var(--line);
   border-radius: 4px;
@@ -2164,9 +2297,9 @@ a {
   place-items: center;
   color: var(--survey-blue);
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
@@ -2179,23 +2312,23 @@ a {
   height: 46px;
   padding: 0 14px;
   color: var(--survey-blue);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 23px;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   cursor: pointer;
 }
 
 .location-privacy {
   padding: 4px 8px;
   color: var(--chart-ink);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.2;
   background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
-  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.18);
 }
 
 /* Recording HUD: elapsed, distance, vertex count, and the fix-quality dot,
@@ -2211,11 +2344,11 @@ a {
   max-width: 250px;
   padding: 8px 10px;
   color: var(--chart-ink);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .location-hud-stats {
@@ -2246,7 +2379,7 @@ a {
 
 .location-hud small {
   color: var(--chart-ink);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.3;
 }
 
@@ -2260,7 +2393,7 @@ a {
   flex: 1;
   padding: 0 12px;
   color: var(--survey-blue);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -2296,7 +2429,7 @@ a {
   color: var(--chart-ink);
   background: var(--white);
   border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 12px 40px rgba(var(--shadow-rgb), 0.35);
 }
 
 .save-track-dialog h2 {
@@ -2307,7 +2440,7 @@ a {
 .save-track-stats {
   margin: 0;
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-variant-numeric: tabular-nums;
 }
 
@@ -2315,14 +2448,14 @@ a {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
   font-weight: 700;
 }
 
 .save-track-field input {
   min-height: 44px;
   padding: 0 10px;
-  font-size: 0.95rem;
+  font-size: var(--type-title);
   border: 1px solid var(--line);
   border-radius: 6px;
 }
@@ -2340,7 +2473,7 @@ a {
 
 .save-track-simplify legend {
   padding: 0 4px;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-weight: 700;
 }
 
@@ -2349,7 +2482,7 @@ a {
   align-items: center;
   gap: 5px;
   min-height: 44px;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
 }
 
 .save-track-simplify small {
@@ -2360,7 +2493,7 @@ a {
 
 .save-track-note {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   line-height: 1.4;
 }
 
@@ -2373,7 +2506,7 @@ a {
 .save-track-actions button {
   min-height: 44px;
   padding: 0 16px;
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   font-weight: 800;
   border-radius: 6px;
   cursor: pointer;
@@ -2402,7 +2535,7 @@ a {
   color: var(--chart-ink);
   background: var(--white);
   border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+  box-shadow: 0 12px 40px rgba(var(--shadow-rgb), 0.35);
 }
 
 .bulk-photos-dialog h2 {
@@ -2413,7 +2546,7 @@ a {
 .bulk-photos-note,
 .bulk-photos-done {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   line-height: 1.4;
 }
 
@@ -2435,7 +2568,7 @@ a {
   align-items: center;
   min-height: 44px;
   padding: 4px 6px;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
   border-radius: 6px;
 }
 
@@ -2456,14 +2589,14 @@ a {
 
 .bulk-photos-rows small {
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
 }
 
 .bulk-photos-pick,
 .bulk-photos-create {
   min-height: 44px;
   padding: 0 16px;
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   font-weight: 800;
   color: var(--white);
   cursor: pointer;
@@ -2481,7 +2614,7 @@ a {
 .bulk-photos-close {
   min-height: 44px;
   padding: 0 16px;
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   font-weight: 800;
   color: var(--chart-ink);
   cursor: pointer;
@@ -2491,7 +2624,7 @@ a {
 }
 
 .bulk-photos-error {
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   color: var(--tax-sale-red, #a0341f);
 }
 
@@ -2534,18 +2667,18 @@ a {
   max-width: calc(100% - 84px);
   padding: 7px 8px 7px 10px;
   color: var(--chart-ink);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.3;
   background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .modern-map-error button {
   padding: 4px 7px;
   color: var(--white);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   font-weight: 800;
   background: var(--survey-blue);
   border: 0;
@@ -2562,11 +2695,11 @@ a {
   margin: 0;
   padding: 7px 9px;
   color: var(--chart-ink);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.3;
   background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .location-message:empty {
@@ -2582,12 +2715,17 @@ a {
   padding: 3px 8px;
   color: var(--muted);
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-micro);
   line-height: 1.3;
-  background: rgba(var(--surface-rgb), 0.88);
+  background: rgba(var(--surface-rgb), 0.9);
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: copy;
+}
+
+.position-readout:hover {
+  color: var(--chart-ink);
+  border-color: var(--muted);
 }
 
 .leaflet-control-scale-line {
@@ -2617,15 +2755,21 @@ a {
   bottom: 50px;
   left: 12px;
   margin: 0;
-  padding: 2px 6px;
-  color: var(--chart-ink);
+  /* The same plate as the coordinate readout above it: one surface, one rim,
+     one radius for the three readings stacked in this corner. */
+  padding: 3px 8px;
+  color: var(--muted);
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.3;
-  background: rgba(var(--surface-rgb), 0.88);
-  border: 1px solid rgba(18, 52, 59, 0.35);
-  border-radius: 3px;
+  background: rgba(var(--surface-rgb), 0.9);
+  border: 1px solid var(--line);
+  border-radius: 6px;
   pointer-events: none;
+}
+
+.map-canvas .leaflet-bottom.leaflet-left .leaflet-control-scale {
+  margin-left: 12px;
 }
 
 .parcel-lookup-message {
@@ -2645,12 +2789,12 @@ a {
   margin: 0;
   padding: 8px 10px;
   color: var(--chart-ink);
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
   line-height: 1.35;
   background: rgba(var(--surface-rgb), 0.95);
   border: 1px solid var(--line);
   border-radius: 4px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
   /* It sits over the inspector so it can be read; it must not take the
      inspector's close button with it. Nothing here is interactive. */
   pointer-events: none;
@@ -2699,7 +2843,7 @@ a {
   margin: 0 0 12px;
   padding: 8px 10px;
   color: var(--chart-ink);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   line-height: 1.35;
   background: var(--paper);
   border: 1px solid var(--line);
@@ -2757,7 +2901,7 @@ a {
   padding: 4px 8px;
   color: #7f2e24;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.66rem;
+  font-size: var(--type-micro);
   font-weight: 800;
   background: #fff0ed;
   border: 1px solid rgba(190, 77, 60, 0.35);
@@ -2787,7 +2931,7 @@ a {
   gap: 24px;
   padding: 5px 0;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.86rem;
+  font-size: var(--type-body);
 }
 
 .parcel-facts dd {
@@ -2805,7 +2949,7 @@ a {
 
 .section-footnote {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -2820,7 +2964,7 @@ a {
 .mapped-area-note {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.4;
 }
 
@@ -2843,7 +2987,7 @@ a {
 .assessment-evidence > h3 {
   margin: 0 0 8px;
   color: #245d3d;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
 }
 
 .assessment-status,
@@ -2853,7 +2997,7 @@ a {
 .assessment-source {
   margin: 0;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -2881,7 +3025,7 @@ a {
 .assessment-account h4 {
   margin: 0 0 5px;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.76rem;
+  font-size: var(--type-small);
 }
 
 .assessment-account dl {
@@ -2895,7 +3039,7 @@ a {
   gap: 12px;
   padding: 3px 0;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
 }
 
 .assessment-account dd {
@@ -2910,7 +3054,7 @@ a {
 .assessment-account summary {
   min-height: 32px;
   color: #245d3d;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   cursor: pointer;
 }
@@ -2935,7 +3079,7 @@ a {
 
 .civic-addresses h3 {
   margin: 0 0 8px;
-  font-size: 0.88rem;
+  font-size: var(--type-body);
 }
 
 .civic-addresses ul {
@@ -2943,7 +3087,7 @@ a {
   gap: 7px;
   margin: 0;
   padding-left: 19px;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   line-height: 1.4;
 }
 
@@ -2959,7 +3103,7 @@ a {
   min-height: 44px;
   margin-top: 6px;
   padding: 0 8px;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   background: rgba(47, 128, 237, 0.08);
   border: 1px solid rgba(47, 128, 237, 0.22);
@@ -2981,7 +3125,7 @@ a {
 .civic-address-source,
 .civic-address-caveat {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -3033,7 +3177,7 @@ a {
 
 .mapped-context-status {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   line-height: 1.4;
 }
 
@@ -3051,7 +3195,7 @@ a {
 
 .mapped-context-group h3 {
   margin: 0 0 7px;
-  font-size: 0.82rem;
+  font-size: var(--type-small);
 }
 
 .mapped-context-group ul {
@@ -3066,21 +3210,21 @@ a {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
 }
 
 .mapped-context-group li span,
 .mapped-context-group p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   text-align: right;
 }
 
 .road-access-caveat {
   margin: 10px 0 0;
   color: var(--chart-ink);
-  font-size: 0.69rem;
+  font-size: var(--type-micro);
   line-height: 1.45;
 }
 
@@ -3103,7 +3247,7 @@ a {
 .flood-hazard-evidence > h3 {
   margin: 0 0 9px;
   color: #125d64;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
 }
 
 .flood-hazard-group {
@@ -3121,7 +3265,7 @@ a {
 
 .flood-hazard-group h4 {
   margin-bottom: 5px;
-  font-size: 0.77rem;
+  font-size: var(--type-small);
 }
 
 .flood-hazard-group ul {
@@ -3136,7 +3280,7 @@ a {
 .flood-hazard-sources,
 .flood-hazard-licence-notice p {
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -3166,7 +3310,7 @@ a {
 .parcel-resources > h3 {
   margin: 0 0 9px;
   color: #65401f;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
 }
 
 .parcel-resource-group {
@@ -3182,14 +3326,14 @@ a {
 }
 
 .parcel-resource-group h4 {
-  font-size: 0.77rem;
+  font-size: var(--type-small);
 }
 
 .parcel-resource-group p,
 .parcel-resource-group li,
 .parcel-resource-group a,
 .resource-intersection-caveat {
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.42;
 }
 
@@ -3219,7 +3363,7 @@ a {
 .historical-outcomes > h3 {
   margin: 0 0 9px;
   color: #49336f;
-  font-size: 0.94rem;
+  font-size: var(--type-title);
 }
 
 .historical-outcome-card {
@@ -3248,18 +3392,18 @@ a {
 
 .historical-outcome-card > header strong {
   color: #49336f;
-  font-size: 0.94rem;
+  font-size: var(--type-title);
 }
 
 .historical-outcome-card > header div span {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .outcome-marker {
   padding: 4px 7px;
   color: #49336f;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -3283,14 +3427,14 @@ a {
 
 .historical-facts div {
   gap: 16px;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .multi-pid-warning,
 .historical-result-note,
 .historical-limit {
   margin: 10px 0 0;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.45;
 }
 
@@ -3306,7 +3450,7 @@ a {
   flex-wrap: wrap;
   gap: 8px 14px;
   margin-top: 11px;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
@@ -3319,7 +3463,7 @@ a {
   grid-template-columns: 24px minmax(0, 1fr);
   gap: 10px;
   margin: 16px 0;
-  font-size: 0.79rem;
+  font-size: var(--type-small);
   line-height: 1.45;
 }
 
@@ -3348,7 +3492,7 @@ a {
   justify-content: center;
   margin-top: 9px;
   padding: 9px 12px;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   text-align: center;
   text-decoration: none;
 }
@@ -3362,20 +3506,20 @@ a {
 
 .evidence-actions .secondary-action {
   padding: 7px;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .share-status {
   min-height: 18px;
   margin: 7px 0 0;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
 }
 
 .share-url-preview {
   display: block;
   margin-top: 2px;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-align: center;
 }
@@ -3395,7 +3539,7 @@ a {
   max-height: 30dvh;
   padding: 2px 28px;
   overflow-y: auto;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   background: var(--paper);
   border-top: 1px solid var(--line);
 }
@@ -3409,7 +3553,40 @@ a {
   min-height: 24px;
   align-items: center;
   padding: 0 16px;
-  border-left: 1px solid rgba(18, 52, 59, 0.28);
+  border-left: 1px solid var(--line);
+}
+
+.mobile-controls-glyph {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* Credits first: the toggle, then the licence lines for what is on screen,
+   then feedback and the page links. Feedback used to take the front slot,
+   and on a phone that pushed the Province line below the strip's fold. */
+.map-attribution > .feedback-link {
+  order: 2;
+}
+
+.map-attribution > button:not(:first-child) {
+  order: 3;
+}
+
+/* The shared text-button reset zeroes a button's padding and border, which
+   ran "Data & licences" and "About this map" together with no divider. */
+.map-attribution > button:not(:first-child) {
+  padding: 0 16px;
+  border-left: 1px solid var(--line);
+}
+
+/* A span that mixes text and links lays out as one sentence. As an inline-flex
+   box its text runs became anonymous flex items, and flex trims the spaces
+   around each link: "Licence·Tile sources·" read as one word. */
+.map-attribution > span {
+  display: inline-block;
+  padding-block: 4px;
+  line-height: 1.35;
 }
 
 .map-attribution > :first-child {
@@ -3487,7 +3664,7 @@ a {
   margin: 20px 0;
   padding: 15px 18px;
   color: var(--chart-ink);
-  font-size: 0.86rem;
+  font-size: var(--type-body);
   line-height: 1.5;
   background: var(--fog);
   border-left: 4px solid var(--deep-water);
@@ -3531,7 +3708,7 @@ a {
   gap: 6px;
   margin: 0;
   padding-left: 20px;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
 }
 
 .about-dialog .about-links {
@@ -3595,12 +3772,15 @@ a {
        only the inline sides: a bare env() would take the bottom to 0 on a
        phone with no inset. */
     min-height: calc(32px + env(safe-area-inset-bottom));
+    /* Kept low so the map stays usable while the strip shows on arrival;
+       the credits-first order below puts the licence lines in its first
+       rows, ahead of feedback and the page links. */
     max-height: calc(72px + env(safe-area-inset-bottom));
     overflow-y: auto;
     padding-inline: 12px;
     padding-bottom: max(2px, env(safe-area-inset-bottom));
     background: rgba(var(--paper-rgb), 0.9);
-    box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
+    box-shadow: 0 -1px 10px rgba(var(--shadow-rgb), 0.16);
     backdrop-filter: blur(14px);
   }
 
@@ -3626,7 +3806,7 @@ a {
     overflow: visible;
     border-top: 0;
     border-radius: 22px;
-    box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+    box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   }
 
   .map-attribution.collapsed > :first-child {
@@ -3661,7 +3841,7 @@ a {
     background: rgba(var(--surface-rgb), 0.98);
     border: 1px solid rgba(var(--surface-rgb), 0.7);
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(18, 52, 59, 0.36);
+    box-shadow: 0 20px 60px rgba(var(--shadow-rgb), 0.36);
     backdrop-filter: blur(18px);
   }
 
@@ -3704,7 +3884,7 @@ a {
 
   .mobile-sheet-header strong {
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.76rem;
+    font-size: var(--type-small);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -3757,7 +3937,7 @@ a {
     background: rgba(var(--surface-rgb), 0.92);
     border: 1px solid rgba(var(--surface-rgb), 0.76);
     border-radius: 999px;
-    box-shadow: 0 4px 18px rgba(18, 52, 59, 0.24);
+    box-shadow: 0 4px 18px rgba(var(--shadow-rgb), 0.24);
     backdrop-filter: blur(16px);
     pointer-events: auto;
   }
@@ -3778,15 +3958,15 @@ a {
     place-items: center;
     color: var(--white);
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.68rem;
+    font-size: var(--type-micro);
     font-weight: 700;
-    background: var(--deep-water);
+    background: var(--brand-ground, var(--deep-water));
     border-radius: 50%;
   }
 
   .mobile-map-brand strong {
     font-family: "Fraunces", Georgia, serif;
-    font-size: 0.95rem;
+    font-size: var(--type-title);
     white-space: nowrap;
   }
 
@@ -3795,7 +3975,7 @@ a {
     align-items: center;
     gap: 7px;
     padding: 8px 14px;
-    font-size: 0.78rem;
+    font-size: var(--type-small);
     font-weight: 800;
     cursor: pointer;
   }
@@ -3908,6 +4088,21 @@ a {
     bottom: calc(8px + env(safe-area-inset-bottom));
     max-width: calc(100% - 238px);
     white-space: normal;
+  }
+
+  /* One line on a phone: the wording stays for screen readers and in the
+     title, and the approximation sign carries the caveat on screen. */
+  .display-scale-readout .display-scale-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .display-scale-readout::before {
+    content: "≈ ";
   }
 
   /* Follow the same measured footer as the distance bars. The extra 50px
@@ -5255,7 +5450,7 @@ a {
 }
 .export-frame {
   position: absolute;
-  border: 2px solid #1d4ed8;
+  border: 2px solid var(--survey-blue);
   box-shadow: 0 0 0 4000px rgba(15, 23, 42, 0.35);
   cursor: grab;
   pointer-events: auto;
@@ -5278,11 +5473,18 @@ a {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #1d4ed8;
+  background: var(--survey-blue);
   border: 2px solid #fff;
   cursor: nwse-resize;
   touch-action: none;
 }
+/* While a frame is up its own ≈ chip is the scale that matters, and the
+   screen's coordinate, scale and distance readouts sat on top of this
+   toolbar (they draw at 500, the frame layer at 450). They step aside. */
+.map-canvas:has(.export-frame-layer) :is(.position-readout, .display-scale-readout, .leaflet-control-scale) {
+  visibility: hidden;
+}
+
 .export-frame-toolbar {
   position: absolute;
   bottom: 18px;
@@ -5292,12 +5494,32 @@ a {
   left: 18px;
   display: flex;
   gap: 8px;
+  padding: 6px;
+  background: rgba(var(--surface-rgb), 0.96);
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
   pointer-events: auto;
 }
 
+.export-frame-toolbar button {
+  min-height: 40px;
+  padding-inline: 16px;
+}
+
 .export-map-trigger {
-  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin: 12px 0 4px;
+  padding: 0 16px;
+  font-size: var(--type-small);
+}
+
+.export-map-trigger svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--survey-blue);
 }
 
 /* GeoPDF export dialog. Its own backdrop (rather than reusing
@@ -5338,7 +5560,7 @@ a {
 
 .export-dialog label {
   margin-top: 8px;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
   font-weight: 700;
 }
 
@@ -5364,7 +5586,7 @@ a {
   align-items: center;
   gap: 8px;
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
   font-weight: 600;
 }
 
@@ -5372,7 +5594,7 @@ a {
   margin-top: 10px;
   padding: 10px 12px;
   color: #a33228;
-  font-size: 0.86rem;
+  font-size: var(--type-body);
   background: rgba(190, 77, 60, 0.08);
   border: 1px solid rgba(190, 77, 60, 0.3);
   border-radius: 6px;
@@ -5503,7 +5725,7 @@ a {
 .user-map-import input[type="file"] {
   width: 100%;
   color: var(--chart-ink);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .user-map-import--busy {
@@ -5518,14 +5740,14 @@ a {
 .user-map-hint,
 .user-map-privacy {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   line-height: 1.4;
 }
 
 .user-map-error {
   display: block;
   color: #a33228;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 600;
 }
 
@@ -5558,13 +5780,13 @@ a {
   margin: 0;
   padding: 8px 10px;
   color: #a33228;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 600;
   line-height: 1.35;
   background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  box-shadow: 0 3px 12px rgba(var(--shadow-rgb), 0.18);
 }
 
 .vector-edit-write-error button {
@@ -5572,7 +5794,7 @@ a {
   min-height: 44px;
   padding: 0 10px;
   color: var(--white);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   font-weight: 800;
   background: var(--survey-blue);
   border: 0;
@@ -5596,7 +5818,7 @@ a {
 .user-map-status {
   display: block;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .user-map-outcomes {
@@ -5605,7 +5827,7 @@ a {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   line-height: 1.35;
 }
 
@@ -5632,7 +5854,7 @@ a {
 
 .user-map-opacity small {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
 }
 
 .user-map-opacity input[type="range"] {
@@ -5645,7 +5867,7 @@ a {
   margin: 6px 0 0 54px;
   padding: 0;
   color: #a33228;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   background: none;
   border: 0;
@@ -5679,7 +5901,7 @@ a {
 
 .vector-edit-header h2 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--type-title);
 }
 
 .vector-edit-done {
@@ -5705,7 +5927,7 @@ a {
   min-width: 44px;
   min-height: 44px;
   padding: 0 10px;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-weight: 700;
   background: rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -5732,7 +5954,7 @@ a {
 .vector-edit-snap legend {
   padding: 0 4px;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -5742,24 +5964,24 @@ a {
   align-items: center;
   gap: 8px;
   min-height: 44px;
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   cursor: pointer;
 }
 
 .vector-edit-snap-caveat {
   color: var(--chart-ink);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
 .vector-edit-snap-status {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .vector-edit-snap-hint {
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
 }
 
 /* Both hints are in the DOM and one is shown. "Hold Alt" names a keyboard
@@ -5863,7 +6085,7 @@ a {
   background: rgba(var(--surface-rgb), 0.85);
   border: 3px solid #b85c1e;
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+  box-shadow: 0 0 4px rgba(var(--shadow-rgb), 0.5);
 }
 
 .snap-indicator-vertex {
@@ -5886,7 +6108,7 @@ a {
 .vector-edit-corners legend {
   padding: 0 4px;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -5922,7 +6144,7 @@ a {
 .vector-edit-convert legend {
   padding: 0 4px;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -5939,7 +6161,7 @@ a {
   flex: 1;
   padding: 0 10px;
   color: var(--survey-blue);
-  font-size: 0.8rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -5960,13 +6182,13 @@ a {
 
 .vector-edit-convert-stats {
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
   font-variant-numeric: tabular-nums;
 }
 
 .vector-edit-convert-warning {
   color: #8a4b00;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
@@ -5982,7 +6204,7 @@ a {
   min-height: 44px;
   padding: 0 14px;
   color: var(--survey-blue);
-  font-size: 0.8rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -6007,7 +6229,7 @@ a {
   background: #b85c1e;
   border: 2px solid #fff;
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+  box-shadow: 0 0 4px rgba(var(--shadow-rgb), 0.5);
 }
 
 .vector-edit-field {
@@ -6026,14 +6248,14 @@ a {
 .vector-edit-attributes h3 {
   margin: 0;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .vector-edit-attributes-empty {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
 }
 
 .vector-edit-attribute-row {
@@ -6052,7 +6274,7 @@ a {
 .vector-edit-attribute-row label span {
   overflow: hidden;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -6060,7 +6282,7 @@ a {
 
 .vector-edit-attribute-complex {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-style: italic;
   line-height: 44px;
 }
@@ -6091,7 +6313,7 @@ a {
   flex: 0 0 auto;
   padding: 0 14px;
   color: var(--survey-blue);
-  font-size: 0.8rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -6101,7 +6323,7 @@ a {
 
 .vector-edit-attribute-error {
   color: #8a4b00;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
@@ -6116,14 +6338,14 @@ a {
 .vector-edit-photos h3 {
   margin: 0;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .vector-edit-photos-empty {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
 }
 
 .vector-edit-photo-thumbs {
@@ -6169,7 +6391,7 @@ a {
   place-items: center;
   padding: 0;
   color: var(--chart-ink);
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -6189,7 +6411,7 @@ a {
 .vector-edit-photo-offer button {
   min-height: 44px;
   color: var(--survey-blue);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -6199,7 +6421,7 @@ a {
 
 .vector-edit-photo-error {
   color: #8a4b00;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
@@ -6212,7 +6434,7 @@ a {
   min-height: 44px;
   flex: 1;
   color: var(--survey-blue);
-  font-size: 0.8rem;
+  font-size: var(--type-small);
   font-weight: 800;
   background: var(--white);
   border: 1px solid var(--line);
@@ -6288,7 +6510,7 @@ a {
   min-height: 44px;
   align-self: stretch;
   color: var(--white);
-  font-size: 0.85rem;
+  font-size: var(--type-body);
   font-weight: 800;
   background: var(--survey-blue);
   border: 0;
@@ -6298,7 +6520,7 @@ a {
 
 .vector-edit-field span {
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--type-caption);
   font-weight: 700;
 }
 
@@ -6321,7 +6543,7 @@ a {
 .vector-edit-hint {
   margin: 0;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--type-caption);
 }
 
 .user-vector-new,
@@ -6329,7 +6551,7 @@ a {
   min-height: 44px;
   padding: 0;
   color: var(--survey-blue);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   background: none;
   border: 0;
@@ -6415,13 +6637,13 @@ a {
 
 .user-vector-export small {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
 }
 
 .user-vector-export button {
   padding: 0;
   color: var(--survey-blue);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   background: none;
   border: 0;
@@ -6448,7 +6670,7 @@ a {
 
 .user-vector-popup-provenance {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 /* Screen-reader-only text. Clipped rather than display:none, which would
@@ -6474,7 +6696,7 @@ a {
   margin: 6px 10px 0 54px;
   padding: 0;
   color: var(--survey-blue);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 700;
   background: none;
   border: 0;
@@ -6739,13 +6961,13 @@ a {
   flex: 1;
   margin: 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
 }
 
 .georeference-map-bar-back {
   padding: 0;
   color: var(--survey-blue);
-  font-size: 0.76rem;
+  font-size: var(--type-small);
   font-weight: 700;
   background: none;
   border: 0;
@@ -6764,7 +6986,7 @@ a {
 
 .georeference-status {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-small);
 }
 
 .georeference-scan {
@@ -6803,7 +7025,7 @@ a {
   gap: 6px;
   padding-top: 8px;
   border-top: 1px solid rgb(10 20 22 / 12%);
-  font-size: 0.76rem;
+  font-size: var(--type-small);
 }
 
 .georeference-points-import label {
@@ -6813,7 +7035,7 @@ a {
 
 .georeference-points-import input[type="file"] {
   width: 100%;
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .georeference-import-ok {
@@ -6841,7 +7063,7 @@ a {
 .gcp-list {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.76rem;
+  font-size: var(--type-small);
 }
 
 .gcp-list th {
@@ -6918,7 +7140,7 @@ a {
 .gcp-delete {
   padding: 0 6px 0 0;
   color: var(--survey-blue);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   background: none;
   border: 0;
   cursor: pointer;
@@ -6931,10 +7153,10 @@ a {
   display: grid;
   place-items: center;
   color: var(--white);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   background: var(--survey-blue);
-  border: 2px solid var(--white);
+  border: 2px solid var(--control-edge, var(--white));
   border-radius: 50%;
   box-shadow: 0 1px 3px rgb(10 20 22 / 45%);
 }
@@ -6969,7 +7191,7 @@ a {
 
 .georeference-opacity small {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
 }
 
 .georeference-opacity input[type="range"] {
@@ -6984,7 +7206,7 @@ a {
   padding: 8px 10px;
   border: 1px solid rgb(10 20 22 / 12%);
   border-radius: 6px;
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
 }
 
 .georeference-references-locked {
@@ -7002,7 +7224,7 @@ a {
   padding: 8px 10px;
   border: 1px solid rgb(10 20 22 / 12%);
   border-radius: 6px;
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
 }
 
 .georeference-method small {
@@ -7099,7 +7321,7 @@ a {
    saw, and the line above it is a bound rather than an error. */
 .georeference-heldout {
   margin: 2px 0 0;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
 }
 
 /* The ErrorBoundary fallback. Centred and self-contained because it replaces
@@ -7138,7 +7360,7 @@ a {
   border-radius: 6px;
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.78rem;
+  font-size: var(--type-small);
   overflow-wrap: anywhere;
 }
 
@@ -7156,7 +7378,7 @@ a {
   align-items: center;
   gap: 4px;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--type-caption);
   font-weight: 600;
   cursor: pointer;
 }
@@ -7184,7 +7406,7 @@ a {
    the summary still looks operable. */
 .evidence-caveat > summary::before {
   content: "▸";
-  font-size: 0.65rem;
+  font-size: var(--type-micro);
 }
 
 .evidence-caveat[open] > summary::before {
@@ -7241,12 +7463,22 @@ a {
 }
 
 /* Keep expanded catalogue provenance compact and independently inspectable. */
-.context-layer-control { border-bottom: 1px solid var(--border-color, #d8d5ca); padding-bottom: 0.5rem; }
-.context-layer-source { margin: 0.25rem 0 0.35rem 3rem; font-size: 0.8rem; overflow-wrap: anywhere; }
-.context-layer-source summary { cursor: pointer; padding: 0.3rem 0; }
+.context-layer-control { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.context-layer-control > .layer-row { border-top: 0; }
+.context-layer-source { margin: 0 0 4px 54px; color: var(--muted); font-size: var(--type-caption); overflow-wrap: anywhere; }
+.context-layer-source summary { cursor: pointer; min-height: 24px; padding: 2px 0; }
+.context-layer-source summary:hover { color: var(--chart-ink); }
 .context-layer-source p { margin: 0.45rem 0; }
 .context-layer-source ul { max-height: 16rem; overflow: auto; padding-left: 0.75rem; }
-.context-layer-control > .text-button { margin-left: 3rem; }
+.context-layer-control > .text-button { display: block; margin: 0 0 4px 54px; text-align: left; }
+
+/* One size for every in-rail text action. These inherited the 16px button
+   face, so "Review" outweighed the layer name it serves. */
+.layer-rail .text-button {
+  min-height: 24px;
+  font-size: var(--type-small);
+  font-weight: 700;
+}
 .context-feature-details { margin: 0.6rem 0; max-height: 16rem; overflow: auto; overflow-wrap: anywhere; }
 .context-feature-details dt { font-weight: 600; margin-top: 0.4rem; }
 .context-feature-details dd { margin-left: 0; }
@@ -7276,7 +7508,7 @@ a {
 
 /* Mailing records retain their own source and never replace civic labels. */
 .mailing-search-label { display: block; margin-top: .25rem; font-size: .85em; font-weight: normal; }
-.mailing-source { font-size: .8rem; margin-block: .5rem; overflow-wrap: anywhere; }
+.mailing-source { font-size: var(--type-small); margin-block: .5rem; overflow-wrap: anywhere; }
 .mailing-source summary { cursor: pointer; }
 .mailing-source p { margin-block: .4rem; }
 .mailing-addresses { margin-block: .75rem; padding-top: .5rem; border-top: 1px solid var(--border-color, #8885); }
@@ -7295,18 +7527,18 @@ a {
 .leaflet-control-attribution { max-width: min(540px, calc(100vw - 64px)); }
 
 /* Electoral canvas: existing ink, survey blue, paper and lichen tokens. */
-.electoral-controls h3 { margin: 1.2rem 0 .35rem; font-size: .88rem; }
+.electoral-controls h3 { margin: 1.2rem 0 .35rem; font-size: var(--type-body); }
 .electoral-controls h3 small { font-weight: 400; }
-.electoral-modes { margin: .4rem .3rem .8rem; font-size: .8rem; }
+.electoral-modes { margin: .4rem .3rem .8rem; font-size: var(--type-small); }
 .electoral-modes select { max-width: 100%; padding: .4rem; margin-left: .4rem; color: inherit; background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 5px; }
 .electoral-legend { display: flex; flex-wrap: wrap; gap: .5rem .7rem; padding: .6rem 0; }
 .electoral-legend strong { width: 100%; }
 .electoral-legend span { display: inline-flex; align-items: center; gap: .3rem; }
 .electoral-legend i { width: 14px; height: 11px; border: 1px solid #718087; }
-.district-inspector { position: absolute; right: 1rem; top: 4rem; width: min(350px, calc(100% - 2rem)); max-height: calc(100% - 6rem); overflow: auto; z-index: 1100; padding: 1.2rem; box-sizing: border-box; color: var(--ink); background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); font-size: .85rem; line-height: 1.45; }
+.district-inspector { position: absolute; right: 1rem; top: 4rem; width: min(350px, calc(100% - 2rem)); max-height: calc(100% - 6rem); overflow: auto; z-index: 1100; padding: 1.2rem; box-sizing: border-box; color: var(--ink); background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); font-size: var(--type-body); line-height: 1.45; }
 .district-inspector h2 { font-family: 'Fraunces', Georgia, serif; font-size: 1.6rem; line-height: 1.2; margin: .5rem 0; }
 .district-close { float: right; }
-.electoral-eyebrow { font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; font-size: .7rem; }
+.electoral-eyebrow { font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; font-size: var(--type-caption); }
 .electoral-metrics { display: grid; gap: .6rem; }
 .electoral-metrics dd { margin: 0; font-weight: 600; }
 .electoral-vote-bars > div { display: grid; grid-template-columns: 5.8rem 1fr 3.5rem; gap: .35rem; align-items: center; margin: .6rem 0; }
@@ -7316,10 +7548,10 @@ a {
 .electoral-evidence { border-top: 1px solid var(--line); margin-top: 1rem; }
 .electoral-map-label { font-size: 11px; background: rgba(255,255,255,.9); color: #12343b; white-space: normal; max-width: 180px; text-align: center; }
 @media (max-width: 640px) { .district-inspector { top: auto; bottom: .6rem; right: .6rem; width: calc(100% - 1.2rem); max-height: 58%; } }
-.print-electoral-legends { position: absolute; z-index: 1200; bottom: 0; left: 0; right: 0; background: white; color: #12343b; padding: 0 .6rem; font-size: .65rem; }
+.print-electoral-legends { position: absolute; z-index: 1200; bottom: 0; left: 0; right: 0; background: white; color: #12343b; padding: 0 .6rem; font-size: var(--type-micro); }
 .electoral-map-label { min-width: 7rem; border: 0; box-shadow: none; background: transparent; font-weight: 600; text-shadow: 1px 1px #fbf6ea, -1px -1px #fbf6ea, 1px -1px #fbf6ea, -1px 1px #fbf6ea; }
 .electoral-map-label-night { color: #e8f1f0; text-shadow: 1px 1px #152b31, -1px -1px #152b31, 1px -1px #152b31, -1px 1px #152b31; }
-.electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: .7rem; padding: 0 .6rem; }
+.electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: var(--type-caption); padding: 0 .6rem; }
 .electoral-map-legends:empty { display: none; }
 @media (max-width:640px) { .electoral-map-legends { left: .6rem; bottom: 2rem; max-width: calc(100% - 1.2rem); } }
 
@@ -7338,6 +7570,10 @@ a {
   --fog-rgb: 233, 220, 185;
   --paper-rgb: 243, 233, 207;
   --tint-blue: #eee1ba;
+  --shadow-rgb: 53, 44, 29;
+  /* The brand disc in the sheet's ink, not the default teal, the one cool
+     colour on a salmon and olive screen. */
+  --brand-ground: #4a3220;
   color: var(--chart-ink);
   background: var(--fog);
 }
@@ -7356,14 +7592,30 @@ a {
   --fog-rgb: 230, 211, 168;
   --paper-rgb: 239, 226, 191;
   --tint-blue: #ead8ae;
+  --shadow-rgb: 59, 38, 20;
+  --brand-ground: #4f3a24;
   color: var(--chart-ink);
   background: var(--fog);
 }
-.interface-appearance-control { margin-bottom: 12px; }
+/* Basemap style, interface appearance and the Crown Land key belong to the
+   Modern map row, so they hang from its text column, not the switch column. */
+.basemap-settings {
+  display: grid;
+  gap: 10px;
+  padding: 0 0 12px 58px;
+}
+
+.basemap-settings .basemap-style-control {
+  padding: 0;
+}
+
+.basemap-settings .crown-land-key {
+  margin: 0;
+}
 
 .poker-mode .modern-map-error { top: max(210px, calc(env(safe-area-inset-top) + 198px)); }
 
-.rhodena-overview { font-size: 0.85rem; line-height: 1.5; margin: 0 0 1rem; }
+.rhodena-overview { font-size: var(--type-body); line-height: 1.5; margin: 0 0 1rem; }
 .rhodena-overview details { margin-block: 0.7rem; }
 .rhodena-overview summary { cursor: pointer; font-weight: 600; }
 .rhodena-parcels { max-height: 15rem; overflow: auto; }
@@ -7371,15 +7623,15 @@ a {
 .rhodena-popup { line-height: 1.4; }
 .rhodena-popup p { margin-block: 0.65rem; }
 /* The viewshed panel. Swatch colours match the worker's raster classes. */
-.rhodena-visibility-control { width: 304px; max-width: calc(100vw - 90px); max-height: 48vh; overflow: auto; margin-bottom: 45px !important; padding: 14px 16px; color: var(--chart-ink); font-size: 12.5px; line-height: 1.45; background: rgba(var(--surface-rgb), 0.97); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 36px rgba(18, 52, 59, 0.24); backdrop-filter: blur(14px); }
+.rhodena-visibility-control { width: 304px; max-width: calc(100vw - 90px); max-height: 48vh; overflow: auto; margin-bottom: 45px !important; padding: 14px 16px; color: var(--chart-ink); font-size: 12.5px; line-height: 1.45; background: rgba(var(--surface-rgb), 0.97); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 36px rgba(var(--shadow-rgb), 0.24); backdrop-filter: blur(14px); }
 .rhodena-visibility-details > summary { display: flex; align-items: center; gap: 8px; font-family: "Fraunces", Georgia, serif; font-size: 1.02rem; font-weight: 700; list-style: none; cursor: pointer; }
 .rhodena-visibility-details > summary::-webkit-details-marker { display: none; }
 .rhodena-visibility-details > summary::after { content: ""; width: 7px; height: 7px; margin-left: auto; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.15s ease; }
 .rhodena-visibility-details:not([open]) > summary::after { transform: rotate(-45deg); }
-.rhodena-visibility-chip { padding: 2px 7px; color: #8a5a12; font-family: "IBM Plex Mono", monospace; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(205, 139, 36, 0.16); border-radius: 999px; }
+.rhodena-visibility-chip { padding: 2px 7px; color: #8a5a12; font-family: "IBM Plex Mono", monospace; font-size: var(--type-micro); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(205, 139, 36, 0.16); border-radius: 999px; }
 :root[data-map-appearance="night"] .rhodena-visibility-chip { color: var(--paper-peach); }
 @media (prefers-color-scheme: dark) { :root:not([data-map-appearance]) .rhodena-visibility-chip { color: var(--paper-peach); } }
-.rhodena-visibility-control label { display: grid; gap: 4px; margin-top: 12px; color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+.rhodena-visibility-control label { display: grid; gap: 4px; margin-top: 12px; color: var(--muted); font-size: var(--type-caption); font-weight: 600; }
 .rhodena-visibility-control select { min-height: 40px; padding: 0 10px; color: var(--chart-ink); font-weight: 600; background: var(--white); border: 1px solid var(--line); border-radius: 10px; }
 .rhodena-visibility-control p { margin-block: 0.6rem; }
 .rhodena-visibility-control p[role="status"] { color: var(--muted); }
@@ -7396,9 +7648,9 @@ a {
 .rhodena-viewpoint-results ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .rhodena-viewpoint-results li { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 7px 0 7px 18px; border-bottom: 1px solid var(--line); }
 .rhodena-viewpoint-results li:last-child { border-bottom: 0; }
-.rhodena-viewpoint-results li strong { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; }
+.rhodena-viewpoint-results li strong { font-family: "IBM Plex Mono", monospace; font-size: var(--type-caption); }
 .rhodena-viewpoint-distance { color: var(--muted); font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.rhodena-sightline-key { display: grid; gap: 5px; color: var(--muted); font-size: 0.72rem; }
+.rhodena-sightline-key { display: grid; gap: 5px; color: var(--muted); font-size: var(--type-caption); }
 .rhodena-sightline-key span { display: flex; align-items: center; gap: 8px; }
 .rhodena-sightline-key svg { flex: none; width: 28px; height: 10px; }
 .leaflet-marker-icon.rhodena-ridge-marker { background: none; border: 0; }
@@ -7436,3 +7688,255 @@ a {
 /* On the night map the navy pill is the ground's own colour; a paper rim keeps it a label. */
 :root[data-map-appearance="night"] .leaflet-tooltip.context-place-label { box-shadow: 0 0 0 1px rgba(251, 246, 234, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35); }
 @media (prefers-color-scheme: dark) { :root:not([data-map-appearance]) .leaflet-tooltip.context-place-label { box-shadow: 0 0 0 1px rgba(251, 246, 234, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35); } }
+
+/* Every page, not only /pointtupper: while the phone sheet is open the map's
+   own controls would only peek out above its top edge, cut off. They step
+   aside and come back with the map. */
+@media (max-width: 860px) {
+  .app-shell :is(.mobile-map-chrome, .leaflet-top, .leaflet-control-scale, .measure-control, .research-terrain-controls, .location-button, .location-cluster, .display-scale-readout) {
+    transition: opacity 0.2s ease, visibility 0.2s;
+  }
+
+  .app-shell:has(.layer-rail.mobile-open) :is(.mobile-map-chrome, .leaflet-top, .leaflet-control-scale, .measure-control, .research-terrain-controls, .location-button, .location-cluster, .display-scale-readout) {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+/* The long dialogs keep a way out in reach: a round close in the top corner
+   that stays put while the text scrolls, the same 44px target as the phone
+   sheet's own close. The Close button at the end remains. */
+.dialog-close {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  float: right;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin: -12px -12px 0 12px;
+  place-items: center;
+  color: var(--chart-ink);
+  font-size: 1.4rem;
+  line-height: 1;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dialog-close:hover {
+  background: var(--white);
+}
+
+/* One body voice in About: paragraphs and list items in the same ink. */
+.about-dialog p,
+.about-dialog li {
+  color: var(--chart-ink);
+  line-height: 1.55;
+}
+
+/* The licence gate's Close is the least of its three choices. */
+:is(.licence-dialog, .about-dialog) .dialog-quiet-action {
+  justify-self: center;
+  min-height: 44px;
+  font-size: var(--type-small);
+  font-weight: 600;
+}
+
+/* One disclosure mark for every row's source details. "Source & scale" lost
+   its triangle when it became a flex box, while "Source & legend" kept the
+   browser's; both now carry the same small chevron. */
+:is(.layer-provenance, .context-layer-source) > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+:is(.layer-provenance, .context-layer-source) > summary::-webkit-details-marker {
+  display: none;
+}
+
+:is(.layer-provenance, .context-layer-source) > summary::before {
+  width: 5px;
+  height: 5px;
+  content: "";
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 160ms ease;
+}
+
+:is(.layer-provenance, .context-layer-source)[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.map-attribution-folded-credit {
+  color: var(--muted);
+}
+
+@media (max-width: 860px) {
+  .map-attribution-folded-credit {
+    display: none !important;
+  }
+}
+
+.theme-manager-hint {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: var(--type-caption);
+}
+
+/* Round 4 ---------------------------------------------------------------- */
+
+/* OpenStreetMap is not paper: its strip and cards take a neutral light ground
+   instead of the default cream, so the attribution reads as its own source. */
+:root[data-map-appearance="day"][data-map-basemap="osm"] {
+  --paper: #f6f7f6;
+  --paper-rgb: 246, 247, 246;
+}
+
+/* Atlas Day's accent is drawn from the map's own water ink rather than web
+   blue, the one saturated cool colour on warm paper. 6.9:1 on the rail;
+   links stay underlined, so nothing depends on the hue alone. */
+:root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
+  --survey-blue: #2b5f7a;
+}
+
+/* On a dark room the filled Search button was the brightest thing on the
+   screen. It is outlined there, so the eye lands on the map. */
+:root[data-map-appearance="night"] .search-row .primary-action {
+  color: var(--survey-blue);
+  background: var(--white);
+  border: 1px solid var(--survey-blue);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .search-row .primary-action {
+    color: var(--survey-blue);
+    background: var(--white);
+    border: 1px solid var(--survey-blue);
+  }
+}
+
+/* Dialogs take focus on open so Escape and Tab work; a mouse user should not
+   see the whole card outlined for it. Keyboard focus still shows. */
+:is(.licence-dialog, .theme-manager-dialog):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Every long dialog keeps its footer inside the card on a short screen. */
+.licence-dialog {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}
+
+/* Civic results show whole rows: three and a half, so a cut row reads as
+   "more below" rather than as a clipping error. */
+.address-search-results {
+  max-height: calc(3.5 * 44px);
+}
+
+.address-search-results button {
+  min-height: 44px;
+}
+
+@media (max-width: 860px) {
+  /* The phone licence pill sits in the bottom-right corner; the export
+     toolbar rides above it instead of underneath. */
+  .export-frame-toolbar {
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    left: 12px;
+  }
+
+  /* With the parcel panel up, the scale bar and screen-scale plate drew over
+     its caveat text. The panel is the reading surface; they step aside. */
+  .map-region.has-inspector :is(.leaflet-control-scale, .display-scale-readout) {
+    visibility: hidden;
+  }
+}
+
+/* The Atlas receipt and the per-layer list are two sections, each named, with
+   a rule between, so nothing below the closed disclosure reads as inside it. */
+.data-sources-dialog > details {
+  margin: 16px 0 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-dialog > details > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.data-sources-kicker {
+  margin: 18px 0 10px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* MapLibre's own controls (3D tilt and compass, the /terrain and /atlas zoom
+   stacks) join the map-button family: white, one soft shadow, pill ends,
+   40px targets instead of 29px squares. */
+.maplibregl-ctrl.maplibregl-ctrl-group {
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35);
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-group button {
+  width: 40px;
+  height: 40px;
+}
+
+/* The dialog card takes focus only so Escape and Tab start inside it; its
+   controls carry their own focus rings, so the card itself draws none. */
+.licence-dialog:focus {
+  outline: none;
+}
+
+/* The corner close floats over scrolling text; a ring of the card's own
+   colour keeps the words from running underneath it. */
+.dialog-close {
+  box-shadow: 0 0 0 6px var(--white);
+}
+
+/* "Historical records" fits its half of the switch on one line. */
+.map-mode-buttons button {
+  padding-inline: 4px;
+  white-space: nowrap;
+}
+
+.crown-land-key-lead {
+  display: block;
+  color: var(--muted);
+  font-size: var(--type-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* The export frame reads on the dimmed map in any room's accent: a white
+   line with the accent outside it. */
+.export-frame {
+  border-color: #fff;
+  outline: 2px solid var(--survey-blue);
+}
+
+/* Data & licences: both sections named in the same mono kicker voice. */
+.data-sources-dialog > details > summary {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

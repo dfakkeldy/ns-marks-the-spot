@@ -25,18 +25,21 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         <span>
           <strong>{layer.name}</strong>
           <small>{layer.webCaveat}</small>
+          {!licenceEnabled ? <small>Province licence required</small> : null}
           {layer.unavailableReason ? <small>{layer.unavailableReason}</small> : null}
           <LayerMetadata openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
             coverage={layer.coverage} minZoom={layer.minZoom} maxZoom={layer.maxZoom}
             checked={enabled && checked} status={status} />
         </span>
+        {/* The same in-row Review as the Province rows (LayerToggle), on the
+            name's line, rather than a second, larger link under the row. */}
+        {!licenceEnabled ? (
+          <button className="text-button" type="button" onClick={onReviewLicence}
+            aria-label={`Review Province licence for ${layer.name}`}>
+            Review
+          </button>
+        ) : null}
       </label>
-      {!licenceEnabled ? (
-        <button className="text-button" type="button" onClick={onReviewLicence}
-          aria-label={`Review Province licence for ${layer.name}`}>
-          Province licence required · Review
-        </button>
-      ) : null}
       <details className="context-layer-source">
         <summary>{checked && enabled ? "Legend & source" : "Source & legend"}</summary>
         {layer.legend.length > 0 ? (

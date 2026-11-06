@@ -3082,7 +3082,7 @@ describe("MapCanvas cartographic furniture", () => {
   it("shows an approximate representative fraction and updates it with the map", () => {
     render(<MapCanvas {...furnitureProps} />);
 
-    const readout = screen.getByText("Approx. screen scale 1:12,500");
+    const readout = screen.getByText((_, element) => element?.classList.contains("display-scale-readout") === true && element.textContent === "Approx. screen scale 1:12,500");
     expect(readout).toHaveAttribute(
       "title",
       expect.stringContaining("96 CSS pixels per inch"),
@@ -3147,7 +3147,7 @@ describe("MapCanvas Province overlays", () => {
   });
 
   it("renders the complete open roads result as one image above reference overlays", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
@@ -3183,7 +3183,7 @@ describe("MapCanvas Province overlays", () => {
   });
 
   it("reports roads ready only after the open-data image loads", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     const onLayerStatusChange = vi.fn();
     render(
       <MapCanvas
@@ -4168,7 +4168,7 @@ describe("MapCanvas print mode", () => {
   });
 
   it("keeps an open roads print image failure sticky", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     mapMock.getZoom.mockReturnValue(15);
     const onLayerStatusChange = vi.fn();
     render(

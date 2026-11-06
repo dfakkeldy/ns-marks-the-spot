@@ -19,6 +19,7 @@ export const fishingFocusDefinition: FocusDefinition = {
   hiddenFeatures: new Set<FocusHiddenFeature>(['tax-sale', 'my-maps', 'setup-picker']),
   backgroundSwitch: false,
   chrome: {
+    sheetTitle: 'Spots & layers',
     Hero: FishingFocusHero,
     Panel: FishingPanel,
     brand: { label: 'Fishing spots — summary and spot list', Mark: FishingBrandMark },

@@ -38,7 +38,7 @@ export function AtlasStudy() {
       </header>
       <section className="atlas-intro">
         <h1>A Nova Scotia atlas.</h1>
-        <p>Four Atlas styles for modern geography: Day, Night, Fletcher in the colours and lettering of the 1884 Cape Breton sheets, and Hand-drawn, a sepia sketchbook that turns folksy as you zoom in.</p>
+        <p>Four Atlas styles for modern geography: Day, Night, Fletcher in the colours and lettering of the 1884 Cape Breton sheets, and Hand-drawn, a sepia sketchbook that turns folksy as you zoom in. Standard OpenStreetMap is the fifth button, for comparison.</p>
       </section>
       <section className="atlas-section" aria-labelledby="appearance-title">
         <h2 id="appearance-title">Appearance</h2>
@@ -111,7 +111,7 @@ export function AtlasStudy() {
     </aside>
     <section className="atlas-stage" aria-label="Map preview">
       <AtlasMap key={retry} style={style} camera={camera} onView={setView} onStatus={setStatus} historicalOpacity={opacity} />
-      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'After dusk' : mode === 'day' ? 'Daylight' : mode === 'fletcher' ? 'Fletcher' : mode === 'handdrawn' ? 'Sketchbook' : 'Standard OSM'}</strong></div>
+      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'Night' : mode === 'day' ? 'Day' : mode === 'fletcher' ? 'Fletcher' : mode === 'handdrawn' ? 'Hand-drawn' : 'OpenStreetMap'}</strong></div>
       <div className="atlas-status" role="status" data-ready={status === 'Ready'}>
         <span>{status === 'Ready' ? 'Map loaded' : status}</span>
         {status !== 'Ready' && status !== 'Loading map…' && <button type="button" onClick={() => { if (view) setCamera(view); setStatus('Loading map…'); setRetry(value => value + 1); }}>Retry</button>}

@@ -147,7 +147,7 @@ describe("ThemeManagerDialog", () => {
     render(<Harness />);
     const opener = screen.getByRole("button", { name: "Manage themes" });
     await userEvent.click(opener);
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(opener).toHaveFocus();
 

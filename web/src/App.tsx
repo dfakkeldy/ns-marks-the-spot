@@ -935,7 +935,7 @@ function LicenceDialog({
             Continue without Province layers
           </button>
           {onClose ? (
-            <button className="secondary-action" type="button" onClick={onClose}>
+            <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
               Close
             </button>
           ) : null}
@@ -957,6 +957,9 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         aria-labelledby="about-title"
       >
+        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+          <span aria-hidden="true">×</span>
+        </button>
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
@@ -1028,7 +1031,7 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           </a>
         </p>
         <div className="dialog-actions">
-          <button className="primary-action" type="button" onClick={onClose}>
+          <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -1063,6 +1066,9 @@ function DataSourcesDialog({
         aria-modal="true"
         aria-labelledby="data-sources-title"
       >
+        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+          <span aria-hidden="true">×</span>
+        </button>
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
@@ -1092,6 +1098,7 @@ function DataSourcesDialog({
           <p>{PROVINCIAL_ATTRIBUTION}. <a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Open-data licence</a>
             {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Generated tile receipt</a></p>
         </details>
+        <h3 className="data-sources-kicker">Each map layer</h3>
         <ul className="data-sources-list">
           {sources.map((source) => (
             <li key={source.id}>
@@ -1126,7 +1133,7 @@ function DataSourcesDialog({
           >
             Review the Province licence
           </button>
-          <button className="primary-action" type="button" onClick={onClose}>
+          <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -4651,7 +4658,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         {searchError ??
           (searchingAddresses
             ? "Searching mapped civic addresses…"
-            : "Enter an 8-digit PID or a Nova Scotia civic address.")}
+            : "Type an 8-digit PID or a civic address.")}
       </p>
       <span className="sr-only" role="status">
         {addressSearchResults.length > 0
@@ -4711,9 +4718,20 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     <button
       type="button"
       className="secondary-action export-map-trigger"
-      onClick={() =>
-        setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
+      onClick={() => {
+        // Framing happens on the map, so the phone sheet steps out of the way
+        // and the licence strip folds to its pill: either one otherwise sits
+        // over the frame and its Continue button.
+        closeMobileControls();
+        cancelAttributionFold.current();
+        setAttributionFolded(true);
+        setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE });
+      }}
     >
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M5 2.5h6.5L15 6v11.5H5Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M11.5 2.5V6H15M10 9v5.5m-2.5-2.5L10 14.5l2.5-2.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
       Export map (PDF)
     </button>
   );
@@ -4777,17 +4795,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           {focusDef ? (
             <focusDef.chrome.Hero {...focusChromeContext} />
           ) : (
-            <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
+            // The rail is the room the reader is in, so it carries the
+            // active setup's name; a shared link that matches no setup falls
+            // back to the product's own name rather than another setup's.
+            <h2>{pokerMode ? "Poker" : mapThemes.find(({ id }) => id === activeThemeId)?.name ?? "NS Marks The Spot"}</h2>
           )}
           {!pokerMode && searchForm}
           {/* A focus page carries these in its footer instead. */}
-          {!focusDef ? (
-            <>
-              {appearanceControl}
-              {exportMapButton}
-            </>
-          ) : null}
-
           {!focusHides(focusDef, "setup-picker") ? <MapThemePicker
             themes={mapThemes}
             activeThemeId={activeThemeId}
@@ -4801,6 +4815,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
           /> : null}
+
+          {/* An output of the map as set up, so it follows the setup rather
+              than competing with search for the first look. */}
+          {!focusDef ? exportMapButton : null}
 
           {FocusPanel ? <FocusPanel {...focusChromeContext} /> : null}
 
@@ -4910,6 +4928,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       <span>
                         <strong>Modern map</strong>
                         <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
+                        {/* MapCanvas's AerialGapUnderlay draws this map under NS
+                            Aerial until the photograph can; the switch stays off
+                            because the setup did not ask for it, so the row says
+                            why the map is showing anyway. */}
+                        {!showModernMap && provinceLayers["ns-aerial"] ? (
+                          <small className="modern-map-standin">Shown on screen under NS Aerial until it loads (zoom 10+); not in exports</small>
+                        ) : null}
                         <LayerMetadata
                           sourceDate={basemapSource(basemapStyle).sourceDate}
                           scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Provincial-first · NSTDB 1:10,000 detail; closer zoom magnifies the data. Roads and paths do not establish access permission."}
@@ -4921,6 +4946,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         />
                       </span>
                     </label>
+                    <div className="basemap-settings">
                     <label className="basemap-style-control">
                       Basemap style
                       <select aria-label="Basemap style" value={basemapPreference} onChange={(event) => setBasemapPreference(event.target.value as BasemapPreference)}>
@@ -4932,9 +4958,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         <option value="osm">OpenStreetMap</option>
                       </select>
                     </label>
+                    {!focusDef ? appearanceControl : null}
                     {basemapStyle !== "osm" && <p className="crown-land-key">
                       <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
-                      <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
+                      <span><span className="crown-land-key-lead">Drawn in every Atlas style</span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
                     </p>}
                     {basemapStyle === 'fletcher' && !focusDef ? <>
                       <label className="fletcher-features-toggle">
@@ -4943,6 +4970,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       </label>
                       <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Historical points and lines are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
                     </> : null}
+                    </div>
                     </div>
                   ) : null}
 
@@ -5685,7 +5713,14 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               aria-expanded={mobileControlsOpen}
               onClick={() => setMobileControlsOpen(true)}
             >
-              <span aria-hidden="true">⌕</span>
+              {pokerMode ? (
+                // Poker's search lives on the map, so this pill opens layers
+                // only and says so with a stack, not a magnifier.
+                <svg className="mobile-controls-glyph" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <path d="M10 3 2.5 7 10 11l7.5-4Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                  <path d="m2.5 10.5 7.5 4 7.5-4M2.5 14l7.5 4 7.5-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                </svg>
+              ) : <span aria-hidden="true">⌕</span>}
               {pokerMode ? "Layers" : "Search & layers"}
             </button>
           </div>
@@ -5996,6 +6031,15 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           : <span className="poker-civic-status" role="status">
             {pokerCivicStatus} <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.
           </span>)}
+        {/* Folded, the strip still states the two lines true of every view:
+            the OpenStreetMap credit and the survey caveat. The full set for
+            what is on screen is one click away. Phones fold to a pill. */}
+        {attributionCollapsed ? (
+          <span className="map-attribution-folded-credit">
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
+            {" · "}Boundaries are not a survey
+          </span>
+        ) : null}
         {!attributionCollapsed && <>
           <a
             className="feedback-link"
@@ -6010,7 +6054,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           >
             © OpenStreetMap contributors
           </a>
-          {showModernMap && basemapStyle !== "osm" ? (
+          {/* NS Aerial below its zoom floor has the Atlas map drawn under it
+              (MapCanvas's AerialGapUnderlay), so its credit shows then too. */}
+          {(showModernMap || provinceLayers["ns-aerial"]) && basemapStyle !== "osm" ? (
             <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
               {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
               {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>

@@ -20,7 +20,7 @@ const map = {
   on: (_: string, cb: () => void) => { state.move = cb; }, off: vi.fn(),
 };
 const layer = provinceLayerCatalog.find(({ id }) => id === "crown-lands")!;
-const result = (id: string) => ({ canvas: { toDataURL: () => id } as HTMLCanvasElement, count: 1 });
+const result = (id: string) => ({ canvas: { toDataURL: () => id } as HTMLCanvasElement, count: 1, fetched: 1 });
 beforeEach(() => { vi.clearAllMocks(); map.getZoom.mockReturnValue(14); state.images = []; });
 it("aborts superseded viewport queries and never draws their late results", async () => {
   let first!: (r: ReturnType<typeof result>) => void;

@@ -23,6 +23,9 @@ export type OpenDataSource = {
   dash?: readonly number[];
   /** A wider, solid line drawn under each line so it reads over the background. */
   casing?: string;
+  /** Points draw as small hollow rings with a light halo instead of filled
+   * discs: the mark locates the record without blotting out the map. */
+  pointRing?: boolean;
   /** Conservative envelopes from the publisher's known, limited coverage. */
   coverageAreas?: readonly { west: number; south: number; east: number; north: number }[];
 };
@@ -54,7 +57,7 @@ export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
     { ...part("62ap-bhwk"), minZoom: 15 }, { ...part("x8jw-yjc2"), minZoom: 16 },
   ], color: "#654735", roads: true, labelField: "street", labelMinZoom: 14 },
   "main-roads": { parts: [part("484g-adjn", ["roadsegid", "feat_desc", "street", "roadc_desc"], "roadc_desc IN ('Highway','Trans Canada','Arterial','Collector','Local','Local Collector','Local Highway','Local Arterial') AND upper(feat_desc) NOT LIKE '%DRIVEWAY%'")], color: "#444444", roads: true, labelField: "street", labelMinZoom: 14 },
-  "place-names": { parts: [part("xf3i-vxcb", ["cgndb_key", "geoname", "concise_ds", "status_ds"], "concise_ds IN ('Town','Village','Unincorporated area','Island','Cape','Bay','Lake','River')")], color: "#29332e", labelField: "geoname", labelMinZoom: 8 },
+  "place-names": { parts: [part("xf3i-vxcb", ["cgndb_key", "geoname", "concise_ds", "status_ds"], "concise_ds IN ('Town','Village','Unincorporated area','Island','Cape','Bay','Lake','River')")], color: "#29332e", labelField: "geoname", labelMinZoom: 8, pointRing: true },
   "contours": { parts: [part("bhx9-mpui", ["feat_code", "feat_desc", "zvalue"], "feat_desc LIKE 'CONTOUR%'")], color: "#987849", fillOpacity: 0, labelField: "zvalue", labelMinZoom: 15 },
   "buildings": { parts: [part("t5xr-fjkr"), { ...part("n7be-bzwb"), minZoom: 15 }], color: "#795948", fillOpacity: 0.45 },
 };

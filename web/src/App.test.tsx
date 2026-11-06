@@ -2547,7 +2547,7 @@ describe("NS Marks The Spot Online", () => {
     expect(stored.themes[0].opacityOverrides).toEqual({});
 
     const customThemeId = stored.themes[0].id;
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
       customThemeId,
@@ -2664,7 +2664,7 @@ describe("NS Marks The Spot Online", () => {
       const customThemeId = (JSON.parse(raw ?? "null") as {
         themes: Array<{ id: string }>;
       }).themes[0].id;
-      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
       await userEvent.selectOptions(
         screen.getByLabelText("Map setup"),
         "explore-nova-scotia",
@@ -2840,7 +2840,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
 
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
     await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
     await userEvent.click(screen.getByRole("button", { name: /^Background Maps/ }));
     expect(expandedLayerCategoryIds()).toEqual(["roads-places"]);
@@ -3073,7 +3073,7 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.getByLabelText("Modern map")).toBeChecked();
       expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
 
-      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
       await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
       expect(screen.getByRole("textbox", { name: "Rename Field day" }))
         .toHaveValue("Field day");
@@ -4477,7 +4477,9 @@ describe("NS Marks The Spot Online", () => {
     const toggle = within(footer).getByRole("button", { name: "Show licences" });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(region).toHaveClass("attribution-folded");
-    expect(within(footer).queryByRole("link", { name: "© OpenStreetMap contributors" })).not.toBeInTheDocument();
+    // Folded, the strip keeps the credit and caveat true of every view.
+    expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    expect(within(footer).getByText(/Boundaries are not a survey/)).toBeInTheDocument();
     expect(within(footer).queryByRole("button", { name: "Data & licences" })).not.toBeInTheDocument();
     expect(within(footer).queryByText(OPEN_GOVERNMENT_ATTRIBUTION)).not.toBeInTheDocument();
     // The civic-source status is still announced while folded, not shown.
@@ -4991,7 +4993,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(searchSignal?.aborted).toBe(true);
     expect(
-      screen.getByText("Enter an 8-digit PID or a Nova Scotia civic address."),
+      screen.getByText("Type an 8-digit PID or a civic address."),
     ).toBeInTheDocument();
   });
 

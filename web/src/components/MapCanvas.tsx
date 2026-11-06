@@ -1538,6 +1538,33 @@ function approximateScreenScaleDenominator(map: LeafletMap): number | null {
   return Number(denominator.toPrecision(3));
 }
 
+/**
+ * NS Aerial draws only from its catalogue floor (zoom 10). A setup whose only
+ * background is the aerial opened on an empty sea below that: Tax Sale
+ * Research at the province view showed red notice dots on nothing. Until the
+ * aerial can draw, the Atlas map stands in underneath. It is not the Modern
+ * map layer (that switch and the share link are unchanged); it steps away at
+ * the zoom where the photograph takes over.
+ */
+function AerialGapUnderlay({ basemapStyle, minZoom }: { basemapStyle: BasemapStyle; minZoom: number }) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(() => map.getZoom());
+  useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
+  if (zoom >= minZoom) return null;
+  return basemapStyle !== "osm" ? (
+    <Suspense fallback={null}>
+      <AtlasBasemapLayer key={`aerial-gap-${basemapStyle}`} mode={basemapStyle} print={false} onStatus={() => {}} />
+    </Suspense>
+  ) : (
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      maxZoom={23}
+      maxNativeZoom={19}
+      attribution="&copy; OpenStreetMap contributors"
+    />
+  );
+}
+
 function ApproximateScaleReadout() {
   const map = useMap();
   const [denominator, setDenominator] = useState(() =>
@@ -1564,7 +1591,7 @@ function ApproximateScaleReadout() {
 
   return (
     <p className="display-scale-readout" title={DISPLAY_SCALE_EXPLANATION}>
-      Approx. screen scale 1:{denominator.toLocaleString("en-CA")}
+      <span className="display-scale-label">Approx. screen scale </span>1:{denominator.toLocaleString("en-CA")}
     </p>
   );
 }
@@ -2105,6 +2132,7 @@ export function MapCanvas({
   // render restyled every visible parcel on every App render — each map move,
   // keystroke, and tile-status event.
   // An image above Atlas may hide its roads and names; retain overlays there.
+  const aerialMinZoom = provinceLayerCatalog.find(({ id }) => id === "ns-aerial")?.minZoom ?? 10;
   const exposedBasemap = showModernMap && !provinceLayers['ns-aerial'] && !fletcherVisible
     && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
   const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
@@ -2575,7 +2603,9 @@ export function MapCanvas({
         ) : null}
         {!isPrintMode && contextLayers["sentinel-2"] ? <AttributionControl prefix={false} position="bottomright" /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
-        {!isPrintMode ? <ApproximateScaleReadout /> : null}
+        {/* A tilted 3D view has no single screen scale, so the readout steps out
+            rather than state one; it returns with the 2D map. */}
+        {!isPrintMode && !terrainActive ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {terrainActive ? null : showModernMap && basemapStyle !== "osm" ? (
           <Suspense fallback={null}>
@@ -2622,6 +2652,9 @@ export function MapCanvas({
         <FletcherFullSheetsPreview renderMode={renderMode} />
         {!isPrintMode && fletcherFeaturesVisible && onFletcherFeaturesStatus ? (
           <Suspense fallback={null}><FletcherFeaturesLayer onStatus={onFletcherFeaturesStatus} /></Suspense>
+        ) : null}
+        {!terrainActive && !isPrintMode && !showModernMap && provinceLayers["ns-aerial"] ? (
+          <AerialGapUnderlay basemapStyle={basemapStyle} minZoom={electoralLicenceAccepted ? aerialMinZoom : Number.POSITIVE_INFINITY} />
         ) : null}
         <FletcherTileLayer
           visible={fletcherVisible}
