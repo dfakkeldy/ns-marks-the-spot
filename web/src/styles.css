@@ -4049,6 +4049,9 @@ a {
     position: absolute;
     top: 28px; /* the 24px strip plus the title's 4px top margin */
     right: 16px;
+    /* It stays put while the rail scrolls; a ring of the sheet's own colour
+       keeps text from running into its rim, as on the dialogs' ×. */
+    box-shadow: 0 0 0 6px rgba(var(--surface-rgb), 0.96);
   }
 
   .layer-rail:has(> .mobile-sheet-header > strong.visually-hidden) > h2 {
