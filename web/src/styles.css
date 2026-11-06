@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IM+Fell+English&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   color: #12343b;
@@ -70,7 +70,9 @@
    (--white, #1b3940), which is the worse of the two:
 
      ink   #e8f1f0   14.8:1 on the ground,  10.7:1 on a card
-     blue  #8cc0ff    9.0:1 on the ground,   6.5:1 on a card
+     warm  #d9c39a    9.9:1 on the ground,   7.2:1 on a card
+           (the night primary, taken from the night highway #bda77f; card-
+           coloured text on it, as on a pressed control, is 7.2:1 too)
      red   #f08b78    7.0:1 on the ground
      green #a9c98a    9.2:1 on the ground,   6.7:1 on a card
      peach #efbb87    9.8:1 on the ground
@@ -85,7 +87,7 @@
     background: #0d1f24;
     --chart-ink: #e8f1f0;
     --deep-water: #9fd6e2;
-    --survey-blue: #8cc0ff;
+    --survey-blue: #d9c39a;
     --paper-peach: #efbb87;
     --survey-red: #f08b78;
     --lichen: #a9c98a;
@@ -115,7 +117,7 @@
     background: #0d1f24;
     --chart-ink: #e8f1f0;
     --deep-water: #9fd6e2;
-    --survey-blue: #8cc0ff;
+    --survey-blue: #d9c39a;
     --paper-peach: #efbb87;
     --survey-red: #f08b78;
     --lichen: #a9c98a;
@@ -8003,6 +8005,9 @@ a {
 :root[data-map-appearance="day"][data-map-basemap="osm"] {
   --paper: #f6f7f6;
   --paper-rgb: 246, 247, 246;
+  /* A neutral accent for a neutral map: 5.3:1 under white text. Light
+     interface only; a dark interface keeps the night primary. */
+  --survey-blue: #3b6ea8;
 }
 
 /* Atlas Day's accent is drawn from the map's own water ink rather than web
@@ -8010,6 +8015,97 @@ a {
    links stay underlined, so nothing depends on the hue alone. */
 :root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
   --survey-blue: #2b5f7a;
+}
+
+/* Round 5: basemap rooms ------------------------------------------------- */
+
+/* Day map under the dark interface: the bright paper drops a little so it sits
+   under the dark chrome. Screen only, on the live basemap element alone; the
+   PDF's Atlas image is drawn by its own offscreen map, and print is excluded. */
+@media screen {
+  :root[data-map-appearance="night"][data-map-basemap="day"] .leaflet-container > .atlas-basemap:not(.print-layer-modern) {
+    filter: brightness(0.93) saturate(0.95);
+  }
+
+  /* The readout plates and scale bar go solid there, so the dimmed paper never
+     shows through the figures. */
+  :root[data-map-appearance="night"][data-map-basemap="day"] :is(.position-readout, .display-scale-readout, .measure-readout, .leaflet-control-scale-line) {
+    background: var(--white);
+  }
+}
+
+/* Day: the measure line in terracotta, the one warm stroke on sage and cream
+   (vertices and the total label keep their own colours). */
+:root[data-map-basemap="day"] path.measure-shape {
+  stroke: #b5533a;
+}
+
+/* Day: the phone pills take the zoom bar's rim, radius and shadow, so the
+   corner controls read as one family. */
+:root[data-map-appearance="day"] :is(.mobile-map-brand, .mobile-controls-trigger) {
+  border: 0;
+  outline: 1px solid var(--control-edge, transparent);
+  outline-offset: -1px;
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
+}
+
+/* Night: the phone pills are solid; map labels showed through the
+   translucent fill. */
+:root[data-map-appearance="night"] :is(.mobile-map-brand, .mobile-controls-trigger) {
+  background: var(--white);
+  backdrop-filter: none;
+}
+
+/* Phone: the lone 3D pill takes the width of the Search & layers pill above
+   it, both right-aligned at 12px, so the corner reads as one column. */
+@media (max-width: 860px) {
+  .map-region:not(.poker-mode) .mobile-controls-trigger {
+    min-width: 160px;
+    justify-content: center;
+  }
+
+  .map-region:not(.poker-mode) .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) {
+    right: 12px;
+  }
+
+  .map-region:not(.poker-mode) .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button {
+    min-width: 160px;
+  }
+}
+
+/* Night: a warm glow around the live location dot only. */
+:root[data-map-appearance="night"] path.live-location-dot {
+  filter: drop-shadow(0 0 6px rgba(217, 195, 154, 0.5));
+}
+
+/* OSM: flat corner controls, a hairline rim and no cast shadow. */
+:root[data-map-basemap="osm"] :is(.map-canvas .leaflet-top.leaflet-left .leaflet-control-zoom, .location-button, .location-cluster-button, .measure-control button, .mobile-map-brand, .mobile-controls-trigger, .research-terrain-controls .terrain-control-bar button, .maplibregl-ctrl.maplibregl-ctrl-group) {
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* Hand-drawn: the export button and the readout plates as stamped labels,
+   paper with an ink rim and an inner rule, lettered in the style's quill
+   face (IM Fell English, as on the map's regional names). */
+:root[data-map-basemap="handdrawn"] :is(.export-map-trigger, .position-readout, .display-scale-readout, .measure-readout) {
+  color: #3b2614;
+  font-family: "IM Fell English", "Fraunces", Georgia, serif;
+  background: #f6ecd2;
+  border: 1.5px solid #3b2614;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 2px #f6ecd2, inset 0 0 0 3px rgba(59, 38, 20, 0.45);
+}
+
+/* Hand-drawn: an alternating ink-and-paper scale bar, the surveyor's kind;
+   the figures sit on plain paper above the checks. */
+:root[data-map-basemap="handdrawn"] .leaflet-control-scale-line {
+  color: #3b2614;
+  font-family: "IM Fell English", Georgia, serif;
+  text-shadow: none;
+  background:
+    linear-gradient(#f6ecd2, #f6ecd2) top / 100% calc(100% - 5px) no-repeat,
+    repeating-linear-gradient(90deg, #3b2614 0 10px, #f6ecd2 10px 20px);
+  border-color: #3b2614;
 }
 
 /* On a dark room the filled Search button was the brightest thing on the
