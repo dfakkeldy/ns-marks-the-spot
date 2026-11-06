@@ -2674,9 +2674,10 @@ export function MapCanvas({
           />
         ) : null}
         {!isPrintMode && contextLayers["sentinel-2"] ? <AttributionControl prefix={false} position="bottomright" /> : null}
-        {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
-        {/* A tilted 3D view has no single screen scale, so the readout steps out
-            rather than state one; it returns with the 2D map. */}
+        {/* A tilted 3D view has no single screen scale, so the bar (measured
+            on the hidden 2D map) and the readout both step out rather than
+            state one; they return with the 2D map. */}
+        {!isPrintMode && !terrainActive ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode && !terrainActive ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {terrainActive ? null : showModernMap && basemapStyle !== "osm" ? (
@@ -2956,6 +2957,7 @@ export function MapCanvas({
               radius={8}
               interactive={false}
               pathOptions={{
+                className: "live-location-dot",
                 color: "#ffffff",
                 fillColor: "#2f80ed",
                 opacity: live.status === "signal-lost" ? 0.6 : 1,
@@ -3093,6 +3095,7 @@ export function MapCanvas({
           <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
           <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
           <small>Mapzen terrain; source detail varies.</small>
+          <small className="terrain-scale-note">Scale varies across a tilted 3D view; the scale bar returns in 2D.</small>
         </div> : null}
       </div>
       {terrainActive && terrainStatus.kind !== "ready" ? <div className="research-terrain-status" role="status">

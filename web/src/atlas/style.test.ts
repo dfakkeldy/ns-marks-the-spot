@@ -130,10 +130,10 @@ describe('fletcher-inspired texture and lettering', () => {
     for (const image of images) { expect(sprite).toHaveProperty(image); expect(retina).toHaveProperty(image); }
     expect(existsSync(`${publicDir}atlas/sprite/sprite.png`)).toBe(true);
   });
-  it('uses paper grain as the only Fletcher area texture and draws it beneath every label', () => {
+  it('uses the Crown Land hatch and paper grain as the only Fletcher area textures and draws the grain beneath every label', () => {
     const style = buildAtlasStyle('fletcher');
     const textured = style.layers.filter(layer => layer.type === 'fill' && 'paint' in layer && layer.paint && 'fill-pattern' in layer.paint);
-    expect(textured.map(layer => layer.id)).toEqual(['paper-grain']);
+    expect(textured.map(layer => layer.id)).toEqual(['crown-land-hatch', 'paper-grain']);
     const ids = style.layers.map(layer => layer.id);
     const grain = ids.indexOf('paper-grain');
     const firstSymbol = style.layers.findIndex(layer => layer.type === 'symbol');

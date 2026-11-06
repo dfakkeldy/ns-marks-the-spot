@@ -152,19 +152,21 @@ export function ExportFrameLayer({
         />
       </div>
       <div className="export-frame-toolbar">
-        <button
-          type="button"
-          className="secondary-action"
-          aria-pressed={state.orientation === "portrait"}
-          onClick={() =>
-            onStateChange({
-              ...state,
-              orientation:
-                state.orientation === "portrait" ? "landscape" : "portrait",
-            })}
-        >
-          {state.orientation === "portrait" ? "Portrait" : "Landscape"}
-        </button>
+        <div className="export-frame-orientation" role="group" aria-label="Page orientation">
+          {(["portrait", "landscape"] as const).map((orientation) => (
+            <button
+              key={orientation}
+              type="button"
+              aria-pressed={state.orientation === orientation}
+              onClick={() => onStateChange({ ...state, orientation })}
+            >
+              {orientation === "portrait" ? "Portrait" : "Landscape"}
+            </button>
+          ))}
+        </div>
+        {/* The frame moves by dragging its body and resizes from its corner
+            handle (onPointerDown "move" / "resize" above). */}
+        <p className="export-frame-hint">Drag to move · corner to resize</p>
         <button type="button" className="secondary-action" onClick={onCancel}>
           Cancel
         </button>

@@ -3068,6 +3068,16 @@ describe("MapCanvas cartographic furniture", () => {
     );
   });
 
+  it("withdraws the 2D scale bar in 3D, where a tilted view has no single scale", () => {
+    render(<MapCanvas {...furnitureProps} />);
+    fireEvent.click(screen.getByRole("button", { name: "3D terrain" }));
+    expect(screen.queryByTestId("scale-control")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "3D settings" }));
+    expect(screen.getByText(/Scale varies across a tilted 3D view/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Return to 2D" }));
+    expect(screen.getByTestId("scale-control")).toBeInTheDocument();
+  });
+
   it("announces the map as a named region a screen reader can jump to", () => {
     render(<MapCanvas {...furnitureProps} />);
 

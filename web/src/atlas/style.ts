@@ -70,6 +70,10 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
     // One merged fill with no boundary stroke or antialiased tile-edge outline.
     { id: 'crown-land', type: 'fill', source: 'crown', 'source-layer': 'crown',
       paint: { 'fill-color': p.crown, 'fill-antialias': false } },
+    // Fletcher adds a sparse engraver's hatch over the wash. A fill pattern, not an outline:
+    // the Crown polygons are tiled, so a stroke would draw false seams at tile edges.
+    ...(engraved ? [{ id: 'crown-land-hatch', type: 'fill', source: 'crown', 'source-layer': 'crown',
+      paint: { 'fill-pattern': 'crown-hatch', 'fill-opacity': 0.35, 'fill-antialias': false } } satisfies LayerSpecification] : []),
     { id: 'ocean-context', type: 'fill', ...osm, 'source-layer': 'water',
       filter: ['==', ['get', 'class'], 'ocean'], paint: { 'fill-color': p.water } },
     { id: 'wetlands', type: 'fill', ...water,

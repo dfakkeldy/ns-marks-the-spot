@@ -180,5 +180,12 @@
     "width": 256,
     "height": 24,
     "pixelRatio": 2
+  },
+  "crown-hatch": {
+    "x": 0,
+    "y": 3140,
+    "width": 16,
+    "height": 16,
+    "pixelRatio": 2
   }
 }

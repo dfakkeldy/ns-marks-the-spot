@@ -19,17 +19,23 @@ type HistoricalProperties = {
 type HistoricalFeature = Feature<Point | Polygon | MultiPolygon | LineString, HistoricalProperties>;
 const ROOT = `${import.meta.env.BASE_URL}fletcher-features/`;
 const ICONS = new Map<string, L.DivIcon>();
-// Marks step up with the zoom: at 12-13 a 30px disc covered the basemap's own
-// place names, so it is 20px there and 28px from 14, where labels have room.
+// Marks step up with the zoom: at 12-13 even a 20px disc crowded the basemap's
+// own place names, so there each feature is a 6px ink dot (inside a 20px
+// transparent hit area, so it stays easy to tap); full badges from 14.
 function featureIcon(kind: string, zoom: number) {
-  const size = zoom >= 14 ? 28 : 20;
+  if (zoom < 14) {
+    const key = 'dot';
+    if (!ICONS.has(key)) ICONS.set(key, L.divIcon({ className: 'fletcher-feature-marker fletcher-feature-marker--dot', html: '', iconSize: [20, 20], iconAnchor: [10, 10] }));
+    return ICONS.get(key)!;
+  }
+  const size = 28;
   const key = `${kind}:${size}`;
   if (!ICONS.has(key)) {
     const symbol = kind.includes('mine') ? 'mine' : kind;
     const svg = ['school', 'mill', 'mine', 'forge'].includes(symbol)
       ? historicalSiteSvg(symbol as HistoricalSiteKind, 'approximate', 'fletcher')
       : '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#fff4df" stroke="#633a20" stroke-dasharray="2 2"/><circle cx="10" cy="10" r="4" fill="none" stroke="#633a20" stroke-width="1.5"/></svg>';
-    ICONS.set(key, L.divIcon({ className: size < 28 ? 'fletcher-feature-marker fletcher-feature-marker--small' : 'fletcher-feature-marker', html: svg, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }));
+    ICONS.set(key, L.divIcon({ className: 'fletcher-feature-marker', html: svg, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }));
   }
   return ICONS.get(key)!;
 }

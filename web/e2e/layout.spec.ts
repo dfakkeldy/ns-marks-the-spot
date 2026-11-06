@@ -55,9 +55,9 @@ for (const width of [320, 390, 844, 1440]) {
         const footer = (await page.locator(".map-attribution").boundingBox())!;
         const folded = await page.locator(".map-attribution").evaluate(element => element.classList.contains("collapsed"));
         return width <= 860 && folded
-          ? label.x >= bars.x + bars.width && label.x + label.width <= footer.x
+          // Folded on a phone, the ratio plate sits directly above the bars.
+          ? label.y + label.height <= bars.y && Math.abs(label.x - bars.x) <= 2
             && bars.y + bars.height <= footer.y + footer.height
-            && label.y + label.height <= footer.y + footer.height
           : label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
       }).toBe(true);
     };
@@ -250,7 +250,11 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
           const button = page.getByRole("button", { name: label, exact: true });
           await expect(button).toBeInViewport({ ratio: 1 });
           expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-          await expect(button).toHaveCSS("backdrop-filter", "blur(8px)");
+          // Solid pills: the fill is fully opaque.
+          expect(await button.evaluate((element) => {
+            const fill = getComputedStyle(element).backgroundColor;
+            return fill.startsWith("rgb(") || /rgba\([^)]*,\s*1\)$/.test(fill);
+          })).toBe(true);
         }
         for (const position of [{ x: 180, y: 170 }, { x: 220, y: 170 }, { x: 220, y: 210 }]) {
           await map.click({ position });

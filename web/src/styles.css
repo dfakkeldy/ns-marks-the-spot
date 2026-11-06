@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IM+Fell+English&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   color: #12343b;
@@ -70,7 +70,9 @@
    (--white, #1b3940), which is the worse of the two:
 
      ink   #e8f1f0   14.8:1 on the ground,  10.7:1 on a card
-     blue  #8cc0ff    9.0:1 on the ground,   6.5:1 on a card
+     warm  #d9c39a    9.9:1 on the ground,   7.2:1 on a card
+           (the night primary, taken from the night highway #bda77f; card-
+           coloured text on it, as on a pressed control, is 7.2:1 too)
      red   #f08b78    7.0:1 on the ground
      green #a9c98a    9.2:1 on the ground,   6.7:1 on a card
      peach #efbb87    9.8:1 on the ground
@@ -85,7 +87,7 @@
     background: #0d1f24;
     --chart-ink: #e8f1f0;
     --deep-water: #9fd6e2;
-    --survey-blue: #8cc0ff;
+    --survey-blue: #d9c39a;
     --paper-peach: #efbb87;
     --survey-red: #f08b78;
     --lichen: #a9c98a;
@@ -115,7 +117,7 @@
     background: #0d1f24;
     --chart-ink: #e8f1f0;
     --deep-water: #9fd6e2;
-    --survey-blue: #8cc0ff;
+    --survey-blue: #d9c39a;
     --paper-peach: #efbb87;
     --survey-red: #f08b78;
     --lichen: #a9c98a;
@@ -2224,7 +2226,7 @@ a {
 .measure-control {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 148px; /* a 16px gap below the locate disc: view controls, then tools */
   left: 12px;
   display: flex;
   flex-direction: column;
@@ -2389,7 +2391,7 @@ a {
 .location-hud {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 148px;
   left: 66px;
   display: flex;
   flex-direction: column;
@@ -3866,6 +3868,22 @@ a {
     padding: 0;
   }
 
+  /* Unfolded on a phone, the Province disclaimer and the survey caveat read as
+     one pair right after the toggle, inside the strip's first rows rather than
+     below its 72px fold; the source credits follow and the software credit
+     goes last. */
+  .map-attribution > :first-child {
+    order: -2;
+  }
+
+  .map-attribution > :is(.province-attribution, .survey-caveat) {
+    order: -1;
+  }
+
+  .map-attribution > .source-code-link {
+    order: 4;
+  }
+
   /* Attribution wraps to different heights across phone widths and font
      sizes. Keep the complete scale above its measured border box. */
   .leaflet-bottom.leaflet-left {
@@ -4130,15 +4148,15 @@ a {
   }
 
   .location-hud {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
   }
 
   .location-message {
-    top: max(262px, calc(env(safe-area-inset-top) + 224px));
+    top: max(272px, calc(env(safe-area-inset-top) + 234px));
   }
 
   .measure-control {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
   }
 
   /* Share Poker's bare button row with distance and area measurements. */
@@ -4152,15 +4170,14 @@ a {
     gap: 6px;
   }
 
+  /* Solid pills: a half-clear outline read as a disabled control over imagery. */
   .measure-actions button {
     min-width: 0;
     height: 44px;
     padding: 0 4px;
-    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    border: 1px solid var(--line);
     box-shadow: 0 1px 6px #12343b33;
-    background: color-mix(in srgb, var(--white) 50%, transparent);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
+    background: var(--white);
     font-size: 13px;
   }
 
@@ -4191,6 +4208,28 @@ a {
     white-space: normal;
   }
 
+  /* Outside Poker (whose dock has its own row), the folded phone puts the
+     "≈ 1:…" plate directly above the scale bar, flush with its left edge, and
+     the measure tools step up to clear it. */
+  .map-region.attribution-folded:not(.poker-mode) {
+    --compact-tools-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+
+  .map-region.attribution-folded:not(.poker-mode) .leaflet-container .display-scale-readout {
+    right: auto;
+    left: 12px;
+    bottom: calc(58px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+  }
+
+  /* The folded licence pill (44px at 8px from the bottom) sat over the
+     panel's bottom-right corner and the assessment caveat. The panel lifts
+     by the pill and a 16px gap, so the credit stays visible and clear. */
+  .map-region.attribution-folded .parcel-inspector {
+    bottom: calc(68px + env(safe-area-inset-bottom));
+  }
+
   /* One line on a phone: the wording stays for screen readers and in the
      title, and the approximation sign carries the caveat on screen. */
   .display-scale-readout .display-scale-label {
@@ -4216,7 +4255,7 @@ a {
   /* Shares the recording HUD's row, so it moves when that row moves rather
      than splitting off and landing across the measure buttons. */
   .modern-map-error {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
     right: 12px;
     left: 12px;
     justify-content: space-between;
@@ -5605,6 +5644,48 @@ a {
 .export-frame-toolbar button {
   min-height: 40px;
   padding-inline: 16px;
+}
+
+/* Portrait | Landscape as one two-segment switch: both choices in view, the
+   current one filled. */
+.export-frame-orientation {
+  display: inline-flex;
+  padding: 2px;
+  background: rgba(var(--shadow-rgb), 0.08);
+  border-radius: 10px;
+}
+
+.export-frame-orientation button {
+  color: var(--chart-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.export-frame-orientation button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+}
+
+.export-frame-hint {
+  align-self: center;
+  margin: 0 4px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .export-frame-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .export-frame-hint {
+    flex-basis: 100%;
+    order: -1;
+  }
 }
 
 .export-map-trigger {
@@ -7524,6 +7605,45 @@ a {
 }
 
 
+/* Desktop: while a section is still checking, its status line holds a fixed
+   two-row skeleton (the line, then a placeholder bar), so the panel does not
+   jump as each source answers. The words stay; the bar claims no data. */
+@media (min-width: 861px) {
+  .parcel-inspector .inspector-checking {
+    box-sizing: border-box;
+    min-height: 3.4em;
+  }
+
+  .parcel-inspector .inspector-checking::after {
+    content: "";
+    display: block;
+    width: 70%;
+    height: 0.7em;
+    margin-top: 0.5em;
+    background: var(--line);
+    border-radius: 4px;
+  }
+}
+
+/* The parcel inspector's interpretation row: always shown, set apart by a
+   rule rather than hidden behind a toggle. */
+.evidence-caveat-row {
+  margin: 4px 0 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+}
+
+.evidence-caveat-row > .evidence-caveat-label {
+  margin: 0 0 2px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  font-weight: 600;
+}
+
+.evidence-caveat-row > :last-child {
+  margin-bottom: 0;
+}
+
 /* GL supplies the base only; Leaflet panes continue to own all overlays. */
 .leaflet-container > .atlas-basemap {
   position: absolute;
@@ -7905,6 +8025,9 @@ a {
 :root[data-map-appearance="day"][data-map-basemap="osm"] {
   --paper: #f6f7f6;
   --paper-rgb: 246, 247, 246;
+  /* A neutral accent for a neutral map: 5.3:1 under white text. Light
+     interface only; a dark interface keeps the night primary. */
+  --survey-blue: #3b6ea8;
 }
 
 /* Atlas Day's accent is drawn from the map's own water ink rather than web
@@ -7912,6 +8035,97 @@ a {
    links stay underlined, so nothing depends on the hue alone. */
 :root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
   --survey-blue: #2b5f7a;
+}
+
+/* Round 5: basemap rooms ------------------------------------------------- */
+
+/* Day map under the dark interface: the bright paper drops a little so it sits
+   under the dark chrome. Screen only, on the live basemap element alone; the
+   PDF's Atlas image is drawn by its own offscreen map, and print is excluded. */
+@media screen {
+  :root[data-map-appearance="night"][data-map-basemap="day"] .leaflet-container > .atlas-basemap:not(.print-layer-modern) {
+    filter: brightness(0.93) saturate(0.95);
+  }
+
+  /* The readout plates and scale bar go solid there, so the dimmed paper never
+     shows through the figures. */
+  :root[data-map-appearance="night"][data-map-basemap="day"] :is(.position-readout, .display-scale-readout, .measure-readout, .leaflet-control-scale-line) {
+    background: var(--white);
+  }
+}
+
+/* Day: the measure line in terracotta, the one warm stroke on sage and cream
+   (vertices and the total label keep their own colours). */
+:root[data-map-basemap="day"] path.measure-shape {
+  stroke: #b5533a;
+}
+
+/* Day: the phone pills take the zoom bar's rim, radius and shadow, so the
+   corner controls read as one family. */
+:root[data-map-appearance="day"] :is(.mobile-map-brand, .mobile-controls-trigger) {
+  border: 0;
+  outline: 1px solid var(--control-edge, transparent);
+  outline-offset: -1px;
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
+}
+
+/* Night: the phone pills are solid; map labels showed through the
+   translucent fill. */
+:root[data-map-appearance="night"] :is(.mobile-map-brand, .mobile-controls-trigger) {
+  background: var(--white);
+  backdrop-filter: none;
+}
+
+/* Phone: the lone 3D pill takes the width of the Search & layers pill above
+   it, both right-aligned at 12px, so the corner reads as one column. */
+@media (max-width: 860px) {
+  .map-region:not(.poker-mode) .mobile-controls-trigger {
+    min-width: 160px;
+    justify-content: center;
+  }
+
+  .map-region:not(.poker-mode) .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) {
+    right: 12px;
+  }
+
+  .map-region:not(.poker-mode) .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button {
+    min-width: 160px;
+  }
+}
+
+/* Night: a warm glow around the live location dot only. */
+:root[data-map-appearance="night"] path.live-location-dot {
+  filter: drop-shadow(0 0 6px rgba(217, 195, 154, 0.5));
+}
+
+/* OSM: flat corner controls, a hairline rim and no cast shadow. */
+:root[data-map-basemap="osm"] :is(.map-canvas .leaflet-top.leaflet-left .leaflet-control-zoom, .location-button, .location-cluster-button, .measure-control button, .mobile-map-brand, .mobile-controls-trigger, .research-terrain-controls .terrain-control-bar button, .maplibregl-ctrl.maplibregl-ctrl-group) {
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* Hand-drawn: the export button and the readout plates as stamped labels,
+   paper with an ink rim and an inner rule, lettered in the style's quill
+   face (IM Fell English, as on the map's regional names). */
+:root[data-map-basemap="handdrawn"] :is(.export-map-trigger, .position-readout, .display-scale-readout, .measure-readout) {
+  color: #3b2614;
+  font-family: "IM Fell English", "Fraunces", Georgia, serif;
+  background: #f6ecd2;
+  border: 1.5px solid #3b2614;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 2px #f6ecd2, inset 0 0 0 3px rgba(59, 38, 20, 0.45);
+}
+
+/* Hand-drawn: an alternating ink-and-paper scale bar, the surveyor's kind;
+   the figures sit on plain paper above the checks. */
+:root[data-map-basemap="handdrawn"] .leaflet-control-scale-line {
+  color: #3b2614;
+  font-family: "IM Fell English", Georgia, serif;
+  text-shadow: none;
+  background:
+    linear-gradient(#f6ecd2, #f6ecd2) top / 100% calc(100% - 5px) no-repeat,
+    repeating-linear-gradient(90deg, #3b2614 0 10px, #f6ecd2 10px 20px);
+  border-color: #3b2614;
 }
 
 /* On a dark room the filled Search button was the brightest thing on the

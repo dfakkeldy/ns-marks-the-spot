@@ -3181,10 +3181,10 @@ describe("NS Marks The Spot Online", () => {
     expect(
       within(inspector).getAllByText(/does not prove no building exists/i).length,
     ).toBeGreaterThan(0);
-    // …while the interpretive prose sits behind the disclosure.
-    await userEvent.click(
+    // …and so does the interpretive prose, as a labelled row.
+    expect(
       within(inspector).getAllByText("What this does and doesn't show")[0],
-    );
+    ).toBeVisible();
     expect(
       within(inspector).getByText(/mapped as points; larger buildings as/i),
     ).toBeInTheDocument();
@@ -4540,6 +4540,21 @@ describe("NS Marks The Spot Online", () => {
     expect(region).not.toHaveClass("attribution-folded");
     fireEvent.pointerDown(region);
     expect(region).toHaveClass("attribution-folded");
+  });
+
+  it.each([
+    ["a licensed Province layer is on", "/?taxSale=off&layers=modern,nsprd", true],
+    ["only open layers are on", "/?taxSale=off&layers=modern", false],
+  ] as const)("names the Province licence in the folded credit only when %s", (_, url, licensed) => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", url);
+    render(<App />);
+    const footer = screen.getByRole("contentinfo");
+    fireEvent.pointerDown(screen.getByRole("region", { name: "Map and parcel details" }));
+    const folded = footer.querySelector(".map-attribution-folded-credit");
+    expect(folded).toHaveTextContent(/Boundaries are not a survey/);
+    if (licensed) expect(folded).toHaveTextContent("© OpenStreetMap contributors · Province of NS (licensed) · Boundaries are not a survey");
+    else expect(folded).not.toHaveTextContent(/Province of NS/);
   });
 
   it.each(builtInMapThemes)("folds the attribution strip after five seconds in $name", ({ id }) => {

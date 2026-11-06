@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Generate the Atlas sprite: the textures that give the Fletcher-inspired
-// basemap its printed-on-paper and hand-inked character without any hatching.
+// basemap its printed-on-paper and hand-inked character.
 //
 //   paper-grain / paper-grain-night  seamless, mostly transparent paper mottle and
 //                                    speckle, drawn above fills and lines but
@@ -8,6 +8,9 @@
 //   shore-stipple                    engraved-style dots inside the shore
 //   ink-line[-water|-road][-night]   hand-inked strokes of varying weight for the
 //                                    coastline, brooks and road casings
+//   crown-hatch                      a sparse 8 px diagonal engraver's hatch over
+//                                    the Crown Land wash (a pattern, so the tiled
+//                                    polygons show no seams at tile edges)
 //
 // The Hand-drawn style adds a sketchbook set in sepia ink (all prefixed hand-):
 //   hand-paper                       parchment mottle, stains and fibres
@@ -117,6 +120,20 @@ function inkLine(scale, colour) {
   for (let s = steps; s >= 0; s--) { const x = (s / steps) * width; context.lineTo(x, at((s / steps) * points, 1)); }
   context.closePath();
   context.fill();
+  return canvas;
+}
+
+/** One diagonal stroke per 8 px tile, with its wrapped corners, so the hatch repeats seamlessly. */
+function crownHatch(scale) {
+  const size = 8 * scale;
+  const canvas = createCanvas(size, size);
+  const context = canvas.getContext('2d');
+  // Mirrors the Fletcher hatch ink in src/atlas/style.ts; the layer applies the 0.35 opacity.
+  context.strokeStyle = '#8a7424';
+  context.lineWidth = scale;
+  for (const offset of [-size, 0, size]) {
+    context.beginPath(); context.moveTo(offset, size); context.lineTo(offset + size, 0); context.stroke();
+  }
   return canvas;
 }
 
@@ -509,6 +526,8 @@ async function build(scale) {
     ['hand-ink', inkLine(scale, '#3b2614')],
     ['hand-ink-water', inkLine(scale, '#6b4a2a')],
     ['hand-road-edges', handRoadEdges(scale)],
+    // Appended last so every earlier image keeps its sprite offset.
+    ['crown-hatch', crownHatch(scale)],
   ];
   const width = Math.max(...images.map(([, canvas]) => canvas.width));
   const height = images.reduce((sum, [, canvas]) => sum + canvas.height, 0);
@@ -531,7 +550,7 @@ await build(1);
 await build(2);
 await writeFile(path.join(outDir, 'README.txt'), `NS Marks Atlas sprite
 
-Procedurally generated textures (paper grain, shore stipple, hand-inked stroke)
+Procedurally generated textures (paper grain, shore stipple, hand-inked stroke,\nCrown Land hatch)
 for the Fletcher-inspired Atlas basemap, and the sepia sketchbook set (parchment,
 sea hatching, tree doodles, little mountains, cottages) for the Hand-drawn style. Regenerate with
 \`node scripts/buildAtlasSprite.mjs\`. Project-generated cartography; no source
