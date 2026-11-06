@@ -8166,6 +8166,19 @@ a {
   border-color: #3b2614;
 }
 
+/* IM Fell English has old-style figures, so "1:101,000" read as "I:IOI,OOO".
+   The plates that are mostly numbers take Fraunces' lining, tabular figures;
+   the export button keeps the quill face for its words. */
+:root[data-map-basemap="handdrawn"] :is(.position-readout, .display-scale-readout, .measure-readout, .leaflet-control-scale-line) {
+  font-family: "Fraunces", Georgia, serif;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* The figures sit on plain paper, clear of the 5px checks. */
+:root[data-map-basemap="handdrawn"] .leaflet-control-scale-line {
+  padding-bottom: 7px;
+}
+
 /* On a dark room the filled Search button was the brightest thing on the
    screen. It is outlined there, so the eye lands on the map. */
 :root[data-map-appearance="night"] .search-row .primary-action {
