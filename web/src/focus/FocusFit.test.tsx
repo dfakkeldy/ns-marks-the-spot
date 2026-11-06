@@ -11,6 +11,11 @@ const map = vi.hoisted(() => {
     fitBounds: vi.fn(() => { zoom = 12; }),
     getSize: vi.fn(() => ({ x: 1000, y: 800 })),
     getCenter: () => center,
+    // A plain degrees-to-pixels stand-in: one degree is 1000px.
+    project: (point: { lat: number; lng: number }) => ({
+      x: point.lng * 1000, y: point.lat * 1000,
+      distanceTo(other: { x: number; y: number }) { return Math.hypot(this.x - other.x, this.y - other.y); },
+    }),
     getZoom: () => zoom,
     on: (name: string, handler: () => void) => { if (!handlers.has(name)) handlers.set(name, new Set()); handlers.get(name)!.add(handler); },
     off: (name: string, handler: () => void) => { handlers.get(name)?.delete(handler); },
