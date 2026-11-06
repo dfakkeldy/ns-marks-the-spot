@@ -128,9 +128,13 @@ On the public record:
   [planned turbines receipt](planned-wind-turbines-sources.md). See
   [Wind turbines](#wind-turbines).
 
-Facts about something the map draws (the terminal, the generating station,
-Landrie Lake and the turbines) carry the map key's own symbol beside their
-label, so a reader can find each on the map.
+Facts about something the map draws carry a pill with the map key's own
+symbol and the map's own name for the place (EverWind terminal, Generating
+station, Landrie Lake, 12 turbines, and Upper Afton and Windy Ridge, the two
+of EverWind's four farms the map draws). Pressing it frames that place on
+the map; the extents are in `web/src/pointtupper/focus.ts`
+(`POINT_TUPPER_PLACE_BOUNDS`). The 1969 and 2026 timeline entries carry the
+same door to Landrie Lake and the terminal.
 
 ## The timeline
 

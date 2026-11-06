@@ -88,7 +88,9 @@ test('a fact about a mapped place takes the map to it', async ({ page }) => {
   await isolateExternal(page);
   await page.goto('/pointtupper?basemap=osm');
   await expect(page).toHaveURL(/position=[^&]*%2C13(&|$)/);
-  await page.getByRole('button', { name: 'Show Landrie Lake on the map' }).click();
+  // The Water fact's pill (the 1969 timeline entry has the same door).
+  await expect(page.getByRole('button', { name: 'Show Landrie Lake on the map' })).toHaveCount(2);
+  await page.getByRole('button', { name: 'Show Landrie Lake on the map' }).first().click();
   // Closer than the site overview, and centred on the lake.
   await expect(page).toHaveURL(/position=45\.5[89]\d*%2C-61\.3[01]\d*%2C1[56](&|$)/);
   expect(errors).toEqual([]);
