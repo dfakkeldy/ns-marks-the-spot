@@ -38,6 +38,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     throw new Error("Unsupported open source geometry type");
   };
   const labels: { text: string; p: { x: number; y: number } }[] = [];
+  let drawn = 0;
   for (const f of collection.features) {
     const desc = String(f.properties.feat_desc ?? "");
     const minorRoad = source.roads && /TRACK|TRAIL|DRIVEWAY|Unpaved|SERVICE LANE/i.test(desc);
@@ -55,6 +56,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
       // away for it); below zoom 11 an anchor ring per name only speckles it.
       continue;
     }
+    drawn += 1;
     if (source.pointRing && f.geometry.type.includes("Point")) {
       // A gazetteer point marks where the official name is anchored. At
       // overview zooms thousands of filled discs buried the map they were
@@ -98,5 +100,6 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 4; ctx.strokeText(text, p.x, p.y);
     ctx.fillStyle = "#29332e"; ctx.fillText(text, p.x, p.y);
   }
-  return { canvas, count: collection.features.length };
+  // The rail's "N loaded" counts what is drawn, not what was fetched.
+  return { canvas, count: drawn, fetched: collection.features.length };
 }

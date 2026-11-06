@@ -3147,7 +3147,7 @@ describe("MapCanvas Province overlays", () => {
   });
 
   it("renders the complete open roads result as one image above reference overlays", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
@@ -3183,7 +3183,7 @@ describe("MapCanvas Province overlays", () => {
   });
 
   it("reports roads ready only after the open-data image loads", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     const onLayerStatusChange = vi.fn();
     render(
       <MapCanvas
@@ -4168,7 +4168,7 @@ describe("MapCanvas print mode", () => {
   });
 
   it("keeps an open roads print image failure sticky", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     mapMock.getZoom.mockReturnValue(15);
     const onLayerStatusChange = vi.fn();
     render(

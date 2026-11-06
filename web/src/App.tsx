@@ -4933,7 +4933,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                             because the setup did not ask for it, so the row says
                             why the map is showing anyway. */}
                         {!showModernMap && provinceLayers["ns-aerial"] ? (
-                          <small className="modern-map-standin">Shown under NS Aerial until it loads (zoom 10+)</small>
+                          <small className="modern-map-standin">Shown on screen under NS Aerial until it loads (zoom 10+); not in exports</small>
                         ) : null}
                         <LayerMetadata
                           sourceDate={basemapSource(basemapStyle).sourceDate}

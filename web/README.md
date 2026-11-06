@@ -153,6 +153,11 @@ research layers, data queries and parcel selection; the 3D view below mirrors
 that same map state.
 A failed atlas source offers retry or a switch to OpenStreetMap.
 
+NS Aerial draws only from zoom 10. While it is on but below that zoom (or held by
+the Province licence), the Atlas map is drawn under it on screen, credited in the
+licence strip, and the Modern map row says so; the Modern map switch and shared
+links are unchanged, and exports do not include this stand-in.
+
 Browser print captures the selected style and applies the existing monochrome
 treatment. Generated PDF renders the captured atlas bounds locally with source
 credits; the basemap render is bounded to 2048 pixels per edge and its resampling
@@ -167,9 +172,13 @@ terms on both surfaces. Builds default to `https://tiles.kinnokilabs.com`
 disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
-The sidebar's **Appearance** selector offers **Match map**, **System**, **Light**
-and **Dark** independently of the basemap. Match map carries Fletcher's paper and
-ink, or Hand-drawn's sepia and parchment, into the controls. The choice stays in this browser. Property boundaries use
+The **Appearance** selector, under Basemap style in Background Maps, offers
+**Match map**, **System**, **Light** and **Dark** independently of the basemap.
+Match map carries Fletcher's paper and ink, Hand-drawn's sepia and parchment, or
+Atlas Day's warm paper into the controls; OpenStreetMap keeps a neutral light
+room (the root element carries `data-map-basemap` beside `data-map-appearance`).
+Shadows, map-button rims, layer status pills and the brand disc take each room's
+own tokens. The choice stays in this browser. Property boundaries use
 mustard outlines on Fletcher, dark red on Hand-drawn, bright yellow over Night or aerial imagery, and
 teal on light backgrounds, with no context fill. Crown Land remains fill-only;
 selected and tax-sale parcels retain their distinct evidence symbols.
@@ -178,7 +187,9 @@ On-screen road overlays reuse exposed Atlas roads while retaining supplemental
 bridge/structure geometry. When imagery hides Atlas, the separate road overlay
 is retained. Main roads do not redraw the network when Roads is already on.
 Extra road and place-name labels are suppressed over a labelled basemap or
-provincial topographic map. Labels baked into separate raster images cannot be
+provincial topographic map. Place names mark their anchor points with small rings,
+and below zoom 11 keep to towns and villages; over a labelled basemap the rings
+are also left out below zoom 11. The layer's loaded count is what is drawn. Labels baked into separate raster images cannot be
 removed individually. Standalone NSRN overlays use unsimplified source geometry
 at every zoom. Completed road collections up to 8 MiB are cached in memory for
 60 seconds with a 10% margin on each edge, so small pans reuse source geometry.
@@ -383,6 +394,14 @@ from publishing the data archive. The prebuild gate verifies the full SHA-256
 and source inventory and fails if the hosted object is unavailable or corrupt.
 
 ## Map setup, categories, and themes
+
+The rail's title names the active setup ("NS Marks The Spot" for a shared link
+that matches none). Below search come **Map setup** and then **Export map
+(PDF)**. Category headings carry a disclosure chevron on the title line, and
+each layer row keeps its switch on the name's line; an off row hides the
+redundant "Off" pill visually but still announces it. Restricted rows offer an
+in-row **Review** of the Province licence. The folded licence strip keeps the
+OpenStreetMap credit and "Boundaries are not a survey" in view on wide screens.
 
 A first visit uses **Explore Nova Scotia**: the modern map is on, catalogue
 overlays are off, and **Tax Sale** is off. Layer controls are organized into ten
