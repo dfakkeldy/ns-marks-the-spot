@@ -55,9 +55,9 @@ for (const width of [320, 390, 844, 1440]) {
         const footer = (await page.locator(".map-attribution").boundingBox())!;
         const folded = await page.locator(".map-attribution").evaluate(element => element.classList.contains("collapsed"));
         return width <= 860 && folded
-          ? label.x >= bars.x + bars.width && label.x + label.width <= footer.x
+          // Folded on a phone, the ratio plate sits directly above the bars.
+          ? label.y + label.height <= bars.y && Math.abs(label.x - bars.x) <= 2
             && bars.y + bars.height <= footer.y + footer.height
-            && label.y + label.height <= footer.y + footer.height
           : label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
       }).toBe(true);
     };

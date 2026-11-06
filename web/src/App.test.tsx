@@ -3181,10 +3181,10 @@ describe("NS Marks The Spot Online", () => {
     expect(
       within(inspector).getAllByText(/does not prove no building exists/i).length,
     ).toBeGreaterThan(0);
-    // …while the interpretive prose sits behind the disclosure.
-    await userEvent.click(
+    // …and so does the interpretive prose, as a labelled row.
+    expect(
       within(inspector).getAllByText("What this does and doesn't show")[0],
-    );
+    ).toBeVisible();
     expect(
       within(inspector).getByText(/mapped as points; larger buildings as/i),
     ).toBeInTheDocument();

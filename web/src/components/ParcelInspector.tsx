@@ -157,18 +157,17 @@ export type DwellingState =
     };
 
 /**
- * Explanatory caveat prose behind a disclosure. The DATA above it and the
- * source/attribution lines stay visible — the licence obligations and the
- * one-line caveat are never collapsed, only the multi-sentence
- * interpretation, which had grown to outweigh the facts it protects. Same
- * pattern as the rail's "Source & scale" rows.
+ * Explanatory caveat prose as a visible, labelled row. The DATA above it and
+ * the source/attribution lines come first; this holds the multi-sentence
+ * interpretation. It used to sit behind a disclosure, which hid the very
+ * limits a reader most needs before acting on a parcel.
  */
 function EvidenceCaveat({ children }: { children: ReactNode }) {
   return (
-    <details className="evidence-caveat">
-      <summary>What this does and doesn&apos;t show</summary>
+    <section className="evidence-caveat-row" aria-label="What this does and doesn't show">
+      <p className="evidence-caveat-label">What this does and doesn&apos;t show</p>
       {children}
-    </details>
+    </section>
   );
 }
 

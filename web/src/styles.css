@@ -3867,9 +3867,15 @@ a {
   }
 
   /* Unfolded on a phone, the Province disclaimer and the survey caveat read as
-     one pair after the source credits, and the software credit goes last. */
+     one pair right after the toggle, inside the strip's first rows rather than
+     below its 72px fold; the source credits follow and the software credit
+     goes last. */
+  .map-attribution > :first-child {
+    order: -2;
+  }
+
   .map-attribution > :is(.province-attribution, .survey-caveat) {
-    order: 1;
+    order: -1;
   }
 
   .map-attribution > .source-code-link {
@@ -4199,6 +4205,28 @@ a {
     bottom: calc(8px + env(safe-area-inset-bottom));
     max-width: calc(100% - 238px);
     white-space: normal;
+  }
+
+  /* Outside Poker (whose dock has its own row), the folded phone puts the
+     "≈ 1:…" plate directly above the scale bar, flush with its left edge, and
+     the measure tools step up to clear it. */
+  .map-region.attribution-folded:not(.poker-mode) {
+    --compact-tools-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+
+  .map-region.attribution-folded:not(.poker-mode) .leaflet-container .display-scale-readout {
+    right: auto;
+    left: 12px;
+    bottom: calc(58px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+  }
+
+  /* The folded licence pill (44px at 8px from the bottom) sat over the
+     panel's bottom-right corner and the assessment caveat. The panel lifts
+     by the pill and a 16px gap, so the credit stays visible and clear. */
+  .map-region.attribution-folded .parcel-inspector {
+    bottom: calc(68px + env(safe-area-inset-bottom));
   }
 
   /* One line on a phone: the wording stays for screen readers and in the
@@ -7533,6 +7561,25 @@ a {
   color: var(--chart-ink);
 }
 
+
+/* The parcel inspector's interpretation row: always shown, set apart by a
+   rule rather than hidden behind a toggle. */
+.evidence-caveat-row {
+  margin: 4px 0 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+}
+
+.evidence-caveat-row > .evidence-caveat-label {
+  margin: 0 0 2px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  font-weight: 600;
+}
+
+.evidence-caveat-row > :last-child {
+  margin-bottom: 0;
+}
 
 /* GL supplies the base only; Leaflet panes continue to own all overlays. */
 .leaflet-container > .atlas-basemap {

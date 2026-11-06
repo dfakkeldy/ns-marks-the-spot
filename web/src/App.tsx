@@ -5784,6 +5784,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                 className="mobile-map-brand"
                 href="../"
                 aria-label="NS Marks The Spot home"
+                title="NS Marks The Spot home page"
               >
                 <span aria-hidden="true">NS</span>
                 <strong>NS Marks</strong>
