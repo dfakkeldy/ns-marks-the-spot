@@ -274,9 +274,10 @@
   top: 100%;
   right: 0;
   left: 0;
-  height: 12px;
+  height: 20px;
   content: "";
-  background: linear-gradient(var(--pt-deep), rgba(16, 40, 58, 0));
+  /* Solid for the first 8px, so even a link's underline doesn't ghost through. */
+  background: linear-gradient(var(--pt-deep) 8px, rgba(16, 40, 58, 0));
   pointer-events: none;
 }
 
@@ -363,11 +364,16 @@
   margin: -4px 0 -4px 6px;
   padding: 0;
   vertical-align: middle;
-  /* The marker carries its own ring; the button adds only a hover fill. */
+  /* Sodium, because it can be pressed: the button's ring replaces the
+     marker's own white one (below), so there is still only one. */
   background: transparent;
-  border: 0;
+  border: 1px solid rgba(240, 180, 90, 0.55);
   border-radius: 50%;
   cursor: pointer;
+}
+
+.pointtupper-timeline-place svg > circle {
+  stroke: none;
 }
 
 .pointtupper-timeline-place::before {
@@ -866,10 +872,6 @@
   cursor: pointer;
 }
 
-.pointtupper-key-link::after {
-  content: " \2193" / "";
-}
-
 .pointtupper-key-link:focus-visible {
   outline: 2px solid var(--survey-blue);
   outline-offset: 2px;
@@ -1088,16 +1090,48 @@
        padding is taken back by the negative margin at rest. */
     bottom: -20px;
     margin: 0 -24px -20px;
-    padding: 24px 24px calc(30px + env(safe-area-inset-bottom));
+    padding: 12px 24px calc(30px + env(safe-area-inset-bottom));
+  }
+
+  /* While it travels, a 24px fade above it; at rest the close keeps its
+     16px steps. */
+  .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-actions.is-stuck {
+    padding-top: 24px;
     background: linear-gradient(rgba(16, 40, 58, 0), var(--pt-deep) 24px);
+  }
+
+  /* The byline's rule shows above the resting band's foot. */
+  .pointtupper-hero-byline {
+    position: relative;
+    z-index: 5;
   }
 
   .pointtupper-focus .layer-rail:not(.pointtupper-sheet-full) .pointtupper-hero-hint {
     display: none;
   }
 
+  /* At the 60% stop the brief fades into the sheet's foot, as it does under
+     the button band once the sheet rises. */
+  .pointtupper-focus .layer-rail.mobile-open:not(.pointtupper-sheet-full) .pointtupper-hero-body::after {
+    position: sticky;
+    z-index: 2;
+    bottom: -20px;
+    display: block;
+    height: 24px;
+    margin-top: -24px;
+    content: "";
+    background: linear-gradient(rgba(16, 40, 58, 0), var(--pt-deep));
+    pointer-events: none;
+  }
+
   .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-hint {
     display: block;
+  }
+
+  /* The hint is about what follows the button, so it waits for the band to
+     come to rest rather than riding along over the brief. */
+  .pointtupper-focus .layer-rail.pointtupper-sheet-full .pointtupper-hero-actions.is-stuck .pointtupper-hero-hint {
+    display: none;
   }
 
   .pointtupper-hero-primary {

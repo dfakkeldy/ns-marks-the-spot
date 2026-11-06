@@ -114,6 +114,18 @@ function usePanelScroll(heroRef: RefObject<HTMLElement | null>) {
         const offset = title.getBoundingClientRect().top - mark.getBoundingClientRect().top - resting;
         title.classList.toggle('is-stuck', offset > 1);
       }
+      // The phone's button band is stuck while its resting place (the mark
+      // after it) is still below it. Its hint shows only at rest, which
+      // changes the band's height by one line; the wider threshold for
+      // becoming stuck than for coming to rest keeps that from flickering.
+      const band = hero.querySelector<HTMLElement>('.pointtupper-hero-actions');
+      const bandMark = band?.nextElementSibling;
+      if (band && bandMark?.classList.contains('pointtupper-stick-mark')) {
+        const resting = parseFloat(getComputedStyle(band).marginBottom) || 0;
+        const gap = bandMark.getBoundingClientRect().top - band.getBoundingClientRect().bottom - resting;
+        const stuck = band.classList.contains('is-stuck') ? gap > 1 : gap > 48;
+        band.classList.toggle('is-stuck', stuck);
+      }
     };
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     rail.addEventListener('scroll', onScroll, { passive: true });
@@ -337,6 +349,7 @@ export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileContr
               once the sheet is at full height (pointTupperPage.css). */}
           <p className="pointtupper-hero-hint">Then select a place for its source and date.</p>
         </div>
+        <span className="pointtupper-stick-mark" aria-hidden="true" />
         <p className="pointtupper-hero-byline">Built by Dan Fakkeldy with Claude Code, from public sources.</p>
       </div>
       {/* The far shore's line, closing the night room before the map's tools. */}
