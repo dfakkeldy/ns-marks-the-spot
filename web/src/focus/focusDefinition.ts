@@ -53,6 +53,8 @@ export interface FocusChromeContext {
   readonly closeMobileControls: () => void;
   /** Fit the map to the page's `fitBounds`. */
   readonly fitToFocus: () => void;
+  /** Fit the map to an area the page names, such as one of its key places. */
+  readonly fitToBounds: (bounds: FocusBounds) => void;
   /** Ask `rhodena-visibility` to start a viewpoint pick once its terrain is ready. */
   readonly startViewpointPick: () => void;
   /** Each layer's last reported state (loading, zoom floor, count), for keys that explain an empty map. */
@@ -71,6 +73,8 @@ export interface FocusFitRequest {
   readonly bounds: FocusBounds | null;
   /** Pixels on the map's right kept clear of the fitted area on a wide map (`mapOverlayInset`). */
   readonly insetRight?: number;
+  /** Pixels at the map's foot kept clear, for a phone sheet open over the map's lower part. */
+  readonly insetBottom?: number;
 }
 
 /**
@@ -111,6 +115,12 @@ export interface FocusDefinition {
    * so fitting the page's area frames it beside the overlay, not under it.
    */
   readonly mapOverlayInset?: number;
+  /**
+   * The share of the viewport the phone sheet takes when it opens on arrival
+   * (the page's CSS gives the sheet the same height), so the opening fit
+   * frames the page's area in the band of map above it.
+   */
+  readonly phoneSheetShare?: number;
   /**
    * Draw property boundaries bolder than the map's 1.2-point default, in
    * export points: for a page about a few large holdings, not dense lots.

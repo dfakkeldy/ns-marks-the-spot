@@ -60,3 +60,16 @@ export const pointTupperFocusDeniedLayerIds: ReadonlySet<ShareLayerId> = new Set
 export const POINT_TUPPER_BOUNDS: FocusBounds = [[45.560, -61.385], [45.622, -61.300]];
 
 export const POINT_TUPPER_POSITION: MapPosition = { latitude: 45.591, longitude: -61.3425, zoom: 13 };
+
+/**
+ * A close view of each mapped place a summary line is about, for its "Show on
+ * map" pill: the jetty, the generating station and Landrie Lake (positions
+ * from sites.geojson), and the Point Tupper wind farm's twelve turbines (the
+ * extent of NRCan's records, read November 5, 2026).
+ */
+export const POINT_TUPPER_PLACE_BOUNDS: Readonly<Record<'terminal' | 'power' | 'water' | 'turbines', FocusBounds>> = {
+  terminal: [[45.5676, -61.3525], [45.5797, -61.3345]],
+  power: [[45.5809, -61.3571], [45.5929, -61.3391]],
+  water: [[45.5806, -61.3293], [45.5986, -61.2973]],
+  turbines: [[45.5609, -61.3434], [45.5788, -61.2908]],
+};

@@ -21,6 +21,8 @@ export const pointTupperFocusDefinition: FocusDefinition = {
   parcelOutlineWidth: 2.6,
   // The map key's width and margin (pointTupperPage.css).
   mapOverlayInset: 264,
+  // The phone sheet's arrival height (pointTupperPage.css), so the site opens in view above it.
+  phoneSheetShare: 0.6,
   chrome: {
     Hero: PointTupperFocusHero,
     MapOverlay: PointTupperMapLegend,

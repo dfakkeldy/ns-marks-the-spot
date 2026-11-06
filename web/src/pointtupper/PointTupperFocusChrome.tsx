@@ -1,21 +1,71 @@
-import type { FocusChromeContext } from '../focus/focusDefinition';
+import type { ReactNode } from 'react';
+import type { FocusBounds, FocusChromeContext } from '../focus/focusDefinition';
 import { POINT_TUPPER_LICENCE_URL, POINT_TUPPER_SOURCES_URL, pointTupperSiteKinds } from '../layers/pointTupperLayers';
 import { POINT_TUPPER_CHECKED, POINT_TUPPER_FACT_GROUPS, POINT_TUPPER_TIMELINE, type SourcedLine } from './facts';
 import { pointMarker, type Swatch } from './mapKey';
+import { POINT_TUPPER_PLACE_BOUNDS } from './focus';
 import { MarkerSwatch } from './PointTupperMapLegend';
 
-/**
- * The key's own symbol beside the facts about something the map draws, so the
- * brief teaches the map: the terminal, the generating station, Landrie Lake
- * and the turbines. Facts about decisions and people get none.
- */
-const FACT_GLYPHS: Readonly<Record<string, Swatch>> = {
-  Announced: { kind: 'marker', marker: pointTupperSiteKinds.terminal.marker, color: pointTupperSiteKinds.terminal.color },
-  Grid: { kind: 'marker', marker: pointTupperSiteKinds.power.marker, color: pointTupperSiteKinds.power.color },
-  Water: { kind: 'marker', marker: pointTupperSiteKinds.water.marker, color: pointTupperSiteKinds.water.color },
-  Wind: pointMarker('planned-wind-turbines'),
-  'Wind nearby': pointMarker('canadian-wind-turbines'),
+interface MappedPlace {
+  /** Spoken in the pill's name: "Show the terminal on the map". */
+  readonly name: string;
+  readonly swatch: Swatch;
+  readonly bounds: FocusBounds;
+}
+
+const TERMINAL: MappedPlace = {
+  name: 'the terminal',
+  swatch: { kind: 'marker', marker: pointTupperSiteKinds.terminal.marker, color: pointTupperSiteKinds.terminal.color },
+  bounds: POINT_TUPPER_PLACE_BOUNDS.terminal,
 };
+const POWER: MappedPlace = {
+  name: 'the generating station',
+  swatch: { kind: 'marker', marker: pointTupperSiteKinds.power.marker, color: pointTupperSiteKinds.power.color },
+  bounds: POINT_TUPPER_PLACE_BOUNDS.power,
+};
+const WATER: MappedPlace = {
+  name: 'Landrie Lake',
+  swatch: { kind: 'marker', marker: pointTupperSiteKinds.water.marker, color: pointTupperSiteKinds.water.color },
+  bounds: POINT_TUPPER_PLACE_BOUNDS.water,
+};
+const TURBINES: MappedPlace = {
+  name: 'the Point Tupper wind farm',
+  swatch: pointMarker('canadian-wind-turbines'),
+  bounds: POINT_TUPPER_PLACE_BOUNDS.turbines,
+};
+
+/**
+ * Facts about something the map draws carry the key's own symbol in a pill
+ * that takes the map there, so the brief teaches the map and leads into it.
+ * Facts about decisions, people and places off this map get none.
+ */
+const FACT_PLACES: Readonly<Record<string, MappedPlace>> = {
+  Announced: TERMINAL,
+  Grid: POWER,
+  Water: WATER,
+  'Wind nearby': TURBINES,
+};
+
+/** Timeline events about a place the map draws, marked with its symbol. */
+const TIMELINE_PLACES: Readonly<Record<string, MappedPlace>> = {
+  '1969': WATER,
+  '2026': TERMINAL,
+};
+
+function Glyph({ swatch, size }: { swatch: Swatch; size: number }) {
+  return swatch.kind === 'marker'
+    ? <MarkerSwatch marker={swatch.marker} color={swatch.color} size={swatch.marker.glyph === 'turbine' ? size + 2 : size} />
+    : null;
+}
+
+/** A source link: it opens in a new tab, and says so. */
+function SourceLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a className="pointtupper-source" href={href} target="_blank" rel="noreferrer">
+      {children}<span className="visually-hidden"> (opens in a new tab)</span>
+    </a>
+  );
+}
 
 /**
  * A decorative dusk view across the Strait: tanks, a jetty, a stack and a
@@ -27,13 +77,13 @@ function StraitIllustration() {
     <svg className="pointtupper-hero-art" viewBox="0 0 360 132" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="pointtupper-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#0d2233" />
+          <stop offset="0" stopColor="#10283a" />
           <stop offset="0.55" stopColor="#21455a" />
           <stop offset="0.9" stopColor="#d99a52" />
         </linearGradient>
         <linearGradient id="pointtupper-water" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#2b5266" />
-          <stop offset="1" stopColor="#0d2233" />
+          <stop offset="1" stopColor="#10283a" />
         </linearGradient>
       </defs>
       <rect width="360" height="132" fill="url(#pointtupper-sky)" />
@@ -54,7 +104,7 @@ function StraitIllustration() {
       </g>
       {/* The stack, with a light at the top. */}
       <rect x="128" y="40" width="7" height="56" fill="#cfd8dd" />
-      <circle className="pointtupper-hero-beacon" cx="131.5" cy="38" r="1.6" fill="#ff6b57" />
+      <circle className="pointtupper-hero-beacon" cx="131.5" cy="38" r="2.2" fill="#ff6b57" />
       {/* Storage tanks. */}
       <g fill="#e9eef0">
         <rect x="200" y="80" width="26" height="14" rx="2" />
@@ -84,27 +134,28 @@ function factGroupId(title: string): string {
 }
 
 /** One summary line: the fact, its source, then any qualification with its own source. */
-function FactRow({ fact }: { fact: SourcedLine }) {
-  const glyph = FACT_GLYPHS[fact.label];
+function FactRow({ fact, onShowPlace }: { fact: SourcedLine; onShowPlace: (place: MappedPlace) => void }) {
+  const place = FACT_PLACES[fact.label];
   return (
     <div>
       <dt>
-        {glyph?.kind === 'marker' ? (
-          <span className="pointtupper-fact-glyph" aria-hidden="true">
-            <MarkerSwatch marker={glyph.marker} color={glyph.color} size={glyph.marker.glyph === 'turbine' ? 16 : 14} />
-          </span>
+        <span>{fact.label}</span>
+        {place ? (
+          <button type="button" className="pointtupper-place" aria-label={`Show ${place.name} on the map`} onClick={() => onShowPlace(place)}>
+            <span className="pointtupper-place-glyph" aria-hidden="true"><Glyph swatch={place.swatch} size={12} /></span>
+            Map
+          </button>
         ) : null}
-        {fact.label}
       </dt>
       <dd>
         <p>
           {fact.text}{' '}
-          <a href={fact.sourceUrl} target="_blank" rel="noreferrer">{fact.sourceLabel}</a>
+          <SourceLink href={fact.sourceUrl}>{fact.sourceLabel}</SourceLink>
         </p>
         {fact.note && (
           <p className="pointtupper-fact-note">
             {fact.note.text}{' '}
-            <a href={fact.note.sourceUrl} target="_blank" rel="noreferrer">{fact.note.sourceLabel}</a>
+            <SourceLink href={fact.note.sourceUrl}>{fact.note.sourceLabel}</SourceLink>
           </p>
         )}
       </dd>
@@ -118,19 +169,29 @@ function StraitTimeline() {
     <section className="pointtupper-timeline" aria-labelledby="pointtupper-timeline-title">
       <h3 id="pointtupper-timeline-title">Seventy years on the Strait</h3>
       <ol>
-        {POINT_TUPPER_TIMELINE.map((event) => (
-          <li key={`${event.when}-${event.text}`}>
-            <span className="pointtupper-when">{event.when}</span>
-            <p>
-              {event.text}{' '}
-              <a href={event.sourceUrl} target="_blank" rel="noreferrer">{event.sourceLabel}</a>
-            </p>
-          </li>
-        ))}
-        {/* The record is unfinished: the line runs on, dashed, to the day it was last read. */}
+        {POINT_TUPPER_TIMELINE.map((event) => {
+          const place = TIMELINE_PLACES[event.when];
+          return (
+            <li key={`${event.when}-${event.text}`}>
+              <span className="pointtupper-when">{event.when}</span>
+              <p>
+                {place ? <span className="pointtupper-timeline-glyph" aria-hidden="true"><Glyph swatch={place.swatch} size={12} /></span> : null}
+                {event.text}{' '}
+                <SourceLink href={event.sourceUrl}>{event.sourceLabel}</SourceLink>
+              </p>
+            </li>
+          );
+        })}
+        {/* The record is unfinished: the line runs on, dashed, to the day it
+            was last read, and to what it does not show yet. */}
         <li className="pointtupper-timeline-now">
           <span className="pointtupper-when">Now</span>
-          <p>The record so far, read <time dateTime={POINT_TUPPER_CHECKED.iso}>{POINT_TUPPER_CHECKED.text}</time>.</p>
+          <div>
+            <p>The record so far, read <time dateTime={POINT_TUPPER_CHECKED.iso}>{POINT_TUPPER_CHECKED.text}</time>.</p>
+            <p className="pointtupper-hero-note">
+              The campus footprint has not been published, so the map does not draw it.
+            </p>
+          </div>
         </li>
       </ol>
     </section>
@@ -138,12 +199,16 @@ function StraitTimeline() {
 }
 
 /** The /pointtupper summary: what was announced and what the record shows, each fact with its source. */
-export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusChromeContext) {
+export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileControls }: FocusChromeContext) {
+  const showPlace = (place: MappedPlace) => {
+    fitToBounds(place.bounds);
+    closeMobileControls();
+  };
   return (
     <section className="pointtupper-hero" aria-labelledby="pointtupper-hero-title">
       <StraitIllustration />
       <div className="pointtupper-hero-body">
-        <p className="pointtupper-hero-eyebrow">Strait of Canso · Richmond County, Nova&nbsp;Scotia</p>
+        <p className="pointtupper-hero-eyebrow">Strait of Canso · Richmond&nbsp;County, Nova&nbsp;Scotia</p>
         <h2 id="pointtupper-hero-title">Point Tupper</h2>
         <p className="pointtupper-hero-lede">
           Where the announced data-centre campus would go: the terminal, the grid, the water and seventy
@@ -156,16 +221,13 @@ export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusC
           <section key={group.title} className="pointtupper-fact-group" aria-labelledby={factGroupId(group.title)}>
             <h3 id={factGroupId(group.title)}>{group.title}</h3>
             <dl className="pointtupper-facts">
-              {group.facts.map((fact) => <FactRow key={fact.label} fact={fact} />)}
+              {group.facts.map((fact) => <FactRow key={fact.label} fact={fact} onShowPlace={showPlace} />)}
             </dl>
           </section>
         ))}
         <StraitTimeline />
-        <p className="pointtupper-hero-note">
-          The campus footprint has not been published, so the map does not draw it.
-        </p>
         <a className="pointtupper-hero-link" href={POINT_TUPPER_SOURCES_URL} target="_blank" rel="noreferrer">
-          Every source, and what it supports
+          Every source, and what it supports<span className="visually-hidden"> (opens in a new tab)</span>
         </a>
         <div className="pointtupper-hero-actions">
           <button
@@ -179,6 +241,7 @@ export function PointTupperFocusHero({ fitToFocus, closeMobileControls }: FocusC
             Zoom to Point Tupper
           </button>
         </div>
+        <p className="pointtupper-hero-hint">Then select a place on the map for its source and date.</p>
         <p className="pointtupper-hero-byline">Built by Dan Fakkeldy with Claude Code, from public sources.</p>
       </div>
       {/* The far shore's line, closing the night room before the map's tools. */}
@@ -204,9 +267,9 @@ export function PointTupperBrandMark() {
     <>
       <span aria-hidden="true"><PointTupperGlyph /></span>
       <strong>Point Tupper<span className="pointtupper-brand-suffix"> site</span></strong>
-      {/* The sheet rises from below, so the pill points up to it. */}
+      {/* The pill unfolds the brief, so it carries the usual unfold mark. */}
       <svg className="pointtupper-brand-chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <path d="M2.5 7.5 6 4 9.5 7.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M2.5 4.5 6 8 9.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </>
   );
@@ -217,8 +280,8 @@ export function PointTupperFooterNote() {
     <p>
       A screening and research map, not legal proof. Each layer keeps its own source, date and caveats, and
       an empty or failed layer is not evidence of absence. The key places are the project&apos;s own wording
-      under CC BY 4.0 (<a href={POINT_TUPPER_LICENCE_URL} target="_blank" rel="noreferrer">licence notes</a>,{' '}
-      <a href={POINT_TUPPER_SOURCES_URL} target="_blank" rel="noreferrer">sources</a>).
+      under CC BY 4.0 (<SourceLink href={POINT_TUPPER_LICENCE_URL}>licence notes</SourceLink>,{' '}
+      <SourceLink href={POINT_TUPPER_SOURCES_URL}>sources</SourceLink>).
     </p>
   );
 }

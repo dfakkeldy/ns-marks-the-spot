@@ -10,13 +10,16 @@ import type { FocusFitRequest } from "./focusDefinition";
 export function FocusFit({ request }: { request: FocusFitRequest }) {
   const map = useMap();
   const handled = useRef(0);
-  const { revision, bounds, insetRight = 0 } = request;
+  const { revision, bounds, insetRight = 0, insetBottom = 0 } = request;
   useEffect(() => {
     if (revision <= handled.current) return;
     handled.current = revision;
     if (!bounds) return;
-    const inset = map.getSize().x >= insetRight * 2 + 320 ? insetRight : 0;
-    map.fitBounds(bounds, { paddingTopLeft: [24, 24], paddingBottomRight: [24 + inset, 24], animate: false });
-  }, [map, revision, bounds, insetRight]);
+    const size = map.getSize();
+    const inset = size.x >= insetRight * 2 + 320 ? insetRight : 0;
+    // Keep a band of at least 160px of map to frame the area in.
+    const foot = size.y - insetBottom >= 160 ? insetBottom : 0;
+    map.fitBounds(bounds, { paddingTopLeft: [24, 24], paddingBottomRight: [24 + inset, 24 + foot], animate: false });
+  }, [map, revision, bounds, insetRight, insetBottom]);
   return null;
 }

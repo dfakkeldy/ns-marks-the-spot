@@ -20,6 +20,7 @@ function context(overrides: Partial<FocusChromeContext> = {}): FocusChromeContex
     openMobileControls: vi.fn(),
     closeMobileControls: vi.fn(),
     fitToFocus: vi.fn(),
+    fitToBounds: vi.fn(),
     startViewpointPick: vi.fn(),
     layerStatuses: {},
     provinceLayers: hiddenProvinceLayers,

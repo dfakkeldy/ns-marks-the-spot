@@ -8,6 +8,7 @@ import {
   focusOffersLayer,
   type FocusChromeContext,
   type FocusDefinition,
+  type FocusBounds,
   type FocusFitRequest,
   type FocusPageState,
 } from "./focus/focusDefinition";
@@ -1264,10 +1265,20 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // A page whose area is wider than its opening zoom shows on a phone fits
   // that area on open, unless the link brings its own camera. The full map
   // opening that page's setup borrows its camera, so it fits the same way.
-  const [focusFit, setFocusFit] = useState<FocusFitRequest>(() =>
-    cameraFocus?.fitOnOpen && !hasSharedPosition
-      ? { revision: 1, bounds: cameraFocus.fitBounds, insetRight: focusDef?.mapOverlayInset }
-      : { revision: 0, bounds: null });
+  const [focusFit, setFocusFit] = useState<FocusFitRequest>(() => {
+    if (!cameraFocus?.fitOnOpen || hasSharedPosition) return { revision: 0, bounds: null };
+    // A focus page's sheet opens on arrival on a phone (below); frame the area
+    // in the map left above it. 80px is the attribution strip and the sheet's gap.
+    const sheetShare = focusDef?.phoneSheetShare;
+    const opensOnSheet = Boolean(focusDef) && sheetShare !== undefined
+      && (window.matchMedia?.("(max-width: 860px)").matches ?? false);
+    return {
+      revision: 1,
+      bounds: cameraFocus.fitBounds,
+      insetRight: focusDef?.mapOverlayInset,
+      insetBottom: opensOnSheet && sheetShare !== undefined ? Math.round(window.innerHeight * sheetShare) + 80 : undefined,
+    };
+  });
   // Only the page itself mounts its map overlay; the full map borrowing its camera has none to clear.
   const requestFocusFit = useCallback((definition: FocusDefinition) => {
     setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds, insetRight: focusDef?.mapOverlayInset }));
@@ -4715,6 +4726,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     openMobileControls,
     closeMobileControls,
     fitToFocus: () => { if (focusDef) requestFocusFit(focusDef); },
+    fitToBounds: (bounds: FocusBounds) => {
+      setFocusFit(({ revision }) => ({ revision: revision + 1, bounds, insetRight: focusDef?.mapOverlayInset }));
+    },
     startViewpointPick: () => setRhodenaPickPending(true),
     layerStatuses,
     provinceLayers,

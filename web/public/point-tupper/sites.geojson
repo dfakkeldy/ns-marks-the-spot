@@ -42,6 +42,7 @@
       "properties": {
         "id": "landrie-lake",
         "label": "Landrie Lake",
+        "label_side": "top",
         "name": "Landrie Lake (industrial water supply)",
         "kind": "water",
         "note": "Built by the Province in 1969 to supply raw water to Point Tupper industry; now run by the Landrie Lake Water Utility. EverWind says the campus's closed-loop cooling will draw about 100,000 litres a day in phase 1 and about 500,000 litres a day after expansion, about 1% of the lake's stated safe yield of 34 million litres a day (company figures, as reported by The Canadian Press on October 16, 2026).",
