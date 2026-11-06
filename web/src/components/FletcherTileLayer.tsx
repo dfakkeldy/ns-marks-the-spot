@@ -39,8 +39,11 @@ export function FletcherTileLayer({
     let pendingSheets = 0;
 
     const removeLayer = (id: string, layer: TileLayer) => {
-      layer.off();
+      // Remove first: Leaflet detaches the layer's map listeners from a
+      // "remove" handler on the layer, which an earlier off() would erase,
+      // leaving a removed layer to crash on the next zoom (_map is null).
       map.removeLayer(layer);
+      layer.off();
       layers.delete(id);
     };
     const removeAll = () => {

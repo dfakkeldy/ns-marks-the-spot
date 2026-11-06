@@ -67,7 +67,7 @@ export function FletcherFullSheetsPreview({ renderMode }: { renderMode: MapRende
     control.onAdd = () => panel;
     control.addTo(map); tiles.addTo(map); updateStatus();
     return () => {
-      map.off('moveend', updateStatus); tiles.off(); tiles.remove(); control.remove();
+      map.off('moveend', updateStatus); tiles.remove(); tiles.off(); /* remove first: see FletcherTileLayer */ control.remove();
       enabled.onchange = null; opacity.oninput = null;
     };
   }, [map, renderMode]);
