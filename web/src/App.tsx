@@ -13,6 +13,7 @@ import {
   type FocusPageState,
 } from "./focus/focusDefinition";
 import { focusDefinitions, focusForTheme, type FocusId } from "./focus/registry";
+import { themeCameraFor, themeOpeningPosition, type ThemeCameraRequest } from "./themes/themeCameras";
 import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
 import { DistrictInspector } from "./components/DistrictInspector";
 import { initialElectoralModes, withElectoralMode, type ElectoralLayerId } from "./layers/electoralLayers";
@@ -1215,8 +1216,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       : undefined,
   ).current;
   // The camera a link without `position` opens on: the focus page's own, or
-  // on the full map, that of the focus page built on the requested setup.
-  const cameraFocus = focusDef ?? focusForTheme(initialRequestedTheme?.id);
+  // on the full map, the requested setup's own camera (themes/themeCameras.ts),
+  // else that of the focus page built on the setup.
+  const initialThemeCamera = focusDef || hasSharedPosition ? undefined : themeCameraFor(initialRequestedTheme?.id);
+  const cameraFocus = focusDef ?? (initialThemeCamera ? undefined : focusForTheme(initialRequestedTheme?.id));
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -1273,6 +1276,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // that area on open, unless the link brings its own camera. The full map
   // opening that page's setup borrows its camera, so it fits the same way.
   const [focusFit, setFocusFit] = useState<FocusFitRequest>(() => {
+    if (initialThemeCamera?.kind === "fit") return { revision: 1, bounds: initialThemeCamera.bounds };
     if (!cameraFocus?.fitOnOpen || hasSharedPosition) return { revision: 0, bounds: null };
     // A focus page's sheet opens on arrival on a phone (below); frame the area
     // in the map left above it. 80px is the attribution strip and the sheet's gap.
@@ -1290,6 +1294,20 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const requestFocusFit = useCallback((definition: FocusDefinition) => {
     setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds, insetRight: focusDef?.mapOverlayInset }));
   }, [focusDef]);
+  // A setup's own opening camera. Its revision also tells MapCanvas's
+  // LayerZoomController to leave the layer change that came with it alone.
+  const [themeCamera, setThemeCamera] = useState<ThemeCameraRequest>(() =>
+    initialThemeCamera ? { revision: 1, camera: initialThemeCamera } : { revision: 0, camera: null });
+  const openThemeCamera = useCallback((themeId: string) => {
+    const camera = focusDef ? undefined : themeCameraFor(themeId);
+    if (!camera) {
+      const themeFocus = focusForTheme(themeId);
+      if (themeFocus) requestFocusFit(themeFocus);
+      return;
+    }
+    setThemeCamera(({ revision }) => ({ revision: revision + 1, camera }));
+    if (camera.kind === "fit") setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: camera.bounds }));
+  }, [focusDef, requestFocusFit]);
   // A focus page's own filter and selection; only the parameters the page
   // shares are read from, and written back to, its links.
   const [focusPage, setFocusPage] = useState<FocusPageState>(() => ({
@@ -3119,15 +3137,14 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       setPokerRevision((value) => value + 1);
     }
     setSelectedThemeId(themeId);
-    const themeFocus = focusForTheme(themeId);
-    if (themeFocus) requestFocusFit(themeFocus);
+    openThemeCamera(themeId);
     if (themeId === "poker") setMobileControlsOpen(false);
     applyResolvedTheme(resolveTheme(theme, {
       licenceAccepted,
       availableLayerIds: availableThemeLayerIds,
       restrictedLayerIds: restrictedThemeLayerIds,
     }));
-  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes, requestFocusFit, selectedThemeId]);
+  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes, openThemeCamera, selectedThemeId]);
 
   const reviewProvinceLicence = useCallback(() => {
     setLicenceIntent({ kind: "review" });
@@ -3159,8 +3176,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
-        const themeFocus = focusForTheme(theme.id);
-        if (themeFocus) requestFocusFit(themeFocus);
+        openThemeCamera(theme.id);
         if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: true,
@@ -3174,6 +3190,11 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       void runSearch(licenceIntent.query, { licenceJustAccepted: true });
     } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
+      // The page-load setup's licensed layers arrive now, after its camera
+      // has landed; re-issue that camera so it, not the layers, frames the map.
+      if (initialThemeCamera && selectedThemeId === initialRequestedTheme?.id) {
+        openThemeCamera(selectedThemeId);
+      }
     } else if (licenceIntent?.kind === "aerial") {
       showAerialBackground(true);
     } else if (licenceIntent?.kind === "snap") {
@@ -3197,8 +3218,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
-        const themeFocus = focusForTheme(theme.id);
-        if (themeFocus) requestFocusFit(themeFocus);
+        openThemeCamera(theme.id);
         if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: false,
@@ -5809,6 +5829,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             }}
             focusRequest={parcelFocusRequest}
             focusFit={focusFit}
+            themeCamera={themeCamera}
             // Only a page whose state carries a spot drives the spots layer;
             // anywhere else the layer keeps its own selection.
             fishingSpots={focusDef?.shareParams?.has("spot") ? {
@@ -5832,7 +5853,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             } : null}
             rhodenaPickPending={rhodenaPickPending}
             onRhodenaPickStarted={() => setRhodenaPickPending(false)}
-            initialPosition={!hasSharedPosition && cameraFocus ? cameraFocus.initialPosition : initialShareState.position}
+            initialPosition={!hasSharedPosition && cameraFocus ? cameraFocus.initialPosition : themeOpeningPosition(initialThemeCamera, initialShareState.position)}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onPositionChange={reportMapCentre}

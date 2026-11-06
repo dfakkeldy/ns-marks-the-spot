@@ -4604,3 +4604,96 @@ describe("MapCanvas live conditions overlays", () => {
   });
 });
 import { withTerrainCameraUpdate } from "../terrain/terrainViewport";
+
+describe("MapCanvas setup cameras", () => {
+  const noticeParcel = {
+    type: "Feature" as const,
+    properties: { PID: "50251750" },
+    geometry: {
+      type: "Polygon" as const,
+      coordinates: [[[-61.42, 46.05], [-61.41, 46.05], [-61.41, 46.06], [-61.42, 46.06], [-61.42, 46.05]]],
+    },
+  };
+  const layersWith = (on: Partial<Record<string, boolean>>) => ({
+    "ns-aerial": false, nsprd: false, "crown-lands": false, "flood-risk": false, waterfalls: false,
+    "water-features": false, roads: false, buildings: false, contours: false, "place-names": false, "main-roads": false,
+    ...on,
+  }) as React.ComponentProps<typeof MapCanvas>["provinceLayers"];
+  const base = {
+    parcels: { type: "FeatureCollection" as const, features: [noticeParcel] },
+    taxSalePids: new Set(["50251750"]),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(8);
+  });
+
+  it("keeps the notice-extent fit when the licence later turns on buildings", () => {
+    // The Tax Sale Research race: the notices were framed at an overview zoom,
+    // then accepting the licence switched on buildings (minZoom 13), and the
+    // layer zoom pulled the framed view in to 13.
+    const camera = { revision: 1, camera: { kind: "notice-extent" as const } };
+    const { rerender } = render(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({ roads: true })} themeCamera={camera} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({ roads: true, buildings: true, nsprd: true })}
+      themeCamera={{ revision: 2, camera: camera.camera }} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+    // The re-issued camera frames the notices again.
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not let the opening layers of a setup zoom past its camera", () => {
+    render(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({ buildings: true })}
+      themeCamera={{ revision: 1, camera: { kind: "notice-extent" } }} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+  });
+
+  it("zooms in only for a layer that has just been turned on", () => {
+    const { rerender } = render(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({ buildings: true })} />);
+    expect(mapMock.setZoom).toHaveBeenCalledWith(13, { animate: true });
+    mapMock.setZoom.mockClear();
+    // Same layers, new object (as licence acceptance hands back): no zoom.
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({ buildings: true, roads: true })} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({ buildings: true, roads: true, "crown-lands": true })} />);
+    expect(mapMock.setZoom).toHaveBeenCalledWith(12, { animate: true });
+  });
+
+  it("refits the notices each time Tax Sale Research is chosen", () => {
+    const { rerender } = render(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({})} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({})} themeCamera={{ revision: 1, camera: { kind: "zoom-floor", zoom: 14 } }} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({})} themeCamera={{ revision: 2, camera: { kind: "notice-extent" } }} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+
+  it("applies a zoom floor and a fixed position once per revision", () => {
+    const mapWithView = mapMock as typeof mapMock & { setView?: ReturnType<typeof vi.fn> };
+    mapWithView.setView = vi.fn();
+    const floor = { revision: 1, camera: { kind: "zoom-floor" as const, zoom: 14 } };
+    const { rerender } = render(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})} themeCamera={floor} />);
+    expect(mapMock.setZoom).toHaveBeenCalledWith(14, { animate: false });
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})} themeCamera={{ ...floor }} />);
+    expect(mapMock.setZoom).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})}
+      themeCamera={{ revision: 2, camera: { kind: "position", position: { latitude: 45.765, longitude: -61.43, zoom: 13 } } }} />);
+    expect(mapWithView.setView).toHaveBeenCalledWith([45.765, -61.43], 13, { animate: false });
+    delete mapWithView.setView;
+  });
+
+  it("leaves a zoom floor alone when the map is already closer", () => {
+    mapMock.getZoom.mockReturnValue(17);
+    render(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})} themeCamera={{ revision: 1, camera: { kind: "zoom-floor", zoom: 16 } }} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+  });
+});

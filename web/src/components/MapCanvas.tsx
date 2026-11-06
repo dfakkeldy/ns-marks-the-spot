@@ -2,6 +2,7 @@ import { RhodenaVisibility } from "../rhodena/RhodenaVisibility";
 import { RhodenaLayer } from "../rhodena/RhodenaLayer";
 import { FocusFit } from "../focus/FocusFit";
 import type { FocusFitRequest } from "../focus/focusDefinition";
+import type { ThemeCameraRequest } from "../themes/themeCameras";
 import { FishingSpotsLayer, type FishingSpotsPageState } from "../fishing/FishingSpotsLayer";
 import { isRhodenaLayerId } from "../rhodena/catalog";
 import { atlasPalettes } from "../atlas/palette";
@@ -210,6 +211,12 @@ const LOCATE_MIN_ZOOM = 14;
 type MapCanvasProps = {
   /** Each new revision fits the map to a focus page's area. */
   focusFit?: FocusFitRequest;
+  /**
+   * Each new revision is a setup's opening camera (themes/themeCameras.ts).
+   * Zoom floors and fixed positions move here; area fits arrive as `focusFit`;
+   * a notice-extent camera refits the current tax-sale notices.
+   */
+  themeCamera?: ThemeCameraRequest;
   /** Property boundary line width in export points; a focus page may draw them bolder than the default 1.2. */
   parcelOutlineWidth?: number;
   /** The /fishing page's filter and selection for the curated spots; the full map passes none. */
@@ -1239,22 +1246,54 @@ function MapStatusController({
   return null;
 }
 
+/**
+ * Brings the map to where a layer first draws when the reader turns it on.
+ *
+ * It acts only on a layer that has just become visible, never on a layer that
+ * was already on: accepting the Province licence (which hands back the
+ * page-load layers) or any other change to the layer set used to re-run it,
+ * and pulled a framed view back in to zoom 13. A change that arrives with a
+ * new setup camera (`cameraRevision`) is left to that camera.
+ */
 function LayerZoomController({
   provinceLayers,
   hydroPilotLayers,
+  cameraRevision = 0,
 }: {
   provinceLayers: MapCanvasProps["provinceLayers"];
   hydroPilotLayers: Record<HydroPilotLayerId, boolean>;
+  cameraRevision?: number;
 }) {
   const map = useMap();
   const waterfallsWereVisible = useRef(false);
   const hydroPilotWasVisible = useRef(false);
+  const detailWasVisible = useRef<ReadonlySet<ProvinceLayerId>>(new Set());
+  const seenCameraRevision = useRef(0);
 
   useEffect(() => {
+    const cameraIsNew = cameraRevision > seenCameraRevision.current;
+    seenCameraRevision.current = Math.max(seenCameraRevision.current, cameraRevision);
+
+    const detailIsVisible = new Set(
+      provinceLayerCatalog
+        .filter(({ id, minZoom }) => id !== "nsprd" && minZoom >= 12 && provinceLayers[id])
+        .map(({ id }) => id),
+    );
+    const detailBecameVisible = [...detailIsVisible].filter((id) => !detailWasVisible.current.has(id));
+    detailWasVisible.current = detailIsVisible;
+
     const waterfallsAreVisible = provinceLayers.waterfalls;
     const waterfallsBecameVisible =
       waterfallsAreVisible && !waterfallsWereVisible.current;
     waterfallsWereVisible.current = waterfallsAreVisible;
+
+    const hydroPilotIsVisible =
+      hydroPilotLayers["inverness-hydro-potential"];
+    const hydroPilotBecameVisible =
+      hydroPilotIsVisible && !hydroPilotWasVisible.current;
+    hydroPilotWasVisible.current = hydroPilotIsVisible;
+
+    if (cameraIsNew) return;
 
     if (waterfallsBecameVisible) {
       map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
@@ -1264,12 +1303,6 @@ function LayerZoomController({
       });
       return;
     }
-
-    const hydroPilotIsVisible =
-      hydroPilotLayers["inverness-hydro-potential"];
-    const hydroPilotBecameVisible =
-      hydroPilotIsVisible && !hydroPilotWasVisible.current;
-    hydroPilotWasVisible.current = hydroPilotIsVisible;
 
     if (hydroPilotBecameVisible) {
       map.fitBounds(INVERNESS_HYDRO_PILOT_BOUNDS, {
@@ -1282,17 +1315,33 @@ function LayerZoomController({
 
     const targetDetailZoom = provinceLayerCatalog.reduce(
       (target, { id, minZoom }) =>
-        id !== "nsprd" && provinceLayers[id] && minZoom >= 12
-          ? Math.max(target, minZoom)
-          : target,
+        detailBecameVisible.includes(id) ? Math.max(target, minZoom) : target,
       0,
     );
 
     if (targetDetailZoom > 0 && map.getZoom() < targetDetailZoom) {
       map.setZoom(targetDetailZoom, { animate: !prefersReducedMotion() });
     }
-  }, [hydroPilotLayers, map, provinceLayers]);
+  }, [cameraRevision, hydroPilotLayers, map, provinceLayers]);
 
+  return null;
+}
+
+/** Moves the map to a setup's zoom floor or fixed position, once per new revision. */
+function ThemeCameraController({ request }: { request: ThemeCameraRequest }) {
+  const map = useMap();
+  const handled = useRef(0);
+  const { revision, camera } = request;
+  useEffect(() => {
+    if (revision <= handled.current) return;
+    handled.current = revision;
+    if (camera?.kind === "zoom-floor") {
+      if (map.getZoom() < camera.zoom) map.setZoom(camera.zoom, { animate: false });
+    } else if (camera?.kind === "position") {
+      const { latitude, longitude, zoom } = camera.position;
+      map.setView([latitude, longitude], zoom, { animate: false });
+    }
+  }, [camera, map, revision]);
   return null;
 }
 
@@ -1337,22 +1386,28 @@ function ParcelFocusController({
   return null;
 }
 
+/**
+ * Frames the current tax-sale notices once their parcels load: once per page
+ * load, and again each time the Tax Sale Research setup is chosen
+ * (`noticeFitRevision` rises). A shared position keeps the page-load camera.
+ */
 function InitialTaxSaleBoundsController({
   parcels,
   taxSalePids,
   showTaxSale,
   preserveInitialPosition,
+  noticeFitRevision = 0,
 }: Pick<
   MapCanvasProps,
   "parcels" | "taxSalePids" | "showTaxSale" | "preserveInitialPosition"
->) {
+> & { noticeFitRevision?: number }) {
   const map = useMap();
-  const hasFittedInitialTaxSaleLayer = useRef(false);
+  const fittedRevision = useRef(-1);
 
   useEffect(() => {
     if (
-      preserveInitialPosition ||
-      hasFittedInitialTaxSaleLayer.current ||
+      (preserveInitialPosition && noticeFitRevision === 0) ||
+      fittedRevision.current >= noticeFitRevision ||
       !showTaxSale
     ) {
       return;
@@ -1377,13 +1432,13 @@ function InitialTaxSaleBoundsController({
       return;
     }
 
-    hasFittedInitialTaxSaleLayer.current = true;
+    fittedRevision.current = noticeFitRevision;
     map.fitBounds(bounds, {
       animate: false,
       padding: [48, 48],
       maxZoom: 13,
     });
-  }, [map, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
+  }, [map, noticeFitRevision, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
 
   return null;
 }
@@ -1900,9 +1955,11 @@ function LocationControlIcon() {
 }
 
 const NO_FOCUS_FIT: FocusFitRequest = { revision: 0, bounds: null };
+const NO_THEME_CAMERA: ThemeCameraRequest = { revision: 0, camera: null };
 
 export function MapCanvas({
   focusFit = NO_FOCUS_FIT,
+  themeCamera = NO_THEME_CAMERA,
   fishingSpots,
   rhodenaPickPending = false,
   onRhodenaPickStarted,
@@ -2925,6 +2982,7 @@ export function MapCanvas({
             taxSalePids={taxSalePids}
             showTaxSale={showTaxSale}
             preserveInitialPosition={preserveInitialPosition}
+            noticeFitRevision={themeCamera.camera?.kind === "notice-extent" ? themeCamera.revision : 0}
           />
           <InitialHistoricalBoundsController
             parcels={parcels}
@@ -2935,7 +2993,10 @@ export function MapCanvas({
           <LayerZoomController
             provinceLayers={provinceLayers}
             hydroPilotLayers={hydroPilotLayers}
+            cameraRevision={themeCamera.revision}
           />
+          {/* After LayerZoomController, so a setup's camera has the last word in the commit that applies it. */}
+          <ThemeCameraController request={themeCamera} />
           <ParcelFocusController
             parcels={visibleParcels}
             focusRequest={focusRequest}
