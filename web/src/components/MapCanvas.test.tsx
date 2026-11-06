@@ -3082,7 +3082,7 @@ describe("MapCanvas cartographic furniture", () => {
   it("shows an approximate representative fraction and updates it with the map", () => {
     render(<MapCanvas {...furnitureProps} />);
 
-    const readout = screen.getByText("Approx. screen scale 1:12,500");
+    const readout = screen.getByText((_, element) => element?.classList.contains("display-scale-readout") === true && element.textContent === "Approx. screen scale 1:12,500");
     expect(readout).toHaveAttribute(
       "title",
       expect.stringContaining("96 CSS pixels per inch"),

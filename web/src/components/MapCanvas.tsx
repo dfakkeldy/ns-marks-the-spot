@@ -1564,7 +1564,7 @@ function ApproximateScaleReadout() {
 
   return (
     <p className="display-scale-readout" title={DISPLAY_SCALE_EXPLANATION}>
-      Approx. screen scale 1:{denominator.toLocaleString("en-CA")}
+      <span className="display-scale-label">Approx. screen scale </span>1:{denominator.toLocaleString("en-CA")}
     </p>
   );
 }
