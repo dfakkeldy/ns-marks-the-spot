@@ -1899,9 +1899,11 @@ drops shared layers it does not offer, keeps tax sale off, and puts
 export and before the page's own note. Vite answers each page's
 map-relative path locally (`/rhodena`, `/fishing`, `/pointtupper`, and their
 trailing-slash forms), the path it has under the published map. KinNoKi
-rewrites serve a page's public short URL (`/rhodena`, and `/fishmap` for the
-fishing page) and stamp its asset base. `/pointtupper` still needs that
-rewrite and a live pin; merging here publishes none of the pages.
+rewrites serve a page's public short URL (`/rhodena`, `/pointtupper`, and
+`/fishmap` for the fishing page) and stamp its asset base. Merging here
+publishes none of the pages: Cloudflare/KinNoKiLabsSite `promote-ns-marks-web`
+updates the live map pin. After a promote, check the live `source.json`
+receipt and the rendered page.
 
 ## Fishing page
 
@@ -2178,40 +2180,60 @@ and names it as not included.
 ### The `/pointtupper` page
 
 `pointtupper.html` (`src/pointtupper/main.tsx`) is served at `/pointtupper`
-locally and would be served at `/apps/nsmarksthespot/map/pointtupper` on the
-site after the KinNoKi rewrite. It is not on kinnokilabs.com yet. It mounts
-the research map as `<App focus="pointtupper" />` with the **Point Tupper**
-setup fixed and fits the Strait when the link has no position.
-`src/pointtupper/focus.ts` offers the key places first, then roads, water,
-land, hazards and backgrounds. Water and background layers are offered by
-category, so later additions appear; the other rows are listed one by one.
-The curated fishing spots and stocked waters are never offered here: beside
-the site brief they would read as part of it. Tax sale, My Maps and the setup
-picker are hidden. A Map/Aerial switch under the 3D control swaps the
-background; aerial imagery keeps its Province licence gate. Every layer in
-the setup is open, so a first visit never raises the Province licence sheet.
-NSPRD property boundaries draw at 2.6 points here, twice the full map's
-weight (`parcelOutlineWidth`), for a page about a few large holdings.
+locally and at `/apps/nsmarksthespot/map/pointtupper` on the site; its public
+short URL is `https://kinnokilabs.com/pointtupper`. The KinNoKi site already
+rewrites `/pointtupper` and `/pointtupper/` onto that HTML and stamps the
+page's asset base. Merging here does not update the live map pin;
+Cloudflare/KinNoKiLabsSite `promote-ns-marks-web` does. After a promote, check
+the live `source.json` receipt and the rendered `/pointtupper` page.
+
+It mounts the research map as `<App focus="pointtupper" />` with the
+**Point Tupper** setup fixed and fits the Strait when the link has no
+position. The sidebar is 320 px, the research map's own width. Only the
+**Point Tupper Site** category opens by default. `src/pointtupper/focus.ts`
+offers the key places first, then roads, water, land, hazards and
+backgrounds. Water and background layers are offered by category, so later
+additions appear; the other rows are listed one by one. The curated fishing
+spots and stocked waters are never offered here: beside the site brief they
+would read as part of it. Tax sale, My Maps and the setup picker are hidden.
+A Map/Aerial switch under the 3D control swaps the background; aerial
+imagery keeps its Province licence gate. Every layer in the setup is open, so
+a first visit never raises the Province licence sheet. NSPRD property
+boundaries draw at 2.6 points here, twice the full map's weight
+(`parcelOutlineWidth`), for a page about a few large holdings. On a phone the
+sheet is titled **Site brief & layers**; it opens at about 60% of the screen
+with the site framed in the map above it, and rises to full height on the
+first scroll into the brief.
 
 - **Map key.** A translucent key at the top right of the map, under the
   Map/Aerial switch (by the licence pill on a phone)
-  (`PointTupperMapLegend.tsx`, the page's `chrome.MapOverlay`), open on a
-  desktop and folded on a phone until the reader chooses; the choice is kept
-  in this browser. Each row explains one layer with the map's own symbol,
-  colour, width and dash (read from the catalogue entries the map draws with)
-  and switches that layer. Rows say what the layer is waiting for (a zoom, a
+  (`PointTupperMapLegend.tsx`, the page's `chrome.MapOverlay`). It starts
+  folded below 1168 px until the reader chooses; the choice is kept in this
+  browser. Each row explains one layer with the map's own symbol, colour,
+  width and dash (read from the catalogue entries the map draws with) and
+  switches that layer. Rows say what the layer is waiting for (a zoom, a
   load) or how many places or turbines are in view. **Property lines** opens
   the Province licence first when it has not been accepted.
 
-- **Heading.** A sourced summary of the October 2026 announcement (size, grid,
-  Richmond County loads under study, Landrie Lake cooling figures, wind, the
-  wind farm already on the site, and who pays for upgrades). Company figures are the company's own; the wind
-  line adds a separately sourced note that Bear Lake and Kmtnuk passed their deadlines to start work. A **Zoom to
-  Point Tupper** control and a link to every source sit under the facts.
-- **Timeline.** Nine dated events, oldest first, each with its public source:
-  the causeway, the mill, the Landrie Lake water system, the heavy water plant,
-  the Gulf refinery, Bear Head LNG, Port Hawkesbury Paper, the EverWind
-  hydrogen registration, and the data-centre announcement.
+- **Night brief.** A sourced summary, last re-read November 5, 2026, in two
+  groups so company claims never sit unmarked beside records: **What
+  EverWind says** (the October 16 announcement, size, grid, Landrie Lake
+  cooling figures, wind; company figures cite EverWind's own campus site) and
+  **On the public record** (IESO-NS SIS-005 / SIS-011, the October 27
+  legislature committee Hansard, Membertou's October 20 statement that it is
+  not partnered on the data centre, the warden's October 19 statement that no
+  building permit had been filed, the wind farm already on the site). The
+  wind line still adds a separately sourced note that Bear Lake and Kmtnuk
+  passed their deadlines to start work. Facts about mapped places carry the
+  map-key symbol in a pill; pressing one frames that place. Section titles
+  stick while their section is read. A **Zoom to Point Tupper** control and a
+  link to every source sit with the facts.
+- **Timeline.** Inside the night brief: nine dated events, oldest first, each
+  with its public source: the causeway, the mill, the Landrie Lake water
+  system, the heavy water plant, the Gulf refinery, Bear Head LNG, Port
+  Hawkesbury Paper, the EverWind hydrogen registration, and the data-centre
+  announcement. It ends on a dashed **record so far** line beside the
+  footprint caveat.
 - **Footer.** After the full-map link, the page's note and licence and source
   links.
 
@@ -2219,14 +2241,6 @@ Shared links drop layers the page does not offer and keep tax sale off.
 `main.tsx` drops a trailing slash from `/pointtupper/`. The page's `og:url`
 is the intended `/pointtupper` short path. There is no Point Tupper social
 card yet.
-
-The KinNoKi site must rewrite `/pointtupper` and `/pointtupper/` to
-`/apps/nsmarksthespot/map/pointtupper` and stamp this page's asset base, as it
-does for `/rhodena`, and that site rewrite must land before the page can be
-published: without it the short URL does not reach the page, and the page
-loads with the wrong base and no assets. Neither a merge here nor the site
-change proves the live page; check the live map pin's `source.json` receipt
-and the rendered `/pointtupper` page after that pin and rewrite exist.
 
 ### Data files
 
@@ -2240,5 +2254,5 @@ are in [docs/point-tupper-sources.md](../docs/point-tupper-sources.md).
 
 Tests: `src/pointtupper/*.test.ts(x)` (places, facts, the setup, the registry
 entry), `src/focus/`, the Point Tupper setup cases in
-`src/themes/mapThemes.test.ts`, and `e2e/pointtupper-page.spec.ts` at 1440 and
-390 px.
+`src/themes/mapThemes.test.ts`, and `e2e/pointtupper-page.spec.ts` at 1440,
+1024 and 390 px.
