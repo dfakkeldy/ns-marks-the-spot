@@ -104,3 +104,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .poker-footer { padding: 0; border-radius: 999px; }
 .poker-footer > span { padding-left: 12px; }
 .poker-footer .poker-licences { min-height: 36px; padding: 0 14px; font-size: 12px; font-weight: 600; border-radius: 999px; }
+/* The zoom stack joins them: a 44px-wide pill (42px halves inside the 1px
+   rim), its ends rounded like the locate disc below it. Heights stay 36px so
+   the stack still ends above the locate button. */
+.poker-map .leaflet-control-zoom { overflow: hidden; border-radius: 22px; }
+.poker-map .leaflet-control-zoom a { width: 42px; border-radius: 0; }

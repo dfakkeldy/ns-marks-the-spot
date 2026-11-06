@@ -3868,15 +3868,24 @@ a {
     padding: 0;
   }
 
-  /* Unfolded on a phone, the Province disclaimer and the survey caveat read as
-     one pair right after the toggle, inside the strip's first rows rather than
-     below its 72px fold; the source credits follow and the software credit
+  /* Unfolded on a phone the strip stays capped at 72px, so its first line
+     after the toggle carries the two short statements: the survey caveat and
+     the OpenStreetMap credit. The long Province disclaimer follows (the strip
+     scrolls to it), then the other source credits, and the software credit
      goes last. */
   .map-attribution > :first-child {
+    order: -4;
+  }
+
+  .map-attribution > .survey-caveat {
+    order: -3;
+  }
+
+  .map-attribution > .osm-credit {
     order: -2;
   }
 
-  .map-attribution > :is(.province-attribution, .survey-caveat) {
+  .map-attribution > .province-attribution {
     order: -1;
   }
 
@@ -4022,6 +4031,32 @@ a {
     border: 1px solid var(--line);
     border-radius: 50%;
     cursor: pointer;
+  }
+
+  /* With its title read only by screen readers, the header is just the
+     grabber strip. The × hangs from it onto the rail title's row, and the
+     title keeps clear of it. Focus pages show their title and keep the full
+     header. */
+  .mobile-sheet-header:has(> strong.visually-hidden) {
+    min-height: 24px;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .mobile-sheet-header:has(> strong.visually-hidden) > button:last-child {
+    position: absolute;
+    top: 28px; /* the 24px strip plus the title's 4px top margin */
+    right: 16px;
+  }
+
+  .layer-rail:has(> .mobile-sheet-header > strong.visually-hidden) > h2 {
+    min-height: 44px;
+    margin-top: 4px;
+    padding-right: 56px;
+    display: flex;
+    align-items: center;
   }
 
   .map-region {

@@ -6212,6 +6212,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             Feedback &amp; suggestions: map@kinnokilabs.com
           </a>
           <a
+            className="osm-credit"
             href="https://www.openstreetmap.org/copyright"
             target="_blank"
             rel="noreferrer"

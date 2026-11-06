@@ -2,8 +2,9 @@
 .terrain-range output { float: right; font-variant-numeric: tabular-nums; }
 .terrain-range input { display: block; width: 100%; margin: 10px 0 0; accent-color: #244e4b; }
 .terrain-water-key { display: flex; align-items: center; gap: 7px; min-height: 42px; font-size: 12px; }
-.terrain-water-key i { width: 20px; height: 3px; background: #087aab; outline: 2px solid #d6edf0; }
-.terrain-water-key span { margin-left: auto; color: #61706a; font-size: 10px; }
+.terrain-water-key i { flex: none; width: 20px; height: 3px; background: #087aab; outline: 2px solid #d6edf0; }
+.terrain-water-key span { display: grid; gap: 1px; line-height: 1.3; }
+.terrain-water-key small { color: #61706a; font-size: 10.5px; }
 .terrain-reset { color: var(--ink); background: var(--soft); border: 1px solid var(--line); border-radius: 4px; min-height: 42px; width: 100%; }
 .terrain-view-caption { position: absolute; bottom: 30px; left: 20px; max-width: calc(100% - 40px); padding: 7px 10px; border-radius: 3px; background: #faf8f0e8; color: #304746; font-size: 11px; pointer-events: none; }
 .terrain-study .atlas-map-title { top: 16px; left: 16px; }
