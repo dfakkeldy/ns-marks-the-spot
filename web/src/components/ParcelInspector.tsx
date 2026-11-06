@@ -711,7 +711,7 @@ function DwellingDetails({ state }: { state: DwellingState }) {
     <section className="assessment-evidence dwelling-evidence" aria-label="PVSC dwellings">
       <h3>PVSC dwellings</h3>
       {state.status === "idle" || state.status === "loading" ? (
-        <p className="assessment-status" role="status">
+        <p className="assessment-status inspector-checking" role="status">
           Checking PVSC residential dwelling data…
         </p>
       ) : state.status === "blocked" ? (
@@ -805,7 +805,7 @@ function AssessmentDetails({
     <section className="assessment-evidence" aria-label={heading}>
       <h3>{heading}</h3>
       {state.status === "idle" || state.status === "loading" ? (
-        <p className="assessment-status" role="status">
+        <p className="assessment-status inspector-checking" role="status">
           Checking PVSC open assessment data…
         </p>
       ) : state.status === "geometry-unavailable" ? (
@@ -932,7 +932,7 @@ function FloodSourceStatus({
     );
   }
   return (
-    <p className="mapped-context-status" role="status">
+    <p className="mapped-context-status inspector-checking" role="status">
       {checking}
     </p>
   );
@@ -1146,7 +1146,7 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
         address, access, occupancy, or legal parcel status.
       </p>
       {state.status === "idle" || state.status === "loading" ? (
-        <p className="civic-address-status" role="status">
+        <p className="civic-address-status inspector-checking" role="status">
           Looking up mapped civic addresses…
         </p>
       ) : state.status === "geometry-unavailable" ? (
@@ -1371,7 +1371,7 @@ function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
             inferred.
           </p>
         ) : (
-          <p className="mapped-context-status" role="status">
+          <p className="mapped-context-status inspector-checking" role="status">
             Checking official mapped resource sources against this parcel…
           </p>
         )}

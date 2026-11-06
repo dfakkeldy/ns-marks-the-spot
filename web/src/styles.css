@@ -7605,6 +7605,26 @@ a {
 }
 
 
+/* Desktop: while a section is still checking, its status line holds a fixed
+   two-row skeleton (the line, then a placeholder bar), so the panel does not
+   jump as each source answers. The words stay; the bar claims no data. */
+@media (min-width: 861px) {
+  .parcel-inspector .inspector-checking {
+    box-sizing: border-box;
+    min-height: 3.4em;
+  }
+
+  .parcel-inspector .inspector-checking::after {
+    content: "";
+    display: block;
+    width: 70%;
+    height: 0.7em;
+    margin-top: 0.5em;
+    background: var(--line);
+    border-radius: 4px;
+  }
+}
+
 /* The parcel inspector's interpretation row: always shown, set apart by a
    rule rather than hidden behind a toggle. */
 .evidence-caveat-row {
