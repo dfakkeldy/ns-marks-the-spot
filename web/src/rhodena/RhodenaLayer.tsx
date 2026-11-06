@@ -61,7 +61,11 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
             });
           });
           if(feature.geometry.type==='Point')// Turbines and both (unreconciled) substation positions name themselves on the map.
-          featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,{permanent:p.kind==='turbine'||p.kind==='substation'||p.kind==='model-substation',direction:'top',offset:[0,-6],className:'rhodena-label'});
+          featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,p.kind==='turbine'
+            ?{permanent:true,direction:'top',offset:[0,-6],className:'rhodena-label'}
+            // Substation names sit to the right of their dot, quieter than the
+            // turbine badges, which draw above them where the two meet.
+            :{permanent:p.kind==='substation'||p.kind==='model-substation',direction:'right',offset:[8,0],className:'rhodena-label rhodena-label--minor'});
         }
       }).addTo(group);
     }

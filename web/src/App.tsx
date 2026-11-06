@@ -965,12 +965,12 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
         aria-labelledby="about-title"
       >
         <div className="dialog-header-row">
+          <div className="licence-mark" aria-hidden="true">
+            NS
+          </div>
           <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
             <span aria-hidden="true">×</span>
           </button>
-        </div>
-        <div className="licence-mark" aria-hidden="true">
-          NS
         </div>
         <h2 id="about-title">About NS Marks The Spot</h2>
         <p>
@@ -1075,12 +1075,12 @@ function DataSourcesDialog({
         aria-labelledby="data-sources-title"
       >
         <div className="dialog-header-row">
+          <div className="licence-mark" aria-hidden="true">
+            NS
+          </div>
           <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
             <span aria-hidden="true">×</span>
           </button>
-        </div>
-        <div className="licence-mark" aria-hidden="true">
-          NS
         </div>
         <h2 id="data-sources-title">Data &amp; licences</h2>
         <p>
@@ -1099,7 +1099,10 @@ function DataSourcesDialog({
               {provincialReceipt.sources.map(source => (
                 <tr key={source.id}>
                   <th scope="row"><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a></th>
-                  <td>{source.released.slice(0, 10)}{source.frequency ? ` · ${source.frequency === 'Annually' ? 'annual' : source.frequency.toLowerCase()} releases` : ''}</td>
+                  <td>
+                    {source.released.slice(0, 10)}
+                    {source.frequency ? <small className="data-sources-cadence">{source.frequency === 'Annually' ? 'annual' : source.frequency.toLowerCase()} releases</small> : null}
+                  </td>
                 </tr>
               ))}
               <tr>
@@ -5612,8 +5615,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                                       <small>
                                         {geometryExceptions.length > 0
-                                          ? `${advertisedCount} advertised notices · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
-                                          : `${advertisedCount} advertised notices · ${withdrawnCount} withdrawn notices · ${pidCount} PIDs in advertised notices`}
+                                          ? `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
+                                          : `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${withdrawnCount} withdrawn ${withdrawnCount === 1 ? "notice" : "notices"} · ${pidCount} ${pidCount === 1 ? "PID" : "PIDs"} in advertised notices`}
                                       </small>
                                       <small>
                                         Snapshot retrieved {snapshotDateLabel(event)}
