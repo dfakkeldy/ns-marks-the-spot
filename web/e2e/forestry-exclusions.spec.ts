@@ -79,7 +79,7 @@ for (const width of [390, 1440]) {
       await expect(page.getByRole("checkbox", { name: "Leading forest species", exact: true })).toBeVisible();
 
       if (!rhodena) {
-        await page.getByRole("combobox", { name: "Map setup", exact: true }).selectOption("legacy-forestry");
+        await page.getByRole("combobox", { name: "Change setup", exact: true }).selectOption("legacy-forestry");
         await expect.poll(() => new URL(page.url()).searchParams.get("layers")).toBe("modern,forest-height");
         await expect(retained).toBeChecked();
       }

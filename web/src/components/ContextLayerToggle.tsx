@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import type { ContextMapLayer } from "../layers/contextLayerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
-import { LayerMetadata } from "./LayerRows";
+import { LayerMetadata, ProvenanceFields } from "./LayerRows";
 import { LayerSwatch } from "./LayerSwatch";
 import { contextLayerSwatch } from "./layerSwatchSpec";
 
@@ -32,7 +32,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
           {layer.unavailableReason ? <small>{layer.unavailableReason}</small> : null}
           <LayerMetadata openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
             coverage={layer.coverage} minZoom={layer.minZoom} maxZoom={layer.maxZoom}
-            checked={enabled && checked} status={status} />
+            checked={enabled && checked} status={status} provenance={false} />
         </span>
         {/* The same in-row Review as the Province rows (LayerToggle), on the
             name's line, rather than a second, larger link under the row. */}
@@ -44,6 +44,8 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         ) : null}
       </label>
       <details className="context-layer-source">
+        {/* One disclosure per row: the legend, then the source, date, scale,
+            coverage and zoom that "Source & scale" used to hold apart. */}
         <summary>{checked && enabled ? "Legend & source" : "Source & legend"}</summary>
         {layer.legend.length > 0 ? (
           <ul className="environmental-health-legend" aria-label={`${layer.name} legend`}>
@@ -56,6 +58,10 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
             ))}
           </ul>
         ) : null}
+        <div className="context-layer-facts">
+          <ProvenanceFields openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
+            coverage={layer.coverage} minZoom={layer.minZoom} maxZoom={layer.maxZoom} />
+        </div>
         <p><a href={layer.sourceUrl} target="_blank" rel="noreferrer">{layer.provenance === "project-derived" ? "Project source" : layer.licence === "public-facts" ? "Assessment source" : "Official source"}</a>
           {" · "}<a href={layer.licenceUrl} target="_blank" rel="noreferrer">{layer.licence === "public-facts" ? "Original source rights retained" : "Licence"}</a></p>
         <p>Mapped records and coverage may be incomplete. An empty map does not establish absence.</p>

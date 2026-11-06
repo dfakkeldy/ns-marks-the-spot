@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@600&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&display=swap');
 
 * { box-sizing: border-box; }
 body { margin: 0; font-family: Inter, system-ui, sans-serif; }
@@ -104,3 +104,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
   .atlas-study .maplibregl-ctrl-attrib { max-width: calc(100vw - 70px); }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+/* Round 5: OpenStreetMap is the comparison, not a fifth Atlas style; a rule
+   and a lighter face set it apart from the four. */
+.atlas-modes .atlas-mode-osm { position: relative; flex: .8; margin-left: 9px; color: var(--muted); font-weight: 500; }
+.atlas-modes .atlas-mode-osm::before { content: ''; position: absolute; top: 8px; bottom: 8px; left: -6px; width: 1px; background: var(--line); }
+/* The focus pages' mono kicker for the brand line and the map title's
+   eyebrow (NS / ATLAS, JUDIQUE / SHEET 19). */
+.atlas-brand span, .atlas-map-title span { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }

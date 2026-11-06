@@ -12,14 +12,14 @@ for (const width of [390, 1440]) test(`appearance is independent of basemap at $
   await expect(page).toHaveTitle(/NS Marks The Spot/);
   await expect(page.locator('.app-header')).toHaveCount(0);
   if (width === 390) await page.getByRole('button', { name: 'Search & layers', exact: true }).click();
-  const appearance = page.getByRole('combobox', { name: 'Interface appearance' });
-  await appearance.selectOption('night');
+  const appearance = page.getByRole('radiogroup', { name: 'Interface appearance' });
+  await appearance.getByRole('radio', { name: 'Dark', exact: true }).check();
   await expect(page.locator('html')).toHaveAttribute('data-map-appearance', 'night');
   await expect(page.locator('.layer-rail')).toHaveCSS('color', 'rgb(232, 241, 240)');
   await page.reload();
   if (width === 390) await page.getByRole('button', { name: 'Search & layers', exact: true }).click();
-  await expect(appearance).toHaveValue('night');
-  await appearance.selectOption('day');
+  await expect(appearance.getByRole('radio', { name: 'Dark', exact: true })).toBeChecked();
+  await appearance.getByRole('radio', { name: 'Light', exact: true }).check();
   await expect(page.locator('html')).toHaveAttribute('data-map-appearance', 'day');
   expect(new URL(page.url()).searchParams.get('basemap')).toBe('osm');
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);

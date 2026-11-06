@@ -8264,3 +8264,287 @@ a {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+
+/* Round 5 (rail) ------------------------------------------------------- */
+
+/* A context row's one disclosure carries the source facts the separate
+   "Source & scale" disclosure used to hold. */
+.context-layer-facts {
+  display: grid;
+  gap: 2px;
+  margin-top: 0.45rem;
+}
+
+.context-layer-facts small {
+  display: block;
+  font-size: var(--type-caption);
+  line-height: 1.3;
+}
+
+/* Interface appearance: four radios drawn as one segmented row. */
+.appearance-segments {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 2px;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.appearance-segments label {
+  position: relative;
+  display: grid;
+  min-height: 36px;
+  place-items: center;
+  padding: 0 4px;
+  color: var(--chart-ink);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* The radio itself covers its segment, so a click or tap lands on it. */
+.appearance-segments input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.appearance-segments label.selected {
+  color: var(--white);
+  background: var(--deep-water);
+}
+
+.appearance-segments label:has(input:focus-visible) {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 1px;
+}
+
+/* Tax Sale: the mode caption in body type, led by a small chip. */
+.map-mode-switcher > p.map-mode-caption {
+  font-family: inherit;
+  font-size: var(--type-caption);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.map-mode-chip {
+  display: inline-block;
+  padding: 1px 7px;
+  color: var(--white);
+  font-size: var(--type-micro);
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: 1px;
+  background: var(--survey-red);
+  border-radius: 999px;
+}
+
+.map-mode-switcher.historical .map-mode-chip {
+  background: var(--record-violet);
+}
+
+/* Theme manager: the name field fills its row; Save rides in the footer. */
+.theme-manager-save {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.theme-manager-preview {
+  color: var(--chart-ink);
+  font-size: var(--type-caption);
+}
+
+.theme-manager-footer {
+  position: sticky;
+  z-index: 1;
+  bottom: 0;
+  margin-inline: -24px;
+  margin-bottom: -24px;
+  padding: 12px 24px 24px;
+  background: var(--white);
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 560px) {
+  .theme-manager-footer {
+    bottom: 0;
+    margin-inline: -18px;
+    margin-bottom: -18px;
+    padding: 12px 18px 18px;
+  }
+}
+
+/* Civic results stop at a whole row (useWholeRowList); while more rows wait
+   below, the list fades out at its foot so it reads as scrollable. */
+.address-search-results {
+  max-height: 236px;
+}
+
+.address-search-results[data-more="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+}
+
+/* Background Maps: a 32 x 20 key of the basemap's land and water. */
+.basemap-swatch {
+  display: inline-block;
+  flex: none;
+  width: 32px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: -5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+.basemap-swatch--neutral {
+  background: linear-gradient(135deg, #e8e8e8 0 55%, #c9c9c9 55% 100%);
+}
+
+/* Map setup: one material, the warm panel with a hairline, and the export
+   it feeds full width beneath it. */
+.layer-rail .map-theme-picker {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.layer-rail > .export-map-trigger {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* The category list's label: a quiet 11px small-caps name, not a title. */
+.rail-section h2#layers-heading {
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-caps: all-small-caps;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* About and Data & licences: the × lives in a real sticky header row that
+   spans the card in the card's own colour, with a hairline under it, so the
+   text scrolls under the row rather than under a floating button. */
+.about-dialog {
+  --dialog-pad: clamp(24px, 5vw, 42px);
+}
+
+@media (max-width: 860px) {
+  .about-dialog {
+    --dialog-pad: 24px;
+  }
+}
+
+.dialog-header-row {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin: calc(-1 * var(--dialog-pad)) calc(-1 * var(--dialog-pad)) 12px;
+  padding: 10px 10px 8px;
+  background: inherit;
+  border-bottom: 1px solid var(--line);
+}
+
+.dialog-header-row .dialog-close {
+  position: static;
+  float: none;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Data & licences: one kicker voice for both sections, the Atlas dates as a
+   two-column table, and every source block on a 12px rhythm with mono field
+   labels, as in the Point Tupper map key. */
+.data-sources-section {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-dates {
+  width: 100%;
+  margin: 0 0 12px;
+  border-collapse: collapse;
+  font-size: var(--type-caption);
+}
+
+.data-sources-dates :is(th, td) {
+  padding: 6px 8px 6px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-dates thead th {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.data-sources-dates tbody th {
+  font-weight: 600;
+}
+
+.data-sources-dates td {
+  color: var(--chart-ink);
+  white-space: nowrap;
+}
+
+.data-sources-list {
+  gap: 12px;
+}
+
+.data-sources-list li {
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.data-source-fields {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 6px 12px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.data-source-fields dt {
+  padding-top: 2px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.data-source-fields dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.45;
+}
+
+/* Province licence: both choices are pills, as on the focus pages, and the
+   primary takes the family's deep water rather than the product blue
+   (white on #0a4f5c is about 9:1; the night pair is also above 4.5:1). */
+.licence-dialog:not(.about-dialog) .dialog-actions :is(.primary-action, .secondary-action) {
+  border-radius: 999px;
+}
+
+.licence-dialog:not(.about-dialog) .dialog-actions .primary-action {
+  color: var(--white);
+  background: var(--deep-water);
+  border-color: var(--deep-water);
+}

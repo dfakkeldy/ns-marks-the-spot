@@ -20,3 +20,8 @@
   .terrain-view-caption { left: 16px; top: 82px; bottom: auto; font-size: 10px; }
 }
 .terrain-study .atlas-map { position: absolute; inset: 0; }
+/* Round 5: on a desktop the panel scrolls on its own; a 24px fade at its foot
+   says there is more below. Sticky, so the last line is never left faded. */
+@media (min-width: 701px) {
+  .terrain-study .atlas-sidebar::after { content: ''; position: sticky; bottom: 0; display: block; height: 24px; margin: 0 -23px -20px; background: linear-gradient(to bottom, transparent, var(--paper)); pointer-events: none; }
+}

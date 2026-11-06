@@ -123,8 +123,9 @@ for (const width of [390, 1440]) {
 test("theme controls expose keyboard focus and open the manager", async ({ page }) => {
   await page.goto("/?basemap=osm");
   await expect(page).toHaveTitle(/NS Marks The Spot/);
-  await keyboardFocus(page, page.getByRole("combobox", { name: "Map setup", exact: true }));
-  const manage = page.getByRole("button", { name: "Manage themes", exact: true });
+  await keyboardFocus(page, page.getByRole("combobox", { name: "Change setup", exact: true }));
+  // "Manage themes" appears only once a custom setup exists; Save opens the same manager.
+  const manage = page.getByRole("button", { name: "Save setup…", exact: true });
   await keyboardFocus(page, manage);
   await page.keyboard.press("Enter");
   const dialog = page.getByRole("dialog");
@@ -138,7 +139,7 @@ test("phone categories keep touch controls and attribution reachable", async ({ 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/?basemap=osm");
   await page.getByRole("button", { name: "Search & layers", exact: true }).click();
-  const setup = page.getByRole("combobox", { name: "Map setup", exact: true });
+  const setup = page.getByRole("combobox", { name: "Change setup", exact: true });
   const myMaps = page.getByRole("button", { name: /^My Maps/ });
   for (const control of [setup, myMaps]) {
     await control.scrollIntoViewIfNeeded();

@@ -34,7 +34,7 @@ for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced s
   for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/]) {
     await expect(page.getByRole('button', { name })).toHaveCount(0);
   }
-  await expect(page.getByRole('combobox', { name: 'Map setup' })).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: 'Change setup' })).toHaveCount(0);
 
   // The opening view holds the jetty, the generating station and Landrie Lake.
   await expect(page.locator('.leaflet-context-point-tupper-sites-pane .leaflet-interactive')).toHaveCount(3);

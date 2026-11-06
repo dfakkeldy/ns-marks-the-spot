@@ -37,9 +37,9 @@ export function MapThemePicker({
 
   return (
     <section className="map-theme-picker">
-      <h2 id="map-setup-heading">Map setup</h2>
+      <h2 id="map-setup-heading">Change setup</h2>
       <label>
-        <span className="sr-only">Map setup</span>
+        <span className="sr-only">Change setup</span>
         <select
           ref={selectRef}
           value={activeThemeId ?? "shared"}
@@ -77,9 +77,13 @@ export function MapThemePicker({
         <button type="button" onClick={onSave}>
           Save setup…
         </button>
-        <button type="button" onClick={onManage}>
-          Manage themes
-        </button>
+        {/* Managing needs something to manage: until the reader has saved
+            a setup of their own, Save is the only way in. */}
+        {customThemes.length > 0 ? (
+          <button type="button" onClick={onManage}>
+            Manage themes
+          </button>
+        ) : null}
         {status === "modified" || status === "partial" ? (
           <button type="button" onClick={onReset}>
             Reset current theme
