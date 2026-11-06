@@ -1156,12 +1156,16 @@ definition carries:
 
 `focusOffersLayer`, `filterFocusLayerIds` (shared links keep their order) and
 `focusHides` apply a definition. App holds the page state and writes `month`
-and `spot` only for a page that lists them. The camera comes from the open
-page or, on the full map, from `focusForTheme(themeId)`: a `?theme=` link for a
-setup that has a page opens at that page's camera when it has no position,
-and choosing the setup fits its bounds. `MapCanvas` takes a `focusFit` request
-(`{ revision, bounds }`) and renders `focus/FocusFit.tsx`, which fits the
-bounds each time the revision rises; it replaced Rhodena's own fit component.
+and `spot` only for a page that lists them. A focus page uses its own camera.
+On the full map, a setup's opening camera comes from `themes/themeCameras.ts`
+(`themeCameraFor`): a cold `?theme=` link without `position=` and picker
+selection apply it. Fishing and Point Tupper have no entry there, so they
+still borrow `focusForTheme(themeId)` — the page's camera. Rhodena's
+full-map setup does not: it opens on the six turbines at zoom 13; `/rhodena`
+keeps its overview. A `position=` parameter still wins. `MapCanvas` takes a
+`focusFit` request (`{ revision, bounds }`) and renders `focus/FocusFit.tsx`,
+which fits the bounds each time the revision rises; it replaced Rhodena's own
+fit component.
 In `vite.config.ts`, `focusRoute` serves each page's map-relative path
 (`/rhodena`, `/fishing`, `/pointtupper`) in dev and preview and redirects its
 trailing-slash form. It routes only those three paths, so data files under the

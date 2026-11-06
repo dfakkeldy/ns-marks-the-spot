@@ -398,10 +398,17 @@ and source inventory and fails if the hosted object is unavailable or corrupt.
 The rail's title names the active setup ("NS Marks The Spot" for a shared link
 that matches none). Below search come **Map setup** and then **Export map
 (PDF)**. Category headings carry a disclosure chevron on the title line, and
-each layer row keeps its switch on the name's line; an off row hides the
-redundant "Off" pill visually but still announces it. Restricted rows offer an
-in-row **Review** of the Province licence. The folded licence strip keeps the
-OpenStreetMap credit and "Boundaries are not a survey" in view on wide screens.
+each layer row keeps its switch on the name's line. Most rows also show a
+small map key beside the name, drawn from the catalogue's own `openData`,
+`featureRenderer` or `legend` colours (`LayerSwatch` / `layerSwatchSpec`). A
+row whose catalogue entry names no colour — server-rendered images, aerial
+photos, parcels drawn by the parcel styler — has no swatch; the row never
+invents one. Swatches use the day-map symbol. A fill fainter than 30% is
+raised to 30% so the chip is not empty, and tints sit on light map paper so they
+keep their hue on the dark panel. An off row hides the redundant "Off" pill
+visually but still announces it. Restricted rows offer an in-row **Review**
+of the Province licence. The folded licence strip keeps the OpenStreetMap
+credit and "Boundaries are not a survey" in view on wide screens.
 
 A first visit uses **Explore Nova Scotia**: the modern map is on, catalogue
 overlays are off, and **Tax Sale** is off. Layer controls are organized into ten
@@ -562,10 +569,34 @@ custom setup lives only in the browser that saved it. A named setup whose
 layers need the Province licence asks for acceptance before drawing them, the
 same as a shared link would. Share links preserve Poker’s `theme` to identify
 the driveway workflow explicitly. Other built-in setups carry their name only
-when layer parameters cannot identify the selection on their own. A setup that
-has a focus page (Rhodena, Fishing, Point Tupper) also brings that page's camera: a
-`?theme=` link with no `position` opens on the page's area, and choosing the
-setup in the picker fits the map to it.
+when layer parameters cannot identify the selection on their own.
+
+On the full map, each built-in setup may bring its own opening camera
+(`src/themes/themeCameras.ts`). A cold `?theme=` link with no `position`
+parameter uses it, and choosing the setup in the picker applies it again. A
+link that already carries `position=` keeps that camera. The cameras are
+web-only metadata: `buildMapPresentationFixture` never reads them, so the
+native iOS-parity setups keep their layer lists and opacities unchanged.
+
+| Setup | Opening camera |
+| --- | --- |
+| Explore Nova Scotia | none: a cold link keeps the home camera; picking it leaves the current view |
+| Tax Sale Research | frames the current notices once their parcels load |
+| Forestry & Field Access | zoom floor 14 (where property boundaries draw), around the current centre |
+| Historical Maps | frames the union of the 24 published Fletcher sheets (Cape Breton Island) |
+| Georeferencing | none: a cold link keeps the home camera so it can frame the reader's own map; picking it leaves the current view |
+| Electoral Districts | frames the province |
+| Rhodena | 45.765, -61.43 at zoom 13 (the six proposed turbines). `/rhodena` keeps its overview |
+| Poker | zoom floor 16 (where civic numbers load) |
+| Fishing | the fishing focus page's camera (fits the spots) |
+| Point Tupper | the Point Tupper focus page's camera (fits the Strait) |
+
+Accepting the Province licence for the page-load setup re-issues that setup's
+camera, so Tax Sale's notice fit is not overwritten when licensed layers such
+as Buildings arrive. `LayerZoomController` stands aside for a layer change
+that arrives with a new setup camera. When the reader turns a detail layer on
+by itself, that controller zooms to that layer's floor, not the largest floor
+among every already-visible detail layer.
 
 The generated web-to-native category and built-in-theme contract is
 [`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json),
