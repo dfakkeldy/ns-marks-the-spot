@@ -202,6 +202,7 @@ import {
 import {
   matchTheme,
   normalizeLayerOpacityOverrides,
+  presentationOpacityOverrides,
   resolveTheme,
   themeStatesMatch,
   visibilityRecordFor,
@@ -1723,7 +1724,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // Set only by applying a setup; the layer's own catalogue opacity otherwise.
   const [contextOpacityOverrides, setContextOpacityOverrides] = useState<
     Partial<Record<ContextLayerId, number>>
-  >({});
+  >(() => presentationOpacityOverrides(
+    initialRequestedTheme ?? (initialThemeMatch?.kind === "built-in" ? initialThemeMatch : undefined),
+  ) as Partial<Record<ContextLayerId, number>>);
   const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
   const [fletcherFeaturesVisible, setFletcherFeaturesVisible] = useState(true);
   const [fletcherFeaturesStatus, setFletcherFeaturesStatus] = useState('Reviewed historical annotations');
@@ -3108,12 +3111,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     setFletcherOpacity(
       resolved.target.opacityOverrides.fletcher ?? fletcherLayerCatalog.opacity,
     );
-    setContextOpacityOverrides(Object.fromEntries(
-      contextLayerCatalog.flatMap(({ id }) => {
-        const opacity = (resolved.target.opacityOverrides as Partial<Record<string, number>>)[id];
-        return opacity === undefined ? [] : [[id, opacity]];
-      }),
-    ) as Partial<Record<ContextLayerId, number>>);
+    setContextOpacityOverrides(
+      presentationOpacityOverrides(resolved.target) as Partial<Record<ContextLayerId, number>>,
+    );
     setExpandedCategoryIds(new Set(resolved.target.preferredCategoryIds));
     setTaxSaleEnabled(resolved.target.taxSaleEnabled);
     setMapMode(resolved.target.mapMode);
