@@ -68,7 +68,7 @@ for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced s
   const keyToggle = key.getByRole('button', { name: 'Map key' });
   await expect(keyToggle).toHaveAttribute('aria-expanded', phone ? 'false' : 'true');
   if (!phone) {
-    await expect(key.getByRole('button', { name: /Wind turbines, planned/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect(key.getByRole('button', { name: /Wind turbines, planned/i })).toHaveAttribute('aria-pressed', 'true');
     // Rows keep their height as status lines arrive, so a press lands on the row it aimed at.
     await key.getByRole('button', { name: /Transmission lines/ }).click();
     await expect(key.getByRole('button', { name: /Transmission lines/ })).toHaveAttribute('aria-pressed', 'false');

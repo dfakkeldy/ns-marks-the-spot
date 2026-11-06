@@ -53,8 +53,11 @@ export interface FocusChromeContext {
   readonly closeMobileControls: () => void;
   /** Fit the map to the page's `fitBounds`. */
   readonly fitToFocus: () => void;
-  /** Fit the map to an area the page names, such as one of its key places. */
-  readonly fitToBounds: (bounds: FocusBounds) => void;
+  /**
+   * Fit the map to an area the page names, such as one of its key places;
+   * `insetBottom` keeps that many pixels at the map's foot clear, under a phone sheet left open.
+   */
+  readonly fitToBounds: (bounds: FocusBounds, options?: { readonly insetBottom?: number }) => void;
   /** Ask `rhodena-visibility` to start a viewpoint pick once its terrain is ready. */
   readonly startViewpointPick: () => void;
   /** Each layer's last reported state (loading, zoom floor, count), for keys that explain an empty map. */
@@ -121,6 +124,8 @@ export interface FocusDefinition {
    * frames the page's area in the band of map above it.
    */
   readonly phoneSheetShare?: number;
+  /** A closer area for that arrival fit on a phone, whose band of map above the sheet is short. */
+  readonly phoneFitBounds?: FocusBounds;
   /**
    * Draw property boundaries bolder than the map's 1.2-point default, in
    * export points: for a page about a few large holdings, not dense lots.

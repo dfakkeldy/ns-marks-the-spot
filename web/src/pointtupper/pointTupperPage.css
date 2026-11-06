@@ -58,14 +58,43 @@
 
 /* The map's own controls keep an edge on the night map, where their navy
    would otherwise sink into it. */
-:root[data-map-appearance="night"] .pointtupper-focus .leaflet-top .leaflet-control {
-  box-shadow: 0 0 0 1px var(--pt-rule), 0 4px 14px rgba(0, 0, 0, 0.35);
+:root[data-map-appearance="night"] .pointtupper-focus :is(.leaflet-top .leaflet-control, .location-button, .measure-control button) {
+  box-shadow: 0 0 0 1px rgba(246, 241, 230, 0.32), 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-map-appearance]) .pointtupper-focus .leaflet-top .leaflet-control {
-    box-shadow: 0 0 0 1px var(--pt-rule), 0 4px 14px rgba(0, 0, 0, 0.35);
+  :root:not([data-map-appearance]) .pointtupper-focus :is(.leaflet-top .leaflet-control, .location-button, .measure-control button) {
+    box-shadow: 0 0 0 1px rgba(246, 241, 230, 0.32), 0 4px 14px rgba(0, 0, 0, 0.35);
   }
+
+  /* The tanks' grey sinks into the night key; a paper ring keeps the symbol. */
+  :root:not([data-map-appearance]) .pointtupper-key-swatch circle {
+    stroke: rgba(246, 241, 230, 0.6);
+  }
+}
+
+:root[data-map-appearance="night"] .pointtupper-key-swatch circle {
+  stroke: rgba(246, 241, 230, 0.6);
+}
+
+/* The shared panel's fields and cards, in the night surface's own family
+   instead of teal. */
+:root[data-map-appearance="night"] .pointtupper-focus .layer-rail {
+  --white: #1e4259;
+  --fog: #10283a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .pointtupper-focus .layer-rail {
+    --white: #1e4259;
+    --fog: #10283a;
+  }
+}
+
+/* 3D terrain stays in the full map; this brief is about places, and the
+   space goes to the key. */
+.pointtupper-focus .terrain-control-bar {
+  display: none;
 }
 
 /* Hero -------------------------------------------------------------- */
@@ -90,9 +119,18 @@
   animation: pointtupper-beacon 2.4s ease-in-out 3;
 }
 
+.pointtupper-hero-beacon-halo {
+  animation-name: pointtupper-beacon-halo;
+}
+
 @keyframes pointtupper-beacon {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.25; }
+}
+
+@keyframes pointtupper-beacon-halo {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -129,7 +167,11 @@
 .pointtupper-hero-eyebrow {
   margin: 0 0 6px;
   color: var(--pt-paper-2);
-  text-wrap: balance;
+}
+
+/* Two lines, the water then the county, so neither breaks mid-name. */
+.pointtupper-hero-eyebrow span {
+  display: block;
 }
 
 .pointtupper-focus .pointtupper-hero h2 {
@@ -187,7 +229,8 @@
    rides the top of the panel until the next room's title takes its place. */
 .pointtupper-focus .pointtupper-hero h3 {
   position: sticky;
-  z-index: 1;
+  /* Above the timeline's dots, which come later in the page. */
+  z-index: 3;
   top: var(--pt-sticky-top, 0px);
   margin: -10px -24px 2px;
   padding: 10px 24px;
@@ -198,6 +241,20 @@
   letter-spacing: 0;
   line-height: 1.25;
   background: var(--pt-deep);
+  box-shadow: 0 1px 0 var(--pt-rule);
+}
+
+/* A short fade under a stuck title, so the line passing beneath it is not
+   cut through its letters. */
+.pointtupper-focus .pointtupper-hero h3::after {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 12px;
+  content: "";
+  background: linear-gradient(var(--pt-deep), rgba(16, 40, 58, 0));
+  pointer-events: none;
 }
 
 .pointtupper-facts {
@@ -269,9 +326,33 @@
   filter: none;
 }
 
-.pointtupper-timeline-glyph {
-  margin-right: 6px;
-  vertical-align: -2px;
+/* A timeline event about a mapped place: its symbol in the date column,
+   pressable like the facts' pills, with a 44px target. */
+.pointtupper-timeline-place {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin: -4px 0 -4px 6px;
+  padding: 0;
+  vertical-align: middle;
+  background: transparent;
+  border: 1px solid rgba(240, 180, 90, 0.45);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.pointtupper-timeline-place::before {
+  position: absolute;
+  inset: -11px;
+  content: "";
+}
+
+.pointtupper-timeline-place:hover {
+  background: rgba(240, 180, 90, 0.12);
+  border-color: var(--pt-sodium);
 }
 
 .pointtupper-facts dd {
@@ -289,6 +370,8 @@
 /* A new tab says so, by eye as well as to a screen reader. */
 .pointtupper-source::after,
 .pointtupper-hero .pointtupper-hero-link::after {
+  /* inline-block keeps the link's underline from running under the arrow. */
+  display: inline-block;
   content: "\2197" / "";
   margin-left: 0.15em;
   font-size: 0.8em;
@@ -371,10 +454,23 @@
   box-shadow: inset 0 0 0 1.5px var(--pt-sodium);
 }
 
+/* The record runs on past "Now", dashed, alongside what it does not show yet,
+   and fades rather than ending. */
+.pointtupper-timeline li.pointtupper-timeline-now::after {
+  position: absolute;
+  top: calc(0.4rem + 7px);
+  bottom: 0;
+  left: 3px;
+  content: "";
+  border-left: 1px dashed rgba(240, 180, 90, 0.7);
+  mask-image: linear-gradient(#000 40%, transparent);
+}
+
 .pointtupper-when {
   color: var(--pt-paper-2);
   font-variant-numeric: tabular-nums;
-  /* "Early 1960s", not "EARLY 1960S". */
+  /* "Early 1960s", not "EARLY 1960S", so the capitals' wide tracking goes too. */
+  letter-spacing: 0.02em;
   text-transform: none;
 }
 
@@ -387,8 +483,13 @@
 }
 
 .pointtupper-timeline-now .pointtupper-when,
-.pointtupper-timeline-now > div > p:first-child {
+.pointtupper-timeline-now > p:not(.pointtupper-hero-note) {
   color: var(--pt-paper-2);
+}
+
+/* The caveat takes the timeline's full width, beside the dashed line. */
+.pointtupper-timeline-now > .pointtupper-hero-note {
+  grid-column: 1 / -1;
 }
 
 .pointtupper-timeline-now {
@@ -397,7 +498,7 @@
 
 /* Close: the caveat, the sources, the way to the map ----------------- */
 .pointtupper-hero .pointtupper-hero-note {
-  margin: 10px 0 0;
+  margin: 4px 0 0;
   padding: 10px 12px;
   color: var(--pt-paper);
   text-wrap: pretty;
@@ -447,8 +548,11 @@
   background: var(--pt-sodium);
 }
 
+/* On a wide screen the map key says this; the hint is for the phone, where
+   the key is folded or hidden under the sheet. */
 .pointtupper-hero-hint {
-  margin: 8px 0 0;
+  display: none;
+  margin: 6px 0 0;
   color: var(--pt-paper-2);
   font-size: var(--pt-step-body);
   line-height: 1.4;
@@ -482,16 +586,17 @@
    the tone the map draws it on. */
 .pointtupper-key {
   position: absolute;
-  /* Hung under the 3D and Map/Aerial controls, so nothing below it (the
-     licence strip folding after load, a growing map) moves its rows. */
-  top: 120px;
+  /* Hung 12px under the Map/Aerial switch (64px; 3D terrain is hidden on
+     this page), so nothing below it (the licence strip folding after load,
+     a growing map) moves its rows. */
+  top: 76px;
   right: 12px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   width: 252px;
   max-width: calc(100% - 24px);
-  max-height: calc(100% - 148px);
+  max-height: calc(100% - 104px);
   color: var(--chart-ink);
   background: rgba(var(--surface-rgb), 0.8);
   -webkit-backdrop-filter: blur(12px) saturate(1.25);
@@ -844,12 +949,15 @@
   height: 20px;
 }
 
-.pointtupper-brand-chevron {
-  flex: none;
-  width: 12px;
-  height: 12px;
+/* What the pill opens, in the page's caption voice. */
+.pointtupper-brand-hint {
   margin-left: 2px;
+  padding-left: 8px;
   color: var(--muted);
+  font: 600 var(--pt-step-caption)/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-left: 1px solid var(--line);
 }
 
 @media (max-width: 860px) {
@@ -896,6 +1004,22 @@
   .pointtupper-focus .layer-rail.mobile-open {
     max-height: min(60dvh, calc(var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)));
     border-color: rgba(16, 40, 58, 0.5);
+    transition: max-height 0.3s ease;
+  }
+
+  /* Once the reader scrolls into the brief, the sheet rises to full height
+     (PointTupperFocusChrome's usePhoneSheetStops); back at the top it returns. */
+  .pointtupper-focus .layer-rail.mobile-open.pointtupper-sheet-full {
+    max-height: min(760px, calc(var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)));
+  }
+
+  /* A lower strip of the harbour, so the first fact shows on arrival. */
+  .pointtupper-hero-art {
+    aspect-ratio: 360 / 84;
+  }
+
+  .pointtupper-hero-hint {
+    display: block;
   }
 
   /* One way into the sheet: the page's own pill, which says where it leads. */
@@ -916,8 +1040,8 @@
        sheet's edge, so nothing scrolls by underneath. */
     bottom: -20px;
     margin: 0 -24px;
-    padding: 18px 24px 32px;
-    background: linear-gradient(rgba(16, 40, 58, 0), var(--pt-deep) 18px);
+    padding: 12px 24px calc(30px + env(safe-area-inset-bottom));
+    background: linear-gradient(rgba(16, 40, 58, 0), var(--pt-deep) 12px);
   }
 
   .pointtupper-hero-primary {
@@ -989,7 +1113,8 @@
 }
 
 @media (max-width: 379px) {
-  .pointtupper-focus .mobile-map-brand strong {
+  .pointtupper-focus .mobile-map-brand strong,
+  .pointtupper-brand-hint {
     display: none;
   }
 

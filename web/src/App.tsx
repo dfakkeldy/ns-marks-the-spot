@@ -1274,7 +1274,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       && (window.matchMedia?.("(max-width: 860px)").matches ?? false);
     return {
       revision: 1,
-      bounds: cameraFocus.fitBounds,
+      bounds: opensOnSheet ? focusDef?.phoneFitBounds ?? cameraFocus.fitBounds : cameraFocus.fitBounds,
       insetRight: focusDef?.mapOverlayInset,
       insetBottom: opensOnSheet && sheetShare !== undefined ? Math.round(window.innerHeight * sheetShare) + 80 : undefined,
     };
@@ -4726,8 +4726,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     openMobileControls,
     closeMobileControls,
     fitToFocus: () => { if (focusDef) requestFocusFit(focusDef); },
-    fitToBounds: (bounds: FocusBounds) => {
-      setFocusFit(({ revision }) => ({ revision: revision + 1, bounds, insetRight: focusDef?.mapOverlayInset }));
+    fitToBounds: (bounds: FocusBounds, options?: { readonly insetBottom?: number }) => {
+      setFocusFit(({ revision }) => ({ revision: revision + 1, bounds, insetRight: focusDef?.mapOverlayInset, insetBottom: options?.insetBottom }));
     },
     startViewpointPick: () => setRhodenaPickPending(true),
     layerStatuses,

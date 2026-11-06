@@ -156,6 +156,7 @@ export function PointTupperMapLegend(context: FocusChromeContext) {
                   >
                     <span className="pointtupper-key-swatch"><SwatchGraphic swatch={row.swatch} /></span>
                     <span className="pointtupper-key-label">
+                      {row.spokenPrefix ? <><span className="visually-hidden">{row.spokenPrefix}</span>{' '}</> : null}
                       {row.label}
                       {hint ? <small>{hint}</small> : null}
                     </span>

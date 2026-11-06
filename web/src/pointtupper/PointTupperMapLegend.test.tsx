@@ -40,9 +40,9 @@ describe("Point Tupper map key", () => {
   it("is a switch for every layer it explains", async () => {
     const view = context();
     render(<PointTupperMapLegend {...view} />);
-    expect(row(/Wind turbines, installed/u)).toHaveAttribute("aria-pressed", "true");
+    expect(row(/Wind turbines, installed/iu)).toHaveAttribute("aria-pressed", "true");
     expect(row(/Transmission lines/u)).toHaveAttribute("aria-pressed", "false");
-    await userEvent.click(row(/Wind turbines, installed/u));
+    await userEvent.click(row(/Wind turbines, installed/iu));
     expect(view.setContextLayerVisibility).toHaveBeenCalledWith("canadian-wind-turbines", false);
     await userEvent.click(row(/Transmission lines/u));
     expect(view.setContextLayerVisibility).toHaveBeenCalledWith("transmission-lines", true);
@@ -70,7 +70,7 @@ describe("Point Tupper map key", () => {
       "point-tupper-sites": { status: "ready", count: 1 },
     } })} />);
     expect(row(/Tanks/u)).toHaveTextContent("Zoom in to see (zoom 13+)");
-    expect(row(/Wind turbines, installed/u)).toHaveTextContent("12 turbines in view");
+    expect(row(/Wind turbines, installed/iu)).toHaveTextContent("12 turbines in view");
     expect(row(/Key places/u)).toHaveTextContent("1 place in view");
   });
 

@@ -1,37 +1,50 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode, type RefObject } from 'react';
 import type { FocusBounds, FocusChromeContext } from '../focus/focusDefinition';
 import { POINT_TUPPER_LICENCE_URL, POINT_TUPPER_SOURCES_URL, pointTupperSiteKinds } from '../layers/pointTupperLayers';
 import { POINT_TUPPER_CHECKED, POINT_TUPPER_FACT_GROUPS, POINT_TUPPER_TIMELINE, type SourcedLine } from './facts';
 import { pointMarker, type Swatch } from './mapKey';
-import { POINT_TUPPER_PLACE_BOUNDS } from './focus';
+import { POINT_TUPPER_PHONE_SHEET_SHARE, POINT_TUPPER_PLACE_BOUNDS } from './focus';
 import { MarkerSwatch } from './PointTupperMapLegend';
 
 interface MappedPlace {
   /** Spoken in the pill's name: "Show the terminal on the map". */
   readonly name: string;
+  /** The pill's text: the map's own label for the place, so brief and map name it alike. */
+  readonly label: string;
   readonly swatch: Swatch;
   readonly bounds: FocusBounds;
 }
 
 const TERMINAL: MappedPlace = {
   name: 'the terminal',
+  label: 'EverWind terminal',
   swatch: { kind: 'marker', marker: pointTupperSiteKinds.terminal.marker, color: pointTupperSiteKinds.terminal.color },
   bounds: POINT_TUPPER_PLACE_BOUNDS.terminal,
 };
 const POWER: MappedPlace = {
   name: 'the generating station',
+  label: 'Generating station',
   swatch: { kind: 'marker', marker: pointTupperSiteKinds.power.marker, color: pointTupperSiteKinds.power.color },
   bounds: POINT_TUPPER_PLACE_BOUNDS.power,
 };
 const WATER: MappedPlace = {
   name: 'Landrie Lake',
+  label: 'Landrie Lake',
   swatch: { kind: 'marker', marker: pointTupperSiteKinds.water.marker, color: pointTupperSiteKinds.water.color },
   bounds: POINT_TUPPER_PLACE_BOUNDS.water,
 };
 const TURBINES: MappedPlace = {
   name: 'the Point Tupper wind farm',
+  label: '12 turbines',
   swatch: pointMarker('canadian-wind-turbines'),
   bounds: POINT_TUPPER_PLACE_BOUNDS.turbines,
+};
+
+const EVERWIND_WIND: MappedPlace = {
+  name: 'Upper Afton and Windy Ridge, the two of the four the map draws,',
+  label: 'Upper Afton, Windy Ridge',
+  swatch: pointMarker('planned-wind-turbines'),
+  bounds: POINT_TUPPER_PLACE_BOUNDS.everwindWind,
 };
 
 /**
@@ -43,10 +56,11 @@ const FACT_PLACES: Readonly<Record<string, MappedPlace>> = {
   Announced: TERMINAL,
   Grid: POWER,
   Water: WATER,
+  Wind: EVERWIND_WIND,
   'Wind nearby': TURBINES,
 };
 
-/** Timeline events about a place the map draws, marked with its symbol. */
+/** Timeline events about a place the map draws: its symbol, which also takes the map there. */
 const TIMELINE_PLACES: Readonly<Record<string, MappedPlace>> = {
   '1969': WATER,
   '2026': TERMINAL,
@@ -56,6 +70,41 @@ function Glyph({ swatch, size }: { swatch: Swatch; size: number }) {
   return swatch.kind === 'marker'
     ? <MarkerSwatch marker={swatch.marker} color={swatch.color} size={swatch.marker.glyph === 'turbine' ? size + 2 : size} />
     : null;
+}
+
+const PHONE_QUERY = '(max-width: 860px)';
+/** The phone sheet's full-height stop (pointTupperPage.css); without it the sheet rests at 60%. */
+const SHEET_FULL = 'pointtupper-sheet-full';
+
+function isPhone(): boolean {
+  return typeof window.matchMedia === 'function' && window.matchMedia(PHONE_QUERY).matches;
+}
+
+/** Pixels of map the middle-stop sheet covers: its share of the screen plus the licence strip and gap. */
+function phoneSheetInset(): number {
+  return Math.round(window.innerHeight * POINT_TUPPER_PHONE_SHEET_SHARE) + 80;
+}
+
+/**
+ * The phone sheet opens at 60%, with the site in the map above it, and rises
+ * to full height once the reader scrolls into the brief; scrolling back to
+ * the top returns it to 60%.
+ */
+function usePhoneSheetStops(heroRef: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const rail = heroRef.current?.closest<HTMLElement>('.layer-rail');
+    if (!rail) return undefined;
+    const onScroll = () => {
+      if (!isPhone()) return;
+      if (rail.scrollTop > 120) rail.classList.add(SHEET_FULL);
+      else if (rail.scrollTop < 24) rail.classList.remove(SHEET_FULL);
+    };
+    rail.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      rail.removeEventListener('scroll', onScroll);
+      rail.classList.remove(SHEET_FULL);
+    };
+  }, [heroRef]);
 }
 
 /** A source link: it opens in a new tab, and says so. */
@@ -74,7 +123,7 @@ function SourceLink({ href, children }: { href: string; children: ReactNode }) {
  */
 function StraitIllustration() {
   return (
-    <svg className="pointtupper-hero-art" viewBox="0 0 360 132" aria-hidden="true" focusable="false">
+    <svg className="pointtupper-hero-art" viewBox="0 0 360 132" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="pointtupper-sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#10283a" />
@@ -104,6 +153,7 @@ function StraitIllustration() {
       </g>
       {/* The stack, with a light at the top. */}
       <rect x="128" y="40" width="7" height="56" fill="#cfd8dd" />
+      <circle className="pointtupper-hero-beacon pointtupper-hero-beacon-halo" cx="131.5" cy="38" r="5" fill="#ff6b57" opacity="0.25" />
       <circle className="pointtupper-hero-beacon" cx="131.5" cy="38" r="2.2" fill="#ff6b57" />
       {/* Storage tanks. */}
       <g fill="#e9eef0">
@@ -143,7 +193,7 @@ function FactRow({ fact, onShowPlace }: { fact: SourcedLine; onShowPlace: (place
         {place ? (
           <button type="button" className="pointtupper-place" aria-label={`Show ${place.name} on the map`} onClick={() => onShowPlace(place)}>
             <span className="pointtupper-place-glyph" aria-hidden="true"><Glyph swatch={place.swatch} size={12} /></span>
-            Map
+            {place.label}
           </button>
         ) : null}
       </dt>
@@ -163,8 +213,8 @@ function FactRow({ fact, onShowPlace }: { fact: SourcedLine; onShowPlace: (place
   );
 }
 
-/** Seventy years of big projects on the Strait, oldest first, ending on the day the record was last read. */
-function StraitTimeline() {
+/** Seventy years of big projects on the Strait, oldest first, ending on what the record does not show yet. */
+function StraitTimeline({ onShowPlace }: { onShowPlace: (place: MappedPlace) => void }) {
   return (
     <section className="pointtupper-timeline" aria-labelledby="pointtupper-timeline-title">
       <h3 id="pointtupper-timeline-title">Seventy years on the Strait</h3>
@@ -173,25 +223,29 @@ function StraitTimeline() {
           const place = TIMELINE_PLACES[event.when];
           return (
             <li key={`${event.when}-${event.text}`}>
-              <span className="pointtupper-when">{event.when}</span>
+              <span className="pointtupper-when">
+                {event.when}
+                {place ? (
+                  <button type="button" className="pointtupper-timeline-place" aria-label={`Show ${place.name} on the map`} onClick={() => onShowPlace(place)}>
+                    <Glyph swatch={place.swatch} size={12} />
+                  </button>
+                ) : null}
+              </span>
               <p>
-                {place ? <span className="pointtupper-timeline-glyph" aria-hidden="true"><Glyph swatch={place.swatch} size={12} /></span> : null}
                 {event.text}{' '}
                 <SourceLink href={event.sourceUrl}>{event.sourceLabel}</SourceLink>
               </p>
             </li>
           );
         })}
-        {/* The record is unfinished: the line runs on, dashed, to the day it
-            was last read, and to what it does not show yet. */}
+        {/* The record is unfinished: the line runs on, dashed, past "Now" and
+            alongside what it does not show yet. */}
         <li className="pointtupper-timeline-now">
           <span className="pointtupper-when">Now</span>
-          <div>
-            <p>The record so far, read <time dateTime={POINT_TUPPER_CHECKED.iso}>{POINT_TUPPER_CHECKED.text}</time>.</p>
-            <p className="pointtupper-hero-note">
-              The campus footprint has not been published, so the map does not draw it.
-            </p>
-          </div>
+          <p>The record so far.</p>
+          <p className="pointtupper-hero-note">
+            The campus footprint has not been published, so the map does not draw it.
+          </p>
         </li>
       </ol>
     </section>
@@ -200,15 +254,27 @@ function StraitTimeline() {
 
 /** The /pointtupper summary: what was announced and what the record shows, each fact with its source. */
 export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileControls }: FocusChromeContext) {
+  const heroRef = useRef<HTMLElement>(null);
+  usePhoneSheetStops(heroRef);
   const showPlace = (place: MappedPlace) => {
+    const rail = heroRef.current?.closest<HTMLElement>('.layer-rail');
+    if (rail && isPhone()) {
+      // On a phone the brief stays open at its middle stop, and the place is
+      // framed in the map above it, so the reader keeps their place in the text.
+      rail.classList.remove(SHEET_FULL);
+      fitToBounds(place.bounds, { insetBottom: phoneSheetInset() });
+      return;
+    }
     fitToBounds(place.bounds);
     closeMobileControls();
   };
   return (
-    <section className="pointtupper-hero" aria-labelledby="pointtupper-hero-title">
+    <section ref={heroRef} className="pointtupper-hero" aria-labelledby="pointtupper-hero-title">
       <StraitIllustration />
       <div className="pointtupper-hero-body">
-        <p className="pointtupper-hero-eyebrow">Strait of Canso · Richmond&nbsp;County, Nova&nbsp;Scotia</p>
+        <p className="pointtupper-hero-eyebrow">
+          <span>Strait of Canso</span> <span>Richmond County, Nova Scotia</span>
+        </p>
         <h2 id="pointtupper-hero-title">Point Tupper</h2>
         <p className="pointtupper-hero-lede">
           Where the announced data-centre campus would go: the terminal, the grid, the water and seventy
@@ -225,7 +291,7 @@ export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileContr
             </dl>
           </section>
         ))}
-        <StraitTimeline />
+        <StraitTimeline onShowPlace={showPlace} />
         <a className="pointtupper-hero-link" href={POINT_TUPPER_SOURCES_URL} target="_blank" rel="noreferrer">
           Every source, and what it supports<span className="visually-hidden"> (opens in a new tab)</span>
         </a>
@@ -240,8 +306,9 @@ export function PointTupperFocusHero({ fitToFocus, fitToBounds, closeMobileContr
           >
             Zoom to Point Tupper
           </button>
+          {/* The key, which says this on a wide screen, is folded or hidden on a phone. */}
+          <p className="pointtupper-hero-hint">Then tap a place for its source and date.</p>
         </div>
-        <p className="pointtupper-hero-hint">Then select a place on the map for its source and date.</p>
         <p className="pointtupper-hero-byline">Built by Dan Fakkeldy with Claude Code, from public sources.</p>
       </div>
       {/* The far shore's line, closing the night room before the map's tools. */}
@@ -267,10 +334,8 @@ export function PointTupperBrandMark() {
     <>
       <span aria-hidden="true"><PointTupperGlyph /></span>
       <strong>Point Tupper<span className="pointtupper-brand-suffix"> site</span></strong>
-      {/* The pill unfolds the brief, so it carries the usual unfold mark. */}
-      <svg className="pointtupper-brand-chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <path d="M2.5 4.5 6 8 9.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      {/* Says what the pill opens, without an arrow that would have to pick a direction. */}
+      <span className="pointtupper-brand-hint" aria-hidden="true">Brief</span>
     </>
   );
 }

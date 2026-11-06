@@ -1,5 +1,5 @@
 import type { FocusDefinition, FocusHiddenFeature } from '../focus/focusDefinition';
-import { POINT_TUPPER_BOUNDS, POINT_TUPPER_POSITION, pointTupperFocusCategoryIds, pointTupperFocusDeniedLayerIds, pointTupperFocusLayerIds } from './focus';
+import { POINT_TUPPER_BOUNDS, POINT_TUPPER_PHONE_BOUNDS, POINT_TUPPER_PHONE_SHEET_SHARE, POINT_TUPPER_POSITION, pointTupperFocusCategoryIds, pointTupperFocusDeniedLayerIds, pointTupperFocusLayerIds } from './focus';
 import { PointTupperBrandMark, PointTupperFocusHero, PointTupperFooterNote } from './PointTupperFocusChrome';
 import { PointTupperMapLegend } from './PointTupperMapLegend';
 
@@ -22,7 +22,8 @@ export const pointTupperFocusDefinition: FocusDefinition = {
   // The map key's width and margin (pointTupperPage.css).
   mapOverlayInset: 264,
   // The phone sheet's arrival height (pointTupperPage.css), so the site opens in view above it.
-  phoneSheetShare: 0.6,
+  phoneSheetShare: POINT_TUPPER_PHONE_SHEET_SHARE,
+  phoneFitBounds: POINT_TUPPER_PHONE_BOUNDS,
   chrome: {
     Hero: PointTupperFocusHero,
     MapOverlay: PointTupperMapLegend,

@@ -17,6 +17,8 @@ export type Swatch =
 
 export interface LegendRow {
   readonly label: string;
+  /** Said before the label to a screen reader, where the group heading carries it by eye ("Wind turbines," before "Installed"). */
+  readonly spokenPrefix?: string;
   readonly swatch: Swatch;
   readonly layer: { readonly kind: 'context'; readonly id: ContextLayerId } | { readonly kind: 'parcels' };
   /** What to count when the layer reports how many features are in view. */
@@ -58,8 +60,8 @@ export const pointTupperLegendGroups: readonly LegendGroup[] = [
   {
     title: 'Wind',
     rows: [
-      { label: 'Wind turbines, installed', swatch: pointMarker('canadian-wind-turbines'), layer: { kind: 'context', id: 'canadian-wind-turbines' }, countNoun: 'turbines' },
-      { label: 'Wind turbines, planned', swatch: pointMarker('planned-wind-turbines'), layer: { kind: 'context', id: 'planned-wind-turbines' }, countNoun: 'turbines' },
+      { label: 'Installed', spokenPrefix: 'Wind turbines,', swatch: pointMarker('canadian-wind-turbines'), layer: { kind: 'context', id: 'canadian-wind-turbines' }, countNoun: 'turbines' },
+      { label: 'Planned', spokenPrefix: 'Wind turbines,', swatch: pointMarker('planned-wind-turbines'), layer: { kind: 'context', id: 'planned-wind-turbines' }, countNoun: 'turbines' },
     ],
   },
   {
