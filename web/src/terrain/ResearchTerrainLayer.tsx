@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { foldCompactAttribution } from '../atlas/foldAttribution';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { addProtocol, removeProtocol, AttributionControl, NavigationControl, Marker, Popup, type GeoJSONSource, type ImageSource, type LayerSpecification } from 'maplibre-gl';
@@ -94,12 +95,9 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     mapRef.current = gl;
     gl.addControl(new NavigationControl({ showZoom: false, visualizePitch: true }), 'top-left');
     gl.addControl(new AttributionControl({ compact: true }), 'bottom-right');
-    // MapLibre opens its compact credit expanded, which on a phone covered a
-    // third of the 3D view and repeated the licence strip. It starts as the
-    // (i) button there; the full text is one tap away and stays in the strip.
-    if (window.matchMedia?.('(max-width: 860px)').matches) {
-      node.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
-    }
+    // Expanded, the credit card covered a third of the 3D view (590px wide on
+    // a desktop); it starts as its (i) button on every width.
+    foldCompactAttribution(gl, true);
 
     const showPopup = (layer: L.Layer, source: L.Popup | undefined, latlng: L.LatLng, autoPan: boolean | undefined) => {
       const content = source?.getContent();

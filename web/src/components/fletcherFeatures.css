@@ -15,3 +15,8 @@
 .map-canvas:has(.fletcher-feature-popup) .research-terrain-controls,
 .map-canvas:has(.fletcher-feature-popup) .location-button,
 .map-canvas:has(.fletcher-feature-popup) .measure-control { visibility: hidden; }
+
+/* At zoom 12-13 the mark is a translucent ring on the sheet, so the place
+   names beneath it still read; from 14 it is the solid paper disc. */
+.fletcher-feature-marker--small { background: #fff4df73; box-shadow: none; }
+.fletcher-feature-marker--small svg circle[fill="#fff4df"] { fill-opacity: 0.45; }

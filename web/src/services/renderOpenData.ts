@@ -45,6 +45,11 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.beginPath();
     const fill = path(f.geometry);
     ctx.lineJoin = "round"; ctx.lineCap = "round";
+    if (source.pointRing && zoom < 11 && !/^(Town|Village)$/.test(String(f.properties.concise_ds ?? "Town"))) {
+      // Below zoom 11 the gazetteer keeps to settlements. Every lake, brook
+      // and cape lettered at once buried the Fletcher sheets beneath it.
+      continue;
+    }
     if (source.pointRing && f.geometry.type.includes("Point") && !source.labelField && zoom < 11) {
       // The basemap is lettering these names itself (labelField was taken
       // away for it); below zoom 11 an anchor ring per name only speckles it.

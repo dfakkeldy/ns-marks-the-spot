@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { foldCompactAttribution } from '../atlas/foldAttribution';
 import { AttributionControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 import { Map } from '../atlas/mapLibreRuntime';
 import { PROVINCE_LICENSE_URL, OPEN_GOVERNMENT_LICENCE_TERMS_URL } from '../licensing/provinceLicense';
@@ -50,6 +51,7 @@ function TerrainMap({ settings, aerialAccepted, parcelsAccepted, retry, onStatus
         map.addControl(new NavigationControl({ visualizePitch: true }), 'top-right');
         map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-left');
         map.addControl(new AttributionControl({ compact: true, customAttribution: `${RUMSEY_ATTRIBUTION} · <a href="${RUMSEY_LICENCE_URL}">CC BY-NC-SA 3.0</a> · Judique draft` }), 'bottom-right');
+        foldCompactAttribution(map);
         map.on('load', () => { if (map) applySettings(map, latest.current); });
         map.on('error', event => {
           failed = true;
@@ -102,7 +104,7 @@ export function TerrainStudy() {
         {settings.parcels && !parcelsAccepted && <div className="atlas-licence"><p>Property boundaries use the provincial <a href={PROVINCE_LICENSE_URL} target="_blank" rel="noreferrer">map-service terms</a>.</p><button onClick={() => setParcelsAccepted(true)}>Accept terms & load property boundaries</button></div>}
         {settings.parcels && parcelsAccepted && <p className="atlas-note">Zoom in to see mapped property boundaries. Not a survey or proof of ownership.</p>}
         <label className="atlas-check"><input type="checkbox" checked={settings.roads} onChange={event => setSettings(s => ({ ...s, roads: event.target.checked }))} />Roads & bridges</label>
-        <div className="terrain-water-key"><i />Water polygons & network</div>
+        <div className="terrain-water-key"><i />Water polygons & network <small>· always shown</small></div>
         <label className="atlas-check"><input type="checkbox" checked={settings.contours} onChange={event => setSettings(s => ({ ...s, contours: event.target.checked }))} />Contour lines</label>
         <p className="atlas-note">Roads, bridges and property boundaries draw above water. These references do not establish access permission.</p>
       </section>

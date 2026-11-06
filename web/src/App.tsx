@@ -1031,7 +1031,7 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           </a>
         </p>
         <div className="dialog-actions">
-          <button className="primary-action" type="button" onClick={onClose}>
+          <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -1098,6 +1098,7 @@ function DataSourcesDialog({
           <p>{PROVINCIAL_ATTRIBUTION}. <a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Open-data licence</a>
             {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Generated tile receipt</a></p>
         </details>
+        <h3 className="data-sources-kicker">Each map layer</h3>
         <ul className="data-sources-list">
           {sources.map((source) => (
             <li key={source.id}>
@@ -1132,7 +1133,7 @@ function DataSourcesDialog({
           >
             Review the Province licence
           </button>
-          <button className="primary-action" type="button" onClick={onClose}>
+          <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -4927,6 +4928,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       <span>
                         <strong>Modern map</strong>
                         <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
+                        {/* MapCanvas's AerialGapUnderlay draws this map under NS
+                            Aerial until the photograph can; the switch stays off
+                            because the setup did not ask for it, so the row says
+                            why the map is showing anyway. */}
+                        {!showModernMap && provinceLayers["ns-aerial"] ? (
+                          <small className="modern-map-standin">Shown under NS Aerial until it loads (zoom 10+)</small>
+                        ) : null}
                         <LayerMetadata
                           sourceDate={basemapSource(basemapStyle).sourceDate}
                           scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Provincial-first · NSTDB 1:10,000 detail; closer zoom magnifies the data. Roads and paths do not establish access permission."}

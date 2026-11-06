@@ -111,7 +111,7 @@ export function AtlasStudy() {
     </aside>
     <section className="atlas-stage" aria-label="Map preview">
       <AtlasMap key={retry} style={style} camera={camera} onView={setView} onStatus={setStatus} historicalOpacity={opacity} />
-      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'After dusk' : mode === 'day' ? 'Daylight' : mode === 'fletcher' ? 'Fletcher' : mode === 'handdrawn' ? 'Sketchbook' : 'Standard OSM'}</strong></div>
+      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'Night' : mode === 'day' ? 'Day' : mode === 'fletcher' ? 'Fletcher' : mode === 'handdrawn' ? 'Hand-drawn' : 'OpenStreetMap'}</strong></div>
       <div className="atlas-status" role="status" data-ready={status === 'Ready'}>
         <span>{status === 'Ready' ? 'Map loaded' : status}</span>
         {status !== 'Ready' && status !== 'Loading map…' && <button type="button" onClick={() => { if (view) setCamera(view); setStatus('Loading map…'); setRetry(value => value + 1); }}>Retry</button>}

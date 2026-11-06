@@ -67,6 +67,18 @@
     flex: none;
     gap: 6px;
   }
+  /* Before the first tap the dock holds how to start, in the buttons' place
+     and at their height, so nothing below it moves when they arrive. */
+  .poker-workspace .measure-actions.measure-actions--idle {
+    display: none;
+  }
+  .poker-workspace .measure-control.measure-start-hint {
+    position: static;
+    flex: none;
+    justify-content: center;
+    min-height: 44px;
+    box-shadow: none;
+  }
   .leaflet-container:has(.poker-workspace) .display-scale-readout {
     left: auto;
     right: 8px;

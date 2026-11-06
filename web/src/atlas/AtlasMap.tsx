@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { foldCompactAttribution } from './foldAttribution';
 import { NavigationControl, ScaleControl, AttributionControl, type StyleSpecification } from 'maplibre-gl';
 import { Map } from './mapLibreRuntime';
 import { NOVA_SCOTIA_BOUNDS } from '../services/mapShareState';
@@ -48,6 +49,7 @@ export function AtlasMap({ style, camera, onView, onStatus, historicalOpacity }:
     map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
     map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-left');
     map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
+    foldCompactAttribution(map);
     const reportView = () => {
       const center = map.getCenter();
       const bounds = map.getBounds();

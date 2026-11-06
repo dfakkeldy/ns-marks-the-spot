@@ -1929,8 +1929,9 @@ a {
 }
 
 .data-sources-list {
+  /* No inner scroll box: the dialog itself scrolls, and a list scrolling
+     inside a scrolling card hid half the receipts behind a second bar. */
   display: grid;
-  max-height: 44vh;
   margin: 0;
   padding: 0 4px 0 0;
   gap: 10px;
@@ -7754,7 +7755,7 @@ a {
 }
 
 /* The licence gate's Close is the least of its three choices. */
-.licence-dialog .dialog-quiet-action {
+:is(.licence-dialog, .about-dialog) .dialog-quiet-action {
   justify-self: center;
   min-height: 44px;
   font-size: var(--type-small);
@@ -7803,4 +7804,114 @@ a {
   grid-column: 1 / -1;
   color: var(--muted);
   font-size: var(--type-caption);
+}
+
+/* Round 4 ---------------------------------------------------------------- */
+
+/* OpenStreetMap is not paper: its strip and cards take a neutral light ground
+   instead of the default cream, so the attribution reads as its own source. */
+:root[data-map-appearance="day"][data-map-basemap="osm"] {
+  --paper: #f6f7f6;
+  --paper-rgb: 246, 247, 246;
+}
+
+/* Atlas Day's accent is drawn from the map's own water ink rather than web
+   blue, the one saturated cool colour on warm paper. 6.9:1 on the rail;
+   links stay underlined, so nothing depends on the hue alone. */
+:root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
+  --survey-blue: #2b5f7a;
+}
+
+/* On a dark room the filled Search button was the brightest thing on the
+   screen. It is outlined there, so the eye lands on the map. */
+:root[data-map-appearance="night"] .search-row .primary-action {
+  color: var(--survey-blue);
+  background: var(--white);
+  border: 1px solid var(--survey-blue);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-map-appearance]) .search-row .primary-action {
+    color: var(--survey-blue);
+    background: var(--white);
+    border: 1px solid var(--survey-blue);
+  }
+}
+
+/* Dialogs take focus on open so Escape and Tab work; a mouse user should not
+   see the whole card outlined for it. Keyboard focus still shows. */
+:is(.licence-dialog, .theme-manager-dialog):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Every long dialog keeps its footer inside the card on a short screen. */
+.licence-dialog {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}
+
+/* Civic results show whole rows: three and a half, so a cut row reads as
+   "more below" rather than as a clipping error. */
+.address-search-results {
+  max-height: calc(3.5 * 44px);
+}
+
+.address-search-results button {
+  min-height: 44px;
+}
+
+@media (max-width: 860px) {
+  /* The phone licence pill sits in the bottom-right corner; the export
+     toolbar rides above it instead of underneath. */
+  .export-frame-toolbar {
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    left: 12px;
+  }
+
+  /* With the parcel panel up, the scale bar and screen-scale plate drew over
+     its caveat text. The panel is the reading surface; they step aside. */
+  .map-region.has-inspector :is(.leaflet-control-scale, .display-scale-readout) {
+    visibility: hidden;
+  }
+}
+
+/* The Atlas receipt and the per-layer list are two sections, each named, with
+   a rule between, so nothing below the closed disclosure reads as inside it. */
+.data-sources-dialog > details {
+  margin: 16px 0 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-dialog > details > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.data-sources-kicker {
+  margin: 18px 0 10px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* MapLibre's own controls (3D tilt and compass, the /terrain and /atlas zoom
+   stacks) join the map-button family: white, one soft shadow, pill ends,
+   40px targets instead of 29px squares. */
+.maplibregl-ctrl.maplibregl-ctrl-group {
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35);
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-group button {
+  width: 40px;
+  height: 40px;
 }

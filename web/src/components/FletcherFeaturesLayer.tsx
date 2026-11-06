@@ -29,7 +29,7 @@ function featureIcon(kind: string, zoom: number) {
     const svg = ['school', 'mill', 'mine', 'forge'].includes(symbol)
       ? historicalSiteSvg(symbol as HistoricalSiteKind, 'approximate', 'fletcher')
       : '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#fff4df" stroke="#633a20" stroke-dasharray="2 2"/><circle cx="10" cy="10" r="4" fill="none" stroke="#633a20" stroke-width="1.5"/></svg>';
-    ICONS.set(key, L.divIcon({ className: 'fletcher-feature-marker', html: svg, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }));
+    ICONS.set(key, L.divIcon({ className: size < 28 ? 'fletcher-feature-marker fletcher-feature-marker--small' : 'fletcher-feature-marker', html: svg, iconSize: [size, size], iconAnchor: [size / 2, size / 2] }));
   }
   return ICONS.get(key)!;
 }
