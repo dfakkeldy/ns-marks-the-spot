@@ -16,7 +16,16 @@ describe("electoralLabelPoint", () => {
     expect(point?.position[1]).toBeCloseTo(45.5, 1);
   });
 
-  it("moves inside a crescent whose centroid falls in the bay", () => {
+  it("never names a district on a far-offshore part while it has another part", () => {
+    // Sable Island in the Halifax riding: larger than the mainland part, about 2° out.
+    const point = electoralLabelPoint({
+      type: "MultiPolygon",
+      coordinates: [[square(-60.2, 43.9, 0.3)], [square(-63.65, 44.62, 0.1)]],
+    });
+    expect(point?.position[0]).toBeCloseTo(-63.6, 1);
+  });
+
+    it("moves inside a crescent whose centroid falls in the bay", () => {
     // A C shape open to the east: its area centroid sits in the open middle.
     const c = [[0, 0], [3, 0], [3, 1], [1, 1], [1, 2], [3, 2], [3, 3], [0, 3], [0, 0]];
     const point = electoralLabelPoint({ type: "Polygon", coordinates: [c] })!;

@@ -61,16 +61,36 @@ export interface LabelPoint {
  * when that falls outside the part (a crescent of coast, a bay), the middle
  * of the part's widest east-west stretch through it. Leaflet's own tooltip
  * centre uses only the first ring, which for a multi-island district can be
- * a small island.
+ * a small island. A part far offshore from all the others (Sable Island,
+ * about 160 km out in the Halifax riding) is never chosen while the district
+ * has another part: its name would read as an island's.
  */
+/** Parts farther than this from the rest of their district are outliers, in degrees. */
+const OUTLYING_PART_DEGREES = 1;
+/** The middle of NOVA_SCOTIA_BOUNDS, [longitude, latitude]. */
+const PROVINCE_CENTRE = [-62.75, 45.25] as const;
+
 export function electoralLabelPoint(geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon): LabelPoint | null {
   const polygons: Polygon[] = geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates;
+  const centres = polygons.map((polygon) => {
+    const outer = polygon[0] ?? [];
+    const lons = outer.map(([lon]) => lon);
+    const lats = outer.map(([, lat]) => lat);
+    return outer.length ? [(Math.min(...lons) + Math.max(...lons)) / 2, (Math.min(...lats) + Math.max(...lats)) / 2] : [NaN, NaN];
+  });
+  const far = (index: number) => polygons.length > 1 && centres.every((other, j) =>
+    j === index || Math.hypot(other[0] - centres[index][0], other[1] - centres[index][1]) > OUTLYING_PART_DEGREES);
+  // Two far-apart parts are each "far" from the other; then the one nearer the province's middle stays.
+  const allFar = polygons.length > 1 && polygons.every((_, index) => far(index));
+  const fromProvince = (index: number) => Math.hypot(centres[index][0] - PROVINCE_CENTRE[0], centres[index][1] - PROVINCE_CENTRE[1]);
+  const nearest = allFar ? centres.reduce((best, _, index) => (fromProvince(index) < fromProvince(best) ? index : best), 0) : -1;
+  const outlying = (index: number) => (allFar ? index !== nearest : far(index));
   let largest: Polygon | null = null;
   let largestArea = 0;
   let cosLat = 1;
-  for (const polygon of polygons) {
+  for (const [index, polygon] of polygons.entries()) {
     const outer = polygon[0];
-    if (!outer || outer.length < 4) continue;
+    if (!outer || outer.length < 4 || outlying(index)) continue;
     const meanLat = outer.reduce((total, [, lat]) => total + lat, 0) / outer.length;
     const scale = Math.cos((meanLat * Math.PI) / 180);
     const area = Math.abs(ringArea(outer, scale)) - polygon.slice(1).reduce((total, hole) => total + Math.abs(ringArea(hole, scale)), 0);
