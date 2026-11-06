@@ -5644,6 +5644,48 @@ a {
   padding-inline: 16px;
 }
 
+/* Portrait | Landscape as one two-segment switch: both choices in view, the
+   current one filled. */
+.export-frame-orientation {
+  display: inline-flex;
+  padding: 2px;
+  background: rgba(var(--shadow-rgb), 0.08);
+  border-radius: 10px;
+}
+
+.export-frame-orientation button {
+  color: var(--chart-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.export-frame-orientation button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+}
+
+.export-frame-hint {
+  align-self: center;
+  margin: 0 4px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .export-frame-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .export-frame-hint {
+    flex-basis: 100%;
+    order: -1;
+  }
+}
+
 .export-map-trigger {
   display: inline-flex;
   align-items: center;
