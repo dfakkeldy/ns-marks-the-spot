@@ -8522,7 +8522,10 @@ a {
 .dialog-header-row {
   position: sticky;
   z-index: 2;
-  top: 0;
+  /* A sticky box inside a scrolling one sticks to the scroller's content
+     edge, which sits a padding inside its border. Without this the row sat
+     one padding low, over the dialog's title, before any scroll. */
+  top: calc(-1 * var(--dialog-pad));
   display: flex;
   align-items: center;
   justify-content: space-between;
