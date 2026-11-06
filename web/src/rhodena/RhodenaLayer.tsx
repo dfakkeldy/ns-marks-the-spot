@@ -60,7 +60,8 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
               if(key==='Enter'||key===' '){event.preventDefault();event.stopPropagation();featureLayer.openPopup();}
             });
           });
-          if(feature.geometry.type==='Point')featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,{permanent:p.kind==='turbine',direction:'top',offset:[0,-6],className:'rhodena-label'});
+          if(feature.geometry.type==='Point')// Turbines and both (unreconciled) substation positions name themselves on the map.
+          featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,{permanent:p.kind==='turbine'||p.kind==='substation'||p.kind==='model-substation',direction:'top',offset:[0,-6],className:'rhodena-label'});
         }
       }).addTo(group);
     }
