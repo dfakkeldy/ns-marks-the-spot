@@ -4711,8 +4711,15 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     <button
       type="button"
       className="secondary-action export-map-trigger"
-      onClick={() =>
-        setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE })}
+      onClick={() => {
+        // Framing happens on the map, so the phone sheet steps out of the way
+        // and the licence strip folds to its pill: either one otherwise sits
+        // over the frame and its Continue button.
+        closeMobileControls();
+        cancelAttributionFold.current();
+        setAttributionFolded(true);
+        setExportSession({ stage: "framing", frame: DEFAULT_FRAME_STATE });
+      }}
     >
       Export map (PDF)
     </button>
