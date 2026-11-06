@@ -2547,7 +2547,7 @@ describe("NS Marks The Spot Online", () => {
     expect(stored.themes[0].opacityOverrides).toEqual({});
 
     const customThemeId = stored.themes[0].id;
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
     await userEvent.selectOptions(
       screen.getByLabelText("Map setup"),
       customThemeId,
@@ -2664,7 +2664,7 @@ describe("NS Marks The Spot Online", () => {
       const customThemeId = (JSON.parse(raw ?? "null") as {
         themes: Array<{ id: string }>;
       }).themes[0].id;
-      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
       await userEvent.selectOptions(
         screen.getByLabelText("Map setup"),
         "explore-nova-scotia",
@@ -2840,7 +2840,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
 
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
     await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
     await userEvent.click(screen.getByRole("button", { name: /^Background Maps/ }));
     expect(expandedLayerCategoryIds()).toEqual(["roads-places"]);
@@ -3073,7 +3073,7 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.getByLabelText("Modern map")).toBeChecked();
       expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
 
-      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
       await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
       expect(screen.getByRole("textbox", { name: "Rename Field day" }))
         .toHaveValue("Field day");

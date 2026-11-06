@@ -4781,12 +4781,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           )}
           {!pokerMode && searchForm}
           {/* A focus page carries these in its footer instead. */}
-          {!focusDef ? (
-            <>
-              {appearanceControl}
-              {exportMapButton}
-            </>
-          ) : null}
+          {!focusDef ? exportMapButton : null}
 
           {!focusHides(focusDef, "setup-picker") ? <MapThemePicker
             themes={mapThemes}
@@ -4921,6 +4916,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         />
                       </span>
                     </label>
+                    <div className="basemap-settings">
                     <label className="basemap-style-control">
                       Basemap style
                       <select aria-label="Basemap style" value={basemapPreference} onChange={(event) => setBasemapPreference(event.target.value as BasemapPreference)}>
@@ -4932,6 +4928,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         <option value="osm">OpenStreetMap</option>
                       </select>
                     </label>
+                    {!focusDef ? appearanceControl : null}
                     {basemapStyle !== "osm" && <p className="crown-land-key">
                       <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
                       <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
@@ -4943,6 +4940,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       </label>
                       <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Historical points and lines are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
                     </> : null}
+                    </div>
                     </div>
                   ) : null}
 

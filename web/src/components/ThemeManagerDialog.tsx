@@ -187,12 +187,12 @@ export function ThemeManagerDialog({
             ))}
           </ul>
         ) : (
-          <p className="theme-manager-empty">No custom themes saved.</p>
+          <p className="theme-manager-empty">No saved themes yet. Name the map as it is now, with its layers, opacity and mode, to come back to it later.</p>
         )}
 
         <div className="theme-manager-footer">
           <button type="button" onClick={onClose}>
-            Cancel
+            Done
           </button>
         </div>
       </section>

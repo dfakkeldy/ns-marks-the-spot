@@ -476,7 +476,10 @@ a {
 }
 
 .theme-manager-dialog h2 {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1.1;
 }
 
 .theme-manager-save,
@@ -535,10 +538,23 @@ a {
   border-radius: 6px;
 }
 
-.theme-manager-confirmation p,
-.theme-manager-empty {
+.theme-manager-confirmation p {
   margin: 0;
   color: var(--muted);
+}
+
+.theme-manager-empty {
+  margin: 18px 0;
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  background: var(--fog);
+  border-radius: 6px;
+}
+
+.theme-manager-footer {
+  justify-content: flex-end;
 }
 
 .theme-manager-notice {
@@ -648,11 +664,18 @@ a {
   position: relative;
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr) auto;
-  align-items: center;
+  /* The switch sits on the name's line, not in the middle of the caveat and
+     metadata below it: a tall row centred it a paragraph away from its label. */
+  align-items: start;
   gap: 12px;
   min-height: 59px;
+  padding-block: 12px 10px;
   cursor: pointer;
-  border-top: 1px solid rgba(18, 52, 59, 0.12);
+  border-top: 1px solid var(--line);
+}
+
+.layer-row > .switch {
+  margin-top: -1px;
 }
 
 .layer-row:first-of-type {
@@ -717,14 +740,30 @@ a {
 }
 
 .layer-metadata {
-  display: grid;
-  gap: 2px;
-  margin: 4px 0 7px;
-  padding: 6px 7px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  margin: 2px 0 0;
   color: var(--muted);
+}
+
+/* "Off" repeats what the switch already shows. It stays for screen readers,
+   which hear the runtime state as part of the row. */
+.layer-runtime.off {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.layer-provenance[open] {
+  flex-basis: 100%;
+  padding: 6px 8px;
   background: rgba(var(--fog-rgb), 0.75);
-  border-left: 2px solid rgba(18, 52, 59, 0.22);
-  border-radius: 0 4px 4px 0;
+  border-radius: 4px;
 }
 
 .layer-metadata small {
@@ -2007,6 +2046,32 @@ a {
   background-color: var(--fog);
 }
 
+/* One family of map buttons: the tool circles below are 46px white discs with
+   one soft shadow, so the zoom bar is the same 46px width, rounded to the same
+   radius and lit the same way, rather than Leaflet's 30px grey-rimmed square.
+   Two 36px halves end 6px above the locate button at 86px, the gap the tool
+   circles keep between themselves. The phone block later in this sheet sets
+   its own 44px squares and wins on source order. */
+.map-canvas .leaflet-top.leaflet-left .leaflet-control-zoom {
+  margin: 8px 0 0 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+}
+
+.map-canvas .leaflet-control-zoom a {
+  width: 46px;
+  height: 36px;
+  color: var(--survey-blue);
+  font-size: 22px;
+  line-height: 36px;
+}
+
+.map-canvas .leaflet-control-zoom a:first-child {
+  border-bottom: 1px solid var(--line);
+}
+
 /* Leaflet draws the seam between + and − and the bar's edge in its own
    greys, which disappear into a dark card. */
 .leaflet-bar,
@@ -2083,7 +2148,11 @@ a {
 }
 
 .measure-actions button:disabled {
-  opacity: 0.65;
+  /* Keep the white disc so the control still reads as a control on dark
+     imagery; only the label steps back. Opacity washed the whole button into
+     the map. */
+  color: var(--muted);
+  box-shadow: 0 1px 4px rgba(18, 52, 59, 0.2);
   cursor: default;
 }
 
@@ -2582,12 +2651,17 @@ a {
   padding: 3px 8px;
   color: var(--muted);
   font-family: "IBM Plex Mono", Menlo, monospace;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   line-height: 1.3;
-  background: rgba(var(--surface-rgb), 0.88);
+  background: rgba(var(--surface-rgb), 0.9);
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: copy;
+}
+
+.position-readout:hover {
+  color: var(--chart-ink);
+  border-color: var(--muted);
 }
 
 .leaflet-control-scale-line {
@@ -2617,15 +2691,21 @@ a {
   bottom: 50px;
   left: 12px;
   margin: 0;
-  padding: 2px 6px;
-  color: var(--chart-ink);
+  /* The same plate as the coordinate readout above it: one surface, one rim,
+     one radius for the three readings stacked in this corner. */
+  padding: 3px 8px;
+  color: var(--muted);
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.68rem;
   line-height: 1.3;
-  background: rgba(var(--surface-rgb), 0.88);
-  border: 1px solid rgba(18, 52, 59, 0.35);
-  border-radius: 3px;
+  background: rgba(var(--surface-rgb), 0.9);
+  border: 1px solid var(--line);
+  border-radius: 6px;
   pointer-events: none;
+}
+
+.map-canvas .leaflet-bottom.leaflet-left .leaflet-control-scale {
+  margin-left: 12px;
 }
 
 .parcel-lookup-message {
@@ -3409,7 +3489,23 @@ a {
   min-height: 24px;
   align-items: center;
   padding: 0 16px;
-  border-left: 1px solid rgba(18, 52, 59, 0.28);
+  border-left: 1px solid var(--line);
+}
+
+/* The shared text-button reset zeroes a button's padding and border, which
+   ran "Data & licences" and "About this map" together with no divider. */
+.map-attribution > button:not(:first-child) {
+  padding: 0 16px;
+  border-left: 1px solid var(--line);
+}
+
+/* A span that mixes text and links lays out as one sentence. As an inline-flex
+   box its text runs became anonymous flex items, and flex trims the spaces
+   around each link: "Licence·Tile sources·" read as one word. */
+.map-attribution > span {
+  display: inline-block;
+  padding-block: 4px;
+  line-height: 1.35;
 }
 
 .map-attribution > :first-child {
@@ -7241,12 +7337,22 @@ a {
 }
 
 /* Keep expanded catalogue provenance compact and independently inspectable. */
-.context-layer-control { border-bottom: 1px solid var(--border-color, #d8d5ca); padding-bottom: 0.5rem; }
-.context-layer-source { margin: 0.25rem 0 0.35rem 3rem; font-size: 0.8rem; overflow-wrap: anywhere; }
-.context-layer-source summary { cursor: pointer; padding: 0.3rem 0; }
+.context-layer-control { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.context-layer-control > .layer-row { border-top: 0; }
+.context-layer-source { margin: 0 0 4px 54px; color: var(--muted); font-size: 0.72rem; overflow-wrap: anywhere; }
+.context-layer-source summary { cursor: pointer; min-height: 24px; padding: 2px 0; }
+.context-layer-source summary:hover { color: var(--chart-ink); }
 .context-layer-source p { margin: 0.45rem 0; }
 .context-layer-source ul { max-height: 16rem; overflow: auto; padding-left: 0.75rem; }
-.context-layer-control > .text-button { margin-left: 3rem; }
+.context-layer-control > .text-button { display: block; margin: 0 0 4px 54px; text-align: left; }
+
+/* One size for every in-rail text action. These inherited the 16px button
+   face, so "Review" outweighed the layer name it serves. */
+.layer-rail .text-button {
+  min-height: 24px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
 .context-feature-details { margin: 0.6rem 0; max-height: 16rem; overflow: auto; overflow-wrap: anywhere; }
 .context-feature-details dt { font-weight: 600; margin-top: 0.4rem; }
 .context-feature-details dd { margin-left: 0; }
@@ -7359,7 +7465,21 @@ a {
   color: var(--chart-ink);
   background: var(--fog);
 }
-.interface-appearance-control { margin-bottom: 12px; }
+/* Basemap style, interface appearance and the Crown Land key belong to the
+   Modern map row, so they hang from its text column, not the switch column. */
+.basemap-settings {
+  display: grid;
+  gap: 10px;
+  padding: 0 0 12px 58px;
+}
+
+.basemap-settings .basemap-style-control {
+  padding: 0;
+}
+
+.basemap-settings .crown-land-key {
+  margin: 0;
+}
 
 .poker-mode .modern-map-error { top: max(210px, calc(env(safe-area-inset-top) + 198px)); }
 
