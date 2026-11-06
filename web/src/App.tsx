@@ -1710,6 +1710,11 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const [fletcherOpacity, setFletcherOpacity] = useState(
     fletcherLayerCatalog.opacity,
   );
+  // A setup's opacity for a context layer (Fishing quiets the park fills).
+  // Set only by applying a setup; the layer's own catalogue opacity otherwise.
+  const [contextOpacityOverrides, setContextOpacityOverrides] = useState<
+    Partial<Record<ContextLayerId, number>>
+  >({});
   const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
   const [fletcherFeaturesVisible, setFletcherFeaturesVisible] = useState(true);
   const [fletcherFeaturesStatus, setFletcherFeaturesStatus] = useState('Reviewed historical annotations');
@@ -3094,6 +3099,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     setFletcherOpacity(
       resolved.target.opacityOverrides.fletcher ?? fletcherLayerCatalog.opacity,
     );
+    setContextOpacityOverrides(Object.fromEntries(
+      contextLayerCatalog.flatMap(({ id }) => {
+        const opacity = (resolved.target.opacityOverrides as Partial<Record<string, number>>)[id];
+        return opacity === undefined ? [] : [[id, opacity]];
+      }),
+    ) as Partial<Record<ContextLayerId, number>>);
     setExpandedCategoryIds(new Set(resolved.target.preferredCategoryIds));
     setTaxSaleEnabled(resolved.target.taxSaleEnabled);
     setMapMode(resolved.target.mapMode);
@@ -3888,13 +3899,16 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     layerIds: activeLayerIds,
     opacityOverrides: normalizeLayerOpacityOverrides(
       activeLayerIds,
-      fletcherOpacity === fletcherLayerCatalog.opacity
-        ? {}
-        : { fletcher: fletcherOpacity },
+      {
+        ...contextOpacityOverrides,
+        ...(fletcherOpacity === fletcherLayerCatalog.opacity
+          ? {}
+          : { fletcher: fletcherOpacity }),
+      },
     ),
     taxSaleEnabled,
     mapMode,
-  }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
+  }), [activeLayerIds, contextOpacityOverrides, fletcherOpacity, mapMode, taxSaleEnabled]);
   const persistCustomThemes = useCallback((nextThemes: CustomMapThemeDefinition[]) => {
     const result = saveCustomThemes(nextThemes, reachableLocalStorage());
     if (!result.ok) {
@@ -5778,6 +5792,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef}
             onFletcherFeaturesStatus={setFletcherFeaturesStatus}
             fletcherOpacity={fletcherOpacity}
+            contextOpacity={contextOpacityOverrides}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
             userMaps={focusHides(focusDef, "my-maps") ? undefined : userMapsApi.visibleMaps}
@@ -6218,7 +6233,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             ...contextLayerCatalog
               .filter((layer) => effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null)
               .map((layer) => ({ id: layer.id, name: layer.name, serviceUrl: layer.serviceUrl,
-                exportOptions: layer.exportOptions, openData: layer.openData, tileUrl: "tileUrl" in layer ? layer.tileUrl : undefined, maxNativeZoom: layer.maxNativeZoom, opacity: layer.opacity })),
+                exportOptions: layer.exportOptions, openData: layer.openData, tileUrl: "tileUrl" in layer ? layer.tileUrl : undefined, maxNativeZoom: layer.maxNativeZoom, opacity: contextOpacityOverrides[layer.id] ?? layer.opacity })),
           ],
           // v1 scope cut: user-imported maps are not extracted into a
           // CanvasImageSource + mesh yet. They are named in

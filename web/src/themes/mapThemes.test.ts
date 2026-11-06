@@ -10,6 +10,7 @@ import type { ShareLayerId } from "../services/mapShareState";
 import {
   buildMapPresentationFixture,
   builtInMapThemes,
+  nativeParityThemes,
   validateMapTheme,
 } from "./mapThemes";
 import { matchTheme, resolveTheme } from "./themeState";
@@ -140,6 +141,24 @@ describe("built-in map themes", () => {
     }
   });
 
+  it("freezes the native setups apart from the web setups of the same ids", () => {
+    const webIds = new Set(builtInMapThemes.map(({ id }) => id));
+    expect(nativeParityThemes.map(({ id }) => id)).toEqual([
+      "explore-nova-scotia",
+      "tax-sale-research",
+      "forestry-field-access",
+      "historical-maps",
+      "georeferencing",
+    ]);
+    for (const theme of nativeParityThemes) {
+      expect(webIds.has(theme.id)).toBe(true);
+      expect(validateMapTheme({ ...theme, kind: "built-in" })).toEqual([]);
+    }
+    expect(buildMapPresentationFixture().builtInThemes.map(({ id }) => id)).toEqual(
+      nativeParityThemes.map(({ id }) => id),
+    );
+  });
+
   it("exports the native portability fixture from the registries", async () => {
     await expect(
       `${JSON.stringify(buildMapPresentationFixture(), null, 2)}\n`,
@@ -219,7 +238,10 @@ describe("Fishing setup", () => {
   });
 
   it("is the setup its own layers identify, and stays outside the native presentation contract", () => {
+    expect(fishing.opacityOverrides).toEqual({ "protected-conservation-areas": 0.25 });
     expect(matchTheme(fishing, builtInMapThemes)?.id).toBe("fishing");
+    // Without its quieter park fill the same layers are a different setup.
+    expect(matchTheme({ ...fishing, opacityOverrides: {} }, builtInMapThemes)?.id).not.toBe("fishing");
     expect(buildMapPresentationFixture().builtInThemes.some(({ id }) => id === "fishing")).toBe(false);
     const nativeLayerIds = buildMapPresentationFixture().builtInThemes.flatMap(({ layerIds }) => layerIds);
     for (const { id } of contextLayerCatalog) expect(nativeLayerIds).not.toContain(id);

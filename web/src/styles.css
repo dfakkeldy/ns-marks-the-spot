@@ -7604,6 +7604,12 @@ a {
 .print-electoral-legends { position: absolute; z-index: 1200; bottom: 0; left: 0; right: 0; background: white; color: #12343b; padding: 0 .6rem; font-size: var(--type-micro); }
 .electoral-map-label { min-width: 7rem; border: 0; box-shadow: none; background: transparent; font-weight: 600; text-shadow: 1px 1px #fbf6ea, -1px -1px #fbf6ea, 1px -1px #fbf6ea, -1px 1px #fbf6ea; }
 .electoral-map-label-night { color: #e8f1f0; text-shadow: 1px 1px #152b31, -1px -1px #152b31, 1px -1px #152b31, -1px 1px #152b31; }
+/* Placed names sit on the map like lettering, not like popups: no arrow, no pointer. */
+.leaflet-tooltip.electoral-map-label { padding: 0; pointer-events: none; line-height: 1.2; }
+.leaflet-tooltip.electoral-map-label::before { display: none; }
+/* Federal ridings: the riding line's deep water, spaced capitals, a step smaller. */
+.electoral-map-label-federal { color: #0a4f5c; font-size: var(--type-micro); letter-spacing: .08em; text-transform: uppercase; }
+.electoral-map-label-federal.electoral-map-label-night { color: #9fd6e2; }
 .electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: var(--type-caption); padding: 0 .6rem; }
 .electoral-map-legends:empty { display: none; }
 @media (max-width:640px) { .electoral-map-legends { left: .6rem; bottom: 2rem; max-width: calc(100% - 1.2rem); } }
