@@ -1342,7 +1342,7 @@ function ThemeCameraController({ request }: { request: ThemeCameraRequest }) {
     handled.current = revision;
     if (camera?.kind === "zoom-floor") {
       if (map.getZoom() < camera.zoom) map.setZoom(camera.zoom, { animate: false });
-    } else if (camera?.kind === "position") {
+    } else if (camera?.kind === "position" || (camera?.kind === "position-unless-zoomed" && map.getZoom() < camera.position.zoom)) {
       const { latitude, longitude, zoom } = camera.position;
       map.setView([latitude, longitude], zoom, { animate: false });
     }
