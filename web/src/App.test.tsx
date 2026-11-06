@@ -2303,6 +2303,14 @@ describe("NS Marks The Spot Online", () => {
       within(dialog).getByText(/NS Marks Atlas · Contains information licensed under the Open Government Licence/),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("Provincial-first Atlas sources")).toBeInTheDocument();
+    expect(within(dialog).getByRole("button", { name: "Close dialog" })).toHaveFocus();
+    // The Atlas dates are one table, not a paragraph; each appears once.
+    const dates = within(dialog).getByRole("table", { name: /Atlas source layers/ });
+    expect(within(dates).getByRole("rowheader", { name: "Crown Land" })).toBeInTheDocument();
+    expect(dialog.textContent?.match(/NSRN: \d{4}/gu) ?? []).toHaveLength(0);
+    // Receipts are links named for what they are, not raw addresses.
+    expect(within(dialog).getAllByRole("link", { name: "Source receipt" }).length).toBeGreaterThan(0);
+    expect(dialog.textContent).not.toMatch(/https?:\/\//u);
     expect(within(dialog).getAllByRole("link", { name: "Official source" })
       .length).toBeGreaterThan(10);
     // The curated spots link to the project's own receipt, never to a
@@ -3305,7 +3313,8 @@ describe("NS Marks The Spot Online", () => {
     const dialog = await screen.findByRole("dialog", {
       name: /about ns marks the spot/i,
     });
-    expect(dialog).toHaveFocus();
+    // First focus is the × close, not a ring around the whole card.
+    expect(within(dialog).getByRole("button", { name: "Close dialog" })).toHaveFocus();
 
     await user.keyboard("{Escape}");
     expect(

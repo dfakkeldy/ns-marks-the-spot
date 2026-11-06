@@ -251,8 +251,9 @@ import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers, contextExportOmission } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
 import { atlasPalettes } from "./atlas/palette";
-import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceiptUrl } from "./atlas/crown";
-import { provincialReceipt, provincialReceiptUrl, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
+import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceipt, crownReceiptUrl } from "./atlas/crown";
+import { provincialReceipt, provincialReceiptUrl, provincialSourceDates, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
+import { LinkedText } from "./components/LinkedText";
 import { useBasemapPreference } from "./atlas/useBasemapPreference";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
 import type { PdfTemplateId } from "./print/pdf/templates/types";
@@ -953,17 +954,20 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
   const dialogRef = useDialogChrome(onClose);
   return (
     <div className="dialog-backdrop">
+      {/* No tabIndex on the card: useDialogChrome then puts first focus on
+          the × close, the first control, instead of ringing the whole card. */}
       <section
         ref={dialogRef}
-        tabIndex={-1}
         className="licence-dialog about-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="about-title"
       >
-        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
-          <span aria-hidden="true">×</span>
-        </button>
+        <div className="dialog-header-row">
+          <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
@@ -1064,15 +1068,16 @@ function DataSourcesDialog({
     <div className="dialog-backdrop">
       <section
         ref={dialogRef}
-        tabIndex={-1}
         className="licence-dialog about-dialog data-sources-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="data-sources-title"
       >
-        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
-          <span aria-hidden="true">×</span>
-        </button>
+        <div className="dialog-header-row">
+          <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
         <div className="licence-mark" aria-hidden="true">
           NS
         </div>
@@ -1082,8 +1087,26 @@ function DataSourcesDialog({
           the same receipts a printed export carries. Reviewing them changes
           nothing about what the map shows.
         </p>
-        <details>
-          <summary>Provincial-first Atlas sources</summary>
+        <section className="data-sources-section" aria-labelledby="atlas-sources-heading">
+          <h3 id="atlas-sources-heading" className="data-sources-kicker">Provincial-first Atlas sources</h3>
+          <table className="data-sources-dates">
+            <caption className="sr-only">Atlas source layers and their release dates</caption>
+            <thead>
+              <tr><th scope="col">Layer</th><th scope="col">Released</th></tr>
+            </thead>
+            <tbody>
+              {provincialReceipt.sources.map(source => (
+                <tr key={source.id}>
+                  <th scope="row"><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a></th>
+                  <td>{source.released.slice(0, 10)}{source.frequency ? ` · ${source.frequency === 'Annually' ? 'annual' : source.frequency.toLowerCase()} releases` : ''}</td>
+                </tr>
+              ))}
+              <tr>
+                <th scope="row"><a href={CROWN_SOURCE_URL} target="_blank" rel="noreferrer">Crown Land</a></th>
+                <td>{crownReceipt.source.released.slice(0, 10)}</td>
+              </tr>
+            </tbody>
+          </table>
           <p>{provincialReceipt.supplemental}</p>
           <p>Coverage: Nova Scotia. Use the OpenStreetMap basemap for worldwide detail.
             Release dates describe these downloads, not when every feature was surveyed.
@@ -1091,43 +1114,51 @@ function DataSourcesDialog({
             Woodland is generalized to at most two metres, and more coarsely below zoom 12.
             Source polygons with invalid rings are repaired and counted in the tile receipt.
             Records with missing source geometry are omitted and identified there too.</p>
-          <ul>
-            {provincialReceipt.sources.map(source => (
-              <li key={source.id}>
-                <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
-                {` — ${source.released.slice(0, 10)}; ${source.frequency === 'Annually' ? 'annual' : source.frequency?.toLowerCase()} releases`}
-              </li>
-            ))}
-          </ul>
           <p>{PROVINCIAL_ATTRIBUTION}. <a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Open-data licence</a>
             {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Generated tile receipt</a></p>
-        </details>
+        </section>
         <h3 className="data-sources-kicker">Each map layer</h3>
         <ul className="data-sources-list">
-          {sources.map((source) => (
-            <li key={source.id}>
-              <strong>{source.name}</strong>
-              <span>{source.sourceDate}</span>
-              <span>{source.attribution}</span>
-              <span>
-                <a href={source.sourceUrl} target="_blank" rel="noreferrer">
-                  {source.provenance === "project-derived" ? "Project source" : "Official source"}
-                </a>
-                {source.licenceUrl ? (
-                  <>
-                    {" · "}
-                    <a
-                      href={source.licenceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Licence
+          {sources.map((source) => {
+            // The Atlas row's per-layer dates are the table above; its export
+            // text repeats them (and its style note) a second time.
+            const atlas = source.id === "modern" && source.sourceUrl === provincialReceiptUrl();
+            const sourceDate = atlas
+              ? source.sourceDate.replace(`${provincialSourceDates}. `, "").replace(/ Crown Land: \d{4}-\d{2}-\d{2}\./u, "").replace(/(Supplemental OSM context is live\.).*$/u, "$1 Layer dates: see the Atlas table above.")
+              : source.sourceDate;
+            const attribution = atlas
+              ? source.attribution.replace(`${provincialSourceDates}. `, "")
+              : source.attribution;
+            return (
+              <li key={source.id}>
+                <strong>{source.name}</strong>
+                <dl className="data-source-fields">
+                  <dt>Date</dt>
+                  <dd><LinkedText text={sourceDate} /></dd>
+                  <dt>Credit</dt>
+                  <dd><LinkedText text={attribution} /></dd>
+                  <dt>Links</dt>
+                  <dd>
+                    <a href={source.sourceUrl} target="_blank" rel="noreferrer">
+                      {source.provenance === "project-derived" ? "Project source" : "Official source"}
                     </a>
-                  </>
-                ) : null}
-              </span>
-            </li>
-          ))}
+                    {source.licenceUrl ? (
+                      <>
+                        {" · "}
+                        <a
+                          href={source.licenceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Licence
+                        </a>
+                      </>
+                    ) : null}
+                  </dd>
+                </dl>
+              </li>
+            );
+          })}
         </ul>
         <div className="dialog-actions">
           <button
