@@ -74,7 +74,34 @@ export type MapShareState = {
    */
   month?: number;
   spot?: string;
+  /**
+   * Fletcher's fade, 0.15-1 in 0.05 steps. Like `electoral`, it is how the
+   * map is being looked at, not which setup it is: written only when the
+   * sheets are on and the fade differs from the catalogue's, and never
+   * counted as shared map state on its own.
+   */
+  fletcherOpacity?: number;
 };
+
+export const FLETCHER_OPACITY_MIN = 0.15;
+export const FLETCHER_OPACITY_STEP = 0.05;
+
+/** A Fletcher fade snapped to the slider's steps and range, or undefined. */
+export function normalizeFletcherOpacity(value: number): number | undefined {
+  if (!Number.isFinite(value)) return undefined;
+  const clamped = Math.min(1, Math.max(FLETCHER_OPACITY_MIN, value));
+  return Number((Math.round(clamped / FLETCHER_OPACITY_STEP) * FLETCHER_OPACITY_STEP).toFixed(2));
+}
+
+/** `opacity=fletcher:40` → 0.4; anything else → undefined. */
+function parseShareOpacity(value: string | null): number | undefined {
+  for (const entry of (value ?? "").split(",")) {
+    const [id, percent] = entry.split(":");
+    if (id !== "fletcher" || !/^\d{1,3}$/u.test(percent ?? "")) continue;
+    return normalizeFletcherOpacity(Number(percent) / 100);
+  }
+  return undefined;
+}
 
 /** A spot id's shape; whether the spot exists is the page's call. */
 const SPOT_ID_PATTERN = /^S\d{2}$/u;
@@ -177,6 +204,9 @@ export function parseMapShareState(value: string): MapShareState {
   }
   const month = parseShareMonth(url.searchParams.get("month"));
   const spot = parseShareSpot(url.searchParams.get("spot"));
+  const fletcherOpacity = layerIds.includes("fletcher")
+    ? parseShareOpacity(url.searchParams.get("opacity"))
+    : undefined;
 
   return {
     ...(isBasemapStyle(basemap) ? { basemapStyle: basemap } : {}),
@@ -190,6 +220,7 @@ export function parseMapShareState(value: string): MapShareState {
     ...(themeId ? { themeId } : {}),
     ...(month !== undefined ? { month } : {}),
     ...(spot !== undefined ? { spot } : {}),
+    ...(fletcherOpacity !== undefined ? { fletcherOpacity } : {}),
   };
 }
 
@@ -244,6 +275,12 @@ export function buildMapShareUrl(
   if (month !== undefined) url.searchParams.set("month", String(month));
   const spot = parseShareSpot(state.spot ?? null);
   if (spot !== undefined) url.searchParams.set("spot", spot);
+  const fletcherOpacity = state.fletcherOpacity === undefined
+    ? undefined
+    : normalizeFletcherOpacity(state.fletcherOpacity);
+  if (fletcherOpacity !== undefined && state.layerIds.includes("fletcher")) {
+    url.searchParams.set("opacity", `fletcher:${Math.round(fletcherOpacity * 100)}`);
+  }
   url.searchParams.set(
     "position",
     [

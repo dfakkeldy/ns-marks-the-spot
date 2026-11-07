@@ -2540,7 +2540,7 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
   });
 
-  it("uses Fletcher catalogue opacity for exact matching and marks an override modified", async () => {
+  it("fades Fletcher from the Historical Maps setup card without modifying the setup", async () => {
     vi.stubEnv(
       "VITE_FLETCHER_TILE_BASE_URL",
       "https://tiles.example.test/ns-marks",
@@ -2549,6 +2549,7 @@ describe("NS Marks The Spot Online", () => {
     window.history.replaceState(null, "", "/");
     render(<App />);
 
+    expect(screen.queryByRole("slider", { name: "Fletcher sheets" })).not.toBeInTheDocument();
     await userEvent.selectOptions(
       screen.getByLabelText("Change setup"),
       "historical-maps",
@@ -2559,12 +2560,48 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(mapSetupStatus()).toHaveTextContent("Historical Maps");
 
-    fireEvent.change(screen.getByRole("slider", { name: /Opacity/ }), {
-      target: { value: "0.5" },
+    const cardSlider = screen.getByRole("slider", { name: "Fletcher sheets" });
+    fireEvent.change(cardSlider, { target: { value: "0.4" } });
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Fletcher: on at 40%");
+    expect(cardSlider).toHaveAttribute("aria-valuetext", "40% opaque");
+    // The layer row's slider is the same state.
+    expect(screen.getByRole("slider", { name: /Opacity/ })).toHaveValue("0.4");
+    // A fade is viewing, not a setup change.
+    expect(mapSetupStatus()).toHaveTextContent("Historical Maps");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+    await waitFor(() => {
+      const params = new URL(window.location.href).searchParams;
+      expect(params.get("opacity")).toBe("fletcher:40");
+      expect(params.get("layers")).toBe("modern,fletcher,place-names,main-roads");
     });
-    expect(mapSetupStatus()).toHaveTextContent(
-      "Historical Maps — Modified",
+
+    fireEvent.change(screen.getByRole("slider", { name: /Opacity/ }), {
+      target: { value: "0.85" },
+    });
+    expect(cardSlider).toHaveValue("0.85");
+
+    // Hiding the sheets takes the slider away with them.
+    openLayerCategory("Historical Maps");
+    await userEvent.click(screen.getByLabelText("Fletcher historical map"));
+    expect(screen.queryByRole("slider", { name: "Fletcher sheets" })).not.toBeInTheDocument();
+  });
+
+  it("opens a shared link at the Fletcher fade it was made with", () => {
+    vi.stubEnv(
+      "VITE_FLETCHER_TILE_BASE_URL",
+      "https://tiles.example.test/ns-marks",
     );
+    window.history.replaceState(
+      null,
+      "",
+      "/?taxSale=off&mode=current&layers=modern,fletcher,place-names,main-roads&opacity=fletcher:40",
+    );
+    render(<App />);
+
+    expect(screen.getByLabelText("Change setup")).toHaveValue("historical-maps");
+    expect(mapSetupStatus()).not.toHaveTextContent("Modified");
+    expect(screen.getByRole("slider", { name: "Fletcher sheets" })).toHaveValue("0.4");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Fletcher: on at 40%");
   });
 
   it("does not save hidden Fletcher opacity in a custom theme", async () => {

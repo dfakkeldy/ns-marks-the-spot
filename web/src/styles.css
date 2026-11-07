@@ -520,9 +520,92 @@ a {
   line-height: 1.4;
 }
 
+/* Historical Maps' fade: an outline pill like the chips above, holding a
+   name, the slider and its percentage. The thumb and filled track take the
+   chip's own ink, so it follows each basemap room with them. */
+.setup-fade {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 4ch;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 2px;
+}
+
+.setup-fade > label,
+.setup-fade > input,
+.setup-fade > output {
+  grid-row: 1;
+}
+
+.setup-fade::before {
+  content: "";
+  grid-row: 1;
+  grid-column: 1 / -1;
+  align-self: stretch;
+  min-height: 36px;
+  margin: 0 -2px;
+  background: var(--white);
+  border: 1px solid color-mix(in srgb, var(--survey-blue) 45%, transparent);
+  border-radius: 999px;
+}
+
+.setup-fade > label {
+  grid-column: 1;
+  padding-left: 12px;
+  color: var(--survey-blue);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.setup-fade > output {
+  grid-column: 3;
+  padding-right: 12px;
+  color: var(--survey-blue);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.setup-fade > input[type="range"] {
+  grid-column: 2;
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  margin: 0;
+  accent-color: var(--survey-blue);
+  background: transparent;
+  cursor: pointer;
+}
+
+.setup-fade > input[type="range"]:focus-visible {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.setup-fade > .setup-chip-note {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  padding-left: 12px;
+}
+
+.setup-fade-licence {
+  white-space: nowrap;
+}
+
 @media (pointer: coarse) {
   .map-theme-picker .setup-chip {
     min-height: 44px;
+  }
+
+  .setup-fade::before {
+    min-height: 44px;
+  }
+
+  .setup-fade > input[type="range"] {
+    height: 44px;
   }
 }
 

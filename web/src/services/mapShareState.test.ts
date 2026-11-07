@@ -245,6 +245,50 @@ describe("map share state", () => {
   });
 });
 
+describe("Fletcher fade in shared links", () => {
+  const historical: MapShareState = {
+    taxSaleEnabled: false,
+    mode: "current",
+    pid: null,
+    eventIds: [],
+    layerIds: ["modern", "fletcher", "place-names", "main-roads"],
+    position: DEFAULT_MAP_POSITION,
+    themeId: "historical-maps",
+  };
+
+  it("round-trips a faded Fletcher as a whole percentage", () => {
+    const url = buildMapShareUrl("https://example.com/map/", { ...historical, fletcherOpacity: 0.4 });
+
+    expect(new URL(url).searchParams.get("opacity")).toBe("fletcher:40");
+    expect(parseMapShareState(url)).toEqual({ ...historical, fletcherOpacity: 0.4 });
+  });
+
+  it("writes no fade when none is given or the sheets are off", () => {
+    expect(new URL(buildMapShareUrl("https://example.com/", historical)).searchParams.has("opacity")).toBe(false);
+    expect(new URL(buildMapShareUrl("https://example.com/", {
+      ...historical,
+      layerIds: ["modern"],
+      fletcherOpacity: 0.4,
+    })).searchParams.has("opacity")).toBe(false);
+  });
+
+  it("snaps a fade to the slider's range and steps, and drops junk", () => {
+    const fade = (value: string, layers = "modern,fletcher") =>
+      parseMapShareState(`https://example.com/?layers=${layers}&opacity=${value}`).fletcherOpacity;
+
+    expect(fade("fletcher:5")).toBe(0.15);
+    expect(fade("fletcher:250")).toBe(1);
+    expect(fade("fletcher:42")).toBe(0.4);
+    expect(fade("fletcher:abc")).toBeUndefined();
+    expect(fade("modern:40")).toBeUndefined();
+    expect(fade("fletcher:40", "modern")).toBeUndefined();
+  });
+
+  it("does not count a fade alone as shared map state", () => {
+    expect(hasRecognizedMapShareState("https://example.com/?theme=historical-maps&opacity=fletcher:40")).toBe(false);
+  });
+});
+
 describe("basemap style in shared links", () => {
   it("carries the Fletcher style and drops unknown styles", () => {
     expect(parseMapShareState("https://example.test/?basemap=fletcher").basemapStyle).toBe("fletcher");
