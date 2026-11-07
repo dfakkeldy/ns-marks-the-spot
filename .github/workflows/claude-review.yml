@@ -4,7 +4,9 @@ name: Claude review
 # `Claude review` check (grok-bots#932). It fails while any Important finding
 # is open, so agents can land a PR on this check instead of a Reviewed-by line.
 #
-# Claude only reads. .github/scripts/claude_review.py picks the mode, writes
+# Claude only reads, inside the checkout: no shell, and no reading .git (the
+# action writes its token there), /proc or the runner's temp files. finish also
+# redacts token-shaped text before posting. claude_review.py picks the mode, writes
 # Claude's brief, posts the findings and decides pass or fail. The rules are in
 # REVIEW.md, read from the base branch. Claude reviews at most three rounds per
 # PR; after the first it reviews only the new changes.
@@ -40,7 +42,6 @@ jobs:
       contents: write
       pull-requests: write # post the review, reply to and resolve its threads
     env:
-      GH_TOKEN: ${{ github.token }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
       BASE_REF: ${{ github.event.pull_request.base.ref }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -53,6 +54,8 @@ jobs:
 
       - name: Prepare the review
         id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/claude_review.py prepare
 
       - name: Run Claude
@@ -91,11 +94,13 @@ jobs:
             --model claude-opus-5-5
             --max-turns 80
             --allowedTools "Read,Grep,Glob"
+            --disallowedTools "Read(./.git/**),Read(//proc/**),Read(//sys/**),Read(//etc/**),Read(//home/runner/work/_temp/**),Read(~/.claude/**),Read(~/.config/**)"
             --json-schema '{"type":"object","additionalProperties":false,"required":["summary","findings","fixed_threads","withdrawn_threads"],"properties":{"summary":{"type":"string"},"findings":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["severity","path","line","code","bug_class","title","body"],"properties":{"severity":{"type":"string","enum":["important","nit","pre-existing"]},"path":{"type":"string"},"line":{"type":"integer","minimum":1},"code":{"type":"string"},"bug_class":{"type":"string"},"title":{"type":"string"},"body":{"type":"string"},"other_locations":{"type":"array","items":{"type":"string"}}}}},"fixed_threads":{"type":"array","items":{"type":"string"}},"withdrawn_threads":{"type":"array","items":{"type":"string"}}}}'
 
       - name: Post the review and decide
         if: ${{ !cancelled() && steps.prepare.outputs.mode != '' }}
         env:
+          GH_TOKEN: ${{ github.token }}
           CLAUDE_OUTCOME: ${{ steps.claude.outcome }}
           STRUCTURED_OUTPUT: ${{ steps.claude.outputs.structured_output }}
         run: python3 .github/scripts/claude_review.py finish
