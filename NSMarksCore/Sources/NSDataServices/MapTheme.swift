@@ -305,11 +305,23 @@ extension MapThemeState {
     /// sales are on, because with them off it governs nothing the reader can
     /// see. Both are the web's rules, so a setup that reads as "Explore Nova
     /// Scotia" in the browser reads as "Explore Nova Scotia" here.
+    ///
+    /// Fletcher's opacity does not count either. Fading the 1880s sheets
+    /// against today's map is looking, not changing the setup, so it must not
+    /// mark Historical Maps as Modified (the web's `viewingOpacityLayerIds`).
+    /// A saved setup still keeps and restores its own fade.
     public func matches(_ other: MapThemeState) -> Bool {
         layerIDs.sorted() == other.layerIDs.sorted()
-            && opacityOverrides == other.opacityOverrides
+            && identityOpacityOverrides == other.identityOpacityOverrides
             && taxSaleEnabled == other.taxSaleEnabled
             && (!taxSaleEnabled || mode == other.mode)
+    }
+
+    /// Layers whose opacity is viewing, not part of which setup this is.
+    public static let viewingOpacityLayerIDs: Set<String> = [LayerID.fletcher.rawValue]
+
+    private var identityOpacityOverrides: [String: Double] {
+        opacityOverrides.filter { !Self.viewingOpacityLayerIDs.contains($0.key) }
     }
 }
 
