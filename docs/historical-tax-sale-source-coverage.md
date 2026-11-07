@@ -94,6 +94,13 @@ notice-to-result reconciliation is impossible; the retained notice receipts are
 the official sale announcements plus the tender or auction terms that pin each
 sale method, date, and venue.
 
+The current official notice at
+[property-tax-sale-notice](https://victoriacounty.com/property-tax-sale-notice/)
+(retrieved 2026-10-23) advertises a November 23, 2026 public auction and is
+catalogued separately as upcoming event `victoria-county-2026-11-23`. That
+notice is not a result-backed historical event. The September 14, 2026 result
+table and the Victoria slice counts below are unchanged.
+
 | Municipality / event | Official notice receipts | Official result | Records / PIDs | Row disposition | SHA-256 receipts |
 | --- | --- | --- | ---: | --- | --- |
 | Victoria County — August 26, 2025 (by tender) | [Announcement notice](https://victoriacounty.com/wp-content/uploads/2025/07/Tax-Sale-Notice-1-Website-Post.jpeg) and [tender terms](https://victoriacounty.com/wp-content/uploads/2025/07/TERMS-FOR-TENDER-BIDS-FOR-TAX-SALE-aug-26-2025.pdf) | [Tax-sale results](https://victoriacounty.com/wp-content/uploads/2025/09/Tax-Sale-Results-August-26-2025.pdf) | 12 / 13 | All twelve rows included: two `SOLD/PAID` with bids, one `NOT SOLD`, and nine rows publishing amounts but no status held as outcome unknown | Notice `cc201189d850b05a419b876c32cb23f75ff3487034d0b1e433246cf0bbd94dcd`; terms `69b3db9491611816fd09a4ddbda0c9f43300feb2fb972d6acd158f8bcbcdce52`; result `2d85a27e119a597dd5f61e18bd0df8a3c33c5046c2c1dd45a98deedc7a796cb1` |
