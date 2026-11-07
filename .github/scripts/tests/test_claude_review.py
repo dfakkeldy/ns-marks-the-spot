@@ -554,6 +554,11 @@ class Finish(unittest.TestCase):
         # No state, so the next run (a re-run, a base merge, a push) reviews again.
         self.assertIsNone(cr.latest_state([{"id": 1, "user": US, "body": fake.reviews[0]["body"]}]))
 
+    def test_skip_resolves_a_nit_an_earlier_failed_run_left_open(self):
+        fake = FakeGitHub([node("N1", "nit"), node("T1", "important", resolved=True)])
+        self.assertEqual(self.finish(fake, mode="skip"), 0)
+        self.assertEqual(fake.resolved, ["N1"])
+
     def test_skip_carries_the_verdict_forward(self):
         self.assertEqual(self.finish(FakeGitHub([node("T1", "important")]), mode="skip"), 1)
         self.assertEqual(self.finish(FakeGitHub([node("T1", "important", resolved=True)]), mode="skip"), 0)

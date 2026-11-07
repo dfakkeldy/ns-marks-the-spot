@@ -2,7 +2,8 @@
 
 The `Claude review` check (`.github/workflows/claude-review.yml`) reviews every PR
 with these rules, read from the base branch. An edit here applies from the PR after
-it merges. Keep this file short: every line is read on every review.
+it merges, and like any rule that judges merges it waits for Dan. Keep this file
+short: every line is read on every review.
 
 ## Important: fails the check
 

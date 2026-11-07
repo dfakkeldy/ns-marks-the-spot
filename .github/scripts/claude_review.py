@@ -608,9 +608,7 @@ def finish():
                         None if unthreaded_in(only) else
                         {"round": round_no, "head": sha, "merge_base": plan["merge_base"],
                          "patch_id": plan["patch_id"]})))
-        for t in fetch_threads(repo, number):
-            if t["severity"] != "important" and not t["resolved"]:
-                resolve_thread(t["id"])  # informational: never blocks a merge
+        resolve_informational(fetch_threads(repo, number))
         # The re-fetch can lag behind the post, so count what was just posted as well.
         posted = sum(1 for f, _ in placed if f["severity"] == "important")
         live = len(open_important(fetch_threads(repo, number)))
@@ -618,7 +616,9 @@ def finish():
         summary(count_line(round_no, findings) + "\n\n" + gate_message(mode, blocking, plan["review_line"]))
         return 1 if blocking else 0
 
-    blocking = open_important(fetch_threads(repo, number))
+    threads = fetch_threads(repo, number)
+    resolve_informational(threads)  # a Nit left open by an earlier failed run
+    blocking = open_important(threads)
     if mode == "rethink" and not plan["rethink_posted"]:
         text = (f"**Claude review · round {MAX_ROUNDS} of {MAX_ROUNDS} is done, and the diff changed again.** "
                 "Claude won't review this PR again. Step back: is this the right approach, and does the PR do one "
@@ -634,6 +634,13 @@ def finish():
     if mode == "rethink":
         return 1 if blocking or not plan["review_line"] else 0
     return 1 if blocking else 0
+
+
+def resolve_informational(threads):
+    """Resolve open Nit and Pre-existing threads: they inform and never block a merge."""
+    for t in threads:
+        if t["severity"] != "important" and not t["resolved"]:
+            resolve_thread(t["id"])
 
 
 def unthreaded_in(body_only):
