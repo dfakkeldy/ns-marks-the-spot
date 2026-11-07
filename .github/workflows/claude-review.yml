@@ -4,10 +4,11 @@ name: Claude review
 # `Claude review` check (grok-bots#932). It fails while any Important finding
 # is open, so agents can land a PR on this check instead of a Reviewed-by line.
 #
-# Claude only reads, inside the checkout: no shell, and no reading .git (the
-# action writes its token there), /proc or the runner's temp files. finish also
-# redacts token-shaped text before posting. claude_review.py picks the mode, writes
-# Claude's brief, posts the findings and decides pass or fail. The rules are in
+# Two jobs. "Claude review (reads)" runs Claude with a read-only token: no shell,
+# and Read is denied .git (the action writes its token there), /proc and the
+# runner's temp files. "Claude review" holds the write token and never runs
+# Claude: it posts the findings (scrubbed of markers and token-shaped text) and
+# decides pass or fail. claude_review.py does the work in both. The rules are in
 # REVIEW.md, read from the base branch. Claude reviews at most three rounds per
 # PR; after the first it reviews only the new changes.
 #
@@ -26,8 +27,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  review:
-    name: Claude review
+  read:
+    name: Claude review (reads)
     # Promotions (nightly -> weekly -> main) and back-merges carry commits that
     # were reviewed on their way into nightly.
     if: >-
@@ -37,14 +38,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
-      # GitHub refuses resolveReviewThread to a job token without contents: write.
-      # Claude has no shell or network tool, so it can't use the token.
-      contents: write
-      pull-requests: write # post the review, reply to and resolve its threads
+      contents: read
+      pull-requests: read
     env:
       PR_NUMBER: ${{ github.event.pull_request.number }}
       BASE_REF: ${{ github.event.pull_request.base.ref }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    outputs:
+      mode: ${{ steps.prepare.outputs.mode }}
+      outcome: ${{ steps.claude.outcome }}
+      result: ${{ steps.claude.outputs.structured_output }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -61,7 +64,7 @@ jobs:
       - name: Run Claude
         id: claude
         if: steps.prepare.outputs.mode == 'review'
-        continue-on-error: true # finish says why and fails the check
+        continue-on-error: true # the next job says why and fails the check
         uses: anthropics/claude-code-action@f27be6b65a4652f08a2ba3cff79114829b588967 # v1.0.252
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -97,10 +100,37 @@ jobs:
             --disallowedTools "Read(./.git/**),Read(//proc/**),Read(//sys/**),Read(//etc/**),Read(//home/runner/work/_temp/**),Read(~/.claude/**),Read(~/.config/**)"
             --json-schema '{"type":"object","additionalProperties":false,"required":["summary","findings","fixed_threads","withdrawn_threads"],"properties":{"summary":{"type":"string"},"findings":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["severity","path","line","code","bug_class","title","body"],"properties":{"severity":{"type":"string","enum":["important","nit","pre-existing"]},"path":{"type":"string"},"line":{"type":"integer","minimum":1},"code":{"type":"string"},"bug_class":{"type":"string"},"title":{"type":"string"},"body":{"type":"string"},"other_locations":{"type":"array","items":{"type":"string"}}}}},"fixed_threads":{"type":"array","items":{"type":"string"}},"withdrawn_threads":{"type":"array","items":{"type":"string"}}}}'
 
-      - name: Post the review and decide
-        if: ${{ !cancelled() && steps.prepare.outputs.mode != '' }}
+  review:
+    name: Claude review
+    needs: read
+    if: ${{ !cancelled() && needs.read.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      # GitHub refuses resolveReviewThread to a job token without contents: write.
+      # This job never runs Claude.
+      contents: write
+      pull-requests: write # post the review, reply to and resolve its threads
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      BASE_REF: ${{ github.event.pull_request.base.ref }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Prepare the review
         env:
           GH_TOKEN: ${{ github.token }}
-          CLAUDE_OUTCOME: ${{ steps.claude.outcome }}
-          STRUCTURED_OUTPUT: ${{ steps.claude.outputs.structured_output }}
+        run: python3 .github/scripts/claude_review.py prepare
+
+      - name: Post the review and decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+          READ_MODE: ${{ needs.read.outputs.mode }}
+          CLAUDE_OUTCOME: ${{ needs.read.outputs.outcome }}
+          STRUCTURED_OUTPUT: ${{ needs.read.outputs.result }}
         run: python3 .github/scripts/claude_review.py finish

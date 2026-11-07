@@ -41,8 +41,9 @@ MAX_NITS = 3
 SEVERITIES = ("important", "nit", "pre-existing")
 LABEL = {"important": "Important", "nit": "Nit", "pre-existing": "Pre-existing"}
 BRIEF_DIR = ".claude-review"
-STATE_RE = re.compile(r"<!-- claude-review:state (\{.*?\}) -->", re.S)
-FINDING_RE = re.compile(r"<!-- claude-review:finding (important|nit|pre-existing) -->")
+# This script appends its markers last, so only a marker at the very end of a body counts.
+STATE_RE = re.compile(r"<!-- claude-review:state (\{[^\n]*\}) -->\s*\Z")
+FINDING_RE = re.compile(r"<!-- claude-review:finding (important|nit|pre-existing) -->\s*\Z")
 SETTLED_RE = re.compile(r"<!-- claude-review:(fixed|withdrawn) -->")
 RETHINK_MARK = "<!-- claude-review:rethink -->"
 REVIEW_LINE = re.compile(r"^[\s>*_-]*reviewed-by[*_\s]*:(.*)$", re.I | re.M)
@@ -195,7 +196,10 @@ def headline(text, limit=300):
 def scrub(text):
     """Model text made safe to post: no hidden markers (they would steer this script), no
     token-shaped strings, and no @mentions."""
-    text = re.sub(r"<!--.*?-->", "", str(text or ""), flags=re.S).replace("<!--", "").replace("-->", "")
+    text, before = str(text or ""), None
+    while text != before:  # one pass can join leftovers into a new marker
+        before = text
+        text = re.sub(r"<!--.*?-->", "", text, flags=re.S).replace("<!--", "").replace("-->", "")
     text = SECRET_RE.sub("[redacted]", text)
     token = os.environ.get("GH_TOKEN", "")
     if len(token) > 8:
@@ -295,7 +299,11 @@ def review_body(round_no, summary, findings, body_only, still_open, settled, sta
             f"- **{LABEL[f['severity']]}** `{f['path']}:{f['line']}` · {str(f.get('bug_class', '')).strip()}: "
             f"{str(f.get('title', '')).strip()}. {str(f.get('body', '')).strip()}") for f in body_only))
     parts.append(HOW_TO)
-    parts.append(f"<!-- claude-review:state {json.dumps(state, sort_keys=True)} -->")
+    if state is None:
+        parts.append("<sub>An Important finding here has no line to sit on, so this review saves no state: "
+                     "the next run reviews the PR again.</sub>")
+    else:
+        parts.append(f"<!-- claude-review:state {json.dumps(state, sort_keys=True)} -->")
     return "\n\n".join(parts)
 
 
@@ -363,35 +371,62 @@ def gate_message(mode, blocking, review_line):
 
 # --- git and GitHub ----------------------------------------------------------------
 
-def git(*args, check=True):
-    r = subprocess.run(["git", *args], capture_output=True, text=True, errors="replace")  # any file encoding
+def git(*args, check=True, raw=False):
+    """stdout as text (any file encoding, bad bytes replaced), or as bytes with raw=True."""
+    r = subprocess.run(["git", *args], capture_output=True)
     if check and r.returncode != 0:
-        raise RuntimeError(f"git {' '.join(args)}: {r.stderr.strip()}")
-    return r.stdout if r.returncode == 0 else None
+        raise RuntimeError(f"git {' '.join(args)}: {r.stderr.decode('utf-8', 'replace').strip()}")
+    if r.returncode != 0:
+        return None
+    return r.stdout if raw else r.stdout.decode("utf-8", "replace")
 
 
-def patch_id(diff_text):
-    if not diff_text.strip():
+def patch_id(diff_bytes):
+    """git patch-id of the raw diff: every byte and every space counts (--verbatim), so
+    re-indenting Python or changing a Latin-1 character is a new change, not a skip."""
+    if isinstance(diff_bytes, str):
+        diff_bytes = diff_bytes.encode("utf-8")
+    if not diff_bytes.strip():
         return ""
-    # --verbatim: whitespace counts, so re-indenting Python is a new change, not a skip.
-    r = subprocess.run(["git", "patch-id", "--verbatim"], input=diff_text, capture_output=True, text=True,
-                       errors="replace")
-    return (r.stdout.split() or [""])[0]
+    r = subprocess.run(["git", "patch-id", "--verbatim"], input=diff_bytes, capture_output=True)
+    return (r.stdout.decode().split() or [""])[0]
 
 
 def has_commit(sha):
     return bool(sha) and git("cat-file", "-e", f"{sha}^{{commit}}", check=False) is not None
 
 
-def diff(*args, attr):
+def diff(*args, attr, raw=False):
     """git diff with paths unquoted and .gitattributes read from attr (the merge-base), so a
     PR can't mark its own code binary (-diff) to hide it from the review."""
-    return git("-c", "core.quotePath=false", f"--attr-source={attr}", "diff", "--find-renames", *args)
+    return git("-c", "core.quotePath=false", f"--attr-source={attr}", "diff", "--find-renames", *args, raw=raw)
 
 
 def file_patch_ids(base, head, specs):
-    names = diff("--name-only", base, head, "--", *specs, attr=base).splitlines()
-    return {n: patch_id(diff(base, head, "--", n, attr=base)) for n in names if n}
+    names = diff("--name-only", "-z", base, head, "--", *specs, attr=base).split("\0")
+    return {n: patch_id(diff(base, head, "--", n, attr=base, raw=True)) for n in names if n}
+
+
+def drop_escaping_links(root):
+    """Delete symlinks in the checkout that lead outside it or into .git, so Claude can't read
+    the runner's files or the git config through one. The diff comes from git objects, so the
+    review still sees the link itself. Returns the paths it removed."""
+    top = os.path.realpath(root)
+    gitdir = os.path.join(top, ".git")
+    inside = lambda p, d=top: p == d or p.startswith(d + os.sep)  # noqa: E731
+    removed = []
+    for dirpath, dirs, files in os.walk(top):
+        if dirpath == top and ".git" in dirs:
+            dirs.remove(".git")
+        for name in dirs + files:
+            path = os.path.join(dirpath, name)
+            if not os.path.islink(path):
+                continue
+            target = os.path.realpath(path)
+            if not inside(target) or inside(target, gitdir):
+                os.remove(path)
+                removed.append(os.path.relpath(path, top))
+    return removed
 
 
 def gh(*args, payload=None):
@@ -481,12 +516,14 @@ def prepare():
     globs = ignore_globs(review_md)
     specs = pathspecs(globs)
     merge_base = git("merge-base", f"origin/{base}", sha).strip()
-    pr_diff = diff(merge_base, sha, "--", *specs, attr=merge_base)
-    all_ignored = bool(globs) and not pr_diff.strip()
+    raw_diff = diff(merge_base, sha, "--", *specs, attr=merge_base, raw=True)
+    all_ignored = bool(globs) and not raw_diff.strip()
     if all_ignored:
         globs, specs = [], pathspecs([])
-        pr_diff = diff(merge_base, sha, "--", *specs, attr=merge_base)
-    pid = patch_id(pr_diff)
+        raw_diff = diff(merge_base, sha, "--", *specs, attr=merge_base, raw=True)
+    pid, pr_diff = patch_id(raw_diff), raw_diff.decode("utf-8", "replace")
+    for link in drop_escaping_links(os.environ.get("GITHUB_WORKSPACE", ".")):
+        print(f"claude-review: removed a symlink that leads outside the checkout: {link}")
 
     pr = gh("api", f"repos/{repo}/pulls/{number}")
     reviews, threads = fetch_reviews(repo, number), fetch_threads(repo, number)
@@ -513,7 +550,6 @@ def prepare():
 
     plan = {"mode": mode, "round": round_no, "head": sha, "merge_base": merge_base, "patch_id": pid,
             "review_line": has_review_line(pr.get("body")), "rethink_posted": rethink_posted(reviews),
-            "unthreaded": (state or {}).get("unthreaded", 0) if mode == "skip" else 0,
             "valid": {p: sorted(v) for p, v in right_lines(diff(merge_base, sha, attr=merge_base)).items()}}
     with open(os.path.join(os.environ.get("RUNNER_TEMP", work), "claude-review-plan.json"), "w") as f:
         json.dump(plan, f)
@@ -528,6 +564,11 @@ def finish():
         plan = json.load(f)
     mode, round_no, sha = plan["mode"], plan["round"], plan["head"]
     valid = {p: set(v) for p, v in plan["valid"].items()}
+    read_mode = os.environ.get("READ_MODE", "")
+    if read_mode and read_mode != mode:
+        summary(f"The reading job chose {read_mode} and this job chose {mode}: the PR's reviews changed during "
+                "the run. Re-run the workflow.")
+        return 1
 
     if mode == "review":
         outcome, raw = os.environ.get("CLAUDE_OUTCOME", ""), os.environ.get("STRUCTURED_OUTPUT", "")
@@ -562,8 +603,9 @@ def finish():
                                          "body": comment_body(finding, spot[2])}))
         placed, body_only = post_with_fallbacks(repo, number, sha, placed, body_only, valid, lambda only: (
             review_body(round_no, str(result.get("summary") or ""), findings, only, still_open, settled["counts"],
+                        None if unthreaded_in(only) else
                         {"round": round_no, "head": sha, "merge_base": plan["merge_base"],
-                         "patch_id": plan["patch_id"], "unthreaded": unthreaded_in(only)})))
+                         "patch_id": plan["patch_id"]})))
         for t in fetch_threads(repo, number):
             if t["severity"] != "important" and not t["resolved"]:
                 resolve_thread(t["id"])  # informational: never blocks a merge
@@ -574,7 +616,7 @@ def finish():
         summary(count_line(round_no, findings) + "\n\n" + gate_message(mode, blocking, plan["review_line"]))
         return 1 if blocking else 0
 
-    blocking = open_important(fetch_threads(repo, number)) + [None] * plan.get("unthreaded", 0)
+    blocking = open_important(fetch_threads(repo, number))
     if mode == "rethink" and not plan["rethink_posted"]:
         text = (f"**Claude review · round {MAX_ROUNDS} of {MAX_ROUNDS} is done, and the diff changed again.** "
                 "Claude won't review this PR again. Step back: is this the right approach, and does the PR do one "
@@ -593,9 +635,9 @@ def finish():
 
 
 def unthreaded_in(body_only):
-    """Important findings with nowhere to sit inline (no added or context line in the whole
-    diff, as when a PR only deletes files) have no thread to follow. The state carries them,
-    so a re-run or a base merge can't pass until a new push is reviewed."""
+    """Important findings with no thread to follow: nowhere to sit inline (a PR that only
+    deletes files), or GitHub refused the inline comments. Such a review saves no state, so
+    the next run, of any kind, reviews the PR again instead of trusting a lost finding."""
     return sum(1 for f in body_only if f["severity"] == "important")
 
 
