@@ -507,19 +507,25 @@ def finish():
 
 
 def settle(repo, number, threads, result, sha, round_no):
-    """Reply to and resolve the open Important threads Claude found fixed or withdrew."""
-    open_ids = {t["id"]: t for t in open_important(threads)}
+    """Reply to the earlier findings Claude found fixed (any severity) or withdrew (open
+    Important ones, after the author's reply), and resolve them. The replies are what the
+    noise count reads."""
+    unsettled = {t["id"]: t for t in threads
+                 if not any(SETTLED_RE.search(c.get("body") or "") for c in t["comments"][1:])}
     counts, ids = {"fixed": 0, "withdrawn": 0}, set()
     for kind, key, text in (("fixed", "fixed_threads", f"Fixed in {sha[:10]} (Claude review, round {round_no})."),
                             ("withdrawn", "withdrawn_threads",
                              f"Withdrawn after the reply above (Claude review, round {round_no}).")):
         for tid in result.get(key) or []:
-            t = open_ids.get(tid)
+            t = unsettled.get(tid)
             if t is None or tid in ids:
+                continue
+            if kind == "withdrawn" and (t["severity"] != "important" or t["resolved"]):
                 continue
             try:
                 reply(repo, number, t["root_id"], f"{text}\n\n<!-- claude-review:{kind} -->")
-                resolve_thread(tid)
+                if not t["resolved"]:
+                    resolve_thread(tid)
             except RuntimeError as e:
                 print(f"claude-review: could not settle {tid}: {e}")
                 continue

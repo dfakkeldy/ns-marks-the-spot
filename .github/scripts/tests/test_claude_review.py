@@ -375,6 +375,14 @@ class Finish(unittest.TestCase):
         fake = FakeGitHub([node("T1", "important")])
         self.assertEqual(self.finish(fake, output=self.output(fixed=["T1"]), round_no=2), 0)
 
+    def test_fixed_nits_get_a_reply_for_the_noise_count_but_are_never_settled_twice(self):
+        done = node("T2", "nit", resolved=True, replies=[bot("Fixed in a. <!-- claude-review:fixed -->")])
+        fake = FakeGitHub([node("T1", "nit", resolved=True), done, node("T3", "nit", resolved=True)])
+        out = self.output(fixed=["T1", "T2"], withdrawn=["T3"])
+        self.assertEqual(self.finish(fake, output=out, round_no=2), 0)
+        self.assertEqual(len(fake.replies), 1)  # T1 only: T2 is already settled, T3 isn't Important
+        self.assertEqual(fake.resolved, [])  # all three were resolved already
+
     def test_a_rejected_inline_post_is_retried_on_safe_lines(self):
         fake = FakeGitHub()
         fake.fail_inline = True

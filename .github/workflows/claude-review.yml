@@ -83,7 +83,8 @@ jobs:
             Convergence:
             - In round 2 and later, review only the new changes the brief lists. Earlier code was reviewed in earlier rounds.
             - Never report anything an earlier finding already covers, resolved or not, even in other words. A resolved thread is settled: the author fixed it, rejected it or explained it, and it stays closed.
-            - For each open earlier Important finding: if the current code fixes it, put its thread id in fixed_threads. If the author's reply shows it is not a bug and you agree after checking the code, put it in withdrawn_threads. Otherwise leave it out: it keeps blocking.
+            - For each earlier finding of any severity, open or resolved, that the current code now fixes, put its thread id in fixed_threads.
+            - For each open earlier Important finding the code doesn't fix: if the author's reply shows it is not a bug and you agree after checking the code, put its thread id in withdrawn_threads. Otherwise leave it out: it keeps blocking.
 
             summary: one or two sentences on what the PR does and whether it does what it says. The workflow adds the counts.
           claude_args: |
