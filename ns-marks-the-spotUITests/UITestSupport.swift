@@ -99,9 +99,17 @@ extension XCUIApplication {
     /// first two measuring taps already go through the application. This is
     /// the same path, at a known screen point.
     func tapMap(at point: CGPoint) {
+        mapCoordinate(at: point).tap()
+    }
+
+    /// `tapMap`, with the finger left down for `duration` before it lifts.
+    func pressMap(at point: CGPoint, forDuration duration: TimeInterval) {
+        mapCoordinate(at: point).press(forDuration: duration)
+    }
+
+    private func mapCoordinate(at point: CGPoint) -> XCUICoordinate {
         coordinate(withNormalizedOffset: .zero)
             .withOffset(CGVector(dx: point.x - frame.minX, dy: point.y - frame.minY))
-            .tap()
     }
 
     /// Turns the device, and waits for the window to agree.

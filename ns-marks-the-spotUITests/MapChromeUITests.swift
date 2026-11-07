@@ -143,6 +143,53 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertTrue(endpoint.waitForNonExistence(timeout: 5), "the endpoint label stayed up after Done")
     }
 
+    /// A tap that rests on the badge a moment still places a point.
+    ///
+    /// MapKit has its own press-to-select gesture, which can begin once a
+    /// touch on or near a selectable annotation has lasted a fifth of a
+    /// second. The corners and the badge used to be selectable, so a tap that
+    /// slow — a careful finger, or a busy CI simulator late to deliver the
+    /// lift — was spent selecting a corner the app let go of at once, and
+    /// nothing was placed. That is what made the badge tap above fail one CI
+    /// run in about fifteen. Held well past the threshold here, so the outcome
+    /// does not depend on how quickly the simulator delivers the lift.
+    @MainActor
+    func testASlowTapOnTheMeasuringBadgeStillPlacesAPoint() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let distance = app.buttons["measure-distance"]
+        XCTAssertTrue(distance.waitForHittable(timeout: timeout), "measuring cannot be started")
+        distance.tap()
+        let readout = app.descendants(matching: .any)["measure-readout"]
+        XCTAssertTrue(readout.waitForExistence(timeout: 10), "no measuring readout")
+        let prompt = readout.label
+        let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
+        let undo = app.buttons["measure-undo"]
+
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        XCTAssertTrue(
+            waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
+            "two taps did not measure a distance"
+        )
+        // Not selectable is not the same as unavailable: VoiceOver must not
+        // read the marks as dimmed.
+        let corner = app.descendants(matching: .any)["Placed corner 1"].firstMatch
+        XCTAssertTrue(corner.waitForExistence(timeout: 5), "the first corner is not announced")
+        XCTAssertTrue(corner.isEnabled, "the first corner is announced as dimmed")
+        XCTAssertTrue(endpoint.isEnabled, "the measured total is announced as dimmed")
+
+        let before = readout.label
+        app.pressMap(
+            at: endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).screenPoint,
+            forDuration: 0.6
+        )
+        XCTAssertTrue(
+            waitForUI(timeout: 10) { readout.label != before && endpoint.label.hasSuffix(readout.label) },
+            "a slow tap on the badge placed no point"
+        )
+    }
+
     /// The map opens on the Atlas, the browser's own ground, and the strip
     /// under it says so; choosing another ground changes the credit with it.
     ///
