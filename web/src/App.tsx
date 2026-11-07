@@ -86,6 +86,8 @@ const PrintPreview = lazy(() =>
   })),
 );
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
+import { TaxSaleDateDot, TaxSaleDateLegend } from "./components/TaxSaleDateLegend";
+import { taxSaleDateBand, taxSaleDateBandsByPid } from "./services/taxSaleDateBands";
 import {
   advertisedPidsForEvents,
   eventsForStatus,
@@ -3051,6 +3053,16 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       );
     return new Set(listings.flatMap(({ pids }) => pids));
   }, [selectedEventIds, taxSaleFilter]);
+  // Same notices and filter as filteredTaxSalePids; bands follow the clock.
+  const taxSaleDateBands = useMemo(
+    () =>
+      taxSaleDateBandsByPid(
+        taxSaleEvents.filter(({ id }) => selectedEventIds.has(id)),
+        currentTime,
+        (listing) => listingMatchesTaxSaleFilter(listing, taxSaleFilter),
+      ),
+    [currentTime, selectedEventIds, taxSaleFilter],
+  );
 
   const selectedListings = useMemo(
     () =>
@@ -5607,6 +5619,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                               Dated official notices. Past sale dates require
                               municipal result verification.
                             </p>
+                            <TaxSaleDateLegend events={upcomingTaxSaleEvents} now={currentTime} />
                             {upcomingTaxSaleEvents.map((event) => {
                               const pidCount = advertisedPidsForEvents([event]).length;
                               const mappedAdvertisedCount = event.listings.filter(
@@ -5633,7 +5646,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                     />
                                     <span className="switch" aria-hidden="true" />
                                     <span>
-                                      <strong>{event.shortMunicipality}</strong>
+                                      <strong><TaxSaleDateDot band={taxSaleDateBand(event, currentTime)} />{event.shortMunicipality}</strong>
                                       <small>{eventDateLabel(event)}</small>
                                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                                       <small>
@@ -5917,6 +5930,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             onUseOsmBasemap={() => setBasemapPreference("osm")}
             parcels={pokerMode ? { type: "FeatureCollection", features: [] } : drawableParcels}
             taxSalePids={effectiveTaxSalePids}
+            taxSaleDateBands={taxSaleDateBands}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
             selectedPid={pokerMode ? null : selectedPid}
             provinceLayers={pokerMode ? { ...provinceLayers, nsprd: false } : provinceLayers}

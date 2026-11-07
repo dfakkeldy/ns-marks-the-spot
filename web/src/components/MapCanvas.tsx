@@ -204,6 +204,11 @@ import type {
 import { ExportFrameLayer } from "../print/pdf/ExportFrameLayer";
 import type { FrameState } from "../print/pdf/frameGeometry";
 import type { PdfTemplateId } from "../print/pdf/templates/types";
+import {
+  TAX_SALE_DATE_BAND_ORDER,
+  TAX_SALE_DATE_BAND_STYLE,
+  type TaxSaleDateBand,
+} from "../services/taxSaleDateBands";
 
 /**
  * The scale a locate brings a reader to when their view is further out than
@@ -232,6 +237,11 @@ type MapCanvasProps = {
   poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
+  /**
+   * Sale-date band per current-notice PID; dots are painted by band. A PID
+   * without an entry keeps the plain current-notice red.
+   */
+  taxSaleDateBands?: ReadonlyMap<string, TaxSaleDateBand>;
   historicalTaxSalePids: Set<string>;
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
@@ -1701,6 +1711,7 @@ function PositionReadout() {
 function TaxSaleOverviewMarkers({
   parcels,
   taxSalePids,
+  taxSaleDateBands,
   historicalTaxSalePids,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1711,6 +1722,7 @@ function TaxSaleOverviewMarkers({
   MapCanvasProps,
   | "parcels"
   | "taxSalePids"
+  | "taxSaleDateBands"
   | "historicalTaxSalePids"
   | "showTaxSale"
   | "showHistoricalTaxSales"
@@ -1722,11 +1734,21 @@ function TaxSaleOverviewMarkers({
   const [zoom, setZoom] = useState(() => map.getZoom());
   useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
 
-  const currentPoints = useMemo(
-    () =>
-      showTaxSale ? representativeParcelPoints(parcels, taxSalePids) : [],
-    [parcels, showTaxSale, taxSalePids],
-  );
+  const currentPoints = useMemo(() => {
+    if (!showTaxSale) {
+      return [];
+    }
+    const points = representativeParcelPoints(parcels, taxSalePids);
+    if (!taxSaleDateBands) {
+      return points;
+    }
+    // Draw passed and undated notices first so upcoming sales sit on top.
+    const rank = (pid: string) => {
+      const band = taxSaleDateBands.get(pid);
+      return band ? TAX_SALE_DATE_BAND_ORDER.length - TAX_SALE_DATE_BAND_ORDER.indexOf(band) : 0;
+    };
+    return [...points].sort((left, right) => rank(left.pid) - rank(right.pid));
+  }, [parcels, showTaxSale, taxSaleDateBands, taxSalePids]);
   const historicalPoints = useMemo(
     () =>
       showHistoricalTaxSales
@@ -1758,6 +1780,7 @@ function TaxSaleOverviewMarkers({
           point={point}
           keyPrefix="current"
           color="#be4d3c"
+          dateBand={taxSaleDateBands?.get(point.pid)}
           selected={point.pid === selectedPid}
           renderMode={renderMode}
           onSelectPid={onSelectPid}
@@ -1779,6 +1802,7 @@ const OverviewMarker = memo(function OverviewMarker({
   point,
   keyPrefix,
   color,
+  dateBand,
   selected,
   renderMode,
   onSelectPid,
@@ -1786,6 +1810,7 @@ const OverviewMarker = memo(function OverviewMarker({
   point: { pid: string; latitude: number; longitude: number };
   keyPrefix: "current" | "historical";
   color: string;
+  dateBand?: TaxSaleDateBand;
   selected: boolean;
   renderMode: MapRenderMode;
   onSelectPid: (pid: string) => void;
@@ -1805,13 +1830,22 @@ const OverviewMarker = memo(function OverviewMarker({
             dashArray: keyPrefix === "historical" ? "3 2" : undefined,
             className: `print-${keyPrefix}-tax-sale-marker`,
           }
-        : {
-            color: "#ffffff",
-            weight: selected ? 3 : 1.5,
-            fillColor: color,
-            fillOpacity: selected ? 1 : 0.85,
-          },
-    [color, keyPrefix, renderMode, selected],
+        : dateBand
+          ? {
+              color: TAX_SALE_DATE_BAND_STYLE[dateBand].stroke,
+              weight: selected ? 3 : TAX_SALE_DATE_BAND_STYLE[dateBand].dashed ? 2 : 1.5,
+              fillColor: TAX_SALE_DATE_BAND_STYLE[dateBand].fill,
+              fillOpacity: selected ? 1 : TAX_SALE_DATE_BAND_STYLE[dateBand].fillOpacity,
+              dashArray: TAX_SALE_DATE_BAND_STYLE[dateBand].dashed ? "3 2" : undefined,
+              className: `tax-sale-date-band-${dateBand}`,
+            }
+          : {
+              color: "#ffffff",
+              weight: selected ? 3 : 1.5,
+              fillColor: color,
+              fillOpacity: selected ? 1 : 0.85,
+            },
+    [color, dateBand, keyPrefix, renderMode, selected],
   );
   const eventHandlers = useMemo(
     () =>
@@ -1972,6 +2006,7 @@ export function MapCanvas({
   poker = null,
   parcels,
   taxSalePids,
+  taxSaleDateBands,
   historicalTaxSalePids,
   selectedPid,
   provinceLayers,
@@ -2906,6 +2941,7 @@ export function MapCanvas({
           <TaxSaleOverviewMarkers
             parcels={parcels}
             taxSalePids={taxSalePids}
+            taxSaleDateBands={taxSaleDateBands}
             historicalTaxSalePids={historicalTaxSalePids}
             showTaxSale={showTaxSale}
             showHistoricalTaxSales={showHistoricalTaxSales}
