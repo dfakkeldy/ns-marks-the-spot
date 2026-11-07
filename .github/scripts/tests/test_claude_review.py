@@ -70,6 +70,22 @@ class Helpers(unittest.TestCase):
         self.assertEqual(lines["web/src/new.ts"], {1, 2})
         self.assertNotIn("old.ts", lines)
 
+    def test_numbered_diff_shows_file_lines(self):
+        text = cr.numbered(DIFF).splitlines()
+        self.assertIn("    12 +const c = 4;", text)
+        self.assertIn("       -const b = 2;", text)
+        self.assertIn("     2 +export const y = 2;", text)
+        self.assertIn("@@ -10,4 +10,5 @@ export function f() {", text)
+        self.assertIn("+++ b/web/src/new.ts", text)
+
+    def test_a_finding_moves_to_the_line_that_holds_the_code_it_quotes(self):
+        text = "a\nreturn x // y\nb\nreturn x // y\n"
+        self.assertEqual(cr.relocate({"line": 14, "code": "return x // y"}, text), 4)
+        self.assertEqual(cr.relocate({"line": 1, "code": "return x // y"}, text), 2)
+        self.assertEqual(cr.relocate({"line": 2, "code": "x // y"}, text), 2)
+        self.assertEqual(cr.relocate({"line": 3, "code": "not there"}, text), 3)
+        self.assertEqual(cr.relocate({"line": 3}, text), 3)
+
     def test_modes(self):
         self.assertEqual(cr.choose_mode(None, ""), "empty")
         self.assertEqual(cr.choose_mode(None, "p1"), "review")
@@ -144,6 +160,7 @@ class Helpers(unittest.TestCase):
         text = (ROOT / ".github" / "workflows" / "claude-review.yml").read_text()
         schema = json.loads(re.search(r"--json-schema '(.+)'", text).group(1))
         self.assertEqual(set(schema["required"]), {"summary", "findings", "fixed_threads", "withdrawn_threads"})
+        self.assertIn("code", schema["properties"]["findings"]["items"]["required"])
         item = schema["properties"]["findings"]["items"]
         self.assertEqual(tuple(item["properties"]["severity"]["enum"]), cr.SEVERITIES)
         self.assertIn("name: Claude review", text)  # the check land_pr.py looks for

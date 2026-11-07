@@ -78,7 +78,7 @@ jobs:
             - pre-existing: a real bug of Important weight in code this PR touches or relies on, which the PR did not introduce. It does not block.
             Drop everything else: style, taste, speculation without a concrete failing scenario, and anything the compiler, linters or CI tests already catch. If you are unsure a finding is real, check the code. If you still cannot show the failure, drop it.
 
-            Name the class of bug, not one line. When the same mistake appears in several places, report it once, at the first place, and list the others in other_locations as path:line. Each finding needs path and line: a line in the PR's new version of the file, one the diff adds or changes for important and nit. The body gives the scenario and the fix in a few short sentences.
+            Name the class of bug, not one line. When the same mistake appears in several places, report it once, at the first place, and list the others in other_locations as path:line. Each finding needs path and line: the line number in the PR's version of the file, as the numbered diff and Read show it, never a position in the diff file. For important and nit it is a line the diff adds or changes. code is that line's text, copied exactly. The body gives the scenario and the fix in a few short sentences.
 
             Convergence:
             - In round 2 and later, review only the new changes the brief lists. Earlier code was reviewed in earlier rounds.
@@ -91,7 +91,7 @@ jobs:
             --model claude-opus-5-5
             --max-turns 80
             --allowedTools "Read,Grep,Glob"
-            --json-schema '{"type":"object","additionalProperties":false,"required":["summary","findings","fixed_threads","withdrawn_threads"],"properties":{"summary":{"type":"string"},"findings":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["severity","path","line","bug_class","title","body"],"properties":{"severity":{"type":"string","enum":["important","nit","pre-existing"]},"path":{"type":"string"},"line":{"type":"integer","minimum":1},"bug_class":{"type":"string"},"title":{"type":"string"},"body":{"type":"string"},"other_locations":{"type":"array","items":{"type":"string"}}}}},"fixed_threads":{"type":"array","items":{"type":"string"}},"withdrawn_threads":{"type":"array","items":{"type":"string"}}}}'
+            --json-schema '{"type":"object","additionalProperties":false,"required":["summary","findings","fixed_threads","withdrawn_threads"],"properties":{"summary":{"type":"string"},"findings":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["severity","path","line","code","bug_class","title","body"],"properties":{"severity":{"type":"string","enum":["important","nit","pre-existing"]},"path":{"type":"string"},"line":{"type":"integer","minimum":1},"code":{"type":"string"},"bug_class":{"type":"string"},"title":{"type":"string"},"body":{"type":"string"},"other_locations":{"type":"array","items":{"type":"string"}}}}},"fixed_threads":{"type":"array","items":{"type":"string"}},"withdrawn_threads":{"type":"array","items":{"type":"string"}}}}'
 
       - name: Post the review and decide
         if: ${{ !cancelled() && steps.prepare.outputs.mode != '' }}
