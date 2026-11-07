@@ -375,13 +375,13 @@ export function VectorEditPanel({
   // Non-destructive by default: with no undo system beyond the one-shot
   // conversion revert, keeping the source points is the safer failure mode.
   const [keepSourcePoints, setKeepSourcePoints] = useState(true);
-  // A count, not a flag. Each selection mounts its own strip, so an attach
-  // can still be finishing for a feature no longer selected while another
-  // starts here; the first to finish must not release Done for both. Nor is
-  // a set of feature ids enough: reselecting a feature mounts a new strip
-  // under the same id while the old one is still at work. Every attach says
-  // it started once and that it ended once (PhotoStrip's `onBusyChange`), so
-  // the count is how many have not ended yet, whichever strip they began in.
+  // Photo attaches that have started and not yet ended, whichever strip they
+  // began in. Each selection mounts its own strip, so an attach can still be
+  // running for a feature that is no longer selected; while one is, Done is
+  // held and no strip starts another (`attachHeld`). A count rather than a
+  // flag: every attach reports that it started once and that it ended once,
+  // so the panel stays right even if two ever overlap, where the first
+  // `false` to arrive would clear a flag the other still needs.
   const [photoAttachesRunning, setPhotoAttachesRunning] = useState(0);
   const attachingPhotos = photoAttachesRunning > 0;
 
@@ -634,6 +634,7 @@ export function VectorEditPanel({
             onBusyChange={(busy) =>
               setPhotoAttachesRunning((running) => running + (busy ? 1 : -1))
             }
+            attachHeld={attachingPhotos}
             onMovePoint={(position) =>
               onMoveFeaturePoint(String(selected.id), position)
             }

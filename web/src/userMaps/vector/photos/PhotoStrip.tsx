@@ -32,12 +32,20 @@ type PhotoStripProps = {
    * the reader watched being added is to keep the session open until it is.
    *
    * Called in pairs: `true` once as an attach starts and `false` once as it
-   * ends, the second even after the strip has unmounted. A strip never runs
-   * two attaches at once, but the panel mounts a new strip each time the
-   * selection changes, so two strips can; it counts the pairs to know when
-   * all of them have finished.
+   * ends, the second even after the strip has unmounted. The panel mounts a
+   * new strip each time the selection changes, and an attach outlives the
+   * strip it began in; counting the pairs is how the panel knows one is
+   * still running after its strip has gone.
    */
   onBusyChange?: (busy: boolean) => void;
+  /**
+   * An attach is running somewhere else in the panel, perhaps in a strip
+   * that has gone with its feature: start no other until it ends. The photo
+   * limits are counted when an attach starts, from what the feature and the
+   * layer hold then, so two attaches running together would each count
+   * without the other's photos and could pass them.
+   */
+  attachHeld?: boolean;
   onMovePoint: (position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
 };
@@ -63,6 +71,7 @@ export function PhotoStrip({
   onAttachDescriptors,
   onPhotoCleanupFailed,
   onBusyChange,
+  attachHeld = false,
   onMovePoint,
   onOpenPhoto,
 }: PhotoStripProps) {
@@ -111,7 +120,7 @@ export function PhotoStrip({
   }, [descriptors, manager, thumbs]);
 
   const attach = async (files: FileList | null) => {
-    if (!files || files.length === 0 || busy) {
+    if (!files || files.length === 0 || busy || attachHeld) {
       return;
     }
     setBusy(true);
@@ -270,17 +279,27 @@ export function PhotoStrip({
           its copy.
         </small>
       ))}
+      {attachHeld && !busy ? (
+        <small className="vector-edit-photos-held">
+          Another photo is still being added. You can add more when it has
+          finished.
+        </small>
+      ) : null}
       <div className="vector-edit-photo-actions">
         <button
           type="button"
-          disabled={busy || descriptors.length >= MAX_PHOTOS_PER_FEATURE}
+          disabled={
+            busy || attachHeld || descriptors.length >= MAX_PHOTOS_PER_FEATURE
+          }
           onClick={() => cameraRef.current?.click()}
         >
           Take photo
         </button>
         <button
           type="button"
-          disabled={busy || descriptors.length >= MAX_PHOTOS_PER_FEATURE}
+          disabled={
+            busy || attachHeld || descriptors.length >= MAX_PHOTOS_PER_FEATURE
+          }
           onClick={() => libraryRef.current?.click()}
         >
           Add photos

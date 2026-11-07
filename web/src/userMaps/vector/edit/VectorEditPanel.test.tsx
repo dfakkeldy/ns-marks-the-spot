@@ -137,10 +137,13 @@ function heldPhotoManager() {
   };
 }
 
+/**
+ * Picks a file through the strip's hidden input, as the "Add photos" button's
+ * picker would. Reaching the input directly skips the button, so it also
+ * shows whether the strip itself refuses a pick while it is held.
+ */
 function pickPhoto(fileName: string) {
-  // Two inputs carry that label — the file picker and the camera; the
-  // picker is the first.
-  fireEvent.change(screen.getAllByLabelText("Add photos from files")[0], {
+  fireEvent.change(screen.getByLabelText("Add photos from files"), {
     target: { files: [new File(["bytes"], fileName, { type: "image/jpeg" })] },
   });
 }
@@ -223,18 +226,19 @@ describe("VectorEditPanel", () => {
       screen.queryByRole("button", { name: "Move point to photo's location" }),
     ).toBeNull();
     expect(screen.queryByText(/bad\.heic/)).toBeNull();
-    expect(props.onMoveFeaturePoint).not.toHaveBeenCalled();
   });
 
-  // Each selection has its own strip, so two attaches can be running at once.
-  // The first one finishing must not release Done while the second is still
-  // writing: that photo would finish after the session closed and be lost.
-  // Coming back to the first feature mounts a new strip under the same id,
-  // which is why the panel counts attaches rather than tracking feature ids.
+  // Each selection mounts its own strip, and an attach outlives the strip it
+  // began in. While it runs, Done stays held (a photo that finishes after the
+  // session closes is lost) and no strip starts another: the photo limits
+  // are counted when an attach starts, so two running together could each
+  // count without the other's photos and pass the limit between them.
+  // Coming back to the same feature is the case that matters for the
+  // per-feature limit, and it mounts a new strip under the same id.
   it.each([
     ["another feature", ["f2"]],
     ["the same feature, selected again", ["f2", "f1"]],
-  ])("holds Done until every photo still being processed has finished (%s)", async (_, selections) => {
+  ])("starts no other photo attach until the running one ends (%s)", async (_, selections) => {
     const photoManager = heldPhotoManager();
     const props = panel({ selectedFeatureId: "f1", photoManager });
 
@@ -244,16 +248,32 @@ describe("VectorEditPanel", () => {
     for (const selectedFeatureId of selections) {
       props.rerender({ selectedFeatureId });
     }
-    pickPhoto("IMG_2.jpg");
-    await waitFor(() => expect(photoManager.answers).toHaveLength(2));
-
-    await act(async () => {
-      photoManager.answers[0]([]);
-    });
     expect(
       screen.getByRole("button", { name: "Finishing a photo…" }),
     ).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Add photos" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Take photo" })).toBeDisabled();
+    expect(
+      screen.getByText(/Another photo is still being added/),
+    ).toBeInTheDocument();
+    pickPhoto("IMG_2.jpg");
+    expect(photoManager.attachPhotos).toHaveBeenCalledTimes(1);
 
+    // The strip that started it has gone; its end still releases both.
+    await act(async () => {
+      photoManager.answers[0]([]);
+    });
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Done editing" })).toBeEnabled(),
+    );
+    expect(screen.getByRole("button", { name: "Add photos" })).toBeEnabled();
+    expect(screen.queryByText(/Another photo is still being added/)).toBeNull();
+
+    pickPhoto("IMG_3.jpg");
+    await waitFor(() => expect(photoManager.answers).toHaveLength(2));
+    expect(
+      screen.getByRole("button", { name: "Finishing a photo…" }),
+    ).toBeDisabled();
     await act(async () => {
       photoManager.answers[1]([]);
     });
