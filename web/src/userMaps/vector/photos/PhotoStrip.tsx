@@ -30,6 +30,12 @@ type PhotoStripProps = {
    * they are: an attach that finishes after the session closes has no feature
    * left to land on, and its bytes are deleted — so the way to keep a photo
    * the reader watched being added is to keep the session open until it is.
+   *
+   * Called in pairs: `true` once as an attach starts and `false` once as it
+   * ends, the second even after the strip has unmounted. A strip never runs
+   * two attaches at once, but the panel mounts a new strip each time the
+   * selection changes, so two strips can; it counts the pairs to know when
+   * all of them have finished.
    */
   onBusyChange?: (busy: boolean) => void;
   onMovePoint: (position: [number, number]) => void;

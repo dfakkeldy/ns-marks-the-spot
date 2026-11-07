@@ -375,7 +375,15 @@ export function VectorEditPanel({
   // Non-destructive by default: with no undo system beyond the one-shot
   // conversion revert, keeping the source points is the safer failure mode.
   const [keepSourcePoints, setKeepSourcePoints] = useState(true);
-  const [attachingPhotos, setAttachingPhotos] = useState(false);
+  // A count, not a flag. Each selection mounts its own strip, so an attach
+  // can still be finishing for a feature no longer selected while another
+  // starts here; the first to finish must not release Done for both. Nor is
+  // a set of feature ids enough: reselecting a feature mounts a new strip
+  // under the same id while the old one is still at work. Every attach says
+  // it started once and that it ended once (PhotoStrip's `onBusyChange`), so
+  // the count is how many have not ended yet, whichever strip they began in.
+  const [photoAttachesRunning, setPhotoAttachesRunning] = useState(0);
+  const attachingPhotos = photoAttachesRunning > 0;
 
   return (
     <section className="vector-edit-panel" aria-label={`Editing ${record.name}`}>
@@ -598,7 +606,13 @@ export function VectorEditPanel({
             feature={selected}
             onPatch={(patch) => onPatchAttributes(String(selected.id), patch)}
           />
+          {/* Keyed by feature, like the corner mover. An attach still running
+              for the last feature belongs to that feature's strip, which goes
+              with it; a strip reused for the next feature would show the late
+              answer there, and its location offer would move this point to
+              where the other photo was taken. */}
           <PhotoStrip
+            key={String(selected.id)}
             descriptors={readPhotoDescriptors(selected.properties)}
             pointPosition={
               selected.geometry?.type === "Point"
@@ -617,7 +631,9 @@ export function VectorEditPanel({
               onAttachFeaturePhotos(record.id, String(selected.id), descriptors)
             }
             onPhotoCleanupFailed={onPhotoCleanupFailed}
-            onBusyChange={setAttachingPhotos}
+            onBusyChange={(busy) =>
+              setPhotoAttachesRunning((running) => running + (busy ? 1 : -1))
+            }
             onMovePoint={(position) =>
               onMoveFeaturePoint(String(selected.id), position)
             }
