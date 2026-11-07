@@ -1976,6 +1976,9 @@ final class MapController: NSObject {
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+        #if DEBUG
+        MapTapTrace.record("identify action state=\(recognizer.state.rawValue) handler=\(events != nil)")
+        #endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
         let coordinate = mapView.convert(
@@ -2799,6 +2802,11 @@ extension MapController: MKMapViewDelegate {
         // A selection queued on a replaced map is not a tap on this one: it
         // must neither take the camera nor open a card.
         guard mapView === self.mapView else { return }
+        #if DEBUG
+        MapTapTrace.record(
+            "didSelect \(view.annotation.map { String(describing: type(of: $0)) } ?? "nil") id=\(view.accessibilityIdentifier ?? "nil")"
+        )
+        #endif
         if view.annotation is VectorDraftVertexAnnotation {
             // Draft corners are marks of a shape in progress, not records.
             // Selecting one would consume the tap that places the next point.
@@ -2857,6 +2865,9 @@ extension MapController: UIGestureRecognizerDelegate {
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.name == Self.identifyTapName {
+            #if DEBUG
+            MapTapTrace.record("identify shouldBegin=\(!isSelectingBounds)")
+            #endif
             return !isSelectingBounds
         }
         if gestureRecognizer.name == Self.placeLongPressName {
@@ -2888,8 +2899,25 @@ extension MapController: UIGestureRecognizerDelegate {
         guard let identify, let mapView = identify.view as? MKMapView else { return false }
         let other = identify === gestureRecognizer ? otherGestureRecognizer : gestureRecognizer
         guard let tap = other as? UITapGestureRecognizer,
-              tap.numberOfTapsRequired == 1, tap.numberOfTouchesRequired == 1 else { return false }
+              tap.numberOfTapsRequired == 1, tap.numberOfTouchesRequired == 1 else {
+            #if DEBUG
+            MapTapTrace.record("simultaneous=false \(MapTapTrace.describe(other))")
+            #endif
+            return false
+        }
         let point = identify.location(in: mapView)
+        #if DEBUG
+        let covers = Self.measurementEndpointCovers(point, in: mapView)
+        var traceHit = mapView.hitTest(point, with: nil)
+        var annotationHit = false
+        while let view = traceHit {
+            if view is MKAnnotationView { annotationHit = true }
+            traceHit = view.superview
+        }
+        MapTapTrace.record(
+            "simultaneous=\(covers || !annotationHit) \(MapTapTrace.describe(other)) covers=\(covers) annotationHit=\(annotationHit) point=\(point)"
+        )
+        #endif
         // MapKit also recognizes single taps on bare ground. Making those
         // compete drops map actions depending on which recognizer wins (CI
         // lost both measuring taps and the tap that dismisses the layers).
