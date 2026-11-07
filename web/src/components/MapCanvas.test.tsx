@@ -4130,6 +4130,73 @@ describe("MapCanvas print mode", () => {
     ]));
   });
 
+  it("paints current notice dots by sale-date band, and leaves unbanded PIDs red", () => {
+    mapMock.getZoom.mockReturnValue(9);
+    const square = (x: number) => ({
+      type: "Polygon" as const,
+      coordinates: [[[x, 46.3], [x + 0.1, 46.3], [x + 0.1, 46.4], [x, 46.3]]],
+    });
+    const parcels = {
+      type: "FeatureCollection" as const,
+      features: ["30000001", "30000002", "30000003"].map((PID, index) => ({
+        type: "Feature" as const,
+        properties: { PID },
+        geometry: square(-61.5 + index * 0.2),
+      })),
+    };
+    circleMarkerProps.calls.length = 0;
+    render(
+      <MapCanvas
+        parcels={parcels}
+        taxSalePids={new Set(["30000001", "30000002", "30000003"])}
+        taxSaleDateBands={new Map([
+          ["30000001", "within-7-days"],
+          ["30000002", "date-not-stated"],
+        ])}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+    const options = circleMarkerProps.calls.map(
+      ({ pathOptions }) => pathOptions as Record<string, unknown>,
+    );
+    expect(options).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        className: "tax-sale-date-band-within-7-days",
+        fillColor: "#be4d3c",
+      }),
+      expect.objectContaining({
+        className: "tax-sale-date-band-date-not-stated",
+        fillColor: "#ffffff",
+        dashArray: "3 2",
+      }),
+      expect.objectContaining({ fillColor: "#be4d3c", color: "#ffffff" }),
+    ]));
+    const unbanded = options.find(
+      (option) => option.fillColor === "#be4d3c" && option.className === undefined,
+    );
+    expect(unbanded).toBeDefined();
+  });
+
   it("keeps modern tile errors sticky within a print attempt", () => {
     const onLayerStatusChange = vi.fn();
     render(
