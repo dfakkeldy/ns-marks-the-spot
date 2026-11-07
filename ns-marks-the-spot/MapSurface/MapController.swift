@@ -2630,6 +2630,10 @@ extension MapController: MKMapViewDelegate {
             // No callout: a vertex is not a record, and a popup over the shape
             // being drawn would cover the ground the next tap has to land on.
             view.canShowCallout = false
+            // Not selectable either, for the reason the labelled endpoint
+            // gives: a slow tap beside a corner would otherwise be spent on
+            // MapKit's press-to-select instead of placing the next point.
+            view.isEnabled = false
             view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
             view.isAccessibilityElement = true
             // Numbered, because the dots are identical: it says where the shape

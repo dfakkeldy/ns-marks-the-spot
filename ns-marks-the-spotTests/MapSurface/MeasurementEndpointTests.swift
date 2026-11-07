@@ -62,6 +62,8 @@ struct MeasurementEndpointTests {
         #expect(view.accessibilityIdentifier == "measure-endpoint-label")
         #expect(view.accessibilityHint == "Measured on the map, not surveyed.")
         #expect(!view.isUserInteractionEnabled)
+        // Selectable, MapKit's press-to-select claims a slow tap on the badge.
+        #expect(!view.isEnabled)
         let onBadge = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
         #expect(view.hitTest(onBadge, with: nil) == nil)
         #expect(!view.point(inside: onBadge, with: nil))
@@ -76,8 +78,21 @@ struct MeasurementEndpointTests {
         #expect(view.accessibilityIdentifier == nil)
         #expect(view.accessibilityLabel == "Placed corner 1")
         #expect(view.isUserInteractionEnabled)
+        #expect(!view.isEnabled)
         #expect(view.point(inside: CGPoint(x: view.bounds.midX, y: view.bounds.midY), with: nil))
         #expect(!MapController.measurementEndpointCovers(.zero, view: view))
+    }
+
+    @Test func aPlacedCornerCannotBeSelected() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let corner = try #require(VectorDraftPreview(measuring: session).handles().first)
+        #expect(corner.endpointLabel == nil)
+        let view = try #require(MapController().mapView(MKMapView(), viewFor: corner))
+        #expect(!(view is MeasurementEndpointAnnotationView))
+        #expect(view.accessibilityLabel == "Placed corner 1")
+        // A slow tap beside a corner places the next point instead.
+        #expect(!view.isEnabled)
     }
 
     @Test func theIdentifyTapMayRunWithMapKitOverTheMeasurementLabel() throws {
