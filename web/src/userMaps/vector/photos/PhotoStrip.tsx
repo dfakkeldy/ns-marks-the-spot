@@ -73,6 +73,19 @@ export function PhotoStrip({
   const [undeleted, setUndeleted] = useState<string[]>([]);
   const [offer, setOffer] = useState<LocationOffer | null>(null);
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
+  // False once the strip has gone. An attach or delete already asked of the
+  // device still completes, and the session still hears about it; only the
+  // strip's own state is left alone. There is no screen left to show it on,
+  // and once the page itself is gone setState throws, because React reads
+  // `window.event` to schedule the update.
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -130,6 +143,9 @@ export function PhotoStrip({
           }
         });
       }
+      if (!mountedRef.current) {
+        return;
+      }
       setFailures(outcomes.filter((outcome) => !outcome.ok));
       // No offer for a photo that was not attached: there is no point left
       // to move it to, and the session has already said what became of it.
@@ -146,7 +162,12 @@ export function PhotoStrip({
         }
       }
     } finally {
-      setBusy(false);
+      // The panel holds Done on this, so it must hear it even when the strip
+      // has gone. Once the page itself is gone, a throwing setState here
+      // would stop it from ever arriving.
+      if (mountedRef.current) {
+        setBusy(false);
+      }
       onBusyChange?.(false);
     }
   };
@@ -161,7 +182,7 @@ export function PhotoStrip({
     }
     onDescriptors(descriptors.filter(({ id }) => id !== descriptor.id));
     void manager.removePhoto(descriptor.id).then((removed) => {
-      if (!removed) {
+      if (!removed && mountedRef.current) {
         setUndeleted((current) => [
           ...current,
           descriptor.sourceName ?? "the photo",
