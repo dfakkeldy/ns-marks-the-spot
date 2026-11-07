@@ -759,7 +759,10 @@ The web-only Fishing setup (theme id `fishing`, `themes/mapThemes.ts`) names
 `opacityOverrides` for `protected-conservation-areas` to 0.25. That opacity is
 presentation, not identity (`themeState.ts`): a `layers=` link still matches
 Fishing and App re-derives the quiet fill for the screen (`contextOpacity`)
-and generated PDF. `buildMapPresentationFixture` reads `nativeParityThemes`
+and generated PDF. Fletcher's fade is viewing rather than presentation:
+`viewingOpacityLayerIds` (context layers plus `fletcher`) is what matching
+ignores, while `presentationOpacityOverrides` stays context-only.
+`buildMapPresentationFixture` reads `nativeParityThemes`
 (the five frozen iOS-shared setups) rather than the full web
 `builtInMapThemes`, so web descriptions and opacity may differ from iOS.
 Fishing is excluded from that fixture with Poker, Electoral Districts,
@@ -1253,7 +1256,12 @@ popup clears the selection, and a filter change clears a selection it
 excludes. `services/mapShareState.ts` parses and writes `month` (1–12) and
 `spot` (`S` and two digits) the way it handles `electoral=`, outside
 `recognizedShareKeys`, so a month-only link is still a first visit. The
-full-map link strips both.
+full-map link strips both. The same module parses and writes Fletcher's fade
+as `opacity=fletcher:N` (`fletcherOpacity`): whole percent, written only when
+`fletcher` is in `layers` and the fade differs from the catalogue default,
+clamped to 15–100 and snapped to 5% on parse, ignored when the sheets are
+off, and likewise outside `recognizedShareKeys` so a fade alone is not
+recognised map state.
 
 `fishing/rules.ts` is the rules gate. It takes the date as an argument and
 fails closed: an entry shows only inside its own `validFrom`–`validUntil`

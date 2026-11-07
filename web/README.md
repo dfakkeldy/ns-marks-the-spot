@@ -427,7 +427,17 @@ credit and "Boundaries are not a survey" in view on wide screens.
 Explore is active, one-tap chips offer Tax sale, Forestry, Historical, Fishing
 and Elections; the full list stays in the select (`EXPLORE_SETUP_CHIPS`). The
 Electoral card's **2024 results** chip is documented under
-[Electoral Districts](#electoral-districts).
+[Electoral Districts](#electoral-districts). When **Historical Maps** is the
+active setup, Fletcher sheets are on, and a Fletcher tile host is configured,
+the setup card shows a **Fletcher sheets** fade slider in the same `shortcuts`
+slot (`App.tsx`). It shares `fletcherOpacity` with the Fletcher layer-row
+slider; both use `FLETCHER_OPACITY_MIN` (0.15) and `FLETCHER_OPACITY_STEP`
+(0.05) from `src/services/mapShareState.ts` (15–100%, 5% steps). The visible
+percentage is an `<output>` with `aria-valuetext` ("N% opaque"). A short note
+under the slider reads David Rumsey Map Collection · CC BY-NC-SA 3.0; full
+attribution and licence stay on the layer row and map footer. The slider is
+hidden when the sheets are off or no tile host is configured.
+
 Tax-sale mode chips read **Current** / **Historical**; their accessible names
 remain Current notices and Historical records. On the main map, the phone sheet
 opens at half height with a grabber (`sheetDetent` in `App.tsx`). Dragging,
@@ -565,6 +575,13 @@ Fishing and regains that quiet fill; the override reaches the screen and
 generated PDF. See [Fishing page](#fishing-page) for the layers and the
 `/fishing` page.
 
+`presentationOpacityOverrides` in `themeState.ts` stays context-only. Fletcher's
+fade is viewing, not a setup change: `viewingOpacityLayerIds` (context layers
+plus `fletcher`) is what matching ignores, so dragging the slider no longer
+marks Historical Maps **Modified**. Saved custom setups still keep and restore
+their Fletcher opacity. When only the fade has changed there is no Reset
+button — the reader drags the slider back.
+
 **Point Tupper** is a web-only setup for the announced data-centre campus on
 the Strait of Canso: the key places, the installed wind turbines, the mapped
 grid, pipelines, tanks, wharves, water and roads over the modern map. The
@@ -599,6 +616,14 @@ layers need the Province licence asks for acceptance before drawing them, the
 same as a shared link would. Share links preserve Poker’s `theme` to identify
 the driveway workflow explicitly. Other built-in setups carry their name only
 when layer parameters cannot identify the selection on their own.
+
+Share links write `opacity=fletcher:N` (whole percent) only when `fletcher` is
+in `layers` and the fade differs from the catalogue default (`0.72`). Parse
+clamps to 15–100 and snaps to 5% (`normalizeFletcherOpacity`); the value is
+ignored if `fletcher` is not in `layers`. `opacity=` is not a recognised share
+key on its own — the same pattern as `electoral=` and fishing `month`/`spot` —
+so a fade-only link is still a first visit. Like `position=`, it is how the
+map is being looked at, not which setup it is.
 
 On the full map, each built-in setup may bring its own opening camera
 (`src/themes/themeCameras.ts`). A cold `?theme=` link with no `position`
