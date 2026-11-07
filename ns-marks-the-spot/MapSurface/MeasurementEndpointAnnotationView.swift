@@ -54,6 +54,12 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
         // `isUserInteractionEnabled` makes UIView's hit test return nil;
         // MapKit still hit-tests annotation views through `point(inside:)`.
         isUserInteractionEnabled = corner.endpointLabel == nil
+        // Not selectable, labelled or not. MapKit's own press-to-select
+        // gesture begins once a touch on or near a selectable annotation has
+        // lasted a fifth of a second, and it takes the touch from the tap
+        // that places the next point. A slightly slow tap then selected a
+        // corner that `didSelect` let go of at once, and placed nothing.
+        isEnabled = false
         displayPriority = corner.endpointLabel == nil ? .defaultLow : .required
         zPriority = corner.endpointLabel == nil ? .defaultUnselected : .max
         accessibilityIdentifier = corner.endpointLabel == nil ? nil : "measure-endpoint-label"
