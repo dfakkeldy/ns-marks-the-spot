@@ -86,6 +86,8 @@ const PrintPreview = lazy(() =>
   })),
 );
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
+import { TaxSaleDateDot, TaxSaleDateLegend } from "./components/TaxSaleDateLegend";
+import { taxSaleDateBand, taxSaleDateBandsByPid } from "./services/taxSaleDateBands";
 import {
   advertisedPidsForEvents,
   eventsForStatus,
@@ -183,6 +185,8 @@ import {
 } from "./services/floodHazard";
 import {
   buildMapShareUrl,
+  FLETCHER_OPACITY_MIN,
+  FLETCHER_OPACITY_STEP,
   hasRecognizedMapShareState,
   parseMapShareState,
   type MapMode,
@@ -1754,8 +1758,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       Boolean(fletcherTileConfiguration.baseUrl) &&
       initialCatalogueLayerIds.has("fletcher"),
   );
+  // A shared link may carry the fade it was made with (`opacity=fletcher:40`).
   const [fletcherOpacity, setFletcherOpacity] = useState(
-    fletcherLayerCatalog.opacity,
+    () => initialShareState.fletcherOpacity ?? fletcherLayerCatalog.opacity,
   );
   // A setup's opacity for a context layer (Fishing quiets the park fills).
   // Set only by applying a setup; the layer's own catalogue opacity otherwise.
@@ -3051,6 +3056,16 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       );
     return new Set(listings.flatMap(({ pids }) => pids));
   }, [selectedEventIds, taxSaleFilter]);
+  // Same notices and filter as filteredTaxSalePids; bands follow the clock.
+  const taxSaleDateBands = useMemo(
+    () =>
+      taxSaleDateBandsByPid(
+        taxSaleEvents.filter(({ id }) => selectedEventIds.has(id)),
+        currentTime,
+        (listing) => listingMatchesTaxSaleFilter(listing, taxSaleFilter),
+      ),
+    [currentTime, selectedEventIds, taxSaleFilter],
+  );
 
   const selectedListings = useMemo(
     () =>
@@ -4270,6 +4285,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       layerIds: activeLayerIds,
       position: mapViewport.position,
       themeId: shareThemeId,
+      ...(fletcherVisible && fletcherOpacity !== fletcherLayerCatalog.opacity ? { fletcherOpacity } : {}),
       ...(focusDef?.shareParams?.has("month") && focusPage.month !== null ? { month: focusPage.month } : {}),
       ...(focusDef?.shareParams?.has("spot") && focusPage.spotId !== null ? { spot: focusPage.spotId } : {}),
     }),
@@ -4277,6 +4293,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       activeLayerIds,
       basemapStyle,
       electoralModes,
+      fletcherOpacity,
+      fletcherVisible,
       focusDef,
       focusPage.month,
       focusPage.spotId,
@@ -4972,6 +4990,29 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                   {on ? <span className="setup-chip-note">Winning party · Elections Nova Scotia, November 26, 2024</span> : null}
                 </div>
               );
+            })() : activeThemeId === "historical-maps" && fletcherVisible && fletcherTileConfiguration.baseUrl ? (() => {
+              // Fade the 1880s sheets against today's map without the layer
+              // rail. Same state as the Fletcher row's slider, so the two
+              // move together; a fade is viewing, not a setup change
+              // (themes/themeState.ts), and a share link carries it.
+              const percent = Math.round(fletcherOpacity * 100);
+              return (
+                <div className="setup-fade">
+                  <label htmlFor="setup-fletcher-opacity">Fletcher sheets</label>
+                  <input
+                    id="setup-fletcher-opacity"
+                    type="range"
+                    min={FLETCHER_OPACITY_MIN}
+                    max="1"
+                    step={FLETCHER_OPACITY_STEP}
+                    value={fletcherOpacity}
+                    aria-valuetext={`${percent}% opaque`}
+                    onChange={(event) => setFletcherOpacity(Number(event.target.value))}
+                  />
+                  <output htmlFor="setup-fletcher-opacity" aria-hidden="true">{percent}%</output>
+                  <span className="setup-chip-note">David Rumsey Map Collection · <span className="setup-fade-licence">{RUMSEY_LICENCE_NAME}</span></span>
+                </div>
+              );
             })() : undefined}
           /> : null}
 
@@ -5607,6 +5648,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                               Dated official notices. Past sale dates require
                               municipal result verification.
                             </p>
+                            <TaxSaleDateLegend events={upcomingTaxSaleEvents} now={currentTime} />
                             {upcomingTaxSaleEvents.map((event) => {
                               const pidCount = advertisedPidsForEvents([event]).length;
                               const mappedAdvertisedCount = event.listings.filter(
@@ -5633,7 +5675,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                     />
                                     <span className="switch" aria-hidden="true" />
                                     <span>
-                                      <strong>{event.shortMunicipality}</strong>
+                                      <strong><TaxSaleDateDot band={taxSaleDateBand(event, currentTime)} />{event.shortMunicipality}</strong>
                                       <small>{eventDateLabel(event)}</small>
                                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                                       <small>
@@ -5917,6 +5959,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             onUseOsmBasemap={() => setBasemapPreference("osm")}
             parcels={pokerMode ? { type: "FeatureCollection", features: [] } : drawableParcels}
             taxSalePids={effectiveTaxSalePids}
+            taxSaleDateBands={taxSaleDateBands}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
             selectedPid={pokerMode ? null : selectedPid}
             provinceLayers={pokerMode ? { ...provinceLayers, nsprd: false } : provinceLayers}

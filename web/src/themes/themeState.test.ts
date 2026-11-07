@@ -3,6 +3,7 @@ import { builtInMapThemes } from "./mapThemes";
 import {
   matchTheme,
   normalizeLayerOpacityOverrides,
+  presentationOpacityOverrides,
   resolveTheme,
   visibilityRecordFor,
 } from "./themeState";
@@ -119,6 +120,19 @@ describe("theme state", () => {
       taxSaleEnabled: false,
       mapMode: "historical",
     }, [theme])?.id).toBe("explore-nova-scotia");
+  });
+
+  it("keeps Historical Maps matched while Fletcher is faded", () => {
+    const historical = builtInMapThemes.find(({ id }) => id === "historical-maps")!;
+
+    expect(matchTheme({
+      layerIds: historical.layerIds,
+      opacityOverrides: { fletcher: 0.4 },
+      taxSaleEnabled: historical.taxSaleEnabled,
+      mapMode: historical.mapMode,
+    }, builtInMapThemes)?.id).toBe("historical-maps");
+    // Fletcher's fade is not one of the setup's presentation opacities.
+    expect(presentationOpacityOverrides({ opacityOverrides: { fletcher: 0.4 } })).toEqual({});
   });
 
   it("omits opacity overrides for layers outside the active theme", () => {

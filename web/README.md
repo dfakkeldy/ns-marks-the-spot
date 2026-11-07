@@ -37,8 +37,18 @@ The default-off **Elections & Districts** category groups provincial, federal,
 and municipal sources. The **Electoral Districts** setup starts with the 2026
 provincial districts and 2023-order federal ridings. Provincial boundaries,
 polling divisions (zoom 12+), 2024 results and seats are separate sources; the
-2024 results always use their own 55-district geometry. Results offer party,
+2024 results always use their own 55-district geometry. The setup card has a
+**2024 results** toggle chip: it turns on `provincial-results-2024` washed by
+winning party, with the note "Winning party · Elections Nova Scotia, November
+26, 2024"; a second tap returns to boundaries; without the Province licence it
+opens licence review (`App.tsx`). Results offer party,
 margin and turnout modes with text labels, legends and a district inspector.
+
+District names sit on the map (`elections/electoralLabels.ts`,
+`ElectoralFeatureLayer`): federal ridings below zoom 8, provincial districts
+from zoom 8, never polling divisions or municipal districts. Each name is
+placed in the district's largest part; overlapping names defer to the larger
+district; colour matches the boundary.
 Party shares and margin points use valid votes; turnout uses the source's
 listed-elector figure. The June 23 seats claim is checked against a reviewed
 attribute digest and fails closed if the publisher changes those records.
@@ -396,12 +406,33 @@ and source inventory and fails if the hosted object is unavailable or corrupt.
 ## Map setup, categories, and themes
 
 The rail's title names the active setup ("NS Marks The Spot" for a shared link
-that matches none). Below search come **Map setup** and then **Export map
-(PDF)**. Category headings carry a disclosure chevron on the title line, and
-each layer row keeps its switch on the name's line; an off row hides the
-redundant "Off" pill visually but still announces it. Restricted rows offer an
-in-row **Review** of the Province licence. The folded licence strip keeps the
-OpenStreetMap credit and "Boundaries are not a survey" in view on wide screens.
+that matches none). Below search come **Change setup** (`MapThemePicker`) and
+then **Export map (PDF)**. Category headings carry a disclosure chevron on the title line, and
+each layer row keeps its switch on the name's line. Most rows also show a
+small map key beside the name, drawn from the catalogue's own `openData`,
+`featureRenderer` or `legend` colours (`LayerSwatch` / `layerSwatchSpec`). A
+row whose catalogue entry names no colour — server-rendered images, aerial
+photos — has no swatch; the row never invents one. Property boundaries use the
+parcel styler's outline (`parcelOutlineColor`) as a hollow area mark.
+Environmental-health rows use the province's own risk-band colours. The Modern
+map row shows that Atlas style's land and water, or a neutral key for
+OpenStreetMap. Swatches use the day-map symbol. A fill fainter than 30% is
+raised to 30% so the chip is not empty, and tints sit on light map paper so they
+keep their hue on the dark panel. An off row hides the redundant "Off" pill
+visually but still announces it. Restricted rows offer an in-row **Review**
+of the Province licence. The folded licence strip keeps the OpenStreetMap
+credit and "Boundaries are not a survey" in view on wide screens.
+
+**Manage themes** appears after the first saved setup (`MapThemePicker`). While
+Explore is active, one-tap chips offer Tax sale, Forestry, Historical, Fishing
+and Elections; the full list stays in the select (`EXPLORE_SETUP_CHIPS`). The
+Electoral card's **2024 results** chip is documented under
+[Electoral Districts](#electoral-districts).
+Tax-sale mode chips read **Current** / **Historical**; their accessible names
+remain Current notices and Historical records. On the main map, the phone sheet
+opens at half height with a grabber (`sheetDetent` in `App.tsx`). Dragging,
+tapping the grabber, typing, or scrolling expands it to full. Point Tupper
+keeps its own sheet; see [Point Tupper page](#point-tupper-page).
 
 A first visit uses **Explore Nova Scotia**: the modern map is on, catalogue
 overlays are off, and **Tax Sale** is off. Layer controls are organized into ten
@@ -526,8 +557,13 @@ opening layer that needs zoom 12 (Crown land) makes the map zoom in to a few
 kilometres, either of which would move the view away from the spots. The
 Atlas background already shades Crown land, and both overlays stay one tap
 away. Place names are left out too: the GeoNAMES dots bury the spot pins at
-the opening zoom, and the background already labels places. The native theme parity fixture excludes this setup. See
-[Fishing page](#fishing-page) for the layers and the `/fishing` page.
+the opening zoom, and the background already labels places. A setup may set
+context-layer opacity via `opacityOverrides` (presentation, not identity).
+Fishing sets `protected-conservation-areas` to 0.25 so the publisher's park
+fill does not outshout the spots. A reloaded `layers=` link still resolves to
+Fishing and regains that quiet fill; the override reaches the screen and
+generated PDF. See [Fishing page](#fishing-page) for the layers and the
+`/fishing` page.
 
 **Point Tupper** is a web-only setup for the announced data-centre campus on
 the Strait of Canso: the key places, the installed wind turbines, the mapped
@@ -562,17 +598,47 @@ custom setup lives only in the browser that saved it. A named setup whose
 layers need the Province licence asks for acceptance before drawing them, the
 same as a shared link would. Share links preserve Poker’s `theme` to identify
 the driveway workflow explicitly. Other built-in setups carry their name only
-when layer parameters cannot identify the selection on their own. A setup that
-has a focus page (Rhodena, Fishing, Point Tupper) also brings that page's camera: a
-`?theme=` link with no `position` opens on the page's area, and choosing the
-setup in the picker fits the map to it.
+when layer parameters cannot identify the selection on their own.
 
-The generated web-to-native category and built-in-theme contract is
-[`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json),
-written by `src/themes/mapThemes.test.ts` and read by the Swift package's
-`MapThemeTests`. Regenerate it with `npx vitest run mapThemes -u` after a theme
-change. Custom themes are not transferred between web and iPhone; each surface
-keeps its own saved setups locally.
+On the full map, each built-in setup may bring its own opening camera
+(`src/themes/themeCameras.ts`). A cold `?theme=` link with no `position`
+parameter uses it, and choosing the setup in the picker applies it again. A
+link that already carries `position=` keeps that camera. The cameras are
+web-only metadata: `buildMapPresentationFixture` never reads them, so the
+frozen iOS-shared setups in `nativeParityThemes` keep their layer lists and
+opacities unchanged.
+
+| Setup | Opening camera |
+| --- | --- |
+| Explore Nova Scotia | none: a cold link keeps the home camera; picking it leaves the current view |
+| Tax Sale Research | frames the current notices once their parcels load |
+| Forestry & Field Access | zoom floor 14 (where property boundaries draw), around the current centre |
+| Historical Maps | frames the union of the 24 published Fletcher sheets (Cape Breton Island) |
+| Georeferencing | none: a cold link keeps the home camera so it can frame the reader's own map; picking it leaves the current view |
+| Electoral Districts | frames the province |
+| Rhodena | 45.765, -61.43 at zoom 13 (the six proposed turbines). `/rhodena` keeps its overview |
+| Poker | `position-unless-zoomed` to the Port Hood densest civic block (`POKER_OPENING_POSITION` ~46.0125, -61.532, zoom 16). From overview it opens there; at zoom 16 or closer the view stays |
+| Fishing | the fishing focus page's camera (fits the spots) |
+| Point Tupper | the Point Tupper focus page's camera (fits the Strait) |
+
+Accepting the Province licence for the page-load setup re-issues that setup's
+camera, so Tax Sale's notice fit is not overwritten when licensed layers such
+as Buildings arrive. `LayerZoomController` stands aside for a layer change
+that arrives with a new setup camera. When the reader turns a detail layer on
+by itself, that controller zooms to that layer's floor, not the largest floor
+among every already-visible detail layer.
+
+`nativeParityThemes` in `src/themes/mapThemes.ts` freezes the five iOS-shared
+setups (Explore Nova Scotia, Tax Sale Research, Forestry & Field Access,
+Historical Maps, Georeferencing) as the native app ships them.
+`buildMapPresentationFixture` reads that list only, so
+[`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json)
+stays byte-identical for those five. Web built-ins may differ in descriptions
+and opacity; Poker, Electoral Districts, Rhodena, Fishing and Point Tupper
+remain web-only. The Swift package's `MapThemeTests`
+reads that fixture. Regenerate it with `npx vitest run mapThemes -u` after a
+native-parity theme change. Custom themes are not transferred between web and
+iPhone; each surface keeps its own saved setups locally.
 
 ## App icon
 
@@ -1965,7 +2031,10 @@ them, as feature queries, and names them as not included.
 `/apps/nsmarksthespot/map/fishing` on the site; its public short URL is
 `https://kinnokilabs.com/fishmap`. It mounts the research map as
 `<App focus="fishing" />` with the **Fishing** setup fixed and fits the map to
-every spot when the link has no position. Its panel lists Water & Terrain,
+every spot when the link has no position. The setup's `opacityOverrides` keep
+protected-area fills at 0.25 on this page too (presentation, not identity; a
+reloaded `layers=` link is still Fishing and regains that fill). Its panel
+lists Water & Terrain,
 Land & Property, Roads & Places, Environment & Hazards and Background Maps.
 Water and background layers are offered by category, so later additions
 appear; land, road and hazard rows are listed one by one. The DFO aquatic

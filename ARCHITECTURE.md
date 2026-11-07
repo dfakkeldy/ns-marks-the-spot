@@ -388,6 +388,12 @@ subset, licence distinctions, source checks and the radon reproduction receipt;
 electoral, Rhodena and Point Tupper layers are documented with those web-only
 themes.
 
+Electoral district names (`web/src/elections/electoralLabels.ts`,
+`ElectoralFeatureLayer`) label federal ridings below zoom 8 and provincial
+districts from zoom 8, never polling divisions or municipal districts. Each
+name sits in the district's largest part; overlapping names defer to the
+larger district; colour matches the boundary.
+
 The September 2026 expansion adds 21 descriptors from `biodiversityLayers`,
 `waterResearchLayers` and `communityResearchLayers` to both maps.
 `contextVectorSource` extends the feature renderer with bounded Socrata point
@@ -749,8 +755,14 @@ detail live in `web/README.md` and `web/scripts/rhodena/README.md`.
 The web-only Fishing setup (theme id `fishing`, `themes/mapThemes.ts`) names
 12 layers: `modern`, the four fishing layers, `water-features`,
 `nshn-spines`, `wsc-hydrometric-stations`, `wharves-coastal-structures`,
-`protected-conservation-areas`, `roads` and `campgrounds`. It is
-excluded from `buildMapPresentationFixture` with Poker, Electoral Districts,
+`protected-conservation-areas`, `roads` and `campgrounds`. It sets
+`opacityOverrides` for `protected-conservation-areas` to 0.25. That opacity is
+presentation, not identity (`themeState.ts`): a `layers=` link still matches
+Fishing and App re-derives the quiet fill for the screen (`contextOpacity`)
+and generated PDF. `buildMapPresentationFixture` reads `nativeParityThemes`
+(the five frozen iOS-shared setups) rather than the full web
+`builtInMapThemes`, so web descriptions and opacity may differ from iOS.
+Fishing is excluded from that fixture with Poker, Electoral Districts,
 Rhodena and Point Tupper, because it names web-only context layers the native
 app does not have. It adds no category, so `layerParity.ts` needs no filter
 for it, and the native fixtures are unchanged. Every layer in it is open on
@@ -1156,12 +1168,21 @@ definition carries:
 
 `focusOffersLayer`, `filterFocusLayerIds` (shared links keep their order) and
 `focusHides` apply a definition. App holds the page state and writes `month`
-and `spot` only for a page that lists them. The camera comes from the open
-page or, on the full map, from `focusForTheme(themeId)`: a `?theme=` link for a
-setup that has a page opens at that page's camera when it has no position,
-and choosing the setup fits its bounds. `MapCanvas` takes a `focusFit` request
-(`{ revision, bounds }`) and renders `focus/FocusFit.tsx`, which fits the
-bounds each time the revision rises; it replaced Rhodena's own fit component.
+and `spot` only for a page that lists them. A focus page uses its own camera.
+On the full map, a setup's opening camera comes from `themes/themeCameras.ts`
+(`themeCameraFor`): a cold `?theme=` link without `position=` and picker
+selection apply it. Fishing and Point Tupper have no entry there, so they
+still borrow `focusForTheme(themeId)` — the page's camera. Rhodena's
+full-map setup does not: it opens on the six turbines at zoom 13; `/rhodena`
+keeps its overview. Poker uses `position-unless-zoomed` to
+`POKER_OPENING_POSITION` (Port Hood densest civic block, ~46.0125, -61.532,
+zoom 16): from overview it opens there; at zoom 16 or closer the view stays.
+A `position=` parameter still wins. On the main map, App's `sheetDetent` opens
+the phone sheet at half height with a grabber; dragging, tapping, typing or
+scrolling expands it to full. Point Tupper does not use those detents.
+`MapCanvas` takes a `focusFit` request (`{ revision, bounds }`) and renders
+`focus/FocusFit.tsx`, which fits the bounds each time the revision rises; it
+replaced Rhodena's own fit component.
 In `vite.config.ts`, `focusRoute` serves each page's map-relative path
 (`/rhodena`, `/fishing`, `/pointtupper`) in dev and preview and redirects its
 trailing-slash form. It routes only those three paths, so data files under the
