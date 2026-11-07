@@ -429,7 +429,9 @@ and Elections; the full list stays in the select (`EXPLORE_SETUP_CHIPS`). The
 Electoral card's **2024 results** chip is documented under
 [Electoral Districts](#electoral-districts).
 Tax-sale mode chips read **Current** / **Historical**; their accessible names
-remain Current notices and Historical records. On the main map, the phone sheet
+remain Current notices and Historical records. In Current notices, a sale-date
+legend under **Tax-sale notices** maps overview-dot colour to each notice's
+recorded sale date (see [Data flow](#data-flow)). On the main map, the phone sheet
 opens at half height with a grabber (`sheetDetent` in `App.tsx`). Dragging,
 tapping the grabber, typing, or scrolling expands it to full. Point Tupper
 keeps its own sheet; see [Point Tupper page](#point-tupper-page).
@@ -689,9 +691,31 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    Middleton publishes a total due, and Annapolis publishes a $1.00 minimum bid
    plus HST for its sealed tender.
 2. **Current notices** and **Historical records** are separate map modes with
-   their own colour, heading, controls, and parcel-sheet marker. Changing modes
+   their own heading, controls, and parcel-sheet marker. Changing modes
    clears the previous selection so a dated result cannot be mistaken for a
-   currently advertised property.
+   currently advertised property. Historical-records overview dots stay purple
+   (`#5a4385`). Current-notice overview dots (zoom 11 and below, in
+   `MapCanvas`) are painted by sale-date band from each notice's recorded
+   `saleStartsAt`, relative to today in Atlantic (`America/Halifax`) calendar
+   days (`services/taxSaleDateBands.ts`). A missing or unparseable date is
+   never guessed and never folded into “passed”:
+     - **Within 7 days** — survey red `#be4d3c` (0–7 Atlantic calendar days
+       away, and the recorded sale time has not been reached)
+     - **Within 30 days** — orange `#e3901b` (8–30 days away)
+     - **Later** — blue `#2f6fb0` (more than 30 days away)
+     - **Sale date passed — verify results** — grey `#8a8a8a` at 75% fill
+       (the recorded sale time has passed; the same `eventLifecycleStatus`
+       flip as the panel's “Past sale date — verify results” label)
+     - **Date not stated** — hollow white fill, dashed dark ring
+   A PID advertised in two notices takes the soonest of those recorded bands.
+   Passed and undated dots draw first so upcoming sales sit on top. Bands
+   follow the app's existing 60-second clock, so a dot can change band without
+   a reload. Under **Tax-sale notices**, `TaxSaleDateLegend` lists every band
+   with a per-band notice count, and each notice row shows its band dot.
+   Unchanged: grayscale print markers still distinguish current from
+   historical by line, weight, and hatch, not sale-date colour. Parcel fills
+   above overview zoom remain the existing flat survey-red current style
+   (`#be4d3c` stroke) and the historical purple fill.
 3. Each current tax-sale event toggle has a collapsed property list. The list mirrors
    the redemption filter and renders one action per PID, including separate
    actions when a single lien covers multiple parcels. Selecting a row collapses
