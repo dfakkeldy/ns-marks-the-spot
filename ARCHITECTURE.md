@@ -762,9 +762,10 @@ Fishing and App re-derives the quiet fill for the screen (`contextOpacity`)
 and generated PDF. Fletcher's fade is viewing rather than presentation:
 `viewingOpacityLayerIds` (context layers plus `fletcher`) is what matching
 ignores, while `presentationOpacityOverrides` stays context-only.
-`buildMapPresentationFixture` reads `nativeParityThemes`
-(the five frozen iOS-shared setups) rather than the full web
-`builtInMapThemes`, so web descriptions and opacity may differ from iOS.
+`buildMapPresentationFixture` copies the five iOS-shared setups listed in
+`nativeBuiltInThemeIds` from live `builtInMapThemes` (Explore Nova Scotia,
+Tax Sale Research, Forestry & Field Access, Historical Maps, Georeferencing),
+so those five stay in lockstep with the web.
 Fishing is excluded from that fixture with Poker, Electoral Districts,
 Rhodena and Point Tupper, because it names web-only context layers the native
 app does not have. It adds no category, so `layerParity.ts` needs no filter

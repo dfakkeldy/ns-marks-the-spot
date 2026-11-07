@@ -631,9 +631,9 @@ On the full map, each built-in setup may bring its own opening camera
 (`src/themes/themeCameras.ts`). A cold `?theme=` link with no `position`
 parameter uses it, and choosing the setup in the picker applies it again. A
 link that already carries `position=` keeps that camera. The cameras are
-web-only metadata: `buildMapPresentationFixture` never reads them, so the
-frozen iOS-shared setups in `nativeParityThemes` keep their layer lists and
-opacities unchanged.
+web-only metadata: `buildMapPresentationFixture` never reads them, so they
+stay out of the native fixture even though that fixture copies the five
+iOS-shared setups from live `builtInMapThemes`.
 
 | Setup | Opening camera |
 | --- | --- |
@@ -655,17 +655,17 @@ that arrives with a new setup camera. When the reader turns a detail layer on
 by itself, that controller zooms to that layer's floor, not the largest floor
 among every already-visible detail layer.
 
-`nativeParityThemes` in `src/themes/mapThemes.ts` freezes the five iOS-shared
-setups (Explore Nova Scotia, Tax Sale Research, Forestry & Field Access,
-Historical Maps, Georeferencing) as the native app ships them.
-`buildMapPresentationFixture` reads that list only, so
+`nativeBuiltInThemeIds` in `src/themes/mapThemes.ts` lists the five setups
+the iOS app ports (Explore Nova Scotia, Tax Sale Research, Forestry & Field
+Access, Historical Maps, Georeferencing), in its picker's order.
+`buildMapPresentationFixture` copies those five from live `builtInMapThemes`,
+so a web change to one of them edits
 [`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json)
-stays byte-identical for those five. Web built-ins may differ in descriptions
-and opacity; Poker, Electoral Districts, Rhodena, Fishing and Point Tupper
-remain web-only. The Swift package's `MapThemeTests`
-reads that fixture. Regenerate it with `npx vitest run mapThemes -u` after a
-native-parity theme change. Custom themes are not transferred between web and
-iPhone; each surface keeps its own saved setups locally.
+too, and `MapThemeTests` then asks for the same change in `MapTheme.builtIn`.
+Poker, Electoral Districts, Rhodena, Fishing and Point Tupper remain web-only
+and stay out of the fixture. Regenerate it with `npx vitest run mapThemes -u`
+after a change to one of those five. Custom themes are not transferred
+between web and iPhone; each surface keeps its own saved setups locally.
 
 ## App icon
 
