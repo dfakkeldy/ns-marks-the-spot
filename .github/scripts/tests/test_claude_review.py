@@ -530,8 +530,14 @@ class Finish(unittest.TestCase):
 
     def test_the_two_jobs_must_agree_on_the_mode(self):
         fake = FakeGitHub()
-        self.assertEqual(self.finish(fake, mode="skip", read_mode="review"), 1)
+        self.assertEqual(self.finish(fake, mode="review", read_mode="skip", output=self.output()), 1)
         self.assertEqual(fake.reviews, [])
+
+    def test_re_running_the_failed_job_after_a_review_judges_the_live_threads(self):
+        # The reused reading job said review; the review it led to is now posted, so this is skip.
+        self.assertEqual(self.finish(FakeGitHub([node("T1", "important", resolved=True)]), mode="skip",
+                                     read_mode="review"), 0)
+        self.assertEqual(self.finish(FakeGitHub([node("T1", "important")]), mode="skip", read_mode="review"), 1)
 
     def test_claude_failure_fails_without_posting(self):
         for outcome, output in (("failure", None), ("success", None), ("skipped", self.output())):

@@ -565,7 +565,9 @@ def finish():
     mode, round_no, sha = plan["mode"], plan["round"], plan["head"]
     valid = {p: set(v) for p, v in plan["valid"].items()}
     read_mode = os.environ.get("READ_MODE", "")
-    if read_mode and read_mode != mode:
+    # "Re-run failed jobs" reuses the reading job's outputs. If it said review and a review of
+    # this exact patch now exists, this job sees skip: judge the live threads, as skip does.
+    if read_mode and read_mode != mode and not (read_mode == "review" and mode == "skip"):
         summary(f"The reading job chose {read_mode} and this job chose {mode}: the PR's reviews changed during "
                 "the run. Re-run the workflow.")
         return 1
