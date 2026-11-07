@@ -152,8 +152,8 @@ describe("built-in map themes", () => {
     const fixtureThemes = buildMapPresentationFixture().builtInThemes;
     expect(fixtureThemes.map(({ id }) => id)).toEqual([...nativeBuiltInThemeIds]);
     for (const native of fixtureThemes) {
-      const { kind: _kind, ...web } = builtInMapThemes.find(({ id }) => id === native.id)!;
-      expect(native).toEqual(web);
+      const web = builtInMapThemes.find(({ id }) => id === native.id)!;
+      expect({ ...native, kind: "built-in" }).toEqual(web);
     }
   });
 
