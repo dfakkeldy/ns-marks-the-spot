@@ -245,6 +245,7 @@ class Git(unittest.TestCase):
         self.assertNotIn("logo.png", (out / cr.BRIEF_DIR / "pr.diff").read_text())
         self.assertIn("round 1 of 3", text)
         self.assertIn("None. This is the first review.", text)
+        self.assertIn("feature", text.split("Commits")[1][:200])  # the commit log, since Claude has no shell
         state = {k: plan[k] for k in ("round", "head", "merge_base", "patch_id")}
         review = {"id": 1, "user": {"type": "Bot"},
                   "body": f"<!-- claude-review:state {json.dumps(state)} -->"}
@@ -321,10 +322,11 @@ class Finish(unittest.TestCase):
         self.tmp.cleanup()
 
     def finish(self, fake, mode="review", output=None, outcome="success", review_line=False,
-               rethink_posted=False, round_no=1):
+               rethink_posted=False, round_no=1, valid=None, unthreaded=0):
+        valid = cr.right_lines(DIFF) if valid is None else valid
         plan = {"mode": mode, "round": round_no, "head": "f" * 40, "merge_base": "b" * 40, "patch_id": "p",
-                "review_line": review_line, "rethink_posted": rethink_posted,
-                "valid": {p: sorted(v) for p, v in cr.right_lines(DIFF).items()}}
+                "review_line": review_line, "rethink_posted": rethink_posted, "unthreaded": unthreaded,
+                "valid": {p: sorted(v) for p, v in valid.items()}}
         with open(os.path.join(self.tmp.name, "claude-review-plan.json"), "w") as f:
             json.dump(plan, f)
         env = dict(self.env, CLAUDE_OUTCOME=outcome, STRUCTURED_OUTPUT=json.dumps(output) if output else "")
@@ -342,6 +344,7 @@ class Finish(unittest.TestCase):
         self.assertEqual(len(fake.reviews), 1)
         body = fake.reviews[0]["body"]
         self.assertTrue(body.startswith("**Claude review · round 1 of 3: no issues found.**"))
+        self.assertNotIn("Settled this round", body)
         self.assertEqual(cr.latest_state([{"id": 1, "user": {"type": "Bot"}, "body": body}])["round"], 1)
 
     def test_important_fails_and_nits_are_posted_then_resolved(self):
@@ -385,6 +388,15 @@ class Finish(unittest.TestCase):
             fake = FakeGitHub()
             self.assertEqual(self.finish(fake, output=output, outcome=outcome), 1)
             self.assertEqual(fake.reviews, [])
+
+    def test_an_important_finding_with_no_line_to_sit_on_blocks_until_a_new_push(self):
+        fake = FakeGitHub()
+        finding = {"severity": "important", "path": "gone.ts", "line": 1, "bug_class": "c", "title": "t", "body": "b"}
+        self.assertEqual(self.finish(fake, output=self.output([finding]), valid={}), 1)
+        self.assertEqual(fake.reviews[0]["comments"], [])
+        self.assertEqual(cr.latest_state([{"id": 1, "user": {"type": "Bot"},
+                                           "body": fake.reviews[0]["body"]}])["unthreaded"], 1)
+        self.assertEqual(self.finish(FakeGitHub(), mode="skip", unthreaded=1), 1)
 
     def test_skip_carries_the_verdict_forward(self):
         self.assertEqual(self.finish(FakeGitHub([node("T1", "important")]), mode="skip"), 1)
