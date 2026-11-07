@@ -1,4 +1,4 @@
-import type { Ref } from "react";
+import type { ReactNode, Ref } from "react";
 import type { MapThemeDefinition } from "../themes/mapThemes";
 
 export type MapThemeStatus = "exact" | "modified" | "shared" | "partial";
@@ -13,7 +13,21 @@ interface MapThemePickerProps {
   onSave: () => void;
   onManage: () => void;
   onReset: () => void;
+  /** Quick actions for the active setup, shown under its description. */
+  shortcuts?: ReactNode;
 }
+
+/**
+ * The task setups Explore offers as one-tap chips, in this order, with the
+ * short names a chip has room for. The full list stays in the select.
+ */
+const EXPLORE_SETUP_CHIPS: readonly (readonly [themeId: string, label: string])[] = [
+  ["tax-sale-research", "Tax sale"],
+  ["forestry-field-access", "Forestry"],
+  ["historical-maps", "Historical"],
+  ["fishing", "Fishing"],
+  ["electoral-districts", "Elections"],
+];
 
 export function MapThemePicker({
   themes,
@@ -25,6 +39,7 @@ export function MapThemePicker({
   onSave,
   onManage,
   onReset,
+  shortcuts,
 }: MapThemePickerProps) {
   const active = themes.find(({ id }) => id === activeThemeId);
   const builtInThemes = themes.filter(({ kind }) => kind === "built-in");
@@ -69,6 +84,16 @@ export function MapThemePicker({
       <p className="map-theme-description">
         {active?.description ?? "Map settings restored from a shared link."}
       </p>
+      {activeThemeId === "explore-nova-scotia" ? (
+        <div className="setup-chips" role="group" aria-label="Start a task">
+          {EXPLORE_SETUP_CHIPS.filter(([id]) => themes.some((theme) => theme.id === id)).map(([id, chipLabel]) => (
+            <button key={id} type="button" className="setup-chip" onClick={() => onSelect(id)}>
+              {chipLabel}
+            </button>
+          ))}
+        </div>
+      ) : null}
+      {shortcuts}
       <p className={status === "exact" && !notice ? "sr-only" : undefined} aria-live="polite" role="status">
         {label}
         {notice ? ` ${notice}` : ""}

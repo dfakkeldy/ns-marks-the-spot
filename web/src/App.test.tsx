@@ -1179,6 +1179,23 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("initial position: 45.785,-61.405,11");
   });
 
+  it("turns the 2024 results on and off from the Electoral setup card", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=electoral-districts");
+
+    render(<App />);
+
+    const chip = screen.getByRole("button", { name: "2024 results" });
+    expect(chip).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(chip);
+    expect(chip).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText(/Winning party · Elections Nova Scotia, November 26, 2024/)).toBeInTheDocument();
+    expect(screen.getByLabelText("Change setup")).toHaveValue("electoral-districts");
+    await userEvent.click(chip);
+    expect(chip).toHaveAttribute("aria-pressed", "false");
+    expect(screen.queryByText(/Winning party · Elections Nova Scotia/)).not.toBeInTheDocument();
+  });
+
   describe("the /fishing page", () => {
     // The page reads its own files from public/fishing/, like the browser.
     beforeEach(() => {

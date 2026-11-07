@@ -46,6 +46,28 @@ describe("MapThemePicker", () => {
     expect(screen.queryByRole("button", { name: /reset/i })).not.toBeInTheDocument();
   });
 
+  it("offers task setups as chips under Explore, and only there", async () => {
+    const onSelect = vi.fn();
+    const props = {
+      themes: builtInMapThemes,
+      status: "exact" as const,
+      notice: null,
+      onSelect,
+      onSave: () => {},
+      onManage: () => {},
+      onReset: () => {},
+    };
+    const { rerender } = render(<MapThemePicker {...props} activeThemeId="explore-nova-scotia" />);
+
+    const chips = within(screen.getByRole("group", { name: "Start a task" })).getAllByRole("button");
+    expect(chips.map((chip) => chip.textContent)).toEqual(["Tax sale", "Forestry", "Historical", "Fishing", "Elections"]);
+    await userEvent.click(screen.getByRole("button", { name: "Fishing" }));
+    expect(onSelect).toHaveBeenCalledWith("fishing");
+
+    rerender(<MapThemePicker {...props} activeThemeId="fishing" />);
+    expect(screen.queryByRole("group", { name: "Start a task" })).not.toBeInTheDocument();
+  });
+
   it("offers reset for a modified built-in setup", async () => {
     const onReset = vi.fn();
     render(

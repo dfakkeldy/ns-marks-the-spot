@@ -4950,6 +4950,29 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             onReset={() => {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
+            shortcuts={activeThemeId === "electoral-districts" ? (() => {
+              // One tap from the boundaries to the 2024 result: the results
+              // layer on, washed by winning party. Its own 55-district
+              // geometry and date stay on the layer row and the map legend.
+              const on = effectiveContextLayers["provincial-results-2024"] && electoralModes["provincial-results-2024"] !== "boundaries";
+              return (
+                <div className="setup-chips" role="group" aria-label="Election results">
+                  <button
+                    type="button"
+                    className="setup-chip"
+                    aria-pressed={on}
+                    onClick={() => {
+                      setElectoralModes((current) => withElectoralMode(current, "provincial-results-2024", on ? "boundaries" : "winner"));
+                      setContextLayerVisibility("provincial-results-2024", !on);
+                      if (!on && !licenceAccepted) reviewProvinceLicence();
+                    }}
+                  >
+                    2024 results
+                  </button>
+                  {on ? <span className="setup-chip-note">Winning party · Elections Nova Scotia, November 26, 2024</span> : null}
+                </div>
+              );
+            })() : undefined}
           /> : null}
 
           {/* An output of the map as set up, so it follows the setup rather

@@ -479,6 +479,53 @@ a {
   cursor: pointer;
 }
 
+/* One-tap shortcuts on the setup card: Explore's task setups, Electoral's
+   2024 result. Outline pills, so they read as choices, not as the card's
+   own underlined actions. */
+.setup-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.map-theme-picker .setup-chip {
+  justify-self: auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  color: var(--survey-blue);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--white);
+  border: 1px solid color-mix(in srgb, var(--survey-blue) 45%, transparent);
+  border-radius: 999px;
+}
+
+.map-theme-picker .setup-chip:hover {
+  border-color: var(--survey-blue);
+}
+
+.map-theme-picker .setup-chip[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+  border-color: var(--survey-blue);
+}
+
+.setup-chip-note {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.4;
+}
+
+@media (pointer: coarse) {
+  .map-theme-picker .setup-chip {
+    min-height: 44px;
+  }
+}
+
 .map-theme-actions,
 .theme-manager-row-actions,
 .theme-manager-footer,
