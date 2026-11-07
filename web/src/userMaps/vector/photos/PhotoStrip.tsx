@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { formatDistance, pathDistanceMetres } from "../../../services/geodesy";
 import type { PhotoAttachOutcome, PhotoManagerApi } from "./usePhotoManager";
 import { MAX_PHOTOS_PER_FEATURE, type FeaturePhotoDescriptor } from "./types";
@@ -88,6 +88,12 @@ export function PhotoStrip({
   const [undeleted, setUndeleted] = useState<string[]>([]);
   const [offer, setOffer] = useState<LocationOffer | null>(null);
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
+  const heldNoteId = useId();
+  const full = descriptors.length >= MAX_PHOTOS_PER_FEATURE;
+  // Said only while it is true: not on the strip whose own attach is running
+  // (Done says that), and not on a full feature, whose buttons stay disabled
+  // after the other attach ends.
+  const heldNoteShown = attachHeld && !busy && !full;
   // False once the strip has gone. An attach or delete already asked of the
   // device still completes, and the session still hears about it; only the
   // strip's own state is left alone. There is no screen left to show it on,
@@ -279,8 +285,8 @@ export function PhotoStrip({
           its copy.
         </small>
       ))}
-      {attachHeld && !busy ? (
-        <small className="vector-edit-photos-held">
+      {heldNoteShown ? (
+        <small id={heldNoteId} className="vector-edit-photos-held">
           Another photo is still being added. You can add more when it has
           finished.
         </small>
@@ -288,18 +294,16 @@ export function PhotoStrip({
       <div className="vector-edit-photo-actions">
         <button
           type="button"
-          disabled={
-            busy || attachHeld || descriptors.length >= MAX_PHOTOS_PER_FEATURE
-          }
+          disabled={busy || attachHeld || full}
+          aria-describedby={heldNoteShown ? heldNoteId : undefined}
           onClick={() => cameraRef.current?.click()}
         >
           Take photo
         </button>
         <button
           type="button"
-          disabled={
-            busy || attachHeld || descriptors.length >= MAX_PHOTOS_PER_FEATURE
-          }
+          disabled={busy || attachHeld || full}
+          aria-describedby={heldNoteShown ? heldNoteId : undefined}
           onClick={() => libraryRef.current?.click()}
         >
           Add photos

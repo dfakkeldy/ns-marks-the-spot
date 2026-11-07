@@ -108,6 +108,29 @@ describe("usePhotoManager", () => {
     expect(outcomes.map(({ ok }) => ok)).toEqual([false, true]);
   });
 
+  // The photo strip shows outcomes and has no `catch` around this call; a
+  // rejection would show the reader nothing at all.
+  it("answers with outcomes, never a rejection, when the store will not open", async () => {
+    const { result } = renderHook(() =>
+      usePhotoManager({
+        openStore: () => Promise.reject(new Error("IndexedDB is unavailable")),
+        process: fakeProcess(),
+        readExif: vi.fn(async () => ({ gps: null, capturedAt: null })),
+      }),
+    );
+    let outcomes: PhotoAttachOutcome[] = [];
+    await act(async () => {
+      outcomes = await result.current.attachPhotos("layer-1", 0, [
+        file("IMG_1.jpg"),
+        file("IMG_2.jpg"),
+      ]);
+    });
+    expect(outcomes).toEqual([
+      { fileName: "IMG_1.jpg", ok: false, message: expect.any(String) },
+      { fileName: "IMG_2.jpg", ok: false, message: expect.any(String) },
+    ]);
+  });
+
   it("serves thumb urls from a touch-on-read cache", async () => {
     const factory = new IDBFactory();
     const store = await UserPhotoStore.open(factory);
