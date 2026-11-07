@@ -210,64 +210,24 @@ export const builtInMapThemes = [
 ] as const satisfies readonly MapThemeDefinition[];
 
 /**
- * The five setups the iOS app ports, frozen as the native app ships them.
- * The web setups of the same ids may now differ (copy, layers, opacities):
- * the native app catches up in its own release, and only then is this list
- * updated to match. `buildMapPresentationFixture` reads this list, never
- * `builtInMapThemes`, so a web-only change never edits the Swift fixture.
+ * The five setups the iOS app ports, in its picker's order. The fixture copies
+ * them from `builtInMapThemes`, so a web change to one of these five edits the
+ * Swift fixture too, and `MapThemeTests` then asks for the same change in
+ * `MapTheme.builtIn`. Every other setup is web-only.
  */
-export const nativeParityThemes = [
-  {
-    id: "explore-nova-scotia",
-    name: "Explore Nova Scotia",
-    description: "A clean modern map for general exploration.",
-    layerIds: ["modern"],
-    opacityOverrides: {},
-    preferredCategoryIds: ["background-maps"],
-    taxSaleEnabled: false,
-    mapMode: "current",
-  },
-  {
-    id: "tax-sale-research",
-    name: "Tax Sale Research",
-    description: "Current notices with property, road, water, and building context.",
-    layerIds: ["ns-aerial", "nsprd", "roads", "water-features", "buildings"],
-    opacityOverrides: {},
-    preferredCategoryIds: ["tax-sale", "land-property"],
-    taxSaleEnabled: true,
-    mapMode: "current",
-  },
-  {
-    id: "forestry-field-access",
-    name: "Forestry & Field Access",
-    description: "Aerial, land, access, terrain, and old-growth policy context.",
-    layerIds: ["ns-aerial", "nsprd", "crown-lands", "roads", "water-features", "contours", "old-growth-policy"],
-    opacityOverrides: {},
-    preferredCategoryIds: ["forestry-ecology", "land-property", "roads-places", "water-terrain"],
-    taxSaleEnabled: false,
-    mapMode: "current",
-  },
-  {
-    id: "historical-maps",
-    name: "Historical Maps",
-    description: "Fletcher mapping with modern roads and place references.",
-    layerIds: ["modern", "fletcher", "place-names", "main-roads"],
-    opacityOverrides: {},
-    preferredCategoryIds: ["historical-maps", "roads-places"],
-    taxSaleEnabled: false,
-    mapMode: "current",
-  },
-  {
-    id: "georeferencing",
-    name: "Georeferencing",
-    description: "A clean reference setup for positioning your own maps.",
-    layerIds: ["modern", "place-names", "main-roads"],
-    opacityOverrides: {},
-    preferredCategoryIds: ["my-maps", "background-maps", "roads-places"],
-    taxSaleEnabled: false,
-    mapMode: "current",
-  },
-] as const satisfies readonly MapPresentationFixture["builtInThemes"][number][];
+export const nativeBuiltInThemeIds = [
+  "explore-nova-scotia",
+  "tax-sale-research",
+  "forestry-field-access",
+  "historical-maps",
+  "georeferencing",
+] as const satisfies readonly BuiltInMapThemeId[];
+
+const nativeBuiltInThemes = nativeBuiltInThemeIds.map((id) => {
+  const theme = builtInMapThemes.find((candidate) => candidate.id === id);
+  if (!theme) throw new Error(`native setup ${id} is not a web built-in`);
+  return theme;
+});
 
 /**
  * Web-only live overlays sit outside the native parity universe (see the
@@ -290,10 +250,9 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
             (layerId) => !nativeExcludedLayerIds.has(layerId),
           ),
     })),
-    // Only the frozen native list: Poker, Electoral, Rhodena, Fishing and
-    // Point Tupper are web-only, and the web copies of the other five may
-    // run ahead of the iOS release.
-    builtInThemes: nativeParityThemes.map((theme) => ({
+    // Only the five the app ports: Poker, Electoral, Rhodena, Fishing and
+    // Point Tupper are web-only.
+    builtInThemes: nativeBuiltInThemes.map((theme) => ({
       id: theme.id,
       name: theme.name,
       description: theme.description,

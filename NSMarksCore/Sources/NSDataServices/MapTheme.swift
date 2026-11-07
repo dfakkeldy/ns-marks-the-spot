@@ -96,7 +96,7 @@ extension MapTheme {
             id: "explore-nova-scotia",
             kind: .builtIn,
             name: "Explore Nova Scotia",
-            description: "A clean modern map for general exploration.",
+            description: "The modern map. Search a PID or address, or choose a setup for a task.",
             state: MapThemeState(layerIDs: [MapShareState.modernBaseLayerID]),
             preferredCategoryIDs: [.backgroundMaps]
         ),
@@ -115,7 +115,7 @@ extension MapTheme {
             id: "forestry-field-access",
             kind: .builtIn,
             name: "Forestry & Field Access",
-            description: "Aerial, land, access, terrain, and old-growth policy context.",
+            description: "Crown land, old-growth policy and property lines over aerial, with roads, water and contours.",
             state: MapThemeState(
                 layerIDs: [
                     "ns-aerial", "nsprd", "crown-lands", "roads",
@@ -128,7 +128,7 @@ extension MapTheme {
             id: "historical-maps",
             kind: .builtIn,
             name: "Historical Maps",
-            description: "Fletcher mapping with modern roads and place references.",
+            description: "Hugh Fletcher's 1882–1884 sheets of Cape Breton, with today's towns and main roads.",
             state: MapThemeState(
                 layerIDs: [
                     MapShareState.modernBaseLayerID, "fletcher", "place-names", "main-roads",
@@ -140,7 +140,7 @@ extension MapTheme {
             id: "georeferencing",
             kind: .builtIn,
             name: "Georeferencing",
-            description: "A clean reference setup for positioning your own maps.",
+            description: "Load your scan under My maps, then match its points to these roads and places.",
             state: MapThemeState(
                 layerIDs: [MapShareState.modernBaseLayerID, "place-names", "main-roads"]
             ),

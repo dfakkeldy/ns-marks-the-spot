@@ -10,7 +10,7 @@ import type { ShareLayerId } from "../services/mapShareState";
 import {
   buildMapPresentationFixture,
   builtInMapThemes,
-  nativeParityThemes,
+  nativeBuiltInThemeIds,
   validateMapTheme,
 } from "./mapThemes";
 import { matchTheme, presentationOpacityOverrides, resolveTheme } from "./themeState";
@@ -141,22 +141,20 @@ describe("built-in map themes", () => {
     }
   });
 
-  it("freezes the native setups apart from the web setups of the same ids", () => {
-    const webIds = new Set(builtInMapThemes.map(({ id }) => id));
-    expect(nativeParityThemes.map(({ id }) => id)).toEqual([
+  it("exports the five native setups exactly as the web defines them", () => {
+    expect(nativeBuiltInThemeIds).toEqual([
       "explore-nova-scotia",
       "tax-sale-research",
       "forestry-field-access",
       "historical-maps",
       "georeferencing",
     ]);
-    for (const theme of nativeParityThemes) {
-      expect(webIds.has(theme.id)).toBe(true);
-      expect(validateMapTheme({ ...theme, kind: "built-in" })).toEqual([]);
+    const fixtureThemes = buildMapPresentationFixture().builtInThemes;
+    expect(fixtureThemes.map(({ id }) => id)).toEqual([...nativeBuiltInThemeIds]);
+    for (const native of fixtureThemes) {
+      const { kind: _kind, ...web } = builtInMapThemes.find(({ id }) => id === native.id)!;
+      expect(native).toEqual(web);
     }
-    expect(buildMapPresentationFixture().builtInThemes.map(({ id }) => id)).toEqual(
-      nativeParityThemes.map(({ id }) => id),
-    );
   });
 
   it("exports the native portability fixture from the registries", async () => {

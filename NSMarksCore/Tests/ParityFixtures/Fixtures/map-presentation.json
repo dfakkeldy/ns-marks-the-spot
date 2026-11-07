@@ -101,7 +101,7 @@
     {
       "id": "explore-nova-scotia",
       "name": "Explore Nova Scotia",
-      "description": "A clean modern map for general exploration.",
+      "description": "The modern map. Search a PID or address, or choose a setup for a task.",
       "layerIds": [
         "modern"
       ],
@@ -134,7 +134,7 @@
     {
       "id": "forestry-field-access",
       "name": "Forestry & Field Access",
-      "description": "Aerial, land, access, terrain, and old-growth policy context.",
+      "description": "Crown land, old-growth policy and property lines over aerial, with roads, water and contours.",
       "layerIds": [
         "ns-aerial",
         "nsprd",
@@ -157,7 +157,7 @@
     {
       "id": "historical-maps",
       "name": "Historical Maps",
-      "description": "Fletcher mapping with modern roads and place references.",
+      "description": "Hugh Fletcher's 1882–1884 sheets of Cape Breton, with today's towns and main roads.",
       "layerIds": [
         "modern",
         "fletcher",
@@ -175,7 +175,7 @@
     {
       "id": "georeferencing",
       "name": "Georeferencing",
-      "description": "A clean reference setup for positioning your own maps.",
+      "description": "Load your scan under My maps, then match its points to these roads and places.",
       "layerIds": [
         "modern",
         "place-names",
