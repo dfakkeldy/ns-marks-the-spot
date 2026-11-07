@@ -272,7 +272,87 @@ jobs:
 
           echo "destination=$destination" >> "$GITHUB_OUTPUT"
 
+      # EXPERIMENT — not for merge. Repeats the two measuring UI tests 20
+      # times on this build (the fix), then on the same tests with the app
+      # sources rolled back to nightly (the baseline). No retries.
+      - name: "[experiment] Fixed app: measuring tests x20"
+        id: iterations-fixed
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testMeasuringReportsADistanceForTapsOnTheMap \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testASlowTapOnTheMeasuringBadgeStillPlacesAPoint \
+            -test-iterations 20 \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/iterations-fixed.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/iterations-fixed.log"
+
+      - name: "[experiment] Fixed app: tally"
+        if: always()
+        run: |
+          echo "ITERATIONS_FIXED_BEGIN"
+          grep -E "^Test Case '-\[ns_marks_the_spotUITests\.MapChromeUITests test" "$RUNNER_TEMP/iterations-fixed.log" \
+            | sed -E "s/.*MapChromeUITests (test[A-Za-z]+)\]' (passed|failed).*/\1 \2/" | sort | uniq -c
+          grep -E "error: -\[" "$RUNNER_TEMP/iterations-fixed.log" | sed -E 's/.*\] : //' | sort | uniq -c || true
+          echo "ITERATIONS_FIXED_END"
+
+      - name: "[experiment] Baseline app (nightly sources): measuring tests x20"
+        id: iterations-baseline
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          git fetch --no-tags --depth=1 origin nightly
+          git checkout FETCH_HEAD -- ns-marks-the-spot
+          git status --short
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO -quiet
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testMeasuringReportsADistanceForTapsOnTheMap \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testASlowTapOnTheMeasuringBadgeStillPlacesAPoint \
+            -test-iterations 20 \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/iterations-baseline.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/iterations-baseline.log"
+
+      - name: "[experiment] Baseline app: tally"
+        if: always()
+        run: |
+          echo "ITERATIONS_BASELINE_BEGIN"
+          grep -E "^Test Case '-\[ns_marks_the_spotUITests\.MapChromeUITests test" "$RUNNER_TEMP/iterations-baseline.log" \
+            | sed -E "s/.*MapChromeUITests (test[A-Za-z]+)\]' (passed|failed).*/\1 \2/" | sort | uniq -c
+          grep -E "error: -\[" "$RUNNER_TEMP/iterations-baseline.log" | sed -E 's/.*\] : //' | sort | uniq -c || true
+          echo "ITERATIONS_BASELINE_END"
+          # The full suite below runs the fixed app again, not this baseline.
+          git checkout HEAD -- ns-marks-the-spot
+
+      - name: "[experiment] Keep both iteration result bundles"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: measuring-iterations
+          path: |
+            ${{ runner.temp }}/iterations-fixed.xcresult
+            ${{ runner.temp }}/iterations-baseline.xcresult
+            ${{ runner.temp }}/iterations-fixed.log
+            ${{ runner.temp }}/iterations-baseline.log
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Run unit and UI tests
+        if: false
         run: |
           xcodebuild test-without-building \
             -project "$PROJECT" \
