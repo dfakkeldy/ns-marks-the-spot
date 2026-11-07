@@ -12,6 +12,19 @@ import { contextLayerCatalog } from "../layers/contextLayerCatalog";
  */
 const presentationOpacityLayerIds: ReadonlySet<string> = new Set(contextLayerCatalog.map(({ id }) => id));
 
+/**
+ * Opacities that never decide which setup a state is. Beside the context
+ * layers above, Fletcher's fade: the reader has a slider for it (on the layer
+ * row and on Historical Maps' setup card), but fading the 1880s sheets
+ * against today's map is looking, not changing the setup, so it must not
+ * flip a setup to Modified. A share link carries it as `opacity=` the way it
+ * carries `position=`, and a saved setup still keeps and restores its own.
+ */
+const viewingOpacityLayerIds: ReadonlySet<string> = new Set([
+  ...presentationOpacityLayerIds,
+  "fletcher",
+]);
+
 /** The context-layer opacities a setup presents with (see above). */
 export function presentationOpacityOverrides(
   theme: Pick<ThemeComparableState, "opacityOverrides"> | undefined,
@@ -109,7 +122,7 @@ function normalizedOpacityOverrides(
   opacityOverrides: ThemeComparableState["opacityOverrides"],
 ): string {
   return Object.entries(opacityOverrides)
-    .filter(([id, opacity]) => opacity !== undefined && !presentationOpacityLayerIds.has(id))
+    .filter(([id, opacity]) => opacity !== undefined && !viewingOpacityLayerIds.has(id))
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([layerId, opacity]) => `${layerId}:${opacity}`)
     .join(",");

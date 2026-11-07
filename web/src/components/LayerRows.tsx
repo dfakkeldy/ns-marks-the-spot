@@ -17,6 +17,7 @@ import type {
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 import { LayerSwatch } from "./LayerSwatch";
+import { FLETCHER_OPACITY_MIN, FLETCHER_OPACITY_STEP } from "../services/mapShareState";
 import { contextLayerSwatch, openDataSwatch, type LayerSwatchSpec } from "./layerSwatchSpec";
 import { radarObservedLabel } from "../services/weatherRadar";
 import {
@@ -243,9 +244,9 @@ export const FletcherLayerControl = memo(function FletcherLayerControl({
           <input
             id="fletcher-opacity"
             type="range"
-            min="0.15"
+            min={FLETCHER_OPACITY_MIN}
             max="1"
-            step="0.05"
+            step={FLETCHER_OPACITY_STEP}
             value={opacity}
             onChange={(event) => onOpacityChange(Number(event.target.value))}
           />
