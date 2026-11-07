@@ -109,6 +109,11 @@ export function useTrackRecording(
   // so a refusal that arrives after that is no longer about a copy anyone may
   // remove — offering to delete it then would delete the walk in progress.
   const mayReportClearRef = useRef(false);
+  // False once the component has gone. A write or delete already asked of the
+  // device still completes; only its answer is dropped. There is no screen
+  // left to report it on, and once the page itself is gone setState throws,
+  // because React reads `window.event` to schedule the update.
+  const mountedRef = useRef(false);
 
   // An interrupted recording is on the device, not in this tab: read it once
   // on load and offer it back. The answer also decides when Record may be
@@ -125,11 +130,17 @@ export function useTrackRecording(
       }
     }, TRACK_DRAFT_READ_TIMEOUT_MS);
     void draftStore.read().then((read) => {
+      // Gone before the device answered: the cleanup has already cleared the
+      // timer, and there is nothing left to tell. This must come before any
+      // use of `window` — the answer can arrive after the page itself is gone.
+      if (cancelled) {
+        return;
+      }
       window.clearTimeout(giveUp);
       // A recording that has already started owns the key now. Offering the
       // walk this read found would put a stale recording on screen while the
       // new one writes over it.
-      if (cancelled || startedRef.current) {
+      if (startedRef.current) {
         return;
       }
       if (read.status === "ready") {
@@ -153,7 +164,7 @@ export function useTrackRecording(
       // succeeds after a refusal must take the warning down, because by then
       // the whole walk is on the device again.
       void draftStore.save(draft, stopped).then((failure) => {
-        if (failure === draftErrorRef.current) {
+        if (!mountedRef.current || failure === draftErrorRef.current) {
           return;
         }
         draftErrorRef.current = failure;
@@ -229,13 +240,14 @@ export function useTrackRecording(
 
   // A component unmounting mid-session must not leave the screen pinned on,
   // or a queued draft write pointing at a recorder nobody can reach.
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
       releaseWakeLock();
       cancelDraftWrite();
-    },
-    [cancelDraftWrite, releaseWakeLock],
-  );
+    };
+  }, [cancelDraftWrite, releaseWakeLock]);
 
   const start = useCallback(() => {
     // Until the device has answered, a walk may be sitting under the key this
@@ -305,7 +317,7 @@ export function useTrackRecording(
   const askDeviceToForget = useCallback(() => {
     mayReportClearRef.current = true;
     void draftStore.clear().then((failure) => {
-      if (mayReportClearRef.current) {
+      if (mountedRef.current && mayReportClearRef.current) {
         setClearError(failure);
       }
     });
