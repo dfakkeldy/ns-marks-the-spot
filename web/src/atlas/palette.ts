@@ -68,7 +68,7 @@ export const atlasPalettes = {
     waterLine: '#3f6f7c',   // brooks and ditches in teal ink
     shore: '#d8ccae',       // inner band on the water side of shorelines
     wood: '#aa9d66',        // olive for NSTDB tree areas
-    crown: '#d4bd4d',       // Fletcher's mustard wash, reserved for mapped Crown Land
+    crown: '#cdb760',       // Fletcher's mustard wash, reserved for mapped Crown Land; a step quieter under the hatch
     grass: '#d2c47f',       // scrub, grass and young reforestation
     farmland: '#e3b356',    // Devonian ochre for farmland, orchards and nurseries
     residential: '#d6845b', // deeper salmon for OSM settlement areas, a clear step from the ground

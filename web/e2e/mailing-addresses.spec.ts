@@ -25,7 +25,7 @@ for (const viewport of [{width:390,height:844},{width:1440,height:1000}]) {
     await page.goto('/?basemap=osm');
     await expect(page).toHaveTitle(/NS Marks The Spot/);
     if(viewport.width<=860)await page.getByRole('button',{name:'Search & layers',exact:true}).click();
-    await page.getByRole('combobox',{name:'Map setup',exact:true}).selectOption(mode);
+    await page.getByRole('combobox',{name:'Change setup',exact:true}).selectOption(mode);
     const input = page.getByRole('combobox',{name:'Search by PID or civic address'});
     await input.fill('117 Example Road Judique');
     await page.getByRole('button',{name:'Find parcel',exact:true}).click();

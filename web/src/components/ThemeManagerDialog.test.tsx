@@ -63,6 +63,8 @@ describe("ThemeManagerDialog", () => {
     );
 
     expect(props.onSave).toHaveBeenCalledWith("Field kit");
+    // The preview reads the same state Save stores.
+    expect(screen.getByText(/^Saves: \d+ layers?/)).toBeInTheDocument();
   });
 
   it("renames, updates, and duplicates the selected custom theme with exact callbacks", async () => {

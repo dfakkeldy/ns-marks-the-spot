@@ -21,6 +21,7 @@ import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
 import { ContextFeatureLayer } from "./ContextFeatureLayer";
 import { contextLayerCatalog, hiddenContextLayers, type ContextLayerId, type ContextMapLayer } from "../layers/contextLayerCatalog";
+
 import { PokerMapTools, type PokerSession } from "./PokerMapTools";
 import {
   lazy,
@@ -175,6 +176,8 @@ import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLa
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
 
+const NO_CONTEXT_OPACITY: Readonly<Partial<Record<ContextLayerId, number>>> = {};
+
 const AtlasBasemapLayer = lazy(() => import("../atlas/AtlasBasemapLayer"));
 const ResearchTerrainLayer = lazy(() => import("../terrain/ResearchTerrainLayer"));
 const FletcherFeaturesLayer = lazy(() => import("./FletcherFeaturesLayer").then(module => ({ default: module.FletcherFeaturesLayer })));
@@ -249,6 +252,8 @@ type MapCanvasProps = {
   fletcherFeaturesVisible?: boolean;
   onFletcherFeaturesStatus?: (status: string) => void;
   fletcherOpacity?: number;
+  /** A setup's opacity for a context layer; the catalogue opacity otherwise. */
+  contextOpacity?: Readonly<Partial<Record<ContextLayerId, number>>>;
   fletcherTileBaseUrl?: string | null;
   fletcherRetryToken?: number;
   userMaps?: VisibleUserMap[];
@@ -1337,7 +1342,7 @@ function ThemeCameraController({ request }: { request: ThemeCameraRequest }) {
     handled.current = revision;
     if (camera?.kind === "zoom-floor") {
       if (map.getZoom() < camera.zoom) map.setZoom(camera.zoom, { animate: false });
-    } else if (camera?.kind === "position") {
+    } else if (camera?.kind === "position" || (camera?.kind === "position-unless-zoomed" && map.getZoom() < camera.position.zoom)) {
       const { latitude, longitude, zoom } = camera.position;
       map.setView([latitude, longitude], zoom, { animate: false });
     }
@@ -1987,6 +1992,7 @@ export function MapCanvas({
   fletcherFeaturesVisible = false,
   onFletcherFeaturesStatus,
   fletcherOpacity = 0.72,
+  contextOpacity = NO_CONTEXT_OPACITY,
   fletcherTileBaseUrl = null,
   fletcherRetryToken = 0,
   userMaps = EMPTY_USER_MAPS,
@@ -2121,6 +2127,15 @@ export function MapCanvas({
   const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
   const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
+  // Same objects between renders unless a setup's opacity changes, so the
+  // layer components' effects (keyed on `layer`) don't rebuild each render.
+  const contextMapLayers = useMemo(() => contextLayerCatalog.map((layer) => {
+    const opacity = contextOpacity[layer.id];
+    return opacity === undefined ? layer : { ...layer, opacity };
+  }), [contextOpacity]);
+  const provincialElectoralLabels = Boolean(
+    contextLayers["provincial-districts-2026"] || contextLayers["provincial-results-2024"] || contextLayers["provincial-seats-2026"],
+  );
   const terrainBlocked = Boolean(contextLayers["rhodena-visibility"] || isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
@@ -2659,9 +2674,10 @@ export function MapCanvas({
           />
         ) : null}
         {!isPrintMode && contextLayers["sentinel-2"] ? <AttributionControl prefix={false} position="bottomright" /> : null}
-        {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
-        {/* A tilted 3D view has no single screen scale, so the readout steps out
-            rather than state one; it returns with the 2D map. */}
+        {/* A tilted 3D view has no single screen scale, so the bar (measured
+            on the hidden 2D map) and the readout both step out rather than
+            state one; they return with the 2D map. */}
+        {!isPrintMode && !terrainActive ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode && !terrainActive ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {terrainActive ? null : showModernMap && basemapStyle !== "osm" ? (
@@ -2749,14 +2765,14 @@ export function MapCanvas({
             />
           ))}
         <FocusFit request={focusFit} />
-        {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
+        {contextMapLayers.map((layer) => layer.id === "rhodena-visibility" ? (
           contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} pickPending={rhodenaPickPending} onPickStarted={onRhodenaPickStarted} /> : null
         ) : isRhodenaLayerId(layer.id) ? (
           <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
         ) : layer.id === "fishing-spots" ? (
           <FishingSpotsLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} page={fishingSpots} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
         ) : isElectoralLayerId(layer.id) ? (
-          <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
+          <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} provincialLabelsShown={provincialElectoralLabels} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
           <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} night={basemapStyle === "night"} />
         ) : layer.delivery === "tile" ? (
@@ -2941,6 +2957,7 @@ export function MapCanvas({
               radius={8}
               interactive={false}
               pathOptions={{
+                className: "live-location-dot",
                 color: "#ffffff",
                 fillColor: "#2f80ed",
                 opacity: live.status === "signal-lost" ? 0.6 : 1,
@@ -3078,6 +3095,7 @@ export function MapCanvas({
           <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
           <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
           <small>Mapzen terrain; source detail varies.</small>
+          <small className="terrain-scale-note">Scale varies across a tilted 3D view; the scale bar returns in 2D.</small>
         </div> : null}
       </div>
       {terrainActive && terrainStatus.kind !== "ready" ? <div className="research-terrain-status" role="status">

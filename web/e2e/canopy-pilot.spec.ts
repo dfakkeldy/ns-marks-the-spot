@@ -31,7 +31,6 @@ for (const width of [390, 1440]) {
     const control = page.locator(".context-layer-control").filter({ has: checkbox });
     await expect(control).toContainText("Ready");
     await control.getByText("Legend & source", { exact: true }).click();
-    await control.getByText("Source & scale", { exact: true }).click();
     await expect(control).toContainText("Sheet 1045850061400 · lidar 2017");
     await expect(control).toContainText("0–<2 m");
     await expect(control).toContainText("NoData");

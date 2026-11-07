@@ -12,6 +12,8 @@ import type { BuiltInMapThemeId } from "./mapThemes";
  * - `zoom-floor`: keep the centre, and zoom in to at least `zoom`, where the
  *   setup's main layer first draws.
  * - `position`: a fixed centre and zoom.
+ * - `position-unless-zoomed`: a reader already looking closely at a place
+ *   stays there; from an overview the map goes to `position`.
  * - `fit`: frame an area.
  * - `notice-extent`: frame the current tax-sale notices once their parcels
  *   load (MapCanvas's InitialTaxSaleBoundsController).
@@ -19,6 +21,8 @@ import type { BuiltInMapThemeId } from "./mapThemes";
 export type ThemeCamera =
   | { readonly kind: "zoom-floor"; readonly zoom: number }
   | { readonly kind: "position"; readonly position: MapPosition }
+  /** Keep a view already at `position.zoom` or closer; otherwise go to `position`. */
+  | { readonly kind: "position-unless-zoomed"; readonly position: MapPosition }
   | { readonly kind: "fit"; readonly bounds: FocusBounds }
   | { readonly kind: "notice-extent" };
 
@@ -60,6 +64,18 @@ export const RHODENA_TURBINES_POSITION: MapPosition = {
 };
 
 /**
+ * Poker opens where civic numbers already draw: the densest civic block of
+ * the published mail-route data (`public/poker/data.json.gz`, 2,696 civic
+ * points; about 90 of them fall inside a phone's view here, in Port Hood).
+ * The generic home centre at zoom 16 opened on forest.
+ */
+export const POKER_OPENING_POSITION: MapPosition = {
+  latitude: 46.0125,
+  longitude: -61.532,
+  zoom: POKER_CIVIC_MIN_ZOOM,
+};
+
+/**
  * Explore keeps the home camera (no entry). Fishing and Point Tupper take the
  * camera of their focus pages (focus/registry.ts). Georeferencing frames the
  * reader's own map, so it has none either.
@@ -70,7 +86,7 @@ export const builtInThemeCameras: Readonly<Partial<Record<BuiltInMapThemeId, The
   "historical-maps": { kind: "fit", bounds: FLETCHER_COVERAGE_BOUNDS },
   "electoral-districts": { kind: "fit", bounds: PROVINCE_BOUNDS },
   rhodena: { kind: "position", position: RHODENA_TURBINES_POSITION },
-  poker: { kind: "zoom-floor", zoom: POKER_CIVIC_MIN_ZOOM },
+  poker: { kind: "position-unless-zoomed", position: POKER_OPENING_POSITION },
 };
 
 export function themeCameraFor(themeId: string | null | undefined): ThemeCamera | undefined {
@@ -85,6 +101,7 @@ export function themeCameraFor(themeId: string | null | undefined): ThemeCamera 
  */
 export function themeOpeningPosition(camera: ThemeCamera | undefined, fallback: MapPosition): MapPosition {
   if (camera?.kind === "position") return camera.position;
+  if (camera?.kind === "position-unless-zoomed") return fallback.zoom >= camera.position.zoom ? fallback : camera.position;
   if (camera?.kind === "zoom-floor") return { ...fallback, zoom: Math.max(fallback.zoom, camera.zoom) };
   return fallback;
 }

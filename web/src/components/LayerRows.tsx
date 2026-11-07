@@ -17,7 +17,7 @@ import type {
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 import { LayerSwatch } from "./LayerSwatch";
-import { openDataSwatch } from "./layerSwatchSpec";
+import { contextLayerSwatch, openDataSwatch, type LayerSwatchSpec } from "./layerSwatchSpec";
 import { radarObservedLabel } from "../services/weatherRadar";
 import {
   WELL_ACCURACY_BANDS,
@@ -61,6 +61,28 @@ function layerRuntimeLabel(
   }
 }
 
+type ProvenanceFieldsProps = {
+  sourceDate: string;
+  openData?: OpenDataSource;
+  scale: string;
+  coverage: string;
+  minZoom: number;
+  maxZoom: number;
+};
+
+/** The source facts a row's disclosure lists: links, date, scale, coverage, zoom. */
+export function ProvenanceFields({ sourceDate, openData, scale, coverage, minZoom, maxZoom }: ProvenanceFieldsProps) {
+  return (
+    <>
+      {openData ? openDataSourceLinks(openData).map(({ url, name }) => <small key={url}><a href={url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>{name}</a></small>) : null}
+      <small>Source date: {sourceDate}</small>
+      <small>Scale: {scale}</small>
+      <small>Coverage: {coverage}</small>
+      <small>Zoom: {minZoom}–{maxZoom}</small>
+    </>
+  );
+}
+
 export const LayerMetadata = memo(function LayerMetadata({
   sourceDate,
   openData,
@@ -70,15 +92,12 @@ export const LayerMetadata = memo(function LayerMetadata({
   maxZoom,
   checked,
   status,
-}: {
-  sourceDate: string;
-  openData?: OpenDataSource;
-  scale: string;
-  coverage: string;
-  minZoom: number;
-  maxZoom: number;
+  provenance = true,
+}: ProvenanceFieldsProps & {
   checked: boolean;
   status: MapLayerStatus;
+  /** False when the row lists these facts in its own disclosure instead. */
+  provenance?: boolean;
 }) {
   const [provenanceOpen, setProvenanceOpen] = useState(false);
   return (
@@ -86,23 +105,22 @@ export const LayerMetadata = memo(function LayerMetadata({
       <small className={`layer-runtime ${checked ? status.status : "off"}`}>
         {layerRuntimeLabel(checked, status)}
       </small>
-      <details className="layer-provenance" open={provenanceOpen}>
-        {/* preventDefault keeps this summary click from also toggling the
-            row's wrapping <label> checkbox; state drives the open attribute */}
-        <summary
-          onClick={(event) => {
-            event.preventDefault();
-            setProvenanceOpen((open) => !open);
-          }}
-        >
-          Source &amp; scale
-        </summary>
-        {openData ? openDataSourceLinks(openData).map(({ url, name }) => <small key={url}><a href={url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>{name}</a></small>) : null}
-        <small>Source date: {sourceDate}</small>
-        <small>Scale: {scale}</small>
-        <small>Coverage: {coverage}</small>
-        <small>Zoom: {minZoom}–{maxZoom}</small>
-      </details>
+      {provenance ? (
+        <details className="layer-provenance" open={provenanceOpen}>
+          {/* preventDefault keeps this summary click from also toggling the
+              row's wrapping <label> checkbox; state drives the open attribute */}
+          <summary
+            onClick={(event) => {
+              event.preventDefault();
+              setProvenanceOpen((open) => !open);
+            }}
+          >
+            Source &amp; scale
+          </summary>
+          <ProvenanceFields sourceDate={sourceDate} openData={openData} scale={scale}
+            coverage={coverage} minZoom={minZoom} maxZoom={maxZoom} />
+        </details>
+      ) : null}
     </span>
   );
 });
@@ -114,6 +132,7 @@ export const LayerToggle = memo(function LayerToggle({
   status,
   onChange,
   onReviewLicence,
+  symbol,
 }: {
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   checked: boolean;
@@ -121,10 +140,13 @@ export const LayerToggle = memo(function LayerToggle({
   status: MapLayerStatus;
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
+  /** The map symbol when the caller draws it (the parcel styler's outline). */
+  symbol?: LayerSwatchSpec | null;
 }) {
   const enabled = layer.licence === "province-open" || licenceAccepted;
-  // Only project-rendered open data carries its symbol in the catalogue.
-  const swatch = useMemo(() => (layer.openData ? openDataSwatch(layer.openData) : null), [layer.openData]);
+  // Project-rendered open data carries its symbol in the catalogue; a caller
+  // that styles the layer itself passes the symbol it draws.
+  const swatch = useMemo(() => symbol ?? (layer.openData ? openDataSwatch(layer.openData) : null), [layer.openData, symbol]);
   return (
     <label className="layer-row">
       <input
@@ -504,6 +526,8 @@ export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthL
   onReviewLicence: () => void;
 }) {
   const enabled = layer.licence === "province-open" || licenceAccepted;
+  // The risk bands are sampled from the service's own renderer.
+  const swatch = useMemo(() => contextLayerSwatch({ legend: layer.riskBands }), [layer.riskBands]);
   return (
     <label className="layer-row environmental-health-layer-row">
       <input
@@ -515,7 +539,7 @@ export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthL
       />
       <span className="switch" aria-hidden="true" />
       <span>
-        <strong>{layer.name}</strong>
+        <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
         <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
         {/* The province's own guidance rides with the layer: these rasters are
             tile overlays with no popup, so this row is the only place a reader

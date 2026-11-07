@@ -43,6 +43,9 @@ import {
   type MapThemeStatus,
 } from "./components/MapThemePicker";
 import { ThemeManagerDialog } from "./components/ThemeManagerDialog";
+import { useWholeRowList } from "./components/useWholeRowList";
+import { parcelOutlineColor } from "./components/parcelStyle";
+import type { LayerSwatchSpec } from "./components/layerSwatchSpec";
 import { LayerCategorySection } from "./components/LayerCategorySection";
 import { UnavailableLayers } from "./components/UnavailableLayers";
 import {
@@ -202,6 +205,7 @@ import {
 import {
   matchTheme,
   normalizeLayerOpacityOverrides,
+  presentationOpacityOverrides,
   resolveTheme,
   themeStatesMatch,
   visibilityRecordFor,
@@ -248,8 +252,9 @@ import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers, contextExportOmission } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
 import { atlasPalettes } from "./atlas/palette";
-import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceiptUrl } from "./atlas/crown";
-import { provincialReceipt, provincialReceiptUrl, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
+import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceipt, crownReceiptUrl } from "./atlas/crown";
+import { provincialReceipt, provincialReceiptUrl, provincialSourceDates, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
+import { LinkedText } from "./components/LinkedText";
 import { useBasemapPreference } from "./atlas/useBasemapPreference";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
 import type { PdfTemplateId } from "./print/pdf/templates/types";
@@ -950,19 +955,22 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
   const dialogRef = useDialogChrome(onClose);
   return (
     <div className="dialog-backdrop">
+      {/* No tabIndex on the card: useDialogChrome then puts first focus on
+          the × close, the first control, instead of ringing the whole card. */}
       <section
         ref={dialogRef}
-        tabIndex={-1}
         className="licence-dialog about-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="about-title"
       >
-        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
-          <span aria-hidden="true">×</span>
-        </button>
-        <div className="licence-mark" aria-hidden="true">
-          NS
+        <div className="dialog-header-row">
+          <div className="licence-mark" aria-hidden="true">
+            NS
+          </div>
+          <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
         <h2 id="about-title">About NS Marks The Spot</h2>
         <p>
@@ -1061,17 +1069,18 @@ function DataSourcesDialog({
     <div className="dialog-backdrop">
       <section
         ref={dialogRef}
-        tabIndex={-1}
         className="licence-dialog about-dialog data-sources-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="data-sources-title"
       >
-        <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
-          <span aria-hidden="true">×</span>
-        </button>
-        <div className="licence-mark" aria-hidden="true">
-          NS
+        <div className="dialog-header-row">
+          <div className="licence-mark" aria-hidden="true">
+            NS
+          </div>
+          <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
         <h2 id="data-sources-title">Data &amp; licences</h2>
         <p>
@@ -1079,8 +1088,29 @@ function DataSourcesDialog({
           the same receipts a printed export carries. Reviewing them changes
           nothing about what the map shows.
         </p>
-        <details>
-          <summary>Provincial-first Atlas sources</summary>
+        <section className="data-sources-section" aria-labelledby="atlas-sources-heading">
+          <h3 id="atlas-sources-heading" className="data-sources-kicker">Provincial-first Atlas sources</h3>
+          <table className="data-sources-dates">
+            <caption className="sr-only">Atlas source layers and their release dates</caption>
+            <thead>
+              <tr><th scope="col">Layer</th><th scope="col">Released</th></tr>
+            </thead>
+            <tbody>
+              {provincialReceipt.sources.map(source => (
+                <tr key={source.id}>
+                  <th scope="row"><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a></th>
+                  <td>
+                    {source.released.slice(0, 10)}
+                    {source.frequency ? <small className="data-sources-cadence">{source.frequency === 'Annually' ? 'annual' : source.frequency.toLowerCase()} releases</small> : null}
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <th scope="row"><a href={CROWN_SOURCE_URL} target="_blank" rel="noreferrer">Crown Land</a></th>
+                <td>{crownReceipt.source.released.slice(0, 10)}</td>
+              </tr>
+            </tbody>
+          </table>
           <p>{provincialReceipt.supplemental}</p>
           <p>Coverage: Nova Scotia. Use the OpenStreetMap basemap for worldwide detail.
             Release dates describe these downloads, not when every feature was surveyed.
@@ -1088,43 +1118,51 @@ function DataSourcesDialog({
             Woodland is generalized to at most two metres, and more coarsely below zoom 12.
             Source polygons with invalid rings are repaired and counted in the tile receipt.
             Records with missing source geometry are omitted and identified there too.</p>
-          <ul>
-            {provincialReceipt.sources.map(source => (
-              <li key={source.id}>
-                <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
-                {` — ${source.released.slice(0, 10)}; ${source.frequency === 'Annually' ? 'annual' : source.frequency?.toLowerCase()} releases`}
-              </li>
-            ))}
-          </ul>
           <p>{PROVINCIAL_ATTRIBUTION}. <a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Open-data licence</a>
             {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Generated tile receipt</a></p>
-        </details>
+        </section>
         <h3 className="data-sources-kicker">Each map layer</h3>
         <ul className="data-sources-list">
-          {sources.map((source) => (
-            <li key={source.id}>
-              <strong>{source.name}</strong>
-              <span>{source.sourceDate}</span>
-              <span>{source.attribution}</span>
-              <span>
-                <a href={source.sourceUrl} target="_blank" rel="noreferrer">
-                  {source.provenance === "project-derived" ? "Project source" : "Official source"}
-                </a>
-                {source.licenceUrl ? (
-                  <>
-                    {" · "}
-                    <a
-                      href={source.licenceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Licence
+          {sources.map((source) => {
+            // The Atlas row's per-layer dates are the table above; its export
+            // text repeats them (and its style note) a second time.
+            const atlas = source.id === "modern" && source.sourceUrl === provincialReceiptUrl();
+            const sourceDate = atlas
+              ? source.sourceDate.replace(`${provincialSourceDates}. `, "").replace(/ Crown Land: \d{4}-\d{2}-\d{2}\./u, "").replace(/(Supplemental OSM context is live\.).*$/u, "$1 Layer dates: see the Atlas table above.")
+              : source.sourceDate;
+            const attribution = atlas
+              ? source.attribution.replace(`${provincialSourceDates}. `, "")
+              : source.attribution;
+            return (
+              <li key={source.id}>
+                <strong>{source.name}</strong>
+                <dl className="data-source-fields">
+                  <dt>Date</dt>
+                  <dd><LinkedText text={sourceDate} /></dd>
+                  <dt>Credit</dt>
+                  <dd><LinkedText text={attribution} /></dd>
+                  <dt>Links</dt>
+                  <dd>
+                    <a href={source.sourceUrl} target="_blank" rel="noreferrer">
+                      {source.provenance === "project-derived" ? "Project source" : "Official source"}
                     </a>
-                  </>
-                ) : null}
-              </span>
-            </li>
-          ))}
+                    {source.licenceUrl ? (
+                      <>
+                        {" · "}
+                        <a
+                          href={source.licenceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Licence
+                        </a>
+                      </>
+                    ) : null}
+                  </dd>
+                </dl>
+              </li>
+            );
+          })}
         </ul>
         <div className="dialog-actions">
           <button
@@ -1350,6 +1388,14 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     () => Boolean(focusDef) && !hasRecognizedShareState
       && (window.matchMedia?.("(max-width: 860px)").matches ?? false),
   );
+  // The phone sheet opens at half height, so the map it changes stays in
+  // view; dragging or tapping its grabber, typing, or scrolling the list
+  // takes it to full height. Point Tupper's page keeps its own sheet.
+  const [sheetDetent, setSheetDetent] = useState<"half" | "full">("half");
+  const sheetDetents = focusDef?.id !== "pointtupper";
+  const sheetDragRef = useRef<{ y: number; pointerId: number } | null>(null);
+  // A drag that starts on the grabber ends in a click on it; that click is not a tap.
+  const sheetDraggedRef = useRef(false);
   const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
     () => window.matchMedia?.("(max-width: 860px)").matches ?? false,
   );
@@ -1414,6 +1460,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   useEffect(() => {
     if (!mobileControlsOpen) {
       sheetHasClosedRef.current = true;
+      setSheetDetent("half");
       return;
     }
     if (!sheetHasClosedRef.current) return;
@@ -1710,6 +1757,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const [fletcherOpacity, setFletcherOpacity] = useState(
     fletcherLayerCatalog.opacity,
   );
+  // A setup's opacity for a context layer (Fishing quiets the park fills).
+  // Set only by applying a setup; the layer's own catalogue opacity otherwise.
+  const [contextOpacityOverrides, setContextOpacityOverrides] = useState<
+    Partial<Record<ContextLayerId, number>>
+  >(() => presentationOpacityOverrides(
+    initialRequestedTheme ?? (initialThemeMatch?.kind === "built-in" ? initialThemeMatch : undefined),
+  ) as Partial<Record<ContextLayerId, number>>);
   const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
   const [fletcherFeaturesVisible, setFletcherFeaturesVisible] = useState(true);
   const [fletcherFeaturesStatus, setFletcherFeaturesStatus] = useState('Reviewed historical annotations');
@@ -3094,6 +3148,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     setFletcherOpacity(
       resolved.target.opacityOverrides.fletcher ?? fletcherLayerCatalog.opacity,
     );
+    setContextOpacityOverrides(
+      presentationOpacityOverrides(resolved.target) as Partial<Record<ContextLayerId, number>>,
+    );
     setExpandedCategoryIds(new Set(resolved.target.preferredCategoryIds));
     setTaxSaleEnabled(resolved.target.taxSaleEnabled);
     setMapMode(resolved.target.mapMode);
@@ -3855,7 +3912,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
 
     if (categoryId === "tax-sale") {
       const summary = taxSaleEnabled ? "On" : "Off";
-      return licenceAccepted ? summary : `${summary} · Province licence required`;
+      return licenceAccepted ? summary : `${summary} · Province licence needed`;
     }
 
     const activeCount = activeLayerIds.filter(
@@ -3879,7 +3936,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         (layerId) => layerCategoryByLayerId[layerId] === categoryId,
       )
     ) {
-      notices.push("Some layers: Province licence required");
+      notices.push("Province licence needed for some");
     }
 
     return [summary, ...notices].join(" · ");
@@ -3888,13 +3945,16 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     layerIds: activeLayerIds,
     opacityOverrides: normalizeLayerOpacityOverrides(
       activeLayerIds,
-      fletcherOpacity === fletcherLayerCatalog.opacity
-        ? {}
-        : { fletcher: fletcherOpacity },
+      {
+        ...contextOpacityOverrides,
+        ...(fletcherOpacity === fletcherLayerCatalog.opacity
+          ? {}
+          : { fletcher: fletcherOpacity }),
+      },
     ),
     taxSaleEnabled,
     mapMode,
-  }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
+  }), [activeLayerIds, contextOpacityOverrides, fletcherOpacity, mapMode, taxSaleEnabled]);
   const persistCustomThemes = useCallback((nextThemes: CustomMapThemeDefinition[]) => {
     const result = saveCustomThemes(nextThemes, reachableLocalStorage());
     if (!result.ok) {
@@ -4590,6 +4650,15 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     setShareMessage(`Evidence note exported as ${note.filename}.`);
   };
 
+  // The property row's key: the outline the parcel styler draws on this
+  // basemap (parcelStyle.ts), with no fill, as on the map.
+  const parcelImagery = Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]);
+  const parcelSymbol = useMemo<LayerSwatchSpec>(() => {
+    const color = parcelOutlineColor(basemapStyle, parcelImagery);
+    return { shape: "area", color, fill: color, fillOpacity: 0, outline: true };
+  }, [basemapStyle, parcelImagery]);
+  // Whole result rows only, with a fade while more wait below.
+  const addressResultsRef = useWholeRowList<HTMLUListElement>(3, [addressSearchResults]);
   const searchForm = (
     <form className={`pid-search${pokerMode ? " poker-search" : ""}`} onSubmit={submitPidSearch}
       onBlur={(event) => {
@@ -4687,6 +4756,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       </span>
       {addressSearchResults.length > 0 ? (
         <ul
+          ref={addressResultsRef}
           id="address-search-results"
           role="listbox"
           className="address-search-results"
@@ -4715,16 +4785,21 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     </form>
   );
 
+  // Four short choices read better as one segmented row than as a menu.
+  // Native radios share a name, so arrow keys move the choice for free.
   const appearanceControl = (
-    <label className="basemap-style-control interface-appearance-control">
-      Appearance
-      <select aria-label="Interface appearance" value={appearance} onChange={event => setAppearance(event.target.value as typeof appearance)}>
-        <option value="map">Match map</option>
-        <option value="system">System</option>
-        <option value="day">Light</option>
-        <option value="night">Dark</option>
-      </select>
-    </label>
+    <div className="basemap-style-control interface-appearance-control">
+      <span aria-hidden="true">Appearance</span>
+      <div className="appearance-segments" role="radiogroup" aria-label="Interface appearance">
+        {([["map", "Match map"], ["system", "System"], ["day", "Light"], ["night", "Dark"]] as const).map(([value, label]) => (
+          <label key={value} className={appearance === value ? "selected" : undefined}>
+            <input type="radio" name="interface-appearance" value={value}
+              checked={appearance === value} onChange={() => setAppearance(value)} />
+            <span>{label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
   );
   // Deliberately NOT gated on `licenceAccepted`. Declining the Province
   // licence runs `continueWithoutProvinceLayers`, which never sets that flag —
@@ -4796,9 +4871,50 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           id="map-controls"
           className={`layer-rail mode-${mapMode}${mobileControlsOpen ? " mobile-open" : ""}`}
           aria-label="Map controls"
+          data-sheet-detent={sheetDetents ? sheetDetent : undefined}
+          onFocus={sheetDetents ? (event) => {
+            if (event.target instanceof HTMLElement && event.target.matches('input:not([type]), input[type="search"], input[type="text"], textarea')) setSheetDetent("full");
+          } : undefined}
+          onScroll={sheetDetents && sheetDetent === "half" ? (event) => {
+            if (event.currentTarget.scrollTop > 24) setSheetDetent("full");
+          } : undefined}
         >
-          <div className="mobile-sheet-header">
-            <strong>{focusDef?.chrome.sheetTitle ?? "Search & layers"}</strong>
+          <div
+            className="mobile-sheet-header"
+            onPointerDown={sheetDetents ? (event) => {
+              if ((event.target as HTMLElement).closest("button:not(.mobile-sheet-grabber)")) return;
+              sheetDragRef.current = { y: event.clientY, pointerId: event.pointerId };
+            } : undefined}
+            onPointerUp={sheetDetents ? (event) => {
+              const start = sheetDragRef.current;
+              sheetDragRef.current = null;
+              if (!start || start.pointerId !== event.pointerId) return;
+              const moved = event.clientY - start.y;
+              sheetDraggedRef.current = Math.abs(moved) > 32;
+              if (moved < -32) setSheetDetent("full");
+              else if (moved > 32) {
+                if (sheetDetent === "full") setSheetDetent("half");
+                else closeMobileControls();
+              }
+            } : undefined}
+            onPointerCancel={() => { sheetDragRef.current = null; }}
+          >
+            {sheetDetents ? (
+              <button
+                type="button"
+                className="mobile-sheet-grabber"
+                aria-label={sheetDetent === "half" ? "Show more of the controls" : "Show more of the map"}
+                aria-expanded={sheetDetent === "full"}
+                aria-controls="map-controls"
+                onClick={() => {
+                  if (sheetDraggedRef.current) { sheetDraggedRef.current = false; return; }
+                  setSheetDetent((current) => current === "half" ? "full" : "half");
+                }}
+              >
+                <span aria-hidden="true" />
+              </button>
+            ) : null}
+            <strong className={focusDef ? undefined : "visually-hidden"}>{focusDef?.chrome.sheetTitle ?? "Search & layers"}</strong>
             <button
               ref={mobileSheetCloseRef}
               type="button"
@@ -4834,6 +4950,29 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             onReset={() => {
               if (activeThemeId) selectTheme(activeThemeId);
             }}
+            shortcuts={activeThemeId === "electoral-districts" ? (() => {
+              // One tap from the boundaries to the 2024 result: the results
+              // layer on, washed by winning party. Its own 55-district
+              // geometry and date stay on the layer row and the map legend.
+              const on = effectiveContextLayers["provincial-results-2024"] && electoralModes["provincial-results-2024"] !== "boundaries";
+              return (
+                <div className="setup-chips" role="group" aria-label="Election results">
+                  <button
+                    type="button"
+                    className="setup-chip"
+                    aria-pressed={on}
+                    onClick={() => {
+                      setElectoralModes((current) => withElectoralMode(current, "provincial-results-2024", on ? "boundaries" : "winner"));
+                      setContextLayerVisibility("provincial-results-2024", !on);
+                      if (!on && !licenceAccepted) reviewProvinceLicence();
+                    }}
+                  >
+                    2024 results
+                  </button>
+                  {on ? <span className="setup-chip-note">Winning party · Elections Nova Scotia, November 26, 2024</span> : null}
+                </div>
+              );
+            })() : undefined}
           /> : null}
 
           {/* An output of the map as set up, so it follows the setup rather
@@ -4946,7 +5085,19 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       />
                       <span className="switch" aria-hidden="true" />
                       <span>
-                        <strong>Modern map</strong>
+                        <strong>
+                          {/* The style's own land and water (atlas/palette.ts);
+                              OpenStreetMap's colours are not ours to sample,
+                              so its key is neutral. */}
+                          <span
+                            className={`basemap-swatch${basemapStyle === "osm" ? " basemap-swatch--neutral" : ""}`}
+                            aria-hidden="true"
+                            style={basemapStyle === "osm" ? undefined : {
+                              background: `linear-gradient(135deg, ${atlasPalettes[basemapStyle].land} 0 55%, ${atlasPalettes[basemapStyle].water} 55% 100%)`,
+                            }}
+                          />
+                          Modern map
+                        </strong>
                         <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
                         {/* MapCanvas's AerialGapUnderlay draws this map under NS
                             Aerial until the photograph can; the switch stays off
@@ -5003,6 +5154,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         status={layerStatuses[layer.id]}
                         onChange={provinceToggleFor(layer.id)}
                         onReviewLicence={reviewProvinceLicence}
+                        symbol={layer.id === "nsprd" ? parcelSymbol : undefined}
                       />
                       {layer.id === "roads" && provinceLayers.roads ? (
                         <RoadLegend imagery={provinceLayers["ns-aerial"] || contextLayers["sentinel-2"]} />
@@ -5415,23 +5567,29 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                             type="button"
                             className={mapMode === "current" ? "selected" : ""}
                             aria-pressed={mapMode === "current"}
+                            aria-label="Current notices"
                             onClick={() => changeMapMode("current")}
                           >
-                            Current notices
+                            {/* One word per half so neither wraps in the
+                                rail; the full name stays the button's name
+                                and the caption below spells it out. */}
+                            Current
                           </button>
                           <button
                             type="button"
                             className={mapMode === "historical" ? "selected" : ""}
                             aria-pressed={mapMode === "historical"}
+                            aria-label="Historical records"
                             onClick={() => changeMapMode("historical")}
                           >
-                            Historical records
+                            Historical
                           </button>
                         </div>
-                        <p>
+                        <p className="map-mode-caption">
+                          <span className="map-mode-chip">{mapMode === "current" ? "Current" : "Historical"}</span>{" "}
                           {mapMode === "current"
-                            ? "CURRENT · advertised notices that still require municipal verification"
-                            : "HISTORICAL · dated notices and verified outcomes, never current offerings"}
+                            ? "Advertised notices that still require municipal verification."
+                            : "Dated notices and verified outcomes, never current offerings."}
                         </p>
                           </section>
 
@@ -5480,8 +5638,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                                       <small>
                                         {geometryExceptions.length > 0
-                                          ? `${advertisedCount} advertised · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
-                                          : `${advertisedCount} advertised · ${withdrawnCount} withdrawn · ${pidCount} active PIDs`}
+                                          ? `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
+                                          : `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${withdrawnCount} withdrawn ${withdrawnCount === 1 ? "notice" : "notices"} · ${pidCount} ${pidCount === 1 ? "PID" : "PIDs"} in advertised notices`}
                                       </small>
                                       <small>
                                         Snapshot retrieved {snapshotDateLabel(event)}
@@ -5720,6 +5878,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                 className="mobile-map-brand"
                 href="../"
                 aria-label="NS Marks The Spot home"
+                title="NS Marks The Spot home page"
               >
                 <span aria-hidden="true">NS</span>
                 <strong>NS Marks</strong>
@@ -5778,6 +5937,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef}
             onFletcherFeaturesStatus={setFletcherFeaturesStatus}
             fletcherOpacity={fletcherOpacity}
+            contextOpacity={contextOpacityOverrides}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
             userMaps={focusHides(focusDef, "my-maps") ? undefined : userMapsApi.visibleMaps}
@@ -6058,6 +6218,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         {attributionCollapsed ? (
           <span className="map-attribution-folded-credit">
             <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
+            {/* The same gate as the licence dialog: a Province-restricted
+                layer (or tax-sale parcels) actually drawn under an accepted
+                licence. */}
+            {licenceAccepted && (taxSaleEnabled || activeLayerIds.some((id) => restrictedThemeLayerIds.has(id)))
+              ? <>{" · "}Province of NS (licensed)</>
+              : null}
             {" · "}Boundaries are not a survey
           </span>
         ) : null}
@@ -6069,6 +6235,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             Feedback &amp; suggestions: map@kinnokilabs.com
           </a>
           <a
+            className="osm-credit"
             href="https://www.openstreetmap.org/copyright"
             target="_blank"
             rel="noreferrer"
@@ -6084,6 +6251,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
           ) : null}
           <a
+            className="source-code-link"
             href="https://github.com/dfakkeldy/ns-marks-the-spot"
             target="_blank"
             rel="noreferrer"
@@ -6125,7 +6293,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef ? <span>
             Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
           </span> : null}
-          <span>Boundaries are not a survey</span>
+          <span className="survey-caveat">Boundaries are not a survey</span>
           <button type="button" onClick={() => setDataSourcesOpen(true)}>
             Data &amp; licences
           </button>
@@ -6218,7 +6386,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             ...contextLayerCatalog
               .filter((layer) => effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null)
               .map((layer) => ({ id: layer.id, name: layer.name, serviceUrl: layer.serviceUrl,
-                exportOptions: layer.exportOptions, openData: layer.openData, tileUrl: "tileUrl" in layer ? layer.tileUrl : undefined, maxNativeZoom: layer.maxNativeZoom, opacity: layer.opacity })),
+                exportOptions: layer.exportOptions, openData: layer.openData, tileUrl: "tileUrl" in layer ? layer.tileUrl : undefined, maxNativeZoom: layer.maxNativeZoom, opacity: contextOpacityOverrides[layer.id] ?? layer.opacity })),
           ],
           // v1 scope cut: user-imported maps are not extracted into a
           // CanvasImageSource + mesh yet. They are named in

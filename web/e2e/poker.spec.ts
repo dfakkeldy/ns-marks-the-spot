@@ -32,7 +32,7 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     await page.goto("/?basemap=osm");
     await expect(page).toHaveTitle(/NS Marks The Spot/);
     if (viewport.width <= 860) await page.getByRole("button", { name: "Search & layers", exact: true }).click();
-    await page.getByRole("combobox", { name: "Map setup", exact: true }).selectOption("poker");
+    await page.getByRole("combobox", { name: "Change setup", exact: true }).selectOption("poker");
     const input = page.getByRole("combobox", { name: "Search by PID or civic address" });
     await input.fill("117 Test Driveway");
     await page.getByRole("button", { name: "Find parcel", exact: true }).click();
@@ -51,7 +51,7 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
       const layersBox = await box(layers);
       expect(terrainBox.y).toBeGreaterThanOrEqual(layersBox.y + layersBox.height + 8);
       await activate(layers);
-      await expect(page.getByRole("combobox", { name: "Map setup", exact: true })).toBeVisible();
+      await expect(page.getByRole("combobox", { name: "Change setup", exact: true })).toBeVisible();
       await page.getByRole("button", { name: "Close map controls", exact: true }).click();
       expect(searchBox.y + searchBox.height).toBeLessThanOrEqual(zoom.y);
       const locate = await box(page.getByRole("button", { name: "Use my location", exact: true }));

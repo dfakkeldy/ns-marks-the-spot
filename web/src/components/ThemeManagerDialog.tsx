@@ -101,6 +101,19 @@ function ThemeManagerRow({
   );
 }
 
+/** What "Save current setup" stores, read from the same state it saves. */
+function savePreview(state: ThemeComparableState): string {
+  const layers = state.layerIds.length;
+  const opacity = Object.keys(state.opacityOverrides).length;
+  return [
+    `${layers} ${layers === 1 ? "layer" : "layers"}`,
+    ...(opacity > 0 ? [`${opacity} opacity ${opacity === 1 ? "setting" : "settings"}`] : []),
+    state.taxSaleEnabled
+      ? `tax sale on (${state.mapMode === "current" ? "current notices" : "historical records"})`
+      : "tax sale off",
+  ].join(" · ");
+}
+
 export function ThemeManagerDialog({
   themes,
   currentState,
@@ -151,7 +164,7 @@ export function ThemeManagerDialog({
             {notice}
           </p>
         ) : null}
-        <form className="theme-manager-save" onSubmit={submitCurrentSetup}>
+        <form id="theme-manager-save-form" className="theme-manager-save" onSubmit={submitCurrentSetup}>
           <label>
             Theme name
             <input
@@ -160,12 +173,10 @@ export function ThemeManagerDialog({
               onChange={(event) => setNewThemeName(event.target.value)}
             />
           </label>
-          <button type="submit" disabled={!newThemeName.trim()} aria-describedby="theme-manager-save-hint">
-            Save current setup
-          </button>
           <small id="theme-manager-save-hint" className="theme-manager-hint">
             {newThemeName.trim() ? "Saves the layers, opacity and mode on the map now." : "Name it to save it."}
           </small>
+          <small className="theme-manager-preview">Saves: {savePreview(currentState)}</small>
         </form>
 
         {customThemes.length > 0 ? (
@@ -193,7 +204,12 @@ export function ThemeManagerDialog({
           <p className="theme-manager-empty">No saved themes yet. Saved themes appear here to rename, update, copy or delete.</p>
         )}
 
+        {/* Save sits in the footer beside Done, so on a phone it stays in
+            reach however long the list of saved themes grows. */}
         <div className="theme-manager-footer">
+          <button type="submit" form="theme-manager-save-form" disabled={!newThemeName.trim()} aria-describedby="theme-manager-save-hint">
+            Save current setup
+          </button>
           <button type="button" onClick={onClose}>
             Done
           </button>

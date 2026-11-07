@@ -16,7 +16,8 @@
 .map-canvas:has(.fletcher-feature-popup) .location-button,
 .map-canvas:has(.fletcher-feature-popup) .measure-control { visibility: hidden; }
 
-/* At zoom 12-13 the mark is a translucent ring on the sheet, so the place
-   names beneath it still read; from 14 it is the solid paper disc. */
-.fletcher-feature-marker--small { background: #fff4df73; box-shadow: none; }
-.fletcher-feature-marker--small svg circle[fill="#fff4df"] { fill-opacity: 0.45; }
+/* At zoom 12-13 the mark is a 6px ink dot with no paper disc, centred in a
+   transparent 20px hit area, so the place names beneath it still read; from
+   14 it is the full paper badge. */
+.fletcher-feature-marker--dot { background: transparent; box-shadow: none; }
+.fletcher-feature-marker--dot::after { content: ""; position: absolute; top: 7px; left: 7px; width: 6px; height: 6px; border-radius: 50%; background: #633a20; box-shadow: 0 0 0 1px #fff4dfb3; }

@@ -2,6 +2,27 @@ import type { LayerCategoryId } from "../layers/layerCategories";
 import type { MapMode, ShareLayerId } from "../services/mapShareState";
 import type { MapThemeDefinition } from "./mapThemes";
 import { forestryExclusionReason } from "../layers/forestryExclusions";
+import { contextLayerCatalog } from "../layers/contextLayerCatalog";
+
+/**
+ * A setup's opacity for a context layer (Fishing's quieter park fill) is
+ * presentation, not identity: the reader has no control for it and a shared
+ * link carries no opacity, so a reloaded Fishing link must still be Fishing.
+ * Matching ignores these; App re-derives them from the setup a state matches.
+ */
+const presentationOpacityLayerIds: ReadonlySet<string> = new Set(contextLayerCatalog.map(({ id }) => id));
+
+/** The context-layer opacities a setup presents with (see above). */
+export function presentationOpacityOverrides(
+  theme: Pick<ThemeComparableState, "opacityOverrides"> | undefined,
+): Partial<Record<ShareLayerId, number>> {
+  if (!theme) return {};
+  return Object.fromEntries(
+    Object.entries(theme.opacityOverrides).filter(
+      ([id, opacity]) => opacity !== undefined && presentationOpacityLayerIds.has(id),
+    ),
+  );
+}
 
 export interface ThemeComparableState {
   layerIds: readonly ShareLayerId[];
@@ -88,7 +109,7 @@ function normalizedOpacityOverrides(
   opacityOverrides: ThemeComparableState["opacityOverrides"],
 ): string {
   return Object.entries(opacityOverrides)
-    .filter(([, opacity]) => opacity !== undefined)
+    .filter(([id, opacity]) => opacity !== undefined && !presentationOpacityLayerIds.has(id))
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([layerId, opacity]) => `${layerId}:${opacity}`)
     .join(",");

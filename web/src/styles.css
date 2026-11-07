@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IM+Fell+English&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   color: #12343b;
@@ -70,7 +70,9 @@
    (--white, #1b3940), which is the worse of the two:
 
      ink   #e8f1f0   14.8:1 on the ground,  10.7:1 on a card
-     blue  #8cc0ff    9.0:1 on the ground,   6.5:1 on a card
+     warm  #d9c39a    9.9:1 on the ground,   7.2:1 on a card
+           (the night primary, taken from the night highway #bda77f; card-
+           coloured text on it, as on a pressed control, is 7.2:1 too)
      red   #f08b78    7.0:1 on the ground
      green #a9c98a    9.2:1 on the ground,   6.7:1 on a card
      peach #efbb87    9.8:1 on the ground
@@ -85,7 +87,7 @@
     background: #0d1f24;
     --chart-ink: #e8f1f0;
     --deep-water: #9fd6e2;
-    --survey-blue: #8cc0ff;
+    --survey-blue: #d9c39a;
     --paper-peach: #efbb87;
     --survey-red: #f08b78;
     --lichen: #a9c98a;
@@ -115,7 +117,7 @@
     background: #0d1f24;
     --chart-ink: #e8f1f0;
     --deep-water: #9fd6e2;
-    --survey-blue: #8cc0ff;
+    --survey-blue: #d9c39a;
     --paper-peach: #efbb87;
     --survey-red: #f08b78;
     --lichen: #a9c98a;
@@ -475,6 +477,53 @@ a {
   background: none;
   border: 0;
   cursor: pointer;
+}
+
+/* One-tap shortcuts on the setup card: Explore's task setups, Electoral's
+   2024 result. Outline pills, so they read as choices, not as the card's
+   own underlined actions. */
+.setup-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.map-theme-picker .setup-chip {
+  justify-self: auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  color: var(--survey-blue);
+  font-size: var(--type-caption);
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--white);
+  border: 1px solid color-mix(in srgb, var(--survey-blue) 45%, transparent);
+  border-radius: 999px;
+}
+
+.map-theme-picker .setup-chip:hover {
+  border-color: var(--survey-blue);
+}
+
+.map-theme-picker .setup-chip[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+  border-color: var(--survey-blue);
+}
+
+.setup-chip-note {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.4;
+}
+
+@media (pointer: coarse) {
+  .map-theme-picker .setup-chip {
+    min-height: 44px;
+  }
 }
 
 .map-theme-actions,
@@ -2224,7 +2273,7 @@ a {
 .measure-control {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 148px; /* a 16px gap below the locate disc: view controls, then tools */
   left: 12px;
   display: flex;
   flex-direction: column;
@@ -2389,7 +2438,7 @@ a {
 .location-hud {
   position: absolute;
   z-index: 500;
-  top: 138px;
+  top: 148px;
   left: 66px;
   display: flex;
   flex-direction: column;
@@ -3866,6 +3915,31 @@ a {
     padding: 0;
   }
 
+  /* Unfolded on a phone the strip stays capped at 72px, so its first line
+     after the toggle carries the two short statements: the survey caveat and
+     the OpenStreetMap credit. The long Province disclaimer follows (the strip
+     scrolls to it), then the other source credits, and the software credit
+     goes last. */
+  .map-attribution > :first-child {
+    order: -4;
+  }
+
+  .map-attribution > .survey-caveat {
+    order: -3;
+  }
+
+  .map-attribution > .osm-credit {
+    order: -2;
+  }
+
+  .map-attribution > .province-attribution {
+    order: -1;
+  }
+
+  .map-attribution > .source-code-link {
+    order: 4;
+  }
+
   /* Attribution wraps to different heights across phone widths and font
      sizes. Keep the complete scale above its measured border box. */
   .leaflet-bottom.leaflet-left {
@@ -3902,6 +3976,54 @@ a {
     display: block;
     /* Keep the sheet above the measured attribution strip. */
     bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+  }
+
+  /* Half height leaves the top of the map in view, so a switched layer shows
+     at once. Same bottom edge, so nothing under the sheet moves. */
+  .layer-rail.mobile-open[data-sheet-detent="half"] {
+    max-height: min(580px, calc((var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)) * 0.66));
+  }
+
+  .layer-rail.mobile-open[data-sheet-detent] {
+    transition: max-height 0.22s ease;
+  }
+
+  .mobile-sheet-header {
+    touch-action: none;
+  }
+
+  .mobile-sheet-header .mobile-sheet-grabber {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    flex: none;
+    width: 96px;
+    height: 24px;
+    background: none;
+    border: 0;
+    border-radius: 12px;
+    transform: translateX(-50%);
+    cursor: grab;
+  }
+
+  .mobile-sheet-grabber span {
+    display: block;
+    width: 40px;
+    height: 5px;
+    margin: 0 auto;
+    background: var(--muted);
+    border-radius: 3px;
+    opacity: 0.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .layer-rail.mobile-open[data-sheet-detent] {
+      transition: none;
+    }
+  }
+
+  .mobile-sheet-header > button:last-child {
+    margin-left: auto;
   }
 
   .search-row input {
@@ -3956,6 +4078,17 @@ a {
     border: 1px solid var(--line);
     border-radius: 50%;
     cursor: pointer;
+  }
+
+  /* With its title read only by screen readers, the header is one solid
+     52px row: the grabber at the top and the × at the right. The rail
+     scrolls under it, never under a floating ×. Focus pages show their
+     title and keep the full header. */
+  .mobile-sheet-header:has(> strong.visually-hidden) {
+    min-height: 52px;
+    margin-bottom: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 
   .map-region {
@@ -4082,15 +4215,15 @@ a {
   }
 
   .location-hud {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
   }
 
   .location-message {
-    top: max(262px, calc(env(safe-area-inset-top) + 224px));
+    top: max(272px, calc(env(safe-area-inset-top) + 234px));
   }
 
   .measure-control {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
   }
 
   /* Share Poker's bare button row with distance and area measurements. */
@@ -4104,15 +4237,14 @@ a {
     gap: 6px;
   }
 
+  /* Solid pills: a half-clear outline read as a disabled control over imagery. */
   .measure-actions button {
     min-width: 0;
     height: 44px;
     padding: 0 4px;
-    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    border: 1px solid var(--line);
     box-shadow: 0 1px 6px #12343b33;
-    background: color-mix(in srgb, var(--white) 50%, transparent);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
+    background: var(--white);
     font-size: 13px;
   }
 
@@ -4143,6 +4275,28 @@ a {
     white-space: normal;
   }
 
+  /* Outside Poker (whose dock has its own row), the folded phone puts the
+     "≈ 1:…" plate directly above the scale bar, flush with its left edge, and
+     the measure tools step up to clear it. */
+  .map-region.attribution-folded:not(.poker-mode) {
+    --compact-tools-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+
+  .map-region.attribution-folded:not(.poker-mode) .leaflet-container .display-scale-readout {
+    right: auto;
+    left: 12px;
+    bottom: calc(58px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+  }
+
+  /* The folded licence pill (44px at 8px from the bottom) sat over the
+     panel's bottom-right corner and the assessment caveat. The panel lifts
+     by the pill and a 16px gap, so the credit stays visible and clear. */
+  .map-region.attribution-folded .parcel-inspector {
+    bottom: calc(68px + env(safe-area-inset-bottom));
+  }
+
   /* One line on a phone: the wording stays for screen readers and in the
      title, and the approximation sign carries the caveat on screen. */
   .display-scale-readout .display-scale-label {
@@ -4168,7 +4322,7 @@ a {
   /* Shares the recording HUD's row, so it moves when that row moves rather
      than splitting off and landing across the measure buttons. */
   .modern-map-error {
-    top: max(154px, calc(env(safe-area-inset-top) + 116px));
+    top: max(164px, calc(env(safe-area-inset-top) + 126px));
     right: 12px;
     left: 12px;
     justify-content: space-between;
@@ -5557,6 +5711,48 @@ a {
 .export-frame-toolbar button {
   min-height: 40px;
   padding-inline: 16px;
+}
+
+/* Portrait | Landscape as one two-segment switch: both choices in view, the
+   current one filled. */
+.export-frame-orientation {
+  display: inline-flex;
+  padding: 2px;
+  background: rgba(var(--shadow-rgb), 0.08);
+  border-radius: 10px;
+}
+
+.export-frame-orientation button {
+  color: var(--chart-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.export-frame-orientation button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+}
+
+.export-frame-hint {
+  align-self: center;
+  margin: 0 4px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .export-frame-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .export-frame-hint {
+    flex-basis: 100%;
+    order: -1;
+  }
 }
 
 .export-map-trigger {
@@ -7476,6 +7672,45 @@ a {
 }
 
 
+/* Desktop: while a section is still checking, its status line holds a fixed
+   two-row skeleton (the line, then a placeholder bar), so the panel does not
+   jump as each source answers. The words stay; the bar claims no data. */
+@media (min-width: 861px) {
+  .parcel-inspector .inspector-checking {
+    box-sizing: border-box;
+    min-height: 3.4em;
+  }
+
+  .parcel-inspector .inspector-checking::after {
+    content: "";
+    display: block;
+    width: 70%;
+    height: 0.7em;
+    margin-top: 0.5em;
+    background: var(--line);
+    border-radius: 4px;
+  }
+}
+
+/* The parcel inspector's interpretation row: always shown, set apart by a
+   rule rather than hidden behind a toggle. */
+.evidence-caveat-row {
+  margin: 4px 0 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+}
+
+.evidence-caveat-row > .evidence-caveat-label {
+  margin: 0 0 2px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  font-weight: 600;
+}
+
+.evidence-caveat-row > :last-child {
+  margin-bottom: 0;
+}
+
 /* GL supplies the base only; Leaflet panes continue to own all overlays. */
 .leaflet-container > .atlas-basemap {
   position: absolute;
@@ -7604,6 +7839,15 @@ a {
 .print-electoral-legends { position: absolute; z-index: 1200; bottom: 0; left: 0; right: 0; background: white; color: #12343b; padding: 0 .6rem; font-size: var(--type-micro); }
 .electoral-map-label { min-width: 7rem; border: 0; box-shadow: none; background: transparent; font-weight: 600; text-shadow: 1px 1px #fbf6ea, -1px -1px #fbf6ea, 1px -1px #fbf6ea, -1px 1px #fbf6ea; }
 .electoral-map-label-night { color: #e8f1f0; text-shadow: 1px 1px #152b31, -1px -1px #152b31, 1px -1px #152b31, -1px 1px #152b31; }
+/* Placed names sit on the map like lettering, not like popups: no arrow, no pointer. */
+.leaflet-tooltip.electoral-map-label { padding: 0; pointer-events: none; line-height: 1.2; }
+.leaflet-tooltip.electoral-map-label::before { display: none; }
+/* Names take their boundary's colour, so they never read as the basemap's towns. */
+.electoral-map-label-provincial { color: #174f9e; }
+.electoral-map-label-provincial.electoral-map-label-night { color: #a9cdfb; }
+/* Federal ridings: the riding line's deep water, spaced capitals, a step smaller. */
+.electoral-map-label-federal { color: #0a4f5c; font-size: var(--type-micro); letter-spacing: .08em; text-transform: uppercase; }
+.electoral-map-label-federal.electoral-map-label-night { color: #9fd6e2; }
 .electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: var(--type-caption); padding: 0 .6rem; }
 .electoral-map-legends:empty { display: none; }
 @media (max-width:640px) { .electoral-map-legends { left: .6rem; bottom: 2rem; max-width: calc(100% - 1.2rem); } }
@@ -7725,6 +7969,9 @@ a {
 .rhodena-viewshed-raster { image-rendering: pixelated; }
 .leaflet-tooltip.rhodena-label { padding: 1px 7px; color: #fbf6ea; font: 700 10.5px/1.5 "Inter", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.03em; background: #10313a; border: 0; border-radius: 999px; box-shadow: 0 2px 6px rgba(16, 49, 58, 0.35); }
 .leaflet-tooltip-top.rhodena-label::before { border-top-color: #10313a; }
+.leaflet-tooltip.rhodena-label { z-index: 2; }
+.leaflet-tooltip.rhodena-label--minor { z-index: 1; padding: 0 5px; color: #12343b; font-size: 9.5px; font-weight: 600; letter-spacing: 0.01em; background: #fbf6ea; box-shadow: 0 0 0 1px rgba(18, 52, 59, 0.28); }
+.leaflet-tooltip-right.rhodena-label--minor::before { border-right-color: #fbf6ea; }
 .leaflet-rhodena-rhodena-turbines-pane path, .leaflet-rhodena-rhodena-receptors-pane path { filter: drop-shadow(0 1px 1.5px rgba(16, 49, 58, 0.45)); }
 
 /* Context-layer point symbols (components/contextMarkers.ts) and the names
@@ -7848,6 +8095,9 @@ a {
 :root[data-map-appearance="day"][data-map-basemap="osm"] {
   --paper: #f6f7f6;
   --paper-rgb: 246, 247, 246;
+  /* A neutral accent for a neutral map: 5.3:1 under white text. Light
+     interface only; a dark interface keeps the night primary. */
+  --survey-blue: #3b6ea8;
 }
 
 /* Atlas Day's accent is drawn from the map's own water ink rather than web
@@ -7855,6 +8105,110 @@ a {
    links stay underlined, so nothing depends on the hue alone. */
 :root[data-map-appearance="day"]:not([data-map-basemap="osm"]) {
   --survey-blue: #2b5f7a;
+}
+
+/* Round 5: basemap rooms ------------------------------------------------- */
+
+/* Day map under the dark interface: the bright paper drops a little so it sits
+   under the dark chrome. Screen only, on the live basemap element alone; the
+   PDF's Atlas image is drawn by its own offscreen map, and print is excluded. */
+@media screen {
+  :root[data-map-appearance="night"][data-map-basemap="day"] .leaflet-container > .atlas-basemap:not(.print-layer-modern) {
+    filter: brightness(0.93) saturate(0.95);
+  }
+
+  /* The readout plates and scale bar go solid there, so the dimmed paper never
+     shows through the figures. */
+  :root[data-map-appearance="night"][data-map-basemap="day"] :is(.position-readout, .display-scale-readout, .measure-readout, .leaflet-control-scale-line) {
+    background: var(--white);
+  }
+}
+
+/* Day: the measure line in terracotta, the one warm stroke on sage and cream
+   (vertices and the total label keep their own colours). */
+:root[data-map-basemap="day"] path.measure-shape {
+  stroke: #b5533a;
+}
+
+/* Day: the phone pills take the zoom bar's rim, radius and shadow, so the
+   corner controls read as one family. */
+:root[data-map-appearance="day"] :is(.mobile-map-brand, .mobile-controls-trigger) {
+  border: 0;
+  outline: 1px solid var(--control-edge, transparent);
+  outline-offset: -1px;
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(var(--shadow-rgb), 0.35);
+}
+
+/* Night: the phone pills are solid; map labels showed through the
+   translucent fill. */
+:root[data-map-appearance="night"] :is(.mobile-map-brand, .mobile-controls-trigger) {
+  background: var(--white);
+  backdrop-filter: none;
+}
+
+/* Phone: the lone 3D pill takes the width of the Search & layers pill above
+   it, both right-aligned at 12px, so the corner reads as one column. */
+@media (max-width: 860px) {
+  .map-region:not(.poker-mode) .mobile-controls-trigger {
+    min-width: 160px;
+    justify-content: center;
+  }
+
+  .map-region:not(.poker-mode) .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) {
+    right: 12px;
+  }
+
+  .map-region:not(.poker-mode) .research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button:only-child {
+    min-width: 160px;
+  }
+}
+
+/* Night: a warm glow around the live location dot only. */
+:root[data-map-appearance="night"] path.live-location-dot {
+  filter: drop-shadow(0 0 6px rgba(217, 195, 154, 0.5));
+}
+
+/* OSM: flat corner controls, a hairline rim and no cast shadow. */
+:root[data-map-basemap="osm"] :is(.map-canvas .leaflet-top.leaflet-left .leaflet-control-zoom, .location-button, .location-cluster-button, .measure-control button, .mobile-map-brand, .mobile-controls-trigger, .research-terrain-controls .terrain-control-bar button, .maplibregl-ctrl.maplibregl-ctrl-group) {
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* Hand-drawn: the export button and the readout plates as stamped labels,
+   paper with an ink rim and an inner rule, lettered in the style's quill
+   face (IM Fell English, as on the map's regional names). */
+:root[data-map-basemap="handdrawn"] :is(.export-map-trigger, .position-readout, .display-scale-readout, .measure-readout) {
+  color: #3b2614;
+  font-family: "IM Fell English", "Fraunces", Georgia, serif;
+  background: #f6ecd2;
+  border: 1.5px solid #3b2614;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 2px #f6ecd2, inset 0 0 0 3px rgba(59, 38, 20, 0.45);
+}
+
+/* Hand-drawn: an alternating ink-and-paper scale bar, the surveyor's kind;
+   the figures sit on plain paper above the checks. */
+:root[data-map-basemap="handdrawn"] .leaflet-control-scale-line {
+  color: #3b2614;
+  font-family: "IM Fell English", Georgia, serif;
+  text-shadow: none;
+  background:
+    linear-gradient(#f6ecd2, #f6ecd2) top / 100% calc(100% - 5px) no-repeat,
+    repeating-linear-gradient(90deg, #3b2614 0 10px, #f6ecd2 10px 20px);
+  border-color: #3b2614;
+}
+
+/* IM Fell English has old-style figures, so "1:101,000" read as "I:IOI,OOO".
+   The plates that are mostly numbers take Fraunces' lining, tabular figures;
+   the export button keeps the quill face for its words. */
+:root[data-map-basemap="handdrawn"] :is(.position-readout, .display-scale-readout, .measure-readout, .leaflet-control-scale-line) {
+  font-family: "Fraunces", Georgia, serif;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* The figures sit on plain paper, clear of the 5px checks. */
+:root[data-map-basemap="handdrawn"] .leaflet-control-scale-line {
+  padding-bottom: 7px;
 }
 
 /* On a dark room the filled Search button was the brightest thing on the
@@ -7927,7 +8281,7 @@ a {
   cursor: pointer;
 }
 
-.data-sources-kicker {
+.data-sources-dialog .data-sources-kicker {
   margin: 18px 0 10px;
   color: var(--muted);
   font-family: "IBM Plex Mono", monospace;
@@ -7992,4 +8346,353 @@ a {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+/* Round 5 (rail) ------------------------------------------------------- */
+
+/* A context row's one disclosure carries the source facts the separate
+   "Source & scale" disclosure used to hold. */
+.context-layer-facts {
+  display: grid;
+  gap: 2px;
+  margin-top: 0.45rem;
+}
+
+.context-layer-facts small {
+  display: block;
+  font-size: var(--type-caption);
+  line-height: 1.3;
+}
+
+/* Interface appearance: four equal radios. A rail column is too narrow for
+   "Match map" in a quarter of it, so they sit two by two, and become one
+   segmented row only where a quarter fits the longest label. */
+.interface-appearance-control {
+  container-type: inline-size;
+}
+
+.appearance-segments {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  padding: 2px;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+@container (min-width: 340px) {
+  .appearance-segments {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-radius: 999px;
+  }
+}
+
+/* A safety net: a label that still does not fit ends in an ellipsis rather
+   than running under its neighbour. */
+.appearance-segments label > span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.appearance-segments label {
+  position: relative;
+  display: grid;
+  min-height: 36px;
+  place-items: center;
+  padding: 0 4px;
+  color: var(--chart-ink);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* The radio itself covers its segment, so a click or tap lands on it. */
+.appearance-segments input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.appearance-segments label.selected {
+  color: var(--white);
+  background: var(--deep-water);
+}
+
+/* The dark rooms have one warm primary; the selected segment and the NS
+   badge take it too, instead of the cool deep-water teal. */
+:root[data-map-appearance="night"] .appearance-segments label.selected {
+  color: #10283a;
+  background: var(--survey-blue);
+}
+
+:root[data-map-appearance="night"] {
+  --brand-ground: #d9c39a;
+}
+
+.appearance-segments label:has(input:focus-visible) {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 1px;
+}
+
+/* Tax Sale: the mode caption in body type, led by a small chip. */
+.map-mode-switcher > p.map-mode-caption {
+  font-family: inherit;
+  font-size: var(--type-caption);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.map-mode-chip {
+  display: inline-block;
+  padding: 1px 7px;
+  color: var(--white);
+  font-size: var(--type-micro);
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: 1px;
+  background: var(--survey-red);
+  border-radius: 999px;
+}
+
+.map-mode-switcher.historical .map-mode-chip {
+  background: var(--record-violet);
+}
+
+/* Theme manager: the name field fills its row; Save rides in the footer. */
+.theme-manager-save {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.theme-manager-preview {
+  color: var(--chart-ink);
+  font-size: var(--type-caption);
+}
+
+.theme-manager-footer {
+  position: sticky;
+  z-index: 1;
+  bottom: 0;
+  margin-inline: -24px;
+  margin-bottom: -24px;
+  padding: 12px 24px 24px;
+  background: var(--white);
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 560px) {
+  .theme-manager-footer {
+    bottom: 0;
+    margin-inline: -18px;
+    margin-bottom: -18px;
+    padding: 12px 18px 18px;
+  }
+}
+
+/* Civic results stop at a whole row (useWholeRowList); while more rows wait
+   below, the list fades out at its foot so it reads as scrollable. */
+.address-search-results {
+  max-height: 236px;
+}
+
+.address-search-results[data-more="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+}
+
+/* Background Maps: a 32 x 20 key of the basemap's land and water. */
+.basemap-swatch {
+  display: inline-block;
+  flex: none;
+  width: 32px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: -5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+.basemap-swatch--neutral {
+  background: linear-gradient(135deg, #e8e8e8 0 55%, #c9c9c9 55% 100%);
+}
+
+/* Map setup: one material, the warm panel with a hairline, and the export
+   it feeds full width beneath it. */
+.layer-rail .map-theme-picker {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.layer-rail > .export-map-trigger {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* The category list's label: a quiet 11px small-caps name, not a title. */
+.rail-section h2#layers-heading {
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-caps: all-small-caps;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* About and Data & licences: the × lives in a real sticky header row that
+   spans the card in the card's own colour, with a hairline under it, so the
+   text scrolls under the row rather than under a floating button. */
+.about-dialog {
+  --dialog-pad: clamp(24px, 5vw, 42px);
+}
+
+@media (max-width: 860px) {
+  .about-dialog {
+    --dialog-pad: 24px;
+  }
+}
+
+.dialog-header-row {
+  position: sticky;
+  z-index: 2;
+  /* A sticky box inside a scrolling one sticks to the scroller's content
+     edge, which sits a padding inside its border. Without this the row sat
+     one padding low, over the dialog's title, before any scroll. */
+  top: calc(-1 * var(--dialog-pad));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  min-height: 64px;
+  margin: calc(-1 * var(--dialog-pad)) calc(-1 * var(--dialog-pad)) 18px;
+  padding: 8px 10px 8px var(--dialog-pad);
+  background: inherit;
+  border-bottom: 1px solid var(--line);
+}
+
+/* The NS disc heads the row at the left, the × closes it at the right. */
+.dialog-header-row .licence-mark {
+  margin: 0;
+}
+
+.dialog-header-row .dialog-close {
+  position: static;
+  float: none;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Data & licences: one kicker voice for both sections, the Atlas dates as a
+   two-column table, and every source block on a 12px rhythm with mono field
+   labels, as in the Point Tupper map key. */
+.data-sources-section {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-dates {
+  width: 100%;
+  margin: 0 0 12px;
+  border-collapse: collapse;
+  font-size: var(--type-caption);
+}
+
+.data-sources-dates :is(th, td) {
+  padding: 6px 8px 6px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-dates thead th {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.data-sources-dates tbody th {
+  font-weight: 600;
+}
+
+.data-sources-dates td {
+  color: var(--chart-ink);
+  white-space: nowrap;
+}
+
+/* The release cadence sits under the date, smaller and muted, so the date
+   column stays narrow and the layer names keep the width. */
+.data-sources-cadence {
+  display: block;
+  color: var(--muted);
+  font-size: var(--type-micro);
+  line-height: 1.3;
+}
+
+/* Phone: the layer column takes the remaining width and the date column
+   only what its date needs. */
+@media (max-width: 480px) {
+  .data-sources-dates tbody th {
+    width: 100%;
+  }
+
+  .data-sources-dates :is(th, td):last-child {
+    padding-right: 0;
+  }
+}
+
+.data-sources-list {
+  gap: 12px;
+}
+
+.data-sources-list li {
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.data-source-fields {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 6px 12px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.data-source-fields dt {
+  padding-top: 2px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--type-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.data-source-fields dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.45;
+}
+
+/* Province licence: both choices are pills, as on the focus pages, and the
+   primary takes the family's deep water rather than the product blue
+   (white on #0a4f5c is about 9:1; the night pair is also above 4.5:1). */
+.licence-dialog:not(.about-dialog) .dialog-actions :is(.primary-action, .secondary-action) {
+  border-radius: 999px;
+}
+
+.licence-dialog:not(.about-dialog) .dialog-actions .primary-action {
+  color: var(--white);
+  background: var(--deep-water);
+  border-color: var(--deep-water);
 }
