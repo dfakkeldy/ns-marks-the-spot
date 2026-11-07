@@ -199,7 +199,12 @@ struct TransparencySliderView: View {
 
             Picker("Base Map Style", selection: Binding(
                 get: { viewModel.baseMapType },
-                set: { viewModel.setBaseMapType($0) }
+                set: {
+                    #if DEBUG
+                    MapTapTrace.record("baseMap set \($0.rawValue)")
+                    #endif
+                    viewModel.setBaseMapType($0)
+                }
             )) {
                 ForEach(viewModel.availableBaseMapTypes) { type in
                     Text(type.rawValue).tag(type)

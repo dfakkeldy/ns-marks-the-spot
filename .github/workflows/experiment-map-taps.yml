@@ -1,0 +1,165 @@
+# EXPERIMENT — not for merge (grok-bots#937). Repeats the map-tap probes and
+# the three flaky MapChromeUITests on a hosted runner, once quiet and once
+# under CPU load, with no retries. Prints every probe that did nothing with
+# the app's trace, and keeps the unified-log trace and the result bundles.
+name: "[experiment] map tap flakes"
+
+on:
+  push:
+    branches:
+      - experiment/map-tap-flakes-2
+
+permissions:
+  contents: read
+
+env:
+  PROJECT: ns-marks-the-spot.xcodeproj
+  SCHEME: ns-marks-the-spot
+  DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
+
+jobs:
+  probe:
+    name: "Map taps (${{ matrix.load }} load)"
+    runs-on: macos-26
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - load: no
+            iterations: 30
+          - load: cpu
+            iterations: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Resolve cache key inputs
+        id: cache-key
+        run: |
+          version="$(xcodebuild -version | tr '\n ' '--' | sed 's/-*$//')"
+          echo "xcode-version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Restore SwiftPM and DerivedData
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/Library/org.swift.swiftpm
+            DerivedData
+          key: ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-
+
+      - name: Resolve Swift packages
+        run: xcodebuild -project "$PROJECT" -scheme "$SCHEME" -resolvePackageDependencies
+
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO -quiet
+
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py
+          )"
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+          sysctl -n hw.ncpu hw.memsize
+
+      - name: Start CPU load
+        if: matrix.load == 'cpu'
+        run: |
+          cpus="$(sysctl -n hw.ncpu)"
+          for _ in $(seq 1 $((cpus * 2))); do
+            nohup yes > /dev/null 2>&1 &
+          done
+          sleep 2
+          ps -axo pid,pcpu,comm | sort -k2 -nr | head -12
+
+      - name: Probes (one launch each)
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/probe.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/probe.log"
+
+      - name: Probe tally
+        if: always()
+        run: |
+          echo "PROBE_TALLY_BEGIN (${{ matrix.load }} load)"
+          awk '/PROBE_SUMMARY_BEGIN/,/PROBE_SUMMARY_END/' "$RUNNER_TEMP/probe.log" | grep -v PROBE_SUMMARY || true
+          echo "PROBE_TALLY_END"
+          awk '/PROBE_TRACE_BEGIN/,/PROBE_TRACE_END/' "$RUNNER_TEMP/probe.log" || true
+          grep -E "PROBE_GEOMETRY|error: -\[" "$RUNNER_TEMP/probe.log" || true
+
+      - name: Flaky tests x${{ matrix.iterations }}
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testTappingTheMapClosesTheLayersPanel \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testMeasuringReportsADistanceForTapsOnTheMap \
+            -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testTheMapOpensOnTheAtlasAndTheCreditFollowsTheGround \
+            -test-iterations ${{ matrix.iterations }} \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/iterations.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/iterations.log"
+
+      - name: Flaky tests tally
+        if: always()
+        run: |
+          echo "ITERATIONS_BEGIN (${{ matrix.load }} load)"
+          grep -E "^Test Case '-\[ns_marks_the_spotUITests\.MapChromeUITests test" "$RUNNER_TEMP/iterations.log" \
+            | sed -E "s/.*MapChromeUITests (test[A-Za-z]+)\]' (passed|failed).*/\1 \2/" | sort | uniq -c || true
+          grep -E "error: -\[" "$RUNNER_TEMP/iterations.log" | sed -E 's/.*\] : //' | sort | uniq -c || true
+          echo "ITERATIONS_END"
+
+      - name: Stop CPU load
+        if: always() && matrix.load == 'cpu'
+        run: pkill yes || true
+
+      - name: Dump the app's unified-log trace
+        if: always()
+        run: |
+          xcrun simctl list devices booted || true
+          xcrun simctl spawn booted log show --style compact --last 4h \
+            --predicate 'subsystem == "nsmts.maptaptrace"' > "$RUNNER_TEMP/trace-log.txt" 2>&1 || true
+          wc -l "$RUNNER_TEMP/trace-log.txt" || true
+
+      - name: Keep logs and result bundles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: map-taps-${{ matrix.load }}-load
+          path: |
+            ${{ runner.temp }}/probe.log
+            ${{ runner.temp }}/iterations.log
+            ${{ runner.temp }}/trace-log.txt
+            ${{ runner.temp }}/probe.xcresult
+            ${{ runner.temp }}/iterations.xcresult
+          retention-days: 7
+          if-no-files-found: ignore

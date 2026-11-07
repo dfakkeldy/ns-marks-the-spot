@@ -207,7 +207,8 @@ jobs:
   native_app:
     name: Native build + tests
     needs: changes
-    if: needs.changes.outputs.native == 'true'
+    # EXPERIMENT — not for merge: experiment-map-taps.yml runs the native work.
+    if: false
     runs-on: macos-26
 
     steps:

@@ -1,5 +1,7 @@
 #if DEBUG
 import MapKit
+import ObjectiveC
+import OSLog
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
@@ -17,13 +19,68 @@ enum MapTapTrace {
     private static var observed = Set<ObjectIdentifier>()
     private static let observer = Observer()
 
+    private static let log = Logger(subsystem: "nsmts.maptaptrace", category: "trace")
+
     static func record(_ message: @autoclosure () -> String) {
         guard isEnabled else { return }
         sequence += 1
         let time = String(format: "%.3f", ProcessInfo.processInfo.systemUptime)
-        entries.append("\(sequence) @\(time): \(message())")
+        let line = "\(sequence) @\(time): \(message())"
+        log.notice("\(line, privacy: .public)")
+        entries.append(line)
         if entries.count > 180 { entries.removeFirst(entries.count - 180) }
         mapView?.accessibilityValue = entries.joined(separator: "\n")
+    }
+
+    /// Every touch the application receives, before any window or recognizer
+    /// sees it: whether a synthesized tap reached the process at all, how far
+    /// apart its down and up were in HID time, and how late the main thread
+    /// was to handle each.
+    static func installEventLog() {
+        guard isEnabled, !eventLogInstalled else { return }
+        eventLogInstalled = true
+        guard let original = class_getInstanceMethod(
+            UIApplication.self, #selector(UIApplication.sendEvent(_:))
+        ), let replacement = class_getInstanceMethod(
+            UIApplication.self, #selector(UIApplication.mapTapTrace_sendEvent(_:))
+        ) else {
+            record("event log NOT installed")
+            return
+        }
+        method_exchangeImplementations(original, replacement)
+        record("event log installed")
+    }
+
+    private static var eventLogInstalled = false
+    private static var touchDown: [ObjectIdentifier: TimeInterval] = [:]
+
+    static func logEvent(_ event: UIEvent) {
+        guard event.type == .touches, let touches = event.allTouches else { return }
+        let now = ProcessInfo.processInfo.systemUptime
+        for touch in touches {
+            let phase: String
+            switch touch.phase {
+            case .began: phase = "began"
+            case .ended: phase = "ended"
+            case .cancelled: phase = "cancelled"
+            default: continue
+            }
+            let id = ObjectIdentifier(touch)
+            var held = ""
+            if touch.phase == .began {
+                touchDown[id] = touch.timestamp
+            } else if let down = touchDown.removeValue(forKey: id) {
+                held = String(format: " held=%.3f", touch.timestamp - down)
+            }
+            let point = touch.location(in: nil)
+            let window = touch.window.map { String(describing: type(of: $0)) } ?? "nil"
+            let view = touch.view.map { String(describing: type(of: $0)) } ?? "nil"
+            record(String(
+                format: "touch %@ at=(%.1f,%.1f) win=%@ view=%@ hid=%.3f late=%.3f taps=%ld%@",
+                phase, point.x, point.y, window, view, touch.timestamp, now - touch.timestamp,
+                touch.tapCount, held
+            ))
+        }
     }
 
     static func describe(_ recognizer: UIGestureRecognizer) -> String {
@@ -58,6 +115,14 @@ enum MapTapTrace {
         @objc func fired(_ recognizer: UIGestureRecognizer) {
             MapTapTrace.record("fired \(MapTapTrace.describe(recognizer))")
         }
+    }
+}
+
+extension UIApplication {
+    /// Swapped with `sendEvent(_:)`, so this call reaches the original.
+    @objc func mapTapTrace_sendEvent(_ event: UIEvent) {
+        MapTapTrace.logEvent(event)
+        mapTapTrace_sendEvent(event)
     }
 }
 

@@ -94,6 +94,7 @@ struct MapSurfaceView: UIViewRepresentable {
         #if DEBUG
         MapTapTrace.mapView = mapView
         MapTapTrace.observeTree(mapView)
+        MapTapTrace.installEventLog()
         #endif
         // Held until layout, then applied without animation. Skipped when
         // something is already held: a link or a resumed session asked for that

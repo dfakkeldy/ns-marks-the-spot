@@ -2919,12 +2919,16 @@ extension MapController: UIGestureRecognizerDelegate {
         let covers = Self.measurementEndpointCovers(point, in: mapView)
         var traceHit = mapView.hitTest(point, with: nil)
         var annotationHit = false
+        var hitDescription = "none"
         while let view = traceHit {
-            if view is MKAnnotationView { annotationHit = true }
+            if let annotationView = view as? MKAnnotationView, !annotationHit {
+                annotationHit = true
+                hitDescription = "\(type(of: annotationView)) enabled=\(annotationView.isEnabled) label=\(annotationView.accessibilityLabel ?? "nil")"
+            }
             traceHit = view.superview
         }
         MapTapTrace.record(
-            "simultaneous=\(covers || !annotationHit) \(MapTapTrace.describe(other)) covers=\(covers) annotationHit=\(annotationHit) point=\(point)"
+            "simultaneous=\(covers || !annotationHit) \(MapTapTrace.describe(other)) covers=\(covers) annotationHit=\(hitDescription) point=\(point)"
         )
         #endif
         // MapKit also recognizes single taps on bare ground. Making those
