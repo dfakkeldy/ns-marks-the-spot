@@ -30,6 +30,11 @@ export type PhotoAttachOutcome =
   | { fileName: string; ok: false; message: string };
 
 export type PhotoManagerApi = {
+  /**
+   * Never rejects. Every failure, the store failing to open included, comes
+   * back as that file's `ok: false` outcome, so a caller shows the outcomes
+   * and needs no `catch`.
+   */
   attachPhotos: (
     layerId: string,
     existingOnFeature: number,

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { formatDistance, pathDistanceMetres } from "../../../services/geodesy";
 import type { PhotoAttachOutcome, PhotoManagerApi } from "./usePhotoManager";
 import { MAX_PHOTOS_PER_FEATURE, type FeaturePhotoDescriptor } from "./types";
@@ -30,8 +30,22 @@ type PhotoStripProps = {
    * they are: an attach that finishes after the session closes has no feature
    * left to land on, and its bytes are deleted — so the way to keep a photo
    * the reader watched being added is to keep the session open until it is.
+   *
+   * Called in pairs: `true` once as an attach starts and `false` once as it
+   * ends, the second even after the strip has unmounted. The panel mounts a
+   * new strip each time the selection changes, and an attach outlives the
+   * strip it began in; counting the pairs is how the panel knows one is
+   * still running after its strip has gone.
    */
   onBusyChange?: (busy: boolean) => void;
+  /**
+   * An attach is running somewhere else in the panel, perhaps in a strip
+   * that has gone with its feature: start no other until it ends. The photo
+   * limits are counted when an attach starts, from what the feature and the
+   * layer hold then, so two attaches running together would each count
+   * without the other's photos and could pass them.
+   */
+  attachHeld?: boolean;
   onMovePoint: (position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
 };
@@ -57,6 +71,7 @@ export function PhotoStrip({
   onAttachDescriptors,
   onPhotoCleanupFailed,
   onBusyChange,
+  attachHeld = false,
   onMovePoint,
   onOpenPhoto,
 }: PhotoStripProps) {
@@ -73,6 +88,12 @@ export function PhotoStrip({
   const [undeleted, setUndeleted] = useState<string[]>([]);
   const [offer, setOffer] = useState<LocationOffer | null>(null);
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
+  const heldNoteId = useId();
+  const full = descriptors.length >= MAX_PHOTOS_PER_FEATURE;
+  // Said only while it is true: not on the strip whose own attach is running
+  // (Done says that), and not on a full feature, whose buttons stay disabled
+  // after the other attach ends.
+  const heldNoteShown = attachHeld && !busy && !full;
   // False once the strip has gone. An attach or delete already asked of the
   // device still completes, and the session still hears about it; only the
   // strip's own state is left alone. There is no screen left to show it on,
@@ -105,7 +126,7 @@ export function PhotoStrip({
   }, [descriptors, manager, thumbs]);
 
   const attach = async (files: FileList | null) => {
-    if (!files || files.length === 0 || busy) {
+    if (!files || files.length === 0 || busy || attachHeld) {
       return;
     }
     setBusy(true);
@@ -264,17 +285,25 @@ export function PhotoStrip({
           its copy.
         </small>
       ))}
+      {heldNoteShown ? (
+        <small id={heldNoteId} className="vector-edit-photos-held">
+          Another photo is still being added. You can add more when it has
+          finished.
+        </small>
+      ) : null}
       <div className="vector-edit-photo-actions">
         <button
           type="button"
-          disabled={busy || descriptors.length >= MAX_PHOTOS_PER_FEATURE}
+          disabled={busy || attachHeld || full}
+          aria-describedby={heldNoteShown ? heldNoteId : undefined}
           onClick={() => cameraRef.current?.click()}
         >
           Take photo
         </button>
         <button
           type="button"
-          disabled={busy || descriptors.length >= MAX_PHOTOS_PER_FEATURE}
+          disabled={busy || attachHeld || full}
+          aria-describedby={heldNoteShown ? heldNoteId : undefined}
           onClick={() => libraryRef.current?.click()}
         >
           Add photos

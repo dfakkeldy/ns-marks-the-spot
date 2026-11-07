@@ -6736,7 +6736,8 @@ a {
   text-transform: uppercase;
 }
 
-.vector-edit-photos-empty {
+.vector-edit-photos-empty,
+.vector-edit-photos-held {
   color: var(--muted);
   font-size: var(--type-caption);
 }

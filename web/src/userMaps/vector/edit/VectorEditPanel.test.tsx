@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-libra
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FeatureCollection } from "geojson";
+import type { PhotoAttachOutcome } from "../photos/usePhotoManager";
 import type { UserVectorLayerRecord } from "../types";
 import { featureCorners, type VertexEditOutcome } from "./featureCorners";
 import { VectorEditPanel, type EditMode } from "./VectorEditPanel";
@@ -106,8 +107,45 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     onDone: vi.fn(),
     ...overrides,
   };
-  render(<VectorEditPanel {...props} />);
-  return props;
+  const { rerender } = render(<VectorEditPanel {...props} />);
+  return Object.assign(props, {
+    /** Renders again with the same callbacks and these props changed. */
+    rerender(next: Partial<Parameters<typeof VectorEditPanel>[0]>) {
+      Object.assign(props, next);
+      rerender(<VectorEditPanel {...props} />);
+    },
+  });
+}
+
+/**
+ * A photo manager whose attaches finish when the test says so, one answer
+ * per attach, in the order they were asked for.
+ */
+function heldPhotoManager() {
+  const answers: Array<(outcomes: PhotoAttachOutcome[]) => void> = [];
+  return {
+    answers,
+    attachPhotos: vi.fn(
+      () =>
+        new Promise<PhotoAttachOutcome[]>((resolve) => {
+          answers.push(resolve);
+        }),
+    ),
+    removePhoto: vi.fn(async () => true),
+    loadThumbUrl: vi.fn(async () => null),
+    loadFullBlob: vi.fn(async () => null),
+  };
+}
+
+/**
+ * Picks a file through the strip's hidden input, as the "Add photos" button's
+ * picker would. Reaching the input directly skips the button, so it also
+ * shows whether the strip itself refuses a pick while it is held.
+ */
+function pickPhoto(fileName: string) {
+  fireEvent.change(screen.getByLabelText("Add photos from files"), {
+    target: { files: [new File(["bytes"], fileName, { type: "image/jpeg" })] },
+  });
 }
 
 describe("VectorEditPanel", () => {
@@ -120,40 +158,148 @@ describe("VectorEditPanel", () => {
   // feature left to land on: its bytes are deleted and the reader loses a
   // photo they watched being added.
   it("holds Done while a photo is still being processed", async () => {
-    let finishAttach: ((outcomes: never[]) => void) | undefined;
-    panel({
-      selectedFeatureId: "f2",
-      photoManager: {
-        attachPhotos: vi.fn(
-          () =>
-            new Promise<never[]>((resolve) => {
-              finishAttach = resolve;
-            }),
-        ),
-        removePhoto: vi.fn(async () => true),
-        loadThumbUrl: vi.fn(async () => null),
-        loadFullBlob: vi.fn(async () => null),
-      },
-    });
+    const photoManager = heldPhotoManager();
+    panel({ selectedFeatureId: "f2", photoManager });
 
-    // Two inputs carry that label — the file picker and the camera; the
-    // picker is the first.
-    fireEvent.change(screen.getAllByLabelText("Add photos from files")[0], {
-      target: { files: [new File(["bytes"], "IMG_1.jpg", { type: "image/jpeg" })] },
-    });
+    pickPhoto("IMG_1.jpg");
 
     await waitFor(() =>
       expect(
         screen.getByRole("button", { name: "Finishing a photo…" }),
       ).toBeDisabled(),
     );
+    // Done already says it; the strip doing the attach adds no second note.
+    expect(screen.queryByText(/Another photo is still being added/)).toBeNull();
 
     await act(async () => {
-      finishAttach?.([]);
+      photoManager.answers[0]([]);
     });
     await waitFor(() =>
       expect(screen.getByRole("button", { name: "Done editing" })).toBeEnabled(),
     );
+  });
+
+  // The offer's button moves whichever point the strip is showing. A photo
+  // taken at the first feature's spot must never become an offer to move the
+  // second one there.
+  it("keeps a photo's location offer with the feature it was added to", async () => {
+    const photoManager = heldPhotoManager();
+    const props = panel({ selectedFeatureId: "f1", photoManager });
+
+    pickPhoto("IMG_1.jpg");
+    await waitFor(() => expect(photoManager.answers).toHaveLength(1));
+
+    props.rerender({ selectedFeatureId: "f2" });
+    await act(async () => {
+      photoManager.answers[0]([
+        {
+          fileName: "IMG_1.jpg",
+          ok: true,
+          descriptor: { id: "p1", sourceName: "IMG_1.jpg", width: 10, height: 10 },
+          gps: { lon: -60.91, lat: 46.12 },
+        },
+        { fileName: "bad.heic", ok: false, message: "Unsupported." },
+      ]);
+    });
+
+    // The photo still lands on the feature it was added to.
+    expect(props.onAttachFeaturePhotos).toHaveBeenCalledWith("layer-1", "f1", [
+      { id: "p1", sourceName: "IMG_1.jpg", width: 10, height: 10 },
+    ]);
+    // But nothing from that attach is shown on the feature now selected.
+    expect(
+      screen.queryByRole("button", { name: "Move point to photo's location" }),
+    ).toBeNull();
+    expect(screen.queryByText(/bad\.heic/)).toBeNull();
+  });
+
+  // Each selection mounts its own strip, and an attach outlives the strip it
+  // began in. While it runs, Done stays held (a photo that finishes after the
+  // session closes is lost) and no strip starts another: the photo limits
+  // are counted when an attach starts, so two running together could each
+  // count without the other's photos and pass the limit between them.
+  // Coming back to the same feature is the case that matters for the
+  // per-feature limit, and it mounts a new strip under the same id. Going
+  // through no selection at all mounted a fresh strip even before strips
+  // were keyed.
+  it.each<[string, Array<string | null>]>([
+    ["another feature", ["f2"]],
+    ["the same feature, selected again", ["f2", "f1"]],
+    ["no feature, then another", [null, "f2"]],
+  ])("starts no other photo attach until the running one ends (%s)", async (_, selections) => {
+    const photoManager = heldPhotoManager();
+    const props = panel({ selectedFeatureId: "f1", photoManager });
+
+    pickPhoto("IMG_1.jpg");
+    await waitFor(() => expect(photoManager.answers).toHaveLength(1));
+
+    for (const selectedFeatureId of selections) {
+      props.rerender({ selectedFeatureId });
+    }
+    expect(
+      screen.getByRole("button", { name: "Finishing a photo…" }),
+    ).toBeDisabled();
+    for (const name of ["Add photos", "Take photo"]) {
+      const button = screen.getByRole("button", { name });
+      expect(button).toBeDisabled();
+      // Heard at the button, not only read in page order.
+      expect(button).toHaveAccessibleDescription(
+        /Another photo is still being added/,
+      );
+    }
+    pickPhoto("IMG_2.jpg");
+    expect(photoManager.attachPhotos).toHaveBeenCalledTimes(1);
+
+    // The strip that started it has gone; its end still releases both.
+    await act(async () => {
+      photoManager.answers[0]([]);
+    });
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Done editing" })).toBeEnabled(),
+    );
+    expect(screen.getByRole("button", { name: "Add photos" })).toBeEnabled();
+    expect(screen.queryByText(/Another photo is still being added/)).toBeNull();
+
+    pickPhoto("IMG_3.jpg");
+    await waitFor(() => expect(photoManager.answers).toHaveLength(2));
+    expect(
+      screen.getByRole("button", { name: "Finishing a photo…" }),
+    ).toBeDisabled();
+    expect(screen.queryByText(/Another photo is still being added/)).toBeNull();
+    await act(async () => {
+      photoManager.answers[1]([]);
+    });
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Done editing" })).toBeEnabled(),
+    );
+  });
+
+  // A full feature's buttons stay disabled after the other attach ends, so
+  // "you can add more when it has finished" would not be true there.
+  it("tells a full feature nothing about waiting for another photo", async () => {
+    const photoManager = heldPhotoManager();
+    const full: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        baseData.features[0],
+        {
+          ...baseData.features[1],
+          properties: {
+            "nsmts:photos": Array.from({ length: 20 }, (_, index) => ({
+              id: `full-${index}`,
+            })),
+          },
+        },
+      ],
+    };
+    const props = panel({ data: full, selectedFeatureId: "f1", photoManager });
+
+    pickPhoto("IMG_1.jpg");
+    await waitFor(() => expect(photoManager.answers).toHaveLength(1));
+    props.rerender({ selectedFeatureId: "f2" });
+
+    expect(screen.getByRole("button", { name: "Add photos" })).toBeDisabled();
+    expect(screen.queryByText(/Another photo is still being added/)).toBeNull();
   });
 
   it("offers the draw tools the phase supports", () => {
