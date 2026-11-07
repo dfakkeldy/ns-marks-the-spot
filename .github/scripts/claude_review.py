@@ -86,6 +86,38 @@ def right_lines(diff_text):
     return lines
 
 
+def numbered(diff_text):
+    """The diff with each line's number in the PR's version of the file in front (blank for
+    removed lines), so Claude reports file lines, not positions in the diff."""
+    out, new_line = [], None
+    for raw in diff_text.splitlines():
+        if raw.startswith("diff --git "):
+            new_line = None
+        m = HUNK_RE.match(raw) if raw.startswith("@@") else None
+        if m:
+            new_line = int(m.group(1))
+            out.append(raw)
+        elif new_line is None or raw.startswith("\\"):
+            out.append(raw)
+        elif raw.startswith("-"):
+            out.append(f"{'':>6} {raw}")
+        else:
+            out.append(f"{new_line:>6} {raw}")
+            new_line += 1
+    return "\n".join(out) + ("\n" if out else "")
+
+
+def relocate(finding, text):
+    """Move a finding to the line that holds the code it quotes, nearest the line it gave."""
+    quote = str(finding.get("code") or "").strip()
+    lines = (text or "").splitlines()
+    line = finding["line"]
+    if not quote or (0 < line <= len(lines) and quote in lines[line - 1]):
+        return line
+    hits = [i + 1 for i, l in enumerate(lines) if quote in l]
+    return min(hits, key=lambda n: abs(n - line)) if hits else line
+
+
 def choose_mode(state, patch_id):
     if not patch_id:
         return "empty"
@@ -264,7 +296,9 @@ def brief(pr, round_no, review_md, review_md_source, globs, files, new_files, ha
     elif round_no > 1:
         out += ["- The last reviewed head is gone (a force-push or rebase), so there is no new.diff. Review"
                 " pr.diff, but report only what the earlier findings below don't already cover.", ""]
-    out += ["", "## Earlier findings", ""]
+    out += ["Each line of these diffs starts with its line number in the PR's version of the file (blank for"
+            " removed lines). Report that number, never a position in the diff file.", "",
+            "## Earlier findings", ""]
     if not threads:
         out.append("None. This is the first review.")
     for t in threads:
@@ -416,9 +450,9 @@ def prepare():
         if new_files:
             has_interdiff = True
             with open(os.path.join(work, "new.diff"), "w") as f:
-                f.write(git("diff", "--find-renames", state["head"], sha, "--", *new_files) or "")
+                f.write(numbered(git("diff", "--find-renames", state["head"], sha, "--", *new_files) or ""))
     with open(os.path.join(work, "pr.diff"), "w") as f:
-        f.write(pr_diff)
+        f.write(numbered(pr_diff))
     with open(os.path.join(work, "brief.md"), "w") as f:
         log = git("log", "--no-merges", "--format=%h %s%n%b", f"{merge_base}..{sha}", check=False) or ""
         f.write(brief(pr, round_no, review_md, source, globs, files, new_files, has_interdiff, threads, log))
@@ -452,6 +486,13 @@ def finish():
                     "review, not a finding about the code. Re-run the job.")
             return 1
         threads = fetch_threads(repo, number)
+        for f in result.get("findings") or []:
+            if isinstance(f, dict) and f.get("code") and f.get("path"):
+                try:
+                    f["line"] = relocate(dict(f, line=int(f.get("line") or 0)),
+                                         git("show", f"{sha}:{f['path']}", check=False))
+                except (TypeError, ValueError):
+                    pass
         findings, dropped = clean_findings(result.get("findings"), threads)
         for d in dropped:
             print(f"claude-review: dropped a finding: {d}")
