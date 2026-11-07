@@ -5,7 +5,7 @@ def page_count(total_items, page_size):
     """Number of pages needed to show total_items records, page_size per page."""
     if page_size <= 0:
         raise ValueError("page_size must be positive")
-    return total_items // page_size
+    return -(-total_items // page_size)
 
 
 def page(records, number, page_size):
