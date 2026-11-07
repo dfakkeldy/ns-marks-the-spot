@@ -79,17 +79,33 @@ final class MapChromeUITests: XCTestCase {
             XCTAssertTrue(endpoint.waitForExistence(timeout: 5))
             return endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).screenPoint
         }
-        func bare() -> CGPoint {
+        // 4 points left of the badge: MapKit's selection reached it anyway.
+        func nearBadge() -> CGPoint {
             app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).screenPoint
         }
-
-        for _ in 0..<30 {
-            probe("badge", at: badge)
-            probe("bare", at: bare)
+        // Far from every annotation, left of the rail and below the search.
+        func far() -> CGPoint {
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).screenPoint
         }
-        for duration in [0.1, 0.2, 0.3, 0.4, 0.6, 0.9] {
+        // Beside the first, unlabelled corner at (0.30, 0.35).
+        func nearCorner() -> CGPoint {
+            let corner = app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).screenPoint
+            return CGPoint(x: corner.x + 9, y: corner.y + 9)
+        }
+
+        for round in 0..<30 {
+            probe("badge", at: badge)
+            probe("nearBadge", at: nearBadge)
+            if round.isMultiple(of: 3) {
+                probe("far", at: far)
+                probe("nearCorner", at: nearCorner)
+            }
+        }
+        for duration in [0.2, 0.4, 0.6, 0.9] {
             probe("badge", press: duration, at: badge)
-            probe("bare", press: duration, at: bare)
+            probe("nearBadge", press: duration, at: nearBadge)
+            probe("far", press: duration, at: far)
+            probe("nearCorner", press: duration, at: nearCorner)
         }
 
         let summary = tally.keys.sorted().map { "\($0): placed \(tally[$0]!.placed) dropped \(tally[$0]!.dropped)" }
