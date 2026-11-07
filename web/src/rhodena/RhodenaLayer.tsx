@@ -65,7 +65,7 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
             ?{permanent:true,direction:'top',offset:[0,-6],className:'rhodena-label'}
             // Substation names sit to the right of their dot, quieter than the
             // turbine badges, which draw above them where the two meet.
-            :{permanent:p.kind==='substation'||p.kind==='model-substation',direction:'right',offset:[8,0],className:'rhodena-label rhodena-label--minor'});
+            :{permanent:p.kind==='substation'||p.kind==='model-substation',direction:'auto',offset:[8,0],className:'rhodena-label rhodena-label--minor'});
         }
       }).addTo(group);
     }

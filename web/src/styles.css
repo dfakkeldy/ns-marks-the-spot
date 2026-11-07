@@ -3934,7 +3934,7 @@ a {
   /* Half height leaves the top of the map in view, so a switched layer shows
      at once. Same bottom edge, so nothing under the sheet moves. */
   .layer-rail.mobile-open[data-sheet-detent="half"] {
-    max-height: min(520px, calc((var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)) * 0.58));
+    max-height: min(580px, calc((var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)) * 0.66));
   }
 
   .layer-rail.mobile-open[data-sheet-detent] {
@@ -4033,33 +4033,15 @@ a {
     cursor: pointer;
   }
 
-  /* With its title read only by screen readers, the header is just the
-     grabber strip. The × hangs from it onto the rail title's row, and the
-     title keeps clear of it. Focus pages show their title and keep the full
-     header. */
+  /* With its title read only by screen readers, the header is one solid
+     52px row: the grabber at the top and the × at the right. The rail
+     scrolls under it, never under a floating ×. Focus pages show their
+     title and keep the full header. */
   .mobile-sheet-header:has(> strong.visually-hidden) {
-    min-height: 24px;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .mobile-sheet-header:has(> strong.visually-hidden) > button:last-child {
-    position: absolute;
-    top: 28px; /* the 24px strip plus the title's 4px top margin */
-    right: 16px;
-    /* It stays put while the rail scrolls; a ring of the sheet's own colour
-       keeps text from running into its rim, as on the dialogs' ×. */
-    box-shadow: 0 0 0 6px rgba(var(--surface-rgb), 0.96);
-  }
-
-  .layer-rail:has(> .mobile-sheet-header > strong.visually-hidden) > h2 {
-    min-height: 44px;
-    margin-top: 4px;
-    padding-right: 56px;
-    display: flex;
-    align-items: center;
+    min-height: 52px;
+    margin-bottom: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 
   .map-region {
@@ -8395,6 +8377,17 @@ a {
 .appearance-segments label.selected {
   color: var(--white);
   background: var(--deep-water);
+}
+
+/* The dark rooms have one warm primary; the selected segment and the NS
+   badge take it too, instead of the cool deep-water teal. */
+:root[data-map-appearance="night"] .appearance-segments label.selected {
+  color: #10283a;
+  background: var(--survey-blue);
+}
+
+:root[data-map-appearance="night"] {
+  --brand-ground: #d9c39a;
 }
 
 .appearance-segments label:has(input:focus-visible) {
