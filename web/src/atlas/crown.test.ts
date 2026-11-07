@@ -31,6 +31,17 @@ describe('dissolved Crown Land atlas', () => {
     expect(provenance).toContain('full or partial');
   });
 
+  it('hatches Fletcher Crown Land with a seamless pattern over the unchanged wash, and only in Fletcher', () => {
+    const style = buildAtlasStyle('fletcher');
+    const ids = style.layers.map(layer => layer.id);
+    expect(ids.indexOf('crown-land-hatch')).toBe(ids.indexOf('crown-land') + 1);
+    expect(style.layers.find(layer => layer.id === 'crown-land-hatch')).toMatchObject({ type: 'fill', source: 'crown', 'source-layer': 'crown',
+      paint: { 'fill-pattern': 'crown-hatch', 'fill-opacity': 0.35 } });
+    for (const mode of ['day', 'night', 'handdrawn'] as const) {
+      expect(buildAtlasStyle(mode).layers.map(layer => layer.id)).not.toContain('crown-land-hatch');
+    }
+  });
+
   it('keeps Fletcher mustard distinct from farmland and woodland, and leaves OSM separate', () => {
     expect(atlasPalettes.fletcher.crown).not.toBe(atlasPalettes.fletcher.farmland);
     expect(atlasPalettes.fletcher.crown).not.toBe(atlasPalettes.fletcher.wood);

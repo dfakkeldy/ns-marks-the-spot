@@ -7,7 +7,7 @@ import { toMercator } from "../userMaps/transform/webMercator";
  * Over aerial imagery, roads take a hybrid style: a cream line on a soft dark
  * edge, and thin cream dashes for unpaved and minor ways, since a white casing
  * under dashes reads as a ladder on photographs. */
-export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope, size: { width: number; height: number }, zoom: number, signal?: AbortSignal, { imagery = false }: { imagery?: boolean } = {}) {
+export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope, size: { width: number; height: number }, zoom: number, signal?: AbortSignal, { imagery = false, night = false }: { imagery?: boolean; night?: boolean } = {}) {
   const collection = await fetchOpenDataOverlay(source, bounds, signal, zoom);
   signal?.throwIfAborted();
   const canvas = document.createElement("canvas");
@@ -27,7 +27,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
   };
   const path = (geometry: GeoJSON.Geometry): boolean => {
     switch (geometry.type) {
-      case "Point": { const p = point(geometry.coordinates); ctx.moveTo(p.x + 3, p.y); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); return true; }
+      case "Point": { const p = point(geometry.coordinates); const r = source.pointRing ? 2.5 : 3; ctx.moveTo(p.x + r, p.y); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); return true; }
       case "MultiPoint": geometry.coordinates.forEach((p) => path({ type: "Point", coordinates: p })); return true;
       case "LineString": line(geometry.coordinates); return false;
       case "MultiLineString": geometry.coordinates.forEach((l) => line(l)); return false;
@@ -38,6 +38,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     throw new Error("Unsupported open source geometry type");
   };
   const labels: { text: string; p: { x: number; y: number } }[] = [];
+  let drawn = 0;
   for (const f of collection.features) {
     const desc = String(f.properties.feat_desc ?? "");
     const minorRoad = source.roads && /TRACK|TRAIL|DRIVEWAY|Unpaved|SERVICE LANE/i.test(desc);
@@ -45,7 +46,25 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.beginPath();
     const fill = path(f.geometry);
     ctx.lineJoin = "round"; ctx.lineCap = "round";
-    if (source.roads && imagery && !fill) {
+    if (source.pointRing && zoom < 11 && !/^(Town|Village)$/.test(String(f.properties.concise_ds ?? "Town"))) {
+      // Below zoom 11 the gazetteer keeps to settlements. Every lake, brook
+      // and cape lettered at once buried the Fletcher sheets beneath it.
+      continue;
+    }
+    if (source.pointRing && f.geometry.type.includes("Point") && !source.labelField && zoom < 11) {
+      // The basemap is lettering these names itself (labelField was taken
+      // away for it); below zoom 11 an anchor ring per name only speckles it.
+      continue;
+    }
+    drawn += 1;
+    if (source.pointRing && f.geometry.type.includes("Point")) {
+      // A gazetteer point marks where the official name is anchored. At
+      // overview zooms thousands of filled discs buried the map they were
+      // meant to help read, so each is a 5px ring on a light halo.
+      ctx.setLineDash([]);
+      ctx.strokeStyle = night && !imagery ? "rgba(8, 20, 28, 0.75)" : "rgba(255, 255, 255, 0.85)"; ctx.lineWidth = 3; ctx.stroke();
+      ctx.strokeStyle = night && !imagery ? "#e8f1f0" : color; ctx.lineWidth = 1.2; ctx.stroke();
+    } else if (source.roads && imagery && !fill) {
       const major = /Highway|Trans-Canada|Arterial|Collector/i.test(desc);
       if (minorRoad) {
         ctx.setLineDash([5, 4]); ctx.strokeStyle = "rgba(255, 244, 222, 0.9)"; ctx.lineWidth = 1.6; ctx.stroke();
@@ -55,10 +74,13 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
         ctx.strokeStyle = "#fff3dc"; ctx.lineWidth = major ? 2.8 : 2; ctx.stroke();
       }
     } else {
-      ctx.setLineDash(minorRoad ? [4, 3] : []);
+      const lineWidth = source.roads ? 2 : source.lineWidth ?? 1.2;
+      // A light casing lifts a line off a light map or a photograph; on the night map a dark one does, without a glow.
+      if (source.casing && !fill) { ctx.setLineDash([]); ctx.strokeStyle = night && !imagery ? "rgba(8, 20, 28, 0.7)" : source.casing; ctx.lineWidth = lineWidth + 2.5; ctx.stroke(); }
+      ctx.setLineDash(minorRoad ? [4, 3] : source.dash ? [...source.dash] : []);
       if (source.roads) { ctx.strokeStyle = "#ffffff"; ctx.lineWidth = minorRoad ? 4 : 5; ctx.stroke(); }
       ctx.strokeStyle = color; ctx.fillStyle = color;
-      ctx.lineWidth = source.roads ? 2 : 1.2;
+      ctx.lineWidth = lineWidth;
       if (fill) { ctx.globalAlpha = f.geometry.type.includes("Point") ? 0.85 : source.fillOpacity ?? 0.2; ctx.fill("evenodd"); ctx.globalAlpha = 1; }
       if (source.stroke !== false) ctx.stroke();
     }
@@ -78,5 +100,6 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 4; ctx.strokeText(text, p.x, p.y);
     ctx.fillStyle = "#29332e"; ctx.fillText(text, p.x, p.y);
   }
-  return { canvas, count: collection.features.length };
+  // The rail's "N loaded" counts what is drawn, not what was fetched.
+  return { canvas, count: drawn, fetched: collection.features.length };
 }

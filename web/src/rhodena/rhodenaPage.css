@@ -317,3 +317,44 @@
     display: none;
   }
 }
+
+/* As on /pointtupper: zoom level, coordinates and a nominal screen scale are
+   research readouts; on this page the scale bar alone tells readers how far
+   things are. The full map keeps them. */
+.rhodena-focus .position-readout,
+.rhodena-focus .display-scale-readout {
+  display: none;
+}
+
+/* Round 5: as on /pointtupper, the phone sheet's header is part of the night
+   room, solid in the hero's own colours, so nothing scrolls through it. The
+   grabber bar takes the paper colour so it still shows on the dark ground. */
+@media (max-width: 860px) {
+  .rhodena-focus .mobile-sheet-header {
+    color: var(--rh-paper);
+    background: var(--rh-night);
+    border-bottom-color: rgba(251, 246, 234, 0.16);
+    backdrop-filter: none;
+  }
+
+  .rhodena-focus .mobile-sheet-header strong {
+    color: var(--rh-paper);
+  }
+
+  .rhodena-focus .mobile-sheet-header button:not(.mobile-sheet-grabber) {
+    color: var(--rh-paper);
+    background: rgba(251, 246, 234, 0.08);
+    border-color: rgba(251, 246, 234, 0.16);
+  }
+
+  .rhodena-focus .mobile-sheet-grabber span {
+    background: var(--rh-paper);
+  }
+}
+
+/* The night hero hands over to the research tools across a hairline rather
+   than a hard edge into the search panel. */
+.rhodena-focus .layer-rail > .pid-search {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}

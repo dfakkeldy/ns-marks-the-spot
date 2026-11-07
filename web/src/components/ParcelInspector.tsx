@@ -157,18 +157,17 @@ export type DwellingState =
     };
 
 /**
- * Explanatory caveat prose behind a disclosure. The DATA above it and the
- * source/attribution lines stay visible — the licence obligations and the
- * one-line caveat are never collapsed, only the multi-sentence
- * interpretation, which had grown to outweigh the facts it protects. Same
- * pattern as the rail's "Source & scale" rows.
+ * Explanatory caveat prose as a visible, labelled row. The DATA above it and
+ * the source/attribution lines come first; this holds the multi-sentence
+ * interpretation. It used to sit behind a disclosure, which hid the very
+ * limits a reader most needs before acting on a parcel.
  */
 function EvidenceCaveat({ children }: { children: ReactNode }) {
   return (
-    <details className="evidence-caveat">
-      <summary>What this does and doesn&apos;t show</summary>
+    <section className="evidence-caveat-row" aria-label="What this does and doesn't show">
+      <p className="evidence-caveat-label">What this does and doesn&apos;t show</p>
       {children}
-    </details>
+    </section>
   );
 }
 
@@ -712,7 +711,7 @@ function DwellingDetails({ state }: { state: DwellingState }) {
     <section className="assessment-evidence dwelling-evidence" aria-label="PVSC dwellings">
       <h3>PVSC dwellings</h3>
       {state.status === "idle" || state.status === "loading" ? (
-        <p className="assessment-status" role="status">
+        <p className="assessment-status inspector-checking" role="status">
           Checking PVSC residential dwelling data…
         </p>
       ) : state.status === "blocked" ? (
@@ -806,7 +805,7 @@ function AssessmentDetails({
     <section className="assessment-evidence" aria-label={heading}>
       <h3>{heading}</h3>
       {state.status === "idle" || state.status === "loading" ? (
-        <p className="assessment-status" role="status">
+        <p className="assessment-status inspector-checking" role="status">
           Checking PVSC open assessment data…
         </p>
       ) : state.status === "geometry-unavailable" ? (
@@ -933,7 +932,7 @@ function FloodSourceStatus({
     );
   }
   return (
-    <p className="mapped-context-status" role="status">
+    <p className="mapped-context-status inspector-checking" role="status">
       {checking}
     </p>
   );
@@ -1147,7 +1146,7 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
         address, access, occupancy, or legal parcel status.
       </p>
       {state.status === "idle" || state.status === "loading" ? (
-        <p className="civic-address-status" role="status">
+        <p className="civic-address-status inspector-checking" role="status">
           Looking up mapped civic addresses…
         </p>
       ) : state.status === "geometry-unavailable" ? (
@@ -1372,7 +1371,7 @@ function ParcelResourceDetails({ state }: { state: ParcelResourceState }) {
             inferred.
           </p>
         ) : (
-          <p className="mapped-context-status" role="status">
+          <p className="mapped-context-status inspector-checking" role="status">
             Checking official mapped resource sources against this parcel…
           </p>
         )}

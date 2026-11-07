@@ -229,9 +229,18 @@ struct MapThemeMatchTests {
     }
 
     @Test func noticesAMovedSlider() {
-        let plain = MapThemeState(layerIDs: ["fletcher"])
-        let faded = MapThemeState(layerIDs: ["fletcher"], opacityOverrides: ["fletcher": 0.3])
+        let plain = MapThemeState(layerIDs: ["nsprd"])
+        let faded = MapThemeState(layerIDs: ["nsprd"], opacityOverrides: ["nsprd": 0.3])
         #expect(!plain.matches(faded))
+    }
+
+    /// Fading the Fletcher sheets is looking, not a new setup: Historical
+    /// Maps stays Historical Maps, as it does on the web since #662.
+    @Test func keepsHistoricalMapsWhileFletcherIsFaded() throws {
+        let historical = try #require(MapTheme.builtIn.first { $0.id == "historical-maps" })
+        var faded = historical.state
+        faded.opacityOverrides = ["fletcher": 0.4]
+        #expect(MapTheme.match(faded, in: MapTheme.builtIn)?.id == "historical-maps")
     }
 
     @Test func findsTheBuiltInTheMapIsCurrentlyIn() throws {

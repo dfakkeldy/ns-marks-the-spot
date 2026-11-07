@@ -17,6 +17,17 @@ export type OpenDataSource = {
   labelMinZoom?: number;
   roads?: boolean;
   stroke?: boolean;
+  /** Line width in CSS pixels (default 1.2). */
+  lineWidth?: number;
+  /** Canvas dash pattern for lines and outlines. */
+  dash?: readonly number[];
+  /** A wider, solid line drawn under each line so it reads over the background. */
+  casing?: string;
+  /** Points draw as small hollow rings with a light halo instead of filled
+   * discs: the mark locates the record without blotting out the map. */
+  pointRing?: boolean;
+  /** Every record is a point (drawn as a filled disc); the layer row's swatch shows a dot. */
+  symbol?: "point";
   /** Conservative envelopes from the publisher's known, limited coverage. */
   coverageAreas?: readonly { west: number; south: number; east: number; north: number }[];
 };
@@ -39,7 +50,7 @@ export const ROAD_TIER_ZOOMS = { unpaved: 13, minor: 14 } as const;
 export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
   "crown-lands": { parts: [part("3nka-59nz", ["dnr_id", "partialown", "symbol"])], color: "#268744", fillOpacity: 0.18, stroke: false },
   "flood-risk": { parts: [part("569x-2wnq", ["river", "primary_co"]), part("ynkv-x6rx", ["sec_name", "sec_code"]), part("6htv-yzkm", ["sec_name", "tert_code"])], color: "#487f9b", fillOpacity: 0 },
-  "waterfalls": { parts: [part("458x-dmz3", ["feat_code", "feat_desc"], "feat_desc = 'Falls -  On a single line river point'")], color: "#0078ff" },
+  "waterfalls": { parts: [part("458x-dmz3", ["feat_code", "feat_desc"], "feat_desc = 'Falls -  On a single line river point'")], color: "#0078ff", symbol: "point" },
   "water-features": { parts: [part("h8jb-hzrm"), part("fpca-jrmt"), { ...part("458x-dmz3"), minZoom: 14 }], color: "#267cad", fillOpacity: 0.2 },
   "roads": { parts: [
     part("484g-adjn", ROAD_FIELDS, `${ROAD_FEATURES} AND roadc_desc IN (${THROUGH_ROAD_CLASSES}) AND feat_desc NOT LIKE '%Unpaved%'`),
@@ -48,7 +59,7 @@ export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
     { ...part("62ap-bhwk"), minZoom: 15 }, { ...part("x8jw-yjc2"), minZoom: 16 },
   ], color: "#654735", roads: true, labelField: "street", labelMinZoom: 14 },
   "main-roads": { parts: [part("484g-adjn", ["roadsegid", "feat_desc", "street", "roadc_desc"], "roadc_desc IN ('Highway','Trans Canada','Arterial','Collector','Local','Local Collector','Local Highway','Local Arterial') AND upper(feat_desc) NOT LIKE '%DRIVEWAY%'")], color: "#444444", roads: true, labelField: "street", labelMinZoom: 14 },
-  "place-names": { parts: [part("xf3i-vxcb", ["cgndb_key", "geoname", "concise_ds", "status_ds"], "concise_ds IN ('Town','Village','Unincorporated area','Island','Cape','Bay','Lake','River')")], color: "#29332e", labelField: "geoname", labelMinZoom: 8 },
+  "place-names": { parts: [part("xf3i-vxcb", ["cgndb_key", "geoname", "concise_ds", "status_ds"], "concise_ds IN ('Town','Village','Unincorporated area','Island','Cape','Bay','Lake','River')")], color: "#29332e", labelField: "geoname", labelMinZoom: 8, pointRing: true },
   "contours": { parts: [part("bhx9-mpui", ["feat_code", "feat_desc", "zvalue"], "feat_desc LIKE 'CONTOUR%'")], color: "#987849", fillOpacity: 0, labelField: "zvalue", labelMinZoom: 15 },
   "buildings": { parts: [part("t5xr-fjkr"), { ...part("n7be-bzwb"), minZoom: 15 }], color: "#795948", fillOpacity: 0.45 },
 };
@@ -89,10 +100,13 @@ const infrastructureDatasets: Record<string, Record<number, string>> = {
   Designated_Areas: { 1: "ty4r-gcnk" },
   Water: { 3: "fpca-jrmt", 6: "h8jb-hzrm" },
 };
-export function openInfrastructureSource(theme: string, selections: readonly (readonly [number, readonly string[]])[]): OpenDataSource {
+export type OpenDataStyle = Pick<OpenDataSource, "color" | "fillOpacity" | "lineWidth" | "dash" | "casing">;
+
+export function openInfrastructureSource(theme: string, selections: readonly (readonly [number, readonly string[]])[], style: Partial<OpenDataStyle> = {}): OpenDataSource {
   return {
     color: theme === "Water" ? "#267cad" : theme === "Utilities" ? "#7e538d" : "#7e6842",
     fillOpacity: 0.25,
+    ...style,
     parts: selections.map(([layer, descriptions]) => {
       const dataset = infrastructureDatasets[theme]?.[layer];
       if (!dataset) throw new Error(`Missing open NSTDB source: ${theme}/${layer}`);

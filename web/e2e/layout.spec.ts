@@ -55,9 +55,9 @@ for (const width of [320, 390, 844, 1440]) {
         const footer = (await page.locator(".map-attribution").boundingBox())!;
         const folded = await page.locator(".map-attribution").evaluate(element => element.classList.contains("collapsed"));
         return width <= 860 && folded
-          ? label.x >= bars.x + bars.width && label.x + label.width <= footer.x
+          // Folded on a phone, the ratio plate sits directly above the bars.
+          ? label.y + label.height <= bars.y && Math.abs(label.x - bars.x) <= 2
             && bars.y + bars.height <= footer.y + footer.height
-            && label.y + label.height <= footer.y + footer.height
           : label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
       }).toBe(true);
     };
@@ -123,13 +123,14 @@ for (const width of [390, 1440]) {
 test("theme controls expose keyboard focus and open the manager", async ({ page }) => {
   await page.goto("/?basemap=osm");
   await expect(page).toHaveTitle(/NS Marks The Spot/);
-  await keyboardFocus(page, page.getByRole("combobox", { name: "Map setup", exact: true }));
-  const manage = page.getByRole("button", { name: "Manage themes", exact: true });
+  await keyboardFocus(page, page.getByRole("combobox", { name: "Change setup", exact: true }));
+  // "Manage themes" appears only once a custom setup exists; Save opens the same manager.
+  const manage = page.getByRole("button", { name: "Save setup…", exact: true });
   await keyboardFocus(page, manage);
   await page.keyboard.press("Enter");
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
-  await keyboardFocus(page, dialog.getByRole("button", { name: "Cancel", exact: true }));
+  await keyboardFocus(page, dialog.getByRole("button", { name: "Done", exact: true }));
   await page.keyboard.press("Enter");
   await expect(dialog).toBeHidden();
 });
@@ -138,7 +139,7 @@ test("phone categories keep touch controls and attribution reachable", async ({ 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/?basemap=osm");
   await page.getByRole("button", { name: "Search & layers", exact: true }).click();
-  const setup = page.getByRole("combobox", { name: "Map setup", exact: true });
+  const setup = page.getByRole("combobox", { name: "Change setup", exact: true });
   const myMaps = page.getByRole("button", { name: /^My Maps/ });
   for (const control of [setup, myMaps]) {
     await control.scrollIntoViewIfNeeded();
@@ -250,7 +251,11 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
           const button = page.getByRole("button", { name: label, exact: true });
           await expect(button).toBeInViewport({ ratio: 1 });
           expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-          await expect(button).toHaveCSS("backdrop-filter", "blur(8px)");
+          // Solid pills: the fill is fully opaque.
+          expect(await button.evaluate((element) => {
+            const fill = getComputedStyle(element).backgroundColor;
+            return fill.startsWith("rgb(") || /rgba\([^)]*,\s*1\)$/.test(fill);
+          })).toBe(true);
         }
         for (const position of [{ x: 180, y: 170 }, { x: 220, y: 170 }, { x: 220, y: 210 }]) {
           await map.click({ position });

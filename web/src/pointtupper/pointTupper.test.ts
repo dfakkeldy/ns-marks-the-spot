@@ -15,7 +15,7 @@ import { focusDefinitions, focusForTheme } from "../focus/registry";
 import type { ShareLayerId } from "../services/mapShareState";
 import { buildMapPresentationFixture, builtInMapThemes, validateMapTheme } from "../themes/mapThemes";
 import { matchTheme, resolveTheme } from "../themes/themeState";
-import { POINT_TUPPER_FACTS, POINT_TUPPER_TIMELINE } from "./facts";
+import { POINT_TUPPER_CHECKED, POINT_TUPPER_FACT_GROUPS, POINT_TUPPER_FACTS, POINT_TUPPER_TIMELINE } from "./facts";
 import { POINT_TUPPER_BOUNDS, POINT_TUPPER_POSITION } from "./focus";
 import { pointTupperFocusDefinition } from "./focusDefinition";
 
@@ -42,7 +42,7 @@ describe("Point Tupper key places", () => {
     for (const feature of sites.features) {
       expect(feature.properties.id, feature.id).toBe(feature.id);
       expect(Object.keys(pointTupperSiteKinds), feature.id).toContain(feature.properties.kind);
-      for (const field of ["name", "note", "located_by", "source", "source_date"]) {
+      for (const field of ["label", "name", "note", "located_by", "source", "source_date"]) {
         expect(typeof feature.properties[field], `${feature.id}.${field}`).toBe("string");
         expect(String(feature.properties[field]).length, `${feature.id}.${field}`).toBeGreaterThan(0);
       }
@@ -73,7 +73,8 @@ describe("Point Tupper key places", () => {
 });
 
 describe("Point Tupper summary and timeline", () => {
-  it.each([...POINT_TUPPER_FACTS, ...POINT_TUPPER_TIMELINE])("links $sourceLabel over https", ({ sourceUrl, sourceLabel }) => {
+  const notes = POINT_TUPPER_FACTS.flatMap(({ note }) => (note ? [note] : []));
+  it.each([...POINT_TUPPER_FACTS, ...POINT_TUPPER_TIMELINE, ...notes])("links $sourceLabel over https", ({ sourceUrl, sourceLabel }) => {
     expect(sourceLabel.length).toBeGreaterThan(0);
     expect(new URL(sourceUrl).protocol).toBe("https:");
   });
@@ -81,6 +82,26 @@ describe("Point Tupper summary and timeline", () => {
   it("labels every fact once", () => {
     const labels = POINT_TUPPER_FACTS.map(({ label }) => label);
     expect(new Set(labels).size).toBe(labels.length);
+  });
+
+  it("keeps the company's account apart from the public record", () => {
+    expect(POINT_TUPPER_FACT_GROUPS.map(({ title }) => title)).toEqual(["What EverWind says", "On the public record"]);
+    const [company, record] = POINT_TUPPER_FACT_GROUPS;
+    expect(company.facts.length).toBeGreaterThan(0);
+    expect(record.facts.length).toBeGreaterThan(0);
+    // The record group never rests a line on EverWind's own pages; a company
+    // statement there can only be a note under a record, with its own link.
+    for (const fact of record.facts) {
+      expect(new URL(fact.sourceUrl).hostname, fact.label).not.toMatch(/everwind/u);
+    }
+    expect(POINT_TUPPER_FACTS).toEqual(POINT_TUPPER_FACT_GROUPS.flatMap(({ facts }) => facts));
+  });
+
+  it("dates the last check as a real day, written out the same way", () => {
+    const day = new Date(`${POINT_TUPPER_CHECKED.iso}T12:00:00Z`);
+    expect(Number.isNaN(day.getTime())).toBe(false);
+    expect(day.toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }))
+      .toBe(POINT_TUPPER_CHECKED.text);
   });
 });
 
@@ -99,6 +120,13 @@ describe("Point Tupper setup", () => {
     expect(theme).toBeDefined();
     expect(validateMapTheme(theme)).toEqual([]);
     expect(theme.layerIds).toEqual(expect.arrayContaining(["point-tupper-sites", "transmission-lines", "substations"]));
+  });
+
+  it("opens the installed turbines and the terminal's tanks, and leaves property lines to the reader", () => {
+    expect(theme.layerIds).toEqual(expect.arrayContaining(["canadian-wind-turbines", "tanks"]));
+    expect(theme.layerIds).not.toContain("nsprd");
+    // Bolder than the full map's 1.2 points: a few large holdings, drawn like the park's own maps.
+    expect(pointTupperFocusDefinition.parcelOutlineWidth).toBeGreaterThan(1.2);
   });
 
   it("needs no Province licence, so a first visit applies it exactly", () => {

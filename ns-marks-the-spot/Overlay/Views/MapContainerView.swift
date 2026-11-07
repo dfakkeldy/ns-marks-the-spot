@@ -777,7 +777,8 @@ struct MapContainerView: View {
             if printFrame == nil {
                 MapAttributionStrip(
                     descriptors: overlayVM.rows.filter(\.isVisible).map(\.descriptor),
-                    baseMap: overlayVM.baseMapType
+                    baseMap: overlayVM.baseMapType,
+                    groundFailing: controller.layerLoadPhases[AtlasRasterBase.layerID] == .failing
                 ) {
                     navigationModel.activeSheet = .info
                 }

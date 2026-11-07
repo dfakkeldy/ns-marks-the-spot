@@ -1,0 +1,3109 @@
+{
+ "type": "FeatureCollection",
+ "name": "everwind-harbour-hills-possible-gap",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.963917,
+     45.258642
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T1",
+    "turbine": "T1",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 15' 31.11\" N, 061° 57' 50.1\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.943083,
+     45.257675
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T2",
+    "turbine": "T2",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 15' 27.63\" N, 061° 56' 35.1\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.954094,
+     45.256225
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T3",
+    "turbine": "T3",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 15' 22.41\" N, 061° 57' 14.74\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.866136,
+     45.253522
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T4",
+    "turbine": "T4",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 15' 12.68\" N, 061° 51' 58.09\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.906928,
+     45.251753
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T5",
+    "turbine": "T5",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 15' 6.31\" N, 061° 54' 24.94\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.896242,
+     45.250967
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T6",
+    "turbine": "T6",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 15' 3.48\" N, 061° 53' 46.47\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.956731,
+     45.248997
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T7",
+    "turbine": "T7",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 56.39\" N, 061° 57' 24.23\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.835761,
+     45.2476
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T8",
+    "turbine": "T8",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 51.36\" N, 061° 50' 8.74\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.850072,
+     45.246894
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T9",
+    "turbine": "T9",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 48.82\" N, 061° 51' 0.26\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.915931,
+     45.245953
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T10",
+    "turbine": "T10",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 45.43\" N, 061° 54' 57.35\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.884603,
+     45.244672
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T11",
+    "turbine": "T11",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 40.82\" N, 061° 53' 4.57\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.871964,
+     45.244639
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T12",
+    "turbine": "T12",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 40.7\" N, 061° 52' 19.07\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.823689,
+     45.243011
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T13",
+    "turbine": "T13",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 34.84\" N, 061° 49' 25.28\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.945656,
+     45.240533
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T14",
+    "turbine": "T14",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 25.92\" N, 061° 56' 44.36\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.931136,
+     45.240186
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T15",
+    "turbine": "T15",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 24.67\" N, 061° 55' 52.09\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.8966,
+     45.240178
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T16",
+    "turbine": "T16",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 24.64\" N, 061° 53' 47.76\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.975089,
+     45.239856
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T17",
+    "turbine": "T17",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 23.48\" N, 061° 58' 30.32\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.842519,
+     45.236019
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T18",
+    "turbine": "T18",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 9.67\" N, 061° 50' 33.07\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.915947,
+     45.235844
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T19",
+    "turbine": "T19",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 9.04\" N, 061° 54' 57.41\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.890736,
+     45.235708
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T20",
+    "turbine": "T20",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 8.55\" N, 061° 53' 26.65\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.971672,
+     45.233986
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T21",
+    "turbine": "T21",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 2.35\" N, 061° 58' 18.02\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.858558,
+     45.233936
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T22",
+    "turbine": "T22",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 2.17\" N, 061° 51' 30.81\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.878411,
+     45.233578
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T23",
+    "turbine": "T23",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 14' 0.88\" N, 061° 52' 42.28\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.788731,
+     45.23265
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T24",
+    "turbine": "T24",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 57.54\" N, 061° 47' 19.43\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.834,
+     45.23
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T25",
+    "turbine": "T25",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 48.0\" N, 061° 50' 2.4\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.954233,
+     45.229714
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T26",
+    "turbine": "T26",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 46.97\" N, 061° 57' 15.24\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.988528,
+     45.229706
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T27",
+    "turbine": "T27",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 46.94\" N, 061° 59' 18.7\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.887125,
+     45.229122
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T28",
+    "turbine": "T28",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 44.84\" N, 061° 53' 13.65\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.875636,
+     45.227844
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T29",
+    "turbine": "T29",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 40.24\" N, 061° 52' 32.29\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.778917,
+     45.227353
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T30",
+    "turbine": "T30",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 38.47\" N, 061° 46' 44.1\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.900261,
+     45.227331
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T31",
+    "turbine": "T31",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 38.39\" N, 061° 54' 0.94\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.813044,
+     45.225978
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T32",
+    "turbine": "T32",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 33.52\" N, 061° 48' 46.96\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.927622,
+     45.225861
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T33",
+    "turbine": "T33",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 33.1\" N, 061° 55' 39.44\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.915525,
+     45.225675
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T34",
+    "turbine": "T34",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 32.43\" N, 061° 54' 55.89\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.967383,
+     45.2242
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T35",
+    "turbine": "T35",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 27.12\" N, 061° 58' 2.58\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.7665,
+     45.223767
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T36",
+    "turbine": "T36",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 25.56\" N, 061° 45' 59.4\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.995328,
+     45.223461
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T37",
+    "turbine": "T37",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 24.46\" N, 061° 59' 43.18\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.847111,
+     45.222653
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T38",
+    "turbine": "T38",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 21.55\" N, 061° 50' 49.6\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.795844,
+     45.221189
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T39",
+    "turbine": "T39",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 16.28\" N, 061° 47' 45.04\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.755653,
+     45.220281
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T40",
+    "turbine": "T40",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 13.01\" N, 061° 45' 20.35\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.985942,
+     45.218764
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T41",
+    "turbine": "T41",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 7.55\" N, 061° 59' 9.39\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.914589,
+     45.217331
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T42",
+    "turbine": "T42",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 2.39\" N, 061° 54' 52.52\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.820819,
+     45.217003
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T43",
+    "turbine": "T43",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 13' 1.21\" N, 061° 49' 14.95\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.835164,
+     45.216581
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T44",
+    "turbine": "T44",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 59.69\" N, 061° 50' 6.59\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.935061,
+     45.214547
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T45",
+    "turbine": "T45",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 52.37\" N, 061° 56' 6.22\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.908692,
+     45.211308
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T46",
+    "turbine": "T46",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 40.71\" N, 061° 54' 31.29\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.787556,
+     45.211167
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T47",
+    "turbine": "T47",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 40.2\" N, 061° 47' 15.2\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.756825,
+     45.210589
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T48",
+    "turbine": "T48",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 38.12\" N, 061° 45' 24.57\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.741889,
+     45.209553
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T49",
+    "turbine": "T49",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 34.39\" N, 061° 44' 30.8\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.771197,
+     45.207497
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T50",
+    "turbine": "T50",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 26.99\" N, 061° 46' 16.31\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.809936,
+     45.207258
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T51",
+    "turbine": "T51",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 26.13\" N, 061° 48' 35.77\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.886417,
+     45.206522
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T52",
+    "turbine": "T52",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 23.48\" N, 061° 53' 11.1\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.830275,
+     45.204858
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T53",
+    "turbine": "T53",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 17.49\" N, 061° 49' 48.99\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.876947,
+     45.203983
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T54",
+    "turbine": "T54",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 14.34\" N, 061° 52' 37.01\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.908467,
+     45.200956
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T55",
+    "turbine": "T55",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 3.44\" N, 061° 54' 30.48\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.785378,
+     45.200411
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T56",
+    "turbine": "T56",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 12' 1.48\" N, 061° 47' 7.36\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.940828,
+     45.199397
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T57",
+    "turbine": "T57",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 57.83\" N, 061° 56' 26.98\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.927944,
+     45.199264
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T58",
+    "turbine": "T58",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 57.35\" N, 061° 55' 40.6\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.868833,
+     45.197011
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T59",
+    "turbine": "T59",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 49.24\" N, 061° 52' 7.8\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.8288,
+     45.196117
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T60",
+    "turbine": "T60",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 46.02\" N, 061° 49' 43.68\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.769453,
+     45.196069
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T61",
+    "turbine": "T61",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 45.85\" N, 061° 46' 10.03\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.744075,
+     45.195289
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T62",
+    "turbine": "T62",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 43.04\" N, 061° 44' 38.67\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.800853,
+     45.195228
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T63",
+    "turbine": "T63",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 42.82\" N, 061° 48' 3.07\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.816842,
+     45.194908
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T64",
+    "turbine": "T64",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 41.67\" N, 061° 49' 0.63\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.756017,
+     45.194272
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T65",
+    "turbine": "T65",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 39.38\" N, 061° 45' 21.66\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.902131,
+     45.191597
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T66",
+    "turbine": "T66",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 29.75\" N, 061° 54' 7.67\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.884042,
+     45.188453
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T67",
+    "turbine": "T67",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 18.43\" N, 061° 53' 2.55\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.894439,
+     45.187528
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T68",
+    "turbine": "T68",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 15.1\" N, 061° 53' 39.98\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.949317,
+     45.186192
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T69",
+    "turbine": "T69",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 10.29\" N, 061° 56' 57.54\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.812008,
+     45.185875
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T70",
+    "turbine": "T70",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 9.15\" N, 061° 48' 43.23\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.735819,
+     45.185347
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T71",
+    "turbine": "T71",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 7.25\" N, 061° 44' 8.95\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.929917,
+     45.185111
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T72",
+    "turbine": "T72",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 6.4\" N, 061° 55' 47.7\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.782928,
+     45.184531
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T73",
+    "turbine": "T73",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 11' 4.31\" N, 061° 46' 58.54\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.761797,
+     45.181964
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T74",
+    "turbine": "T74",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 55.07\" N, 061° 45' 42.47\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.877575,
+     45.181897
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T75",
+    "turbine": "T75",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 54.83\" N, 061° 52' 39.27\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.910072,
+     45.180356
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T76",
+    "turbine": "T76",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 49.28\" N, 061° 54' 36.26\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.942883,
+     45.179619
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T77",
+    "turbine": "T77",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 46.63\" N, 061° 56' 34.38\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.726428,
+     45.179367
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T78",
+    "turbine": "T78",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 45.72\" N, 061° 43' 35.14\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.812367,
+     45.177406
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T79",
+    "turbine": "T79",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 38.66\" N, 061° 48' 44.52\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.751908,
+     45.175817
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T80",
+    "turbine": "T80",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 32.94\" N, 061° 45' 6.87\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.770375,
+     45.175653
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T81",
+    "turbine": "T81",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 32.35\" N, 061° 46' 13.35\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.741122,
+     45.175606
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T82",
+    "turbine": "T82",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 32.18\" N, 061° 44' 28.04\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.870239,
+     45.175347
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T83",
+    "turbine": "T83",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 31.25\" N, 061° 52' 12.86\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.856253,
+     45.174564
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T84",
+    "turbine": "T84",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 28.43\" N, 061° 51' 22.51\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.802486,
+     45.173386
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T85",
+    "turbine": "T85",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 24.19\" N, 061° 48' 8.95\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.778081,
+     45.170147
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T86",
+    "turbine": "T86",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 12.53\" N, 061° 46' 41.09\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.740014,
+     45.16755
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T87",
+    "turbine": "T87",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 3.18\" N, 061° 44' 24.05\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.909097,
+     45.167361
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T88",
+    "turbine": "T88",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 2.5\" N, 061° 54' 32.75\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.76355,
+     45.167083
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T89",
+    "turbine": "T89",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 10' 1.5\" N, 061° 45' 48.78\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.725664,
+     45.165869
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T90",
+    "turbine": "T90",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 57.13\" N, 061° 43' 32.39\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.920717,
+     45.165286
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T91",
+    "turbine": "T91",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 55.03\" N, 061° 55' 14.58\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.790825,
+     45.164992
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T92",
+    "turbine": "T92",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 53.97\" N, 061° 47' 26.97\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.717456,
+     45.163033
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T93",
+    "turbine": "T93",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 46.92\" N, 061° 43' 2.84\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.899458,
+     45.160669
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T94",
+    "turbine": "T94",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 38.41\" N, 061° 53' 58.05\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.710575,
+     45.158522
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T95",
+    "turbine": "T95",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 30.68\" N, 061° 42' 38.07\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.735833,
+     45.156722
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T96",
+    "turbine": "T96",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 24.2\" N, 061° 44' 9.0\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.746247,
+     45.156322
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T97",
+    "turbine": "T97",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 22.76\" N, 061° 44' 46.49\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.777367,
+     45.155989
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T98",
+    "turbine": "T98",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 21.56\" N, 061° 46' 38.52\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.760408,
+     45.155931
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T99",
+    "turbine": "T99",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 09' 21.35\" N, 061° 45' 37.47\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.768183,
+     45.145297
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T100",
+    "turbine": "T100",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 08' 43.07\" N, 061° 46' 5.46\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.755378,
+     45.143456
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T101",
+    "turbine": "T101",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 08' 36.44\" N, 061° 45' 19.36\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.728778,
+     45.141856
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T102",
+    "turbine": "T102",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 08' 30.68\" N, 061° 43' 43.6\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.740408,
+     45.140856
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T103",
+    "turbine": "T103",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 08' 27.08\" N, 061° 44' 25.47\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.71775,
+     45.135456
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T104",
+    "turbine": "T104",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 08' 7.64\" N, 061° 43' 3.9\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.744003,
+     45.134922
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T105",
+    "turbine": "T105",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 08' 5.72\" N, 061° 44' 38.41\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.767869,
+     45.1319
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T106",
+    "turbine": "T106",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 07' 54.84\" N, 061° 46' 4.33\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.735994,
+     45.131428
+    ]
+   },
+   "properties": {
+    "id": "harbour-hills-T107",
+    "turbine": "T107",
+    "project": "Harbour Hills Wind Project",
+    "proponent": "EverWind NS Holdings Ltd and Membertou Development Corporation",
+    "county": "Guysborough",
+    "status": "EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 \"Guysborough Wind Projects\"",
+    "status_date": "2026-06-24",
+    "project_turbines": 107,
+    "project_capacity_mw": 856,
+    "tip_height_m": 221.7,
+    "hub_height_m": 130,
+    "rotor_diameter_m": 183.4,
+    "coords_as_published": "45° 07' 53.14\" N, 061° 44' 9.58\" W (datum not stated in table; report maps are NAD83)",
+    "source": "WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)",
+    "source_url": "https://novascotia.ca/nse/ea/harbour-hills-wind/harbour-hills-appendix-b-f.pdf",
+    "source_locator": "Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)",
+    "read_date": "2026-10-24"
+   }
+  }
+ ]
+}

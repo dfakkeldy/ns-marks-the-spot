@@ -254,7 +254,7 @@ export function PokerApp() {
       <div className="poker-readout sr-only" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
       <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={finishTrace}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button aria-label="Clear trace" disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear</button></div>
     </section>
-    <footer className="poker-footer">{!online && <span>Offline · Atlas</span>}<button onClick={() => setHelp(true)}>Sources</button></footer>
+    <footer className="poker-footer">{!online && <span>Offline · Atlas</span>}<button className="poker-licences" onClick={() => setHelp(true)}>Show licences</button></footer>
     {optionsOpen && <dialog className="poker-modal poker-settings" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setOptionsOpen(false)} aria-labelledby="poker-options-title">
       <div className="poker-modal-heading"><h2 id="poker-options-title">Poker</h2><button autoFocus aria-label="Close map options" onClick={() => setOptionsOpen(false)}>Done</button></div>
       <label className="poker-setting-label" htmlFor="poker-postal-area">Postal area</label>

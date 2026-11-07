@@ -13,10 +13,10 @@ const mocks = vi.hoisted(() => ({
     getBounds: vi.fn(() => ({ getWest: () => -62, getSouth: () => 45, getEast: () => -61, getNorth: () => 46 })),
     getPane: vi.fn(), createPane: vi.fn(), on: vi.fn(), off: vi.fn(),
   },
-  geoJSON: vi.fn(), circleMarker: vi.fn(),
+  geoJSON: vi.fn(), circleMarker: vi.fn(), marker: vi.fn(), divIcon: vi.fn((options: unknown) => options),
 }));
 vi.mock("react-leaflet", () => ({ useMap: () => mocks.map }));
-vi.mock("leaflet", () => ({ default: { geoJSON: mocks.geoJSON, circleMarker: mocks.circleMarker } }));
+vi.mock("leaflet", () => ({ default: { geoJSON: mocks.geoJSON, circleMarker: mocks.circleMarker, marker: mocks.marker, divIcon: mocks.divIcon } }));
 vi.mock("../services/arcGISFeatureOverlay", async (importOriginal) => ({ ...await importOriginal<typeof import("../services/arcGISFeatureOverlay")>(), fetchArcGISFeatureOverlay: vi.fn() }));
 const layer = contextLayerCatalog.find(({ id }) => id === "karst-risk")!;
 const feature: GeoJSON.Feature<GeoJSON.Point, Record<string, unknown>> = {
@@ -179,5 +179,50 @@ describe("ContextFeatureLayer", () => {
     vi.mocked(fetchArcGISFeatureOverlay).mockRejectedValueOnce(error);
     const { status } = mount();
     await waitFor(() => expect(status).toHaveBeenLastCalledWith(layer.id, expected));
+  });
+
+  describe("symbol markers", () => {
+    const turbines = contextLayerCatalog.find(({ id }) => id === "canadian-wind-turbines")!;
+    const turbine: GeoJSON.Feature<GeoJSON.Point, Record<string, unknown>> = {
+      type: "Feature", properties: { OBJECTID: 7, Turbine_Identifier: "POT7" },
+      geometry: { type: "Point", coordinates: [-61.317, 45.566] },
+    };
+    async function mountTurbines(zoom: number, renderMode: "print" | "interactive" = "interactive") {
+      mocks.map.getZoom.mockReturnValue(zoom);
+      vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValue({ type: "FeatureCollection", features: [turbine] });
+      render(<ContextFeatureLayer layer={turbines} visible renderMode={renderMode} onStatusChange={vi.fn()} />);
+      await waitFor(() => expect(mocks.geoJSON).toHaveBeenCalled());
+      return geometryOptions();
+    }
+
+    it("draws a turbine as a turbine standing on its coordinate, scaled down at overview zooms", async () => {
+      const close = await mountTurbines(15);
+      close.pointToLayer?.(turbine, { lat: 45.566, lng: -61.317 } as L.LatLng);
+      const closeIcon = mocks.marker.mock.calls.at(-1)![1].icon as { html: string; iconSize: [number, number]; iconAnchor: [number, number] };
+      expect(closeIcon.html).toContain("<svg");
+      expect(closeIcon.iconAnchor[1]).toBeGreaterThan(closeIcon.iconSize[1] * 0.9);
+      expect(mocks.marker.mock.calls.at(-1)![1].title).toBe("Installed wind turbines (NRCan) · POT7");
+      cleanup(); mocks.geoJSON.mockClear();
+      const far = await mountTurbines(8);
+      far.pointToLayer?.(turbine, { lat: 45.566, lng: -61.317 } as L.LatLng);
+      const farIcon = mocks.marker.mock.calls.at(-1)![1].icon as { iconSize: [number, number] };
+      expect(farIcon.iconSize[1]).toBeLessThan(closeIcon.iconSize[1]);
+      expect(mocks.circleMarker).not.toHaveBeenCalled();
+    });
+
+    it("keeps turbine numbers on the map only from the layer's label zoom", async () => {
+      const bindTooltip = vi.fn();
+      (await mountTurbines(15)).onEachFeature?.(turbine, { bindPopup: vi.fn(), bindTooltip } as unknown as L.Layer);
+      expect(bindTooltip).toHaveBeenCalledWith("POT7", expect.objectContaining({ permanent: true, className: "context-place-label" }));
+      cleanup(); mocks.geoJSON.mockClear(); bindTooltip.mockClear();
+      (await mountTurbines(13)).onEachFeature?.(turbine, { bindPopup: vi.fn(), bindTooltip } as unknown as L.Layer);
+      expect(bindTooltip).not.toHaveBeenCalled();
+    });
+
+    it("prints plain circles, whose tones the printed key can match", async () => {
+      (await mountTurbines(15, "print")).pointToLayer?.(turbine, { lat: 45.566, lng: -61.317 } as L.LatLng);
+      expect(mocks.marker).not.toHaveBeenCalled();
+      expect(mocks.circleMarker).toHaveBeenCalled();
+    });
   });
 });

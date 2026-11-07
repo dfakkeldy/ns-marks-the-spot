@@ -16,7 +16,7 @@ function collectErrors(page: Page) {
   return errors;
 }
 
-for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced summary and key places at ${width}px`, async ({ page }) => {
+for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced summary, key places, turbines and map key at ${width}px`, async ({ page }) => {
   test.setTimeout(90000);
   const phone = width === 390;
   await page.setViewportSize({ width, height: phone ? 844 : 900 });
@@ -30,18 +30,81 @@ for (const width of [1440, 390]) test(`the /pointtupper page shows its sourced s
   await expect(page.getByText('Built by Dan Fakkeldy with Claude Code, from public sources.', { exact: true })).toBeVisible();
   await expect(page.getByText(/campus footprint has not been published/).first()).toBeVisible();
   await expect(page.getByRole('link', { name: 'Every source, and what it supports' })).toHaveAttribute('href', /\/docs\/point-tupper-sources\.md$/);
-  await expect(page.getByRole('heading', { level: 2, name: 'Seventy years on the Strait' })).toBeAttached();
+  await expect(page.getByRole('heading', { level: 3, name: 'Seventy years on the Strait' })).toBeAttached();
   for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/]) {
     await expect(page.getByRole('button', { name })).toHaveCount(0);
   }
-  await expect(page.getByRole('combobox', { name: 'Map setup' })).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: 'Change setup' })).toHaveCount(0);
 
   // The opening view holds the jetty, the generating station and Landrie Lake.
   await expect(page.locator('.leaflet-context-point-tupper-sites-pane .leaflet-interactive')).toHaveCount(3);
   await expect(page).toHaveURL(/layers=[^&]*point-tupper-sites/);
   await expect(page).toHaveURL(/layers=[^&]*transmission-lines/);
+  await expect(page).toHaveURL(/layers=[^&]*canadian-wind-turbines/);
+  await expect(page).toHaveURL(/layers=[^&]*planned-wind-turbines/);
+  // Goose Harbour Lake's turbines, across the Strait, are in every opening view.
+  await expect.poll(() => page.locator('.leaflet-context-planned-wind-turbines-pane .context-marker-turbine').count()).toBeGreaterThan(0);
+
+  // When the sources were last read, and the company's account kept apart from the record.
+  await expect(page.getByText(/^Sources checked/).first()).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'What EverWind says' })).toBeAttached();
+  await expect(page.getByRole('heading', { level: 3, name: 'On the public record' })).toBeAttached();
+  if (phone) {
+    // The summary sheet opens on arrival without pulling focus onto its Close button.
+    await expect(page.locator('.mobile-sheet-header strong')).toHaveText('Site brief & layers');
+    await expect(page.getByRole('button', { name: 'Close map controls' })).not.toBeFocused();
+  } else {
+    // The panel keeps the research map's width.
+    expect(await page.locator('.layer-rail').evaluate((rail) => Math.round(rail.getBoundingClientRect().width))).toBe(320);
+  }
+
+  if (phone) {
+    // The map's own controls step aside while the summary sheet is open; its button hands the reader the map.
+    await expect(page.getByRole('complementary', { name: 'Map key' })).toBeHidden();
+    await page.getByRole('button', { name: 'Zoom to Point Tupper' }).click();
+  }
+  // The map key: open on a desktop, folded on a phone; each row switches its layer.
+  const key = page.getByRole('complementary', { name: 'Map key' });
+  const keyToggle = key.getByRole('button', { name: 'Map key' });
+  await expect(keyToggle).toHaveAttribute('aria-expanded', phone ? 'false' : 'true');
+  if (!phone) {
+    await expect(key.getByRole('button', { name: /Wind turbines, planned/i })).toHaveAttribute('aria-pressed', 'true');
+    // Rows keep their height as status lines arrive, so a press lands on the row it aimed at.
+    await key.getByRole('button', { name: /Transmission lines/ }).click();
+    await expect(key.getByRole('button', { name: /Transmission lines/ })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page).not.toHaveURL(/layers=[^&]*transmission-lines/);
+    await expect(key.getByRole('button', { name: /Property lines/ })).toContainText('Needs the Province licence');
+  }
 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await expect(page.locator('vite-error-overlay')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('a fact about a mapped place takes the map to it', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const errors = collectErrors(page);
+  await isolateExternal(page);
+  await page.goto('/pointtupper?basemap=osm');
+  await expect(page).toHaveURL(/position=[^&]*%2C13(&|$)/);
+  // The Water fact's pill (the 1969 timeline entry has the same door).
+  await expect(page.getByRole('button', { name: 'Show Landrie Lake on the map' })).toHaveCount(2);
+  await page.getByRole('button', { name: 'Show Landrie Lake on the map' }).first().click();
+  // Closer than the site overview, and centred on the lake.
+  await expect(page).toHaveURL(/position=45\.5[89]\d*%2C-61\.3[01]\d*%2C1[56](&|$)/);
+  expect(errors).toEqual([]);
+});
+
+test('on a small laptop the map key starts folded, leaving the site clear', async ({ page }) => {
+  test.setTimeout(60000);
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const errors = collectErrors(page);
+  await isolateExternal(page);
+  await page.goto('/pointtupper?basemap=osm');
+  await expect(page.getByRole('heading', { level: 2, name: 'Point Tupper' })).toBeVisible();
+  const key = page.getByRole('complementary', { name: 'Map key' });
+  await expect(key.getByRole('button', { name: 'Map key' })).toHaveAttribute('aria-expanded', 'false');
+  expect(await page.locator('.layer-rail').evaluate((rail) => Math.round(rail.getBoundingClientRect().width))).toBe(320);
   expect(errors).toEqual([]);
 });

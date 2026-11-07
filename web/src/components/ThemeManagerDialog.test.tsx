@@ -63,6 +63,8 @@ describe("ThemeManagerDialog", () => {
     );
 
     expect(props.onSave).toHaveBeenCalledWith("Field kit");
+    // The preview reads the same state Save stores.
+    expect(screen.getByText(/^Saves: \d+ layers?/)).toBeInTheDocument();
   });
 
   it("renames, updates, and duplicates the selected custom theme with exact callbacks", async () => {
@@ -147,7 +149,7 @@ describe("ThemeManagerDialog", () => {
     render(<Harness />);
     const opener = screen.getByRole("button", { name: "Manage themes" });
     await userEvent.click(opener);
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(opener).toHaveFocus();
 

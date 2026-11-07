@@ -36,7 +36,7 @@ describe("MapThemePicker", () => {
     );
 
     await userEvent.selectOptions(
-      screen.getByLabelText("Map setup"),
+      screen.getByLabelText("Change setup"),
       "historical-maps",
     );
 
@@ -44,6 +44,28 @@ describe("MapThemePicker", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Explore Nova Scotia");
     expect(screen.getByText(builtInMapThemes[0].description)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /reset/i })).not.toBeInTheDocument();
+  });
+
+  it("offers task setups as chips under Explore, and only there", async () => {
+    const onSelect = vi.fn();
+    const props = {
+      themes: builtInMapThemes,
+      status: "exact" as const,
+      notice: null,
+      onSelect,
+      onSave: () => {},
+      onManage: () => {},
+      onReset: () => {},
+    };
+    const { rerender } = render(<MapThemePicker {...props} activeThemeId="explore-nova-scotia" />);
+
+    const chips = within(screen.getByRole("group", { name: "Start a task" })).getAllByRole("button");
+    expect(chips.map((chip) => chip.textContent)).toEqual(["Tax sale", "Forestry", "Historical", "Fishing", "Elections"]);
+    await userEvent.click(screen.getByRole("button", { name: "Fishing" }));
+    expect(onSelect).toHaveBeenCalledWith("fishing");
+
+    rerender(<MapThemePicker {...props} activeThemeId="fishing" />);
+    expect(screen.queryByRole("group", { name: "Start a task" })).not.toBeInTheDocument();
   });
 
   it("offers reset for a modified built-in setup", async () => {
@@ -107,7 +129,7 @@ describe("MapThemePicker", () => {
       />,
     );
 
-    expect(screen.getByLabelText("Map setup")).toHaveValue("custom-field-day");
+    expect(screen.getByLabelText("Change setup")).toHaveValue("custom-field-day");
     expect(screen.getByRole("status")).toHaveTextContent("Field day — Modified");
     expect(
       within(screen.getByRole("group", { name: "Built-in themes" }))
@@ -119,18 +141,51 @@ describe("MapThemePicker", () => {
     ).toBeInTheDocument();
 
     await userEvent.selectOptions(
-      screen.getByLabelText("Map setup"),
+      screen.getByLabelText("Change setup"),
       "explore-nova-scotia",
     );
     expect(onSelect).toHaveBeenCalledWith("explore-nova-scotia");
   });
 
-  it("always offers save and manage but reserves reset for modified or partial setups", async () => {
-    const onSave = vi.fn();
+  it("offers manage only once a custom setup exists", async () => {
     const onManage = vi.fn();
     const { rerender } = render(
       <MapThemePicker
         themes={builtInMapThemes}
+        activeThemeId="explore-nova-scotia"
+        status="exact"
+        notice={null}
+        onSelect={() => {}}
+        onSave={() => {}}
+        onManage={onManage}
+        onReset={() => {}}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Save setup…" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Manage themes" })).not.toBeInTheDocument();
+
+    rerender(
+      <MapThemePicker
+        themes={[...builtInMapThemes, customTheme]}
+        activeThemeId="explore-nova-scotia"
+        status="exact"
+        notice={null}
+        onSelect={() => {}}
+        onSave={() => {}}
+        onManage={onManage}
+        onReset={() => {}}
+      />,
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    expect(onManage).toHaveBeenCalledOnce();
+  });
+
+  it("always offers save but reserves reset for modified or partial setups", async () => {
+    const onSave = vi.fn();
+    const onManage = vi.fn();
+    const { rerender } = render(
+      <MapThemePicker
+        themes={[...builtInMapThemes, customTheme]}
         activeThemeId="explore-nova-scotia"
         status="exact"
         notice={null}
@@ -181,7 +236,7 @@ describe("MapThemePicker", () => {
       />,
     );
 
-    expect(screen.getByLabelText("Map setup")).toHaveValue("shared");
+    expect(screen.getByLabelText("Change setup")).toHaveValue("shared");
     expect(
       screen.getByRole("option", { name: "Shared setup" }),
     ).toBeInTheDocument();

@@ -38,6 +38,10 @@
   /* Clear Poker's 44px Layers pill, including the phone's safe-area inset. */
   .poker-mode .research-terrain-controls { --terrain-controls-top: max(138px, calc(env(safe-area-inset-top) + 126px)); }
   .research-terrain-map .maplibregl-ctrl-bottom-right { bottom: 76px; }
+  /* The tilt control hangs below the phone's measure column, which starts at
+     max(164px, inset + 126px) and stands 100px (two 46px discs, an 8px gap).
+     MapLibre adds a 10px top margin, so the control lands 16px below it. */
+  .research-terrain-map .maplibregl-ctrl-top-left { top: max(270px, calc(env(safe-area-inset-top) + 232px)); }
   /* Wide evidence cannot fit beside a moving anchor on a phone. Keep the
      panel on screen without moving the camera to accommodate it. */
   .research-terrain-map .maplibregl-popup.fletcher-feature-popup {
@@ -56,3 +60,19 @@
 .research-terrain-controls .background-switch button { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 34px; padding: 0 9px; border: 0; border-radius: 5px; font-weight: 650; }
 .research-terrain-controls .background-switch button[aria-pressed=true] { box-shadow: 0 1px 3px #12343b40; }
 .background-switch svg { flex: none; width: 16px; height: 16px; }
+
+/* Alone, the 3D switch is a map button like the zoom bar and the tool discs:
+   one white pill with one shadow, not a bordered button boxed in a card. The
+   card returns when it has more to hold (the background switch or settings). */
+.research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) { padding: 0; background: transparent; box-shadow: none; overflow: visible; }
+.research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button { min-height: 46px; padding-inline: 18px; border: 0; border-radius: 23px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35); outline: 1px solid var(--control-edge, transparent); outline-offset: -1px; }
+.research-terrain-controls:not(:has(.background-switch, .terrain-settings-body)) .terrain-control-bar button[aria-pressed=true] { background: var(--survey-blue, #1e66cc); color: var(--white, #fff); }
+/* With the Map/Aerial switch beside it (Rhodena, Fishing), the 3D switch is
+   still a pill of the family inside the card, not a bordered box. */
+.research-terrain-controls:has(.background-switch) .terrain-control-bar button { border: 0; border-radius: 999px; background: var(--white, #fff); color: var(--survey-blue, #1e66cc); font-weight: 700; box-shadow: 0 1px 3px rgba(var(--shadow-rgb, 18, 52, 59), 0.25); }
+.research-terrain-controls:has(.background-switch) .terrain-control-bar button[aria-pressed=true] { background: var(--survey-blue, #1e66cc); color: var(--white, #fff); }
+/* The 3D credit (i) on the same 40px white disc and shadow as the tilt control
+   above it. Expanded, the disc grows into a pill that holds the full credit. */
+.research-terrain-map .maplibregl-ctrl-attrib.maplibregl-compact { box-sizing: border-box; min-width: 40px; min-height: 40px; padding: 0 40px 0 0; background: #fff; border-radius: 20px; box-shadow: 0 1px 8px rgba(var(--shadow-rgb, 18, 52, 59), 0.35); }
+.research-terrain-map .maplibregl-ctrl-attrib.maplibregl-compact-show { padding: 11px 44px 11px 14px; }
+.research-terrain-map .maplibregl-ctrl-attrib.maplibregl-compact .maplibregl-ctrl-attrib-button { top: auto; right: 0; bottom: 0; width: 40px; height: 40px; background-color: transparent; background-position: center; background-repeat: no-repeat; border-radius: 20px; }

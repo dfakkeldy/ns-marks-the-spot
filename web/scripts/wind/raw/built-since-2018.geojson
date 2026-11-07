@@ -1,0 +1,618 @@
+{
+ "type": "FeatureCollection",
+ "name": "Wind farms built since the NRCan snapshot (EA tables)",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.599522,
+     45.570809
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-1",
+    "turbine": "1",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 453,220 N 5,046,538 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 340.9,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T11",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.629367,
+     45.544104
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-2",
+    "turbine": "2",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 450,868 N 5,043,589 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 360.5,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T4",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.620229,
+     45.535522
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-3",
+    "turbine": "3",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 451,574 N 5,042,630 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 359.4,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T3",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 10 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.62793,
+     45.562285
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-4",
+    "turbine": "4",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 450,996 N 5,045,608 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 336.8,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T6",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.617076,
+     45.576278
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-5",
+    "turbine": "5",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 451,855 N 5,047,156 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 309.1,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T9",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 90 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.64105,
+     45.565561
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-6",
+    "turbine": "6",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 449,975 N 5,045,980 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 320.0,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T7",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.621927,
+     45.568772
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-7",
+    "turbine": "7",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 451,470 N 5,046,325 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 316.5,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T8",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 50 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.601175,
+     45.579207
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-8",
+    "turbine": "8",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 453,098 N 5,047,472 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 304.5,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T10",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 4 October 2026",
+    "site_check_scene": "S2C_20TMR_20261004_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.615974,
+     45.528227
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-9",
+    "turbine": "9",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 451,900 N 5,041,817 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 324.5,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T2",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 10 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.600475,
+     45.558004
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-10",
+    "turbine": "10",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 453,135 N 5,045,116 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 317.1,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T12",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 4 October 2026",
+    "site_check_scene": "S2C_20TMR_20261004_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.632973,
+     45.551537
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-11",
+    "turbine": "11",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 450,593 N 5,044,417 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 329.4,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T5",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 130 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.618394,
+     45.516531
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-12",
+    "turbine": "12",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 451,701 N 5,040,519 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 299.9,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T1",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.593459,
+     45.540282
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-13",
+    "turbine": "13",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 453,668 N 5,043,143 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 313.2,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T14",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.591173,
+     45.504244
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-14",
+    "turbine": "14",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 453,817 N 5,039,138 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 275.8,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T17",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.584266,
+     45.525757
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-15",
+    "turbine": "15",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 454,374 N 5,041,524 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 326.8,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T16",
+    "build_status": "operating",
+    "site_check": "a pad was cleared here by 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.602469,
+     45.549182
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-16",
+    "turbine": "16",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 452,972 N 5,044,137 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 301.1,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T13",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 20 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -63.587293,
+     45.533617
+    ]
+   },
+   "properties": {
+    "id": "higgins-mountain-17",
+    "turbine": "17",
+    "project": "Higgins Mountain Wind Farm",
+    "proponent": "Higgins Mountain Wind Farm Limited Partnership (Sipekne'katik First Nation, Elemental Energy Renewables Inc and Stevens Wind Ltd)",
+    "county": "Cumberland / Colchester",
+    "status": "Operating",
+    "status_date": "2023-05-04",
+    "project_turbines": 17,
+    "project_capacity_mw": 100,
+    "tip_height_m": 195.5,
+    "hub_height_m": null,
+    "rotor_diameter_m": null,
+    "coords_as_published": "E 454,144 N 5,042,399 (UTM (north) NAD83 Zone 20, WindPRO, whole metres)",
+    "source": "Higgins Mountain Wind Farm EA registration, Appendix O Shadow Flicker (Strum Consulting, WindPRO 'Higgins - Real Case - Dec 2022'), WTG table",
+    "source_url": "https://novascotia.ca/nse/ea/higgins-mountain-wind-farm/hmwf-ea-registration-appendix-o-q.pdf#page=2",
+    "source_locator": "Appendix O, 'SHADOW - Main Result' WTG table, PDF page 2; identical in the worst-case run (PDF page 14) and Appendix P 'DECIBEL - Main Result' (Jan 2023, PDF page 30)",
+    "read_date": "2026-10-24",
+    "layout_role": "assessed",
+    "ground_elev_m_published": 347.2,
+    "layout_note": "Representative EA model Siemens Gamesa SG 6.6-170 (hub 110.5 m, tip 195.5 m); the farm was built as 17 turbines, 100 MW (about 5.9 MW each), so hub and rotor are left null. The Feb 2022 EMI letters (Appendix N) list an earlier 18-turbine layout that this one superseded.",
+    "site_label": "T15",
+    "build_status": "operating",
+    "site_check": "the nearest cleared pad was about 40 m away on 24 October 2026",
+    "site_check_scene": "S2C_20TMR_20261024_0_L2A"
+   }
+  }
+ ]
+}

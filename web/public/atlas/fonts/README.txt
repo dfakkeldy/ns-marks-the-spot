@@ -8,11 +8,13 @@ stack's upstream font release, checksum, licence and glyph count.
 
   Atlas Serif Regular / Atlas Serif Italic  derived from Libre Baskerville
   Atlas Sans Regular / Atlas Sans Bold      derived from Noto Sans
+  Atlas Quill Regular / Atlas Quill Italic  derived from IM Fell English
+  Atlas Hand Regular / Atlas Hand Bold      derived from Kalam
 
-Both fonts are licensed under the SIL Open Font License 1.1 (texts beside this
-file). Libre Baskerville declares the Reserved Font Name "Libre Baskerville";
-the Noto OFL text declares no Reserved Font Name, and "Noto" is a Google
-trademark. Converting a font to glyph ranges makes a Modified Version under the
+All four fonts are licensed under the SIL Open Font License 1.1 (texts beside
+this file). Libre Baskerville declares the Reserved Font Name "Libre
+Baskerville"; the Noto, IM Fell English and Kalam OFL texts declare none, and
+"Noto" is a Google trademark. Converting a font to glyph ranges makes a Modified Version under the
 OFL, so the stacks use project names and the upstream names appear only as the
 derivation record. The ranges stay under the OFL and are not covered by the
 repository's MIT code licence. Serving them with the app means no font host is

@@ -45,7 +45,7 @@ export function ContextTileLayer({ layer, visible, onStatusChange, renderMode }:
     map.on("moveend", report);
     tiles.addTo(map);
     report();
-    return () => { map.off("moveend", report); tiles.off(); tiles.remove(); };
+    return () => { map.off("moveend", report); tiles.remove(); tiles.off(); /* remove first: see FletcherTileLayer */ };
   }, [layer, map, onStatusChange, renderMode, visible]);
   return null;
 }

@@ -3068,6 +3068,16 @@ describe("MapCanvas cartographic furniture", () => {
     );
   });
 
+  it("withdraws the 2D scale bar in 3D, where a tilted view has no single scale", () => {
+    render(<MapCanvas {...furnitureProps} />);
+    fireEvent.click(screen.getByRole("button", { name: "3D terrain" }));
+    expect(screen.queryByTestId("scale-control")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "3D settings" }));
+    expect(screen.getByText(/Scale varies across a tilted 3D view/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Return to 2D" }));
+    expect(screen.getByTestId("scale-control")).toBeInTheDocument();
+  });
+
   it("announces the map as a named region a screen reader can jump to", () => {
     render(<MapCanvas {...furnitureProps} />);
 
@@ -3082,7 +3092,7 @@ describe("MapCanvas cartographic furniture", () => {
   it("shows an approximate representative fraction and updates it with the map", () => {
     render(<MapCanvas {...furnitureProps} />);
 
-    const readout = screen.getByText("Approx. screen scale 1:12,500");
+    const readout = screen.getByText((_, element) => element?.classList.contains("display-scale-readout") === true && element.textContent === "Approx. screen scale 1:12,500");
     expect(readout).toHaveAttribute(
       "title",
       expect.stringContaining("96 CSS pixels per inch"),
@@ -3147,7 +3157,7 @@ describe("MapCanvas Province overlays", () => {
   });
 
   it("renders the complete open roads result as one image above reference overlays", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
@@ -3183,7 +3193,7 @@ describe("MapCanvas Province overlays", () => {
   });
 
   it("reports roads ready only after the open-data image loads", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     const onLayerStatusChange = vi.fn();
     render(
       <MapCanvas
@@ -4120,6 +4130,73 @@ describe("MapCanvas print mode", () => {
     ]));
   });
 
+  it("paints current notice dots by sale-date band, and leaves unbanded PIDs red", () => {
+    mapMock.getZoom.mockReturnValue(9);
+    const square = (x: number) => ({
+      type: "Polygon" as const,
+      coordinates: [[[x, 46.3], [x + 0.1, 46.3], [x + 0.1, 46.4], [x, 46.3]]],
+    });
+    const parcels = {
+      type: "FeatureCollection" as const,
+      features: ["30000001", "30000002", "30000003"].map((PID, index) => ({
+        type: "Feature" as const,
+        properties: { PID },
+        geometry: square(-61.5 + index * 0.2),
+      })),
+    };
+    circleMarkerProps.calls.length = 0;
+    render(
+      <MapCanvas
+        parcels={parcels}
+        taxSalePids={new Set(["30000001", "30000002", "30000003"])}
+        taxSaleDateBands={new Map([
+          ["30000001", "within-7-days"],
+          ["30000002", "date-not-stated"],
+        ])}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+    const options = circleMarkerProps.calls.map(
+      ({ pathOptions }) => pathOptions as Record<string, unknown>,
+    );
+    expect(options).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        className: "tax-sale-date-band-within-7-days",
+        fillColor: "#be4d3c",
+      }),
+      expect.objectContaining({
+        className: "tax-sale-date-band-date-not-stated",
+        fillColor: "#ffffff",
+        dashArray: "3 2",
+      }),
+      expect.objectContaining({ fillColor: "#be4d3c", color: "#ffffff" }),
+    ]));
+    const unbanded = options.find(
+      (option) => option.fillColor === "#be4d3c" && option.className === undefined,
+    );
+    expect(unbanded).toBeDefined();
+  });
+
   it("keeps modern tile errors sticky within a print attempt", () => {
     const onLayerStatusChange = vi.fn();
     render(
@@ -4168,7 +4245,7 @@ describe("MapCanvas print mode", () => {
   });
 
   it("keeps an open roads print image failure sticky", async () => {
-    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5, fetched: 5 });
     mapMock.getZoom.mockReturnValue(15);
     const onLayerStatusChange = vi.fn();
     render(
@@ -4604,3 +4681,96 @@ describe("MapCanvas live conditions overlays", () => {
   });
 });
 import { withTerrainCameraUpdate } from "../terrain/terrainViewport";
+
+describe("MapCanvas setup cameras", () => {
+  const noticeParcel = {
+    type: "Feature" as const,
+    properties: { PID: "50251750" },
+    geometry: {
+      type: "Polygon" as const,
+      coordinates: [[[-61.42, 46.05], [-61.41, 46.05], [-61.41, 46.06], [-61.42, 46.06], [-61.42, 46.05]]],
+    },
+  };
+  const layersWith = (on: Partial<Record<string, boolean>>) => ({
+    "ns-aerial": false, nsprd: false, "crown-lands": false, "flood-risk": false, waterfalls: false,
+    "water-features": false, roads: false, buildings: false, contours: false, "place-names": false, "main-roads": false,
+    ...on,
+  }) as React.ComponentProps<typeof MapCanvas>["provinceLayers"];
+  const base = {
+    parcels: { type: "FeatureCollection" as const, features: [noticeParcel] },
+    taxSalePids: new Set(["50251750"]),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mapMock.getZoom.mockReturnValue(8);
+  });
+
+  it("keeps the notice-extent fit when the licence later turns on buildings", () => {
+    // The Tax Sale Research race: the notices were framed at an overview zoom,
+    // then accepting the licence switched on buildings (minZoom 13), and the
+    // layer zoom pulled the framed view in to 13.
+    const camera = { revision: 1, camera: { kind: "notice-extent" as const } };
+    const { rerender } = render(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({ roads: true })} themeCamera={camera} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({ roads: true, buildings: true, nsprd: true })}
+      themeCamera={{ revision: 2, camera: camera.camera }} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+    // The re-issued camera frames the notices again.
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not let the opening layers of a setup zoom past its camera", () => {
+    render(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({ buildings: true })}
+      themeCamera={{ revision: 1, camera: { kind: "notice-extent" } }} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+  });
+
+  it("zooms in only for a layer that has just been turned on", () => {
+    const { rerender } = render(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({ buildings: true })} />);
+    expect(mapMock.setZoom).toHaveBeenCalledWith(13, { animate: true });
+    mapMock.setZoom.mockClear();
+    // Same layers, new object (as licence acceptance hands back): no zoom.
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({ buildings: true, roads: true })} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({ buildings: true, roads: true, "crown-lands": true })} />);
+    expect(mapMock.setZoom).toHaveBeenCalledWith(12, { animate: true });
+  });
+
+  it("refits the notices each time Tax Sale Research is chosen", () => {
+    const { rerender } = render(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({})} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({})} themeCamera={{ revision: 1, camera: { kind: "zoom-floor", zoom: 14 } }} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale provinceLayers={layersWith({})} themeCamera={{ revision: 2, camera: { kind: "notice-extent" } }} />);
+    expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
+  });
+
+  it("applies a zoom floor and a fixed position once per revision", () => {
+    const mapWithView = mapMock as typeof mapMock & { setView?: ReturnType<typeof vi.fn> };
+    mapWithView.setView = vi.fn();
+    const floor = { revision: 1, camera: { kind: "zoom-floor" as const, zoom: 14 } };
+    const { rerender } = render(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})} themeCamera={floor} />);
+    expect(mapMock.setZoom).toHaveBeenCalledWith(14, { animate: false });
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})} themeCamera={{ ...floor }} />);
+    expect(mapMock.setZoom).toHaveBeenCalledTimes(1);
+    rerender(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})}
+      themeCamera={{ revision: 2, camera: { kind: "position", position: { latitude: 45.765, longitude: -61.43, zoom: 13 } } }} />);
+    expect(mapWithView.setView).toHaveBeenCalledWith([45.765, -61.43], 13, { animate: false });
+    delete mapWithView.setView;
+  });
+
+  it("leaves a zoom floor alone when the map is already closer", () => {
+    mapMock.getZoom.mockReturnValue(17);
+    render(<MapCanvas {...base} showTaxSale={false} provinceLayers={layersWith({})} themeCamera={{ revision: 1, camera: { kind: "zoom-floor", zoom: 16 } }} />);
+    expect(mapMock.setZoom).not.toHaveBeenCalled();
+  });
+});

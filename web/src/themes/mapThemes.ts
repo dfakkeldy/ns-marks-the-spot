@@ -68,7 +68,7 @@ export const builtInMapThemes = [
     id: "explore-nova-scotia",
     kind: "built-in",
     name: "Explore Nova Scotia",
-    description: "A clean modern map for general exploration.",
+    description: "The modern map. Search a PID or address, or choose a setup for a task.",
     layerIds: ["modern"],
     opacityOverrides: {},
     preferredCategoryIds: ["background-maps"],
@@ -90,7 +90,7 @@ export const builtInMapThemes = [
     id: "forestry-field-access",
     kind: "built-in",
     name: "Forestry & Field Access",
-    description: "Aerial, land, access, terrain, and old-growth policy context.",
+    description: "Crown land, old-growth policy and property lines over aerial, with roads, water and contours.",
     layerIds: ["ns-aerial", "nsprd", "crown-lands", "roads", "water-features", "contours", "old-growth-policy"],
     opacityOverrides: {},
     preferredCategoryIds: ["forestry-ecology", "land-property", "roads-places", "water-terrain"],
@@ -101,7 +101,7 @@ export const builtInMapThemes = [
     id: "historical-maps",
     kind: "built-in",
     name: "Historical Maps",
-    description: "Fletcher mapping with modern roads and place references.",
+    description: "Hugh Fletcher's 1882–1884 sheets of Cape Breton, with today's towns and main roads.",
     layerIds: ["modern", "fletcher", "place-names", "main-roads"],
     opacityOverrides: {},
     preferredCategoryIds: ["historical-maps", "roads-places"],
@@ -112,7 +112,7 @@ export const builtInMapThemes = [
     id: "georeferencing",
     kind: "built-in",
     name: "Georeferencing",
-    description: "A clean reference setup for positioning your own maps.",
+    description: "Load your scan under My maps, then match its points to these roads and places.",
     layerIds: ["modern", "place-names", "main-roads"],
     opacityOverrides: {},
     preferredCategoryIds: ["my-maps", "background-maps", "roads-places"],
@@ -130,7 +130,7 @@ export const builtInMapThemes = [
     taxSaleEnabled: false,
     mapMode: "current",
   },
-  { id: "rhodena", kind: "built-in", name: "Rhodena", description: "The six-turbine 2024 proposal with land, water and community context.", layerIds: ["modern", "rhodena-turbines", "rhodena-infrastructure", "rhodena-study", "protected-conservation-areas", "water-features", "crown-lands", "roads", "old-growth-policy"], opacityOverrides: {}, preferredCategoryIds: ["rhodena-project"], taxSaleEnabled: false, mapMode: "current" },
+  { id: "rhodena", kind: "built-in", name: "Rhodena", description: "ABO Energy's 2024 six-turbine proposal (EA), with land, water and community context.", layerIds: ["modern", "rhodena-turbines", "rhodena-infrastructure", "rhodena-study", "protected-conservation-areas", "water-features", "crown-lands", "roads", "old-growth-policy"], opacityOverrides: {}, preferredCategoryIds: ["rhodena-project"], taxSaleEnabled: false, mapMode: "current" },
   { id: "electoral-districts", kind: "built-in", name: "Electoral Districts", description: "Dated boundaries and election results, with each source on its own geometry.", layerIds: ["modern", "provincial-districts-2026", "federal-ridings-2025"], opacityOverrides: {}, preferredCategoryIds: ["elections-districts", "background-maps"], taxSaleEnabled: false, mapMode: "current" },
   {
     // Web-only, and fully open: `modern` is the only background, and no layer
@@ -165,7 +165,9 @@ export const builtInMapThemes = [
       "roads",
       "campgrounds",
     ],
-    opacityOverrides: {},
+    // The publisher's park colours (a pure-yellow National Park) would
+    // outshout the spot pins; at a quarter they stay legible as areas.
+    opacityOverrides: { "protected-conservation-areas": 0.25 },
     preferredCategoryIds: ["water-terrain", "roads-places", "land-property"],
     taxSaleEnabled: false,
     mapMode: "current",
@@ -176,27 +178,56 @@ export const builtInMapThemes = [
     // raises the Province licence. Place names stay off for the same reason as
     // on fishing (thousands of dots that bury the key places); the background
     // labels the towns. Everything opens at zoom 11 or closer, so turning the
-    // setup on never moves the camera off the Strait.
+    // setup on never moves the camera off the Strait. The turbines and tanks
+    // need no licence either (NRCan, OGL-Canada; EA-filing coordinates as
+    // public facts, like Rhodena's; NSTDB, OGL-NS); tanks wait for
+    // zoom 13 like the substations, which only context layers may do without
+    // moving the camera (LayerZoomController acts on province layers alone).
+    // Property boundaries stay one tap away: they need the licence.
     id: "point-tupper",
     kind: "built-in",
     name: "Point Tupper",
-    description: "Key places for the announced data-centre campus, with the mapped grid, pipelines, wharves, water and roads.",
+    description: "The announced data-centre campus, with installed and planned turbines, the grid, pipelines and wharves.",
     layerIds: [
       "modern",
       "point-tupper-sites",
+      "canadian-wind-turbines",
+      "planned-wind-turbines",
       "transmission-lines",
       "substations",
       "pipelines",
+      "tanks",
       "wharves-coastal-structures",
       "water-features",
       "roads",
     ],
     opacityOverrides: {},
-    preferredCategoryIds: ["point-tupper-site", "roads-places", "water-terrain"],
+    // The map key switches the setup's layers, so the panel opens only the site's own list.
+    preferredCategoryIds: ["point-tupper-site"],
     taxSaleEnabled: false,
     mapMode: "current",
   },
 ] as const satisfies readonly MapThemeDefinition[];
+
+/**
+ * The five setups the iOS app ports, in its picker's order. The fixture copies
+ * them from `builtInMapThemes`, so a web change to one of these five edits the
+ * Swift fixture too, and `MapThemeTests` then asks for the same change in
+ * `MapTheme.builtIn`. Every other setup is web-only.
+ */
+export const nativeBuiltInThemeIds = [
+  "explore-nova-scotia",
+  "tax-sale-research",
+  "forestry-field-access",
+  "historical-maps",
+  "georeferencing",
+] as const satisfies readonly BuiltInMapThemeId[];
+
+const nativeBuiltInThemes = nativeBuiltInThemeIds.map((id) => {
+  const theme = builtInMapThemes.find((candidate) => candidate.id === id);
+  if (!theme) throw new Error(`native setup ${id} is not a web built-in`);
+  return theme;
+});
 
 /**
  * Web-only live overlays sit outside the native parity universe (see the
@@ -219,9 +250,9 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
             (layerId) => !nativeExcludedLayerIds.has(layerId),
           ),
     })),
-    // Poker is a web workflow; native has no driveway session controls.
-    // Electoral, Rhodena and Fishing name web-only context layers.
-    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker" && theme.id !== "electoral-districts" && theme.id !== "rhodena" && theme.id !== "fishing" && theme.id !== "point-tupper").map((theme) => ({
+    // Only the five the app ports: Poker, Electoral, Rhodena, Fishing and
+    // Point Tupper are web-only.
+    builtInThemes: nativeBuiltInThemes.map((theme) => ({
       id: theme.id,
       name: theme.name,
       description: theme.description,

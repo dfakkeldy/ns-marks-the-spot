@@ -1,0 +1,82 @@
+SITE REVIEW - Sentinel-2 build-status checks written into the raw extracts (2026-10-24)
+=====================================================================================
+
+pad-check.txt is the machine run (now 2026-07-01/2026-10-24, baseline 2022-06-01/2022-09-30) over
+every raw extract plus two approvals kept off the map (Ellershouse 3, Appendix M-P Table 1 p. 7;
+Clydesdale Ridge, EA registration Table 6.3 p. 32; both extracted to <scratch> for this check only).
+Everything below was also looked at by eye in true-colour crops (the TCI asset, 10 m) around each
+position: before/after mosaics, ring radius 40 m. The imagery decides build status only; no position
+was taken from it. Contains modified Copernicus Sentinel data 2022-2026 (Earth Search, Element 84).
+
+How the results were written into the extracts
+-----------------------------------------------
+site_check text, from the machine numbers unless noted:
+  bare >= 15 of 29 pixels within 30 m  -> "a pad was cleared here by <scene date>"
+  otherwise, a cleared disk within 300 m -> "the nearest cleared pad was about <n> m away on <date>"
+  otherwise                             -> "no clearing within 300 m by <date>"
+build_status: operating (from the proponent, not the imagery), under construction, site work.
+The nearest-pad distance is written only where a turbine is expected; at unbuilt Benjamins Mill
+positions the nearest bright disk is the substation yard or a road, so they read "no turbine pad".
+
+Benjamins Mill (28 EA positions)
+--------------------------------
+Bare-pixel counts (of 29 within 30 m) in four scenes:
+  S2B_20TLQ_20220910  S2B_20TLQ_20240830  S2B_20TLQ_20250527  S2B_20TLQ_20251004
+  14, 15, 17, 18, 19, 20, 21, 22:   0 -> 21-29 by 2024-08-30 and every scene after   (phase 1)
+  6, 8, 9:                          0 until 2025-05-27, 21-22 by 2025-10-04          (phase 2)
+  the other 17:                     0-3 in every scene, 0 on 2026-10-24
+Phase 1 is 8 turbines, operating since 2025-12-16 (Natural Forces); Minas Highlands is 3 turbines,
+under construction with turbines delivered 19-20 Sept 2026 (Natural Forces). The pads match those
+counts, in two clusters: eight western pads and three to the east. Natural Forces' layout map of
+2025-09-03 (unnumbered; Benjamins Mill Phase 1 in green, Minas Highlands in yellow north-east of the
+substation) shows the same arrangement.
+
+Higgins Mountain (17 positions, Dec 2022 model)
+-----------------------------------------------
+17 pads, each with a bright point at its centre in S2C_20TMR_20261024, none in S2B_20TMR_20220821.
+Ten sit on the tabulated position; rows 3, 9, 16 have the pad edge within 10-20 m; rows 17, 7, 5, 11
+have the nearest pad about 40, 50, 90 and 130 m away (micrositing after the EA). Elemental's signage
+map also puts rows 5, 7 and 11 among those furthest from its turbine symbols (conversion-check-built.txt).
+
+Goose Harbour Lake (24), Weavers Mountain (16)
+----------------------------------------------
+A pad at every position (29 of 29 bare at 23 of 24 Goose Harbour Lake positions; row 73 was already
+bare in 2022). Weavers Mountain 3: pad edge 40 m away; the other 15 on the position.
+
+Mersey River (33 positions; built in two phases of 20 and 13)
+-------------------------------------------------------------
+S2A_20TLP_20220925 vs S2C_20TLP_20261024. Pads on or within 100 m of 18 positions: 1-8, 15, 16, 18,
+20-26 (7, 15, 16 and 26 are 20-100 m off, consistent with the 2023 revision that "moved a few
+select turbines"). No clearing within 300 m of the other 15: 9-14, 17, 19, 27-33, in the north and
+west, where Mersey River Wind's construction map puts most of phase 2. At least one more pad, between
+positions 18 and 20, is at an untabulated site; it is not mapped.
+
+Wedgeport (13 EA positions; built as 12)
+----------------------------------------
+S2A_19TGJ_20220928 vs S2C_19TGJ_20261007 / 20261024. Twelve pads: on or within 20 m of WTG1, 6, 8,
+9, 12, 13; about
+80-240 m from WTG2, 3, 4, 5 and 11; and one at an untabulated site between WTG11 and WTG12 (not
+mapped). No pad within 270 m of WTG7 or WTG10. Elemental's December 2023 layout figure (McCallum
+Environmental, Figure 1, WTG1-WTG12) has no turbine near WTG7 or WTG10 either, and adds one between
+WTG11 and WTG12, so WTG7 and WTG10 are marked dropped and left off the map.
+
+Windy Ridge (49 positions) - reviewed by eye, not by the NDVI test
+------------------------------------------------------------------
+S2C_20TMR_20250929 vs S2B_20TMR_20260830. Its earth pads are smaller than the gravel pads above and
+were greening by October, so the machine run under-counts them (16 "vegetation loss" and 1 pad).
+A round pad on a new access road at 32 positions: T1-T9, T14, T16, T17, T20, T21, T28-T35, T37-T39,
+T41-T46, T52. T40: clearing beside the position, unclear. No clearing at the other 16: T18, T47, T53,
+T55-T58, T60-T63, T65, T67-T69, T72. The first pads (T16, T17, T37, T38) are absent on 2025-09-29 and
+present on 2026-04-27 (S2C_20TMR_20260427), before the 2026-07-25 deadline to start work.
+
+Projects with no clearing at any position
+-----------------------------------------
+Bear Lake (15) and Kmtnuk (16): none on 2026-08-30 (S2B_20TLQ_20260830, S2B_20TMR_20260830) or in
+October. With no extension posted, both are off the map (OFF_MAP in merge_planned.py). Kmtnuk T6's October "vegetation loss" is thin cloud on 2026-10-09 that SCL did not flag.
+Ellershouse 3 (12): none on 2026-08-30 (S2B_20TMQ_20260830); the October flag at position 5 is cloud.
+Clydesdale Ridge (18): none; WTG11's flag is an irregular forestry cut, not a pad.
+Aulds Cove, Setapuktuk, Ocean Lake, Upper Afton, Rhodena, Eigg Mountain, Melvin Lake, Harbour Hills: none.
+Sugar Maple (16): no pad on 2026-09-24. S10R sits in a forestry cut block, and the October flags at
+S1 and S11 are cloud or forestry (no pad there on 2026-09-24). Separately, most positions show a
+bright patch 20-30 m across on 2026-09-24 (S2C_20TNR_20260924) that is absent in 2022, consistent
+with small pre-construction clearings such as geotechnical boreholes. Not used for status.

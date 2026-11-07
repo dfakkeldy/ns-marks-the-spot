@@ -1,4 +1,4 @@
-import { openInfrastructureSource } from "./openDataSources";
+import { openInfrastructureSource, type OpenDataStyle } from "./openDataSources";
 import { PROVINCE_LICENSE_URL } from "../licensing/provinceLicense";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
 
@@ -18,10 +18,18 @@ const common = {
 
 type FeatureSelection = readonly [layerId: number, descriptions: readonly string[]];
 
+/**
+ * Power and pipelines used to share one thin Utilities purple, so a pipeline
+ * read as a power line. Power keeps the purple, drawn bold over a light
+ * casing; pipelines take a dashed amber, the usual colour for fuel lines.
+ */
+const UTILITY_GRID_LINE = { color: "#6f3fa6", lineWidth: 2.4, casing: "rgba(255, 255, 255, 0.78)" } as const satisfies Partial<OpenDataStyle>;
+const PIPELINE_LINE = { color: "#b45309", lineWidth: 2.2, dash: [7, 4], casing: "rgba(255, 255, 255, 0.72)" } as const satisfies Partial<OpenDataStyle>;
+
 /** Preserve exact source feature classes in the open replacement; omit callout copies. */
-function filtered(theme: string, selections: readonly FeatureSelection[]) {
+function filtered(theme: string, selections: readonly FeatureSelection[], style: Partial<OpenDataStyle> = {}) {
   return {
-    openData: openInfrastructureSource(theme, selections),
+    openData: openInfrastructureSource(theme, selections, style),
     serviceUrl: service(theme),
     sourceUrl: service(theme),
     exportOptions: {
@@ -32,7 +40,7 @@ function filtered(theme: string, selections: readonly FeatureSelection[]) {
         definitionExpression: `FEAT_DESC IN (${descriptions.map((value) => `'${value.replaceAll("'", "''")}'`).join(", ")})`,
       }))),
     },
-    legend: selections.flatMap(([, descriptions]) => descriptions.map((label) => ({ label }))),
+    legend: selections.flatMap(([, descriptions]) => descriptions.map((label) => (style.color ? { label, color: style.color } : { label }))),
   };
 }
 
@@ -56,7 +64,8 @@ export const infrastructureLayers = [
   },
   {
     ...common,
-    ...filtered("Utilities", [[2, ["TRANSMISSION LINE (electrical) line"]]]),
+    // Bold and cased, so the grid reads as the main line on any background.
+    ...filtered("Utilities", [[2, ["TRANSMISSION LINE (electrical) line"]]], UTILITY_GRID_LINE),
     id: "transmission-lines",
     name: "Electrical transmission lines",
     category: "roads-places",
@@ -69,7 +78,7 @@ export const infrastructureLayers = [
     ...filtered("Utilities", [
       [3, ["SUBSTATION (transformer) polygon"]],
       [1, ["SUBSTATION (transformer) point"]],
-    ]),
+    ], { color: UTILITY_GRID_LINE.color, fillOpacity: 0.45, lineWidth: 1.6 }),
     id: "substations",
     name: "Electrical substations",
     category: "roads-places",
@@ -82,7 +91,7 @@ export const infrastructureLayers = [
       "PIPELINE (cross country) line",
       "PIPELINE (cross country) overhead line",
       "PIPELINE (cross country) underground line",
-    ]]]),
+    ]]], PIPELINE_LINE),
     id: "pipelines",
     name: "Cross-country pipelines",
     category: "roads-places",
@@ -95,7 +104,7 @@ export const infrastructureLayers = [
     ...filtered("Utilities", [
       [3, ["TANK (over 15m diameter) polygon"]],
       [1, ["TANK (6-15m diameter) point", "TANK indefinite/approximate point"]],
-    ]),
+    ], { color: "#3d6a80", fillOpacity: 0.55 }),
     id: "tanks",
     name: "Mapped tanks",
     category: "roads-places",

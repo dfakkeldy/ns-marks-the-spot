@@ -18,6 +18,12 @@ nonisolated enum ActiveAttribution {
     /// the whole reason this map is a screening tool.
     static let boundaryCaveat = "Boundaries are not a survey"
 
+    /// Said over the credits while the Atlas's tiles are failing. Apple's map
+    /// shows through the squares that did not arrive, and a strip that went
+    /// on crediting only the Atlas would be naming a ground that is not the
+    /// one on screen.
+    static let atlasFailingNotice = "Atlas tiles aren't loading. Apple Maps is showing where they're missing."
+
     struct Credit: Identifiable, Equatable {
         var provider: String
         /// A branch or a publisher, when the provider alone is too broad to

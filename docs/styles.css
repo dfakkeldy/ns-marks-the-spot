@@ -284,23 +284,29 @@ h1 {
   accent-color: var(--survey-red);
 }
 
-.hero-credit {
-  position: absolute;
-  top: 18px;
-  right: clamp(18px, 5vw, 70px);
-  width: min(360px, 38vw);
-  margin: 0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: rgba(238, 247, 245, 0.78);
-  color: rgba(18, 52, 59, 0.78);
-  font-size: 0.72rem;
+.hero-status {
+  max-width: 620px;
+  margin: 16px 0 0;
+  color: rgba(18, 52, 59, 0.72);
+  font-size: 0.88rem;
+  font-weight: 600;
   line-height: 1.45;
-  backdrop-filter: blur(10px);
 }
 
-.hero-credit a {
+.hero-caption {
+  margin: 0;
+  padding: 10px clamp(18px, 5vw, 72px);
+  border-bottom: 1px solid rgba(18, 52, 59, 0.12);
+  background: var(--paper);
+  color: rgba(18, 52, 59, 0.66);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.hero-caption a {
   color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .proof-strip {
@@ -609,8 +615,7 @@ h1 {
     align-items: start;
   }
 
-  .overlay-control,
-  .hero-credit {
+  .overlay-control {
     position: static;
     width: auto;
     margin: 0 18px 14px;

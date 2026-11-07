@@ -28,6 +28,7 @@ const MIN_FINISH_POINTS: Record<ActiveMeasureMode, number> = {
 };
 
 const SHAPE_STYLE = {
+  className: "measure-shape",
   color: "#d97706",
   weight: 2,
   dashArray: "6 4",
@@ -305,15 +306,25 @@ function MeasureCapture({
         // strip only announces it so it does not spend a line on it.
         points.length >= MIN_FINISH_POINTS[mode] && <p className="sr-only" role="status">{readoutText(mode, points)}</p>
       ) : <p className={finished ? "sr-only" : "measure-readout"} role="status">
-        {readoutText(mode, points)}
+        {/* Once there is a total, the label at the last vertex shows it; the
+            plate keeps it for screen readers only rather than print the same
+            number twice on screen. */}
+        {!finished && points.length >= MIN_FINISH_POINTS[mode]
+          ? <span className="sr-only">{readoutText(mode, points)} · </span>
+          : <>{readoutText(mode, points)}{!finished && points.length > 0 ? " · " : null}</>}
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}
         {!finished && points.length > 0
-          ? " · double-click or Enter to finish · Esc to clear"
+          ? (coarsePointer() ? "tap Finish when done" : "double-click or Enter to finish · Esc to clear")
           : null}
       </p>}
     </>
   );
+}
+
+/** A touch screen has no double-click or Esc to mention. */
+function coarsePointer(): boolean {
+  return typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches === true;
 }
 
 function readoutText(mode: ActiveMeasureMode, points: readonly GeoPoint[]): string {

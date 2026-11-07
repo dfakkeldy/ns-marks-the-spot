@@ -61,5 +61,131 @@
     "width": 96,
     "height": 8,
     "pixelRatio": 1
+  },
+  "hand-paper": {
+    "x": 0,
+    "y": 570,
+    "width": 256,
+    "height": 256,
+    "pixelRatio": 1
+  },
+  "hand-sea": {
+    "x": 0,
+    "y": 826,
+    "width": 64,
+    "height": 64,
+    "pixelRatio": 1
+  },
+  "hand-trees-far": {
+    "x": 0,
+    "y": 890,
+    "width": 160,
+    "height": 160,
+    "pixelRatio": 1
+  },
+  "hand-trees": {
+    "x": 0,
+    "y": 1050,
+    "width": 256,
+    "height": 256,
+    "pixelRatio": 1
+  },
+  "hand-marsh": {
+    "x": 0,
+    "y": 1306,
+    "width": 40,
+    "height": 40,
+    "pixelRatio": 1
+  },
+  "hand-field": {
+    "x": 0,
+    "y": 1346,
+    "width": 24,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-peak-0": {
+    "x": 0,
+    "y": 1370,
+    "width": 36,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-mesa-0": {
+    "x": 0,
+    "y": 1394,
+    "width": 36,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-peak-1": {
+    "x": 0,
+    "y": 1418,
+    "width": 36,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-mesa-1": {
+    "x": 0,
+    "y": 1442,
+    "width": 36,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-peak-2": {
+    "x": 0,
+    "y": 1466,
+    "width": 36,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-mesa-2": {
+    "x": 0,
+    "y": 1490,
+    "width": 36,
+    "height": 24,
+    "pixelRatio": 1
+  },
+  "hand-town": {
+    "x": 0,
+    "y": 1514,
+    "width": 14,
+    "height": 14,
+    "pixelRatio": 1
+  },
+  "hand-house": {
+    "x": 0,
+    "y": 1528,
+    "width": 14,
+    "height": 14,
+    "pixelRatio": 1
+  },
+  "hand-ink": {
+    "x": 0,
+    "y": 1542,
+    "width": 96,
+    "height": 8,
+    "pixelRatio": 1
+  },
+  "hand-ink-water": {
+    "x": 0,
+    "y": 1550,
+    "width": 96,
+    "height": 8,
+    "pixelRatio": 1
+  },
+  "hand-road-edges": {
+    "x": 0,
+    "y": 1558,
+    "width": 128,
+    "height": 12,
+    "pixelRatio": 1
+  },
+  "crown-hatch": {
+    "x": 0,
+    "y": 1570,
+    "width": 8,
+    "height": 8,
+    "pixelRatio": 1
   }
 }

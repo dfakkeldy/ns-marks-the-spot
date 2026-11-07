@@ -32,7 +32,7 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     await page.goto("/?basemap=osm");
     await expect(page).toHaveTitle(/NS Marks The Spot/);
     if (viewport.width <= 860) await page.getByRole("button", { name: "Search & layers", exact: true }).click();
-    await page.getByRole("combobox", { name: "Map setup", exact: true }).selectOption("poker");
+    await page.getByRole("combobox", { name: "Change setup", exact: true }).selectOption("poker");
     const input = page.getByRole("combobox", { name: "Search by PID or civic address" });
     await input.fill("117 Test Driveway");
     await page.getByRole("button", { name: "Find parcel", exact: true }).click();
@@ -51,7 +51,7 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
       const layersBox = await box(layers);
       expect(terrainBox.y).toBeGreaterThanOrEqual(layersBox.y + layersBox.height + 8);
       await activate(layers);
-      await expect(page.getByRole("combobox", { name: "Map setup", exact: true })).toBeVisible();
+      await expect(page.getByRole("combobox", { name: "Change setup", exact: true })).toBeVisible();
       await page.getByRole("button", { name: "Close map controls", exact: true }).click();
       expect(searchBox.y + searchBox.height).toBeLessThanOrEqual(zoom.y);
       const locate = await box(page.getByRole("button", { name: "Use my location", exact: true }));
@@ -59,11 +59,13 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     }
     await expect(page.locator(".poker-civic-number")).toHaveCount(1);
     // The attribution strip was shown on entering Poker and folded at the
-    // first map interaction (the search's Find button); the folded row keeps
-    // only its toggle and the civic status, and the toggle restores it.
+    // first map interaction (the search's Find button). Folded, a wide screen
+    // keeps its toggle, the civic status and the OpenStreetMap credit with
+    // the survey caveat; a phone folds to the toggle pill. The toggle
+    // restores the full strip.
     const showLicences = page.getByRole("button", { name: "Show licences", exact: true });
     await expect(showLicences).toBeVisible();
-    await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toHaveCount(viewport.width > 860 ? 1 : 0);
     expect((await box(page.locator(".map-attribution"))).height).toBeLessThanOrEqual(52);
     await activate(showLicences);
     await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toBeVisible();

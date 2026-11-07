@@ -3,6 +3,8 @@ import { contextLayerCatalog, type ContextLayerId } from "../layers/contextLayer
 import type { LayerCategoryId } from "../layers/layerCategories";
 import type { MapPosition, ShareLayerId } from "../services/mapShareState";
 import type { BuiltInMapThemeId } from "../themes/mapThemes";
+import type { MapLayerId, MapLayerStatus } from "../components/MapCanvas";
+import type { ProvinceLayerId } from "../layers/layerCatalog";
 
 /** South-west and north-east corners, in the order Leaflet's fitBounds takes. */
 export type FocusBounds = [[number, number], [number, number]];
@@ -51,14 +53,31 @@ export interface FocusChromeContext {
   readonly closeMobileControls: () => void;
   /** Fit the map to the page's `fitBounds`. */
   readonly fitToFocus: () => void;
+  /**
+   * Fit the map to an area the page names, such as one of its key places;
+   * `insetBottom` keeps that many pixels at the map's foot clear, under a phone sheet left open.
+   */
+  readonly fitToBounds: (bounds: FocusBounds, options?: { readonly insetBottom?: number }) => void;
   /** Ask `rhodena-visibility` to start a viewpoint pick once its terrain is ready. */
   readonly startViewpointPick: () => void;
+  /** Each layer's last reported state (loading, zoom floor, count), for keys that explain an empty map. */
+  readonly layerStatuses: Readonly<Partial<Record<MapLayerId, MapLayerStatus>>>;
+  readonly provinceLayers: Readonly<Record<ProvinceLayerId, boolean>>;
+  /** Callers check `licenceAccepted` first for a licensed layer, as the panel rows do. */
+  readonly setProvinceLayerVisibility: (id: ProvinceLayerId, visible: boolean) => void;
+  readonly licenceAccepted: boolean;
+  /** Open the Province licence dialog to review and accept it. */
+  readonly reviewProvinceLicence: () => void;
 }
 
 /** Each time `revision` rises, the map fits `bounds`. */
 export interface FocusFitRequest {
   readonly revision: number;
   readonly bounds: FocusBounds | null;
+  /** Pixels on the map's right kept clear of the fitted area on a wide map (`mapOverlayInset`). */
+  readonly insetRight?: number;
+  /** Pixels at the map's foot kept clear, for a phone sheet open over the map's lower part. */
+  readonly insetBottom?: number;
 }
 
 /**
@@ -94,11 +113,33 @@ export interface FocusDefinition {
   readonly fitOnOpen?: boolean;
   /** Page state the page's links carry; the rest stays out of the URL. */
   readonly shareParams?: ReadonlySet<FocusShareParam>;
+  /**
+   * Pixels a `chrome.MapOverlay` covers on the map's right on a wide screen,
+   * so fitting the page's area frames it beside the overlay, not under it.
+   */
+  readonly mapOverlayInset?: number;
+  /**
+   * The share of the viewport the phone sheet takes when it opens on arrival
+   * (the page's CSS gives the sheet the same height), so the opening fit
+   * frames the page's area in the band of map above it.
+   */
+  readonly phoneSheetShare?: number;
+  /** A closer area for that arrival fit on a phone, whose band of map above the sheet is short. */
+  readonly phoneFitBounds?: FocusBounds;
+  /**
+   * Draw property boundaries bolder than the map's 1.2-point default, in
+   * export points: for a page about a few large holdings, not dense lots.
+   */
+  readonly parcelOutlineWidth?: number;
   readonly chrome: {
     /** Replaces the rail's "Explore Nova Scotia" heading. */
     readonly Hero: ComponentType<FocusChromeContext>;
     /** Optional page content between the setup controls and the layer list. */
     readonly Panel?: ComponentType<FocusChromeContext>;
+    /** Optional chrome laid over the map itself, such as a key. */
+    readonly MapOverlay?: ComponentType<FocusChromeContext>;
+    /** The phone sheet's header; "Search & layers" when absent. */
+    readonly sheetTitle?: string;
     /** The phone's map-chrome button that opens the page's summary sheet. */
     readonly brand: { readonly label: string; readonly Mark: ComponentType };
     /** Closes the footer, after the full-map link. */

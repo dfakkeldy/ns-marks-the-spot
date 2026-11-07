@@ -25,7 +25,7 @@ for (const width of [1440, 390]) test(`the /rhodena page leads with the project 
   for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/]) {
     await expect(page.getByRole('button', { name })).toHaveCount(0);
   }
-  await expect(page.getByRole('combobox', { name: 'Map setup' })).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: 'Change setup' })).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Check the view from a spot' }).click();
   await expect(page.getByText('Tap the map near your home to compare all six turbines.', { exact: true })).toBeVisible({ timeout: 90000 });

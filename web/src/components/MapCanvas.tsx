@@ -2,6 +2,7 @@ import { RhodenaVisibility } from "../rhodena/RhodenaVisibility";
 import { RhodenaLayer } from "../rhodena/RhodenaLayer";
 import { FocusFit } from "../focus/FocusFit";
 import type { FocusFitRequest } from "../focus/focusDefinition";
+import type { ThemeCameraRequest } from "../themes/themeCameras";
 import { FishingSpotsLayer, type FishingSpotsPageState } from "../fishing/FishingSpotsLayer";
 import { isRhodenaLayerId } from "../rhodena/catalog";
 import { atlasPalettes } from "../atlas/palette";
@@ -20,6 +21,7 @@ import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
 import { ContextFeatureLayer } from "./ContextFeatureLayer";
 import { contextLayerCatalog, hiddenContextLayers, type ContextLayerId, type ContextMapLayer } from "../layers/contextLayerCatalog";
+
 import { PokerMapTools, type PokerSession } from "./PokerMapTools";
 import {
   lazy,
@@ -174,6 +176,8 @@ import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLa
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
 
+const NO_CONTEXT_OPACITY: Readonly<Partial<Record<ContextLayerId, number>>> = {};
+
 const AtlasBasemapLayer = lazy(() => import("../atlas/AtlasBasemapLayer"));
 const ResearchTerrainLayer = lazy(() => import("../terrain/ResearchTerrainLayer"));
 const FletcherFeaturesLayer = lazy(() => import("./FletcherFeaturesLayer").then(module => ({ default: module.FletcherFeaturesLayer })));
@@ -200,6 +204,11 @@ import type {
 import { ExportFrameLayer } from "../print/pdf/ExportFrameLayer";
 import type { FrameState } from "../print/pdf/frameGeometry";
 import type { PdfTemplateId } from "../print/pdf/templates/types";
+import {
+  TAX_SALE_DATE_BAND_ORDER,
+  TAX_SALE_DATE_BAND_STYLE,
+  type TaxSaleDateBand,
+} from "../services/taxSaleDateBands";
 
 /**
  * The scale a locate brings a reader to when their view is further out than
@@ -210,6 +219,14 @@ const LOCATE_MIN_ZOOM = 14;
 type MapCanvasProps = {
   /** Each new revision fits the map to a focus page's area. */
   focusFit?: FocusFitRequest;
+  /**
+   * Each new revision is a setup's opening camera (themes/themeCameras.ts).
+   * Zoom floors and fixed positions move here; area fits arrive as `focusFit`;
+   * a notice-extent camera refits the current tax-sale notices.
+   */
+  themeCamera?: ThemeCameraRequest;
+  /** Property boundary line width in export points; a focus page may draw them bolder than the default 1.2. */
+  parcelOutlineWidth?: number;
   /** The /fishing page's filter and selection for the curated spots; the full map passes none. */
   fishingSpots?: FishingSpotsPageState;
   /** A two-way Map/Aerial background switch under the 3D control. */
@@ -220,6 +237,11 @@ type MapCanvasProps = {
   poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
+  /**
+   * Sale-date band per current-notice PID; dots are painted by band. A PID
+   * without an entry keeps the plain current-notice red.
+   */
+  taxSaleDateBands?: ReadonlyMap<string, TaxSaleDateBand>;
   historicalTaxSalePids: Set<string>;
   selectedPid: string | null;
   provinceLayers: Record<ProvinceLayerId, boolean>;
@@ -240,6 +262,8 @@ type MapCanvasProps = {
   fletcherFeaturesVisible?: boolean;
   onFletcherFeaturesStatus?: (status: string) => void;
   fletcherOpacity?: number;
+  /** A setup's opacity for a context layer; the catalogue opacity otherwise. */
+  contextOpacity?: Readonly<Partial<Record<ContextLayerId, number>>>;
   fletcherTileBaseUrl?: string | null;
   fletcherRetryToken?: number;
   userMaps?: VisibleUserMap[];
@@ -507,8 +531,10 @@ function ArcGISMapLayer({
   onStatusChange,
   renderMode,
   outlineColor,
+  outlineWidth,
 }: {
   outlineColor?: string;
+  outlineWidth?: number;
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
@@ -532,7 +558,7 @@ function ArcGISMapLayer({
             {
               serviceUrl: layer.serviceUrl,
               ...options,
-              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor) } : {}),
+              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor, outlineWidth) } : {}),
             },
             {
               minZoom: layer.minZoom,
@@ -609,7 +635,7 @@ function ArcGISMapLayer({
       map.off("zoomend", reportZoom);
       tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
-  }, [layer, map, onStatusChange, renderMode, visible, outlineColor]);
+  }, [layer, map, onStatusChange, renderMode, visible, outlineColor, outlineWidth]);
 
   return null;
 }
@@ -1235,22 +1261,54 @@ function MapStatusController({
   return null;
 }
 
+/**
+ * Brings the map to where a layer first draws when the reader turns it on.
+ *
+ * It acts only on a layer that has just become visible, never on a layer that
+ * was already on: accepting the Province licence (which hands back the
+ * page-load layers) or any other change to the layer set used to re-run it,
+ * and pulled a framed view back in to zoom 13. A change that arrives with a
+ * new setup camera (`cameraRevision`) is left to that camera.
+ */
 function LayerZoomController({
   provinceLayers,
   hydroPilotLayers,
+  cameraRevision = 0,
 }: {
   provinceLayers: MapCanvasProps["provinceLayers"];
   hydroPilotLayers: Record<HydroPilotLayerId, boolean>;
+  cameraRevision?: number;
 }) {
   const map = useMap();
   const waterfallsWereVisible = useRef(false);
   const hydroPilotWasVisible = useRef(false);
+  const detailWasVisible = useRef<ReadonlySet<ProvinceLayerId>>(new Set());
+  const seenCameraRevision = useRef(0);
 
   useEffect(() => {
+    const cameraIsNew = cameraRevision > seenCameraRevision.current;
+    seenCameraRevision.current = Math.max(seenCameraRevision.current, cameraRevision);
+
+    const detailIsVisible = new Set(
+      provinceLayerCatalog
+        .filter(({ id, minZoom }) => id !== "nsprd" && minZoom >= 12 && provinceLayers[id])
+        .map(({ id }) => id),
+    );
+    const detailBecameVisible = [...detailIsVisible].filter((id) => !detailWasVisible.current.has(id));
+    detailWasVisible.current = detailIsVisible;
+
     const waterfallsAreVisible = provinceLayers.waterfalls;
     const waterfallsBecameVisible =
       waterfallsAreVisible && !waterfallsWereVisible.current;
     waterfallsWereVisible.current = waterfallsAreVisible;
+
+    const hydroPilotIsVisible =
+      hydroPilotLayers["inverness-hydro-potential"];
+    const hydroPilotBecameVisible =
+      hydroPilotIsVisible && !hydroPilotWasVisible.current;
+    hydroPilotWasVisible.current = hydroPilotIsVisible;
+
+    if (cameraIsNew) return;
 
     if (waterfallsBecameVisible) {
       map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
@@ -1260,12 +1318,6 @@ function LayerZoomController({
       });
       return;
     }
-
-    const hydroPilotIsVisible =
-      hydroPilotLayers["inverness-hydro-potential"];
-    const hydroPilotBecameVisible =
-      hydroPilotIsVisible && !hydroPilotWasVisible.current;
-    hydroPilotWasVisible.current = hydroPilotIsVisible;
 
     if (hydroPilotBecameVisible) {
       map.fitBounds(INVERNESS_HYDRO_PILOT_BOUNDS, {
@@ -1278,17 +1330,33 @@ function LayerZoomController({
 
     const targetDetailZoom = provinceLayerCatalog.reduce(
       (target, { id, minZoom }) =>
-        id !== "nsprd" && provinceLayers[id] && minZoom >= 12
-          ? Math.max(target, minZoom)
-          : target,
+        detailBecameVisible.includes(id) ? Math.max(target, minZoom) : target,
       0,
     );
 
     if (targetDetailZoom > 0 && map.getZoom() < targetDetailZoom) {
       map.setZoom(targetDetailZoom, { animate: !prefersReducedMotion() });
     }
-  }, [hydroPilotLayers, map, provinceLayers]);
+  }, [cameraRevision, hydroPilotLayers, map, provinceLayers]);
 
+  return null;
+}
+
+/** Moves the map to a setup's zoom floor or fixed position, once per new revision. */
+function ThemeCameraController({ request }: { request: ThemeCameraRequest }) {
+  const map = useMap();
+  const handled = useRef(0);
+  const { revision, camera } = request;
+  useEffect(() => {
+    if (revision <= handled.current) return;
+    handled.current = revision;
+    if (camera?.kind === "zoom-floor") {
+      if (map.getZoom() < camera.zoom) map.setZoom(camera.zoom, { animate: false });
+    } else if (camera?.kind === "position" || (camera?.kind === "position-unless-zoomed" && map.getZoom() < camera.position.zoom)) {
+      const { latitude, longitude, zoom } = camera.position;
+      map.setView([latitude, longitude], zoom, { animate: false });
+    }
+  }, [camera, map, revision]);
   return null;
 }
 
@@ -1333,22 +1401,28 @@ function ParcelFocusController({
   return null;
 }
 
+/**
+ * Frames the current tax-sale notices once their parcels load: once per page
+ * load, and again each time the Tax Sale Research setup is chosen
+ * (`noticeFitRevision` rises). A shared position keeps the page-load camera.
+ */
 function InitialTaxSaleBoundsController({
   parcels,
   taxSalePids,
   showTaxSale,
   preserveInitialPosition,
+  noticeFitRevision = 0,
 }: Pick<
   MapCanvasProps,
   "parcels" | "taxSalePids" | "showTaxSale" | "preserveInitialPosition"
->) {
+> & { noticeFitRevision?: number }) {
   const map = useMap();
-  const hasFittedInitialTaxSaleLayer = useRef(false);
+  const fittedRevision = useRef(-1);
 
   useEffect(() => {
     if (
-      preserveInitialPosition ||
-      hasFittedInitialTaxSaleLayer.current ||
+      (preserveInitialPosition && noticeFitRevision === 0) ||
+      fittedRevision.current >= noticeFitRevision ||
       !showTaxSale
     ) {
       return;
@@ -1373,13 +1447,13 @@ function InitialTaxSaleBoundsController({
       return;
     }
 
-    hasFittedInitialTaxSaleLayer.current = true;
+    fittedRevision.current = noticeFitRevision;
     map.fitBounds(bounds, {
       animate: false,
       padding: [48, 48],
       maxZoom: 13,
     });
-  }, [map, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
+  }, [map, noticeFitRevision, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
 
   return null;
 }
@@ -1534,6 +1608,33 @@ function approximateScreenScaleDenominator(map: LeafletMap): number | null {
   return Number(denominator.toPrecision(3));
 }
 
+/**
+ * NS Aerial draws only from its catalogue floor (zoom 10). A setup whose only
+ * background is the aerial opened on an empty sea below that: Tax Sale
+ * Research at the province view showed red notice dots on nothing. Until the
+ * aerial can draw, the Atlas map stands in underneath. It is not the Modern
+ * map layer (that switch and the share link are unchanged); it steps away at
+ * the zoom where the photograph takes over.
+ */
+function AerialGapUnderlay({ basemapStyle, minZoom }: { basemapStyle: BasemapStyle; minZoom: number }) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(() => map.getZoom());
+  useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
+  if (zoom >= minZoom) return null;
+  return basemapStyle !== "osm" ? (
+    <Suspense fallback={null}>
+      <AtlasBasemapLayer key={`aerial-gap-${basemapStyle}`} mode={basemapStyle} print={false} onStatus={() => {}} />
+    </Suspense>
+  ) : (
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      maxZoom={23}
+      maxNativeZoom={19}
+      attribution="&copy; OpenStreetMap contributors"
+    />
+  );
+}
+
 function ApproximateScaleReadout() {
   const map = useMap();
   const [denominator, setDenominator] = useState(() =>
@@ -1560,7 +1661,7 @@ function ApproximateScaleReadout() {
 
   return (
     <p className="display-scale-readout" title={DISPLAY_SCALE_EXPLANATION}>
-      Approx. screen scale 1:{denominator.toLocaleString("en-CA")}
+      <span className="display-scale-label">Approx. screen scale </span>1:{denominator.toLocaleString("en-CA")}
     </p>
   );
 }
@@ -1610,6 +1711,7 @@ function PositionReadout() {
 function TaxSaleOverviewMarkers({
   parcels,
   taxSalePids,
+  taxSaleDateBands,
   historicalTaxSalePids,
   showTaxSale,
   showHistoricalTaxSales,
@@ -1620,6 +1722,7 @@ function TaxSaleOverviewMarkers({
   MapCanvasProps,
   | "parcels"
   | "taxSalePids"
+  | "taxSaleDateBands"
   | "historicalTaxSalePids"
   | "showTaxSale"
   | "showHistoricalTaxSales"
@@ -1631,11 +1734,21 @@ function TaxSaleOverviewMarkers({
   const [zoom, setZoom] = useState(() => map.getZoom());
   useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
 
-  const currentPoints = useMemo(
-    () =>
-      showTaxSale ? representativeParcelPoints(parcels, taxSalePids) : [],
-    [parcels, showTaxSale, taxSalePids],
-  );
+  const currentPoints = useMemo(() => {
+    if (!showTaxSale) {
+      return [];
+    }
+    const points = representativeParcelPoints(parcels, taxSalePids);
+    if (!taxSaleDateBands) {
+      return points;
+    }
+    // Draw passed and undated notices first so upcoming sales sit on top.
+    const rank = (pid: string) => {
+      const band = taxSaleDateBands.get(pid);
+      return band ? TAX_SALE_DATE_BAND_ORDER.length - TAX_SALE_DATE_BAND_ORDER.indexOf(band) : 0;
+    };
+    return [...points].sort((left, right) => rank(left.pid) - rank(right.pid));
+  }, [parcels, showTaxSale, taxSaleDateBands, taxSalePids]);
   const historicalPoints = useMemo(
     () =>
       showHistoricalTaxSales
@@ -1667,6 +1780,7 @@ function TaxSaleOverviewMarkers({
           point={point}
           keyPrefix="current"
           color="#be4d3c"
+          dateBand={taxSaleDateBands?.get(point.pid)}
           selected={point.pid === selectedPid}
           renderMode={renderMode}
           onSelectPid={onSelectPid}
@@ -1688,6 +1802,7 @@ const OverviewMarker = memo(function OverviewMarker({
   point,
   keyPrefix,
   color,
+  dateBand,
   selected,
   renderMode,
   onSelectPid,
@@ -1695,6 +1810,7 @@ const OverviewMarker = memo(function OverviewMarker({
   point: { pid: string; latitude: number; longitude: number };
   keyPrefix: "current" | "historical";
   color: string;
+  dateBand?: TaxSaleDateBand;
   selected: boolean;
   renderMode: MapRenderMode;
   onSelectPid: (pid: string) => void;
@@ -1714,13 +1830,22 @@ const OverviewMarker = memo(function OverviewMarker({
             dashArray: keyPrefix === "historical" ? "3 2" : undefined,
             className: `print-${keyPrefix}-tax-sale-marker`,
           }
-        : {
-            color: "#ffffff",
-            weight: selected ? 3 : 1.5,
-            fillColor: color,
-            fillOpacity: selected ? 1 : 0.85,
-          },
-    [color, keyPrefix, renderMode, selected],
+        : dateBand
+          ? {
+              color: TAX_SALE_DATE_BAND_STYLE[dateBand].stroke,
+              weight: selected ? 3 : TAX_SALE_DATE_BAND_STYLE[dateBand].dashed ? 2 : 1.5,
+              fillColor: TAX_SALE_DATE_BAND_STYLE[dateBand].fill,
+              fillOpacity: selected ? 1 : TAX_SALE_DATE_BAND_STYLE[dateBand].fillOpacity,
+              dashArray: TAX_SALE_DATE_BAND_STYLE[dateBand].dashed ? "3 2" : undefined,
+              className: `tax-sale-date-band-${dateBand}`,
+            }
+          : {
+              color: "#ffffff",
+              weight: selected ? 3 : 1.5,
+              fillColor: color,
+              fillOpacity: selected ? 1 : 0.85,
+            },
+    [color, dateBand, keyPrefix, renderMode, selected],
   );
   const eventHandlers = useMemo(
     () =>
@@ -1869,9 +1994,11 @@ function LocationControlIcon() {
 }
 
 const NO_FOCUS_FIT: FocusFitRequest = { revision: 0, bounds: null };
+const NO_THEME_CAMERA: ThemeCameraRequest = { revision: 0, camera: null };
 
 export function MapCanvas({
   focusFit = NO_FOCUS_FIT,
+  themeCamera = NO_THEME_CAMERA,
   fishingSpots,
   rhodenaPickPending = false,
   onRhodenaPickStarted,
@@ -1879,6 +2006,7 @@ export function MapCanvas({
   poker = null,
   parcels,
   taxSalePids,
+  taxSaleDateBands,
   historicalTaxSalePids,
   selectedPid,
   provinceLayers,
@@ -1899,6 +2027,7 @@ export function MapCanvas({
   fletcherFeaturesVisible = false,
   onFletcherFeaturesStatus,
   fletcherOpacity = 0.72,
+  contextOpacity = NO_CONTEXT_OPACITY,
   fletcherTileBaseUrl = null,
   fletcherRetryToken = 0,
   userMaps = EMPTY_USER_MAPS,
@@ -1910,6 +2039,7 @@ export function MapCanvas({
   georeference = null,
   showModernMap,
   basemapStyle = "osm",
+  parcelOutlineWidth,
   onUseOsmBasemap,
   showTaxSale,
   showHistoricalTaxSales,
@@ -2032,6 +2162,15 @@ export function MapCanvas({
   const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
   const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
+  // Same objects between renders unless a setup's opacity changes, so the
+  // layer components' effects (keyed on `layer`) don't rebuild each render.
+  const contextMapLayers = useMemo(() => contextLayerCatalog.map((layer) => {
+    const opacity = contextOpacity[layer.id];
+    return opacity === undefined ? layer : { ...layer, opacity };
+  }), [contextOpacity]);
+  const provincialElectoralLabels = Boolean(
+    contextLayers["provincial-districts-2026"] || contextLayers["provincial-results-2024"] || contextLayers["provincial-seats-2026"],
+  );
   const terrainBlocked = Boolean(contextLayers["rhodena-visibility"] || isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
@@ -2100,6 +2239,7 @@ export function MapCanvas({
   // render restyled every visible parcel on every App render — each map move,
   // keystroke, and tile-status event.
   // An image above Atlas may hide its roads and names; retain overlays there.
+  const aerialMinZoom = provinceLayerCatalog.find(({ id }) => id === "ns-aerial")?.minZoom ?? 10;
   const exposedBasemap = showModernMap && !provinceLayers['ns-aerial'] && !fletcherVisible
     && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
   const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
@@ -2569,8 +2709,11 @@ export function MapCanvas({
           />
         ) : null}
         {!isPrintMode && contextLayers["sentinel-2"] ? <AttributionControl prefix={false} position="bottomright" /> : null}
-        {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
-        {!isPrintMode ? <ApproximateScaleReadout /> : null}
+        {/* A tilted 3D view has no single screen scale, so the bar (measured
+            on the hidden 2D map) and the readout both step out rather than
+            state one; they return with the 2D map. */}
+        {!isPrintMode && !terrainActive ? <ScaleControl position="bottomleft" /> : null}
+        {!isPrintMode && !terrainActive ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
         {terrainActive ? null : showModernMap && basemapStyle !== "osm" ? (
           <Suspense fallback={null}>
@@ -2618,6 +2761,9 @@ export function MapCanvas({
         {!isPrintMode && fletcherFeaturesVisible && onFletcherFeaturesStatus ? (
           <Suspense fallback={null}><FletcherFeaturesLayer onStatus={onFletcherFeaturesStatus} /></Suspense>
         ) : null}
+        {!terrainActive && !isPrintMode && !showModernMap && provinceLayers["ns-aerial"] ? (
+          <AerialGapUnderlay basemapStyle={basemapStyle} minZoom={electoralLicenceAccepted ? aerialMinZoom : Number.POSITIVE_INFINITY} />
+        ) : null}
         <FletcherTileLayer
           visible={fletcherVisible}
           opacity={fletcherOpacity}
@@ -2633,6 +2779,7 @@ export function MapCanvas({
             key={layer.id}
             layer={layer}
             outlineColor={outlineColor}
+            outlineWidth={parcelOutlineWidth}
             visible={provinceLayers[layer.id]}
             onStatusChange={reportLayerStatus}
             renderMode={renderMode}
@@ -2653,16 +2800,16 @@ export function MapCanvas({
             />
           ))}
         <FocusFit request={focusFit} />
-        {contextLayerCatalog.map((layer) => layer.id === "rhodena-visibility" ? (
+        {contextMapLayers.map((layer) => layer.id === "rhodena-visibility" ? (
           contextLayers[layer.id] && !isPrintMode && !georeference && !userVectorEdit && !poker && !exportFrame ? <RhodenaVisibility key={layer.id} onPickingChange={setVisibilityPicking} onStatusChange={onLayerStatusChange} pickPending={rhodenaPickPending} onPickStarted={onRhodenaPickStarted} /> : null
         ) : isRhodenaLayerId(layer.id) ? (
           <RhodenaLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
         ) : layer.id === "fishing-spots" ? (
           <FishingSpotsLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} page={fishingSpots} onStatusChange={onLayerStatusChange} renderMode={renderMode} interactive={!measuring && !georeference && !userVectorEdit} />
         ) : isElectoralLayerId(layer.id) ? (
-          <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
+          <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} provincialLabelsShown={provincialElectoralLabels} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} night={basemapStyle === "night"} />
         ) : layer.delivery === "tile" ? (
           <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
         ) : layer.delivery === "static-image" ? (
@@ -2794,6 +2941,7 @@ export function MapCanvas({
           <TaxSaleOverviewMarkers
             parcels={parcels}
             taxSalePids={taxSalePids}
+            taxSaleDateBands={taxSaleDateBands}
             historicalTaxSalePids={historicalTaxSalePids}
             showTaxSale={showTaxSale}
             showHistoricalTaxSales={showHistoricalTaxSales}
@@ -2845,6 +2993,7 @@ export function MapCanvas({
               radius={8}
               interactive={false}
               pathOptions={{
+                className: "live-location-dot",
                 color: "#ffffff",
                 fillColor: "#2f80ed",
                 opacity: live.status === "signal-lost" ? 0.6 : 1,
@@ -2886,6 +3035,7 @@ export function MapCanvas({
             taxSalePids={taxSalePids}
             showTaxSale={showTaxSale}
             preserveInitialPosition={preserveInitialPosition}
+            noticeFitRevision={themeCamera.camera?.kind === "notice-extent" ? themeCamera.revision : 0}
           />
           <InitialHistoricalBoundsController
             parcels={parcels}
@@ -2896,7 +3046,10 @@ export function MapCanvas({
           <LayerZoomController
             provinceLayers={provinceLayers}
             hydroPilotLayers={hydroPilotLayers}
+            cameraRevision={themeCamera.revision}
           />
+          {/* After LayerZoomController, so a setup's camera has the last word in the commit that applies it. */}
+          <ThemeCameraController request={themeCamera} />
           <ParcelFocusController
             parcels={visibleParcels}
             focusRequest={focusRequest}
@@ -2978,6 +3131,7 @@ export function MapCanvas({
           <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
           <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
           <small>Mapzen terrain; source detail varies.</small>
+          <small className="terrain-scale-note">Scale varies across a tilted 3D view; the scale bar returns in 2D.</small>
         </div> : null}
       </div>
       {terrainActive && terrainStatus.kind !== "ready" ? <div className="research-terrain-status" role="status">

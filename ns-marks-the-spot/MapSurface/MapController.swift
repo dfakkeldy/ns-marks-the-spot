@@ -507,10 +507,11 @@ final class MapController: NSObject {
             // NS Aerial renders as a tile overlay above the standard basemap.
             return .standard
         case .atlas, .atlasDay, .atlasNight, .atlasFletcher, .openStreetMap, .blank:
-            // Whatever is set here is covered by the base-replacing overlay —
+            // Whatever is set here is covered by the ground's overlay —
             // `AtlasBaseOverlay`, `OSMBaseOverlay` or `BlankBaseOverlay`;
             // MapKit requires a map type and has no case for "someone else's
-            // tiles" or "none".
+            // tiles" or "none". Standard is also what shows through the
+            // Atlas while its squares load.
             return .standard
         }
     }
@@ -568,7 +569,7 @@ final class MapController: NSObject {
         applyBaseOverlay(for: .atlas, on: mapView)
     }
 
-    /// Puts in the base-replacing overlay the chosen background draws with,
+    /// Puts in the overlay the chosen background draws with,
     /// and takes the others out.
     ///
     /// Installed through the draw order like any other overlay, so it lands
@@ -594,6 +595,10 @@ final class MapController: NSObject {
             // one in below, rather than a second Atlas stacked on the first.
             if let atlas = overlay as? AtlasBaseOverlay, atlas.style != wantsAtlas {
                 mapView.removeOverlay(overlay)
+                // The ground that was failing is gone; the next one starts
+                // its own count.
+                progress.reset(AtlasRasterBase.layerID)
+                layerLoadPhases[AtlasRasterBase.layerID] = .idle
             }
         }
         if wantsBlank, mapView.overlays.compactMap({ $0 as? BlankBaseOverlay }).isEmpty {
@@ -608,7 +613,9 @@ final class MapController: NSObject {
         if let style = wantsAtlas, let baseURL = atlasRasterBaseURL,
            !mapView.overlays.contains(where: { ($0 as? AtlasBaseOverlay)?.style == style })
         {
-            mapView.installInDrawOrder(AtlasBaseOverlay(style: style, baseURL: baseURL), level: level)
+            mapView.installInDrawOrder(
+                AtlasBaseOverlay(style: style, baseURL: baseURL, progress: progress), level: level
+            )
         }
     }
 
@@ -1192,6 +1199,13 @@ final class MapController: NSObject {
     private var hasReducedAccuracy: Bool {
         isReducedAccuracy?() ?? (locationManager.accuracyAuthorization == .reducedAccuracy)
     }
+    /// This app's location authorization. Injected for tests, which cannot
+    /// give a `CLLocationManager` a status; CoreLocation's own reading is the
+    /// default.
+    @ObservationIgnored var authorization: (() -> CLAuthorizationStatus)?
+    private var authorizationStatus: CLAuthorizationStatus {
+        authorization?() ?? locationManager.authorizationStatus
+    }
     /// A fix stamped a moment ahead of the clock is jitter (and, in the
     /// simulator, every simulated fix); one stamped an hour ahead is not a
     /// fix to trust.
@@ -1281,7 +1295,7 @@ final class MapController: NSObject {
         readerHasClaimedTheCamera = true
         cameraClaimGeneration += 1
         dismissedReducedAccuracy = false
-        let status = locationManager.authorizationStatus
+        let status = authorizationStatus
         if let refusal = Self.locationMessage(
             for: status, readerAsked: true,
             servicesEnabled: status == .denied ? servicesEnabled() : true
@@ -2261,6 +2275,28 @@ extension MapController: MKMapViewDelegate {
         centerIfTheFixIsGoodEnough(now: now)
     }
 
+    /// What MapKit's "denied" locate error is worth telling the reader.
+    ///
+    /// MapKit reports `kCLErrorDenied` the moment the dot is switched on with
+    /// the system prompt still up: not allowed *yet*, which is not a refusal.
+    /// Said as one, it put "permission was not granted" beside the prompt
+    /// still asking for it. Nil while the question is open; otherwise the
+    /// refusal as it stands, and `.denied` for a status that has just moved.
+    static func refusalForDeniedLocate(
+        status: CLAuthorizationStatus, servicesEnabled: Bool
+    ) -> LocationMessage? {
+        guard status != .notDetermined else { return nil }
+        return locationMessage(for: status, readerAsked: true, servicesEnabled: servicesEnabled)
+            ?? .denied
+    }
+
+    private func deniedLocateRefusal() -> LocationMessage? {
+        let status = authorizationStatus
+        return Self.refusalForDeniedLocate(
+            status: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        )
+    }
+
     func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: any Error) {
         guard mapView === self.mapView else { return }
         let code = (error as? CLError)?.code
@@ -2270,13 +2306,13 @@ extension MapController: MKMapViewDelegate {
                 // CoreLocation keeps trying after this one; the deadline decides.
                 return
             case .denied:
+                guard let refusal = deniedLocateRefusal() else {
+                    // The system prompt is still up: the search waits on the
+                    // answer, which `authorizationChanged` acts on.
+                    return
+                }
                 stopLocating()
-                report(
-                    Self.locationMessage(
-                        for: locationManager.authorizationStatus, readerAsked: true,
-                        servicesEnabled: servicesEnabled()
-                    ) ?? .denied
-                )
+                report(refusal)
             default:
                 // Not the sky: a network error, most often. Said as a failure
                 // to try again, not as a position that could not be found.
@@ -2301,13 +2337,9 @@ extension MapController: MKMapViewDelegate {
                 setTracking(.follow)
             }
         case .denied:
+            guard let refusal = deniedLocateRefusal() else { return }
             endFollowing()
-            report(
-                Self.locationMessage(
-                    for: locationManager.authorizationStatus, readerAsked: true,
-                    servicesEnabled: servicesEnabled()
-                ) ?? .denied
-            )
+            report(refusal)
         default:
             // A network error, most often: following cannot go on without
             // fixes, and saying so beats a glyph that claims otherwise.
@@ -2937,7 +2969,7 @@ extension MapController: @preconcurrency CLLocationManagerDelegate {
     /// still up may describe a cause the reader has since changed in
     /// Settings.
     func reconcileLocationNotice() {
-        authorizationChanged(to: locationManager.authorizationStatus)
+        authorizationChanged(to: authorizationStatus)
     }
 
     /// The authorization answer, apart from the delegate so a test can give

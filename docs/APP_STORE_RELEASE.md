@@ -1,5 +1,93 @@
 # Native App Store release packet
 
+## November 1, 2026 — 1.0 (128) resubmitted
+
+App Review's own rejection screenshot (build 124) shows zoom 5 over Quebec.
+The whole screen is Atlas ocean except the Atlas's one zoom-5 tile. That is
+the out-of-footprint case [#643](https://github.com/dfakkeldy/ns-marks-the-spot/pull/643)
+fixes, so the cause is now evidenced, not inferred.
+
+- [#643](https://github.com/dfakkeldy/ns-marks-the-spot/pull/643) (map fix)
+  and [#644](https://github.com/dfakkeldy/ns-marks-the-spot/pull/644) (deliver
+  `force: true` and `precheck_include_in_app_purchases: false`, approved by the
+  owner) merged to main, then back-merged in #645 and #646.
+- [App Store Release run 41357158330](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/41357158330)
+  uploaded **1.0 (128)** with the metadata, review notes and twelve
+  screenshots. Precheck passed, and nothing was submitted.
+- Build 128 arrived as *Missing Compliance*. The owner answered "None of the
+  algorithms mentioned above". `ITSAppUsesNonExemptEncryption` is still not in
+  the Info.plist, so each new build asks again.
+- Simulator check: a Release build of main `230723fdb` on a freshly erased
+  iPad Air 11-inch (M4) simulator, iOS 27.0, with location at Apple Park.
+  - Current Location showed Apple's street map within 3 s.
+  - Zoom 3 showed Apple's world map with the Atlas as one rectangle.
+  - Zoom 6 off Maine showed Apple's map around the Atlas rectangle.
+  - No physical iPad was tested.
+- In App Store Connect, build 128 replaced 124 on version 1.0 and the reply
+  went to App Review. Changing the build moves the version back to *Prepare
+  for Submission*, and *Resubmit* stays disabled until **Update Review** on the
+  version page puts the edited version back into the existing submission.
+- Resubmitted 2026-11-01 23:45 UTC: submission `5804f9be` and version 1.0 are
+  *Waiting for Review*. Release type is still **manual**.
+
+## November 1, 2026 — out-of-province map fix
+
+The October 31 diagnosis showed a featureless blue Atlas map after a
+simulated San Francisco Current Location. App Review works in Cupertino, and
+its Cloudflare trace shows the reviewer pinching out to continent scale. Main
+still drew that: every Atlas square outside a rendered tile was the opaque
+ocean stand-in, and below zoom 3 the whole world was. A hotfix now answers
+squares outside the package's footprint (its one zoom-5 tile, 67.5°–56.25° W,
+40.98°–48.92° N) with a transparent tile and no request, so Apple's map shows
+there. Inside the footprint nothing changes, so the twelve screenshots stand.
+Inside-footprint land outside Nova Scotia (parts of New Brunswick, PEI and
+Maine) can still show as Atlas ocean where the package has no tile; that is
+unchanged and not part of the rejection.
+
+Two release-path facts changed since October 31. The scheduled nightly train
+uploaded build **127** on November 1, so the App Store lane's next build is
+128 or later; the review notes no longer name a build number. And deliver's
+HTML-preview prompt and purchase precheck still block `release`; the two
+options proposed on October 31 remain unapplied pending the owner's decision.
+App Store Connect sign-in also still needs renewing before the build can be
+attached and the review reply sent.
+
+## October 31, 2026 — 1.0 resubmission preparation
+
+The Atlas map-loading mitigation in [PR #636](https://github.com/dfakkeldy/ns-marks-the-spot/pull/636)
+reached main through the required [nightly → weekly](https://github.com/dfakkeldy/ns-marks-the-spot/pull/637)
+and [weekly → main](https://github.com/dfakkeldy/ns-marks-the-spot/pull/639)
+promotions. Their required `Build gate + tests` checks passed. Selected main
+source is `0cb4f5d5f44a40af1ccdb29780b88cbc3bb6079e`, with the same tree as
+the reviewed fix merge `f218ba2b52829e2b2763fd5beecc0dbd06975c4a`.
+
+[App Store Release run 41228750750](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/41228750750)
+passed native tests and exported a signed **1.0 (127)** archive. Fastlane then
+rejected `fastlane/metadata/testflight` as an unsupported App Store metadata
+directory, before binary upload. The failed job retained no IPA artifact.
+**No new App Store build upload, Resolution Center reply, or resubmission is
+established by that run.**
+
+The beta-only metadata has now moved to `fastlane/testflight/en-US`, with its
+single Fastfile reader path updated. App Store metadata stays in
+`fastlane/metadata`. Fastlane's directory validation accepts the repaired
+layout with validation enabled; tests, signing, numbering and
+`submit_for_review: false` retain their existing behavior.
+
+The [screenshot pack](../fastlane/screenshots/en-US/README.md) now contains six
+fresh iPhone and six fresh iPad captures of a Release simulator build of that
+source. The map is drawn wherever visible; source credits and licence gates
+remain visible. Review notes include the build-124 rejection response with the
+explicit simulator-only verification limit. The original blank-map result was
+not reproduced, and no physical-iPad acceptance is claimed.
+
+The existing version's App Store release option was **manual** when inspected.
+Upload and resubmission remain separate from public release. After the layout
+repair merges, rerun App Store Release from main and verify the actual uploaded
+build and final screenshots/notes in App Store Connect before resubmitting.
+
+## Historical October 6 audit
+
 Re-checked: **2026-10-06**. Scope: the native iPhone/iPad app and its Live
 Activity extension. Browser-map publication does not establish native readiness.
 This packet prepares a release; it does not authorize promotion, upload,
@@ -203,10 +291,15 @@ attachments and explicit sharing exist; no public social feed was found. Use
 that evidence when the owner reviews the current age/social-media questionnaire;
 do not infer an age rating from the Reference category.
 
-`ITSAppUsesNonExemptEncryption` is absent. Source uses system HTTPS and hashing
-for data integrity; no custom encryption library was found. Export-compliance
-questions, intended territories and any required documentation remain an
-authorized-owner determination. Do not insert a guessed plist answer.
+`ITSAppUsesNonExemptEncryption` is set to `NO` in
+`Config/NSMarksTheSpot-Info.plist`. Source uses system HTTPS and hashing for
+data integrity; no custom encryption library was found. The owner made the
+determination on 2026-11-01, answering "None of the algorithms mentioned
+above" for build 128, and the key records that answer so App Store Connect no
+longer marks each upload "Missing Compliance" and asks again. The key belongs
+to the app's own Info.plist; the Live Activity extension's plist does not carry
+it. Adding any encryption beyond Apple's built-in HTTPS and hashing reopens
+the question: change the key and answer it again in App Store Connect.
 
 ## Content rights: specific unresolved items
 

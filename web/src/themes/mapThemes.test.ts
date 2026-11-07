@@ -10,9 +10,10 @@ import type { ShareLayerId } from "../services/mapShareState";
 import {
   buildMapPresentationFixture,
   builtInMapThemes,
+  nativeBuiltInThemeIds,
   validateMapTheme,
 } from "./mapThemes";
-import { matchTheme, resolveTheme } from "./themeState";
+import { matchTheme, presentationOpacityOverrides, resolveTheme } from "./themeState";
 
 /**
  * The fixture lives under the Swift package's test resources, beside
@@ -140,6 +141,22 @@ describe("built-in map themes", () => {
     }
   });
 
+  it("exports the five native setups exactly as the web defines them", () => {
+    expect(nativeBuiltInThemeIds).toEqual([
+      "explore-nova-scotia",
+      "tax-sale-research",
+      "forestry-field-access",
+      "historical-maps",
+      "georeferencing",
+    ]);
+    const fixtureThemes = buildMapPresentationFixture().builtInThemes;
+    expect(fixtureThemes.map(({ id }) => id)).toEqual([...nativeBuiltInThemeIds]);
+    for (const native of fixtureThemes) {
+      const web = builtInMapThemes.find(({ id }) => id === native.id)!;
+      expect({ ...native, kind: "built-in" }).toEqual(web);
+    }
+  });
+
   it("exports the native portability fixture from the registries", async () => {
     await expect(
       `${JSON.stringify(buildMapPresentationFixture(), null, 2)}\n`,
@@ -219,7 +236,12 @@ describe("Fishing setup", () => {
   });
 
   it("is the setup its own layers identify, and stays outside the native presentation contract", () => {
+    expect(fishing.opacityOverrides).toEqual({ "protected-conservation-areas": 0.25 });
     expect(matchTheme(fishing, builtInMapThemes)?.id).toBe("fishing");
+    // The quieter park fill is presentation: a reloaded link (layers only) is still Fishing,
+    // and the fill comes back from the setup it matches.
+    expect(matchTheme({ ...fishing, opacityOverrides: {} }, builtInMapThemes)?.id).toBe("fishing");
+    expect(presentationOpacityOverrides(fishing)).toEqual({ "protected-conservation-areas": 0.25 });
     expect(buildMapPresentationFixture().builtInThemes.some(({ id }) => id === "fishing")).toBe(false);
     const nativeLayerIds = buildMapPresentationFixture().builtInThemes.flatMap(({ layerIds }) => layerIds);
     for (const { id } of contextLayerCatalog) expect(nativeLayerIds).not.toContain(id);

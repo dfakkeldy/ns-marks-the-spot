@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { AtlasMap, type Camera, type View } from './AtlasMap';
 import { atlasPlaces } from './places';
 import { atlasPalettes } from './palette';
+import { atlasStyleLabels } from './basemap';
 import { CROWN_NOTE, CROWN_SOURCE_URL, crownReceipt, crownReceiptUrl } from './crown';
 import { buildReviewStyle, type ReviewMode } from './overlays';
 import { LETTERING_PLACEMENT, historicalLetteringSpecimens, historicalSiteStates, historicalSiteSvg, historicalSiteSymbols } from './historicalSymbols';
@@ -37,13 +38,13 @@ export function AtlasStudy() {
       </header>
       <section className="atlas-intro">
         <h1>A Nova Scotia atlas.</h1>
-        <p>Three Atlas styles for modern geography: Day, Night, and Fletcher in the colours and lettering of the 1884 Cape Breton sheets.</p>
+        <p>Four Atlas styles for modern geography: Day, Night, Fletcher in the colours and lettering of the 1884 Cape Breton sheets, and Hand-drawn, a sepia sketchbook that turns folksy as you zoom in. Standard OpenStreetMap is the fifth button, for comparison.</p>
       </section>
       <section className="atlas-section" aria-labelledby="appearance-title">
         <h2 id="appearance-title">Appearance</h2>
         <div className="atlas-modes" role="group" aria-label="Basemap appearance">
-          {(['day', 'night', 'fletcher', 'osm'] as const).map(value => <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)}>
-            {value === 'day' ? 'Day' : value === 'night' ? 'Night' : value === 'fletcher' ? 'Fletcher' : 'OSM'}
+          {(['day', 'night', 'fletcher', 'handdrawn', 'osm'] as const).map(value => <button key={value} type="button" className={value === 'osm' ? 'atlas-mode-osm' : undefined} aria-pressed={mode === value} onClick={() => setMode(value)}>
+            {value === 'osm' ? 'OSM' : atlasStyleLabels[value]}
           </button>)}
         </div>
         <p className="atlas-note">Switch styles at the same position and scale.</p>
@@ -110,7 +111,7 @@ export function AtlasStudy() {
     </aside>
     <section className="atlas-stage" aria-label="Map preview">
       <AtlasMap key={retry} style={style} camera={camera} onView={setView} onStatus={setStatus} historicalOpacity={opacity} />
-      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'After dusk' : mode === 'day' ? 'Daylight' : mode === 'fletcher' ? 'Fletcher' : 'Standard OSM'}</strong></div>
+      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'Night' : mode === 'day' ? 'Day' : mode === 'fletcher' ? 'Fletcher' : mode === 'handdrawn' ? 'Hand-drawn' : 'OpenStreetMap'}</strong></div>
       <div className="atlas-status" role="status" data-ready={status === 'Ready'}>
         <span>{status === 'Ready' ? 'Map loaded' : status}</span>
         {status !== 'Ready' && status !== 'Loading map…' && <button type="button" onClick={() => { if (view) setCamera(view); setStatus('Loading map…'); setRetry(value => value + 1); }}>Retry</button>}

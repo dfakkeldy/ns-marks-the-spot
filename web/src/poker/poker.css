@@ -96,3 +96,16 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 @media (orientation: landscape) and (max-height: 500px) {
   .poker-measurement { left: auto; right: 8px; transform: none; width: min(360px, 48%); }
 }
+/* Round 5: the family's controls. Round 44px buttons, a pill search field,
+   and the standard "Show licences" pill in place of the small Sources chip. */
+.poker-options, .poker-locate { width: 44px; height: 44px; padding: 0; border-radius: 50%; }
+.poker-basemap { min-height: 44px; padding: 0 11px; border-radius: 999px; }
+.poker-searchbar input { border-radius: 999px; padding-inline: 18px; }
+.poker-footer { padding: 0; border-radius: 999px; }
+.poker-footer > span { padding-left: 12px; }
+.poker-footer .poker-licences { min-height: 36px; padding: 0 14px; font-size: 12px; font-weight: 600; border-radius: 999px; }
+/* The zoom stack joins them: a 44px-wide pill (42px halves inside the 1px
+   rim), its ends rounded like the locate disc below it. Heights stay 36px so
+   the stack still ends above the locate button. */
+.poker-map .leaflet-control-zoom { overflow: hidden; border-radius: 22px; }
+.poker-map .leaflet-control-zoom a { width: 42px; border-radius: 0; }

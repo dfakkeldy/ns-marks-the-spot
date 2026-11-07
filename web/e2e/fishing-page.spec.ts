@@ -48,7 +48,7 @@ for (const width of [1440, 390]) test(`the /fishing page filters its spots by mo
   for (const name of [/^Tax Sale/, /^My Maps/, /^Historical Maps/, /^Elections & Districts/, /^Forestry & Ecology/]) {
     await expect(page.getByRole('button', { name })).toHaveCount(0);
   }
-  await expect(page.getByRole('combobox', { name: 'Map setup' })).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: 'Change setup' })).toHaveCount(0);
 
   await expect(cards(page)).toHaveCount(27);
   await expect(pins(page)).toHaveCount(27);

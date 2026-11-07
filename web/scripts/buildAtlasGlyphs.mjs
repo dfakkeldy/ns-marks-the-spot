@@ -51,6 +51,10 @@ const licences = {
     sha256: '3624eddd4c8f8a908130a417ae7cd089c9da69899c4e0ca1a5217d0a6fae16fd', reservedFontName: 'Libre Baskerville' },
   'Noto Sans': { file: 'OFL-Noto-Sans.txt', archive: NOTO_SANS, member: 'OFL.txt',
     sha256: 'cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a', reservedFontName: null, trademark: 'Noto is a trademark of Google LLC' },
+  'IM Fell English': { file: 'OFL-IM-Fell-English.txt', url: `${GOOGLE_FONTS}/imfellenglish/OFL.txt`,
+    sha256: '2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773', reservedFontName: null },
+  Kalam: { file: 'OFL-Kalam.txt', url: `${GOOGLE_FONTS}/kalam/OFL.txt`,
+    sha256: 'f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f', reservedFontName: null },
 };
 
 /**
@@ -68,6 +72,16 @@ export const fonts = [
     archive: NOTO_SANS, member: 'NotoSans/unhinted/ttf/NotoSans-Regular.ttf', sha256: 'f3961a9cde016d41a4879aecda1474d3a36d6bf54fa0e4643de029cc2248b0e8' },
   { stack: 'Atlas Sans Bold', family: 'Noto Sans', style: 'Bold', version: '2.015',
     archive: NOTO_SANS, member: 'NotoSans/unhinted/ttf/NotoSans-Bold.ttf', sha256: '87cb2d84472a7d66da659ee47b6cdb9552326e8c128245231f191b6ac72529d9' },
+  // The Hand-drawn style: a seventeenth-century book face for regional names, then a
+  // felt-pen hand for the folksy local scale.
+  { stack: 'Atlas Quill Regular', family: 'IM Fell English', style: 'Roman', version: '3.00',
+    url: `${GOOGLE_FONTS}/imfellenglish/IMFeENrm28P.ttf`, sha256: 'fe9705bbde51af802719246d4608d08d37bde956ab99d9a590da996a5221a24c' },
+  { stack: 'Atlas Quill Italic', family: 'IM Fell English', style: 'Italic', version: '3.00',
+    url: `${GOOGLE_FONTS}/imfellenglish/IMFeENit28P.ttf`, sha256: '47cd75dce54b1f2e0831359d22d5e688f519d68ae45706b664fd310fd0e3ccf7' },
+  { stack: 'Atlas Hand Regular', family: 'Kalam', style: 'Regular', version: '2.001',
+    url: `${GOOGLE_FONTS}/kalam/Kalam-Regular.ttf`, sha256: '57cecb63d4608019371954274ae1d8c397764debd5b19d4a33c1efa4dc923c0b' },
+  { stack: 'Atlas Hand Bold', family: 'Kalam', style: 'Bold', version: '2.001',
+    url: `${GOOGLE_FONTS}/kalam/Kalam-Bold.ttf`, sha256: '2f6576601db015d4f6c08678120277fc8510b98c06e932ce7a6a9cbff4cbdded' },
 ];
 
 const README = `NS Marks Atlas label glyphs
@@ -80,11 +94,13 @@ stack's upstream font release, checksum, licence and glyph count.
 
   Atlas Serif Regular / Atlas Serif Italic  derived from Libre Baskerville
   Atlas Sans Regular / Atlas Sans Bold      derived from Noto Sans
+  Atlas Quill Regular / Atlas Quill Italic  derived from IM Fell English
+  Atlas Hand Regular / Atlas Hand Bold      derived from Kalam
 
-Both fonts are licensed under the SIL Open Font License 1.1 (texts beside this
-file). Libre Baskerville declares the Reserved Font Name "Libre Baskerville";
-the Noto OFL text declares no Reserved Font Name, and "Noto" is a Google
-trademark. Converting a font to glyph ranges makes a Modified Version under the
+All four fonts are licensed under the SIL Open Font License 1.1 (texts beside
+this file). Libre Baskerville declares the Reserved Font Name "Libre
+Baskerville"; the Noto, IM Fell English and Kalam OFL texts declare none, and
+"Noto" is a Google trademark. Converting a font to glyph ranges makes a Modified Version under the
 OFL, so the stacks use project names and the upstream names appear only as the
 derivation record. The ranges stay under the OFL and are not covered by the
 repository's MIT code licence. Serving them with the app means no font host is

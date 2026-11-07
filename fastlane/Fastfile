@@ -29,7 +29,7 @@ SUPPORT_URL_PATH = File.join(EN_US_METADATA_ROOT, "support_url.txt")
 MARKETING_URL_PATH = File.join(EN_US_METADATA_ROOT, "marketing_url.txt")
 PRIMARY_CATEGORY_PATH = File.join(METADATA_ROOT, "primary_category.txt")
 SECONDARY_CATEGORY_PATH = File.join(METADATA_ROOT, "secondary_category.txt")
-TESTFLIGHT_METADATA_ROOT = File.join(METADATA_ROOT, "testflight", "en-US")
+TESTFLIGHT_METADATA_ROOT = File.expand_path("testflight/en-US", __dir__)
 TESTFLIGHT_DESCRIPTION_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "description.txt")
 TESTFLIGHT_FEEDBACK_EMAIL_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "feedback_email.txt")
 TESTFLIGHT_WHAT_TO_TEST_PATH = File.join(TESTFLIGHT_METADATA_ROOT, "what_to_test.txt")
@@ -429,6 +429,12 @@ platform :ios do
         "en-US" => require_https_url!(MARKETING_URL_PATH)
       },
       skip_screenshots: !staged_screenshots?,
+      # CI cannot answer deliver's "does the HTML preview look okay?" prompt;
+      # the metadata and screenshots are reviewed in their PRs instead.
+      force: true,
+      # Precheck's in-app purchase check needs an Apple ID session and fails
+      # under API-key auth. The app sells nothing, so the rest of precheck runs.
+      precheck_include_in_app_purchases: false,
       submit_for_review: false
     )
   end

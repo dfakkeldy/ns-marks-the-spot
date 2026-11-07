@@ -1,0 +1,402 @@
+CONVERSION CHECK - planned wind turbines, Nova Scotia (read date 2026-10-24)
+===========================================================================
+
+Method
+------
+* Coordinates were parsed programmatically from pdftotext -layout output of the published PDFs
+  (work/extract.py), except Sugar Maple, whose table is an embedded image: it was extracted with
+  pdfimages, upscaled and transcribed by eye, and every value was compared with the second copy of
+  the same table in Appendix K (identical; Appendix K labels the relocated turbine S10, Appendix D S10R).
+* Sugar Maple OCR cross-check of the hand transcription: the two embedded table images were extracted
+  (pdfimages), upscaled 4x, binarised and the Easting/Northing columns OCR'd separately with tesseract
+  (digits-only whitelist). Appendix K image: 16/16 northings and 14/16 eastings match the typed values;
+  the 2 misses (S2, S4) are OCR reading "568" for "558". Appendix D image: 14/16 eastings match; the 2
+  misses are OCR errors (S3 "58041", S7 "659745"); D northings did not OCR. Every typed easting is matched
+  exactly by at least one OCR pass and every northing by the K pass, so no transcription error remains.
+* Strum-format tables (Melvin Lake, Weavers Mountain, Mersey River, Ellershouse 3) appear 8-16 times in
+  the same PDF (one per EMI consultation letter); the parser compared every copy: all copies identical.
+* Source CRS -> EPSG code used:
+    'UTM NAD83 Zone 20' / 'UTM Z20' / 'UTM 20N' (Strum, Clydesdale)  -> EPSG:26920 NAD83 / UTM 20N
+    'UTM NAD83 Zone 19' (Wedgeport)                                   -> EPSG:26919 NAD83 / UTM 19N
+    'UTM, NAD83(CSRS), Zone 20' (Nortek: Eigg Mountain, Sugar Maple)   -> EPSG:2961 NAD83(CSRS) / UTM 20N
+    Benjamins Mill: printed as 'Geo [deg]-WGS84' decimal degrees (6 dp) -> used as printed, no conversion
+    Harbour Hills (separate file): printed as degrees-minutes-seconds, datum not stated in the table
+      (report maps are NAD83) -> converted DMS->decimal degrees arithmetically, no datum shift
+* Target: EPSG:4326 (WGS84), 6 decimals. In PROJ, NAD83 and NAD83(CSRS) -> WGS84 are treated as
+  null/ballpark transformations; the real differences here are about 1-2 m, far below the accuracy of a
+  pre-construction layout (micrositing commonly moves turbines tens of metres). CHECK 4 below shows
+  that reading the same UTM numbers as NAD83 or NAD83(CSRS) changes the result by ~1 m.
+* Tools: /opt/local/bin/python3.12 -I with pyproj 3.6.1 (PROJ 9.3.1); independent cs2cs (PROJ 9.9.0).
+
+Results of convert.py
+---------------------
+pyproj 3.6.1 PROJ 9.3.1
+EPSG:26920 NAD83 / UTM zone 20N -> EPSG:4326 | unavailable until proj_trans is called
+EPSG:26919 NAD83 / UTM zone 19N -> EPSG:4326 | unavailable until proj_trans is called
+EPSG:2961 NAD83(CSRS) / UTM zone 20N -> EPSG:4326 | unavailable until proj_trans is called
+
+CHECK 1 round trip UTM->WGS84->UTM max residual (m): 0.000000
+
+CHECK 2 conversion vs lat/lon printed in the same source table
+  melvin-lake       n=23 median 3.8 m, max 84.6 m (turbine 5); printed lat/lon precision ~4 dp
+  weavers-mountain  n=16 median 41.6 m, max 84.7 m (turbine 16); printed lat/lon precision ~2 dp
+  mersey-river      n=33 median 0.0 m, max 0.1 m (turbine 24); printed lat/lon precision ~7 dp
+  ellershouse-3     n=12 median 55.7 m, max 2993.1 m (turbine 7); printed lat/lon precision ~3 dp
+     outlier: turbine 7 differs by 2993 m from its printed lat/lon
+
+CHECK 3 independent known points: existing turbines tabulated in the Eigg Mountain shadow-flicker report
+  (UTM NAD83(CSRS) Zone 20, Appendix K Tables 2-3) vs NRCan installed-turbine positions (Glen Dhu, Maryvale)
+  Glen Dhu 1  -> 45.688534, -62.202084  nearest NRCan Glen Dhu DHU1 at 34.5 m
+  Glen Dhu 2  -> 45.687169, -62.206342  nearest NRCan Glen Dhu DHU2 at 33.7 m
+  Glen Dhu 3  -> 45.683536, -62.206791  nearest NRCan Glen Dhu DHU4 at 23.9 m
+  Glen Dhu 4  -> 45.685318, -62.211992  nearest NRCan Glen Dhu DHU3 at 25.9 m
+  Glen Dhu 5  -> 45.683540, -62.199600  nearest NRCan Glen Dhu DHU5 at 32.7 m
+  Glen Dhu 6  -> 45.678423, -62.209354  nearest NRCan Glen Dhu DHU7 at 39.6 m
+  Glen Dhu 7  -> 45.676912, -62.205626  nearest NRCan Glen Dhu DHU9 at 40.9 m
+  Glen Dhu 8  -> 45.676604, -62.198864  nearest NRCan Glen Dhu DHU10 at 42.0 m
+  Glen Dhu 9  -> 45.673174, -62.196268  nearest NRCan Glen Dhu DHU11 at 38.1 m
+  Maryvale 1  -> 45.728549, -62.068524  nearest NRCan Maryvale MAR4 at 20.1 m
+  Maryvale 2  -> 45.728062, -62.065049  nearest NRCan Maryvale MAR3 at 11.6 m
+
+CHECK 4 datum sensitivity: same UTM numbers read as NAD83(original) vs NAD83(CSRS)
+  E565656 N5043451: 26920 vs 2961 differ by 1.07 m
+  E430208 N4969535: 26920 vs 2961 differ by 1.04 m
+  E354581 N4881125: 26920 vs 2961 differ by 1.02 m
+
+Notes on CHECK 2 (printed lat/lon columns in the source tables):
+  - Mersey River prints 7-8 decimal lat/lon: agreement 0.0-0.1 m (strong check of zone/datum/code).
+  - Melvin Lake prints 4 dp (+-6 m rounding): all within 12 m except turbine 5 (84.6 m; printed lat
+    44.8632 vs 44.86390 from its UTM). UTM values were used; the printed lat/lon for T5 looks stale/typo.
+  - Weavers Mountain prints 3 dp (trailing zeros dropped, so the precision test reports 2): all within
+    85 m, consistent with 3-dp truncation.
+  - Ellershouse 3 (not in the GeoJSON; approval possibly lapsed) T7 printed lon -64.022 is ~3 km from its
+    UTM easting 416295, which fits the cluster; the printed longitude is a typo (should be ~-64.060).
+Notes on CHECK 3: the Eigg Mountain report tabulates 11 existing turbines (Glen Dhu, Maryvale) in the same
+  CRS. Converted, each lies 12-42 m from an NRCan installed-turbine point, i.e. the CRS reading is right
+  (a wrong zone/datum would be off by hundreds of metres or more). NRCan's own positions are approximate.
+
+Independent cs2cs check (one point per project; cs2cs output is lat lon)
+------------------------------------------------------------------------
+eigg-mountain 1 EPSG:2961 cs2cs: 45.680952	-62.094135 0.000000 | pyproj: 45.680952 -62.094135
+melvin-lake 1 EPSG:26920 cs2cs: 44.875816	-63.883608 0.000000 | pyproj: 44.875816 -63.883608
+weavers-mountain 1 EPSG:26920 cs2cs: 45.541504	-62.158998 0.000000 | pyproj: 45.541503 -62.158998
+mersey-river 1 EPSG:26920 cs2cs: 44.068869	-64.815881 0.000000 | pyproj: 44.068869 -64.815881
+ellershouse-3 1 EPSG:26920 cs2cs: 44.907476	-64.036760 0.000000 | pyproj: 44.907476 -64.03676
+wedgeport WTG1 EPSG:26919 cs2cs: 43.756784	-66.006430 0.000000 | pyproj: 43.756784 -66.00643
+clydesdale-ridge WTG1 EPSG:26920 cs2cs: 45.608490	-63.096209 0.000000 | pyproj: 45.60849 -63.096208
+sugar-maple S1 EPSG:2961 cs2cs: 45.462606	-62.231922 0.000000 | pyproj: 45.462606 -62.231922
+
+Sanity checks (bounding box 43.3-47.1 N, 66.5-59.6 W; cluster spread; spacing; distance to Point Tupper
+45.59 N 61.34 W; nearest NRCan installed turbine; OSM wind generators within 200 m)
+---------------------------------------------------------------------------------------------------------
+eigg-mountain     n=22 inbox=True centroid=45.70898,-62.12972 max-from-centroid=4.3 km min-spacing=511 m nearest-to-PointTupper=59.5 km nearest-NRCan=1920 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+melvin-lake       n=23 inbox=True centroid=44.81616,-63.88178 max-from-centroid=6.6 km min-spacing=451 m nearest-to-PointTupper=213.5 km nearest-NRCan=3183 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+weavers-mountain  n=16 inbox=True centroid=45.52912,-62.21128 max-from-centroid=4.3 km min-spacing=654 m nearest-to-PointTupper=64.0 km nearest-NRCan=10814 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+mersey-river      n=33 inbox=True centroid=44.07293,-64.87512 max-from-centroid=6.4 km min-spacing=533 m nearest-to-PointTupper=320.6 km nearest-NRCan=8852 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+ellershouse-3     n=12 inbox=True centroid=44.88905,-64.06602 max-from-centroid=3.1 km min-spacing=434 m nearest-to-PointTupper=224.3 km nearest-NRCan=1665 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+wedgeport         n=13 inbox=True centroid=43.73248,-66.01185 max-from-centroid=2.7 km min-spacing=470 m nearest-to-PointTupper=421.5 km nearest-NRCan=456 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+clydesdale-ridge  n=18 inbox=True centroid=45.58784,-63.07372 max-from-centroid=7.2 km min-spacing=506 m nearest-to-PointTupper=130.3 km nearest-NRCan=2715 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+benjamins-mill    n=28 inbox=True centroid=44.89766,-64.26822 max-from-centroid=3.5 km min-spacing=596 m nearest-to-PointTupper=238.4 km nearest-NRCan=7761 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+sugar-maple       n=16 inbox=True centroid=45.47601,-62.21347 max-from-centroid=4.6 km min-spacing=744 m nearest-to-PointTupper=65.0 km nearest-NRCan=14883 m
+    OSM wind generators within 200 m of a tabulated position: 0 -> []
+  (Harbour Hills, separate file: 107 points, 52.4-65.6 km from Point Tupper, lat 45.1314-45.2586, lon -61.9953 to -61.7106)
+  OSM has no generators at any tabulated position, including Benjamins Mill Phase 1 (operating since
+  2025-12-16), so OSM could not be used to identify which Benjamins Mill positions are built.
+
+Reverse geocoding (Nominatim, zoom 14) of each project centroid and first turbine: all on land in the named county/community
+--------------------------------------------------------------------------------------------------------------------------------
+eigg-mountain
+    45.70898,-62.12972 -> Maple Ridge, Municipality of the County of Antigonish, Antigonish County, Nova Scotia, Canada | county: Municipality of the County of Antigonish | type: boundary/administrative
+    45.68095,-62.09414 -> Pleasant Valley, Municipality of the County of Antigonish, Antigonish County, Nova Scotia, Canada | county: Municipality of the County of Antigonish | type: boundary/administrative
+melvin-lake
+    44.81616,-63.88178 -> Mount Uniacke, East Hants District Municipality, Hants County, Nova Scotia, B0N 1Z0, Canada | county: Hants County | type: boundary/administrative
+    44.87582,-63.88361 -> Mount Uniacke, East Hants District Municipality, Hants County, Nova Scotia, B0N 1Z0, Canada | county: Hants County | type: boundary/administrative
+weavers-mountain
+    45.52912,-62.21128 -> Indian Lake, Municipality of Pictou County, Pictou County, Nova Scotia, Canada | county: Municipality of Pictou County | type: boundary/administrative
+    45.54150,-62.15900 -> Marshy Hope, Municipality of Pictou County, Pictou County, Nova Scotia, Canada | county: Municipality of Pictou County | type: boundary/administrative
+mersey-river
+    44.07293,-64.87512 -> Milton, Region of Queens Municipality, Queens County, Nova Scotia, B0T 1P0, Canada | county: Queens County | type: boundary/administrative
+    44.06887,-64.81588 -> Milton, Region of Queens Municipality, Queens County, Nova Scotia, B0T 1P0, Canada | county: Queens County | type: boundary/administrative
+ellershouse-3
+    44.88905,-64.06602 -> Ellershouse, Region of Windsor and West Hants Municipality, Hants County, Nova Scotia, B0N 1L0, Canada | county: Hants County | type: boundary/administrative
+    44.90748,-64.03676 -> Ellershouse, Region of Windsor and West Hants Municipality, Hants County, Nova Scotia, B0N 1L0, Canada | county: Hants County | type: boundary/administrative
+wedgeport
+    43.73248,-66.01185 -> Little River Harbour, Argyle Municipal District, Yarmouth County, Nova Scotia, B0W 1B0, Canada | county: Yarmouth County | type: boundary/administrative
+    43.75678,-66.00643 -> Upper Wedgeport, Argyle Municipal District, Yarmouth County, Nova Scotia, B0W 3P0, Canada | county: Yarmouth County | type: boundary/administrative
+clydesdale-ridge
+    45.58784,-63.07372 -> Berichan, Earltown, Municipality of Colchester, Colchester County, Nova Scotia, Canada | county: Municipality of Colchester | type: place/village
+    45.60849,-63.09621 -> Berichan, Earltown, Municipality of Colchester, Colchester County, Nova Scotia, Canada | county: Municipality of Colchester | type: place/village
+benjamins-mill
+    44.89766,-64.26822 -> Vaughan, Region of Windsor and West Hants Municipality, Hants County, Nova Scotia, B0N 2T0, Canada | county: Hants County | type: boundary/administrative
+    44.90550,-64.22576 -> Upper Falmouth, Region of Windsor and West Hants Municipality, Hants County, Nova Scotia, B0P 1L0, Canada | county: Hants County | type: boundary/administrative
+sugar-maple
+    45.47601,-62.21347 -> Marsh, Municipality of Pictou County, Pictou County, Nova Scotia, Canada | county: Municipality of Pictou County | type: boundary/administrative
+    45.46261,-62.23192 -> Marsh, Municipality of Pictou County, Pictou County, Nova Scotia, Canada | county: Municipality of Pictou County | type: boundary/administrative
+harbour-hills
+    45.20186,-61.84321 -> West Side Country Harbour, Guysborough District Municipality, Guysborough County, Nova Scotia, Canada | county: Guysborough District Municipality | type: boundary/administrative
+    45.25864,-61.96392 -> Melrose, St. Mary's District Municipality, Guysborough County, Nova Scotia, Canada | county: Guysborough County | type: boundary/administrative
+
+==================================== CODE ====================================
+
+----- work/extract.py -----
+"""Extract published turbine coordinate tables from pdftotext -layout output.
+Writes work/raw_turbines.json: list of dicts with project, turbine, coords_as_published, crs, x, y, page."""
+import re, json, sys, os
+D = sys.argv[1]  # dl/docs dir
+OUT = sys.argv[2]
+def pages(fn):
+    return open(os.path.join(D, fn), encoding='utf-8', errors='replace').read().split('\f')
+recs = []
+def add(project, tid, pub, crs, x, y, page, extra=None):
+    r = dict(project=project, turbine=tid, coords_as_published=pub, crs=crs, x=x, y=y, page=page)
+    if extra: r.update(extra)
+    recs.append(r)
+
+# 1. Eigg Mountain: Appendix K Table 1 (page 4)
+p = pages('eigg-mountain-wind-project/eigg-mountain-appendix-k.txt')[3]
+blk = p.split('Table 1: Proposed Turbine Locations.')[1].split('Table 2:')[0]
+for m in re.finditer(r'^\s*(\d{1,2})\s+N163/6\.X\s+([\d,]+)\s+([\d,]+)\s*$', blk, re.M):
+    e, n = m.group(2), m.group(3)
+    add('eigg-mountain', m.group(1), f'E {e} N {n} (UTM, NAD83(CSRS), Zone 20)', 'EPSG:2961',
+        float(e.replace(',', '')), float(n.replace(',', '')), 4)
+# 2. Strum EMI-letter tables (Table 1: Proposed Turbine Locations & Specifications)
+def strum(project, fn, zone_label):
+    ps = pages(fn)
+    first = None; sets = []
+    for i, p in enumerate(ps):
+        if 'Table 1: Proposed Turbine Locations & Specifications' not in p: continue
+        blk = p.split('Table 1: Proposed Turbine Locations & Specifications')[1]
+        rows = re.findall(r'^\s*(\d{1,2})\s+([\d.]+)\s+([\d.]+)\s+(4[45]\.\d+)\s+(-6\d\.\d+)\s', blk, re.M)
+        if not rows: continue
+        sets.append((i + 1, tuple(rows)))
+    base_page, base = sets[0]
+    same = [pg for pg, r in sets if r == base]
+    diff = [pg for pg, r in sets if r != base]
+    for tid, e, n, lat, lon in base:
+        add(project, tid, f'E {e} N {n} ({zone_label}); table also lists lat {lat}, lon {lon}',
+            'EPSG:26920', float(e), float(n), base_page, dict(pub_lat=float(lat), pub_lon=float(lon)))
+    return same, diff
+info = {}
+info['melvin-lake'] = strum('melvin-lake', 'melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.txt', 'UTM 20N')
+info['weavers-mountain'] = strum('weavers-mountain', 'weavers-mountain-wind-energy/wmw-appendix-g-p.txt', 'UTM Z20')
+info['mersey-river'] = strum('mersey-river', 'mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.txt', 'UTM Z20')
+info['ellershouse-3'] = strum('ellershouse-3', 'ellershouse-3-wind/e3w-ea-registration-appendix-m-p.txt', 'UTM Z20')
+# 3. Wedgeport Table 6-2 (pages 49-50), UTM NAD83 Zone 19
+ps = pages('wedgeport-wind-farm-project/wwf-ea-registration-document.txt')
+for pgno in (49, 50):
+    for m in re.finditer(r'^\s*WTG(\d{1,2})\s+(\d{6})\s+(\d{7})\s+(\d{8})\s+(Private|Crown)', ps[pgno - 1], re.M):
+        add('wedgeport', 'WTG' + m.group(1), f'E {m.group(2)} N {m.group(3)} (UTM NAD83 Zone 19)', 'EPSG:26919',
+            float(m.group(2)), float(m.group(3)), pgno)
+# 4. Clydesdale Table 6.3 (page 32 = printed page 13/14) UTM NAD83 Zone 20 -- for the lapsed list only
+ps = pages('clydesdale-ridge-wind/cwr-ea-registration-document.txt')
+for m in re.finditer(r'^\s*WTG(\d{1,2})\s+(\d{6})\s+(\d{7})\s+(\d{8})\s+(Private|Crown)', ps[31], re.M):
+    add('clydesdale-ridge', 'WTG' + m.group(1), f'E {m.group(2)} N {m.group(3)} (UTM NAD83 Zone 20)', 'EPSG:26920',
+        float(m.group(2)), float(m.group(3)), 32)
+# 5. Benjamins Mill WindPRO DECIBEL table, WGS84 degrees (page 1)
+p = pages('benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.txt')[0]
+for m in re.finditer(r'^\s*(\d{1,2}) (-6\d\.\d{6})° E (4\d\.\d{6})° N\s+([\d.]+) ', p, re.M):
+    add('benjamins-mill', m.group(1), f'{m.group(2)}° E {m.group(3)}° N (Geo [deg]-WGS84, as printed)', 'EPSG:4326',
+        float(m.group(2)), float(m.group(3)), 1)
+# 6. Sugar Maple: Appendix D Table 1 (page 4) is an embedded image; transcribed by eye from the
+#    extracted image and compared value-by-value with Appendix K Table 1 (identical; K labels S10R as S10).
+SM = [('S1',560047,5034628),('S2',558751,5034733),('S3',558041,5035211),('S4',558515,5035890),('S5',557678,5036180),
+      ('S6',558577,5036948),('S7',559745,5035971),('S8',560957,5036249),('S9',561605,5034810),('S10R',561602,5036905),
+      ('S11',564428,5038216),('S12',563307,5038318),('S13',564543,5037219),('S14',564890,5036561),('S15',564927,5034956),
+      ('S16',565981,5035320)]
+for tid, e, n in SM:
+    add('sugar-maple', tid, f'E {e:,} N {n:,} (UTM, NAD83(CSRS), Zone 20)', 'EPSG:2961', float(e), float(n), 4)
+json.dump(dict(records=recs, repeat_check={k: dict(identical_pages=v[0], differing_pages=v[1]) for k, v in info.items()}),
+          open(OUT, 'w'), indent=1)
+from collections import Counter
+print(Counter(r['project'] for r in recs))
+print({k: (len(v[0]), v[1]) for k, v in info.items()})
+
+----- work/convert.py -----
+"""Convert published UTM coordinates to WGS84 lon/lat with pyproj and run checks.
+Run with: /opt/local/bin/python3.12 -I convert.py raw_turbines.json nrcan_ns.json converted.json"""
+import json, sys, math, statistics
+import pyproj
+from pyproj import Transformer
+raw = json.load(open(sys.argv[1]))
+nrcan = json.load(open(sys.argv[2]))
+out = sys.argv[3]
+print('pyproj', pyproj.__version__, 'PROJ', pyproj.proj_version_str)
+T = {c: Transformer.from_crs(c, 'EPSG:4326', always_xy=True) for c in ('EPSG:26920', 'EPSG:26919', 'EPSG:2961')}
+INV = {c: Transformer.from_crs('EPSG:4326', c, always_xy=True) for c in T}
+for c, t in T.items():
+    print(c, pyproj.CRS(c).name, '->', 'EPSG:4326 |', t.description)
+def hav(lat1, lon1, lat2, lon2):
+    R = 6371008.8
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp, dl = p2 - p1, math.radians(lon2 - lon1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * R * math.asin(math.sqrt(a))
+recs = raw['records']
+maxrt = 0
+for r in recs:
+    if r['crs'] == 'EPSG:4326':
+        r['lon'], r['lat'] = r['x'], r['y']
+        continue
+    lon, lat = T[r['crs']].transform(r['x'], r['y'])
+    x2, y2 = INV[r['crs']].transform(lon, lat)
+    maxrt = max(maxrt, abs(x2 - r['x']), abs(y2 - r['y']))
+    r['lon'], r['lat'] = round(lon, 6), round(lat, 6)
+print('\nCHECK 1 round trip UTM->WGS84->UTM max residual (m): %.6f' % maxrt)
+print('\nCHECK 2 conversion vs lat/lon printed in the same source table')
+by = {}
+for r in recs: by.setdefault(r['project'], []).append(r)
+for p, rs in by.items():
+    if 'pub_lat' not in rs[0]: continue
+    d = [(hav(r['lat'], r['lon'], r['pub_lat'], r['pub_lon']), r['turbine']) for r in rs]
+    dec = min(len(str(r['pub_lat']).split('.')[1]) for r in rs)
+    print('  %-17s n=%2d median %.1f m, max %.1f m (turbine %s); printed lat/lon precision ~%d dp' % (
+        p, len(d), statistics.median(x for x, _ in d), max(d)[0], max(d)[1], dec))
+    for x, t in d:
+        if x > 300: print('     outlier: turbine', t, 'differs by %.0f m from its printed lat/lon' % x)
+print('\nCHECK 3 independent known points: existing turbines tabulated in the Eigg Mountain shadow-flicker report')
+print('  (UTM NAD83(CSRS) Zone 20, Appendix K Tables 2-3) vs NRCan installed-turbine positions (Glen Dhu, Maryvale)')
+known = [('Glen Dhu 1', 562130, 5059751), ('Glen Dhu 2', 561800, 5059596), ('Glen Dhu 3', 561769, 5059192),
+         ('Glen Dhu 4', 561362, 5059386), ('Glen Dhu 5', 562329, 5059198), ('Glen Dhu 6', 561575, 5058622),
+         ('Glen Dhu 7', 561867, 5058457), ('Glen Dhu 8', 562394, 5058428), ('Glen Dhu 9', 562600, 5058049),
+         ('Maryvale 1', 572478, 5064309), ('Maryvale 2', 572749, 5064258)]
+nr = [(f['attributes']['Project_Name'], f['attributes']['Turbine_Identifier'], f['attributes']['Latitude'], f['attributes']['Longitude'])
+      for f in nrcan['features'] if f['attributes']['Project_Name'] in ('Glen Dhu', 'Maryvale')]
+for name, e, n in known:
+    lon, lat = T['EPSG:2961'].transform(e, n)
+    best = min(nr, key=lambda z: hav(lat, lon, z[2], z[3]))
+    print('  %-11s -> %.6f, %.6f  nearest NRCan %s %s at %.1f m' % (name, lat, lon, best[0], best[1], hav(lat, lon, best[2], best[3])))
+print('\nCHECK 4 datum sensitivity: same UTM numbers read as NAD83(original) vs NAD83(CSRS)')
+for r in recs[:1] + [x for x in recs if x['project'] == 'wedgeport'][:1]:
+    pass
+t_a = Transformer.from_crs('EPSG:26920', 'EPSG:4326', always_xy=True)
+t_b = Transformer.from_crs('EPSG:2961', 'EPSG:4326', always_xy=True)
+for e, n in ((565656.46, 5043451.31), (430207.92, 4969534.99), (354581, 4881125)):
+    a = t_a.transform(e, n); b = t_b.transform(e, n)
+    print('  E%.0f N%.0f: 26920 vs 2961 differ by %.2f m' % (e, n, hav(a[1], a[0], b[1], b[0])))
+json.dump(recs, open(out, 'w'), indent=1)
+
+----- work/sanity.py -----
+import json, math, sys, statistics
+recs = json.load(open(sys.argv[1])); osm = json.load(open(sys.argv[2]))['elements']; nrcan = json.load(open(sys.argv[3]))['features']
+PT = (45.59, -61.34)
+def hav(a, b, c, d):
+    R = 6371008.8; p1, p2 = math.radians(a), math.radians(c); dp = p2 - p1; dl = math.radians(d - b)
+    x = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2; return 2 * R * math.asin(math.sqrt(x))
+osm_pts = []
+for e in osm:
+    lat = e.get('lat') or e.get('center', {}).get('lat'); lon = e.get('lon') or e.get('center', {}).get('lon')
+    osm_pts.append((lat, lon, e['type'], e['id'], e.get('tags', {})))
+nr_pts = [(f['attributes']['Latitude'], f['attributes']['Longitude'], f['attributes']['Project_Name']) for f in nrcan]
+by = {}
+for r in recs: by.setdefault(r['project'], []).append(r)
+for p, rs in by.items():
+    lats = [r['lat'] for r in rs]; lons = [r['lon'] for r in rs]
+    inbox = all(43.3 <= a <= 47.1 and -66.5 <= b <= -59.6 for a, b in zip(lats, lons))
+    c = (statistics.mean(lats), statistics.mean(lons))
+    spread = max(hav(a, b, c[0], c[1]) for a, b in zip(lats, lons))
+    dpt = min(hav(a, b, *PT) for a, b in zip(lats, lons))
+    # duplicates / spacing
+    mind = min(hav(rs[i]['lat'], rs[i]['lon'], rs[j]['lat'], rs[j]['lon']) for i in range(len(rs)) for j in range(i + 1, len(rs)))
+    nn = [min(((hav(r['lat'], r['lon'], o[0], o[1]), o) for o in osm_pts), key=lambda z: z[0]) for r in rs]
+    near_osm = [(r['turbine'], round(d), o[4].get('power', ''), o[4].get('construction', ''), o[4].get('name', '')) for r, (d, o) in zip(rs, nn) if d < 200]
+    nnr = [min(hav(r['lat'], r['lon'], z[0], z[1]) for z in nr_pts) for r in rs]
+    print('%-17s n=%2d inbox=%s centroid=%.5f,%.5f max-from-centroid=%.1f km min-spacing=%.0f m nearest-to-PointTupper=%.1f km nearest-NRCan=%.0f m' % (
+        p, len(rs), inbox, c[0], c[1], spread / 1000, mind, dpt / 1000, min(nnr)))
+    print('    OSM wind generators within 200 m of a tabulated position: %d -> %s' % (len(near_osm), near_osm))
+
+----- work/build.py -----
+"""Build planned-turbines.geojson (and the separate EverWind Harbour Hills file) from converted.json.
+Run: /opt/local/bin/python3.12 -I build.py <converted.json> <docs dir> <out dir>"""
+import json, re, sys, os, math
+recs = json.load(open(sys.argv[1])); DOCS = sys.argv[2]; OUT = sys.argv[3]
+EA = 'https://novascotia.ca/nse/ea/'
+READ = '2026-10-24'
+P = {
+ 'eigg-mountain': dict(project='Eigg Mountain Wind Project', proponent='Eigg Mountain Wind Inc (a RES Canada company)', county='Antigonish',
+   status='EA approved with conditions; no construction start found (proponent planned construction from late 2026, operation 2028)', status_date='2026-04-09',
+   n=22, mw=154, tip=199.5, hub=118, rotor=163,
+   source='Nortek Resource Solutions, Shadow Flicker Assessment (4 Feb 2026), EA registration Appendix K',
+   url=EA + 'eigg-mountain-wind-project/eigg-mountain-appendix-k.pdf', loc='Table 1: Proposed Turbine Locations, PDF page 4 (IDs 1-22; UTM NAD83(CSRS) Zone 20)'),
+ 'sugar-maple': dict(project='Sugar Maple Wind Energy Project', proponent='WEB Sugar Maple Wind Inc (Glooscap First Nation and SWEB Development LP)', county='Pictou',
+   status='EA approved with conditions; not yet under construction per proponent schedule (major construction spring 2027, commercial operation end of 2028)', status_date='2026-05-22',
+   n=16, mw=112, tip=200, hub=118, rotor=163,
+   source='Nortek Resource Solutions, Noise Impact Assessment (20 Mar 2026), EA registration Appendix D (table is an embedded image; transcribed and checked against Appendix K Table 1)',
+   url=EA + 'sugar-maple-wind-energy/sugar-maple-appendix-d.pdf', loc='Table 1: Proposed Turbine Positions, PDF page 4 (includes relocated S10R; UTM NAD83(CSRS) Zone 20)'),
+ 'melvin-lake': dict(project='Melvin Lake Wind Project', proponent='Melvin Lake Wind Inc (ABO Energy Canada)', county='Halifax; Hants',
+   status='EA approved with conditions; not under construction (2025 Green Choice PPA declined; proponent re-bidding Nov 2026, target COD 2030); 2-year commencement deadline 2027-01-24 unless extended', status_date='2025-01-24',
+   n=23, mw=161, tip=206.5, hub=125, rotor=163,
+   source='Strum Consulting EMI consultation letters (19 Sep 2024), EA registration Part 5 (Appendix G part b to Appendix N)',
+   url=EA + 'melvin-lake-wind-project/mlwp-Part-5-Appendix-G-part-b-to-Appendix-N.pdf', loc='Table 1: Proposed Turbine Locations & Specifications, first at PDF page 281 (16 identical copies; UTM 20N, NAD83)'),
+ 'weavers-mountain': dict(project='Weavers Mountain Wind Energy Project', proponent='WEB Weavers Mountain Wind Limited Partnership (Glooscap First Nation 51%, SWEB Development 49%)', county='Pictou; Antigonish',
+   status='under construction (CIB project page: under construction; COD targeted late 2026); EA approved with conditions', status_date='2023-07-27',
+   n=16, mw=99.2, tip=206.5, hub=125, rotor=163,
+   source='Strum Consulting EMI consultation letters (Apr 2023), EA registration Appendix G-P',
+   url=EA + 'weavers-mountain-wind-energy/wmw-appendix-g-p.pdf', loc='Table 1: Proposed Turbine Locations & Specifications, first at PDF page 284 (15 identical copies; UTM Z20, NAD83)'),
+ 'wedgeport': dict(project='Wedgeport Wind Farm Project', proponent='Wedgeport Wind Farm Limited Partnership (Elemental Energy, Stevens Wind, Sipekne’katik First Nation)', county='Yarmouth',
+   status='under construction (Elemental Energy: operations scheduled late 2026; built as 12 x 7 MW per CIB/Elemental vs 13 positions in EA table); EA approved with conditions', status_date='2023-05-04',
+   n=13, mw=84, tip=200, hub=None, rotor=None,
+   source='Wedgeport Wind Farm EA Registration Document (Mar 2023), Section 6.3.1.1',
+   url=EA + 'wedgeport-wind-farm-project/wwf-ea-registration-document.pdf', loc='Table 6-2 Wind Turbine Generator Locations, printed pp. 49-50 (PDF pages 49-50; UTM NAD83 Zone 19)'),
+ 'mersey-river': dict(project='Mersey River Wind Farm', proponent='Mersey River Wind Inc (Roswall Development / Renewall Energy)', county='Queens',
+   status='under construction (CIB: under construction; proponent May 2025: site clearing largely done, first turbines late 2026); EA approved, conditions amended 2023-11-29 after an Oct 2023 layout revision (a few turbines relocated; revised coordinates not published)', status_date='2023-03-27',
+   n=33, mw=148.5, tip=180, hub=105, rotor=150,
+   source='Strum Consulting EMI consultation letters (19 Sep 2022), EA registration Part 6 (Appendices J-Q)',
+   url=EA + 'mersey-river-wind-farm/mrwf-ea-registration-document-part-1-appendix-j-q.pdf', loc='Table 1: Proposed Turbine Locations & Specifications, first at PDF page 182 (16 identical copies; UTM Z20, NAD83)'),
+ 'benjamins-mill': dict(project='Benjamins Mill Wind Project', proponent='Natural Forces Developments LP with Wskijnu’k Mtmo’taqnuow Agency (Phase 2 "Minas Highlands": Minas Basin Wind Ltd)', county='Hants',
+   status='partly built: Phase 1 (8 turbines) commercial operation 2025-12-16 and Phase 2 "Minas Highlands" (3 turbines) under construction for 2026 COD; which tabulated positions are built is not published and none are in NRCan, so all 28 EA positions are listed; up to 17 remain planned', status_date='2023-02-13',
+   n=28, mw=150, tip=200, hub=None, rotor=None,
+   source='Natural Forces WindPRO DECIBEL noise model "Ben Mill - EA Layout - Nov 2022", EA Additional Information Addendum Appendix M',
+   url=EA + 'benjamins-mill-wind-project/bmwp-ea-addendum-appendix-m.pdf', loc='DECIBEL Main Result, WTGs table, PDF page 1 (repeated p. 9); coordinates printed as Geo [deg]-WGS84'),
+}
+EXCL_FROM_MAIN = {'clydesdale-ridge', 'ellershouse-3'}
+def feat(r, meta, slug):
+    tid = r['turbine']
+    return {'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [round(r['lon'], 6), round(r['lat'], 6)]},
+            'properties': {'id': f'{slug}-{tid}', 'turbine': tid, 'project': meta['project'], 'proponent': meta['proponent'],
+                           'county': meta['county'], 'status': meta['status'], 'status_date': meta['status_date'],
+                           'project_turbines': meta['n'], 'project_capacity_mw': meta['mw'], 'tip_height_m': meta['tip'],
+                           'hub_height_m': meta['hub'], 'rotor_diameter_m': meta['rotor'], 'coords_as_published': r['coords_as_published'],
+                           'source': meta['source'], 'source_url': meta['url'], 'source_locator': meta['loc'], 'read_date': READ}}
+order = ['eigg-mountain', 'sugar-maple', 'weavers-mountain', 'melvin-lake', 'benjamins-mill', 'mersey-river', 'wedgeport']
+feats = []
+for slug in order:
+    rs = [r for r in recs if r['project'] == slug]
+    assert len(rs) == P[slug]['n'], (slug, len(rs))
+    for r in rs: feats.append(feat(r, P[slug], slug))
+fc = {'type': 'FeatureCollection', 'name': 'planned-turbines-ns',
+      'features': feats}
+json.dump(fc, open(os.path.join(OUT, 'planned-turbines.geojson'), 'w'), indent=1, ensure_ascii=False)
+print('main features', len(feats))
+# EverWind Harbour Hills (separate, possible gap; not in main file)
+s = open(os.path.join(DOCS, 'harbour-hills-wind/harbour-hills-appendix-b-f.txt'), encoding='utf-8', errors='replace').read().split('\f')
+hh = []
+for pg in (42, 43, 44):
+    for m in re.finditer(r'^\s*(T\d+)\s+(\d+)° (\d+)\' ([\d.]+)" N\s+0?(\d+)° (\d+)\' ([\d.]+)" W', s[pg - 1], re.M):
+        lat = int(m.group(2)) + int(m.group(3)) / 60 + float(m.group(4)) / 3600
+        lon = -(int(m.group(5)) + int(m.group(6)) / 60 + float(m.group(7)) / 3600)
+        pub = f'{m.group(2)}° {m.group(3)}\' {m.group(4)}" N, 0{m.group(5)}° {m.group(6)}\' {m.group(7)}" W (datum not stated in table; report maps are NAD83)'
+        hh.append(dict(turbine=m.group(1), lat=lat, lon=lon, coords_as_published=pub, page=pg))
+ids = [h['turbine'] for h in hh]
+assert len(hh) == 107 and len(set(ids)) == 107, (len(hh), len(set(ids)))
+HH = dict(project='Harbour Hills Wind Project', proponent='EverWind NS Holdings Ltd and Membertou Development Corporation', county='Guysborough',
+          status='EA registered 2026-06-24, under review (not approved); EverWind/Membertou Phase 2 "Guysborough Wind Projects"', status_date='2026-06-24',
+          n=107, mw=856, tip=221.7, hub=130, rotor=183.4,
+          source='WSP EMI Study (EMI consultation letter, Table 1), EA registration Appendices B-F (Appendix C)',
+          url=EA + 'harbour-hills-wind/harbour-hills-appendix-b-f.pdf', loc='Table 1. Proposed Turbine Locations & Specifications, PDF pages 42-44 (degrees-minutes-seconds)')
+hf = [feat(h, HH, 'harbour-hills') for h in sorted(hh, key=lambda h: int(h['turbine'][1:]))]
+json.dump({'type': 'FeatureCollection', 'name': 'everwind-harbour-hills-possible-gap', 'features': hf},
+          open(os.path.join(OUT, 'everwind-harbour-hills-possible-gap.geojson'), 'w'), indent=1, ensure_ascii=False)
+def hav(a, b, c, d):
+    R = 6371008.8; p1, p2 = math.radians(a), math.radians(c); dp = p2 - p1; dl = math.radians(d - b)
+    x = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2; return 2 * R * math.asin(math.sqrt(x))
+dd = [hav(h['lat'], h['lon'], 45.59, -61.34) / 1000 for h in hh]
+print('harbour hills', len(hf), 'dist to Point Tupper %.1f-%.1f km' % (min(dd), max(dd)),
+      'lat %.4f-%.4f lon %.4f-%.4f' % (min(h['lat'] for h in hh), max(h['lat'] for h in hh), min(h['lon'] for h in hh), max(h['lon'] for h in hh)))

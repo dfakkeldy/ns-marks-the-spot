@@ -42,7 +42,7 @@ describe("the Victoria County November 2026 public-auction dataset", () => {
       ["85001774"], ["85041416"], ["85058345"],
     ]);
     expect(victoriaTaxSaleEvent.listings.map(({ financial }) => financial.amountCents)).toEqual([
-      395_048, 100_000, 184_094,
+      399_002, 100_000, 185_793,
     ]);
     expect(victoriaTaxSaleEvent.listings.map(({ redemptionCategory }) => redemptionCategory)).toEqual([
       "six-month", "not-redeemable", "six-month",
@@ -54,7 +54,7 @@ describe("the Victoria County November 2026 public-auction dataset", () => {
 
   it("keeps the archived official receipt external and the public rows owner-free", () => {
     expect(victoriaTaxSaleSnapshot.archiveReceipt.url).toBe(
-      "https://web.archive.org/web/20261023200058id_/https://victoriacounty.com/property-tax-sale-notice/",
+      "https://web.archive.org/web/20261104205818id_/https://victoriacounty.com/property-tax-sale-notice/",
     );
     expect(victoriaTaxSaleSnapshot.archiveReceipt.sha256).toMatch(/^[0-9a-f]{64}$/);
     for (const listing of victoriaTaxSaleSnapshot.listings) {
