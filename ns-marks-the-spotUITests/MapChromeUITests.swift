@@ -145,14 +145,14 @@ final class MapChromeUITests: XCTestCase {
 
     /// A tap that rests on the badge a moment still places a point.
     ///
-    /// MapKit has its own press-to-select gesture, which begins once a touch
-    /// on or near a selectable annotation has lasted a fifth of a second. The
-    /// corners and the badge used to be selectable, so a tap that slow — a
-    /// careful finger, or a busy CI simulator late to deliver the lift — was
-    /// spent selecting a corner the app let go of at once, and nothing was
-    /// placed. That is what made the badge tap above fail one CI run in about
-    /// fifteen. Held well past the threshold here, so the outcome does not
-    /// depend on how quickly the simulator delivers the lift.
+    /// MapKit has its own press-to-select gesture, which can begin once a
+    /// touch on or near a selectable annotation has lasted a fifth of a
+    /// second. The corners and the badge used to be selectable, so a tap that
+    /// slow — a careful finger, or a busy CI simulator late to deliver the
+    /// lift — was spent selecting a corner the app let go of at once, and
+    /// nothing was placed. That is what made the badge tap above fail one CI
+    /// run in about fifteen. Held well past the threshold here, so the outcome
+    /// does not depend on how quickly the simulator delivers the lift.
     @MainActor
     func testASlowTapOnTheMeasuringBadgeStillPlacesAPoint() throws {
         let app = XCUIApplication.launchedForUITests()
@@ -172,6 +172,12 @@ final class MapChromeUITests: XCTestCase {
             waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
             "two taps did not measure a distance"
         )
+        // Not selectable is not the same as unavailable: VoiceOver must not
+        // read the marks as dimmed.
+        let corner = app.descendants(matching: .any)["Placed corner 1"].firstMatch
+        XCTAssertTrue(corner.waitForExistence(timeout: 5), "the first corner is not announced")
+        XCTAssertTrue(corner.isEnabled, "the first corner is announced as dimmed")
+        XCTAssertTrue(endpoint.isEnabled, "the measured total is announced as dimmed")
 
         let before = readout.label
         app.pressMap(

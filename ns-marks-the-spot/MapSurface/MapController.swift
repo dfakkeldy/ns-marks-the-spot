@@ -2633,6 +2633,9 @@ extension MapController: MKMapViewDelegate {
             view.isEnabled = false
             view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
             view.isAccessibilityElement = true
+            // A mark, not a control: no traits, so not enabled is not read
+            // out as a dimmed button.
+            view.accessibilityTraits = []
             // Numbered, because the dots are identical: it says where the shape
             // has been taken so far, and claims nothing about what is there.
             //
@@ -2805,7 +2808,9 @@ extension MapController: MKMapViewDelegate {
         guard mapView === self.mapView else { return }
         if view.annotation is VectorDraftVertexAnnotation {
             // Draft corners are marks of a shape in progress, not records.
-            // Selecting one would consume the tap that places the next point.
+            // Their views are not enabled, so a touch cannot select one; this
+            // is the backstop for a selection made any other way, which would
+            // consume the tap that places the next point.
             mapView.deselectAnnotation(view.annotation, animated: false)
             return
         }

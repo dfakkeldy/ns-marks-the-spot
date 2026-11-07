@@ -62,8 +62,10 @@ struct MeasurementEndpointTests {
         #expect(view.accessibilityIdentifier == "measure-endpoint-label")
         #expect(view.accessibilityHint == "Measured on the map, not surveyed.")
         #expect(!view.isUserInteractionEnabled)
-        // Selectable, MapKit's press-to-select claims a slow tap on the badge.
+        // If it were selectable, MapKit's press-to-select would claim a slow
+        // tap on the badge. Not enabled must not read as dimmed, either.
         #expect(!view.isEnabled)
+        #expect(!view.accessibilityTraits.contains(.notEnabled))
         let onBadge = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
         #expect(view.hitTest(onBadge, with: nil) == nil)
         #expect(!view.point(inside: onBadge, with: nil))
@@ -93,6 +95,7 @@ struct MeasurementEndpointTests {
         #expect(view.accessibilityLabel == "Placed corner 1")
         // A slow tap beside a corner places the next point instead.
         #expect(!view.isEnabled)
+        #expect(view.accessibilityTraits.isEmpty)
     }
 
     @Test func theIdentifyTapMayRunWithMapKitOverTheMeasurementLabel() throws {

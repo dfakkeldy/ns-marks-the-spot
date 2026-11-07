@@ -8,12 +8,20 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
     private let badge = UIView()
     private let readout = UILabel()
     private var measurementHint: String?
+    private var measurementTraits: UIAccessibilityTraits = []
 
     // MapKit can supply its generic "Shows more info" hint even after setting
     // accessibilityHint. This read-only annotation must keep its own caveat.
     override var accessibilityHint: String? {
         get { measurementHint }
         set { measurementHint = newValue }
+    }
+
+    // Held for the same reason. The view is not enabled (see `configure`),
+    // and a total read out as "dimmed" would sound like one that failed.
+    override var accessibilityTraits: UIAccessibilityTraits {
+        get { measurementTraits }
+        set { measurementTraits = newValue }
     }
 
     override init(annotation: (any MKAnnotation)?, reuseIdentifier: String?) {
@@ -55,8 +63,8 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
         // MapKit still hit-tests annotation views through `point(inside:)`.
         isUserInteractionEnabled = corner.endpointLabel == nil
         // Not selectable, labelled or not. MapKit's own press-to-select
-        // gesture begins once a touch on or near a selectable annotation has
-        // lasted a fifth of a second, and it takes the touch from the tap
+        // gesture can begin once a touch on or near a selectable annotation
+        // has lasted a fifth of a second, and it takes the touch from the tap
         // that places the next point. A slightly slow tap then selected a
         // corner that `didSelect` let go of at once, and placed nothing.
         isEnabled = false
