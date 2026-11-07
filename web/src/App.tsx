@@ -1928,18 +1928,33 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     [photoManager.loadThumbUrl],
   );
 
+  // Both refuse while a photo is still being added: a photo that finishes
+  // after its session has closed is deleted. The controls that call these
+  // are held for the same reason, so this is for the one caller that is not
+  // a click — "New drawing layer" opens its layer only after the store has
+  // answered, and an attach can start in between. Checked here, before any
+  // reset, rather than in the session: refusing there would leave the
+  // selection cleared over a session still open. Read through the ref,
+  // because that caller resumes after an await.
   const beginVectorEdit = useCallback(
-    (id: string) => {
+    (id: string): boolean => {
+      if (vectorEditRef.current.photoAttachRunning) {
+        return false;
+      }
       setDrawMode(null);
       setSelectedFeatureId(null);
       setSnapTargets(DEFAULT_SNAP_TARGETS);
       setParcelSnapStatus({ status: "idle" });
       setConvertShape(null);
       vectorEdit.beginEdit(id);
+      return true;
     },
     [vectorEdit],
   );
   const endVectorEdit = useCallback(() => {
+    if (vectorEditRef.current.photoAttachRunning) {
+      return;
+    }
     setDrawMode(null);
     setSelectedFeatureId(null);
     setSnapTargets(DEFAULT_SNAP_TARGETS);
@@ -2006,8 +2021,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // armed: the only reason to create one is to start drawing.
   const createAndEditVectorLayer = useCallback(async () => {
     const id = await userVectorApi.createDrawnLayer();
-    beginVectorEdit(id);
-    setDrawMode("Marker");
+    // Refused only when a photo attach started while the layer was being
+    // created. The new layer stays in the list to open once it has finished,
+    // and the open session's tools are left as they were.
+    if (beginVectorEdit(id)) {
+      setDrawMode("Marker");
+    }
   }, [beginVectorEdit, userVectorApi]);
 
   /**
@@ -5871,6 +5890,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         onNewLayer={() => void createAndEditVectorLayer()}
                         onBulkPhotos={() => setBulkPhotosOpen(true)}
                         editingId={vectorEdit.editingId}
+                        editSessionHeld={vectorEdit.photoAttachRunning}
                       />
                     </>
                   ) : null}
@@ -6543,6 +6563,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         onSetFeaturePhotos={vectorEdit.setFeaturePhotos}
         onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
         onPhotoCleanupFailed={vectorEdit.notePhotoCleanupFailure}
+        photoAttachRunning={vectorEdit.photoAttachRunning}
+        onPhotoAttachBusy={vectorEdit.notePhotoAttachBusy}
         onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
         onFeatureCorners={vectorEdit.featureCorners}
         onMoveVertex={vectorEdit.moveFeatureVertex}

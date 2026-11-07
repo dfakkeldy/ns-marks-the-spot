@@ -67,6 +67,16 @@ type VectorEditPanelProps = {
     descriptors: FeaturePhotoDescriptor[],
   ) => FeaturePhotoDescriptor[];
   onPhotoCleanupFailed: (photoId: string) => void;
+  /**
+   * A photo attach is running, whichever strip it began in: each selection
+   * mounts its own strip, so it can be running for a feature that is no
+   * longer selected. Done is held while it is, and no strip starts another
+   * (`attachHeld`). The session keeps the count, because the layer list can
+   * end the session too and has to wait for the same attach.
+   */
+  photoAttachRunning: boolean;
+  /** Each strip's `onBusyChange`, passed through to the session's count. */
+  onPhotoAttachBusy: (busy: boolean) => void;
   onMoveFeaturePoint: (featureId: string, position: [number, number]) => void;
   /** The selected feature's corners, numbered; see `featureCorners`. */
   onFeatureCorners: (featureId: string) => FeatureCorner[];
@@ -356,6 +366,8 @@ export function VectorEditPanel({
   onSetFeaturePhotos,
   onAttachFeaturePhotos,
   onPhotoCleanupFailed,
+  photoAttachRunning,
+  onPhotoAttachBusy,
   onMoveFeaturePoint,
   onFeatureCorners,
   onMoveVertex,
@@ -375,15 +387,6 @@ export function VectorEditPanel({
   // Non-destructive by default: with no undo system beyond the one-shot
   // conversion revert, keeping the source points is the safer failure mode.
   const [keepSourcePoints, setKeepSourcePoints] = useState(true);
-  // Photo attaches that have started and not yet ended, whichever strip they
-  // began in. Each selection mounts its own strip, so an attach can still be
-  // running for a feature that is no longer selected; while one is, Done is
-  // held and no strip starts another (`attachHeld`). A count rather than a
-  // flag: every attach reports that it started once and that it ended once,
-  // so the panel stays right even if two ever overlap, where the first
-  // `false` to arrive would clear a flag the other still needs.
-  const [photoAttachesRunning, setPhotoAttachesRunning] = useState(0);
-  const attachingPhotos = photoAttachesRunning > 0;
 
   return (
     <section className="vector-edit-panel" aria-label={`Editing ${record.name}`}>
@@ -396,10 +399,10 @@ export function VectorEditPanel({
         <button
           type="button"
           className="vector-edit-done"
-          disabled={attachingPhotos}
+          disabled={photoAttachRunning}
           onClick={onDone}
         >
-          {attachingPhotos ? "Finishing a photo…" : "Done editing"}
+          {photoAttachRunning ? "Finishing a photo…" : "Done editing"}
         </button>
       </header>
 
@@ -592,7 +595,7 @@ export function VectorEditPanel({
             />
           </label>
           <CornerMover
-            key={String(selected.id)}
+            key={`corners-${String(selected.id)}`}
             corners={onFeatureCorners(String(selected.id))}
             centre={mapCentre}
             onMove={(cornerNumber, position) =>
@@ -610,9 +613,11 @@ export function VectorEditPanel({
               for the last feature belongs to that feature's strip, which goes
               with it; a strip reused for the next feature would show the late
               answer there, and its location offer would move this point to
-              where the other photo was taken. */}
+              where the other photo was taken. Each key is told apart from its
+              sibling's by a prefix: two children sharing one key is a case
+              React does not support. */}
           <PhotoStrip
-            key={String(selected.id)}
+            key={`photos-${String(selected.id)}`}
             descriptors={readPhotoDescriptors(selected.properties)}
             pointPosition={
               selected.geometry?.type === "Point"
@@ -631,10 +636,8 @@ export function VectorEditPanel({
               onAttachFeaturePhotos(record.id, String(selected.id), descriptors)
             }
             onPhotoCleanupFailed={onPhotoCleanupFailed}
-            onBusyChange={(busy) =>
-              setPhotoAttachesRunning((running) => running + (busy ? 1 : -1))
-            }
-            attachHeld={attachingPhotos}
+            onBusyChange={onPhotoAttachBusy}
+            attachHeld={photoAttachRunning}
             onMovePoint={(position) =>
               onMoveFeaturePoint(String(selected.id), position)
             }
