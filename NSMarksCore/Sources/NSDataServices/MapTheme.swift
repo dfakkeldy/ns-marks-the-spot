@@ -96,7 +96,7 @@ extension MapTheme {
             id: "explore-nova-scotia",
             kind: .builtIn,
             name: "Explore Nova Scotia",
-            description: "A clean modern map for general exploration.",
+            description: "The modern map. Search a PID or address, or choose a setup for a task.",
             state: MapThemeState(layerIDs: [MapShareState.modernBaseLayerID]),
             preferredCategoryIDs: [.backgroundMaps]
         ),
@@ -115,7 +115,7 @@ extension MapTheme {
             id: "forestry-field-access",
             kind: .builtIn,
             name: "Forestry & Field Access",
-            description: "Aerial, land, access, terrain, and old-growth policy context.",
+            description: "Crown land, old-growth policy and property lines over aerial, with roads, water and contours.",
             state: MapThemeState(
                 layerIDs: [
                     "ns-aerial", "nsprd", "crown-lands", "roads",
@@ -128,7 +128,7 @@ extension MapTheme {
             id: "historical-maps",
             kind: .builtIn,
             name: "Historical Maps",
-            description: "Fletcher mapping with modern roads and place references.",
+            description: "Hugh Fletcher's 1882–1884 sheets of Cape Breton, with today's towns and main roads.",
             state: MapThemeState(
                 layerIDs: [
                     MapShareState.modernBaseLayerID, "fletcher", "place-names", "main-roads",
@@ -140,7 +140,7 @@ extension MapTheme {
             id: "georeferencing",
             kind: .builtIn,
             name: "Georeferencing",
-            description: "A clean reference setup for positioning your own maps.",
+            description: "Load your scan under My maps, then match its points to these roads and places.",
             state: MapThemeState(
                 layerIDs: [MapShareState.modernBaseLayerID, "place-names", "main-roads"]
             ),
@@ -305,11 +305,23 @@ extension MapThemeState {
     /// sales are on, because with them off it governs nothing the reader can
     /// see. Both are the web's rules, so a setup that reads as "Explore Nova
     /// Scotia" in the browser reads as "Explore Nova Scotia" here.
+    ///
+    /// Fletcher's opacity does not count either. Fading the 1880s sheets
+    /// against today's map is looking, not changing the setup, so it must not
+    /// mark Historical Maps as Modified (the web's `viewingOpacityLayerIds`).
+    /// A saved setup still keeps and restores its own fade.
     public func matches(_ other: MapThemeState) -> Bool {
         layerIDs.sorted() == other.layerIDs.sorted()
-            && opacityOverrides == other.opacityOverrides
+            && identityOpacityOverrides == other.identityOpacityOverrides
             && taxSaleEnabled == other.taxSaleEnabled
             && (!taxSaleEnabled || mode == other.mode)
+    }
+
+    /// Layers whose opacity is viewing, not part of which setup this is.
+    public static let viewingOpacityLayerIDs: Set<String> = [LayerID.fletcher.rawValue]
+
+    private var identityOpacityOverrides: [String: Double] {
+        opacityOverrides.filter { !Self.viewingOpacityLayerIDs.contains($0.key) }
     }
 }
 
