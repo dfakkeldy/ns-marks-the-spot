@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   TRACK_DRAFT_INTERVAL_MS,
   type TrackDraftFailure,
+  type TrackDraftRead,
   type TrackDraftStore,
 } from "./trackDraftStore";
 import { useTrackRecording } from "./useTrackRecording";
@@ -335,3 +336,90 @@ describe("keeping the walk on this device", () => {
     expect(double.held()).toBeNull();
   });
 });
+
+describe("answers that arrive after the hook has gone", () => {
+  // The shared store answers from IndexedDB on a later tick. In CI that tick
+  // can come after the test file's page has been torn down, and a callback
+  // that then touches `window` — itself, or through React's setState, which
+  // reads `window.event` — throws. Vitest failed the run on those rejections
+  // with every test passing (MapCanvas.test.tsx, 7 Nov 2026).
+
+  it("ignores a device read that answers after unmount", async () => {
+    let answerRead!: (read: TrackDraftRead) => void;
+    const store: TrackDraftStore = {
+      ...draftStoreDouble().store,
+      read: () =>
+        new Promise((resolve) => {
+          answerRead = resolve;
+        }),
+    };
+    const { unmount } = renderHook(() => useTrackRecording(null, store));
+    unmount();
+
+    const unhandled = await afterThePageIsGone(() =>
+      answerRead({ status: "ready", result: stopped(), stopped: false }),
+    );
+
+    expect(unhandled).toEqual([]);
+  });
+
+  it("ignores a write or delete that answers after unmount", async () => {
+    const answers: (() => void)[] = [];
+    const store: TrackDraftStore = {
+      ...draftStoreDouble().store,
+      save: () => new Promise((resolve) => answers.push(() => resolve("quota"))),
+      clear: () => new Promise((resolve) => answers.push(() => resolve("failed"))),
+    };
+    const { result, rerender, unmount } = renderHook(
+      ({ current }: { current: LiveFix | null }) =>
+        useTrackRecording(current, store),
+      { initialProps: { current: null as LiveFix | null } },
+    );
+    await settled();
+    act(() => result.current.start());
+    rerender({ current: fix(0, 0) });
+    rerender({ current: fix(10, 1_000) });
+    act(() => {
+      result.current.stop();
+    });
+    // Stop wrote the walk and the discard asked for it back; the device has
+    // answered neither when the component goes, and both answers are
+    // refusals, which would each be reported on screen.
+    act(() => result.current.clearUnsaved());
+    expect(answers).toHaveLength(2);
+    unmount();
+
+    const unhandled = await afterThePageIsGone(() => {
+      for (const answer of answers) answer();
+    });
+
+    expect(unhandled).toEqual([]);
+  });
+});
+
+/**
+ * Takes the page away the way Vitest does when a test file ends — it deletes
+ * `window` from the global scope — then lets the device answer, and returns
+ * whatever went unhandled. The page is put back before this returns.
+ */
+async function afterThePageIsGone(answer: () => void): Promise<unknown[]> {
+  const unhandled: unknown[] = [];
+  const record = (reason: unknown) => {
+    unhandled.push(reason);
+  };
+  const page = globalThis.window;
+  process.on("unhandledRejection", record);
+  Reflect.deleteProperty(globalThis, "window");
+  try {
+    expect(typeof window).toBe("undefined");
+    answer();
+    // A real macrotask, not act(): React must not run while the page is
+    // gone. The answers' callbacks, and Node's report of any rejection they
+    // leave behind, both happen before it fires.
+    await new Promise((resolve) => setImmediate(resolve));
+  } finally {
+    globalThis.window = page;
+    process.off("unhandledRejection", record);
+  }
+  return unhandled;
+}
