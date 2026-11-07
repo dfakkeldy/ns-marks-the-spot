@@ -59,7 +59,8 @@ class Helpers(unittest.TestCase):
     def test_ignore_globs_come_from_the_paths_to_ignore_section_only(self):
         globs = cr.ignore_globs((ROOT / "REVIEW.md").read_text())
         self.assertIn("**/*.png", globs)
-        self.assertIn("web/package-lock.json", globs)
+        self.assertIn("web/public/atlas/**", globs)
+        self.assertNotIn("web/package-lock.json", globs)
         self.assertNotIn("git show <rev>:<path>", globs)
         self.assertEqual(cr.ignore_globs("# Review\n- `a`\n"), [])
         self.assertEqual(cr.pathspecs(["**/*.png"]), [".", ":(exclude,glob)**/*.png"])
@@ -287,12 +288,21 @@ class Git(unittest.TestCase):
         self.assertIn("line twenty", new)
         self.assertNotIn("line five", new)
 
-    def test_ignored_paths_alone_make_an_empty_review(self):
+    def test_a_pr_of_ignored_paths_only_is_reviewed_whole(self):
         run("checkout", "-qb", "art-only", "nightly", cwd=".")
         Path("logo.png").write_bytes(b"\x89PNG")
         run("add", ".", cwd=".")
         run("commit", "-qm", "art", cwd=".")
-        self.assertEqual(self.pr_patch()[1], "")
+        self.assertEqual(self.pr_patch()[1], "")  # nothing left after the ignore list
+        plan, text, out = self.prepare()
+        self.assertEqual(plan["mode"], "review")
+        self.assertIn("logo.png", (out / cr.BRIEF_DIR / "pr.diff").read_text())
+        self.assertIn("so the whole diff is here", text)
+
+    def test_whitespace_counts_in_the_patch_id(self):
+        a = "diff --git a/x.py b/x.py\n--- a/x.py\n+++ b/x.py\n@@ -1,2 +1,2 @@\n if a:\n-return y\n+    return y\n"
+        b = a.replace("+    return y", "+  return y")
+        self.assertNotEqual(cr.patch_id(a), cr.patch_id(b))
 
 
 class FakeGitHub:

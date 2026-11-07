@@ -17,7 +17,10 @@ prepare picks one mode:
            reopen). No Claude; the verdict is the live state of earlier findings
   rethink  MAX_ROUNDS rounds are done and the diff changed again. No Claude; passes
            only with no open Important finding and a Reviewed-by line in the PR body
-  empty    every changed file is on REVIEW.md's ignore list. No Claude
+  empty    the PR changes nothing (its changes were all reverted). No Claude
+
+REVIEW.md's ignore list only trims what Claude reads next to other changes: a PR whose
+every file is on it gets its whole diff reviewed, so nothing lands unread.
 
 The check fails while any Important finding is open: an unresolved review thread
 whose first comment carries the finding marker below. Nit and Pre-existing threads
@@ -274,7 +277,8 @@ def review_body(round_no, summary, findings, body_only, still_open, settled, sta
     return "\n\n".join(parts)
 
 
-def brief(pr, round_no, review_md, review_md_source, globs, files, new_files, has_interdiff, threads, log=""):
+def brief(pr, round_no, review_md, review_md_source, globs, files, new_files, has_interdiff, threads, log="",
+          all_ignored=False):
     title, body = pr.get("title") or "", (pr.get("body") or "").strip()
     if len(body) > BODY_LIMIT:
         body = body[:BODY_LIMIT] + "\n[cut]"
@@ -287,6 +291,8 @@ def brief(pr, round_no, review_md, review_md_source, globs, files, new_files, ha
            f"- `{BRIEF_DIR}/pr.diff`: the PR's whole diff against its merge-base ({len(files)} files)."]
     if globs:
         out.append("  Paths on REVIEW.md's ignore list are left out: " + ", ".join(f"`{g}`" for g in globs) + ".")
+    if all_ignored:
+        out.append("  Every changed file is on REVIEW.md's ignore list, so the whole diff is here: review it.")
     if round_no > 1 and has_interdiff:
         out += [f"- `{BRIEF_DIR}/new.diff`: what changed since the last review, in these files: "
                 + ", ".join(f"`{p}`" for p in new_files) + ".",
@@ -331,7 +337,7 @@ def gate_message(mode, blocking, review_line):
 # --- git and GitHub ----------------------------------------------------------------
 
 def git(*args, check=True):
-    r = subprocess.run(["git", *args], capture_output=True, text=True)
+    r = subprocess.run(["git", *args], capture_output=True, text=True, errors="replace")  # any file encoding
     if check and r.returncode != 0:
         raise RuntimeError(f"git {' '.join(args)}: {r.stderr.strip()}")
     return r.stdout if r.returncode == 0 else None
@@ -340,7 +346,9 @@ def git(*args, check=True):
 def patch_id(diff_text):
     if not diff_text.strip():
         return ""
-    r = subprocess.run(["git", "patch-id", "--stable"], input=diff_text, capture_output=True, text=True)
+    # --verbatim: whitespace counts, so re-indenting Python is a new change, not a skip.
+    r = subprocess.run(["git", "patch-id", "--verbatim"], input=diff_text, capture_output=True, text=True,
+                       errors="replace")
     return (r.stdout.split() or [""])[0]
 
 
@@ -433,6 +441,10 @@ def prepare():
     specs = pathspecs(globs)
     merge_base = git("merge-base", f"origin/{base}", sha).strip()
     pr_diff = git("diff", "--find-renames", merge_base, sha, "--", *specs)
+    all_ignored = bool(globs) and not pr_diff.strip()
+    if all_ignored:
+        globs, specs = [], pathspecs([])
+        pr_diff = git("diff", "--find-renames", merge_base, sha, "--", *specs)
     pid = patch_id(pr_diff)
 
     pr = gh("api", f"repos/{repo}/pulls/{number}")
@@ -455,7 +467,8 @@ def prepare():
         f.write(numbered(pr_diff))
     with open(os.path.join(work, "brief.md"), "w") as f:
         log = git("log", "--no-merges", "--format=%h %s%n%b", f"{merge_base}..{sha}", check=False) or ""
-        f.write(brief(pr, round_no, review_md, source, globs, files, new_files, has_interdiff, threads, log))
+        f.write(brief(pr, round_no, review_md, source, globs, files, new_files, has_interdiff, threads, log,
+                      all_ignored))
 
     plan = {"mode": mode, "round": round_no, "head": sha, "merge_base": merge_base, "patch_id": pid,
             "review_line": has_review_line(pr.get("body")), "rethink_posted": rethink_posted(reviews),

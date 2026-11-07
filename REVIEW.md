@@ -32,7 +32,9 @@ it merges. Keep this file short: every line is read on every review.
 
 ## Paths to ignore
 
-Generated or binary files, which a review can't usefully read:
+Generated or binary files, which a review can't usefully read. They are left out
+when the PR changes other files too; a PR that changes only these is reviewed whole.
+Lockfiles stay in: a dependency change is worth a look.
 
 - `**/*.png`
 - `**/*.jpg`
@@ -43,8 +45,6 @@ Generated or binary files, which a review can't usefully read:
 - `**/*.pbf`
 - `**/*.gz`
 - `**/*.xcassets/**`
-- `web/package-lock.json`
-- `Gemfile.lock`
 - `web/public/atlas/**`
 - `web/public/terrain/**`
 - `reports/**/*.json`
