@@ -79,6 +79,10 @@ struct MapSurfaceView: UIViewRepresentable {
         mapView.addGestureRecognizer(placeLongPress)
 
         controller.mapView = mapView
+#if DEBUG
+        controller.observeLayersDiagnosticGestures(in: mapView)
+        controller.recordLayersDiagnostic("map installed frame=\(mapView.frame)")
+#endif
         // Held until layout, then applied without animation. Skipped when
         // something is already held: a link or a resumed session asked for that
         // position, and asking again for this one would overwrite it with the

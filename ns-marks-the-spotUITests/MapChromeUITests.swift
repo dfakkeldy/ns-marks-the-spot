@@ -16,6 +16,18 @@ final class MapChromeUITests: XCTestCase {
 
     override func tearDown() {
         attachUIFailure()
+        if name.contains("testTappingTheMapClosesTheLayersPanel") {
+            let map = XCUIApplication().descendants(matching: .any)
+                .matching(NSPredicate(format: "label == %@", "Map of Nova Scotia")).firstMatch
+            let diagnostic = map.exists
+                ? String(describing: map.value ?? "TRACE_VALUE_ABSENT")
+                : "MAP_ABSENT"
+            print("LAYERS_DIAGNOSTIC_BEGIN test=\(name)\n\(diagnostic)\nLAYERS_DIAGNOSTIC_END test=\(name)")
+            let trace = XCTAttachment(string: diagnostic)
+            trace.name = "Layers interaction path: \(name)"
+            trace.lifetime = .keepAlways
+            add(trace)
+        }
         super.tearDown()
     }
 
@@ -364,7 +376,9 @@ final class MapChromeUITests: XCTestCase {
     /// to the map and identify a parcel behind the panel instead.
     @MainActor
     func testTappingTheMapClosesTheLayersPanel() throws {
-        let app = XCUIApplication.launchedForUITests()
+        let app = XCUIApplication.launchedForUITests(
+            diagnosticArguments: ["LayersInteractionDiagnostic"]
+        )
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
