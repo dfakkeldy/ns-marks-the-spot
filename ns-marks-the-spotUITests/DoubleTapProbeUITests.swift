@@ -2,21 +2,17 @@ import ObjectiveC
 import XCTest
 
 /// EXPERIMENT — not for merge (grok-bots#961). XCUITest's own gestures cannot
-/// time two taps, so this uses XCTest's private event record. Paths in one
-/// record started at each other's lift in the first probe, so one finger now
-/// lifts and presses again on a single path; two records with a sleep between
-/// them are the fallback. The trace carries the real HID times: read gaps from
-/// there, not from the names here.
+/// time two taps, so this uses XCTest's private event record. Two fingers in
+/// one record give a gap of about 0 ms (a path starts at the last one's lift).
+/// Two records with a sleep between give real gaps from about 220 ms up. The
+/// trace carries the HID times: read gaps from there, not from names here.
 final class DoubleTapProbeUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = true
     }
 
-    private enum Step {
-        case down(CGPoint, TimeInterval)
-        case move(CGPoint, TimeInterval)
-        case up(TimeInterval)
-    }
+    /// One finger: down at the first step, up at the last.
+    private typealias Touch = [(point: CGPoint, at: TimeInterval)]
 
     private typealias PathInit = @convention(c) (AnyObject, Selector, CGPoint, Double) -> AnyObject
     private typealias Offset = @convention(c) (AnyObject, Selector, Double) -> Void
@@ -36,9 +32,8 @@ final class DoubleTapProbeUITests: XCTestCase {
         return unsafeBitCast(method_getImplementation(method), to: Alloc.self)(cls, selector)
     }
 
-    /// One finger on one path.
     @MainActor
-    private func synthesize(_ steps: [Step]) throws {
+    private func synthesize(_ touches: [Touch]) throws {
         guard let pathClass = NSClassFromString("XCPointerEventPath"),
               let recordClass = NSClassFromString("XCSynthesizedEventRecord") else {
             throw XCTSkip("XCTest's event classes are not there")
@@ -50,29 +45,16 @@ final class DoubleTapProbeUITests: XCTestCase {
         let pathInit = NSSelectorFromString("initForTouchAtPoint:offset:")
         let moveTo = NSSelectorFromString("moveToPoint:atOffset:")
         let lift = NSSelectorFromString("liftUpAtOffset:")
-        let press = NSSelectorFromString("pressDownAtOffset:")
-        guard case .down(let start, let startOffset) = steps[0] else {
-            throw XCTSkip("a path starts with a press")
-        }
-        let blankPath = allocate(pathClass)
-        let path = imp(blankPath, pathInit, as: PathInit.self)(blankPath, pathInit, start, startOffset)
-        var at = start
-        for step in steps.dropFirst() {
-            switch step {
-            case .down(let point, let offset):
-                if point != at {
-                    imp(path, moveTo, as: Move.self)(path, moveTo, point, offset - 0.002)
-                    at = point
-                }
-                imp(path, press, as: Offset.self)(path, press, offset)
-            case .move(let point, let offset):
-                imp(path, moveTo, as: Move.self)(path, moveTo, point, offset)
-                at = point
-            case .up(let offset):
-                imp(path, lift, as: Offset.self)(path, lift, offset)
+        for touch in touches {
+            let first = touch[0]
+            let blankPath = allocate(pathClass)
+            let path = imp(blankPath, pathInit, as: PathInit.self)(blankPath, pathInit, first.point, first.at)
+            for step in touch.dropFirst() {
+                imp(path, moveTo, as: Move.self)(path, moveTo, step.point, step.at)
             }
+            imp(path, lift, as: Offset.self)(path, lift, touch[touch.count - 1].at)
+            _ = (record as! NSObject).perform(NSSelectorFromString("addPointerEventPath:"), with: path)
         }
-        _ = (record as! NSObject).perform(NSSelectorFromString("addPointerEventPath:"), with: path)
 
         let device = XCUIDevice.shared as NSObject
         guard let synthesizer = device.perform(NSSelectorFromString("eventSynthesizer"))?.takeUnretainedValue() as? NSObject else {
@@ -110,7 +92,7 @@ final class DoubleTapProbeUITests: XCTestCase {
     private func measuringApp() -> XCUIApplication {
         let app = XCUIApplication.launchedForUITests()
         let distance = app.buttons["measure-distance"]
-        XCTAssertTrue(distance.waitForHittable(timeout: 30))
+        XCTAssertTrue(distance.waitForHittable(timeout: 60))
         distance.tap()
         XCTAssertTrue(app.descendants(matching: .any)["measure-readout"].waitForExistence(timeout: 10))
         return app
@@ -139,9 +121,18 @@ final class DoubleTapProbeUITests: XCTestCase {
         }
     }
 
-    /// Two taps on one finger: the gap runs from the lift to the next press.
-    private func twoTaps(_ first: CGPoint, _ second: CGPoint, gap: TimeInterval) -> [Step] {
-        [.down(first, 0), .up(0.05), .down(second, 0.05 + gap), .up(0.10 + gap)]
+    private func tap(_ point: CGPoint, at start: TimeInterval = 0) -> Touch {
+        [(point, start), (point, start + 0.05)]
+    }
+
+    private func drag(from: CGPoint, by: CGVector, at start: TimeInterval, duration: TimeInterval = 0.5) -> Touch {
+        (0...10).map { step in
+            let fraction = CGFloat(step) / 10
+            return (
+                CGPoint(x: from.x + by.dx * fraction, y: from.y + by.dy * fraction),
+                start + duration * Double(step) / 10
+            )
+        }
     }
 
     @MainActor
@@ -158,24 +149,24 @@ final class DoubleTapProbeUITests: XCTestCase {
     func testProbe1SingleTapLatency() throws {
         let app = measuringApp()
         let (a, _, _) = points(app)
-        for round in 0..<10 {
-            try run("single tap \(round)", app, settle: 1.5) {
-                try synthesize([.down(a, 0), .up(0.05)])
-            }
+        for round in 0..<12 {
+            try run("single tap \(round)", app, settle: 1.5) { try synthesize([tap(a)]) }
         }
     }
 
-    /// Two taps in one spot, on one path, for each gap.
+    /// Two taps in one spot as two records: maps the edge of the window.
     @MainActor
-    func testProbe2SameSpotGapSweep() throws {
-        let gaps = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.33, 0.35, 0.37, 0.40, 0.50, 0.70]
-        for start in stride(from: 0, to: gaps.count, by: 3) {
+    func testProbe2SameSpotGaps() throws {
+        let sleeps = [0.0, 0.05, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.25, 0.30]
+        for start in stride(from: 0, to: sleeps.count, by: 3) {
             let app = measuringApp()
             let (a, _, _) = points(app)
-            for gap in gaps[start..<min(start + 3, gaps.count)] {
-                for round in 0..<2 {
-                    try run("same spot path gap \(gap) round \(round)", app) {
-                        try synthesize(twoTaps(a, a, gap: gap))
+            for sleep in sleeps[start..<min(start + 3, sleeps.count)] {
+                for round in 0..<3 {
+                    try run("same spot sleep \(sleep) round \(round)", app) {
+                        try synthesize([tap(a)])
+                        Thread.sleep(forTimeInterval: sleep)
+                        try synthesize([tap(a)])
                     }
                 }
             }
@@ -183,58 +174,36 @@ final class DoubleTapProbeUITests: XCTestCase {
         }
     }
 
-    /// Two taps in one spot, as two records with a sleep between. Slower, and
-    /// its real gaps are whatever the trace says, but it cannot be collapsed.
-    @MainActor
-    func testProbe3SameSpotTwoRecords() throws {
-        let app = measuringApp()
-        let (a, _, _) = points(app)
-        for sleep in [0.0, 0.05, 0.10, 0.15, 0.20, 0.25] {
-            for round in 0..<2 {
-                try run("same spot records sleep \(sleep) round \(round)", app) {
-                    try synthesize([.down(a, 0), .up(0.05)])
-                    Thread.sleep(forTimeInterval: sleep)
-                    try synthesize([.down(a, 0), .up(0.05)])
-                }
-            }
-        }
-    }
-
     /// Two quick taps far apart: both are meant, and both must place.
     @MainActor
-    func testProbe4FarApart() throws {
+    func testProbe3FarApart() throws {
         let app = measuringApp()
         let (a, b, c) = points(app)
-        for gap in [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.60] {
-            for round in 0..<2 {
-                try run("far apart path gap \(gap) round \(round)", app) {
-                    try synthesize(twoTaps(a, b, gap: gap))
-                }
+        for round in 0..<3 {
+            try run("far apart gap 0 round \(round)", app) {
+                try synthesize([tap(a), tap(b, at: 0.15)])
             }
         }
         for sleep in [0.0, 0.10, 0.20, 0.30, 0.50] {
             for round in 0..<2 {
-                try run("far apart records sleep \(sleep) round \(round)", app) {
-                    try synthesize([.down(a, 0), .up(0.05)])
+                try run("far apart sleep \(sleep) round \(round)", app) {
+                    try synthesize([tap(a)])
                     Thread.sleep(forTimeInterval: sleep)
-                    try synthesize([.down(b, 0), .up(0.05)])
+                    try synthesize([tap(b)])
                 }
             }
         }
-        for round in 0..<2 {
+        for round in 0..<3 {
             try run("burst of three round \(round)", app) {
-                try synthesize([
-                    .down(a, 0), .up(0.05),
-                    .down(b, 0.20), .up(0.25),
-                    .down(c, 0.40), .up(0.45),
-                ])
+                try synthesize([tap(a), tap(b, at: 0.20), tap(c, at: 0.40)])
             }
         }
     }
 
-    /// Two quick taps close together: where does a double tap stop being one?
+    /// Two quick taps close together: where does a double tap stop being one,
+    /// and does the app agree with MapKit there?
     @MainActor
-    func testProbe5DistanceSweep() throws {
+    func testProbe4DistanceSweep() throws {
         let distances = [20.0, 30.0, 40.0, 45.0, 50.0, 55.0, 60.0, 80.0]
         for start in stride(from: 0, to: distances.count, by: 3) {
             let app = measuringApp()
@@ -242,7 +211,7 @@ final class DoubleTapProbeUITests: XCTestCase {
             for distance in distances[start..<min(start + 3, distances.count)] {
                 for round in 0..<2 {
                     try run("distance \(distance) round \(round)", app) {
-                        try synthesize(twoTaps(a, CGPoint(x: a.x + distance, y: a.y), gap: 0.10))
+                        try synthesize([tap(a), tap(CGPoint(x: a.x + distance, y: a.y), at: 0.15)])
                     }
                 }
             }
@@ -253,72 +222,46 @@ final class DoubleTapProbeUITests: XCTestCase {
     /// Tap, then press again and drag: MapKit's one-handed zoom. And tap, then
     /// press again and hold still.
     @MainActor
-    func testProbe6SecondTouchThatIsNotATap() throws {
-        for gap in [0.10, 0.20] {
-            for round in 0..<2 {
-                let app = measuringApp()
-                let (a, _, _) = points(app)
-                let start = 0.05 + gap
-                var drag: [Step] = [.down(a, 0), .up(0.05), .down(a, start)]
-                for step in 1...10 {
-                    drag.append(.move(
-                        CGPoint(x: a.x, y: a.y + 12 * CGFloat(step)),
-                        start + 0.05 * Double(step)
-                    ))
-                }
-                drag.append(.up(start + 0.55))
-                try run("double tap and drag gap \(gap) round \(round)", app) {
-                    try synthesize(drag)
-                }
-                try run("tap then press and hold gap \(gap) round \(round)", app) {
-                    try synthesize([.down(a, 0), .up(0.05), .down(a, start), .up(start + 1.2)])
-                }
-                app.terminate()
+    func testProbe5SecondTouchThatIsNotATap() throws {
+        for round in 0..<3 {
+            let app = measuringApp()
+            let (a, _, _) = points(app)
+            try run("double tap and drag round \(round)", app) {
+                try synthesize([tap(a), drag(from: a, by: CGVector(dx: 0, dy: 120), at: 0.15)])
             }
+            try run("tap then press and hold round \(round)", app) {
+                try synthesize([tap(a), [(a, 0.15), (a, 1.35)]])
+            }
+            app.terminate()
         }
     }
 
     /// Tap, then pan straight away: the tap should place and the pan should pan.
     @MainActor
-    func testProbe7TapThenPan() throws {
+    func testProbe6TapThenPan() throws {
         let app = measuringApp()
         let (a, b, _) = points(app)
-        for gap in [0.10, 0.25] {
-            for round in 0..<2 {
-                func pan(from: CGPoint) -> [Step] {
-                    let start = 0.05 + gap
-                    var steps: [Step] = [.down(a, 0), .up(0.05), .down(from, start)]
-                    for step in 1...10 {
-                        steps.append(.move(
-                            CGPoint(x: from.x - 3 * CGFloat(step), y: from.y + 12 * CGFloat(step)),
-                            start + 0.04 * Double(step)
-                        ))
-                    }
-                    steps.append(.up(start + 0.44))
-                    return steps
-                }
-                try run("tap then far pan gap \(gap) round \(round)", app) {
-                    try synthesize(pan(from: b))
-                }
-                try run("tap then near pan gap \(gap) round \(round)", app) {
-                    try synthesize(pan(from: CGPoint(x: a.x + 80, y: a.y)))
-                }
+        for round in 0..<3 {
+            try run("tap then far pan round \(round)", app) {
+                try synthesize([tap(a), drag(from: b, by: CGVector(dx: -30, dy: 120), at: 0.15)])
+            }
+            try run("tap then near pan round \(round)", app) {
+                try synthesize([
+                    tap(a),
+                    drag(from: CGPoint(x: a.x + 80, y: a.y), by: CGVector(dx: 30, dy: 120), at: 0.15),
+                ])
             }
         }
     }
 
     /// Three in one spot, and XCUITest's own double tap for comparison.
     @MainActor
-    func testProbe8TripleAndPublicDoubleTap() throws {
+    func testProbe7TripleAndPublicDoubleTap() throws {
         let app = measuringApp()
         let (a, _, _) = points(app)
         for round in 0..<2 {
             try run("triple tap round \(round)", app) {
-                try synthesize([
-                    .down(a, 0), .up(0.05),
-                    .down(a, 0.15), .up(0.20),
-                    .down(a, 0.30), .up(0.35),
-                ])
+                try synthesize([tap(a), tap(a, at: 0.15), tap(a, at: 0.30)])
             }
         }
         for round in 0..<3 {

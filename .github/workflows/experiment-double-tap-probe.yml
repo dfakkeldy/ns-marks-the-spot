@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        guard: [baseline, delegate, deferred]
+        guard: [baseline, deferred]
 
     steps:
       - name: Check out repository

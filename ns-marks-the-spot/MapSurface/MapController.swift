@@ -1999,12 +1999,12 @@ final class MapController: NSObject {
 
     /// How long a tap on the map waits to see whether a second tap follows.
     ///
-    /// UIKit does not publish its double-tap interval, so this is measured:
-    /// MapKit's double tap gave up 0.35 s after the lift on iOS 26. The margin
-    /// puts this just after it, so a second tap MapKit would still take always
-    /// finds the first one held. Too short costs a stray point on a slow double
-    /// tap; too long costs that much on every tap made alone.
-    static let doubleTapInterval: Duration = .milliseconds(360)
+    /// UIKit does not publish its double-tap interval, so this is measured on
+    /// iOS 26: MapKit's double tap gives up about 0.35 s after the lift. The
+    /// timer starts after MapKit's does, so a second tap MapKit would still take
+    /// finds the first one held. Too short places a stray point under a slow
+    /// double tap; too long makes every tap made alone wait that much more.
+    static let doubleTapInterval: Duration = .milliseconds(350)
 
     /// A tap is only a tap once it cannot be half of a double tap, which zooms
     /// and must not also identify a parcel or place a point. So it is held
@@ -2019,7 +2019,7 @@ final class MapController: NSObject {
         releaseHeldTap()
         heldTap = (latitude, longitude)
         heldTapTimer = Task { [weak self] in
-            try? await Task.sleep(for: Self.doubleTapInterval)
+            try? await Task.sleep(for: Self.doubleTapInterval, tolerance: .milliseconds(5))
             guard !Task.isCancelled else { return }
             self?.releaseHeldTap()
         }
