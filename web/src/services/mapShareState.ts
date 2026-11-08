@@ -179,7 +179,10 @@ function parsePosition(value: string | null): MapPosition {
 
 export function parseMapShareState(value: string): MapShareState {
   const url = new URL(value, "https://example.invalid");
-  const basemap = url.searchParams.get("basemap");
+  // The interface writes "Hand-drawn", so the hyphenated spelling is the one a
+  // person types; the id itself has no hyphen.
+  const basemapParam = url.searchParams.get("basemap");
+  const basemap = basemapParam === "hand-drawn" ? "handdrawn" : basemapParam;
   const explicitTaxSale = url.searchParams.get("taxSale");
   const taxSaleEnabled = explicitTaxSale === "on"
     ? true

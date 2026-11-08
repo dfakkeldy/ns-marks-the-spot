@@ -1853,10 +1853,10 @@ describe("MapCanvas browser location", () => {
     await user.click(
       screen.getByRole("button", { name: "Simulate modern map error" }),
     );
-    expect(screen.getByText("Some modern-map data did not load. The map may be incomplete.")).toBeInTheDocument();
+    expect(screen.getByText(/^Some base map data did not load\. The map may be incomplete\./)).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Retry" }));
-    expect(screen.queryByText("Some modern-map data did not load. The map may be incomplete.")).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Some base map data did not load/)).not.toBeInTheDocument();
   });
 
   it("dismisses the successful location message after four seconds", async () => {
@@ -3074,7 +3074,7 @@ describe("MapCanvas cartographic furniture", () => {
     expect(screen.queryByTestId("scale-control")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "3D settings" }));
     expect(screen.getByText(/Scale varies across a tilted 3D view/)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Return to 2D" }));
+    fireEvent.click(screen.getByRole("button", { name: "Back to 2D" }));
     expect(screen.getByTestId("scale-control")).toBeInTheDocument();
   });
 

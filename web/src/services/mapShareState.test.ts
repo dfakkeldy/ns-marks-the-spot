@@ -294,6 +294,8 @@ describe("basemap style in shared links", () => {
     expect(parseMapShareState("https://example.test/?basemap=fletcher").basemapStyle).toBe("fletcher");
     expect(parseMapShareState("https://example.test/?basemap=night").basemapStyle).toBe("night");
     expect(parseMapShareState("https://example.test/?basemap=sepia").basemapStyle).toBeUndefined();
+    expect(parseMapShareState("https://example.test/?basemap=hand-drawn").basemapStyle).toBe("handdrawn");
+    expect(parseMapShareState("https://example.test/?basemap=handdrawn").basemapStyle).toBe("handdrawn");
   });
 });
 

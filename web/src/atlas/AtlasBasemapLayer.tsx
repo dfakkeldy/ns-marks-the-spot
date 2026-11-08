@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Map as AtlasMap } from './mapLibreRuntime';
-import { terrainFailureMessage } from '../terrain/terrainStatus';
+import { mapFailureMessage, mapSourceFailure } from '../terrain/terrainStatus';
 import { buildAtlasStyle } from './style';
 import type { AtlasMode } from './palette';
 import type { MapLayerStatus } from '../components/MapCanvas';
@@ -20,6 +20,7 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
   useEffect(() => {
     let disposed = false;
     let failed = false;
+    const failures: ReturnType<typeof mapSourceFailure>[] = [];
     let zooming = false;
     let frame = 0;
     let watchdog = 0;
@@ -66,7 +67,8 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
     atlas.on('error', event => {
       if ('name' in event.error && event.error.name === 'AbortError') return;
       console.warn('Atlas source failed', 'sourceId' in event ? event.sourceId : undefined, event.error);
-      fail(terrainFailureMessage(event));
+      failures.push(mapSourceFailure(event));
+      fail(mapFailureMessage(failures));
     });
     atlas.on('webglcontextlost', () => fail());
     atlas.on('dataloading', () => { if (!watchdog) loading(); });

@@ -2598,7 +2598,7 @@ describe("NS Marks The Spot Online", () => {
 
     // The inventory covers licences the Province dialog never mentioned:
     // OSM, the Rumsey collection, and OGL-NS layers all get reviewable rows.
-    expect(within(dialog).getByText("NS Marks Atlas · Day")).toBeInTheDocument();
+    expect(within(dialog).getByText("NS Marks Atlas · Day", { selector: "strong" })).toBeInTheDocument();
     expect(
       within(dialog).getByText(/NS Marks Atlas · Contains information licensed under the Open Government Licence/),
     ).toBeInTheDocument();
@@ -2615,7 +2615,7 @@ describe("NS Marks The Spot Online", () => {
       .length).toBeGreaterThan(10);
     // The curated spots link to the project's own receipt, never to a
     // publisher record, so they read "Project source" as the popup does.
-    const spotsRow = within(dialog).getByText("Curated fishing spots").closest("li")!;
+    const spotsRow = within(dialog).getByText("Curated fishing spots", { selector: "strong" }).closest("li")!;
     expect(within(spotsRow).getByRole("link", { name: "Project source" }))
       .toHaveAttribute("href", expect.stringContaining("docs/gis-fishing-sources.md"));
     expect(within(spotsRow).queryByRole("link", { name: "Official source" })).toBeNull();
@@ -3741,7 +3741,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeEnabled();
     expect(screen.queryByText("Assessed owner")).not.toBeInTheDocument();
     expect(
-      screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer span" }),
+      screen.getByText(PROVINCE_ATTRIBUTION, { selector: "footer p" }),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Snapshot retrieved August 10, 2026"),
@@ -4373,7 +4373,9 @@ describe("NS Marks The Spot Online", () => {
       ).getByRole("button", { name: "Download PDF" }),
     );
 
-    await waitFor(() => expect(composeMapImageMock).toHaveBeenCalledTimes(1));
+    // The dialog's small preview composes first, then the PDF itself. Neither
+    // may carry a Province layer.
+    await waitFor(() => expect(composeMapImageMock).toHaveBeenCalledTimes(2));
     // `composeMapImage(bounds, size, layers, options)` — the third argument
     // is exactly what `buildExportLayers` built from the province-layer
     // filter this test guards. Declining the licence already keeps every
@@ -4381,15 +4383,12 @@ describe("NS Marks The Spot Online", () => {
     // suite does not otherwise pin at the export boundary), so this asserts
     // the outcome the `licenceAccepted &&` guard exists to protect even if
     // that invariant is ever weakened upstream.
-    const [, , layers] = composeMapImageMock.mock.calls[0] as [
-      unknown,
-      unknown,
-      Array<{ id: string }>,
-    ];
     const provinceLayerIds = new Set(
       provinceLayerCatalog.map(({ id }) => id as string),
     );
-    expect(layers.some((layer) => provinceLayerIds.has(layer.id))).toBe(false);
+    for (const [, , layers] of composeMapImageMock.mock.calls as unknown as [unknown, unknown, Array<{ id: string }>][]) {
+      expect(layers.some((layer) => provinceLayerIds.has(layer.id))).toBe(false);
+    }
   });
 
   it("keeps open geology and resource overlays collapsed, optional, and licence-independent", async () => {
@@ -4853,6 +4852,10 @@ describe("NS Marks The Spot Online", () => {
     const region = screen.getByRole("region", { name: "Map and parcel details" });
     expect(within(footer).getByRole("button", { name: "Hide licences" })).toHaveAttribute("aria-expanded", "true");
     expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    // The collar: Province licence first, and no licence sentence twice.
+    const licences = Array.from(footer.querySelectorAll(".collar-licence")).map((line) => line.textContent);
+    expect(licences[0]).toBe(PROVINCE_ATTRIBUTION);
+    expect(new Set(licences).size).toBe(licences.length);
     expect(within(footer).getByRole("status")).toHaveTextContent(
       "Zoom in to see civic numbers. Nova Scotia Civic Address File. Points may not mark the house. Distances follow your taps.",
     );
@@ -6264,7 +6267,7 @@ describe("NS Marks The Spot Online", () => {
     // arrives under the restricted licence whatever the open-data copy of the
     // same compilation says. Crediting it to the Open Government Licence told
     // a reader they could reuse a figure on terms the service never granted.
-    const buildingNote = inspector.querySelector(".building-count-note");
+    const buildingNote = inspector.querySelector(".building-count-note + .evidence-caveat");
     expect(buildingNote).not.toBeNull();
     const building = within(buildingNote as HTMLElement);
     expect(buildingNote).toHaveTextContent(PROVINCE_ATTRIBUTION);
@@ -6523,7 +6526,7 @@ describe("NS Marks The Spot Online", () => {
 
     for (const notice of COASTAL_HAZARD_NOTICES) {
       expect(
-        screen.queryByText(notice, { selector: "footer span" }),
+        screen.queryByText(notice, { selector: "footer li" }),
       ).not.toBeInTheDocument();
     }
 
@@ -6531,13 +6534,15 @@ describe("NS Marks The Spot Online", () => {
 
     for (const notice of COASTAL_HAZARD_NOTICES) {
       expect(
-        screen.getByText(notice, { selector: "footer span" }),
+        screen.getByText(notice, { selector: "footer li" }),
       ).toBeInTheDocument();
     }
-    // And still no OGL-NS claim over data that licence does not cover.
-    expect(
-      screen.queryByText(OPEN_GOVERNMENT_ATTRIBUTION, { selector: "footer span" }),
-    ).not.toBeInTheDocument();
+    // And still no OGL-NS claim over data that licence does not cover: the
+    // sentence heads only the Atlas credit, and no notice sits under it.
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      const group = screen.getByText(notice, { selector: "footer li" }).closest(".collar-group");
+      expect(group).not.toHaveTextContent(OPEN_GOVERNMENT_ATTRIBUTION);
+    }
   });
 
   it("uses bounded mineral empty-result wording", async () => {
