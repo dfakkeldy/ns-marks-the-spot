@@ -92,6 +92,20 @@ struct HeldMapTapTests {
         #expect(tapped.latitudes == [1])
     }
 
+    /// A settle decided late, under load, after the touch has already lifted
+    /// and held a tap of its own: that newer tap is not the old touch's to drop.
+    @Test func aLateSettleLeavesATapHeldSinceAlone() async {
+        let tapped = Tapped()
+        let controller = makeController(recording: tapped)
+        controller.holdTap(latitude: 1, longitude: 0, at: spot)
+        let found = controller.heldTapNumber
+        controller.holdTap(latitude: 2, longitude: 0, at: spot)
+        #expect(tapped.latitudes == [1])
+        controller.settleHeldTap(byTouchOnMapAt: spot, mapKitDoubleTapWaiting: true, holding: found)
+        await waitOutTheInterval()
+        #expect(tapped.latitudes == [1, 2], "the late settle dropped the tap held after it")
+    }
+
     /// The measured edges, pinned: MapKit zoomed at 45 points and not at 46,
     /// and gave up between 0.370 and 0.376 s after the lift.
     @Test func theReachAndIntervalMatchWhereMapKitGivesUp() {
