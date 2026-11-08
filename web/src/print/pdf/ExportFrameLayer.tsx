@@ -166,7 +166,7 @@ export function ExportFrameLayer({
         </div>
         {/* The frame moves by dragging its body and resizes from its corner
             handle (onPointerDown "move" / "resize" above). */}
-        <p className="export-frame-hint">Drag to move · corner to resize</p>
+        <p className="export-frame-hint">Step 1 of 2 · Drag to move · corner handle to resize</p>
         <button type="button" className="secondary-action" onClick={onCancel}>
           Cancel
         </button>

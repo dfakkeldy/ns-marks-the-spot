@@ -152,10 +152,46 @@ describe("distance measuring", () => {
     expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
   });
 
+  it("names the gesture the pointer has: tap on touch, click and Esc otherwise", () => {
+    const matchMedia = window.matchMedia;
+    window.matchMedia = ((query: string) => ({ matches: query === "(pointer: coarse)" })) as typeof window.matchMedia;
+    render(<Harness initialMode="distance" />);
+    expect(screen.getByRole("status")).toHaveTextContent(/^Tap the map to measure distance$/);
+    window.matchMedia = matchMedia;
+  });
+
+  it("leaves the armed tool on Esc from its own button, and from the exit control", () => {
+    render(<Harness initialMode="distance" />);
+    const ruler = screen.getByRole("button", { name: "Measure distance" });
+    ruler.focus();
+    fireEvent.keyDown(ruler, { key: "Escape" });
+    expect(ruler).toHaveAttribute("aria-pressed", "false");
+    fireEvent.click(ruler);
+    fireEvent.click(screen.getByRole("button", { name: "Stop measuring" }));
+    expect(ruler).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("disarms when the search gets focus with no points, and keeps placed points", () => {
+    render(<><div className="search-row"><input aria-label="Search" /></div><Harness initialMode="distance" /></>);
+    const ruler = screen.getByRole("button", { name: "Measure distance" });
+    clickAt(45, -61);
+    fireEvent.focusIn(screen.getByLabelText("Search"));
+    expect(ruler).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+    fireEvent.focusIn(screen.getByLabelText("Search"));
+    expect(ruler).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("orders the actions Finish, Undo point, Clear, with Finish first", () => {
+    render(<Harness initialMode="distance" />);
+    const names = screen.getAllByRole("button").map((button) => button.textContent).filter(Boolean);
+    expect(names.slice(0, 3)).toEqual(["Finish", "Undo point", "Clear"]);
+  });
+
   it("accumulates vertices and reads out the running total", () => {
     render(<Harness initialMode="distance" />);
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Tap the map to measure distance",
+      "Click the map to measure distance",
     );
 
     clickAt(45, -61);
@@ -320,7 +356,7 @@ describe("area measuring", () => {
     clickAt(45, -61);
     clickAt(45, -60.99);
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Tap the map to outline an area",
+      "Click the map to outline an area",
     );
     clickAt(45.01, -60.99);
     expect(screen.getByRole("status")).toHaveTextContent(/ha · .* ac/);

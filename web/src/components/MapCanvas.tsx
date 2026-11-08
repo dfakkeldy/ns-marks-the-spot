@@ -2150,6 +2150,17 @@ export function MapCanvas({
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
   const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
+  const retryModernMap = useCallback(() => {
+    setModernMapFailed(false);
+    setModernMapRetry((current) => current + 1);
+  }, []);
+  // A dropped connection is the usual cause, and coming back is a clear moment
+  // to try again without being asked.
+  useEffect(() => {
+    if (!modernMapFailed) return;
+    window.addEventListener("online", retryModernMap);
+    return () => window.removeEventListener("online", retryModernMap);
+  }, [modernMapFailed, retryModernMap]);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
   const [visibilityPicking, setVisibilityPicking] = useState(false);
   const measuring = poker !== null || measureMode !== "off" || visibilityPicking;
@@ -3108,10 +3119,12 @@ export function MapCanvas({
       {!isPrintMode ? <>
       <div className="research-terrain-controls" aria-label="Map dimension">
         <div className="terrain-control-bar">
-          <button type="button" aria-label={terrainActive ? "Return to 2D" : "3D terrain"} aria-pressed={terrainActive} disabled={terrainBlocked}
+          {/* An action, not a state: it names where it goes, and no pressed fill
+              says "you are in 2D" while the map is in 3D. */}
+          <button type="button" className="terrain-mode-button" disabled={terrainBlocked}
             title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
             onClick={() => { setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" }); setTerrainSettingsOpen(false); setTerrainRequested(value => !value); }}>
-            {terrainActive ? "2D" : "3D terrain"}
+            {terrainActive ? "Back to 2D" : "3D terrain"}
           </button>
           {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
         </div>
@@ -3311,19 +3324,18 @@ export function MapCanvas({
       ) : null}
       {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
-          <span>{modernMapFailure ?? "Some modern-map data did not load. The map may be incomplete."}</span>
-          {basemapStyle !== "osm" && onUseOsmBasemap ? (
-            <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
-          ) : null}
-          <button
-            type="button"
-            onClick={() => {
-              setModernMapFailed(false);
-              setModernMapRetry((current) => current + 1);
-            }}
-          >
-            Retry
-          </button>
+          <p>
+            {modernMapFailure ?? "Some base map data did not load. The map may be incomplete."}
+            <small>Your layers and place are kept.</small>
+          </p>
+          <div className="modern-map-error-actions">
+            <button type="button" className="modern-map-retry" onClick={retryModernMap}>
+              Retry
+            </button>
+            {basemapStyle !== "osm" && onUseOsmBasemap ? (
+              <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
+            ) : null}
+          </div>
         </div>
       ) : null}
       {/* Outside the HUD, and rendered whether or not a walk is running: a

@@ -17,10 +17,18 @@ import {
   resolveExportResolution,
 } from "./exportResolution";
 import { composeGeoPdf, type ComposeInput } from "./pdfComposer";
+import { ExportSheetPreview } from "./ExportSheetPreview";
 import { templateForOrientation } from "./templates/index";
 import type { PdfTemplateId } from "./templates/types";
 
+export type ExportFields = { title: string; subtitle: string; notes: string };
+
 export type ExportDialogProps = {
+  /** Returns to the frame on the map, with the frame as it was left. */
+  onBack?: () => void;
+  initialFields?: ExportFields | null;
+  /** The typed fields as they change; null once the PDF has been saved. */
+  onFieldsChange?: (fields: ExportFields | null) => void;
   /** Mode-aware default; the field stays editable. */
   defaultSubtitle?: string;
   orientation: PdfTemplateId;
@@ -111,11 +119,13 @@ export function ExportDialog(props: ExportDialogProps) {
     }),
     [template],
   );
-  const [title, setTitle] = useState(props.defaultTitle);
+  const [title, setTitle] = useState(props.initialFields?.title ?? props.defaultTitle);
   const [subtitle, setSubtitle] = useState(
-    props.defaultSubtitle ?? "NS Marks The Spot map export",
+    props.initialFields?.subtitle ?? props.defaultSubtitle ?? "NS Marks The Spot map export",
   );
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState(props.initialFields?.notes ?? "");
+  const onFieldsChange = props.onFieldsChange;
+  useEffect(() => onFieldsChange?.({ title, subtitle, notes }), [title, subtitle, notes, onFieldsChange]);
   const [legendOn, setLegendOn] = useState(true);
   const [phase, setPhase] = useState<Phase>({ stage: "idle" });
 
@@ -181,6 +191,7 @@ export function ExportDialog(props: ExportDialogProps) {
     const bytes = await composePdf(input);
     if (controller.signal.aborted) return;
     saveFile(bytes, `${slugify(title)}-${generatedAt.slice(0, 10)}.pdf`);
+    props.onFieldsChange?.(null);
     props.onClose();
   };
 
@@ -242,6 +253,7 @@ export function ExportDialog(props: ExportDialogProps) {
       ? phase.result.statuses.filter(({ status }) => status === "failed")
       : [];
   const omittedLayerNames = props.omittedLayerNames ?? [];
+  const onBack = props.onBack;
 
   return (
     <div className="export-dialog-backdrop" role="presentation">
@@ -259,11 +271,21 @@ export function ExportDialog(props: ExportDialogProps) {
       >
         <h2>Export georeferenced PDF</h2>
         <p className="field-help">
-          Letter {props.orientation} · {resolution.dpi} DPI
+          Step 2 of 2 · Letter {props.orientation}, from your frame · {resolution.dpi} DPI
           {resolution.reduced
             ? " (reduced to fit this device's memory)"
             : ""}
         </p>
+        <ExportSheetPreview
+          template={template}
+          bounds={props.bounds}
+          layers={props.layers}
+          title={title}
+          subtitle={subtitle}
+          legendOn={legendOn}
+          // Stubbed composition in a test means no real map to draw.
+          enabled={!props.composeImage && !isConstrainedDevice() && phase.stage === "idle"}
+        />
         <label htmlFor="export-title">Title</label>
         <input id="export-title" value={title} autoFocus
           onChange={(event) => setTitle(event.target.value)} />
@@ -324,10 +346,19 @@ export function ExportDialog(props: ExportDialogProps) {
         ) : null}
 
         <div className="export-dialog-actions">
-          <button type="button" className="secondary-action"
+          <button type="button" className="text-button export-cancel"
             onClick={cancelExport}>
             Cancel
           </button>
+          {onBack ? (
+            <button type="button" className="secondary-action"
+              onClick={() => {
+                exportAbortRef.current?.abort();
+                onBack();
+              }}>
+              Back to frame
+            </button>
+          ) : null}
           {phase.stage === "confirm-failures" ? (
             <button type="button" className="primary-action"
               onClick={() =>

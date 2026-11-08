@@ -65,7 +65,7 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
     });
     expect(pixels).toBeLessThanOrEqual(2.25);
     await expectReadable(page.locator('.research-terrain-controls'));
-    await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
+    await expectReadable(page.getByRole('button', { name: 'Back to 2D', exact: true }));
     await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
     const settings = page.getByRole('button', { name: '3D settings', exact: true });
     await expect(page.getByRole('slider', { name: 'Map tilt', exact: true })).toBeHidden();
@@ -102,7 +102,7 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
       await page.screenshot({ path: testInfo.outputPath('terrain-dark-controls.png'), scale: 'css' });
       await page.emulateMedia({ colorScheme: 'light' });
       await expectReadable(page.locator('.research-terrain-controls'));
-      await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
+      await expectReadable(page.getByRole('button', { name: 'Back to 2D', exact: true }));
     });
     await test.step('Height and low-ground relief', async () => {
       await page.getByText('Terrain height', { exact: true }).click();
@@ -137,13 +137,13 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
           await activate(settings);
           await page.getByText('Terrain height', { exact: true }).click();
           await page.getByRole('slider', { name: /^Low-ground exaggeration/ }).scrollIntoViewIfNeeded();
-          await expect(page.getByRole('button', { name: 'Return to 2D', exact: true })).toBeInViewport({ ratio: 1 });
+          await expect(page.getByRole('button', { name: 'Back to 2D', exact: true })).toBeInViewport({ ratio: 1 });
           await page.screenshot({ path: testInfo.outputPath(`terrain-${size.width}x${size.height}.png`), scale: 'css' });
           await page.getByText('Terrain height', { exact: true }).click();
           await activate(settings);
         }
       }
-      await page.getByRole('button', { name: 'Return to 2D', exact: true }).click();
+      await page.getByRole('button', { name: 'Back to 2D', exact: true }).click();
       await expect(page.locator('.research-terrain-map')).toHaveCount(0);
       expect(await page.locator('.leaflet-map-pane').evaluate(el => getComputedStyle(el).visibility)).toBe('visible');
       expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
@@ -178,7 +178,7 @@ test('3D names the failed source and recovers with one retry', async ({ page }) 
   await page.getByRole('button', { name: 'Retry 3D', exact: true }).tap();
   await expect(status).toHaveCount(0, { timeout: 25000 });
   await expect(page.locator('.research-terrain-map canvas')).toBeVisible();
-  await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
+  await page.getByRole('button', { name: 'Back to 2D', exact: true }).tap();
   await expect(status).toHaveCount(0);
   await expect(page.locator('vite-error-overlay')).toHaveCount(0);
 });
@@ -230,7 +230,7 @@ test('historical evidence stays visible without pulling a 3D drag back', async (
   await page.locator('.research-terrain-map .maplibregl-popup-close-button').tap();
   await expect(page.getByRole('button', { name: '3D settings', exact: true })).toBeVisible();
   await expect(page.locator('.leaflet-popup')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
+  await page.getByRole('button', { name: 'Back to 2D', exact: true }).tap();
   await page.locator('.leaflet-map-pane .fletcher-feature-marker[title^="R.C. Church"]').tap();
   await expect(page.locator('.leaflet-popup')).toContainText('Approximate location');
 });
@@ -297,7 +297,7 @@ test('Poker enters 3D and restores its driveway measurement on return', async ({
   expect((await civicGlyphs).ok()).toBe(true);
   await page.waitForTimeout(500); // font upload settles before visual evidence
   await page.screenshot({ path: testInfo.outputPath('poker-3d.png'), scale: 'css' });
-  await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
+  await page.getByRole('button', { name: 'Back to 2D', exact: true }).tap();
   await expect(page.locator('.measure-endpoint-label')).toHaveText(measurement!);
   await expect(page.getByRole('button', { name: 'Finish', exact: true })).toBeVisible();
   expect(errors).toEqual([]);

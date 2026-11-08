@@ -187,7 +187,7 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
     layout: { 'text-field': ['get', 'geoname'], 'text-font': [font], 'text-size': size, 'text-letter-spacing': spacing,
       'text-max-width': 8, 'text-padding': 2, 'symbol-sort-key': sort,
       'text-variable-anchor': [...sideAnchors], 'text-radial-offset': 0.2, 'text-justify': 'auto' },
-    paint: { 'text-color': color, 'text-halo-color': p.halo, 'text-halo-width': halo } });
+    paint: { 'text-color': color, 'text-halo-color': p.halo, 'text-halo-width': engraved ? halo + 0.3 : halo } });
   layers.push(
     pointNames('terrain-names', ['Mountain', 'Cape', 'Island', 'Falls', 'Valley', 'Cliff'], 12.5, face.names,
       ['interpolate', ['linear'], ['zoom'], 13, 10.5, 16, 12], 0.08 * face.tracking, p.mutedInk, 4, 1.8),

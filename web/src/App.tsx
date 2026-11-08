@@ -110,6 +110,7 @@ import {
   PROVINCE_LICENSE_ACCEPTANCE_KEY,
   PROVINCE_LICENSE_URL,
 } from "./licensing/provinceLicense";
+import { groupAttributions, OPEN_LICENCE_NOVA_SCOTIA } from "./licensing/attributionGroups";
 import {
   RUMSEY_ATTRIBUTION,
   RUMSEY_COLLECTION_TERMS_URL,
@@ -247,6 +248,8 @@ import {
   type PrintMapBounds,
   type PrintMapViewport,
 } from "./services/printSnapshot";
+import type { ExportFields } from "./print/pdf/ExportDialog";
+
 const ExportDialog = lazy(() =>
   import("./print/pdf/ExportDialog").then((module) => ({
     default: module.ExportDialog,
@@ -376,7 +379,7 @@ type SelectedEvidenceRequest = { pid: string; generation: number };
  */
 type GeoPdfExportSession =
   | { stage: "framing"; frame: FrameState }
-  | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId };
+  | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId; frame: FrameState };
 
 import { useDialogChrome } from "./components/useDialogChrome";
 
@@ -916,20 +919,16 @@ function LicenceDialog({
         aria-modal="true"
         aria-labelledby="licence-title"
       >
-        <div className="licence-mark" aria-hidden="true">
-          NS
-        </div>
-        <h2 id="licence-title">Province data licence</h2>
+<h2 id="licence-title">Province data licence</h2>
         <p>
           NS Aerial, property boundaries and other marked provincial services
-          require acceptance of the Province’s restricted geographic services
-          licence. Open-data layers, including Crown Land and Sentinel-2,
-          remain available without this agreement.
+          need the Province’s restricted geographic services licence. Open-data
+          layers, including Crown Land and Sentinel-2, stay available without it.
         </p>
-        <blockquote>{PROVINCE_ATTRIBUTION}</blockquote>
         <p className="licence-caveat">
           Property boundaries are approximate and are not a legal survey.
         </p>
+        <blockquote>{PROVINCE_ATTRIBUTION}</blockquote>
         <a href={PROVINCE_LICENSE_URL} target="_blank" rel="noreferrer">
           Read the Province licence
         </a>
@@ -969,14 +968,14 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
         aria-labelledby="about-title"
       >
         <div className="dialog-header-row">
-          <div className="licence-mark" aria-hidden="true">
-            NS
-          </div>
+          <h2 id="about-title">About NS Marks The Spot</h2>
           <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <h2 id="about-title">About NS Marks The Spot</h2>
+        <p className="about-start">
+          <strong>Start here:</strong> type a PID or civic address into the search box.
+        </p>
         <p>
           An open-source map for screening Nova Scotia parcels: search by PID
           or civic address, see municipal tax-sale notices on live parcel
@@ -1010,13 +1009,6 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
             never leaves the browser.
           </li>
         </ul>
-        <h3>Who makes it</h3>
-        <p>
-          I have made maps for twenty years, mostly for forestry in Nova
-          Scotia. This app is where that practice meets modern web
-          engineering: every layer names its source, scale, and licence, the
-          way a printed map sheet carries its legend and survey notes.
-        </p>
         <h3>Keyboard access</h3>
         <p>
           The search box is the keyboard route into a parcel: map shapes and
@@ -1027,6 +1019,13 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
         <p>
           In Safari, tap Share, then Add to Home Screen. The installed map
           opens without Safari&apos;s address bar or toolbar.
+        </p>
+        <h3>Who makes it</h3>
+        <p>
+          I have made maps for twenty years, mostly for forestry in Nova
+          Scotia. This app is where that practice meets modern web
+          engineering: every layer names its source, scale, and licence, the
+          way a printed map sheet carries its legend and survey notes.
         </p>
         <p className="about-links">
           <a
@@ -1044,7 +1043,7 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           </a>
         </p>
         <div className="dialog-actions">
-          <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
+          <button className="secondary-action" type="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -1059,6 +1058,16 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
  * sources never changes licence acceptance or layer state — the Province
  * licence itself opens through its own review path.
  */
+const CREDIT_FOLD_LENGTH = 180;
+
+/** Within the dialog, so the jump never touches the page's share URL. */
+function jumpInDialog(event: { preventDefault: () => void }, id: string) {
+  event.preventDefault();
+  const target = document.getElementById(id);
+  target?.scrollIntoView?.({ block: "start" });
+  target?.focus?.({ preventScroll: true });
+}
+
 function DataSourcesDialog({
   sources,
   onReviewProvinceLicence,
@@ -1079,21 +1088,27 @@ function DataSourcesDialog({
         aria-labelledby="data-sources-title"
       >
         <div className="dialog-header-row">
-          <div className="licence-mark" aria-hidden="true">
-            NS
-          </div>
+          <h2 id="data-sources-title">Data &amp; licences</h2>
           <button className="dialog-close" type="button" aria-label="Close dialog" onClick={onClose}>
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <h2 id="data-sources-title">Data &amp; licences</h2>
         <p>
           Every layer names its source, its published date, and its licence —
           the same receipts a printed export carries. Reviewing them changes
           nothing about what the map shows.
         </p>
+        <details className="evidence-caveat data-sources-jump">
+          <summary>Jump to a layer ({sources.length})</summary>
+          <nav aria-label="Jump to a source">
+            <a href="#atlas-sources-heading" onClick={(event) => jumpInDialog(event, "atlas-sources-heading")}>Atlas sources</a>
+            {sources.map((source) => (
+              <a key={source.id} href={`#data-source-${source.id}`} onClick={(event) => jumpInDialog(event, `data-source-${source.id}`)}>{source.name}</a>
+            ))}
+          </nav>
+        </details>
         <section className="data-sources-section" aria-labelledby="atlas-sources-heading">
-          <h3 id="atlas-sources-heading" className="data-sources-kicker">Provincial-first Atlas sources</h3>
+          <h3 id="atlas-sources-heading" tabIndex={-1} className="data-sources-kicker">Provincial-first Atlas sources</h3>
           <table className="data-sources-dates">
             <caption className="sr-only">Atlas source layers and their release dates</caption>
             <thead>
@@ -1138,13 +1153,22 @@ function DataSourcesDialog({
               ? source.attribution.replace(`${provincialSourceDates}. `, "")
               : source.attribution;
             return (
-              <li key={source.id}>
+              <li key={source.id} id={`data-source-${source.id}`} tabIndex={-1}>
                 <strong>{source.name}</strong>
                 <dl className="data-source-fields">
                   <dt>Date</dt>
                   <dd><LinkedText text={sourceDate} /></dd>
                   <dt>Credit</dt>
-                  <dd><LinkedText text={attribution} /></dd>
+                  <dd>
+                    {/* A short credit reads in place. A long one is a whole
+                        provenance receipt: the words are all kept, one tap on. */}
+                    {attribution.length > CREDIT_FOLD_LENGTH ? (
+                      <details className="evidence-caveat data-source-credit">
+                        <summary>Full credit and method</summary>
+                        <LinkedText text={attribution} />
+                      </details>
+                    ) : <LinkedText text={attribution} />}
+                  </dd>
                   <dt>Links</dt>
                   <dd>
                     <a href={source.sourceUrl} target="_blank" rel="noreferrer">
@@ -1176,7 +1200,7 @@ function DataSourcesDialog({
           >
             Review the Province licence
           </button>
-          <button className="text-button dialog-quiet-action" type="button" onClick={onClose}>
+          <button className="secondary-action" type="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -1560,6 +1584,23 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // to. A programmatic landing spot only, never a tab stop.
   const mapRegionRef = useRef<HTMLElement | null>(null);
   const attributionRef = useRef<HTMLElement | null>(null);
+  // The electoral legend shares the lower-left slot with the readouts and the
+  // measure hint. Its height varies with the mode, so it is measured, and what
+  // sits above it rises by that much.
+  const mapLegendsRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const legends = mapLegendsRef.current;
+    const region = mapRegionRef.current;
+    if (!legends || !region) return;
+    const measure = () => {
+      const height = Math.ceil(legends.getBoundingClientRect().height);
+      region.style.setProperty("--lower-left-legend", height > 0 ? `${height + 8}px` : "0px");
+    };
+    measure();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(legends, { box: "border-box" });
+    return () => observer?.disconnect();
+  }, []);
   useEffect(() => {
     const footer = attributionRef.current;
     const shell = footer?.parentElement;
@@ -2404,6 +2445,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const [printCapture, setPrintCapture] = useState<PrintCapture | null>(null);
   const [exportSession, setExportSession] =
     useState<GeoPdfExportSession | null>(null);
+  // Typed words survive going back to the frame, or a Cancel and a return.
+  const exportDraft = useRef<ExportFields | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const addressSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
@@ -3954,6 +3997,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     const summary = activeCount === 0 ? "Off" : `${activeCount} on`;
     const notices: string[] = [];
 
+    // The same source-error state the banner on the map reports, so the rail
+    // does not say "1 on" over a base map that did not load.
+    if (layerCategoryByLayerId.modern === categoryId && showModernMap && layerStatuses.modern?.status === "error") {
+      notices.push("Base map failed to load");
+    }
+
     if (categoryId === "historical-maps") {
       if (!fletcherTileConfiguration.baseUrl) {
         notices.push("Fletcher unavailable");
@@ -4843,6 +4892,19 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // are already excluded from the export by the same mechanism that excludes
   // them from `captureLayerIds` — they are only visible, and therefore only
   // composited, once the licence is accepted.
+  // NS Aerial below its zoom floor draws the Atlas under it (MapCanvas's
+  // AerialGapUnderlay), so it needs the Atlas credit too.
+  const atlasCreditVisible = (showModernMap || Boolean(provinceLayers["ns-aerial"])) && basemapStyle !== "osm";
+  // The licence strip's credits for what is on screen, a shared licence stated
+  // once. The Province line comes first: a phone must reach it first.
+  const collarCredits = groupAttributions([
+    ...(oglLayerVisible || pokerMode ? [OPEN_GOVERNMENT_ATTRIBUTION] : []),
+    ...(coastalLayerVisible ? COASTAL_HAZARD_NOTICES : []),
+    ...contextLayerCatalog.filter((layer) => effectiveContextLayers[layer.id] && layer.attribution).map((layer) => layer.attribution!),
+    ...visibleZoningAttributions,
+    ...liveConditionsLayerCatalog.filter(({ id }) => liveConditionsLayers[id]).map(({ attribution }) => attribution),
+    ...(fletcherVisible ? [RUMSEY_ATTRIBUTION] : []),
+  ], [PROVINCE_ATTRIBUTION, ...(atlasCreditVisible ? [OPEN_LICENCE_NOVA_SCOTIA] : [])]);
   const exportMapButton = (
     <button
       type="button"
@@ -5941,6 +6003,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               >
                 <span aria-hidden="true">NS</span>
                 <strong>NS Marks</strong>
+                <small className="mobile-map-brand-home">Home</small>
               </a>
             )}
             <button
@@ -5963,7 +6026,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             </button>
           </div>
           {pokerMode && searchForm}
-          <div className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
+          <div ref={mapLegendsRef} className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
           {FocusMapOverlay ? <FocusMapOverlay {...focusChromeContext} /> : null}
           {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] && layerStatuses[electoralSelection.layer.id]?.status === "ready" ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
           <MapCanvas
@@ -6087,7 +6150,10 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               setExportSession({ stage: "framing", frame })}
             onExportFrameCancel={() => setExportSession(null)}
             onExportFrameContinue={(bounds, orientation) =>
-              setExportSession({ stage: "dialog", bounds, orientation })}
+              setExportSession((session) => ({
+                stage: "dialog", bounds, orientation,
+                frame: session?.stage === "framing" ? session.frame : DEFAULT_FRAME_STATE,
+              }))}
           />
           {/* While a parcel is open the message travels inside its panel,
               which on a phone covers the map entirely: overlaid, it sat
@@ -6259,11 +6325,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       </main>
 
       <footer ref={attributionRef} className={`map-attribution${attributionCollapsed ? " collapsed" : ""}`}>
+        <div className="collar-head">
         <button type="button" aria-expanded={!attributionCollapsed} onClick={() => {
           cancelAttributionFold.current();
           setAttributionFolded((folded) => !folded);
         }}>
           {attributionCollapsed ? "Show licences" : "Hide licences"}
+          <span className="disclosure-chevron" aria-hidden="true" />
         </button>
         {pokerMode && (attributionCollapsed
           // Folded, the strip is a corner pill with no room for the civic
@@ -6274,92 +6342,74 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           </span>)}
         {/* Folded, the strip still states the two lines true of every view:
             the OpenStreetMap credit and the survey caveat. The full set for
-            what is on screen is one click away. Phones fold to a pill. */}
+            what is on screen is one click away. Phones fold to a pill that
+            keeps only the caveat. */}
         {attributionCollapsed ? (
           <span className="map-attribution-folded-credit">
-            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
-            {/* The same gate as the licence dialog: a Province-restricted
-                layer (or tax-sale parcels) actually drawn under an accepted
-                licence. */}
-            {licenceAccepted && (taxSaleEnabled || activeLayerIds.some((id) => restrictedThemeLayerIds.has(id)))
-              ? <>{" · "}Province of NS (licensed)</>
-              : null}
-            {" · "}Boundaries are not a survey
+            <span className="folded-credit-sources">
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a>
+              {/* The same gate as the licence dialog: a Province-restricted
+                  layer (or tax-sale parcels) actually drawn under an accepted
+                  licence. */}
+              {licenceAccepted && (taxSaleEnabled || activeLayerIds.some((id) => restrictedThemeLayerIds.has(id)))
+                ? <>{" · "}Province of NS (licensed)</>
+                : null}
+              {" · "}
+            </span>
+            Boundaries are not a survey
           </span>
-        ) : null}
+        ) : <span className="survey-caveat">Boundaries are not a survey</span>}
+        </div>
         {!attributionCollapsed && <>
-          <a
-            className="feedback-link"
-            href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
-          >
-            Feedback &amp; suggestions: map@kinnokilabs.com
-          </a>
-          <a
-            className="osm-credit"
-            href="https://www.openstreetmap.org/copyright"
-            target="_blank"
-            rel="noreferrer"
-          >
-            © OpenStreetMap contributors
-          </a>
-          {/* NS Aerial below its zoom floor has the Atlas map drawn under it
-              (MapCanvas's AerialGapUnderlay), so its credit shows then too. */}
-          {(showModernMap || provinceLayers["ns-aerial"]) && basemapStyle !== "osm" ? (
-            <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
-              {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
-              {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>
-              {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
-          ) : null}
-          <a
-            className="source-code-link"
-            href="https://github.com/dfakkeldy/ns-marks-the-spot"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open source · MIT · GitHub
-          </a>
-          <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
-          {Object.values(resourceLayers).some(Boolean) ? (
-            <span>Geoscience data © Province of Nova Scotia</span>
-          ) : null}
-          {/* Licence-mandated statements for what is actually on screen. The
-              catalog carried these strings precisely because the licences
-              require them in products using the data, but nothing rendered
-              them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
-              for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
-              for the Fletcher sheets. */}
-          {oglLayerVisible || pokerMode ? (
-            <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
-          ) : null}
-          {coastalLayerVisible
-            ? COASTAL_HAZARD_NOTICES.map((notice) => (
-                <span key={notice}>{notice}</span>
-              ))
-            : null}
-          {Array.from(new Set(contextLayerCatalog
-            .filter((layer) => effectiveContextLayers[layer.id] && layer.attribution)
-            .map((layer) => layer.attribution!))).map((attribution) => (
-              <span key={attribution}>{attribution}</span>
+          <div className="collar-groups">
+            {collarCredits.groups.map(({ licence, sources }) => (
+              <section key={licence} className={`collar-group${licence === PROVINCE_ATTRIBUTION ? " province-attribution" : ""}`}>
+                <p className="collar-licence">{licence}</p>
+                {sources.length > 0 || (licence === OPEN_LICENCE_NOVA_SCOTIA && atlasCreditVisible) ? (
+                  <ul>
+                    {licence === OPEN_LICENCE_NOVA_SCOTIA && atlasCreditVisible ? (
+                      <li>NS Marks Atlas · Provincial-first
+                        {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
+                        {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a></li>
+                    ) : null}
+                    {sources.map((source) => <li key={source}>{source}</li>)}
+                  </ul>
+                ) : null}
+              </section>
             ))}
-          {visibleZoningAttributions.map((attribution) => (
-            <span key={attribution}>{attribution}</span>
-          ))}
-          {liveConditionsLayerCatalog
-            .filter(({ id }) => liveConditionsLayers[id])
-            .map(({ id, attribution }) => (
-              <span key={id}>{attribution}</span>
-            ))}
-          {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
-          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef ? <span>
-            Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
-          </span> : null}
-          <span className="survey-caveat">Boundaries are not a survey</span>
-          <button type="button" onClick={() => setDataSourcesOpen(true)}>
-            Data &amp; licences
-          </button>
-          <button type="button" onClick={() => setAboutOpen(true)}>
-            About this map
-          </button>
+            <section className="collar-group">
+              <p className="collar-licence">Map data</p>
+              <ul>
+                <li><a className="osm-credit" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a></li>
+                {atlasCreditVisible ? (
+                  <li>Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></li>
+                ) : null}
+                {Object.values(resourceLayers).some(Boolean) ? <li>Geoscience data © Province of Nova Scotia</li> : null}
+                {/* Licence-mandated statements for what is actually on screen,
+                    each in the wording its licence requires: coastal notices,
+                    Rumsey's CC BY-NC-SA line for the Fletcher sheets, and any
+                    credit that does not share a licence sentence above. */}
+                {collarCredits.other.map((line) => <li key={line}>{line}</li>)}
+                {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode && !focusDef ? <li>
+                  Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
+                </li> : null}
+              </ul>
+            </section>
+          </div>
+          <div className="collar-foot">
+            <button type="button" onClick={() => setDataSourcesOpen(true)}>
+              Data &amp; licences
+            </button>
+            <button type="button" onClick={() => setAboutOpen(true)}>
+              About this map
+            </button>
+            <a className="source-code-link" href="https://github.com/dfakkeldy/ns-marks-the-spot" target="_blank" rel="noreferrer">
+              Open source · MIT · GitHub
+            </a>
+            <a className="feedback-link" href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback">
+              Feedback &amp; suggestions: map@kinnokilabs.com
+            </a>
+          </div>
         </>}
       </footer>
 
@@ -6503,6 +6553,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
         ])}
         omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
+        initialFields={exportDraft.current}
+        onFieldsChange={(fields) => { exportDraft.current = fields; }}
+        onBack={() => setExportSession({ stage: "framing", frame: exportSession.frame })}
         onClose={() => setExportSession(null)}
       />
       </Suspense>

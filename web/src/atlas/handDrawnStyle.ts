@@ -66,10 +66,10 @@ export function handDrawnLayers(p: Palette): LayerSpecification[] {
   const trees: ExpressionSpecification = ['==', ['get', 'feat_desc'], 'TREE AREA polygon'];
   const wetland: ExpressionSpecification = ['match', description, ['Swamp Area polygon', 'Cranberry Bog polygon'], true, false];
   // Soft, slightly translucent halos so names read as ink on the page rather than stickers.
-  const halo = { 'text-halo-color': 'rgba(241, 229, 196, 0.8)', 'text-halo-width': 1.3, 'text-halo-blur': 1 };
+  const halo = { 'text-halo-color': 'rgba(241, 229, 196, 0.9)', 'text-halo-width': 1.6, 'text-halo-blur': 1 };
   // Water names sit on the tea hatching, which reads busier than bare land, so
   // their halo is the wider one.
-  const waterHalo = { ...halo, 'text-halo-width': 1.6 };
+  const waterHalo = { ...halo, 'text-halo-width': 1.9 };
   // Below the sketch scale the chart is bare parchment; land washes arrive with the detail.
   const washes = fade(9.5, 11, 0, 0.7);
   const hatching: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 8, 0.85, LOCAL, 0.7, 16, 0.6];

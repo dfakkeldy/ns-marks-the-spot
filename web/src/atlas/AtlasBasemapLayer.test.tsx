@@ -50,6 +50,15 @@ it('preserves a real source failure even when the remaining map becomes idle', (
   expect(status).toHaveBeenLastCalledWith({ status: 'error', message: 'A map source failed to load (HTTP 503). View may be incomplete.' });
 });
 
+it('names every source that failed, and what the Provincial Atlas loss means', () => {
+  const status = vi.fn();
+  render(<AtlasBasemapLayer mode="day" onStatus={status} />);
+  act(() => renderer.events.get('error')!({ sourceId: 'province', error: new Error('HTTP 503') }));
+  act(() => renderer.events.get('error')!({ sourceId: 'crown', error: new Error('HTTP 503') }));
+  act(() => renderer.events.get('error')!({ sourceId: 'crown', error: new Error('HTTP 503') }));
+  expect(status).toHaveBeenLastCalledWith({ status: 'error', message: '2 map sources failed to load: Provincial Atlas, Crown Land. Roads, water, woodland and place names may be missing. View may be incomplete.' });
+});
+
 it('does not overwrite a named failure when the loading watchdog expires', () => {
   vi.useFakeTimers();
   const status = vi.fn();
