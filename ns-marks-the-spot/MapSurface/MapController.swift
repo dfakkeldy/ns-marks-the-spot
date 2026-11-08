@@ -2081,6 +2081,9 @@ final class MapController: NSObject {
 
     @objc private func mapKitDoubleTapRecognized(_ recognizer: UITapGestureRecognizer) {
         guard recognizer.state == .ended else { return }
+        #if DEBUG
+        MapTapTrace.record("mapkit double tap held=\(heldTap != nil)")
+        #endif
         dropHeldTap()
     }
 
