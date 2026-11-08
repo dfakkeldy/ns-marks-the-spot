@@ -310,6 +310,52 @@ final class DoubleTapProbeUITests: XCTestCase {
         }
     }
 
+    /// A held tap landing rebuilds the corners. Does a second touch already on
+    /// an older corner survive that? And a double tap on a corner: does MapKit
+    /// still take it, or does the second tap place a point?
+    @MainActor
+    func testProbe9OverPlacedCorners() throws {
+        for round in 0..<4 {
+            let app = measuringApp()
+            let (a, _, _) = points(app)
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+            _ = waitForUI(timeout: 2) { false }
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+            _ = waitForUI(timeout: 2) { false }
+            let corner = app.descendants(matching: .any)["Placed corner 1"].firstMatch
+            XCTAssertTrue(corner.waitForExistence(timeout: 5))
+
+            var before = traceLines(app).last.map(sequence(of:)) ?? 0
+            let target = centre(corner)
+            try synthesize([tap(a), tap(target, at: 0.15)])
+            _ = waitForUI(timeout: 2.5) { false }
+            report("tap then placed corner round \(round)", app, after: before, "target=\(target)")
+
+            before = traceLines(app).last.map(sequence(of:)) ?? 0
+            let again = centre(corner)
+            try synthesize([tap(again), tap(again, at: 0.15)])
+            _ = waitForUI(timeout: 2.5) { false }
+            report("double tap on placed corner round \(round)", app, after: before, "target=\(again)")
+            app.terminate()
+        }
+    }
+
+    /// Past the closest zoom there is nothing left to zoom to.
+    @MainActor
+    func testProbe10DoubleTapAtClosestZoom() throws {
+        let app = measuringApp()
+        let (a, _, _) = points(app)
+        for _ in 0..<16 {
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).doubleTap()
+            _ = waitForUI(timeout: 1.2) { false }
+        }
+        for round in 0..<3 {
+            try run("double tap at closest zoom round \(round)", app) {
+                try synthesize([tap(a), tap(a, at: 0.15)])
+            }
+        }
+    }
+
     /// Three in one spot, and XCUITest's own double tap for comparison.
     @MainActor
     func testProbe7TripleAndPublicDoubleTap() throws {

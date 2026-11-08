@@ -42,14 +42,15 @@ struct HeldMapTapTests {
 
     /// The second tap of a double tap, or the drag of a one-handed zoom. The
     /// finger need not come back to the same place, and MapKit does not ask it to.
-    @Test(arguments: [0, MapController.doubleTapReach - 1])
-    func aTouchNearTheHeldTapMeansItNeverHappened(distance: CGFloat) async {
-        let tapped = Tapped()
-        let controller = makeController(recording: tapped)
-        controller.holdTap(latitude: 1, longitude: 0, at: spot)
-        controller.settleHeldTap(byTouchOnMapAt: CGPoint(x: spot.x + distance, y: spot.y))
-        await waitOutTheInterval()
-        #expect(tapped.latitudes.isEmpty)
+    @Test func aTouchNearTheHeldTapMeansItNeverHappened() async {
+        for distance in [0, MapController.doubleTapReach - 1] {
+            let tapped = Tapped()
+            let controller = makeController(recording: tapped)
+            controller.holdTap(latitude: 1, longitude: 0, at: spot)
+            controller.settleHeldTap(byTouchOnMapAt: CGPoint(x: spot.x + distance, y: spot.y))
+            await waitOutTheInterval()
+            #expect(tapped.latitudes.isEmpty, "a touch \(distance) points away let the tap count")
+        }
     }
 
     /// A quick tap somewhere else: both are meant, in order, and the first
