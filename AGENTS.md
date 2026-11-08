@@ -61,6 +61,11 @@ a PR-branch commit. Land the inputs first, then pin them in a follow-up PR.
 Hotfixes branch from `main` and are merged back down. Open promotion PRs only
 when asked.
 
+Every PR gets the `Claude review` check, with rules in `REVIEW.md`. Mark a PR
+ready only when it's ready: each push after that is a review round, and there
+are three. Answer each Important finding: fix it and push, or reply with why
+and resolve the thread, then re-run the job.
+
 ## Agent work on GitHub
 
 Dan assigns work with labels, since GitHub can't assign an App: `agent:claude`,
