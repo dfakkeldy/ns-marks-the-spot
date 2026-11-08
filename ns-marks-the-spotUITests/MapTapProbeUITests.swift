@@ -135,6 +135,38 @@ final class MapTapProbeUITests: XCTestCase {
         }
     }
 
+    /// Many cheap taps, to catch the system cancelling a synthesized touch
+    /// and record why: a map tap that places a point, then the Undo button.
+    @MainActor
+    func testZZCancelHunt() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let distance = app.buttons["measure-distance"]
+        XCTAssertTrue(distance.waitForHittable(timeout: 30))
+        distance.tap()
+        let readout = app.descendants(matching: .any)["measure-readout"]
+        XCTAssertTrue(readout.waitForExistence(timeout: 30))
+        let undo = app.buttons["measure-undo"]
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled })
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        XCTAssertTrue(waitForUI { readout.label.hasSuffix("km") })
+        let base = readout.label
+        let undoPoint = CGPoint(x: undo.frame.midX, y: undo.frame.midY)
+        let far = app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).screenPoint
+        for _ in 0..<350 {
+            XCTAssertTrue(waitForUI(timeout: 15) { readout.label == base }, "did not return to two points")
+            let placed = probe("hunt map tap", app: app, timeout: 10, act: {
+                app.tapMap(at: far)
+            }, succeeded: { readout.label != base })
+            if placed {
+                _ = probe("hunt undo tap", app: app, timeout: 10, act: {
+                    app.tapMap(at: undoPoint)
+                }, succeeded: { readout.label == base })
+            }
+            if readout.label != base, undo.exists { undo.tap() }
+        }
+    }
+
     /// The tap beside the layers panel that should put it away.
     @MainActor
     func testZZProbeLayersCloseTaps() throws {

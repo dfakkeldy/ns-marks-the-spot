@@ -1,0 +1,143 @@
+# EXPERIMENT — not for merge (grok-bots#937). Under disk load the system
+# cancelled one synthesized touch in 614 (run 42441793904). This repeats
+# cheap map and Undo taps under the same load, three shards in parallel, and
+# records each cancel with the app state, the touched view and the window's
+# recognizers, to say whether the system or the app cancelled it.
+name: "[experiment] cancel hunt"
+
+on:
+  push:
+    branches:
+      - experiment/map-tap-flakes-2
+
+permissions:
+  contents: read
+
+env:
+  PROJECT: ns-marks-the-spot.xcodeproj
+  SCHEME: ns-marks-the-spot
+  DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
+
+jobs:
+  hunt:
+    name: "Cancel hunt shard ${{ matrix.shard }}"
+    runs-on: macos-26
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Resolve cache key inputs
+        id: cache-key
+        run: |
+          version="$(xcodebuild -version | tr '\n ' '--' | sed 's/-*$//')"
+          echo "xcode-version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Restore SwiftPM and DerivedData
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/Library/org.swift.swiftpm
+            DerivedData
+          key: ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-
+
+      - name: Resolve Swift packages
+        run: xcodebuild -project "$PROJECT" -scheme "$SCHEME" -resolvePackageDependencies
+
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO -quiet
+
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py
+          )"
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+
+      - name: Start disk load
+        run: |
+          cat > "$RUNNER_TEMP/io.sh" <<'EOF'
+          while true; do
+            dd if=/dev/urandom of="$RUNNER_TEMP/io.bin" bs=1m count=1024 2>/dev/null
+            sync
+            cat "$RUNNER_TEMP/io.bin" > /dev/null
+            rm -f "$RUNNER_TEMP/io.bin"
+          done
+          EOF
+          RUNNER_TEMP="$RUNNER_TEMP" nohup bash "$RUNNER_TEMP/io.sh" > /dev/null 2>&1 &
+          sleep 10
+          uptime
+
+      - name: Cancel hunt
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZCancelHunt \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/hunt.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/hunt.log"
+
+      - name: Stop the load
+        if: always()
+        run: |
+          pkill -f io.sh || true
+          pkill dd || true
+          uptime
+
+      - name: Tally and dump the app's unified-log trace
+        if: always()
+        run: |
+          awk '/PROBE_SUMMARY_BEGIN/,/PROBE_SUMMARY_END/' "$RUNNER_TEMP/hunt.log" || true
+          awk '/PROBE_TRACE_BEGIN/,/PROBE_TRACE_END/' "$RUNNER_TEMP/hunt.log" || true
+          udid="$(xcrun simctl list devices -j | python3 -I -c '
+          import json, sys
+          name, os_version = sys.argv[1], sys.argv[2]
+          for runtime, devices in json.load(sys.stdin)["devices"].items():
+              if runtime.endswith("iOS-" + os_version.replace(".", "-")):
+                  for device in devices:
+                      if device["name"] == name:
+                          print(device["udid"])
+          ' "$(echo '${{ steps.test-simulator.outputs.destination }}' | sed -E 's/.*name=([^,]+),.*/\1/')" \
+            "$(echo '${{ steps.test-simulator.outputs.destination }}' | sed -E 's/.*OS=//')" | head -1)"
+          xcrun simctl boot "$udid" || true
+          xcrun simctl spawn "$udid" log show --style compact --last 6h \
+            --predicate 'subsystem == "nsmts.maptaptrace"' > "$RUNNER_TEMP/trace-log.txt" 2>&1 || true
+          echo "touches: began $(grep -c 'touch began' "$RUNNER_TEMP/trace-log.txt") ended $(grep -c 'touch ended' "$RUNNER_TEMP/trace-log.txt") cancelled $(grep -c 'touch cancelled' "$RUNNER_TEMP/trace-log.txt")"
+          grep -B30 -A3 "touch cancelled" "$RUNNER_TEMP/trace-log.txt" | sed -E 's/^.*\[trace\] //' || true
+
+      - name: Keep logs and the trace
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hunt-shard-${{ matrix.shard }}
+          path: |
+            ${{ runner.temp }}/hunt.log
+            ${{ runner.temp }}/trace-log.txt
+          retention-days: 7
+          if-no-files-found: ignore

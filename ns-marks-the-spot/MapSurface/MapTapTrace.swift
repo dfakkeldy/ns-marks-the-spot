@@ -49,10 +49,32 @@ enum MapTapTrace {
         }
         method_exchangeImplementations(original, replacement)
         record("event log installed")
+        // A touch the app resigned under is cancelled by UIKit, not by the
+        // system: these say which.
+        let names: [(Notification.Name, String)] = [
+            (UIApplication.willResignActiveNotification, "willResignActive"),
+            (UIApplication.didBecomeActiveNotification, "didBecomeActive"),
+            (UIApplication.didEnterBackgroundNotification, "didEnterBackground"),
+            (UIWindow.didBecomeKeyNotification, "windowDidBecomeKey"),
+            (UIWindow.didResignKeyNotification, "windowDidResignKey"),
+        ]
+        for (name, label) in names {
+            NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { note in
+                let window = (note.object as? UIWindow).map { " \(type(of: $0))" } ?? ""
+                MainActor.assumeIsolated { MapTapTrace.record("lifecycle \(label)\(window)") }
+            }
+        }
     }
 
     private static var eventLogInstalled = false
     private static var touchDown: [ObjectIdentifier: TimeInterval] = [:]
+    private static var touchView: [ObjectIdentifier: WeakView] = [:]
+    private static var observedWindows = Set<ObjectIdentifier>()
+
+    private struct WeakView {
+        weak var value: UIView?
+        let type: String
+    }
 
     static func logEvent(_ event: UIEvent) {
         guard event.type == .touches, let touches = event.allTouches else { return }
@@ -67,10 +89,40 @@ enum MapTapTrace {
             }
             let id = ObjectIdentifier(touch)
             var held = ""
+            if let window = touch.window, observedWindows.insert(ObjectIdentifier(window)).inserted {
+                // The system gesture gate lives on the window: a gate that
+                // begins just before a cancel means the system took the touch.
+                window.gestureRecognizers?.forEach(observe)
+                record("window recognizers " + (window.gestureRecognizers ?? []).map(describe).joined(separator: "; "))
+            }
             if touch.phase == .began {
                 touchDown[id] = touch.timestamp
+                touchView[id] = WeakView(
+                    value: touch.view, type: touch.view.map { String(describing: type(of: $0)) } ?? "nil"
+                )
             } else if let down = touchDown.removeValue(forKey: id) {
                 held = String(format: " held=%.3f", touch.timestamp - down)
+            }
+            let began = touch.phase == .began ? nil : touchView.removeValue(forKey: id)
+            if touch.phase == .cancelled {
+                let state: String
+                switch UIApplication.shared.applicationState {
+                case .active: state = "active"
+                case .inactive: state = "inactive"
+                case .background: state = "background"
+                @unknown default: state = "unknown"
+                }
+                let viewNote = began.map { view in
+                    view.value == nil
+                        ? "\(view.type) released"
+                        : "\(view.type) inWindow=\(view.value?.window != nil)"
+                } ?? "unknown"
+                let live = (touch.gestureRecognizers ?? []).filter { $0.state != .possible }
+                record(
+                    "cancel context appState=\(state) key=\(touch.window?.isKeyWindow ?? false) "
+                        + "beganView=\(viewNote) recognizers not-possible: "
+                        + (live.isEmpty ? "none" : live.map(describe).joined(separator: "; "))
+                )
             }
             let point = touch.location(in: nil)
             let window = touch.window.map { String(describing: type(of: $0)) } ?? "nil"
