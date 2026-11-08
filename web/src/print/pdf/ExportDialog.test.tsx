@@ -164,6 +164,34 @@ describe("ExportDialog", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("goes back to the frame, and hands back what was typed so it survives", async () => {
+    const onBack = vi.fn();
+    const onFieldsChange = vi.fn();
+    renderDialog({ onBack, onFieldsChange, initialFields: { title: "Kept title", subtitle: "Kept subtitle", notes: "Kept notes" } });
+    expect(screen.getByLabelText("Title")).toHaveValue("Kept title");
+    expect(screen.getByLabelText("Notes")).toHaveValue("Kept notes");
+    await userEvent.type(screen.getByLabelText("Notes"), "!");
+    expect(onFieldsChange).toHaveBeenLastCalledWith({ title: "Kept title", subtitle: "Kept subtitle", notes: "Kept notes!" });
+    await userEvent.click(screen.getByRole("button", { name: "Back to frame" }));
+    expect(onBack).toHaveBeenCalledTimes(1);
+  });
+
+  it("hands back only what was typed, so a default is never carried to the next export", async () => {
+    const onFieldsChange = vi.fn();
+    renderDialog({ onFieldsChange, defaultTitle: "Parcel 123" });
+    expect(onFieldsChange).toHaveBeenLastCalledWith(null);
+    await userEvent.type(screen.getByLabelText("Notes"), "n");
+    expect(onFieldsChange).toHaveBeenLastCalledWith({ notes: "n" });
+  });
+
+  it("shows the page being made, with its title live", async () => {
+    renderDialog();
+    expect(screen.getByRole("img", { name: /Page layout/ })).toBeInTheDocument();
+    await userEvent.clear(screen.getByLabelText("Title"));
+    await userEvent.type(screen.getByLabelText("Title"), "My sheet");
+    expect(screen.getByRole("img", { name: /My sheet/ })).toHaveTextContent("My sheet");
+  });
+
   it("closes when Cancel is clicked or Escape is pressed", async () => {
     const { props } = renderDialog();
     await userEvent.click(screen.getByRole("button", { name: "Cancel" }));

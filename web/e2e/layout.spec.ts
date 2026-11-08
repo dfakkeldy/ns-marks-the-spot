@@ -124,7 +124,7 @@ test("theme controls expose keyboard focus and open the manager", async ({ page 
   await page.goto("/?basemap=osm");
   await expect(page).toHaveTitle(/NS Marks The Spot/);
   await keyboardFocus(page, page.getByRole("combobox", { name: "Change setup", exact: true }));
-  // "Manage themes" appears only once a custom setup exists; Save opens the same manager.
+  // "My setups" appears only once a custom setup exists; Save opens the same manager.
   const manage = page.getByRole("button", { name: "Save setup…", exact: true });
   await keyboardFocus(page, manage);
   await page.keyboard.press("Enter");
@@ -236,7 +236,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
         await page.getByRole("button", { name: `Measure ${mode}`, exact: true }).click();
         await expect(page.locator(".map-attribution")).toHaveClass(/collapsed/);
         const readout = page.locator(".measure-readout");
-        await expect(readout).toContainText(mode === "distance" ? "Tap the map to measure distance" : "Tap the map to outline an area");
+        await expect(readout).toContainText(mode === "distance" ? /(Tap|Click) the map to measure distance/ : /(Tap|Click) the map to outline an area/);
         const actions = page.locator(".measure-actions");
         await expect.poll(async () => {
           const row = (await actions.boundingBox())!;
@@ -266,7 +266,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
         await expect(page.getByRole("tooltip", { name: mode === "distance" ? /^Total distance/ : /^Area/ })).toBeVisible();
         await page.screenshot({ path: testInfo.outputPath(`${mode}-${colorScheme}.png`) });
         await page.getByRole("button", { name: "Clear", exact: true }).click();
-        await expect(readout).toContainText("Tap the map");
+        await expect(readout).toContainText(/(Tap|Click) the map/);
       }
       // Reopening credits preserves both the source links and a clear row.
       await page.getByRole("button", { name: "Show licences", exact: true }).click();

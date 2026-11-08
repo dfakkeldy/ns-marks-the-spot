@@ -157,17 +157,16 @@ export type DwellingState =
     };
 
 /**
- * Explanatory caveat prose as a visible, labelled row. The DATA above it and
- * the source/attribution lines come first; this holds the multi-sentence
- * interpretation. It used to sit behind a disclosure, which hid the very
- * limits a reader most needs before acting on a parcel.
+ * The multi-sentence limits, one tap from the figures they qualify. The
+ * load-bearing caveat and the source, attribution and licence lines above it
+ * stay in view, so no limit or credit goes missing behind the fold.
  */
 function EvidenceCaveat({ children }: { children: ReactNode }) {
   return (
-    <section className="evidence-caveat-row" aria-label="What this does and doesn't show">
-      <p className="evidence-caveat-label">What this does and doesn&apos;t show</p>
+    <details className="evidence-caveat evidence-caveat-row">
+      <summary>What this does and doesn&apos;t show</summary>
       {children}
-    </section>
+    </details>
   );
 }
 
@@ -440,6 +439,11 @@ export function ParcelInspector({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [dismissOnEscape]);
 
+  const inspectorTitle = listing?.addressOrDescription ??
+    listing?.location ??
+    firstHistoricalContext?.record.civicDescription ??
+    `PID ${pid}`;
+
   return (
     <aside className="parcel-inspector" aria-label={`Parcel ${pid} details`}>
       {/* Heading and close button in one row that does not scroll. The button
@@ -457,12 +461,7 @@ export function ParcelInspector({
         </p>
       ) : null}
       <div className="inspector-header">
-        <h2>
-          {listing?.addressOrDescription ??
-            listing?.location ??
-            firstHistoricalContext?.record.civicDescription ??
-            `PID ${pid}`}
-        </h2>
+        <h2>{inspectorTitle}</h2>
         <button
           className="inspector-close"
           type="button"
@@ -503,10 +502,13 @@ export function ParcelInspector({
             </div>
           </>
         ) : null}
-        <div>
-          <dt>PID</dt>
-          <dd className="fact-figure">{pid}</dd>
-        </div>
+        {/* The title already states it when no notice names the parcel. */}
+        {inspectorTitle === `PID ${pid}` ? null : (
+          <div>
+            <dt>PID</dt>
+            <dd className="fact-figure">{pid}</dd>
+          </div>
+        )}
         {mappedArea ? (
           <div>
             <dt>Mapped area</dt>
@@ -571,7 +573,10 @@ export function ParcelInspector({
       ) : null}
       <p className="mapped-area-note building-count-note">
         Count of NSTDB building features intersecting the PID. An empty result
-        does not prove no building exists. Source:{" "}
+        does not prove no building exists.
+      </p>
+      <p className="mapped-area-note building-source-note">
+        Source:{" "}
         <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
           Nova Scotia Topographic Database — Buildings
         </a>

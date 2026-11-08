@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "leaflet/dist/leaflet.css";
-import { App } from "./App";
+import { MainMap } from "./components/MainMap";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import "./styles.css";
 
@@ -13,7 +13,7 @@ if (legacyPoker) window.location.replace("/poker?app=1");
 else createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary>
-      <App />
+      <MainMap />
     </ErrorBoundary>
   </StrictMode>,
 );

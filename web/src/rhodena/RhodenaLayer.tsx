@@ -4,11 +4,11 @@ import { useMap } from 'react-leaflet';
 import type { FeatureCollection, Geometry } from 'geojson';
 import type { ContextMapLayer } from '../layers/contextLayerCatalog';
 import type { MapLayerId, MapLayerStatus, MapRenderMode } from '../components/MapCanvas';
-import { rhodenaFeatureInLayer, type RhodenaLayerId } from './catalog';
+import { rhodenaFeatureColors, rhodenaFeatureInLayer, RHODENA_LINE_DASH, type RhodenaLayerId } from './catalog';
 import data from './features.json';
 interface Properties { kind: string; name: string; note: string; sourceUrl: string; sourceDate: string; accuracy: string; groundElevationM?: number; digitized?: boolean }
 const collection = data as FeatureCollection<Geometry, Properties>;
-const colors: Record<string,string> = { turbine:'#b24719', receptor:'#176879', study:'#a56a15', 'new-road':'#b24719', upgrade:'#79553a', collector:'#b42d86', transmission:'#7350b6', substation:'#b24719', 'model-substation':'#7350b6' };
+const colors: Record<string,string> = rhodenaFeatureColors;
 /** Local factual extracts never query a viewport or send the user's map position. */
 export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, interactive = true }: {
   layer: ContextMapLayer; visible: boolean; renderMode: MapRenderMode; interactive?: boolean;
@@ -31,7 +31,7 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
       // markers' solid fill and pale rim must come from here too.
       const style=(f?: GeoJSON.Feature):PathOptions=>(f?.geometry?.type==='Point'
         ?{color:'#fffdf7',weight:2.5,fillColor:colors[f.properties?.kind]??'#b24719',fillOpacity:1,pmIgnore:true,snapIgnore:true}
-        :{color:colors[f?.properties?.kind]??'#b24719',weight:f?.properties?.kind==='study'?2:3,fillOpacity:0.04,dashArray:f?.properties?.digitized?'7 5':undefined,pmIgnore:true,snapIgnore:true}) as PathOptions;
+        :{color:colors[f?.properties?.kind]??'#b24719',weight:f?.properties?.kind==='study'?2:3,fillOpacity:0.04,dashArray:f?.properties?.digitized?RHODENA_LINE_DASH:undefined,pmIgnore:true,snapIgnore:true}) as PathOptions;
       // A pale casing under each traced line keeps the dashes legible on
       // aerial imagery and dark basemaps alike.
       const lines=features.filter(f=>f.geometry.type!=='Point');
@@ -63,9 +63,9 @@ export function RhodenaLayer({ layer, visible, onStatusChange, renderMode, inter
           if(feature.geometry.type==='Point')// Turbines and both (unreconciled) substation positions name themselves on the map.
           featureLayer.bindTooltip(p.kind==='turbine'?String(feature.id):p.name,p.kind==='turbine'
             ?{permanent:true,direction:'top',offset:[0,-6],className:'rhodena-label'}
-            // Substation names sit to the right of their dot, quieter than the
+            // Substation names sit clear of the turbine row (the drawing's below, the model's beside its dot), quieter than the
             // turbine badges, which draw above them where the two meet.
-            :{permanent:p.kind==='substation'||p.kind==='model-substation',direction:'auto',offset:[8,0],className:'rhodena-label rhodena-label--minor'});
+            :{permanent:p.kind==='substation'||p.kind==='model-substation',direction:p.kind==='model-substation'?'right':'bottom',offset:p.kind==='model-substation'?[10,0]:[0,8],className:'rhodena-label rhodena-label--minor'});
         }
       }).addTo(group);
     }

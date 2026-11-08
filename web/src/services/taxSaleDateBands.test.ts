@@ -6,6 +6,7 @@ import {
   TAX_SALE_DATE_BAND_STYLE,
   taxSaleDateBand,
   taxSaleDateBandsByPid,
+  taxSaleEventsByUrgency,
 } from "./taxSaleDateBands";
 
 function listing(pids: string[], overrides: Partial<TaxSaleListing> = {}): TaxSaleListing {
@@ -134,5 +135,19 @@ describe("band styles", () => {
     }
     const fills = TAX_SALE_DATE_BAND_ORDER.map((band) => TAX_SALE_DATE_BAND_STYLE[band].fill);
     expect(new Set(fills).size).toBe(fills.length);
+  });
+});
+
+describe("taxSaleEventsByUrgency", () => {
+  it("puts the nearest upcoming sale first and parks past dates, newest first", () => {
+    const now = Date.parse("2026-11-08T12:00:00-04:00");
+    const past = event("2026-08-11T10:00:00-03:00");
+    const recentPast = event("2026-08-31T10:00:00-03:00");
+    const near = event("2026-11-23T10:00:00-04:00");
+    const far = event("2027-02-01T10:00:00-04:00");
+    const undated = event(undefined);
+    const { upcoming, past: parked } = taxSaleEventsByUrgency([past, far, undated, recentPast, near], now);
+    expect(upcoming).toEqual([near, far, undated]);
+    expect(parked).toEqual([recentPast, past]);
   });
 });

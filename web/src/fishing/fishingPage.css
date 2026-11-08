@@ -823,6 +823,30 @@ div.fishing-panel-status p {
   }
 }
 
+/* The first view of the half-height sheet holds both actions: a shorter band
+   of the cove, then the actions before the rules stamp and the dedication. */
+@media (max-width: 860px) {
+  .fishing-hero-art {
+    aspect-ratio: 360 / 88;
+  }
+
+  .fishing-hero-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fishing-hero-actions {
+    order: 1;
+    margin-bottom: 12px;
+  }
+
+  .fishing-hero-status,
+  .fishing-hero-links,
+  .fishing-hero-dedication {
+    order: 2;
+  }
+}
+
 @media (max-width: 560px) {
   .fishing-hero {
     margin-inline: -16px;

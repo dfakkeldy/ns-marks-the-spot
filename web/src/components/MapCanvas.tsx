@@ -9,6 +9,7 @@ import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import type { ElectoralSelection } from "../elections/electoralData";
+import { ELECTORAL_LABEL_HANDOFF_ZOOM } from "../elections/electoralLabels";
 import { ContextTileLayer } from "./ContextTileLayer";
 import "../terrain/researchTerrain.css";
 import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
@@ -1448,11 +1449,21 @@ function InitialTaxSaleBoundsController({
     }
 
     fittedRevision.current = noticeFitRevision;
+    // The setup's camera leaves room for its map key on a map that can spare it.
+    const keyInset = noticeFitRevision > 0 && map.getSize().x >= 848 ? 264 : 0;
     map.fitBounds(bounds, {
       animate: false,
-      padding: [48, 48],
+      paddingTopLeft: [48, 48],
+      paddingBottomRight: [48 + keyInset, 48],
       maxZoom: 13,
     });
+    // A phone at the map's floor cannot hold every notice: show where most of
+    // them are, whole, and leave the outliers a pan away.
+    if (!map.getBounds().contains(bounds)) {
+      const middle = (values: number[]) => values.sort((a, b) => a - b)[Math.floor(values.length / 2)];
+      const centres = taxSaleFeatures.map((feature) => L.geoJSON(feature).getBounds().getCenter());
+      map.setView([middle(centres.map(({ lat }) => lat)), middle(centres.map(({ lng }) => lng))], map.getZoom(), { animate: false });
+    }
   }, [map, noticeFitRevision, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
 
   return null;
@@ -2150,6 +2161,17 @@ export function MapCanvas({
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
   const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
+  const retryModernMap = useCallback(() => {
+    setModernMapFailed(false);
+    setModernMapRetry((current) => current + 1);
+  }, []);
+  // A dropped connection is the usual cause, and coming back is a clear moment
+  // to try again without being asked.
+  useEffect(() => {
+    if (!modernMapFailed) return;
+    window.addEventListener("online", retryModernMap);
+    return () => window.removeEventListener("online", retryModernMap);
+  }, [modernMapFailed, retryModernMap]);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
   const [visibilityPicking, setVisibilityPicking] = useState(false);
   const measuring = poker !== null || measureMode !== "off" || visibilityPicking;
@@ -2244,6 +2266,21 @@ export function MapCanvas({
     && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
   const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
   const backgroundLabels = exposedBasemap || contextLayers['ns-topographic'];
+  // Over an image above Atlas the place-names overlay keeps its own labels, so
+  // Atlas's own names step aside once it has drawn, or each place prints twice
+  // and Atlas's ghost through the paper. Its failure or zoom floor brings them back.
+  const [placeNamesDrawn, setPlaceNamesDrawn] = useState(false);
+  const reportProvinceOverlayStatus = useCallback<NonNullable<typeof onLayerStatusChange>>((id, status) => {
+    if (id === "place-names" && status.status !== "loading") setPlaceNamesDrawn(status.status === "ready");
+    onLayerStatusChange?.(id, status);
+  }, [onLayerStatusChange]);
+  const federalNamesShown = contextLayers["federal-ridings-2025"];
+  const namesOverlaid = placeNamesDrawn && !backgroundLabels;
+  // At province scale the riding names are the one label family (electoralLabels.ts).
+  const hideAtlasNamesAt = useCallback(
+    (zoom: number) => namesOverlaid || (federalNamesShown && zoom < ELECTORAL_LABEL_HANDOFF_ZOOM),
+    [federalNamesShown, namesOverlaid],
+  );
   const outlineColor = parcelOutlineColor(basemapStyle, Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]));
   const parcelStyle = useCallback(
     (
@@ -2721,6 +2758,7 @@ export function MapCanvas({
               key={`atlas-${basemapStyle}-${modernMapRetry}`}
               mode={basemapStyle}
               print={isPrintMode}
+              hideNamesAt={hideAtlasNamesAt}
               onStatus={(status) => {
                 if (!isPrintMode) {
                   setModernMapFailed(status.status === "error");
@@ -2773,7 +2811,7 @@ export function MapCanvas({
           onStatusChange={reportFletcherStatus}
         />
         {provinceLayerCatalog.map((layer) => layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={reportProvinceOverlayStatus} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
         ) : (
           <ArcGISMapLayer
             key={layer.id}
@@ -3108,10 +3146,12 @@ export function MapCanvas({
       {!isPrintMode ? <>
       <div className="research-terrain-controls" aria-label="Map dimension">
         <div className="terrain-control-bar">
-          <button type="button" aria-label={terrainActive ? "Return to 2D" : "3D terrain"} aria-pressed={terrainActive} disabled={terrainBlocked}
+          {/* An action, not a state: it names where it goes, and no pressed fill
+              says "you are in 2D" while the map is in 3D. */}
+          <button type="button" className="terrain-mode-button" disabled={terrainBlocked}
             title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
             onClick={() => { setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" }); setTerrainSettingsOpen(false); setTerrainRequested(value => !value); }}>
-            {terrainActive ? "2D" : "3D terrain"}
+            {terrainActive ? "Back to 2D" : "3D terrain"}
           </button>
           {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
         </div>
@@ -3311,19 +3351,18 @@ export function MapCanvas({
       ) : null}
       {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
-          <span>{modernMapFailure ?? "Some modern-map data did not load. The map may be incomplete."}</span>
-          {basemapStyle !== "osm" && onUseOsmBasemap ? (
-            <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
-          ) : null}
-          <button
-            type="button"
-            onClick={() => {
-              setModernMapFailed(false);
-              setModernMapRetry((current) => current + 1);
-            }}
-          >
-            Retry
-          </button>
+          <p>
+            {modernMapFailure ?? "Some base map data did not load. The map may be incomplete."}
+            <small>Your layers and place are kept.</small>
+          </p>
+          <div className="modern-map-error-actions">
+            <button type="button" className="modern-map-retry" onClick={retryModernMap}>
+              Retry
+            </button>
+            {basemapStyle !== "osm" && onUseOsmBasemap ? (
+              <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
+            ) : null}
+          </div>
         </div>
       ) : null}
       {/* Outside the HUD, and rendered whether or not a walk is running: a

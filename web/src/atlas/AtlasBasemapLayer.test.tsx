@@ -3,9 +3,12 @@ import { afterEach, expect, it, vi } from 'vitest';
 import L from 'leaflet';
 import AtlasBasemapLayer from './AtlasBasemapLayer';
 
-const renderer = vi.hoisted(() => ({ events: new Map<string, (event: unknown) => void>() }));
+const renderer = vi.hoisted(() => ({ events: new Map<string, (event: unknown) => void>(), visibility: new Map<string, string>() }));
 vi.mock('./mapLibreRuntime', () => ({ Map: class {
   on(name: string, handler: (event: unknown) => void) { renderer.events.set(name, handler); }
+  isStyleLoaded() { return true; }
+  getStyle() { return { layers: [{ id: 'town-names', type: 'symbol' }, { id: 'mountains', type: 'symbol' }, { id: 'water', type: 'fill' }] }; }
+  setLayoutProperty(id: string, _property: string, value: string) { renderer.visibility.set(id, value); }
   once() {}
   resize() {}
   jumpTo() {}
@@ -50,6 +53,15 @@ it('preserves a real source failure even when the remaining map becomes idle', (
   expect(status).toHaveBeenLastCalledWith({ status: 'error', message: 'A map source failed to load (HTTP 503). View may be incomplete.' });
 });
 
+it('names every source that failed, and what the Provincial Atlas loss means', () => {
+  const status = vi.fn();
+  render(<AtlasBasemapLayer mode="day" onStatus={status} />);
+  act(() => renderer.events.get('error')!({ sourceId: 'province', error: new Error('HTTP 503') }));
+  act(() => renderer.events.get('error')!({ sourceId: 'crown', error: new Error('HTTP 503') }));
+  act(() => renderer.events.get('error')!({ sourceId: 'crown', error: new Error('HTTP 503') }));
+  expect(status).toHaveBeenLastCalledWith({ status: 'error', message: '2 map sources failed to load: Provincial Atlas, Crown Land. Roads, water, woodland and place names may be missing. View may be incomplete.' });
+});
+
 it('does not overwrite a named failure when the loading watchdog expires', () => {
   vi.useFakeTimers();
   const status = vi.fn();
@@ -57,4 +69,14 @@ it('does not overwrite a named failure when the loading watchdog expires', () =>
   act(() => renderer.events.get('error')!({ sourceId: 'province', error: new Error('HTTP 503') }));
   act(() => vi.advanceTimersByTime(26000));
   expect(status).toHaveBeenLastCalledWith({ status: 'error', message: 'Provincial Atlas failed to load (HTTP 503). View may be incomplete.' });
+});
+
+it('hands its names over to a label set drawn above it, and takes them back', () => {
+  renderer.visibility.clear();
+  const { rerender } = render(<AtlasBasemapLayer mode="day" onStatus={vi.fn()} hideNamesAt={() => true} />);
+  act(() => renderer.events.get('styledata')!({}));
+  // Only names step aside: the map's drawn symbols and fills stay.
+  expect([...renderer.visibility]).toEqual([['town-names', 'none']]);
+  rerender(<AtlasBasemapLayer mode="day" onStatus={vi.fn()} hideNamesAt={() => false} />);
+  expect(renderer.visibility.get('town-names')).toBe('visible');
 });

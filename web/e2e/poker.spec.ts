@@ -160,7 +160,7 @@ test("Poker civic numbers in a crowded view never overlap each other or the map 
   const features = Array.from({ length: 60 }, (_, i) => ({ type: "Feature", geometry: { type: "Point", coordinates: [-61.414 + (i % 10 - 4.5) * 0.00032, 46.059 + (Math.floor(i / 10) - 2.5) * 0.000225] },
     properties: { pntid: `grid-${i}`, civicnum: String(100 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } }));
   // Two houses just below the measure buttons, where the buttons settle once the footer folds.
-  for (const [i, lng] of [-61.41562, -61.41476].entries()) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [lng, 46.05395] }, properties: { pntid: `band-${i}`, civicnum: String(900 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } });
+  for (const [i, lng] of [-61.41562, -61.41476].entries()) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [lng, 46.0533] }, properties: { pntid: `band-${i}`, civicnum: String(900 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } });
   for (const unit of ["1", "2", "3"]) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [-61.414, 46.0605] }, properties: { pntid: "shared", civicnum: "40", unit_num: unit, strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } } as typeof features[number]);
   await page.addInitScript(() => localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted"));
   await page.route("https://**/*", route => {
@@ -186,17 +186,22 @@ test("Poker civic numbers in a crowded view never overlap each other or the map 
     // A number waiting for room is really not drawn.
     expect(await hidden.evaluateAll(elements => elements.filter(element => getComputedStyle(element).visibility !== "hidden").map(element => element.textContent))).toEqual([]);
   };
+  // While the licence strip is open the numbers stay clear of it and of each other.
+  await expect.poll(() => shown.count()).toBeGreaterThan(0);
+  expect(await hidden.count()).toBeGreaterThan(0);
+  await expectClear();
+  // The phone footer folds by itself after a few seconds, sliding the measure buttons down
+  // without the map moving; the numbers are placed again around the buttons' new position.
+  // Placement takes a frame or two after the fold, so wait for it to settle before counting.
+  await expect(page.locator(".map-region.attribution-folded")).toHaveCount(1, { timeout: 10_000 });
+  await expect.poll(async () => { try { await expectClear(); return true; } catch { return false; } }).toBe(true);
   // Houses about 15 px apart at zoom 16: the block's edge is labelled and the rest wait, dots kept.
   await expect.poll(() => shown.count()).toBeGreaterThanOrEqual(12);
   expect(await hidden.count()).toBeGreaterThan(0);
-  await expectClear();
+  await expect.poll(async () => { try { await expectClear(); return true; } catch { return false; } }).toBe(true);
   const dock = (await page.locator(".poker-workspace").boundingBox())!;
   const band = await shown.evaluateAll((elements, bottom) => elements.filter(element => element.getBoundingClientRect().top > bottom).map(element => element.textContent), dock.y + dock.height);
   expect(band.length).toBeGreaterThan(0);
-  // The phone footer folds by itself after a few seconds, sliding the measure buttons down
-  // without the map moving; the numbers are placed again around the buttons' new position.
-  await expect(page.locator(".map-region.attribution-folded")).toHaveCount(1, { timeout: 10_000 });
-  await expect.poll(async () => { try { await expectClear(); return true; } catch { return false; } }).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("poker-crowded-numbers.png") });
   // Two zoom steps closer there is room for every number.
   const scale = page.locator(".leaflet-control-scale-line").first();

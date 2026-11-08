@@ -186,7 +186,11 @@ function MeasureCapture({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented) return;
       const target = event.target;
+      // Arming the tool leaves focus on its own button, and Esc there must
+      // still reach the tool that button just turned on.
+      const onMeasureButton = event.key === "Escape" && target instanceof HTMLElement && target.closest(".measure-control") !== null;
       if (
+        !onMeasureButton &&
         target instanceof HTMLElement &&
         (target.isContentEditable || target.closest(
           'input, textarea, select, button, summary, a[href], [role="dialog"], [role="alertdialog"], [contenteditable]:not([contenteditable="false"])',
@@ -204,8 +208,18 @@ function MeasureCapture({
         finish();
       }
     };
+    // Going to the search means the person has moved on. With nothing placed
+    // there is nothing to lose, and an armed tool would drop a point on the
+    // next click at a search result. Points already placed stay.
+    const handleFocusIn = (event: FocusEvent) => {
+      if (!driveway && isEmpty && event.target instanceof HTMLElement && event.target.closest(".search-row input")) onExit();
+    };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("focusin", handleFocusIn);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("focusin", handleFocusIn);
+    };
     // finish is recreated per render; subscribing per render is harmless here.
   });
 
@@ -229,11 +243,7 @@ function MeasureCapture({
           }
         }}
       >
-        <button type="button" disabled={finished || points.length < MIN_FINISH_POINTS[mode]} onClick={finish}>Finish</button>
-        <button type="button" disabled={isEmpty} onClick={() => {
-          setCursor(null);
-          setMeasurement({ points: [], finished: false });
-        }}>Clear</button>
+        <button type="button" className="measure-finish" disabled={finished || points.length < MIN_FINISH_POINTS[mode]} onClick={finish}>Finish</button>
         <button
           type="button"
           disabled={isEmpty}
@@ -247,6 +257,17 @@ function MeasureCapture({
         >
           Undo point
         </button>
+        <button type="button" className="measure-clear" disabled={isEmpty} onClick={() => {
+          setCursor(null);
+          setMeasurement({ points: [], finished: false });
+        }}>Clear</button>
+        {/* The way out, as plain as the way in. Finish keeps the result on the
+            map and the tool on; only this, the ruler or Esc turns it off. */}
+        {!driveway ? (
+          <button type="button" className="measure-exit" aria-label="Stop measuring" title="Stop measuring" onClick={onExit}>
+            <span aria-hidden="true">×</span>
+          </button>
+        ) : null}
       </div>
       <Pane name={MEASURE_PANE} style={{ zIndex: MEASURE_PANE_Z_INDEX }}>
         {mode === "area" && preview.length >= 3 ? (
@@ -311,12 +332,12 @@ function MeasureCapture({
             number twice on screen. */}
         {!finished && points.length >= MIN_FINISH_POINTS[mode]
           ? <span className="sr-only">{readoutText(mode, points)} · </span>
-          : <>{readoutText(mode, points)}{!finished && points.length > 0 ? " · " : null}</>}
+          : <>{readoutText(mode, points)}{!finished && (points.length > 0 || !coarsePointer()) ? " · " : null}</>}
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}
         {!finished && points.length > 0
           ? (coarsePointer() ? "tap Finish when done" : "double-click or Enter to finish · Esc to clear")
-          : null}
+          : !finished && !coarsePointer() ? "Esc to leave" : null}
       </p>}
     </>
   );
@@ -328,12 +349,13 @@ function coarsePointer(): boolean {
 }
 
 function readoutText(mode: ActiveMeasureMode, points: readonly GeoPoint[]): string {
+  const verb = coarsePointer() ? "Tap" : "Click";
   if (mode === "distance") {
     return points.length < 2
-      ? "Tap the map to measure distance"
+      ? `${verb} the map to measure distance`
       : formatDistance(pathDistanceMetres(points));
   }
   return points.length < 3
-    ? "Tap the map to outline an area"
+    ? `${verb} the map to outline an area`
     : formatArea(polygonAreaSquareMetres(points));
 }

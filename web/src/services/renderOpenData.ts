@@ -97,7 +97,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     const w = ctx.measureText(text).width + 12;
     if (p.x < 0 || p.y < 0 || p.x > size.width || p.y > size.height || occupied.some((b) => (b.text === text && Math.hypot(b.x - p.x, b.y - p.y) < 220) || (Math.abs(b.y - p.y) < 18 && Math.abs(b.x - p.x) < (b.w + w) / 2))) continue;
     occupied.push({ ...p, w, text });
-    ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 4; ctx.strokeText(text, p.x, p.y);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.82)"; ctx.lineWidth = 3; ctx.lineJoin = "round"; ctx.strokeText(text, p.x, p.y);
     ctx.fillStyle = "#29332e"; ctx.fillText(text, p.x, p.y);
   }
   // The rail's "N loaded" counts what is drawn, not what was fetched.

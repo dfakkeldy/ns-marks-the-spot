@@ -27,7 +27,7 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     expect(box.height).toBeGreaterThanOrEqual(viewport.height - 1);
     expect(box.width).toBe(viewport.width);
     await expect(page.getByRole('button', {name:'Map options',exact:true})).toBeInViewport({ratio:1});
-    await expect(page.getByRole('button', {name:'Finish',exact:true})).toBeInViewport({ratio:1});
+    await expect(page.locator('.poker-start-hint')).toBeInViewport({ratio:1});
     await expect(page.locator('.poker-measurement')).toHaveCSS('position','absolute');
     await expect(page.locator('.poker-header,.poker-selected')).toHaveCount(0);
     await map.click({position:{x:box.width*.4,y:box.height*.4}});
@@ -86,7 +86,8 @@ for (const viewport of [{width:390,height:844},{width:320,height:568},{width:844
     await page.screenshot({path:info.outputPath('poker-offline.png')});
     await page.getByRole('button',{name:'Clear trace'}).click();
     await page.reload();
-    await expect(page.getByRole('button',{name:'Undo point'})).toBeDisabled();
+    await expect(page.getByRole('button',{name:'Undo point'})).toHaveCount(0);
+    await expect(page.locator('.poker-start-hint')).toBeVisible();
     await page.goto('/poker/');
     await expect(page).toHaveTitle('Poker — address & driveway map');
     await expect(page.getByRole('searchbox',{name:'Search civic address'})).toBeVisible();

@@ -8,7 +8,7 @@ export const FISHING_DEDICATION = "For Darrell, who never needed a reason to go 
 
 function ShoreIllustration() {
   return (
-    <svg className="fishing-hero-art" viewBox="0 0 360 132" role="img" aria-label="A fishing rod over a calm cove at first light">
+    <svg className="fishing-hero-art" viewBox="0 0 360 132" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A fishing rod over a calm cove at first light">
       <defs>
         <linearGradient id="fishing-hero-sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#0f3a46" />

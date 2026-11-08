@@ -17,6 +17,7 @@ import type {
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
 import { LayerSwatch } from "./LayerSwatch";
+import { splitCaveat } from "./layerCaveat";
 import { FLETCHER_OPACITY_MIN, FLETCHER_OPACITY_STEP } from "../services/mapShareState";
 import { contextLayerSwatch, openDataSwatch, type LayerSwatchSpec } from "./layerSwatchSpec";
 import { radarObservedLabel } from "../services/weatherRadar";
@@ -84,6 +85,12 @@ export function ProvenanceFields({ sourceDate, openData, scale, coverage, minZoo
   );
 }
 
+/** The row's one short line at rest; the whole caveat waits in its disclosure. */
+export function RowCaveat({ text }: { text: string }) {
+  const { lead, full } = splitCaveat(text);
+  return <small className={full ? "layer-caveat layer-caveat--lead" : "layer-caveat"}>{lead}</small>;
+}
+
 export const LayerMetadata = memo(function LayerMetadata({
   sourceDate,
   openData,
@@ -94,12 +101,19 @@ export const LayerMetadata = memo(function LayerMetadata({
   checked,
   status,
   provenance = true,
+  caveat,
+  note,
 }: ProvenanceFieldsProps & {
   checked: boolean;
   status: MapLayerStatus;
   /** False when the row lists these facts in its own disclosure instead. */
   provenance?: boolean;
+  /** The text the row's RowCaveat rests on; any part it cannot show opens here. */
+  caveat?: string | null;
+  /** Further guidance the row does not show at rest. */
+  note?: string;
 }) {
+  const fullCaveat = caveat ? splitCaveat(caveat).full : null;
   const [provenanceOpen, setProvenanceOpen] = useState(false);
   return (
     <span className="layer-metadata">
@@ -118,6 +132,8 @@ export const LayerMetadata = memo(function LayerMetadata({
           >
             Source &amp; scale
           </summary>
+          {fullCaveat ? <small className="layer-caveat-full">{fullCaveat}</small> : null}
+          {note ? <small className="layer-caveat-full">{note}</small> : null}
           <ProvenanceFields sourceDate={sourceDate} openData={openData} scale={scale}
             coverage={coverage} minZoom={minZoom} maxZoom={maxZoom} />
         </details>
@@ -160,10 +176,9 @@ export const LayerToggle = memo(function LayerToggle({
       <span className="switch" aria-hidden="true" />
       <span>
         <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
-        <small>
-          {enabled ? layer.webCaveat : "Province licence required"}
-        </small>
+        <RowCaveat text={enabled ? layer.webCaveat : "Province licence required"} />
         <LayerMetadata
+          caveat={enabled ? layer.webCaveat : null}
           openData={layer.openData}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
@@ -224,10 +239,9 @@ export const FletcherLayerControl = memo(function FletcherLayerControl({
         <span className="switch" aria-hidden="true" />
         <span>
           <strong>{controlLabel}</strong>
-          <small>
-            {enabled ? layer.webCaveat : "Tile hosting not configured"}
-          </small>
+          <RowCaveat text={enabled ? layer.webCaveat : "Tile hosting not configured"} />
           <LayerMetadata
+            caveat={enabled ? layer.webCaveat : null}
             sourceDate={layer.sourceDate}
             scale={layer.scale}
             coverage={layer.coverage}
@@ -293,12 +307,9 @@ export const ResourceLayerToggle = memo(function ResourceLayerToggle({
         <span className="switch" aria-hidden="true" />
         <span>
           <strong>{layer.name}</strong>
-          <small>
-            {enabled
-              ? layer.webCaveat
-              : "Province licence required for derived parcel geometry"}
-          </small>
+          <RowCaveat text={enabled ? layer.webCaveat : "Province licence required for derived parcel geometry"} />
           <LayerMetadata
+            caveat={enabled ? layer.webCaveat : null}
             sourceDate={layer.sourceDate}
             scale={layer.scale}
             coverage={layer.coverage}
@@ -355,8 +366,9 @@ export const HydroPilotLayerToggle = memo(function HydroPilotLayerToggle({
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
+        <RowCaveat text={layer.webCaveat} />
         <LayerMetadata
+          caveat={layer.webCaveat}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
@@ -398,8 +410,9 @@ export const LiveConditionsLayerToggle = memo(
         <span className="switch" aria-hidden="true" />
         <span>
           <strong>{layer.name}</strong>
-          <small>{layer.webCaveat}</small>
+          <RowCaveat text={layer.webCaveat} />
           <LayerMetadata
+            caveat={layer.webCaveat}
             sourceDate={layer.sourceDate}
             scale={layer.scale}
             coverage={layer.coverage}
@@ -441,8 +454,9 @@ export const ZoningLayerToggle = memo(function ZoningLayerToggle({
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{queryLockReason(layer.id) ?? layer.webCaveat}</small>
+        <RowCaveat text={queryLockReason(layer.id) ?? layer.webCaveat} />
         <LayerMetadata
+          caveat={queryLockReason(layer.id) ?? layer.webCaveat}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
@@ -493,8 +507,9 @@ export const FloodHazardLayerToggle = memo(function FloodHazardLayerToggle({
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
+        <RowCaveat text={enabled ? layer.webCaveat : "Province licence required"} />
         <LayerMetadata
+          caveat={enabled ? layer.webCaveat : null}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
@@ -541,11 +556,12 @@ export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthL
       <span className="switch" aria-hidden="true" />
       <span>
         <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
-        <small>{enabled ? layer.webCaveat : "Province licence required"}</small>
+        <RowCaveat text={enabled ? layer.webCaveat : "Province licence required"} />
         {/* The province's own guidance rides with the layer: these rasters are
             tile overlays with no popup, so this row is the only place a reader
-            can meet the caveat before acting on a risk band. */}
-        <small className="environmental-health-guidance">{layer.guidance}</small>
+            can meet the caveat before acting on a risk band. It shows whenever
+            the bands are on the map, and waits in the disclosure while they are not. */}
+        {enabled && checked ? <small className="environmental-health-guidance">{layer.guidance}</small> : null}
         {enabled && layer.riskBands.length > 0 ? (
           <ul
             className="environmental-health-legend"
@@ -564,6 +580,8 @@ export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthL
           </ul>
         ) : null}
         <LayerMetadata
+          note={enabled && checked ? undefined : layer.guidance}
+          caveat={enabled ? layer.webCaveat : null}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
@@ -621,7 +639,7 @@ export const ForestryLayerToggle = memo(function ForestryLayerToggle({
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
+        <RowCaveat text={layer.webCaveat} />
         {checked ? (
           <ul
             className="forestry-policy-legend"
@@ -640,6 +658,7 @@ export const ForestryLayerToggle = memo(function ForestryLayerToggle({
           </ul>
         ) : null}
         <LayerMetadata
+          caveat={layer.webCaveat}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
@@ -675,8 +694,9 @@ export const WellLogLayerToggle = memo(function WellLogLayerToggle({
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
-        <small>{layer.webCaveat}</small>
+        <RowCaveat text={layer.webCaveat} />
         <LayerMetadata
+          caveat={layer.webCaveat}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}

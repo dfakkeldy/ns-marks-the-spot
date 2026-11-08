@@ -61,10 +61,10 @@ for (const width of [390, 1440]) {
     const satellite = page.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" });
     await expect(satellite).toBeChecked();
     await expect(page.getByRole("checkbox", { name: "NS Aerial" })).toBeDisabled();
-    await page.getByRole("checkbox", { name: "Modern map" }).press("Space");
+    await page.getByRole("checkbox", { name: "Base map" }).press("Space");
     await expect(satellite).not.toBeChecked();
     await satellite.press("Space");
-    await expect(page.getByRole("checkbox", { name: "Modern map" })).not.toBeChecked();
+    await expect(page.getByRole("checkbox", { name: "Base map" })).not.toBeChecked();
     if (width < 860) await page.getByRole("button", { name: "Back to categories", exact: true }).click();
     await page.getByRole("button", { name: /^Land & Property/ }).click();
     const crown = page.getByRole("checkbox", { name: "Crown Lands" });

@@ -60,7 +60,7 @@ describe("MapThemePicker", () => {
     const { rerender } = render(<MapThemePicker {...props} activeThemeId="explore-nova-scotia" />);
 
     const chips = within(screen.getByRole("group", { name: "Start a task" })).getAllByRole("button");
-    expect(chips.map((chip) => chip.textContent)).toEqual(["Tax sale", "Forestry", "Historical", "Fishing", "Elections"]);
+    expect(chips.map((chip) => chip.textContent)).toEqual(["Tax sale", "Forestry", "Historical", "Fishing", "Electoral"]);
     await userEvent.click(screen.getByRole("button", { name: "Fishing" }));
     expect(onSelect).toHaveBeenCalledWith("fishing");
 
@@ -84,10 +84,10 @@ describe("MapThemePicker", () => {
     );
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Explore Nova Scotia — Modified",
+      "Your changes",
     );
     await userEvent.click(
-      screen.getByRole("button", { name: "Reset current theme" }),
+      screen.getByRole("button", { name: "Reset setup" }),
     );
     expect(onReset).toHaveBeenCalledOnce();
   });
@@ -110,7 +110,7 @@ describe("MapThemePicker", () => {
       /Historical Maps — Partially applied.*Fletcher historical map.*Place Names.*Main Roads/i,
     );
     expect(
-      screen.getByRole("button", { name: "Reset current theme" }),
+      screen.getByRole("button", { name: "Reset setup" }),
     ).toBeInTheDocument();
   });
 
@@ -130,13 +130,13 @@ describe("MapThemePicker", () => {
     );
 
     expect(screen.getByLabelText("Change setup")).toHaveValue("custom-field-day");
-    expect(screen.getByRole("status")).toHaveTextContent("Field day — Modified");
+    expect(screen.getByRole("status")).toHaveTextContent("Your changes");
     expect(
-      within(screen.getByRole("group", { name: "Built-in themes" }))
+      within(screen.getByRole("group", { name: "Built-in setups" }))
         .getByRole("option", { name: "Explore Nova Scotia" }),
     ).toBeInTheDocument();
     expect(
-      within(screen.getByRole("group", { name: "My themes" }))
+      within(screen.getByRole("group", { name: "My setups" }))
         .getByRole("option", { name: "Field day" }),
     ).toBeInTheDocument();
 
@@ -162,7 +162,7 @@ describe("MapThemePicker", () => {
       />,
     );
     expect(screen.getByRole("button", { name: "Save setup…" })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Manage themes" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "My setups" })).not.toBeInTheDocument();
 
     rerender(
       <MapThemePicker
@@ -176,7 +176,7 @@ describe("MapThemePicker", () => {
         onReset={() => {}}
       />,
     );
-    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(screen.getByRole("button", { name: "My setups" }));
     expect(onManage).toHaveBeenCalledOnce();
   });
 
@@ -199,7 +199,7 @@ describe("MapThemePicker", () => {
     await userEvent.click(
       screen.getByRole("button", { name: "Save setup…" }),
     );
-    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(screen.getByRole("button", { name: "My setups" }));
     expect(onSave).toHaveBeenCalledOnce();
     expect(onManage).toHaveBeenCalledOnce();
     expect(screen.queryByRole("button", { name: /reset/i })).not.toBeInTheDocument();
@@ -218,7 +218,7 @@ describe("MapThemePicker", () => {
     );
 
     expect(
-      screen.getByRole("button", { name: "Reset current theme" }),
+      screen.getByRole("button", { name: "Reset setup" }),
     ).toBeInTheDocument();
   });
 
@@ -241,5 +241,24 @@ describe("MapThemePicker", () => {
       screen.getByRole("option", { name: "Shared setup" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent("Shared setup");
+  });
+
+  it("says what a chip does, and keeps one way back to Explore on other setups", async () => {
+    const onSelect = vi.fn();
+    const themes = [
+      { id: "explore-nova-scotia", name: "Explore Nova Scotia", kind: "built-in" },
+      { id: "fishing", name: "Fishing", kind: "built-in" },
+    ] as unknown as Parameters<typeof MapThemePicker>[0]["themes"];
+    const shared = { themes, status: "exact" as const, notice: null, onSelect, onSave: vi.fn(), onManage: vi.fn(), onReset: vi.fn() };
+    const { rerender } = render(<MapThemePicker {...shared} activeThemeId="explore-nova-scotia" layerSummary="2 layers on" />);
+    expect(screen.getByText("Open a setup for a task:")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Fishing" })).toHaveAttribute("title", "Open the Fishing setup");
+    expect(screen.getByRole("button", { name: "Fishing" })).not.toHaveAttribute("aria-pressed");
+    expect(screen.getByText("2 layers on")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Back to Explore" })).not.toBeInTheDocument();
+
+    rerender(<MapThemePicker {...shared} activeThemeId="fishing" />);
+    await userEvent.click(screen.getByRole("button", { name: "Back to Explore" }));
+    expect(onSelect).toHaveBeenCalledWith("explore-nova-scotia");
   });
 });

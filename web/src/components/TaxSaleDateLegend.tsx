@@ -34,8 +34,9 @@ export function TaxSaleDateDot({ band }: { band: TaxSaleDateBand }) {
 }
 
 /**
- * Legend for sale-date dot colours. Bands come from each notice's recorded
- * sale date and today's date in Atlantic time; counts are notices, not PIDs.
+ * Legend for sale-date dot colours. Bands come from each sale's recorded date
+ * and today's date in Atlantic time. It counts sales: one municipal sale holds
+ * many advertised notices, which the sale's own row counts.
  */
 export function TaxSaleDateLegend({
   events,
@@ -60,15 +61,15 @@ export function TaxSaleDateLegend({
               <TaxSaleDateDot band={band} />
               <span>{TAX_SALE_DATE_BAND_LABEL[band]}</span>
               <small>
-                {count === 1 ? "1 notice" : `${count} notices`}
+                {count === 1 ? "1 sale" : `${count} sales`}
               </small>
             </li>
           );
         })}
       </ul>
       <p>
-        Bands are relative to today’s date in Atlantic time, from the sale
-        date each notice records. Confirm dates with the municipality.
+        Bands are relative to today’s date in Atlantic time, from the date
+        each sale’s notice records. Confirm dates with the municipality.
       </p>
     </figure>
   );

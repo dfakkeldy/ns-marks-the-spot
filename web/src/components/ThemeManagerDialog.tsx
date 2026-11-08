@@ -12,15 +12,18 @@ interface ThemeManagerDialogProps {
   currentState: ThemeComparableState;
   preferredCategoryIds: readonly LayerCategoryId[];
   notice: string | null;
-  onSave: (name: string) => void;
-  onRename: (themeId: string, name: string) => void;
+  /** A name built from the setup and the date, ready to overtype. */
+  suggestedName?: string;
+  /** Each of these answers false when the browser could not keep the change. */
+  onSave: (name: string) => boolean | void;
+  onRename: (themeId: string, name: string) => boolean | void;
   onUpdate: (
     themeId: string,
     state: ThemeComparableState,
     preferredCategoryIds: readonly LayerCategoryId[],
-  ) => void;
-  onDuplicate: (themeId: string) => void;
-  onDelete: (themeId: string) => void;
+  ) => boolean | void;
+  onDuplicate: (themeId: string) => boolean | void;
+  onDelete: (themeId: string) => boolean | void;
   onClose: () => void;
 }
 
@@ -52,7 +55,7 @@ function ThemeManagerRow({
   const [name, setName] = useState(theme.name);
 
   return (
-    <li className="theme-manager-row" aria-label={`${theme.name} theme`}>
+    <li className="theme-manager-row" aria-label={`${theme.name} setup`}>
       <label>
         <span className="sr-only">Rename {theme.name}</span>
         <input
@@ -93,7 +96,7 @@ function ThemeManagerRow({
             Confirm delete
           </button>
           <button type="button" onClick={onCancelDelete}>
-            Keep theme
+            Keep setup
           </button>
         </div>
       ) : null}
@@ -119,6 +122,7 @@ export function ThemeManagerDialog({
   currentState,
   preferredCategoryIds,
   notice,
+  suggestedName = "",
   onSave,
   onRename,
   onUpdate,
@@ -126,7 +130,13 @@ export function ThemeManagerDialog({
   onDelete,
   onClose,
 }: ThemeManagerDialogProps) {
-  const [newThemeName, setNewThemeName] = useState("");
+  const [newThemeName, setNewThemeName] = useState(suggestedName);
+  // The receipt says where the setup went, until the next change replaces it.
+  const [receipt, setReceipt] = useState<string | null>(null);
+  const keep = (result: boolean | void, message: string) => {
+    setReceipt(result === false ? null : message);
+    return result !== false;
+  };
   const [deletePendingId, setDeletePendingId] = useState<string | null>(null);
   // The shared chrome captures the opener, moves focus in, keeps Tab inside
   // and gives focus back. This dialog did all of that except the Tab, so a
@@ -138,15 +148,17 @@ export function ThemeManagerDialog({
   );
 
   // The name field rather than the first control: this dialog is for making a
-  // theme, and typing a name is the first thing to do in it.
+  // setup. The suggested name starts selected, so typing replaces it and one
+  // tap on Save keeps it.
   useEffect(() => {
     nameInputRef.current?.focus();
+    nameInputRef.current?.select();
   }, []);
 
   const submitCurrentSetup = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const name = newThemeName.trim();
-    if (name) onSave(name);
+    if (name && keep(onSave(name), `Saved “${name}” in this browser.`)) setNewThemeName("");
   };
 
   return (
@@ -158,15 +170,20 @@ export function ThemeManagerDialog({
         aria-modal="true"
         aria-labelledby="theme-manager-title"
       >
-        <h2 id="theme-manager-title">My map themes</h2>
+        <h2 id="theme-manager-title">My setups</h2>
         {notice ? (
           <p className="theme-manager-notice" role="status" aria-live="polite">
             {notice}
           </p>
         ) : null}
+        {!notice && receipt ? (
+          <p className="theme-manager-receipt" role="status" aria-live="polite">
+            {receipt}
+          </p>
+        ) : null}
         <form id="theme-manager-save-form" className="theme-manager-save" onSubmit={submitCurrentSetup}>
           <label>
-            Theme name
+            Setup name
             <input
               ref={nameInputRef}
               value={newThemeName}
@@ -174,9 +191,8 @@ export function ThemeManagerDialog({
             />
           </label>
           <small id="theme-manager-save-hint" className="theme-manager-hint">
-            {newThemeName.trim() ? "Saves the layers, opacity and mode on the map now." : "Name it to save it."}
+            {newThemeName.trim() ? `Saves ${savePreview(currentState)}, in this browser only.` : "Name it to save it."}
           </small>
-          <small className="theme-manager-preview">Saves: {savePreview(currentState)}</small>
         </form>
 
         {customThemes.length > 0 ? (
@@ -188,26 +204,26 @@ export function ThemeManagerDialog({
                 currentState={currentState}
                 preferredCategoryIds={preferredCategoryIds}
                 deletePending={deletePendingId === theme.id}
-                onRename={onRename}
-                onUpdate={onUpdate}
-                onDuplicate={onDuplicate}
+                onRename={(themeId, name) => keep(onRename(themeId, name), `Renamed “${name.trim()}” in this browser.`)}
+                onUpdate={(themeId, state, categories) => keep(onUpdate(themeId, state, categories), `Updated “${theme.name}” in this browser.`)}
+                onDuplicate={(themeId) => keep(onDuplicate(themeId), `Copied “${theme.name}” in this browser.`)}
                 onRequestDelete={setDeletePendingId}
                 onCancelDelete={() => setDeletePendingId(null)}
                 onDelete={(themeId) => {
-                  onDelete(themeId);
+                  keep(onDelete(themeId), `Deleted “${theme.name}” from this browser.`);
                   setDeletePendingId(null);
                 }}
               />
             ))}
           </ul>
         ) : (
-          <p className="theme-manager-empty">No saved themes yet. Saved themes appear here to rename, update, copy or delete.</p>
+          <p className="theme-manager-empty">No saved setups yet. Saved setups appear here to rename, update, copy or delete.</p>
         )}
 
         {/* Save sits in the footer beside Done, so on a phone it stays in
-            reach however long the list of saved themes grows. */}
+            reach however long the list of saved setups grows. */}
         <div className="theme-manager-footer">
-          <button type="submit" form="theme-manager-save-form" disabled={!newThemeName.trim()} aria-describedby="theme-manager-save-hint">
+          <button type="submit" form="theme-manager-save-form" className="theme-manager-save-action" disabled={!newThemeName.trim()} aria-describedby="theme-manager-save-hint">
             Save current setup
           </button>
           <button type="button" onClick={onClose}>

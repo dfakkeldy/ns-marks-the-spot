@@ -1,6 +1,7 @@
 .terrain-range { display: block; margin: 18px 0; font-size: 12px; line-height: 1.7; }
 .terrain-range output { float: right; font-variant-numeric: tabular-nums; }
 .terrain-range input { display: block; width: 100%; margin: 10px 0 0; accent-color: #244e4b; }
+.terrain-range-ends { display: flex; justify-content: space-between; color: var(--muted, #667); font-size: 11px; line-height: 1.3; }
 .terrain-water-key { display: flex; align-items: center; gap: 7px; min-height: 42px; font-size: 12px; }
 .terrain-water-key i { flex: none; width: 20px; height: 3px; background: #087aab; outline: 2px solid #d6edf0; }
 .terrain-water-key span { display: grid; gap: 1px; line-height: 1.3; }
@@ -26,3 +27,6 @@
 @media (min-width: 701px) {
   .terrain-study .atlas-sidebar::after { content: ''; position: sticky; bottom: 0; display: block; height: 24px; margin: 0 -23px -20px; background: linear-gradient(to bottom, transparent, var(--paper)); pointer-events: none; }
 }
+
+/* The credit on the same stock as the sheet plaque. */
+.terrain-study .maplibregl-ctrl-attrib { background: #fbf6ea; color: #24383a; }

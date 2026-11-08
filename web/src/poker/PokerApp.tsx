@@ -223,7 +223,7 @@ export function PokerApp() {
     <h1 className="sr-only">Poker — Judique, Port Hood and Mabou</h1>
     <button className="poker-options" aria-label="Map options" aria-haspopup="dialog" onClick={() => setOptionsOpen(true)}>
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-      <span className={`poker-status-dot${!online ? ' is-offline' : ''}`} aria-hidden="true" />
+      {!online && <span className="poker-status-dot is-offline" aria-hidden="true" title="Offline" />}
     </button>
     <section className="poker-searchbar" aria-label="Find an address">
       <input ref={inputRef} type="search" aria-label="Search civic address" placeholder="Civic number, road or postal code" value={state.query}
@@ -252,7 +252,10 @@ export function PokerApp() {
     </section>
     <section className="poker-measurement" aria-label="Driveway measurement">
       <div className="poker-readout sr-only" role="status"><strong>{state.points.length > 1 ? `${metres.toFixed(1)} m` : 'House → route'}</strong><span>{deliveryStatus(metres, state.finished, state.points.length)}</span></div>
-      <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={finishTrace}>Finish</button><button disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button><button aria-label="Clear trace" disabled={!state.points.length} onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear</button></div>
+      {/* The route tools arrive with the route; until then, the one thing to do first. */}
+      {state.points.length
+        ? <div className="poker-measure-actions"><button disabled={state.points.length < 2 || state.finished} onClick={finishTrace}>Finish</button><button aria-label="Clear trace" onClick={() => setState(s => ({ ...s, points: [], finished: false }))}>Clear</button><button onClick={() => setState(s => ({ ...s, points: s.points.slice(0,-1), finished: false }))}>Undo point</button></div>
+        : <p className="poker-start-hint">Search an address, or zoom in and tap the house to start a trace.</p>}
     </section>
     <footer className="poker-footer">{!online && <span>Offline · Atlas</span>}<button className="poker-licences" onClick={() => setHelp(true)}>Show licences</button></footer>
     {optionsOpen && <dialog className="poker-modal poker-settings" ref={node => { if (node && !node.open) node.showModal(); }} onCancel={() => setOptionsOpen(false)} aria-labelledby="poker-options-title">
@@ -277,7 +280,7 @@ export function PokerApp() {
       <p>Return to <strong>kinnokilabs.com/poker</strong>. This browser remembers your search, map position and current trace. Selecting a different address starts a new trace. Nothing is uploaded.</p>
       <p>Open <strong>Map options</strong> and tap <strong>Save offline</strong> while connected. Then use your browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. Each browser or installed copy saves its own session. Clearing website data removes downloads and the saved trace.</p>
       <p>While online, Poker checks for a newer version and downloads it in the background. When it is ready, <strong>Poker updated</strong> appears at the top of the map; tap <strong>Reload</strong> to use it. Your address, map view and trace are kept.</p>
-      <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it.</p>
+      <p>The offline pack includes the app, civic numbers and a bounded Atlas road map with mapped buildings and water. Aerial imagery needs internet and is not downloaded. If a driveway is not mapped, use aerial imagery online before tracing it. Past the saved area the map is plain paper with straight edges: that is where the extract ends, not land or sea.</p>
       <p><strong>Use my location</strong> below zoom asks your browser for a fresh position. The blue dot and circle show the last reading and its reported accuracy. Tap again to update it; this does not follow you or change your trace. Location stays in this browser and can work offline if your device can get a position.</p>
       <p>Typing a leading civic number such as 544 also suggests longer matching addresses, including 5447.</p>
       <p>{data?.addresses.length.toLocaleString()} postal records from June 2026; {data?.addresses.filter(a => !a.civic).length} have no unique verified provincial civic point. Those open at their Statistics Canada building coordinate with a dashed ring, and the ones with no provincial civic point on their road at all are labelled in blue as postal points. Provincial civic addresses missing from that list are also searchable, with their postal codes marked unverified. Postal-area filters also show those regional civic addresses; they do not establish a delivery route. Missing records are not evidence that an address does not exist. This is address lookup, not resident or owner lookup.</p>

@@ -292,6 +292,28 @@
   .rhodena-hero {
     margin-top: -12px;
   }
+
+  /* The first view of the half-height sheet holds the claim and the action:
+     a shorter band of the ridge, then the actions before the figures. */
+  .rhodena-hero-art {
+    aspect-ratio: 360 / 104;
+  }
+
+  .rhodena-hero-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rhodena-hero-actions {
+    order: 1;
+    margin-top: 2px;
+    margin-bottom: 14px;
+  }
+
+  .rhodena-hero-facts,
+  .rhodena-hero-status {
+    order: 2;
+  }
 }
 
 @media (max-width: 560px) {
@@ -357,4 +379,12 @@
 .rhodena-focus .layer-rail > .pid-search {
   padding-top: 16px;
   border-top: 1px solid var(--line);
+}
+
+/* The map key hangs under the 3D and Map/Aerial controls on this page. */
+@media (min-width: 861px) {
+  .rhodena-focus .setup-key {
+    top: 116px;
+    max-height: calc(100% - 140px);
+  }
 }

@@ -16,8 +16,8 @@ import {
 
 export const CUSTOM_THEME_STORAGE_KEY = "ns-marks-the-spot:custom-themes";
 
-const THEME_LIBRARY_LOAD_WARNING = "Your custom-theme library could not be loaded.";
-const THEME_LIBRARY_SAVE_WARNING = "Your custom themes could not be saved in this browser.";
+const THEME_LIBRARY_LOAD_WARNING = "Your saved setups could not be loaded.";
+const THEME_LIBRARY_SAVE_WARNING = "Your setups could not be saved in this browser.";
 const CUSTOM_THEME_DESCRIPTION = "A custom map theme.";
 
 interface StoredCustomThemeV1 {
@@ -68,7 +68,7 @@ function assertThemeId(id: string): void {
 function assertThemeName(name: string): string {
   const normalizedName = name.trim();
   if (!normalizedName) {
-    throw new Error("Custom theme name is required.");
+    throw new Error("A setup name is required.");
   }
   return normalizedName;
 }
@@ -156,7 +156,7 @@ function toStoredTheme(theme: MapThemeDefinition): StoredCustomThemeV1 {
 function restorationWarning(messages: readonly string[]): string | null {
   return messages.length === 0
     ? null
-    : `Some saved custom-theme details could not be restored: ${messages.join("; ")}.`;
+    : `Some saved setup details could not be restored: ${messages.join("; ")}.`;
 }
 
 function parseStoredTheme(
@@ -313,7 +313,7 @@ export function saveCustomThemes(
     assertCustomThemes(themes);
   } catch (error) {
     if (error instanceof Error && error.message === "Built-in themes are not accepted by the custom-theme repository.") {
-      return { ok: false, message: "Only custom themes can be saved in this browser." };
+      return { ok: false, message: "Only your own setups can be saved in this browser." };
     }
     return { ok: false, message: THEME_LIBRARY_SAVE_WARNING };
   }
