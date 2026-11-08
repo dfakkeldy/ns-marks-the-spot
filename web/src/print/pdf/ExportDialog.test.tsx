@@ -176,6 +176,14 @@ describe("ExportDialog", () => {
     expect(onBack).toHaveBeenCalledTimes(1);
   });
 
+  it("hands back only what was typed, so a default is never carried to the next export", async () => {
+    const onFieldsChange = vi.fn();
+    renderDialog({ onFieldsChange, defaultTitle: "Parcel 123" });
+    expect(onFieldsChange).toHaveBeenLastCalledWith(null);
+    await userEvent.type(screen.getByLabelText("Notes"), "n");
+    expect(onFieldsChange).toHaveBeenLastCalledWith({ notes: "n" });
+  });
+
   it("shows the page being made, with its title live", async () => {
     renderDialog();
     expect(screen.getByRole("img", { name: /Page layout/ })).toBeInTheDocument();

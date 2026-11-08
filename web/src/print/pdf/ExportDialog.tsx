@@ -26,9 +26,12 @@ export type ExportFields = { title: string; subtitle: string; notes: string };
 export type ExportDialogProps = {
   /** Returns to the frame on the map, with the frame as it was left. */
   onBack?: () => void;
-  initialFields?: ExportFields | null;
-  /** The typed fields as they change; null once the PDF has been saved. */
-  onFieldsChange?: (fields: ExportFields | null) => void;
+  initialFields?: Partial<ExportFields> | null;
+  /**
+   * Only what the person typed, so a default such as "Parcel 123" is never
+   * carried to the next export. Null when nothing differs, or once saved.
+   */
+  onFieldsChange?: (fields: Partial<ExportFields> | null) => void;
   /** Mode-aware default; the field stays editable. */
   defaultSubtitle?: string;
   orientation: PdfTemplateId;
@@ -120,12 +123,19 @@ export function ExportDialog(props: ExportDialogProps) {
     [template],
   );
   const [title, setTitle] = useState(props.initialFields?.title ?? props.defaultTitle);
-  const [subtitle, setSubtitle] = useState(
-    props.initialFields?.subtitle ?? props.defaultSubtitle ?? "NS Marks The Spot map export",
-  );
+  const fallbackSubtitle = props.defaultSubtitle ?? "NS Marks The Spot map export";
+  const [subtitle, setSubtitle] = useState(props.initialFields?.subtitle ?? fallbackSubtitle);
   const [notes, setNotes] = useState(props.initialFields?.notes ?? "");
   const onFieldsChange = props.onFieldsChange;
-  useEffect(() => onFieldsChange?.({ title, subtitle, notes }), [title, subtitle, notes, onFieldsChange]);
+  const defaultTitle = props.defaultTitle;
+  useEffect(() => {
+    const edited: Partial<ExportFields> = {
+      ...(title !== defaultTitle ? { title } : {}),
+      ...(subtitle !== fallbackSubtitle ? { subtitle } : {}),
+      ...(notes ? { notes } : {}),
+    };
+    onFieldsChange?.(Object.keys(edited).length > 0 ? edited : null);
+  }, [title, subtitle, notes, defaultTitle, fallbackSubtitle, onFieldsChange]);
   const [legendOn, setLegendOn] = useState(true);
   const [phase, setPhase] = useState<Phase>({ stage: "idle" });
 

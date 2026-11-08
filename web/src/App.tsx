@@ -2446,7 +2446,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const [exportSession, setExportSession] =
     useState<GeoPdfExportSession | null>(null);
   // Typed words survive going back to the frame, or a Cancel and a return.
-  const exportDraft = useRef<ExportFields | null>(null);
+  const exportDraft = useRef<Partial<ExportFields> | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
   const addressSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
@@ -4892,6 +4892,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // are already excluded from the export by the same mechanism that excludes
   // them from `captureLayerIds` — they are only visible, and therefore only
   // composited, once the licence is accepted.
+  // Words typed for one parcel or setup do not belong on the next one's sheet.
+  useEffect(() => { exportDraft.current = null; }, [selectedPid, selectedThemeId]);
   // NS Aerial below its zoom floor draws the Atlas under it (MapCanvas's
   // AerialGapUnderlay), so it needs the Atlas credit too.
   const atlasCreditVisible = (showModernMap || Boolean(provinceLayers["ns-aerial"])) && basemapStyle !== "osm";

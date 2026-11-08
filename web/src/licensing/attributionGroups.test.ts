@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { PROVINCIAL_ATTRIBUTION } from "../atlas/provincial";
 import { contextLayerCatalog } from "../layers/contextLayerCatalog";
 import { COASTAL_HAZARD_NOTICES } from "../layers/layerCatalog";
 import { groupAttributions, OPEN_LICENCE_NOVA_SCOTIA } from "./attributionGroups";
@@ -46,6 +47,10 @@ describe("groupAttributions", () => {
   it("leaves an unrecognised credit whole, and only drops an exact repeat", () => {
     const eox = "EOxCloudless — https://cloudless.eox.at by EOX IT Services GmbH · CC BY 4.0";
     expect(groupAttributions([eox, eox]).other).toEqual([eox]);
+  });
+
+  it("heads the Atlas credit with the sentence the Atlas receipt itself states", () => {
+    expect(groupAttributions([PROVINCIAL_ATTRIBUTION]).groups[0].licence).toBe(OPEN_LICENCE_NOVA_SCOTIA);
   });
 
   it("keeps a licence heading asked for when no plain-text credit names it", () => {
