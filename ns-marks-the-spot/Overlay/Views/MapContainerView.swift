@@ -3121,9 +3121,15 @@ struct MapContainerView: View {
     /// The single path by which a measurement changes: mutate it, then redraw.
     private func updateMeasure(_ change: (inout MeasureSession) -> Void) {
         guard var session = measure else { return }
+        #if DEBUG
+        let countBefore = session.points.count
+        #endif
         change(&session)
         measure = session
         pushMeasureShape()
+        #if DEBUG
+        MapTapTrace.record("measure count \(countBefore)->\(session.points.count) readout=\(session.readout)")
+        #endif
     }
 
     /// Draws the measured shape with the drawing tool's rubber band. Same

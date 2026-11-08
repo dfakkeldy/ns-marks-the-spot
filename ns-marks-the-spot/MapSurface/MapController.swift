@@ -1979,13 +1979,22 @@ final class MapController: NSObject {
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+        #if DEBUG
+        MapTapTrace.record(
+            "identify action state=\(recognizer.state.rawValue) point=\(recognizer.location(in: recognizer.view))"
+        )
+        #endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
         let coordinate = mapView.convert(
             recognizer.location(in: mapView), toCoordinateFrom: mapView
         )
         guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+        #if BASELINE_GUARD || DELEGATE_GUARD
+        events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        #else
         holdTap(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        #endif
     }
 
     /// How long a tap on the map waits to see whether a second tap follows.
@@ -2022,6 +2031,9 @@ final class MapController: NSObject {
     /// follows a tap for a one-handed zoom, and the held tap never happened.
     /// Any other touch means the held tap stood alone, and it needn't wait.
     func settleHeldTap(byTouchWithTapCount tapCount: Int) {
+        #if DEBUG
+        if heldTap != nil { MapTapTrace.record("settle held tap tapCount=\(tapCount)") }
+        #endif
         if tapCount > 1 {
             heldTapTimer?.cancel()
             heldTapTimer = nil
@@ -2137,6 +2149,13 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        #if DEBUG
+        MapTapTrace.record(String(
+            format: "region latDelta=%.6f lat=%.6f lng=%.6f animated=%@",
+            mapView.region.span.latitudeDelta, mapView.region.center.latitude,
+            mapView.region.center.longitude, animated ? "true" : "false"
+        ))
+        #endif
         guard mapView === self.mapView else { return }
         applyPendingCenterIfPossible()
         startFollowingIfArmed()
@@ -2913,11 +2932,26 @@ extension MapController: UIGestureRecognizerDelegate {
     /// Judged where the touch began, not where the finger is when the press
     /// matures: a drag that started on a handle and crept off it before the
     /// press timer fired is the handle's, and must not become a placement.
+    #if DELEGATE_GUARD
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        guard gestureRecognizer.name == Self.identifyTapName,
+              let mapView = gestureRecognizer.view,
+              let tap = otherGestureRecognizer as? UITapGestureRecognizer,
+              tap.view?.isDescendant(of: mapView) == true else { return false }
+        return tap.numberOfTapsRequired > 1 && tap.numberOfTouchesRequired == 1
+    }
+    #endif
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        #if !(BASELINE_GUARD || DELEGATE_GUARD)
         if gestureRecognizer.name == Self.identifyTapName {
             settleHeldTap(byTouchWithTapCount: touch.tapCount)
             return true
         }
+        #endif
         guard gestureRecognizer.name == Self.placeLongPressName else { return true }
         return Self.longPressMayBegin(over: touch.view)
     }
