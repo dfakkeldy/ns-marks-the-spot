@@ -48,7 +48,7 @@ public enum AtlasRaster {
     /// Changing this is a release of new tiles, and the build's `source.json`
     /// receipt under the same prefix names the archive, style commit and
     /// renderer they were made from.
-    public static let tileRevision = "atlas-raster-20260907.1"
+    public static let tileRevision = "atlas-raster-20261107.1"
 
     /// The directory every revision sits under, beside the Fletcher sheets.
     public static let packageDirectory = "atlas-raster"

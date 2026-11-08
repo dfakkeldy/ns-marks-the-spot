@@ -70,8 +70,10 @@ if [ "$receipt_zooms" != "5-13" ]; then
 fi
 
 expected_objects=$(find "$SRC" -type f | wc -l | tr -d ' ')
-expected_bytes=$(find "$SRC" -type f -exec stat -f %z {} + 2>/dev/null | awk '{t+=$1} END {print t}')
-[ -n "$expected_bytes" ] || expected_bytes=$(find "$SRC" -type f -printf '%s\n' | awk '{t+=$1} END {print t}')
+# File size in bytes: GNU stat (Linux) takes -c %s, BSD stat (macOS) -f %z.
+# Probe once; on Linux `stat -f` is filesystem status and prints no file size.
+if stat -c %s "$SRC/source.json" >/dev/null 2>&1; then STAT_SIZE=(stat -c %s); else STAT_SIZE=(stat -f %z); fi
+expected_bytes=$(find "$SRC" -type f -exec "${STAT_SIZE[@]}" {} + | awk '{t+=$1} END {print t}')
 
 echo "revision : $REVISION"
 echo "package  : $SRC"
@@ -125,7 +127,7 @@ done
 for style in day night fletcher; do
   tmp=$(mktemp)
   code=$(curl -s -o "$tmp" -w '%{http_code}' "$base/$style/13/2696/2918.webp")
-  size=$(stat -f %z "$tmp" 2>/dev/null || stat -c %s "$tmp")
+  size=$("${STAT_SIZE[@]}" "$tmp")
   echo "$style/13/2696/2918.webp -> HTTP $code, $size bytes"
   [ "$code" = "200" ] && [ "$size" -gt 1000 ] || ok=0
   rm -f "$tmp"

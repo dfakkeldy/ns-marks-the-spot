@@ -86,7 +86,7 @@ atlas detail is in [web/README.md](web/README.md). The iOS app opens on the
 same Atlas and offers Day, Night and Fletcher, drawn from raster tiles that
 `web/scripts/atlasRaster` renders with the web's own MapLibre build from the
 same style, glyphs, sprite and provincial archive (revision
-`atlas-raster-20260907.1` on `https://tiles.kinnokilabs.com`; an empty
+`atlas-raster-20261107.1` on `https://tiles.kinnokilabs.com`; an empty
 `ATLAS_TILE_BASE_URL` override removes the Atlas entries and opens on
 OpenStreetMap). Closer zooms magnify the deepest rendered level rather than
 adding detail, and the supplemental OpenStreetMap context in those tiles is as
