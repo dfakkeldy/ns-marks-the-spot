@@ -26,6 +26,37 @@ enum UITestTouchLedger {
     private static var open: [ObjectIdentifier: OpenTouch] = [:]
     private static var isInstalled = false
 
+    // EXPERIMENT — not for merge. Faults for the controls, by launch environment.
+    private static let environment = ProcessInfo.processInfo.environment
+    /// Every nth touch is cancelled by the app itself: not a system cancel.
+    private static let appCancelEvery = environment["UITEST_APP_CANCEL_EVERY"].flatMap(Int.init)
+    /// Every nth touch is cancelled and classified as a system cancel.
+    private static let forcedSystemCancelEvery = environment["UITEST_FORCED_SYSTEM_CANCEL_EVERY"].flatMap(Int.init)
+    /// Every nth identify tap is ignored though its touch ended.
+    private static let ignoreIdentifyEvery = environment["UITEST_IGNORE_IDENTIFY_EVERY"].flatMap(Int.init)
+    private static var identifyTaps = 0
+    private static var injectedCancelPending = false
+
+    static func shouldIgnoreIdentifyTap() -> Bool {
+        guard let every = ignoreIdentifyEvery else { return false }
+        identifyTaps += 1
+        return identifyTaps % every == 0
+    }
+
+    private static func injectCancelIfDue() {
+        guard let every = appCancelEvery ?? forcedSystemCancelEvery, began % every == 0 else { return }
+        DispatchQueue.main.async {
+            MainActor.assumeIsolated {
+                let selector = NSSelectorFromString("_cancelAllTouches")
+                let responds = UIApplication.shared.responds(to: selector)
+                print("LEDGER_INJECT cancel began=\(began) responds=\(responds)")
+                MapTapTrace.record("ledger injected cancel began=\(began) responds=\(responds)")
+                injectedCancelPending = true
+                if responds { _ = UIApplication.shared.perform(selector) }
+            }
+        }
+    }
+
     private struct OpenTouch {
         weak var view: UIView?
         let downAt: TimeInterval
@@ -74,6 +105,7 @@ enum UITestTouchLedger {
             case .began:
                 began += 1
                 open[id] = OpenTouch(view: touch.view, downAt: touch.timestamp)
+                injectCancelIfDue()
             case .ended:
                 guard open.removeValue(forKey: id) != nil else { continue }
                 ended += 1
@@ -97,7 +129,9 @@ enum UITestTouchLedger {
             String(describing: type(of: $0)) == "_UISystemGestureGateGestureRecognizer"
                 && $0.state == .recognized
         }
-        let isSystem = isSystemCancel(
+        let forced = injectedCancelPending && forcedSystemCancelEvery != nil
+        injectedCancelPending = false
+        let isSystem = forced || isSystemCancel(
             appIsActive: appIsActive,
             windowIsKey: windowIsKey,
             viewIsInWindow: viewIsInWindow,
@@ -122,6 +156,10 @@ enum UITestTouchLedger {
             + "systemCancelled=\(systemCancelled) otherCancelled=\(otherCancelled)"
         if let lastCancel { summary += "\n\(lastCancel)" }
         UIApplication.shared.accessibilityValue = summary
+        // EXPERIMENT — not for merge. A second carrier, for the carrier probe.
+        for scene in UIApplication.shared.connectedScenes {
+            (scene as? UIWindowScene)?.windows.forEach { $0.accessibilityValue = summary }
+        }
     }
 }
 
