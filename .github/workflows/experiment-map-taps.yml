@@ -1,7 +1,9 @@
-# EXPERIMENT — not for merge (grok-bots#937). Repeats the map-tap probes and
-# the three flaky MapChromeUITests on a hosted runner, once quiet and once
-# under CPU load, with no retries. Prints every probe that did nothing with
-# the app's trace, and keeps the unified-log trace and the result bundles.
+# EXPERIMENT — not for merge (grok-bots#937). A long soak of the three flaky
+# MapChromeUITests on hosted runners, four shards in parallel, with no
+# retries. Every failure prints the app's trace (gesture decisions and every
+# touch the process received); a watchdog records the app's CPU each second
+# and samples its stacks whenever it spins, because each failed CI run was
+# slow only inside the failing test's app instance.
 name: "[experiment] map tap flakes"
 
 on:
@@ -18,18 +20,14 @@ env:
   DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
 
 jobs:
-  probe:
-    name: "Map taps (${{ matrix.load }} load)"
+  soak:
+    name: "Soak shard ${{ matrix.shard }}"
     runs-on: macos-26
-    timeout-minutes: 240
+    timeout-minutes: 300
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - load: memory
-            iterations: 20
-          - load: io
-            iterations: 20
+        shard: [1, 2, 3, 4]
 
     steps:
       - name: Check out repository
@@ -77,69 +75,14 @@ jobs:
             python3 .github/scripts/resolve-ios-test-destination.py
           )"
           echo "destination=$destination" >> "$GITHUB_OUTPUT"
-          sysctl -n hw.ncpu hw.memsize
 
-      # Failed CI runs spent 2-20 s on single accessibility queries; CPU load
-      # alone did not slow this runner at all (run 42430153346). Memory
-      # pressure (swapping) and disk contention are the next suspects.
-      - name: Start memory load
-        if: matrix.load == 'memory'
+      - name: Start the CPU watchdog
         run: |
-          cat > "$RUNNER_TEMP/hog.py" <<'EOF'
-          import os, time
-          block = os.urandom(64 * 1024 * 1024)
-          buf = bytearray(block) * 56
-          print(f"holding {len(buf) / 1024**3:.1f} GB", flush=True)
-          while True:
-              for i in range(0, len(buf), 16384):
-                  buf[i] ^= 1
-              time.sleep(0.5)
-          EOF
-          nohup python3 -I "$RUNNER_TEMP/hog.py" > "$RUNNER_TEMP/hog.log" 2>&1 &
-          sleep 20
-          cat "$RUNNER_TEMP/hog.log"; sysctl vm.swapusage; uptime
+          nohup bash .github/experiment/watchdog.sh "$RUNNER_TEMP/watch" > /dev/null 2>&1 &
+          sleep 2
+          pgrep -f watchdog.sh
 
-      - name: Start disk load
-        if: matrix.load == 'io'
-        run: |
-          cat > "$RUNNER_TEMP/io.sh" <<'EOF'
-          while true; do
-            dd if=/dev/urandom of="$RUNNER_TEMP/io.bin" bs=1m count=1024 2>/dev/null
-            sync
-            cat "$RUNNER_TEMP/io.bin" > /dev/null
-            rm -f "$RUNNER_TEMP/io.bin"
-          done
-          EOF
-          RUNNER_TEMP="$RUNNER_TEMP" nohup bash "$RUNNER_TEMP/io.sh" > /dev/null 2>&1 &
-          sleep 20
-          uptime; ps -axo pid,pcpu,comm | sort -k2 -nr | head -5
-
-      - name: Probes (one launch each)
-        continue-on-error: true
-        run: |
-          set -o pipefail
-          xcodebuild test-without-building \
-            -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -destination "${{ steps.test-simulator.outputs.destination }}" \
-            -derivedDataPath "$DERIVED_DATA_PATH" \
-            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests \
-            -parallel-testing-enabled NO \
-            -resultBundlePath "$RUNNER_TEMP/probe.xcresult" \
-            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/probe.log"
-
-      - name: Probe tally
-        if: always()
-        run: |
-          uptime; sysctl vm.swapusage
-          grep -E "Test Case .*(passed|failed) \(" "$RUNNER_TEMP/probe.log" || true
-          echo "PROBE_TALLY_BEGIN (${{ matrix.load }} load)"
-          awk '/PROBE_SUMMARY_BEGIN/,/PROBE_SUMMARY_END/' "$RUNNER_TEMP/probe.log" | grep -v PROBE_SUMMARY || true
-          echo "PROBE_TALLY_END"
-          awk '/PROBE_TRACE_BEGIN/,/PROBE_TRACE_END/' "$RUNNER_TEMP/probe.log" || true
-          grep -E "PROBE_GEOMETRY|error: -\[" "$RUNNER_TEMP/probe.log" || true
-
-      - name: Flaky tests x${{ matrix.iterations }}
+      - name: Flaky tests x60
         continue-on-error: true
         run: |
           set -o pipefail
@@ -151,57 +94,32 @@ jobs:
             -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testTappingTheMapClosesTheLayersPanel \
             -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testMeasuringReportsADistanceForTapsOnTheMap \
             -only-testing:ns-marks-the-spotUITests/MapChromeUITests/testTheMapOpensOnTheAtlasAndTheCreditFollowsTheGround \
-            -test-iterations ${{ matrix.iterations }} \
+            -test-iterations 60 \
             -parallel-testing-enabled NO \
             -resultBundlePath "$RUNNER_TEMP/iterations.xcresult" \
             CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/iterations.log"
 
-      - name: Flaky tests tally
+      - name: Tally
         if: always()
         run: |
-          uptime; sysctl vm.swapusage
-          echo "ITERATIONS_BEGIN (${{ matrix.load }} load)"
+          pkill -f watchdog.sh || true
+          echo "ITERATIONS_BEGIN (shard ${{ matrix.shard }})"
           grep -E "^Test Case '-\[ns_marks_the_spotUITests\.MapChromeUITests test" "$RUNNER_TEMP/iterations.log" \
+            | grep -E "(passed|failed) \(" \
             | sed -E "s/.*MapChromeUITests (test[A-Za-z]+)\]' (passed|failed).*/\1 \2/" | sort | uniq -c || true
           grep -E "error: -\[" "$RUNNER_TEMP/iterations.log" | sed -E 's/.*\] : //' | sort | uniq -c || true
           echo "ITERATIONS_END"
+          echo "CPU_HOT_SECONDS (>=85%): $(awk '$3+0 >= 85' "$RUNNER_TEMP/watch/cpu.log" | wc -l) of $(wc -l < "$RUNNER_TEMP/watch/cpu.log")"
+          ls -la "$RUNNER_TEMP/watch/samples" || true
 
-      - name: Stop the load
-        if: always()
-        run: |
-          pkill -f hog.py || true
-          pkill -f io.sh || true
-          pkill dd || true
-
-      - name: Dump the app's unified-log trace
-        if: always()
-        run: |
-          udid="$(xcrun simctl list devices -j | python3 -I -c '
-          import json, sys
-          name, os_version = sys.argv[1], sys.argv[2]
-          for runtime, devices in json.load(sys.stdin)["devices"].items():
-              if runtime.endswith("iOS-" + os_version.replace(".", "-")):
-                  for device in devices:
-                      if device["name"] == name:
-                          print(device["udid"])
-          ' "$(echo '${{ steps.test-simulator.outputs.destination }}' | sed -E 's/.*name=([^,]+),.*/\1/')" \
-            "$(echo '${{ steps.test-simulator.outputs.destination }}' | sed -E 's/.*OS=//')" | head -1)"
-          echo "simulator $udid"
-          xcrun simctl boot "$udid" || true
-          xcrun simctl spawn "$udid" log show --style compact --last 6h \
-            --predicate 'subsystem == "nsmts.maptaptrace"' > "$RUNNER_TEMP/trace-log.txt" 2>&1 || true
-          wc -l "$RUNNER_TEMP/trace-log.txt" || true
-
-      - name: Keep logs and result bundles
+      - name: Keep logs, CPU record, samples and result bundle
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: map-taps-${{ matrix.load }}-load
+          name: soak-shard-${{ matrix.shard }}
           path: |
-            ${{ runner.temp }}/probe.log
             ${{ runner.temp }}/iterations.log
-            ${{ runner.temp }}/trace-log.txt
-            ${{ runner.temp }}/probe.xcresult
+            ${{ runner.temp }}/watch
             ${{ runner.temp }}/iterations.xcresult
           retention-days: 7
           if-no-files-found: ignore
