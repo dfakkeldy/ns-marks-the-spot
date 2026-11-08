@@ -2103,17 +2103,6 @@ describe("NS Marks The Spot Online", () => {
 
     try {
       await store.saveVectorLayer(shore.record, shore.collection);
-      // The next write is the new layer's: held until the test lets it land.
-      const save = vi.spyOn(UserVectorStore.prototype, "saveVectorLayer");
-      restoreSave = () => save.mockRestore();
-      save.mockImplementationOnce(async function (
-          this: UserVectorStore,
-          ...args: Parameters<UserVectorStore["saveVectorLayer"]>
-        ) {
-        createdId = args[0].id;
-        await created.promise;
-        return originalSave.apply(this, args);
-      });
       const answers = holdPhotoAttaches();
       render(<App />);
       const myMaps = openLayerCategory("My Maps");
@@ -2125,6 +2114,18 @@ describe("NS Marks The Spot Online", () => {
       });
       fireEvent.click(screen.getByTestId("select-vector-feature-fixture"));
 
+      // Installed only now, so the write it holds is the new layer's: held
+      // until the test lets it land.
+      const save = vi.spyOn(UserVectorStore.prototype, "saveVectorLayer");
+      restoreSave = () => save.mockRestore();
+      save.mockImplementationOnce(async function (
+        this: UserVectorStore,
+        ...args: Parameters<UserVectorStore["saveVectorLayer"]>
+      ) {
+        createdId = args[0].id;
+        await created.promise;
+        return originalSave.apply(this, args);
+      });
       await userEvent.click(
         within(myMaps).getByRole("button", { name: "New drawing layer" }),
       );
