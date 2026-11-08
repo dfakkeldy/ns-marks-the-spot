@@ -141,6 +141,29 @@ final class SystemCancelRetryTests: XCTestCase {
         XCTAssertTrue(TouchLedger(began: 6, ended: 5).hasFinishedTouches(since: lost))
     }
 
+    /// A touch the app saw begin and never saw end turns off repeats only until
+    /// the app counts it lost, not for the rest of the launch.
+    @MainActor
+    func testATouchCountedLostNoLongerMakesLaterCancelsAmbiguous() {
+        let stillOpen = TouchLedger(began: 5, ended: 4)
+        XCTAssertTrue(stillOpen.hasOpenTouch)
+        let counted = TouchLedger(began: 6, ended: 5, lost: 1)
+        XCTAssertFalse(counted.hasOpenTouch)
+        let cancelled = TouchLedger(began: 7, ended: 5, systemCancelled: 1, lost: 1)
+        let run = play([counted, cancelled, cancelled, TouchLedger(began: 8, ended: 6, systemCancelled: 1, lost: 1)])
+        XCTAssertEqual(run.gestures, 2)
+    }
+
+    /// The tap during which the loss is counted read the touch as open before it
+    /// began, so its cancel could still be the lost touch's. It is not repeated.
+    @MainActor
+    func testTheTapDuringWhichATouchIsCountedLostIsNotRepeated() {
+        let stillOpen = TouchLedger(began: 5, ended: 4)
+        let run = play([stillOpen, TouchLedger(began: 6, ended: 4, systemCancelled: 1, lost: 1)])
+        XCTAssertEqual(run.gestures, 1)
+        XCTAssertTrue(run.logs[0].hasPrefix("cancelled while an earlier touch was open"), run.logs[0])
+    }
+
     @MainActor
     func testAnUnreadableLedgerStillTapsOnce() {
         let run = play([nil])
@@ -153,6 +176,10 @@ final class SystemCancelRetryTests: XCTestCase {
         XCTAssertEqual(
             TouchLedger(published: "began=3 ended=2 systemCancelled=1 otherCancelled=0"),
             TouchLedger(began: 3, ended: 2, systemCancelled: 1)
+        )
+        XCTAssertEqual(
+            TouchLedger(published: "began=3 ended=1 systemCancelled=1 otherCancelled=0 lost=1"),
+            TouchLedger(began: 3, ended: 1, systemCancelled: 1, lost: 1)
         )
         let withNote = TouchLedger(
             published: "began=1 ended=0 systemCancelled=1 otherCancelled=0\nlastCancel=system newTime=0.180"
