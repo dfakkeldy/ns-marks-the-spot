@@ -1250,8 +1250,14 @@ function DataSourcesDialog({
  *
  * `onRestart` opens the map afresh on the address it has just been given, so
  * returning to a remembered view needs no page load and sends nothing anywhere.
+ * `licencesPresented` says the licence strip has already opened by itself in
+ * this page load, so a restart opens the map with it folded.
  */
-export function App({ focus, onRestart }: { focus?: FocusId; onRestart?: () => void } = {}) {
+export function App({ focus, onRestart, licencesPresented = false }: {
+  focus?: FocusId;
+  onRestart?: () => void;
+  licencesPresented?: boolean;
+} = {}) {
   const focusDef: FocusDefinition | undefined = focus ? focusDefinitions[focus] : undefined;
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
@@ -1677,9 +1683,9 @@ export function App({ focus, onRestart }: { focus?: FocusId; onRestart?: () => v
   // up to 38% of the screen. A setup that settles while the page is still
   // opening restarts the timer, as before. Reading or reopening the footer
   // cancels automatic folding.
-  const [attributionCollapsed, setAttributionFolded] = useState(false);
+  const [attributionCollapsed, setAttributionFolded] = useState(licencesPresented);
   const cancelAttributionFold = useRef<() => void>(() => {});
-  const attributionPresented = useRef(false);
+  const attributionPresented = useRef(licencesPresented);
   useEffect(() => {
     if (attributionPresented.current) return;
     const region = mapRegionRef.current;

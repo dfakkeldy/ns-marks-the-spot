@@ -5016,6 +5016,14 @@ describe("NS Marks The Spot Online", () => {
     vi.useRealTimers();
   });
 
+  it("opens with the licence strip folded after a restart in the same page load", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    render(<App licencesPresented />);
+    const footer = screen.getByRole("contentinfo");
+    expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
+    expect(within(footer).getByText(/Boundaries are not a survey/)).toBeInTheDocument();
+  });
+
   it("folds and restores source credits for a saved custom theme", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     storeCustomThemes([STORED_FIELD_THEME]);
