@@ -19,6 +19,10 @@ short: every line is read on every review.
   log.
 - A frozen input read with `git show <rev>:<path>` and pinned to a PR-branch commit
   instead of a commit on the target branch.
+- A check made weaker: a removed test, assertion, or CI step or job; a skipped or
+  disabled test; or a way to ignore a failure (`continue-on-error`, `|| true`). It's
+  fine when the PR body says why and the check moved, was replaced or no longer
+  applies.
 - The change doesn't do what the PR body says, or it breaks something the PR didn't
   mean to touch.
 
