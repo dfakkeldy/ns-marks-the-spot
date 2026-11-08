@@ -157,12 +157,12 @@ final class DoubleTapProbeUITests: XCTestCase {
     /// Two taps in one spot as two records: maps the edge of the window.
     @MainActor
     func testProbe2SameSpotGaps() throws {
-        let sleeps = [0.0, 0.05, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.25, 0.30]
+        let sleeps = [0.0, 0.08, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.18, 0.25]
         for start in stride(from: 0, to: sleeps.count, by: 3) {
             let app = measuringApp()
             let (a, _, _) = points(app)
             for sleep in sleeps[start..<min(start + 3, sleeps.count)] {
-                for round in 0..<3 {
+                for round in 0..<4 {
                     try run("same spot sleep \(sleep) round \(round)", app) {
                         try synthesize([tap(a)])
                         Thread.sleep(forTimeInterval: sleep)
@@ -204,12 +204,12 @@ final class DoubleTapProbeUITests: XCTestCase {
     /// and does the app agree with MapKit there?
     @MainActor
     func testProbe4DistanceSweep() throws {
-        let distances = [20.0, 30.0, 40.0, 45.0, 50.0, 55.0, 60.0, 80.0]
+        let distances = [20.0, 40.0, 42.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 55.0]
         for start in stride(from: 0, to: distances.count, by: 3) {
             let app = measuringApp()
             let (a, _, _) = points(app)
             for distance in distances[start..<min(start + 3, distances.count)] {
-                for round in 0..<2 {
+                for round in 0..<3 {
                     try run("distance \(distance) round \(round)", app) {
                         try synthesize([tap(a), tap(CGPoint(x: a.x + distance, y: a.y), at: 0.15)])
                     }
@@ -251,6 +251,62 @@ final class DoubleTapProbeUITests: XCTestCase {
                     drag(from: CGPoint(x: a.x + 80, y: a.y), by: CGVector(dx: 30, dy: 120), at: 0.15),
                 ])
             }
+        }
+    }
+
+    private func centre(_ element: XCUIElement) -> CGPoint {
+        CGPoint(x: element.frame.midX, y: element.frame.midY)
+    }
+
+    /// Prints the trace since `before`: the order of the `measure count` lines
+    /// shows whether the tap landed before the button or after it.
+    @MainActor
+    private func report(_ name: String, _ app: XCUIApplication, after before: Int, _ detail: String) {
+        let lines = traceLines(app).filter { sequence(of: $0) > before }
+        let counts = lines.filter { $0.contains("measure count") }
+            .map { $0.split(separator: " ").dropFirst(4).first ?? "?" }
+        print("PROBE \(name) counts=\(counts) \(detail)")
+        print("PROBE_TRACE_BEGIN \(name)\n\(lines.joined(separator: "\n"))\nPROBE_TRACE_END")
+    }
+
+    /// A tap on the map with a button pressed at once. The tap must land first,
+    /// in the mode it was made in.
+    @MainActor
+    func testProbe8TapThenChromeButton() throws {
+        for round in 0..<4 {
+            let app = measuringApp()
+            let (a, _, _) = points(app)
+            let readout = app.descendants(matching: .any)["measure-readout"]
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+            _ = waitForUI(timeout: 2) { false }
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+            _ = waitForUI(timeout: 2) { false }
+            let measured = readout.label
+
+            var before = traceLines(app).last.map(sequence(of:)) ?? 0
+            try synthesize([tap(a), tap(centre(app.buttons["measure-undo"]), at: 0.15)])
+            _ = waitForUI(timeout: 2) { false }
+            report("tap then undo round \(round)", app, after: before,
+                   "kept=\(readout.label == measured) readout=\(readout.label)")
+
+            before = traceLines(app).last.map(sequence(of:)) ?? 0
+            let beforeFinish = readout.label
+            try synthesize([tap(a), tap(centre(app.buttons["measure-finish"]), at: 0.15)])
+            _ = waitForUI(timeout: 2) { false }
+            report("tap then finish round \(round)", app, after: before,
+                   "was=\(beforeFinish) readout=\(readout.label) finishEnabled=\(app.buttons["measure-finish"].isEnabled)")
+            app.terminate()
+
+            let browsing = XCUIApplication.launchedForUITests()
+            let layers = browsing.buttons["toggle-layers-menu"]
+            XCTAssertTrue(layers.waitForHittable(timeout: 60))
+            before = traceLines(browsing).last.map(sequence(of:)) ?? 0
+            let (spot, _, _) = points(browsing)
+            try synthesize([tap(spot), tap(centre(layers), at: 0.15)])
+            _ = waitForUI(timeout: 2) { false }
+            report("tap then layers round \(round)", browsing, after: before,
+                   "panelOpen=\(browsing.descendants(matching: .any)["base-map-style"].exists)")
+            browsing.terminate()
         }
     }
 

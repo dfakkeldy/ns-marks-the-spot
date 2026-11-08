@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        guard: [baseline, deferred]
+        guard: [baseline, deferred, nowatcher]
 
     steps:
       - name: Check out repository
@@ -59,8 +59,8 @@ jobs:
           extra=()
           if [ "${{ matrix.guard }}" = "baseline" ]; then
             extra=('OTHER_SWIFT_FLAGS=$(inherited) -DBASELINE_GUARD')
-          elif [ "${{ matrix.guard }}" = "delegate" ]; then
-            extra=('OTHER_SWIFT_FLAGS=$(inherited) -DDELEGATE_GUARD')
+          elif [ "${{ matrix.guard }}" = "nowatcher" ]; then
+            extra=('OTHER_SWIFT_FLAGS=$(inherited) -DNO_WATCHER')
           fi
           xcodebuild build-for-testing \
             -project "$PROJECT" \

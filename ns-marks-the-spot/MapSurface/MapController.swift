@@ -131,8 +131,9 @@ final class MapController: NSObject {
     }
     @ObservationIgnored var events: ((MapEvent) -> Void)?
     /// A tap on the map that could still be half of a double tap: `holdTap`.
-    @ObservationIgnored private var heldTap: (latitude: Double, longitude: Double)?
+    @ObservationIgnored private var heldTap: (latitude: Double, longitude: Double, point: CGPoint)?
     @ObservationIgnored private var heldTapTimer: Task<Void, Never>?
+    @ObservationIgnored private var heldTapWatcher: UIGestureRecognizer?
     /// Whether the closest-zoom limit has been set. Set once, from the first
     /// laid-out frame, and never again: recalibrating would move the limit
     /// every time the reader rotated the phone.
@@ -1986,14 +1987,16 @@ final class MapController: NSObject {
         #endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
-        let coordinate = mapView.convert(
-            recognizer.location(in: mapView), toCoordinateFrom: mapView
-        )
+        let point = recognizer.location(in: mapView)
+        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         guard CLLocationCoordinate2DIsValid(coordinate) else { return }
         #if BASELINE_GUARD || DELEGATE_GUARD
         events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
         #else
-        holdTap(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        #if !NO_WATCHER
+        watchForTheNextTouch(in: mapView.window)
+        #endif
+        holdTap(latitude: coordinate.latitude, longitude: coordinate.longitude, at: point)
         #endif
     }
 
@@ -2005,6 +2008,16 @@ final class MapController: NSObject {
     /// finds the first one held. Too short places a stray point under a slow
     /// double tap; too long makes every tap made alone wait that much more.
     static let doubleTapInterval: Duration = .milliseconds(350)
+    static let doubleTapReach: CGFloat = 50
+
+    private func watchForTheNextTouch(in window: UIWindow?) {
+        guard let window, heldTapWatcher?.view !== window else { return }
+        let watcher = heldTapWatcher ?? UIGestureRecognizer()
+        watcher.name = Self.heldTapWatcherName
+        watcher.delegate = self
+        window.addGestureRecognizer(watcher)
+        heldTapWatcher = watcher
+    }
 
     /// A tap is only a tap once it cannot be half of a double tap, which zooms
     /// and must not also identify a parcel or place a point. So it is held
@@ -2015,9 +2028,9 @@ final class MapController: NSObject {
     /// tap with `require(toFail:)`, because a recognizer that is waiting takes
     /// no new touches: a second quick tap elsewhere was lost. The recognizer
     /// goes on competing with MapKit's exactly as it always has.
-    func holdTap(latitude: Double, longitude: Double) {
+    func holdTap(latitude: Double, longitude: Double, at point: CGPoint) {
         releaseHeldTap()
-        heldTap = (latitude, longitude)
+        heldTap = (latitude, longitude, point)
         heldTapTimer = Task { [weak self] in
             try? await Task.sleep(for: Self.doubleTapInterval, tolerance: .milliseconds(5))
             guard !Task.isCancelled else { return }
@@ -2030,11 +2043,13 @@ final class MapController: NSObject {
     /// MapKit's double tap goes by: that makes it a zoom, or the drag that
     /// follows a tap for a one-handed zoom, and the held tap never happened.
     /// Any other touch means the held tap stood alone, and it needn't wait.
-    func settleHeldTap(byTouchWithTapCount tapCount: Int) {
+    func settleHeldTap(byTouchOnMapAt point: CGPoint?) {
+        guard let held = heldTap else { return }
         #if DEBUG
-        if heldTap != nil { MapTapTrace.record("settle held tap tapCount=\(tapCount)") }
+        let distance = point.map { hypot($0.x - held.point.x, $0.y - held.point.y) }
+        MapTapTrace.record("settle held tap distance=\(distance.map { String(describing: $0) } ?? "off map")")
         #endif
-        if tapCount > 1 {
+        if let point, hypot(point.x - held.point.x, point.y - held.point.y) < Self.doubleTapReach {
             heldTapTimer?.cancel()
             heldTapTimer = nil
             heldTap = nil
@@ -2928,6 +2943,7 @@ extension MapController: UIGestureRecognizerDelegate {
 
     /// The name the placing press-and-hold is registered under.
     static let placeLongPressName = "PlaceLongPress"
+    static let heldTapWatcherName = "HeldTapWatcher"
 
     /// Judged where the touch began, not where the finger is when the press
     /// matures: a drag that started on a handle and crept off it before the
@@ -2946,12 +2962,20 @@ extension MapController: UIGestureRecognizerDelegate {
     #endif
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        #if !(BASELINE_GUARD || DELEGATE_GUARD)
-        if gestureRecognizer.name == Self.identifyTapName {
-            settleHeldTap(byTouchWithTapCount: touch.tapCount)
+        #if NO_WATCHER
+        // As on the first held-tap build: only touches on the map settle it.
+        if gestureRecognizer.name == Self.identifyTapName, let map = mapView {
+            settleHeldTap(byTouchOnMapAt: touch.location(in: map))
             return true
         }
         #endif
+        if gestureRecognizer.name == Self.heldTapWatcherName {
+            let pointOnMap = mapView.flatMap { map in
+                touch.view?.isDescendant(of: map) == true ? touch.location(in: map) : nil
+            }
+            settleHeldTap(byTouchOnMapAt: pointOnMap)
+            return false
+        }
         guard gestureRecognizer.name == Self.placeLongPressName else { return true }
         return Self.longPressMayBegin(over: touch.view)
     }
