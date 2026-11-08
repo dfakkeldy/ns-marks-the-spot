@@ -2070,9 +2070,16 @@ final class MapController: NSObject {
         }
     }
 
+    /// A double tap far from the held tap was not its second half, and the
+    /// held tap stood alone.
     @objc private func mapKitDoubleTapRecognized(_ recognizer: UITapGestureRecognizer) {
-        guard recognizer.state == .ended else { return }
-        dropHeldTap()
+        guard recognizer.state == .ended, let held = heldTap, let mapView else { return }
+        let point = recognizer.location(in: mapView)
+        if hypot(point.x - held.point.x, point.y - held.point.y) < Self.doubleTapReach {
+            dropHeldTap()
+        } else {
+            releaseHeldTap()
+        }
     }
 
     /// The held tap was half of MapKit's double tap: it never happened.
