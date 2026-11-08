@@ -217,6 +217,10 @@ final class MapChromeUITests: XCTestCase {
         )
         let corner = app.descendants(matching: .any)["Placed corner 1"].firstMatch
         XCTAssertTrue(corner.waitForExistence(timeout: 5), "the first corner is not announced")
+        // The dot itself, not ground beside it: a tap a few points off the
+        // dot would place a point whatever the dot does.
+        XCTAssertLessThan(corner.frame.width, 30, "the first corner is \(corner.frame), not a dot")
+        XCTAssertGreaterThan(corner.frame.width, 0, "the first corner has no frame")
 
         let before = readout.label
         app.tapMap(at: CGPoint(x: corner.frame.midX, y: corner.frame.midY))

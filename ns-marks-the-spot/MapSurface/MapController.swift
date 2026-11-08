@@ -2912,10 +2912,11 @@ extension MapController: UIGestureRecognizerDelegate {
     /// A selectable marker owns its tap: the parcel underneath it must not be
     /// identified as a second action. A marker that cannot be selected — a
     /// placed measuring or drawing corner — owns nothing, and MapKit's single
-    /// tap on it does nothing. Made to compete, the two taps race for a tap
-    /// aimed exactly at a corner, which is where a reader snaps a drawing back
-    /// onto its own point. The identify tap wins that race today only because
-    /// it does not wait for MapKit's double tap to fail.
+    /// tap on it behaves as a tap on bare ground. Made to compete, the two
+    /// taps race for a tap aimed exactly at a corner, which is where a reader
+    /// snaps a drawing back onto its own point. The identify tap wins that
+    /// race today only because it does not wait for MapKit's double tap to
+    /// fail (see the double-tap guard in `MapSurfaceView`).
     static func selectableAnnotationOwnsTap(at view: UIView?) -> Bool {
         var current = view
         while let candidate = current {
