@@ -185,10 +185,12 @@ final class MapTapProbeUITests: XCTestCase {
                 let (appValue, appTime) = timed { app.value }
                 let (windowValue, windowTime) = timed { app.windows.firstMatch.value }
                 let (exists, queryTime) = timed { layers.exists }
+                let (liveRead, liveTime) = timed { SystemCancelRetry.live.read() }
                 print(
                     "CARRIER \(state) app=\(String(describing: appValue)) \(appTime) "
                         + "window=\(String(describing: windowValue)) \(windowTime) "
-                        + "layersExists=\(exists) \(queryTime)"
+                        + "layersExists=\(exists) \(queryTime) "
+                        + "liveRead=\(liveRead != nil) \(liveTime)"
                 )
             }
         }
@@ -267,6 +269,90 @@ final class MapTapProbeUITests: XCTestCase {
     @MainActor
     func testZZControlForcedSystemCancelIsRepeated() throws {
         runMeasuringControl("control forced system", environment: "UITEST_FORCED_SYSTEM_CANCEL_EVERY")
+    }
+
+    /// Measuring with two points, then one press, the fourth touch. Prints what
+    /// the press placed. The last point carries the endpoint label, so one placed
+    /// point adds one `Placed corner`.
+    @MainActor
+    private func runPressControl(_ label: String, environment key: String) {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launchEnvironment[key] = "4"
+        app.launch()
+        let distance = app.buttons["measure-distance"]
+        XCTAssertTrue(distance.waitForHittable(timeout: 30))
+        distance.tap()
+        let readout = app.descendants(matching: .any)["measure-readout"]
+        XCTAssertTrue(readout.waitForExistence(timeout: 30))
+        let undo = app.buttons["measure-undo"]
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled })
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        XCTAssertTrue(waitForUI { readout.label.hasSuffix("km") })
+        let corners = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "label BEGINSWITH %@", "Placed corner"))
+        let before = corners.count
+        let target = app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).screenPoint
+        app.pressMap(at: target, forDuration: 0.6)
+        _ = waitForUI(timeout: 5) { false }
+        print("PRESS_CONTROL \(label) corners \(before)->\(corners.count) ledger=\(String(describing: app.value))")
+    }
+
+    /// Cancelled just after it began, before the long press fired. Expected: one
+    /// repeat, and one point from the repeat.
+    @MainActor
+    func testZZControlEarlyPressCancelIsRepeated() throws {
+        runPressControl("early cancel", environment: "UITEST_FORCED_SYSTEM_CANCEL_EVERY")
+    }
+
+    /// Cancelled at 0.5 s, after the long press placed its point. Expected: no
+    /// repeat, one point. A repeat here would place a second.
+    @MainActor
+    func testZZControlLatePressCancelIsNotRepeated() throws {
+        runPressControl("late cancel", environment: "UITEST_LATE_CANCEL_EVERY")
+    }
+
+    /// A cancel with the gate faked, on the row of the base-map menu: the third
+    /// touch, after layers and the picker. Shows whether a menu row passes the
+    /// classifier's window checks, and whether a repeat can choose the row.
+    @MainActor
+    func testZZControlForcedCancelOnBaseMapRow() throws {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launchEnvironment["UITEST_FORCED_SYSTEM_CANCEL_EVERY"] = "3"
+        app.launch()
+        let strip = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(strip.waitForExistence(timeout: 30))
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: 30))
+        layers.tap()
+        let picker = app.descendants(matching: .any)["base-map-style"]
+        XCTAssertTrue(picker.waitForHittable(timeout: 30))
+        picker.tap()
+        let row = app.buttons["OpenStreetMap"]
+        XCTAssertTrue(row.waitForHittable(timeout: 30))
+        let credit = strip.label
+        row.tapRetryingSystemCancel()
+        let chose = waitForUI(timeout: 10) { strip.label.hasPrefix("© OpenStreetMap contributors") }
+        print("MENU_CONTROL base map row chose=\(chose) creditBefore=\(credit) ledger=\(String(describing: app.value))")
+    }
+
+    /// The same on a row of the More menu, the second touch.
+    @MainActor
+    func testZZControlForcedCancelOnMoreRow() throws {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launchEnvironment["UITEST_FORCED_SYSTEM_CANCEL_EVERY"] = "2"
+        app.launch()
+        let more = app.buttons["More Map Actions"]
+        XCTAssertTrue(more.waitForHittable(timeout: 30))
+        more.tap()
+        let sources = app.buttons["Data Sources and Licenses"]
+        XCTAssertTrue(sources.waitForExistence(timeout: 30))
+        sources.tapRetryingSystemCancel()
+        let opened = app.navigationBars["Map Info"].waitForExistence(timeout: 10)
+        print("MENU_CONTROL more row opened=\(opened) ledger=\(String(describing: app.value))")
     }
 
     /// The tap beside the layers panel that should put it away.

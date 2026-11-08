@@ -86,6 +86,10 @@ jobs:
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlIgnoredTapIsNotRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlAppCancelIsNotRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedSystemCancelIsRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlEarlyPressCancelIsRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlLatePressCancelIsNotRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedCancelOnBaseMapRow \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedCancelOnMoreRow \
             -parallel-testing-enabled NO \
             -resultBundlePath "$RUNNER_TEMP/controls.xcresult" \
             CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/controls.log"
@@ -93,7 +97,7 @@ jobs:
       - name: Tally
         if: always()
         run: |
-          grep -E 'CARRIER |LEDGER_INJECT|FINAL_LEDGER|UITEST_TAP|^Test Case .*(passed|failed)|error:' "$RUNNER_TEMP/controls.log" | cut -c1-400 || true
+          grep -E 'CARRIER |LEDGER_INJECT|FINAL_LEDGER|UITEST_TAP|PRESS_CONTROL|MENU_CONTROL|^Test Case .*(passed|failed)|error:' "$RUNNER_TEMP/controls.log" | cut -c1-400 || true
           awk '/PROBE_SUMMARY_BEGIN/,/PROBE_SUMMARY_END/' "$RUNNER_TEMP/controls.log" || true
 
       - name: Keep logs
