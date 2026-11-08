@@ -53,7 +53,7 @@ final class ControlReachabilityUITests: XCTestCase {
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(app.scroll(layers, into: rail, fullyVisible: true))
         XCTAssertTrue(layers.waitForStableFrame(in: rail), "Layers did not settle inside the rail")
-        layers.tap()
+        layers.tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { layers.value as? String == "Open" },
             "the Layers button did not accept the tap"
@@ -92,7 +92,7 @@ final class ControlReachabilityUITests: XCTestCase {
 
         let saveArea = app.buttons["Save Area"]
         XCTAssertTrue(app.scroll(saveArea, into: rail), "Save Area cannot be reached")
-        saveArea.tap()
+        saveArea.tapRetryingSystemCancel()
 
         for name in ["Use Visible Map", "Cancel"] {
             XCTAssertTrue(
@@ -116,7 +116,7 @@ final class ControlReachabilityUITests: XCTestCase {
             "Offline Maps still reads as available while an area is being chosen"
         )
 
-        app.buttons["Cancel"].tap()
+        app.buttons["Cancel"].tapRetryingSystemCancel()
         XCTAssertTrue(
             app.buttons["Use Visible Map"].waitForNonExistence(timeout: timeout),
             "area selection did not end"
