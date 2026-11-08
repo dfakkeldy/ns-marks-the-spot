@@ -70,15 +70,16 @@ enum UITestTouchLedger {
 
     /// A touch held this long may already have acted. The shortest press that
     /// acts before the finger lifts is the map's 0.45 s long press, which places
-    /// a point, so repeating that touch could place a second one.
+    /// a point while a drawing tool is armed, so repeating that touch could place
+    /// a second one.
     private static let longestRepeatableHold: TimeInterval = 0.4
 
     private struct OpenTouch {
         weak var view: UIView?
-        /// When this process received it. A gesture recognizer's timer starts at
-        /// the same moment, so the hold compares with its duration. An event's own
-        /// timestamp would not: a late delivery would make a long press look short.
-        let receivedAt: TimeInterval
+        /// The touch's own time, on the `systemUptime` clock. The time from here to
+        /// the moment a cancel arrives is at least as long as any recognizer's
+        /// timer has run, so a hold under the limit proves it has not fired.
+        let downAt: TimeInterval
     }
 
     static func install() {
@@ -127,9 +128,7 @@ enum UITestTouchLedger {
             switch touch.phase {
             case .began:
                 began += 1
-                open[id] = OpenTouch(
-                    view: touch.view, receivedAt: ProcessInfo.processInfo.systemUptime
-                )
+                open[id] = OpenTouch(view: touch.view, downAt: touch.timestamp)
                 injectCancelIfDue()
             case .ended:
                 guard open.removeValue(forKey: id) != nil else { continue }
@@ -156,7 +155,7 @@ enum UITestTouchLedger {
         }
         let forced = injectedCancelPending && (forcedSystemCancelEvery != nil || lateCancelEvery != nil)
         injectedCancelPending = false
-        let held = ProcessInfo.processInfo.systemUptime - opened.receivedAt
+        let held = ProcessInfo.processInfo.systemUptime - opened.downAt
         let isSystem = isRepeatableSystemCancel(
             appIsActive: appIsActive,
             windowIsKey: windowIsKey,

@@ -42,18 +42,35 @@ final class SystemCancelRetryTests: XCTestCase {
     @MainActor
     func testASystemCancelIsRepeatedOnceAndLogged() {
         let cancelled = TouchLedger(began: 5, ended: 4, systemCancelled: 1)
-        let run = play([start, cancelled, TouchLedger(began: 6, ended: 5, systemCancelled: 1)])
+        let run = play([start, cancelled, cancelled, TouchLedger(began: 6, ended: 5, systemCancelled: 1)])
         XCTAssertEqual(run.gestures, 2)
         XCTAssertEqual(run.logs.count, 2)
         XCTAssertTrue(run.logs[0].hasPrefix("system cancelled the tap"), run.logs[0])
         XCTAssertTrue(run.logs[1].hasPrefix("re-tap result: ended"), run.logs[1])
     }
 
+    /// It may be this gesture, delivered late. It would act, and a repeat would
+    /// act again.
+    @MainActor
+    func testATouchThatArrivesBeforeTheRepeatStopsIt() {
+        let cancelled = TouchLedger(began: 5, ended: 4, systemCancelled: 1)
+        let run = play([start, cancelled, TouchLedger(began: 6, ended: 5, systemCancelled: 1)])
+        XCTAssertEqual(run.gestures, 1)
+        XCTAssertTrue(run.logs[1].hasPrefix("a touch arrived before the repeat"), run.logs[1])
+    }
+
+    @MainActor
+    func testALedgerUnreadableBeforeTheRepeatStopsIt() {
+        let run = play([start, TouchLedger(began: 5, ended: 4, systemCancelled: 1), nil])
+        XCTAssertEqual(run.gestures, 1)
+        XCTAssertTrue(run.logs[1].hasPrefix("a touch arrived before the repeat"), run.logs[1])
+    }
+
     @MainActor
     func testASecondSystemCancelIsNotRepeatedAgain() {
         let first = TouchLedger(began: 5, ended: 4, systemCancelled: 1)
         let second = TouchLedger(began: 6, ended: 4, systemCancelled: 2)
-        let run = play([start, first, second])
+        let run = play([start, first, first, second])
         XCTAssertEqual(run.gestures, 2)
         XCTAssertTrue(run.logs[1].hasPrefix("re-tap result: systemCancelled"), run.logs[1])
     }
@@ -97,6 +114,7 @@ final class SystemCancelRetryTests: XCTestCase {
         let run = play([
             start,
             TouchLedger(began: 5, ended: 4),
+            TouchLedger(began: 5, ended: 4, systemCancelled: 1),
             TouchLedger(began: 5, ended: 4, systemCancelled: 1),
             TouchLedger(began: 6, ended: 5, systemCancelled: 1),
         ])

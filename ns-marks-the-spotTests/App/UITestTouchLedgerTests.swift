@@ -43,8 +43,8 @@ struct UITestTouchLedgerTests {
         #expect(!isRepeatable(appIsActive: false))
     }
 
-    /// The map's 0.45 s long press places a point before the finger lifts, so a
-    /// repeat would place a second one.
+    /// While a drawing tool is armed, the map's 0.45 s long press places a point
+    /// before the finger lifts, so a repeat would place a second one.
     @Test func aTouchHeldLongEnoughToActIsNotRepeatable() {
         #expect(!isRepeatable(held: 0.45))
         #expect(!isRepeatable(held: 0.4))

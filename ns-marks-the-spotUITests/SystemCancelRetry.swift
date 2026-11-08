@@ -124,6 +124,12 @@ struct SystemCancelRetry {
 
     private func retap(_ gesture: @MainActor () -> Void, from before: TouchLedger) {
         pause(retapDelay)
+        // A touch that arrived in the pause may be this gesture, delivered late.
+        let latest = read()
+        guard let latest, latest.began == before.began else {
+            log("a touch arrived before the repeat, or no ledger; not re-tapping. \(describe(before, latest ?? before))")
+            return
+        }
         let after = run(gesture, from: before)
         log("re-tap result: \(TapFate(before: before, after: after)). \(describe(before, after))")
     }
