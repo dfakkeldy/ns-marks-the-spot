@@ -106,6 +106,18 @@ struct HeldMapTapTests {
         #expect(tapped.latitudes == [1, 2], "the late settle dropped the tap held after it")
     }
 
+    /// MapKit's double tap recognizing, heard directly: the answer when the
+    /// next-touch check comes too late to see it waiting.
+    @Test func mapKitsDoubleTapRecognizingDropsTheHeldTap() async {
+        let tapped = Tapped()
+        let controller = makeController(recording: tapped)
+        controller.holdTap(latitude: 1, longitude: 0, at: spot)
+        controller.dropHeldTap()
+        controller.settleHeldTap(byTouchOnMapAt: spot, mapKitDoubleTapWaiting: false)
+        await waitOutTheInterval()
+        #expect(tapped.latitudes.isEmpty, "a point was left under the zoom")
+    }
+
     /// The measured edges, pinned: MapKit zoomed at 45 points and not at 46,
     /// and gave up between 0.370 and 0.376 s after the lift.
     @Test func theReachAndIntervalMatchWhereMapKitGivesUp() {
