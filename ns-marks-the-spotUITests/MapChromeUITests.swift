@@ -190,6 +190,46 @@ final class MapChromeUITests: XCTestCase {
         )
     }
 
+    /// A tap aimed exactly at a placed corner places a point there.
+    ///
+    /// The corner is a marker MapKit hit-tests but cannot select, and the
+    /// gesture delegate answers for it as for any marker. The identify tap
+    /// still recognizes, and that matters: while drawing, this is the tap that
+    /// snaps a shape back onto its own corner.
+    @MainActor
+    func testATapOnAPlacedCornerPlacesAPoint() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let distance = app.buttons["measure-distance"]
+        XCTAssertTrue(distance.waitForHittable(timeout: timeout), "measuring cannot be started")
+        distance.tap()
+        let readout = app.descendants(matching: .any)["measure-readout"]
+        XCTAssertTrue(readout.waitForExistence(timeout: 10), "no measuring readout")
+        let prompt = readout.label
+        let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
+        let undo = app.buttons["measure-undo"]
+
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        XCTAssertTrue(
+            waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
+            "two taps did not measure a distance"
+        )
+        let corner = app.descendants(matching: .any)["Placed corner 1"].firstMatch
+        XCTAssertTrue(corner.waitForExistence(timeout: 5), "the first corner is not announced")
+        // The dot itself, not ground beside it: a tap a few points off the
+        // dot would place a point whatever the dot does.
+        XCTAssertLessThan(corner.frame.width, 30, "the first corner is \(corner.frame), not a dot")
+        XCTAssertGreaterThan(corner.frame.width, 0, "the first corner has no frame")
+
+        let before = readout.label
+        app.tapMap(at: CGPoint(x: corner.frame.midX, y: corner.frame.midY))
+        XCTAssertTrue(
+            waitForUI(timeout: 10) { readout.label != before && endpoint.label.hasSuffix(readout.label) },
+            "a tap on the first corner placed no point"
+        )
+    }
+
     /// The map opens on the Atlas, the browser's own ground, and the strip
     /// under it says so; choosing another ground changes the credit with it.
     ///

@@ -55,9 +55,12 @@ struct MapSurfaceView: UIViewRepresentable {
         // it would make the map feel dead under the finger.
         identifyTap.cancelsTouchesInView = false
         // A double tap zooms. Waiting for MapKit's own double-tap recognizers
-        // to fail is what stops a zoom from also identifying whatever happened
-        // to be under the first tap — the web spends 250 ms guessing at the
-        // same thing.
+        // to fail is meant to stop a zoom from also identifying whatever
+        // happened to be under the first tap — the web spends 250 ms guessing
+        // at the same thing. On iOS 26 this loop finds nothing: MapKit's
+        // recognizers live on a subview (`_MKMapContentView`), so the identify
+        // tap recognizes at touch-up and a double tap while measuring places a
+        // point.
         for recognizer in mapView.gestureRecognizers ?? [] {
             guard let tap = recognizer as? UITapGestureRecognizer,
                   tap.numberOfTapsRequired > 1 else { continue }
