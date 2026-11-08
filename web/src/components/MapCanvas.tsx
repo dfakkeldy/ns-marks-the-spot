@@ -9,6 +9,7 @@ import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import type { ElectoralSelection } from "../elections/electoralData";
+import { ELECTORAL_LABEL_HANDOFF_ZOOM } from "../elections/electoralLabels";
 import { ContextTileLayer } from "./ContextTileLayer";
 import "../terrain/researchTerrain.css";
 import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
@@ -1448,11 +1449,21 @@ function InitialTaxSaleBoundsController({
     }
 
     fittedRevision.current = noticeFitRevision;
+    // The setup's camera leaves room for its map key on a map that can spare it.
+    const keyInset = noticeFitRevision > 0 && map.getSize().x >= 848 ? 264 : 0;
     map.fitBounds(bounds, {
       animate: false,
-      padding: [48, 48],
+      paddingTopLeft: [48, 48],
+      paddingBottomRight: [48 + keyInset, 48],
       maxZoom: 13,
     });
+    // A phone at the map's floor cannot hold every notice: show where most of
+    // them are, whole, and leave the outliers a pan away.
+    if (!map.getBounds().contains(bounds)) {
+      const middle = (values: number[]) => values.sort((a, b) => a - b)[Math.floor(values.length / 2)];
+      const centres = taxSaleFeatures.map((feature) => L.geoJSON(feature).getBounds().getCenter());
+      map.setView([middle(centres.map(({ lat }) => lat)), middle(centres.map(({ lng }) => lng))], map.getZoom(), { animate: false });
+    }
   }, [map, noticeFitRevision, parcels, preserveInitialPosition, showTaxSale, taxSalePids]);
 
   return null;
@@ -2255,6 +2266,21 @@ export function MapCanvas({
     && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
   const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
   const backgroundLabels = exposedBasemap || contextLayers['ns-topographic'];
+  // Over an image above Atlas the place-names overlay keeps its own labels, so
+  // Atlas's own names step aside once it has drawn, or each place prints twice
+  // and Atlas's ghost through the paper. Its failure or zoom floor brings them back.
+  const [placeNamesDrawn, setPlaceNamesDrawn] = useState(false);
+  const reportProvinceOverlayStatus = useCallback<NonNullable<typeof onLayerStatusChange>>((id, status) => {
+    if (id === "place-names" && status.status !== "loading") setPlaceNamesDrawn(status.status === "ready");
+    onLayerStatusChange?.(id, status);
+  }, [onLayerStatusChange]);
+  const federalNamesShown = contextLayers["federal-ridings-2025"];
+  const namesOverlaid = placeNamesDrawn && !backgroundLabels;
+  // At province scale the riding names are the one label family (electoralLabels.ts).
+  const hideAtlasNamesAt = useCallback(
+    (zoom: number) => namesOverlaid || (federalNamesShown && zoom < ELECTORAL_LABEL_HANDOFF_ZOOM),
+    [federalNamesShown, namesOverlaid],
+  );
   const outlineColor = parcelOutlineColor(basemapStyle, Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]));
   const parcelStyle = useCallback(
     (
@@ -2732,6 +2758,7 @@ export function MapCanvas({
               key={`atlas-${basemapStyle}-${modernMapRetry}`}
               mode={basemapStyle}
               print={isPrintMode}
+              hideNamesAt={hideAtlasNamesAt}
               onStatus={(status) => {
                 if (!isPrintMode) {
                   setModernMapFailed(status.status === "error");
@@ -2784,7 +2811,7 @@ export function MapCanvas({
           onStatusChange={reportFletcherStatus}
         />
         {provinceLayerCatalog.map((layer) => layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} imagery={Boolean(provinceLayers["ns-aerial"] || contextLayers["sentinel-2"])} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={reportProvinceOverlayStatus} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
         ) : (
           <ArcGISMapLayer
             key={layer.id}

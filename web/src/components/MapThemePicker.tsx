@@ -17,6 +17,8 @@ interface MapThemePickerProps {
   shortcuts?: ReactNode;
   /** What the map has on now, in plain words: the receipt for a change of setup. */
   layerSummary?: string;
+  /** What the reader changed from the setup, in plain words. */
+  changeSummary?: string | null;
 }
 
 const EXPLORE_THEME_ID = "explore-nova-scotia";
@@ -59,13 +61,15 @@ export function MapThemePicker({
   onReset,
   shortcuts,
   layerSummary,
+  changeSummary,
 }: MapThemePickerProps) {
   const active = themes.find(({ id }) => id === activeThemeId);
   const builtInThemes = themes.filter(({ kind }) => kind === "built-in");
   const customThemes = themes.filter(({ kind }) => kind === "custom");
   const explore = themes.find(({ id }) => id === EXPLORE_THEME_ID);
+  // A change is the reader's own work, not a fault: it says what they did.
   const label = status === "modified"
-    ? `${active?.name ?? "Shared setup"} — Modified`
+    ? `Your changes: ${changeSummary ?? "layers changed"}`
     : status === "partial"
       ? `${active?.name ?? "Shared setup"} — Partially applied`
       : active?.name ?? "Shared setup";
@@ -126,7 +130,7 @@ export function MapThemePicker({
       ) : null}
       {shortcuts}
       {layerSummary ? <p className="map-theme-receipt">{layerSummary}</p> : null}
-      <p className={status === "exact" && !notice ? "sr-only" : undefined} aria-live="polite" role="status">
+      <p className={status === "exact" && !notice ? "sr-only" : "map-theme-status"} aria-live="polite" role="status">
         {label}
         {notice ? ` ${notice}` : ""}
       </p>

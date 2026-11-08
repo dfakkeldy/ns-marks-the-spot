@@ -1,5 +1,6 @@
 import seatsReceipt from "./provincialSeatsReceipt.json";
 import type { ElectoralLayer, ElectoralMode } from '../layers/electoralLayers';
+import type { MapLayerStatus } from '../components/MapCanvas';
 
 export type ElectoralFeature = GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon, Record<string, unknown>>;
 export type ElectoralCollection = GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon, Record<string, unknown>>;
@@ -54,12 +55,30 @@ export function electoralFill(layer: ElectoralLayer, p: Record<string, unknown>,
   const result = resultSummary(p);
   if (mode === 'winner') {
     const party = layer.electoral.kind === 'seats' ? normalizedParty(p.Party) : result?.tie ? null : result?.winner;
-    // Green is a bar only. Missing/unrecognised parties never acquire a party fill.
-    return { colour: party && party !== 'Green' ? partyColours[palette][party] : partyColours[palette].Independent, label: party ?? (result?.tie ? 'Tie' : 'Result unavailable') };
+    // Green is a bar only. Missing/unrecognised parties and ties never acquire a party fill: no fill, the outline alone.
+    return { colour: party && party !== 'Green' ? partyColours[palette][party] : 'transparent', label: party ?? (result?.tie ? 'Tie' : 'Result unavailable') };
   }
   const value = mode === 'margin' ? result?.marginPoints : result?.turnout;
   const band = classifyResult(mode, value ?? null);
-  return { colour: band === null ? partyColours[palette].Independent : sequentialColours[palette][band], label: value == null ? 'Not available' : `${value.toFixed(1)}${mode === 'margin' ? ' point margin' : '% turnout'}` };
+  return { colour: band === null ? 'transparent' : sequentialColours[palette][band], label: value == null ? 'Not available' : `${value.toFixed(1)}${mode === 'margin' ? ' point margin' : '% turnout'}` };
+}
+
+/**
+ * What a results wash is doing right now, in one line, or null once it is on
+ * the map. Each source state keeps its own words: a slow service, a failed one,
+ * a licence gate and an empty answer are different things to the reader.
+ */
+export function electoralWashNote(status: MapLayerStatus | undefined): string | null {
+  switch (status?.status) {
+    case 'ready': return null;
+    case 'zoom': return `Zoom in to level ${status.minZoom} to draw the results.`;
+    case 'licence-blocked': return 'Accept the Province licence to load the results.';
+    case 'error':
+    case 'source-error': return 'The Province’s results service did not answer, so no results are drawn. Turn this off and on to try again.';
+    case 'returned-empty': return 'The service returned no results, so none are drawn.';
+    case 'outside-coverage': return 'No district in this view. Move the map to draw the results.';
+    default: return 'Loading the results from the Province. This can take about 10 seconds.';
+  }
 }
 
 /** No point, viewport, district selected by the user, or bbox is accepted here. */

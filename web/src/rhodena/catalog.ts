@@ -2,6 +2,12 @@ import type { ContextLayerDescriptor } from '../layers/contextLayerTypes';
 export const RHODENA_SOURCE = 'https://novascotia.ca/nse/ea/rhodena-wind-project/';
 export const RHODENA_POSITION = { latitude: 45.785, longitude: -61.405, zoom: 11 };
 export const RHODENA_BOUNDS: [[number, number], [number, number]] = [[45.69, -61.52], [45.90, -61.28]];
+/** T1-T6 (features.json) with a margin: what the band of map above the phone's sheet should hold. */
+export const RHODENA_PHONE_BOUNDS: [[number, number], [number, number]] = [[45.752, -61.45], [45.778, -61.41]];
+/** Colour of each drawn feature kind; the map and its key read the same values. */
+export const rhodenaFeatureColors: Record<string, string> = { turbine:'#b24719', receptor:'#176879', study:'#a56a15', 'new-road':'#b24719', upgrade:'#79553a', collector:'#b42d86', transmission:'#7350b6', substation:'#b24719', 'model-substation':'#7350b6' };
+/** The dash of a line traced by hand from a drawing, not published as coordinates. */
+export const RHODENA_LINE_DASH = '7 5';
 const common = {
   category: 'rhodena-project', delivery: 'rhodena', serviceUrl: '',
   sourceUrl: RHODENA_SOURCE, licenceUrl: RHODENA_SOURCE, licence: 'public-facts',

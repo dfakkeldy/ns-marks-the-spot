@@ -68,13 +68,16 @@ export function ElectoralFeatureLayer({ layer, visible, licenceAccepted, mode, n
         return `${electoralLabel(layer, properties)}${mode === 'boundaries' ? '' : ` · ${fill.label}`}`;
       };
       const labelClass = `electoral-map-label${federal ? ' electoral-map-label-federal' : municipal || mode !== 'boundaries' ? '' : ' electoral-map-label-provincial'}${night ? ' electoral-map-label-night' : ''}`;
-      const line = federal ? (night ? '#9fd6e2' : '#0a4f5c') : municipal ? (night ? '#a9c98a' : '#5a7343') : (night ? '#8cc0ff' : '#1e66cc');
+      // Under a party wash the outline is neutral ink: a survey-blue line would read as "PC" on every district.
+      const line = mode !== 'boundaries' ? (night ? '#e8f1f0' : '#12343b') : federal ? (night ? '#9fd6e2' : '#0a4f5c') : municipal ? (night ? '#a9c98a' : '#5a7343') : (night ? '#8cc0ff' : '#1e66cc');
+      // At province scale the lines are fine print, so the land and the names can be read between them.
+      const overview = map.getZoom() < 9;
       drawn = L.geoJSON(features, {
         pane: paneName, interactive: renderMode !== 'print', bubblingMouseEvents: false,
         style: f => {
           const fill = electoralFill(layer,f?.properties ?? {},mode,night);
-          return { color: line, weight: federal ? 2.6 : municipal ? 1 : 1.6, dashArray: federal ? '12 6' : municipal ? '1 4' : undefined,
-            fillColor: fill.colour, fillOpacity: mode === 'boundaries' ? 0 : mode === 'winner' ? 0.28 : 0.65,
+          return { color: line, weight: federal ? (overview ? 1.6 : 2.6) : municipal ? 1 : mode !== 'boundaries' || overview ? 1 : 1.6, dashArray: federal ? (overview ? '8 5' : '12 6') : municipal ? '1 4' : undefined,
+            fillColor: fill.colour, fillOpacity: mode === 'boundaries' ? 0 : mode === 'winner' ? 0.42 : 0.65,
             pmIgnore: true, snapIgnore: true } as PathOptions;
         },
         onEachFeature: (feature, path) => {

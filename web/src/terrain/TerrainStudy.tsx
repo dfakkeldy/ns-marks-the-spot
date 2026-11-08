@@ -95,7 +95,7 @@ export function TerrainStudy() {
       <section className="atlas-section"><h2>Surface</h2><div className="atlas-modes">
         {(['terrain', 'historical', 'aerial'] as const).map(surface => <button key={surface} aria-pressed={settings.surface === surface} onClick={() => setSettings(s => ({ ...s, surface }))}>{surface === 'historical' ? 'Fletcher' : surface === 'aerial' ? 'Aerial' : 'Terrain'}</button>)}
       </div>
-      {settings.surface === 'historical' && <label className="terrain-range" htmlFor="sheet-opacity">Sheet opacity <output>{Math.round(settings.opacity * 100)}%</output><input id="sheet-opacity" type="range" min="0" max="1" step="0.05" value={settings.opacity} onChange={event => setSettings(s => ({ ...s, opacity: Number(event.target.value) }))} /></label>}
+      {settings.surface === 'historical' && <label className="terrain-range" htmlFor="sheet-opacity">Sheet opacity <output>{Math.round(settings.opacity * 100)}%</output><input id="sheet-opacity" type="range" min="0" max="1" step="0.05" value={settings.opacity} onChange={event => setSettings(s => ({ ...s, opacity: Number(event.target.value) }))} /><span className="terrain-range-ends" aria-hidden="true"><span>Land</span><span>1884</span></span></label>}
       {settings.surface === 'aerial' && !aerialAccepted && <div className="atlas-licence"><p>Provincial aerial imagery has separate <a href={PROVINCE_LICENSE_URL} target="_blank" rel="noreferrer">map-service terms</a>.</p><button onClick={() => setAerialAccepted(true)}>Accept terms & load aerial imagery</button></div>}
       {settings.surface === 'aerial' && aerialAccepted && <p className="atlas-note">NS provincial aerial imagery · capture dates vary.</p>}
       </section>

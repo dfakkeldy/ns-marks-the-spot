@@ -84,7 +84,7 @@ describe("MapThemePicker", () => {
     );
 
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Explore Nova Scotia — Modified",
+      "Your changes",
     );
     await userEvent.click(
       screen.getByRole("button", { name: "Reset setup" }),
@@ -130,7 +130,7 @@ describe("MapThemePicker", () => {
     );
 
     expect(screen.getByLabelText("Change setup")).toHaveValue("custom-field-day");
-    expect(screen.getByRole("status")).toHaveTextContent("Field day — Modified");
+    expect(screen.getByRole("status")).toHaveTextContent("Your changes");
     expect(
       within(screen.getByRole("group", { name: "Built-in setups" }))
         .getByRole("option", { name: "Explore Nova Scotia" }),

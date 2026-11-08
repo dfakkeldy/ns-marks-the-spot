@@ -15,6 +15,7 @@ import {
 import { focusDefinitions, focusForTheme, type FocusId } from "./focus/registry";
 import { themeCameraFor, themeOpeningPosition, type ThemeCameraRequest } from "./themes/themeCameras";
 import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
+import { electoralWashNote } from "./elections/electoralData";
 import { DistrictInspector } from "./components/DistrictInspector";
 import { initialElectoralModes, withElectoralMode, type ElectoralLayerId } from "./layers/electoralLayers";
 import type { ElectoralSelection } from "./elections/electoralData";
@@ -210,6 +211,7 @@ import {
   updateCustomTheme,
 } from "./themes/themeStorage";
 import {
+  describeThemeChanges,
   matchTheme,
   normalizeLayerOpacityOverrides,
   presentationOpacityOverrides,
@@ -219,6 +221,12 @@ import {
   type ResolvedTheme,
   type ThemeComparableState,
 } from "./themes/themeState";
+import { ReturnNote } from "./components/ReturnNote";
+import { SetupFirstStep } from "./components/SetupFirstStep";
+import { fletcherSheets } from "./layers/fletcherLayer";
+import { clearLastView, classifyOpening, offersReturn, readLastView, writeLastView, writeTabView, type LastView, type OpeningKind } from "./themes/returnMemory";
+import { CURRENT_MONTH_NAMES, geometryBounds, nearestSheet, nextDatedTaxSale, shortSaleDate } from "./themes/setupFirstSteps";
+import { FishingMapKey, PointTupperSetupKey, RhodenaMapKey, TaxSaleMapKey } from "./themes/setupMapKeys";
 import {
   fetchParcelResourceIntersections,
   type ParcelResourceIntersections,
@@ -580,6 +588,21 @@ function reachableLocalStorage(): Storage | null {
   } catch {
     return null;
   }
+}
+
+function reachableSessionStorage(): Storage | null {
+  try {
+    return window.sessionStorage;
+  } catch {
+    return null;
+  }
+}
+
+/** How much of the map the open phone sheet covers, so a setup's fit lands in the band above it. */
+function phoneSheetCover(): number | undefined {
+  if (!(window.matchMedia?.("(max-width: 860px)").matches ?? false)) return undefined;
+  const sheet = document.querySelector(".layer-rail.mobile-open");
+  return sheet ? Math.max(0, Math.round(window.innerHeight - sheet.getBoundingClientRect().top)) : undefined;
 }
 
 // Exported for its focused test: the identity contract below is what keeps
@@ -1224,8 +1247,11 @@ function DataSourcesDialog({
  * `focus` opens the map as a single-purpose page (/rhodena, /fishing): its setup is
  * fixed, and the panel offers only the layers its definition names. Every
  * page-specific choice comes from `focusDefinitions` (src/focus/registry.ts).
+ *
+ * `onRestart` opens the map afresh on the address it has just been given, so
+ * returning to a remembered view needs no page load and sends nothing anywhere.
  */
-export function App({ focus }: { focus?: FocusId } = {}) {
+export function App({ focus, onRestart }: { focus?: FocusId; onRestart?: () => void } = {}) {
   const focusDef: FocusDefinition | undefined = focus ? focusDefinitions[focus] : undefined;
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
@@ -1354,23 +1380,24 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // opening that page's setup borrows its camera, so it fits the same way.
   const [focusFit, setFocusFit] = useState<FocusFitRequest>(() => {
     if (initialThemeCamera?.kind === "fit") return { revision: 1, bounds: initialThemeCamera.bounds };
-    if (!cameraFocus?.fitOnOpen || hasSharedPosition) return { revision: 0, bounds: null };
     // A focus page's sheet opens on arrival on a phone (below); frame the area
     // in the map left above it. 80px is the attribution strip and the sheet's gap.
     const sheetShare = focusDef?.phoneSheetShare;
     const opensOnSheet = Boolean(focusDef) && sheetShare !== undefined
       && (window.matchMedia?.("(max-width: 860px)").matches ?? false);
+    // A page with its own phone frame fits there even if a desktop opens on its position.
+    if (!cameraFocus || (!cameraFocus.fitOnOpen && !(opensOnSheet && focusDef?.phoneFitBounds)) || hasSharedPosition) return { revision: 0, bounds: null };
     return {
       revision: 1,
       bounds: opensOnSheet ? focusDef?.phoneFitBounds ?? cameraFocus.fitBounds : cameraFocus.fitBounds,
-      insetRight: focusDef?.mapOverlayInset,
+      insetRight: cameraFocus.mapOverlayInset,
       insetBottom: opensOnSheet && sheetShare !== undefined ? Math.round(window.innerHeight * sheetShare) + 80 : undefined,
     };
   });
-  // Only the page itself mounts its map overlay; the full map borrowing its camera has none to clear.
-  const requestFocusFit = useCallback((definition: FocusDefinition) => {
-    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds, insetRight: focusDef?.mapOverlayInset }));
-  }, [focusDef]);
+  // The full map borrowing a page's camera shows the same key, so it clears the same width.
+  const requestFocusFit = useCallback((definition: FocusDefinition, insetBottom?: number) => {
+    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: definition.fitBounds, insetRight: definition.mapOverlayInset, insetBottom }));
+  }, []);
   // A setup's own opening camera. Its revision also tells MapCanvas's
   // LayerZoomController to leave the layer change that came with it alone.
   const [themeCamera, setThemeCamera] = useState<ThemeCameraRequest>(() =>
@@ -1379,11 +1406,11 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     const camera = focusDef ? undefined : themeCameraFor(themeId);
     if (!camera) {
       const themeFocus = focusForTheme(themeId);
-      if (themeFocus) requestFocusFit(themeFocus);
+      if (themeFocus) requestFocusFit(themeFocus, phoneSheetCover());
       return;
     }
     setThemeCamera(({ revision }) => ({ revision: revision + 1, camera }));
-    if (camera.kind === "fit") setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: camera.bounds }));
+    if (camera.kind === "fit") setFocusFit(({ revision }) => ({ revision: revision + 1, bounds: camera.bounds, insetBottom: phoneSheetCover() }));
   }, [focusDef, requestFocusFit]);
   // A focus page's own filter and selection; only the parameters the page
   // shares are read from, and written back to, its links.
@@ -1397,6 +1424,23 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   }, []);
   const [rhodenaPickPending, setRhodenaPickPending] = useState(false);
   const pokerMode = selectedThemeId === "poker";
+  // The main map's memory of the reader's last view (themes/returnMemory.ts).
+  // A focus page keeps its own state and stays out of it.
+  const [lastViewAtOpen] = useState<LastView | null>(() => focusDef ? null : readLastView(reachableLocalStorage()));
+  const [openingKind] = useState<OpeningKind>(() => focusDef
+    ? "own"
+    // A bare `?theme=` is a door into a setup, not someone's view: it neither says "link" nor offers anything back.
+    : !hasRecognizedShareState && initialUrl.searchParams.has("theme")
+      ? "own"
+      : classifyOpening(initialUrl.search, hasRecognizedShareState, lastViewAtOpen, reachableSessionStorage()));
+  const [returnNoteOpen, setReturnNoteOpen] = useState(
+    () => openingKind === "link" || (openingKind === "plain" && offersReturn(lastViewAtOpen)),
+  );
+  const [openingThemeId] = useState(selectedThemeId);
+  // A link's view never overwrites the reader's own until they keep it.
+  const fromLinkRef = useRef(openingKind === "link");
+  // The address the map writes before the reader has done anything is not worth remembering.
+  const firstShareSearchRef = useRef<string | null>(null);
   const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
   const [pokerRevision, setPokerRevision] = useState(0);
   const [pokerCivicStatus, setPokerCivicStatus] = useState("Zoom in to see civic numbers.");
@@ -4173,6 +4217,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const themeResolution = themeStatus === "partial" && themeResult !== null
     ? themeResolutionNotice(themeResult)
     : null;
+  const themeChangeSummary = themeStatus === "modified" && selectedTheme
+    ? describeThemeChanges(themeResult?.target ?? selectedTheme, themeComparableState, (id) => themeLayerNames.get(id) ?? id)
+    : null;
+  const activeThemeName = mapThemes.find(({ id }) => id === activeThemeId)?.name ?? "Shared setup";
+  const activeThemeNameRef = useRef(activeThemeName);
+  activeThemeNameRef.current = activeThemeName;
   const themeNotice = [themeLibraryNotice, themeResolution]
     .filter((notice): notice is string => notice !== null)
     .join(" ") || null;
@@ -4384,6 +4434,33 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     ],
   );
 
+  // Runs with each address-bar write. It stays in this browser.
+  const rememberView = useCallback((search: string) => {
+    firstShareSearchRef.current ??= search;
+    writeTabView(reachableSessionStorage(), search, fromLinkRef.current);
+    if (!fromLinkRef.current && search !== firstShareSearchRef.current) {
+      writeLastView(reachableLocalStorage(), { search, setupName: activeThemeNameRef.current });
+    }
+  }, []);
+  /** Open the reader's own view again, through the same path as any link. */
+  const returnToView = useCallback((view: LastView) => {
+    writeLastView(reachableLocalStorage(), view);
+    writeTabView(reachableSessionStorage(), view.search, false);
+    window.history.replaceState(null, "", `${window.location.pathname}${view.search}`);
+    if (onRestart) onRestart();
+    else window.location.reload();
+  }, [onRestart]);
+  const dismissReturnNote = useCallback(() => {
+    setReturnNoteOpen(false);
+    if (openingKind === "plain") {
+      clearLastView(reachableLocalStorage());
+      return;
+    }
+    // The reader keeps the linked view: from here on it is their own.
+    fromLinkRef.current = false;
+    rememberView(window.location.search);
+  }, [openingKind, rememberView]);
+
   useEffect(() => {
     // Throttled on BOTH edges, and never allowed to throw.
     //
@@ -4403,6 +4480,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       lastShareUrlWriteRef.current = Date.now();
       try {
         window.history.replaceState(null, "", shareUrl);
+        if (!focusDef) rememberView(new URL(shareUrl).search);
       } catch {
         // Rate-limited or otherwise refused: the map keeps working and the
         // address bar catches up on the next change.
@@ -4418,7 +4496,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
       SHARE_URL_WRITE_DELAY_MS - sinceLastWrite,
     );
     return () => window.clearTimeout(timer);
-  }, [shareUrl]);
+  }, [focusDef, rememberView, shareUrl]);
 
   useEffect(() => {
     // Feedback belongs to the state that was copied. Ignore a clipboard
@@ -4984,6 +5062,117 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   };
   const FocusPanel = focusDef?.chrome.Panel;
   const FocusMapOverlay = focusDef?.chrome.MapOverlay;
+  // A setup's one visible first step, named for its task, from data the map
+  // really holds. Electoral's chip and Historical Maps' sheet step sit with
+  // their own controls above.
+  const showTaxSaleKey = !focusDef && !selectedPid && activeThemeId === "tax-sale-research" && taxSaleEnabled && mapMode === "current" && licenceAccepted;
+  const goToBounds = (bounds: FocusBounds) => {
+    setFocusFit(({ revision }) => ({ revision: revision + 1, bounds, insetRight: showTaxSaleKey ? 264 : undefined }));
+    closeMobileControls();
+  };
+  // Open a layer category from outside the list and bring it into view.
+  const revealCategory = (categoryId: LayerCategoryId) => {
+    if (phoneCategoryLayout) {
+      focusCategory(categoryId);
+      setSheetDetent("full");
+    } else {
+      setCategoryExpanded(categoryId, true);
+    }
+    window.requestAnimationFrame(() => {
+      const button = categoryButtonRefs.current.get(categoryId);
+      const still = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+      button?.scrollIntoView({ block: "start", behavior: still ? "auto" : "smooth" });
+      button?.focus({ preventScroll: true });
+    });
+  };
+  const firstStep = (() => {
+    switch (activeThemeId) {
+      case "tax-sale-research": {
+        if (!taxSaleEnabled || mapMode !== "current") return undefined;
+        const next = nextDatedTaxSale(taxSaleEvents, currentTime);
+        if (!next) return <SetupFirstStep note="No current notice records a future sale date. Tap a dot for its notice." />;
+        const pids = new Set(advertisedPidsForEvents([next]));
+        const bounds = geometryBounds(drawableParcels.features.filter(({ properties }) => pids.has(properties.PID)).map(({ geometry }) => geometry));
+        return (
+          <SetupFirstStep
+            label={`Go to next sale: ${next.shortMunicipality}, ${shortSaleDate(next.saleStartsAt ?? "")}`}
+            note="From the municipality’s notice. Confirm the date with them."
+            onClick={() => {
+              if (bounds) goToBounds(bounds);
+              else revealCategory("tax-sale");
+            }}
+          />
+        );
+      }
+      case "forestry-field-access":
+        return (
+          <SetupFirstStep
+            label="Go to my location"
+            note="Your location stays in this browser."
+            onClick={() => {
+              // The map's own locate control, with its permission and failure messages.
+              const locate = document.querySelector<HTMLButtonElement>(".location-button");
+              if (locate?.getAttribute("aria-pressed") !== "true") locate?.click();
+              closeMobileControls();
+            }}
+          />
+        );
+      case "georeferencing":
+        return (
+          <SetupFirstStep
+            label="Load a scan"
+            note={userMapsApi.records.length > 0
+              ? `${userMapsApi.records.length} saved in this browser. Next: match its points, then check the fit.`
+              : "Next: match its points, then check the fit. Scans stay in this browser."}
+            onClick={() => revealCategory("my-maps")}
+          />
+        );
+      case "poker":
+        return <SetupFirstStep note="Search a civic number, or tap the map at the house to start a trace." />;
+      case "fishing": {
+        const month = new Date(currentTime).getMonth() + 1;
+        return (
+          <SetupFirstStep
+            label={`Spots for ${CURRENT_MONTH_NAMES[month - 1]}`}
+            href={new URL(`fishing?month=${month}`, document.baseURI).href}
+            note="Opens the Fishing page, filtered to this month."
+          />
+        );
+      }
+      case "rhodena":
+        return (
+          <SetupFirstStep
+            label={effectiveContextLayers["rhodena-visibility"] ? "Hide turbine visibility" : "Show turbine visibility"}
+            note={<>Terrain only; trees and buildings are not modelled. <a href={new URL("rhodena", document.baseURI).href}>Open the Rhodena page</a></>}
+            onClick={() => {
+              setContextLayerVisibility("rhodena-visibility", !effectiveContextLayers["rhodena-visibility"]);
+              closeMobileControls();
+            }}
+          />
+        );
+      case "point-tupper":
+        return (
+          <SetupFirstStep
+            label="Open the Point Tupper page"
+            href={new URL("pointtupper", document.baseURI).href}
+            note="The site brief, with each source and date."
+          />
+        );
+      default:
+        return undefined;
+    }
+  })();
+  // The key belongs to the setup's marks; a parcel's own panel takes that corner.
+  const SetupKey = focusDef || pokerMode || selectedPid
+    ? null
+    : activeThemeId === "fishing"
+      ? FishingMapKey
+      : activeThemeId === "rhodena"
+        ? RhodenaMapKey
+        : activeThemeId === "point-tupper"
+          ? PointTupperSetupKey
+          : null;
+  const showReturnNote = returnNoteOpen && !focusDef && (openingKind === "link" || selectedThemeId === openingThemeId);
 
   return (
     <>
@@ -5081,6 +5270,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             themes={mapThemes}
             activeThemeId={activeThemeId}
             status={themeStatus}
+            changeSummary={themeChangeSummary}
             notice={themeNotice}
             selectRef={mapSetupSelectRef}
             onSelect={selectTheme}
@@ -5095,21 +5285,24 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               // layer on, washed by winning party. Its own 55-district
               // geometry and date stay on the layer row and the map legend.
               const on = effectiveContextLayers["provincial-results-2024"] && electoralModes["provincial-results-2024"] !== "boundaries";
+              // The service can take about 9 seconds: the chip says so, or says why nothing came.
+              const washNote = on ? electoralWashNote(layerStatuses["provincial-results-2024"]) : null;
               return (
                 <div className="setup-chips" role="group" aria-label="Election results">
                   <button
                     type="button"
                     className="setup-chip"
                     aria-pressed={on}
+                    aria-busy={on && layerStatuses["provincial-results-2024"]?.status === "loading"}
                     onClick={() => {
                       setElectoralModes((current) => withElectoralMode(current, "provincial-results-2024", on ? "boundaries" : "winner"));
                       setContextLayerVisibility("provincial-results-2024", !on);
                       if (!on && !licenceAccepted) reviewProvinceLicence();
                     }}
                   >
-                    2024 results
+                    Show 2024 winners
                   </button>
-                  {on ? <span className="setup-chip-note">Winning party · Elections Nova Scotia, November 26, 2024</span> : null}
+                  {on ? <span className="setup-chip-note" aria-live="polite">{washNote ?? "Winning party · Elections Nova Scotia, November 26, 2024"}</span> : null}
                 </div>
               );
             })() : activeThemeId === "historical-maps" && fletcherVisible && fletcherTileConfiguration.baseUrl ? (() => {
@@ -5118,9 +5311,19 @@ export function App({ focus }: { focus?: FocusId } = {}) {
               // move together; a fade is viewing, not a setup change
               // (themes/themeState.ts), and a share link carries it.
               const percent = Math.round(fletcherOpacity * 100);
+              const center = mapViewport.position;
+              const sheet = nearestSheet(fletcherSheets, center);
               return (
+                <>
+                {sheet ? (
+                  <SetupFirstStep
+                    label={`Go to Sheet ${sheet.sheet}`}
+                    note="Zoom in, where the 1880s lettering can be read."
+                    onClick={() => goToBounds(sheet.bounds as FocusBounds)}
+                  />
+                ) : null}
                 <div className="setup-fade">
-                  <label htmlFor="setup-fletcher-opacity">Fletcher sheets</label>
+                  <label htmlFor="setup-fletcher-opacity">Sheet opacity</label>
                   <input
                     id="setup-fletcher-opacity"
                     type="range"
@@ -5132,10 +5335,12 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                     onChange={(event) => setFletcherOpacity(Number(event.target.value))}
                   />
                   <output htmlFor="setup-fletcher-opacity" aria-hidden="true">{percent}%</output>
+                  <span className="setup-fade-ends" aria-hidden="true"><span>Today</span><span>1880s</span></span>
                   <span className="setup-chip-note">David Rumsey Map Collection · <span className="setup-fade-licence">{RUMSEY_LICENCE_NAME}</span></span>
                 </div>
+                </>
               );
-            })() : undefined}
+            })() : firstStep}
           /> : null}
 
           {/* An output of the map as set up, so it follows the setup rather
@@ -6079,8 +6284,24 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             </button>
           </div>
           {pokerMode && searchForm}
-          <div ref={mapLegendsRef} className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
+          <div ref={mapLegendsRef} className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} status={layerStatuses[id]} waiting />)}</div>
           {FocusMapOverlay ? <FocusMapOverlay {...focusChromeContext} /> : null}
+          {!focusDef ? (
+            // Stacked, so each pushes the next rather than covering it.
+            <div className="map-overlay-stack">
+              {activeThemeId !== "explore-nova-scotia" && !mobileControlsOpen ? <span className="mobile-setup-name">{activeThemeName}</span> : null}
+              {showReturnNote ? (
+                <ReturnNote
+                  kind={openingKind === "link" ? "link" : "offer"}
+                  setupName={openingKind === "link" ? activeThemeName : lastViewAtOpen?.setupName ?? "your last view"}
+                  onReturn={lastViewAtOpen ? () => returnToView(lastViewAtOpen) : undefined}
+                  onDismiss={dismissReturnNote}
+                />
+              ) : null}
+              {SetupKey ? <SetupKey {...focusChromeContext} /> : null}
+              {showTaxSaleKey ? <TaxSaleMapKey context={focusChromeContext} events={taxSaleEvents.filter(({ id }) => selectedEventIds.has(id))} now={currentTime} /> : null}
+            </div>
+          ) : null}
           {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] && layerStatuses[electoralSelection.layer.id]?.status === "ready" ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
           <MapCanvas
             poker={pokerMode ? {
