@@ -1,0 +1,102 @@
+# EXPERIMENT — not for merge (grok-bots#961). Timed touch probes of the
+# identify tap, on today's behaviour (the delegate answers no) and on the fix.
+name: "[experiment] double tap probes"
+
+on:
+  push:
+    branches:
+      - experiment/double-tap-probe
+
+permissions:
+  contents: read
+
+env:
+  PROJECT: ns-marks-the-spot.xcodeproj
+  SCHEME: ns-marks-the-spot
+  DERIVED_DATA_PATH: ${{ github.workspace }}/DerivedData
+
+jobs:
+  probe:
+    name: "${{ matrix.guard }} guard"
+    runs-on: macos-26
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        guard: [baseline, fixed]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.5
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Resolve cache key inputs
+        id: cache-key
+        run: |
+          version="$(xcodebuild -version | tr '\n ' '--' | sed 's/-*$//')"
+          echo "xcode-version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Restore SwiftPM and DerivedData
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/Library/org.swift.swiftpm
+            DerivedData
+          key: ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.cache-key.outputs.xcode-version }}-
+
+      - name: Resolve Swift packages
+        run: xcodebuild -project "$PROJECT" -scheme "$SCHEME" -resolvePackageDependencies
+
+      - name: Build for testing
+        run: |
+          extra=()
+          if [ "${{ matrix.guard }}" = "baseline" ]; then
+            extra=('OTHER_SWIFT_FLAGS=$(inherited) -DBASELINE_GUARD')
+          fi
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            CODE_SIGNING_ALLOWED=NO -quiet "${extra[@]}"
+
+      - name: Resolve test simulator
+        id: test-simulator
+        run: |
+          destination="$(
+            xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showdestinations |
+            python3 .github/scripts/resolve-ios-test-destination.py
+          )"
+          echo "destination=$destination" >> "$GITHUB_OUTPUT"
+
+      - name: Probes
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.test-simulator.outputs.destination }}" \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -only-testing:ns-marks-the-spotUITests/DoubleTapProbeUITests \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/probe.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$RUNNER_TEMP/probe.log"
+
+      - name: Keep the log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-${{ matrix.guard }}
+          path: |
+            ${{ runner.temp }}/probe.log
+            ${{ runner.temp }}/probe.xcresult
+          retention-days: 7
+          if-no-files-found: ignore

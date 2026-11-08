@@ -44,10 +44,22 @@ struct MapSurfaceView: UIViewRepresentable {
         selectionPan.cancelsTouchesInView = true
         mapView.addGestureRecognizer(selectionPan)
 
+        #if DEBUG
+        let identifyTap: UITapGestureRecognizer = MapTapTrace.isEnabled
+            ? TracingTapGestureRecognizer(
+                target: controller,
+                action: #selector(MapController.handleIdentifyTap(_:))
+            )
+            : UITapGestureRecognizer(
+                target: controller,
+                action: #selector(MapController.handleIdentifyTap(_:))
+            )
+        #else
         let identifyTap = UITapGestureRecognizer(
             target: controller,
             action: #selector(MapController.handleIdentifyTap(_:))
         )
+        #endif
         identifyTap.name = MapController.identifyTapName
         identifyTap.delegate = controller
         // Not consumed: MapKit's own recognizers still need this touch, and a
@@ -72,6 +84,11 @@ struct MapSurfaceView: UIViewRepresentable {
         mapView.addGestureRecognizer(placeLongPress)
 
         controller.mapView = mapView
+        #if DEBUG
+        MapTapTrace.mapView = mapView
+        MapTapTrace.observeTree(mapView)
+        MapTapTrace.installEventLog()
+        #endif
         // Held until layout, then applied without animation. Skipped when
         // something is already held: a link or a resumed session asked for that
         // position, and asking again for this one would overwrite it with the

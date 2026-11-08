@@ -1976,6 +1976,11 @@ final class MapController: NSObject {
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+        #if DEBUG
+        MapTapTrace.record(
+            "identify action state=\(recognizer.state.rawValue) activeGesture=\((recognizer.view as? MKMapView).map(Self.hasActiveGesture) ?? false) point=\(recognizer.location(in: recognizer.view))"
+        )
+        #endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
         let coordinate = mapView.convert(
@@ -2083,6 +2088,13 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        #if DEBUG
+        MapTapTrace.record(String(
+            format: "region latDelta=%.6f lat=%.6f lng=%.6f animated=%@",
+            mapView.region.span.latitudeDelta, mapView.region.center.latitude,
+            mapView.region.center.longitude, animated ? "true" : "false"
+        ))
+        #endif
         guard mapView === self.mapView else { return }
         applyPendingCenterIfPossible()
         startFollowingIfArmed()
@@ -2904,7 +2916,15 @@ extension MapController: UIGestureRecognizerDelegate {
               let mapView = gestureRecognizer.view,
               let tap = otherGestureRecognizer as? UITapGestureRecognizer,
               tap.view?.isDescendant(of: mapView) == true else { return false }
-        return tap.numberOfTapsRequired > 1 && tap.numberOfTouchesRequired == 1
+        #if BASELINE_GUARD
+        return false
+        #else
+        let waits = tap.numberOfTapsRequired > 1 && tap.numberOfTouchesRequired == 1
+        #if DEBUG
+        if waits { MapTapTrace.record("identify waits for \(MapTapTrace.describe(tap))") }
+        #endif
+        return waits
+        #endif
     }
 
     func gestureRecognizer(
