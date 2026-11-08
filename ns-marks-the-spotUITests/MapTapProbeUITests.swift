@@ -18,20 +18,24 @@ final class MapTapProbeUITests: XCTestCase {
         super.tearDown()
     }
 
+    @MainActor
     private func map(_ app: XCUIApplication) -> XCUIElement {
         app.descendants(matching: .any)
             .matching(NSPredicate(format: "label == %@", "Map of Nova Scotia")).firstMatch
     }
 
+    @MainActor
     private func traceLines(_ app: XCUIApplication) -> [Substring] {
         String(describing: map(app).value ?? "").split(separator: "\n")
     }
 
+    @MainActor
     private func lastSequence(_ app: XCUIApplication) -> Int {
         traceLines(app).last.map { Int($0.prefix(while: \.isNumber)) ?? 0 } ?? 0
     }
 
     /// Runs one probe and records whether `succeeded` came true.
+    @MainActor
     private func probe(
         _ key: String, app: XCUIApplication, timeout: TimeInterval = 5,
         act: () -> Void, succeeded: () -> Bool
