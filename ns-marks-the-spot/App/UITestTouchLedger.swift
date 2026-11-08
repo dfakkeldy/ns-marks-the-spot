@@ -28,7 +28,8 @@ enum UITestTouchLedger {
 
     /// A touch held this long may already have acted. The shortest press that
     /// acts before the finger lifts is the map's 0.45 s long press, which places
-    /// a point, so repeating that touch could place a second one.
+    /// a point while a drawing tool is armed, so repeating that touch could place
+    /// a second one.
     private static let longestRepeatableHold: TimeInterval = 0.4
 
     private struct OpenTouch {
