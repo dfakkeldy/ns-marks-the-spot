@@ -2904,28 +2904,17 @@ extension MapController: UIGestureRecognizerDelegate {
         // lost both measuring taps and the tap that dismisses the layers).
         // A measurement badge is deliberately transparent to these taps.
         if Self.measurementEndpointCovers(point, in: mapView) { return true }
-        return !Self.selectableAnnotationOwnsTap(at: mapView.hitTest(point, with: nil))
-    }
-
-    /// Whether the view a tap landed on belongs to a marker MapKit can select.
-    ///
-    /// A selectable marker owns its tap: the parcel underneath it must not be
-    /// identified as a second action. A marker that cannot be selected — a
-    /// placed measuring or drawing corner — owns nothing, and MapKit's single
-    /// tap on it behaves as a tap on bare ground. Made to compete, the two
-    /// taps race for a tap aimed exactly at a corner, which is where a reader
-    /// snaps a drawing back onto its own point. The identify tap wins that
-    /// race today only because it does not wait for MapKit's double tap to
-    /// fail (see the double-tap guard in `MapSurfaceView`).
-    static func selectableAnnotationOwnsTap(at view: UIView?) -> Bool {
-        var current = view
-        while let candidate = current {
-            if let annotationView = candidate as? MKAnnotationView {
-                return annotationView.isEnabled
-            }
-            current = candidate.superview
+        var hit = mapView.hitTest(point, with: nil)
+        while let view = hit {
+            // A selectable marker still owns its tap; do not identify the
+            // parcel underneath it as a second action. A placed corner answers
+            // here too, though it cannot be selected. Its tap still places a
+            // point, because the identify tap recognizes at touch-up, while
+            // MapKit's single tap is still waiting for its double tap to fail.
+            if view is MKAnnotationView { return false }
+            hit = view.superview
         }
-        return false
+        return true
     }
 
     /// Whether a point on the map sits on the labelled measuring endpoint.

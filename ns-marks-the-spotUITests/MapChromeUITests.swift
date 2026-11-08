@@ -192,10 +192,10 @@ final class MapChromeUITests: XCTestCase {
 
     /// A tap aimed exactly at a placed corner places a point there.
     ///
-    /// The corner is a marker MapKit hit-tests but cannot select. While
-    /// drawing, a tap there is the one that snaps a shape back onto its own
-    /// corner, so placing the point must not depend on winning a race with
-    /// MapKit's own single tap.
+    /// The corner is a marker MapKit hit-tests but cannot select, and the
+    /// gesture delegate still makes the identify tap compete with MapKit's own
+    /// single tap on it. The identify tap wins, and that matters: while
+    /// drawing, this is the tap that snaps a shape back onto its own corner.
     @MainActor
     func testATapOnAPlacedCornerPlacesAPoint() throws {
         let app = XCUIApplication.launchedForUITests()

@@ -182,33 +182,6 @@ struct MeasurementEndpointTests {
         map.hitView = content
         #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: UITapGestureRecognizer()))
     }
-
-    @Test func aTapOnAPlacedCornerPlacesThroughIt() throws {
-        var session = MeasureSession(mode: .distance)
-        points.forEach { session.add($0) }
-        let first = try #require(VectorDraftPreview(measuring: session).handles().first)
-        let map = TapHitMapView()
-        let controller = MapController()
-        let identify = UITapGestureRecognizer()
-        identify.name = MapController.identifyTapName
-        map.addGestureRecognizer(identify)
-        // A corner without the total, which hit-tests as itself: the
-        // labelled endpoint refuses the hit and is covered above.
-        let corner = try #require(controller.mapView(map, viewFor: first))
-        #expect(!corner.isEnabled)
-        map.hitView = corner
-        #expect(controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: UITapGestureRecognizer()))
-
-        // Unchanged for a marker that can be selected.
-        let pin = MKAnnotationView()
-        let content = UIView()
-        pin.addSubview(content)
-        #expect(MapController.selectableAnnotationOwnsTap(at: content))
-        pin.isEnabled = false
-        #expect(!MapController.selectableAnnotationOwnsTap(at: content))
-        #expect(!MapController.selectableAnnotationOwnsTap(at: UIView()))
-        #expect(!MapController.selectableAnnotationOwnsTap(at: nil))
-    }
 }
 
 @MainActor
