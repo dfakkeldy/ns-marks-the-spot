@@ -19,6 +19,6 @@ Please try:
 Known scope for this build:
 - The 1885 historical overlay can load when the build uses the published default tile host. If the layer row is present, you can toggle it. An empty or explicit host override still disables hosting. Saved offline areas store historical-overlay tiles.
 - NS Aerial and the provincial reference layers are online services. Recently viewed tiles redraw offline until the cache makes room for newer ones.
-- The Atlas base map is pre-rendered provincial-plus-OSM tiles from the published tile host, not a live vector map: zooming in past its deepest level magnifies the tiles rather than adding detail, and the Atlas is not part of saved offline areas yet. Those tiles do not yet include the browser Atlas Crown Land fills. With no tile host configured the Atlas entries are absent and the map opens on OpenStreetMap.
+- The Atlas base map is pre-rendered provincial-plus-OSM tiles from the published tile host, not a live vector map: zooming in past its deepest level magnifies the tiles rather than adding detail, and the Atlas is not part of saved offline areas yet. Those tiles now include the browser Atlas Crown Land fills. With no tile host configured the Atlas entries are absent and the map opens on OpenStreetMap.
 
 An empty search result or an empty layer is worth reporting, with the place and the time — but note that the app deliberately reports an empty answer as "nothing returned", never as proof that nothing exists.
