@@ -102,6 +102,12 @@ enum MapTapTrace {
                 )
             } else if let down = touchDown.removeValue(forKey: id) {
                 held = String(format: " held=%.3f", touch.timestamp - down)
+                if touch.phase == .cancelled {
+                    held += String(
+                        format: " event=%.3f class=%@ touches=%ld",
+                        event.timestamp, NSStringFromClass(type(of: event)), touches.count
+                    )
+                }
             }
             let began = touch.phase == .began ? nil : touchView.removeValue(forKey: id)
             if touch.phase == .cancelled {

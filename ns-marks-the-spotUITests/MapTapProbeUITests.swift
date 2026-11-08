@@ -275,10 +275,13 @@ final class MapTapProbeUITests: XCTestCase {
     /// the press placed. The last point carries the endpoint label, so one placed
     /// point adds one `Placed corner`.
     @MainActor
-    private func runPressControl(_ label: String, environment key: String) {
+    private func runPressControl(
+        _ label: String, environment key: String, extra: [String: String] = [:], onUndo: Bool = false
+    ) {
         let app = XCUIApplication()
         app.launchArguments.append("UITestMode")
         app.launchEnvironment[key] = "4"
+        extra.forEach { app.launchEnvironment[$0.key] = $0.value }
         app.launch()
         let distance = app.buttons["measure-distance"]
         XCTAssertTrue(distance.waitForHittable(timeout: 30))
@@ -293,24 +296,98 @@ final class MapTapProbeUITests: XCTestCase {
         let corners = app.descendants(matching: .any)
             .matching(NSPredicate(format: "label BEGINSWITH %@", "Placed corner"))
         let before = corners.count
-        let target = app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).screenPoint
+        let target = onUndo
+            ? CGPoint(x: undo.frame.midX, y: undo.frame.midY)
+            : app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).screenPoint
         app.pressMap(at: target, forDuration: 0.6)
         _ = waitForUI(timeout: 5) { false }
         print("PRESS_CONTROL \(label) corners \(before)->\(corners.count) ledger=\(String(describing: app.value))")
+        printCancelTrace(label, app)
     }
 
-    /// Cancelled just after it began, before the long press fired. Expected: one
-    /// repeat, and one point from the repeat.
+    @MainActor
+    private func printCancelTrace(_ label: String, _ app: XCUIApplication) {
+        let lines = traceLines(app).filter {
+            $0.contains("cancel context") || $0.contains("touch cancelled")
+                || $0.contains("ledger injected") || $0.contains("long press began")
+        }
+        print("PRESS_TRACE_BEGIN \(label)\n\(lines.joined(separator: "\n"))\nPRESS_TRACE_END")
+    }
+
+    /// While measuring the long press never begins, so a press acts at touch-up.
+    /// Cancelled before the finger lifts. Expected: one repeat, one point.
     @MainActor
     func testZZControlEarlyPressCancelIsRepeated() throws {
         runPressControl("early cancel", environment: "UITEST_FORCED_SYSTEM_CANCEL_EVERY")
     }
 
-    /// Cancelled at 0.5 s, after the long press placed its point. Expected: no
-    /// repeat, one point. A repeat here would place a second.
+    /// The same at 0.5 s. Nothing has acted, so a repeat is safe. Expected: one
+    /// repeat, one point, which a clock-based rule would have refused.
     @MainActor
-    func testZZControlLatePressCancelIsNotRepeated() throws {
+    func testZZControlLatePressCancelIsRepeated() throws {
         runPressControl("late cancel", environment: "UITEST_LATE_CANCEL_EVERY")
+    }
+
+    /// The deciding control. The app cancels its own touch, with nothing forced,
+    /// as late as the system does. What do the gate and the touch's own clock read?
+    /// Those readings decide which rule can tell this from a natural cancel.
+    @MainActor
+    func testZZControlDelayedAppCancelReadings() throws {
+        for delay in ["0.05", "0.1", "0.18", "0.3", "0.5"] {
+            runPressControl(
+                "delayed app cancel \(delay)",
+                environment: "UITEST_DELAYED_CANCEL_EVERY",
+                extra: ["UITEST_DELAYED_CANCEL_AFTER": delay]
+            )
+        }
+        runPressControl(
+            "delayed app cancel on undo 0.18",
+            environment: "UITEST_DELAYED_CANCEL_EVERY",
+            extra: ["UITEST_DELAYED_CANCEL_AFTER": "0.18"],
+            onUndo: true
+        )
+    }
+
+    /// A drawing tool armed, so the long press acts while the finger is down:
+    /// layers, Draw, Draw point, then the press, the fourth touch.
+    @MainActor
+    private func runDrawingPressControl(_ label: String, environment key: String) {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launchEnvironment[key] = "4"
+        app.launch()
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: 30))
+        layers.tap()
+        let draw = app.buttons["Draw"]
+        XCTAssertTrue(draw.waitForExistence(timeout: 30))
+        draw.tap()
+        let point = app.buttons["Draw point"]
+        XCTAssertTrue(point.waitForHittable(timeout: 30))
+        point.tap()
+        XCTAssertTrue(waitForUI { point.isSelected }, "the point tool did not arm")
+        print("DRAW_CONTROL \(label) before press ledger=\(String(describing: app.value))")
+        let target = app.coordinate(withNormalizedOffset: CGVector(dx: 0.50, dy: 0.30)).screenPoint
+        app.pressMap(at: target, forDuration: 0.6)
+        _ = waitForUI(timeout: 5) { false }
+        let began = traceLines(app).filter { $0.contains("long press began") }.count
+        print("DRAW_CONTROL \(label) pressBegan=\(began) ledger=\(String(describing: app.value))")
+        printCancelTrace(label, app)
+    }
+
+    /// Cancelled before the 0.45 s press fired. Expected: one repeat, and the
+    /// long press acts once, on the repeat.
+    @MainActor
+    func testZZControlDrawingEarlyCancelIsRepeated() throws {
+        runDrawingPressControl("drawing early", environment: "UITEST_FORCED_SYSTEM_CANCEL_EVERY")
+    }
+
+    /// Cancelled at 0.5 s, after the press fired and placed its point, with the
+    /// gate faked. Expected: the recognizer's state says it acted, so no repeat,
+    /// and the long press acts once. A repeat here would place a second point.
+    @MainActor
+    func testZZControlDrawingLateCancelIsNotRepeated() throws {
+        runDrawingPressControl("drawing late", environment: "UITEST_LATE_CANCEL_EVERY")
     }
 
     /// A cancel with the gate faked, on the row of the base-map menu: the third

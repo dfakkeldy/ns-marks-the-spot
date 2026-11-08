@@ -35,6 +35,11 @@ enum UITestTouchLedger {
     private static let forcedSystemCancelEvery = environment["UITEST_FORCED_SYSTEM_CANCEL_EVERY"].flatMap(Int.init)
     /// The same, but 0.5 s after the touch began, past the 0.45 s long press.
     private static let lateCancelEvery = environment["UITEST_LATE_CANCEL_EVERY"].flatMap(Int.init)
+    /// Every nth touch is cancelled by the app after a delay, with nothing forced:
+    /// the deciding control for what the gate and the touch's clock read on a cancel
+    /// that is the app's own and arrives as late as the system's do.
+    private static let delayedCancelEvery = environment["UITEST_DELAYED_CANCEL_EVERY"].flatMap(Int.init)
+    private static let delayedCancelAfter = environment["UITEST_DELAYED_CANCEL_AFTER"].flatMap(Double.init) ?? 0.18
     /// Every nth identify tap is ignored though its touch ended.
     private static let ignoreIdentifyEvery = environment["UITEST_IGNORE_IDENTIFY_EVERY"].flatMap(Int.init)
     private static var identifyTaps = 0
@@ -47,6 +52,12 @@ enum UITestTouchLedger {
     }
 
     private static func injectCancelIfDue() {
+        if let every = delayedCancelEvery, began % every == 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delayedCancelAfter) {
+                MainActor.assumeIsolated { injectCancel() }
+            }
+            return
+        }
         if let every = lateCancelEvery, began % every == 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 MainActor.assumeIsolated { injectCancel() }
@@ -68,17 +79,8 @@ enum UITestTouchLedger {
         if responds { _ = UIApplication.shared.perform(selector) }
     }
 
-    /// A touch held this long may already have acted. The shortest press that
-    /// acts before the finger lifts is the map's 0.45 s long press, which places
-    /// a point while a drawing tool is armed, so repeating that touch could place
-    /// a second one.
-    private static let longestRepeatableHold: TimeInterval = 0.4
-
     private struct OpenTouch {
         weak var view: UIView?
-        /// The touch's own time, on the `systemUptime` clock. The time from here to
-        /// the moment a cancel arrives is at least as long as any recognizer's
-        /// timer has run, so a hold under the limit proves it has not fired.
         let downAt: TimeInterval
     }
 
@@ -102,23 +104,21 @@ enum UITestTouchLedger {
     }
 
     /// Whether the system took this touch back before it could act, as opposed
-    /// to the app losing it or the touch having had time to do something.
+    /// to the app losing it or the touch having already done something.
     ///
-    /// Every traced simulator cancel had all of these. Anything else is left for
-    /// the test to fail on: a touch cancelled because a view went away, a window
-    /// took over or the app resigned is behaviour a repeated tap would hide, and
-    /// a touch held long enough to act could act twice. If a later iOS renames
-    /// the gate, this reads false and tests fail as they did before, rather than
-    /// repeating taps they should not.
+    /// Anything else is left for the test to fail on: a touch cancelled because a
+    /// view went away, a window took over or the app resigned is behaviour a
+    /// repeated tap would hide, and a long press that has fired would fire again.
+    /// If a later iOS renames the gate, this reads false and tests fail as they
+    /// did before, rather than repeating taps they should not.
     static func isRepeatableSystemCancel(
         appIsActive: Bool,
         windowIsKey: Bool,
         viewIsInWindow: Bool,
         gateRecognized: Bool,
-        held: TimeInterval
+        longPressHasActed: Bool
     ) -> Bool {
-        appIsActive && windowIsKey && viewIsInWindow && gateRecognized
-            && held < longestRepeatableHold
+        appIsActive && windowIsKey && viewIsInWindow && gateRecognized && !longPressHasActed
     }
 
     fileprivate static func record(_ event: UIEvent) {
@@ -149,19 +149,21 @@ enum UITestTouchLedger {
         let appIsActive = UIApplication.shared.applicationState == .active
         let windowIsKey = touch.window?.isKeyWindow == true
         let viewIsInWindow = opened.view?.window != nil
-        let gateRecognized = (touch.gestureRecognizers ?? []).contains {
+        let recognizers = touch.gestureRecognizers ?? []
+        let gate = recognizers.first {
             String(describing: type(of: $0)) == "_UISystemGestureGateGestureRecognizer"
-                && $0.state == .recognized
         }
         let forced = injectedCancelPending && (forcedSystemCancelEvery != nil || lateCancelEvery != nil)
         injectedCancelPending = false
-        let held = ProcessInfo.processInfo.systemUptime - opened.downAt
+        // The one press that acts before the finger lifts. It is asked, not timed:
+        // load delays delivery, and load is when the system takes touches back.
+        let press = recognizers.first { $0.name == MapController.placeLongPressName }
         let isSystem = isRepeatableSystemCancel(
             appIsActive: appIsActive,
             windowIsKey: windowIsKey,
             viewIsInWindow: viewIsInWindow,
-            gateRecognized: gateRecognized || forced,
-            held: held
+            gateRecognized: gate?.state == .recognized || forced,
+            longPressHasActed: press?.state == .began || press?.state == .changed
         )
         if isSystem {
             systemCancelled += 1
@@ -170,10 +172,11 @@ enum UITestTouchLedger {
         }
         let point = touch.location(in: nil)
         lastCancel = String(
-            format: "lastCancel=%@ active=%d key=%d viewInWindow=%d gate=%d held=%.3f at=(%.1f,%.1f)",
+            format: "lastCancel=%@ active=%d key=%d viewInWindow=%d gate=%ld press=%ld held=%.3f at=(%.1f,%.1f)",
             isSystem ? "system" : "other",
-            appIsActive ? 1 : 0, windowIsKey ? 1 : 0, viewIsInWindow ? 1 : 0, gateRecognized ? 1 : 0,
-            held, point.x, point.y
+            appIsActive ? 1 : 0, windowIsKey ? 1 : 0, viewIsInWindow ? 1 : 0,
+            gate?.state.rawValue ?? -1, press?.state.rawValue ?? -1,
+            touch.timestamp - opened.downAt, point.x, point.y
         )
     }
 

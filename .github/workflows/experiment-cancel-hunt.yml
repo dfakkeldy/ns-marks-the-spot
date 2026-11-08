@@ -87,7 +87,10 @@ jobs:
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlAppCancelIsNotRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedSystemCancelIsRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlEarlyPressCancelIsRepeated \
-            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlLatePressCancelIsNotRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlLatePressCancelIsRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlDelayedAppCancelReadings \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlDrawingEarlyCancelIsRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlDrawingLateCancelIsNotRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedCancelOnBaseMapRow \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedCancelOnMoreRow \
             -parallel-testing-enabled NO \
@@ -97,8 +100,9 @@ jobs:
       - name: Tally
         if: always()
         run: |
-          grep -E 'CARRIER |LEDGER_INJECT|FINAL_LEDGER|UITEST_TAP|PRESS_CONTROL|MENU_CONTROL|^Test Case .*(passed|failed)|error:' "$RUNNER_TEMP/controls.log" | cut -c1-400 || true
+          grep -E 'CARRIER |LEDGER_INJECT|FINAL_LEDGER|UITEST_TAP|PRESS_CONTROL|DRAW_CONTROL|MENU_CONTROL|^Test Case .*(passed|failed)|error:' "$RUNNER_TEMP/controls.log" | cut -c1-400 || true
           awk '/PROBE_SUMMARY_BEGIN/,/PROBE_SUMMARY_END/' "$RUNNER_TEMP/controls.log" || true
+          awk '/PRESS_TRACE_BEGIN/,/PRESS_TRACE_END/' "$RUNNER_TEMP/controls.log" | cut -c1-400 || true
 
       - name: Keep logs
         if: always()
@@ -112,6 +116,7 @@ jobs:
 
   hunt:
     name: "Cancel hunt shard ${{ matrix.shard }}"
+    if: ${{ false }}
     runs-on: macos-26
     timeout-minutes: 300
     strategy:

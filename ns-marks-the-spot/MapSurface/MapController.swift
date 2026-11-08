@@ -1998,6 +1998,10 @@ final class MapController: NSObject {
     @objc func handlePlaceLongPress(_ recognizer: UILongPressGestureRecognizer) {
         guard recognizer.state == .began,
               let mapView = recognizer.view as? MKMapView else { return }
+        #if DEBUG
+        // EXPERIMENT — not for merge. How many times a press acted.
+        MapTapTrace.record("long press began")
+        #endif
         let coordinate = mapView.convert(
             recognizer.location(in: mapView), toCoordinateFrom: mapView
         )
