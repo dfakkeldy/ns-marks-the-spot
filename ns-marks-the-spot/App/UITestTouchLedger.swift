@@ -22,6 +22,7 @@ enum UITestTouchLedger {
     private static var ended = 0
     private static var systemCancelled = 0
     private static var otherCancelled = 0
+    private static var lost = 0
     private static var lastCancel: String?
     private static var open: [ObjectIdentifier: OpenTouch] = [:]
     private static var isInstalled = false
@@ -78,10 +79,16 @@ enum UITestTouchLedger {
 
     fileprivate static func record(_ event: UIEvent) {
         guard event.type == .touches, let touches = event.allTouches else { return }
+        if touches.contains(where: { $0.phase == .began }) {
+            countLostTouches(current: touches)
+        }
         for touch in touches {
             let id = ObjectIdentifier(touch)
             switch touch.phase {
             case .began:
+                // UIKit reuses touch objects, so a touch whose end never arrived
+                // can come back as this one.
+                if open[id] != nil { lost += 1 }
                 began += 1
                 open[id] = OpenTouch(view: touch.view, downAt: touch.timestamp, seenAt: touch.timestamp)
             case .ended:
@@ -96,6 +103,20 @@ enum UITestTouchLedger {
                 continue
             }
             publish()
+        }
+    }
+
+    /// A touch whose end never reached `sendEvent` would leave the counts one
+    /// open for the rest of the launch, and every later cancel would look as if
+    /// it might be that touch's, so none would be repeated. A new touch begins
+    /// only with every live touch in its event, so an open one missing from it
+    /// is gone. The tap during which this is noticed still is not repeated,
+    /// because its earlier count showed the touch open; the ones after it are.
+    private static func countLostTouches(current touches: Set<UITouch>) {
+        let live = Set(touches.map(ObjectIdentifier.init))
+        for id in open.keys where !live.contains(id) {
+            open.removeValue(forKey: id)
+            lost += 1
         }
     }
 
@@ -133,7 +154,7 @@ enum UITestTouchLedger {
 
     private static func publish() {
         var summary = "began=\(began) ended=\(ended) "
-            + "systemCancelled=\(systemCancelled) otherCancelled=\(otherCancelled)"
+            + "systemCancelled=\(systemCancelled) otherCancelled=\(otherCancelled) lost=\(lost)"
         if let lastCancel { summary += "\n\(lastCancel)" }
         UIApplication.shared.accessibilityValue = summary
     }

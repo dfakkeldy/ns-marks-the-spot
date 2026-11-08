@@ -6,23 +6,26 @@ struct TouchLedger: Equatable {
     var ended = 0
     var systemCancelled = 0
     var otherCancelled = 0
+    /// Touches the app saw begin and never saw end, counted when the next began.
+    var lost = 0
     /// The app's note on its latest cancel, for the log. Not part of any decision.
     var lastCancel: String?
 
-    var finished: Int { ended + systemCancelled + otherCancelled }
+    var finished: Int { ended + systemCancelled + otherCancelled + lost }
 
     /// A touch begun and not yet finished, whose ending the next count could be.
     var hasOpenTouch: Bool { began > finished }
 
-    init(began: Int = 0, ended: Int = 0, systemCancelled: Int = 0, otherCancelled: Int = 0) {
+    init(began: Int = 0, ended: Int = 0, systemCancelled: Int = 0, otherCancelled: Int = 0, lost: Int = 0) {
         self.began = began
         self.ended = ended
         self.systemCancelled = systemCancelled
         self.otherCancelled = otherCancelled
+        self.lost = lost
     }
 
-    /// `began=3 ended=2 systemCancelled=1 otherCancelled=0`, then an optional
-    /// line about the latest cancel.
+    /// `began=3 ended=2 systemCancelled=1 otherCancelled=0 lost=0`, then an
+    /// optional line about the latest cancel. `lost` may be absent.
     init?(published value: Any?) {
         guard let text = value as? String else { return nil }
         let lines = text.split(separator: "\n", maxSplits: 1)
@@ -39,7 +42,8 @@ struct TouchLedger: Equatable {
               let otherCancelled = fields["otherCancelled"] else { return nil }
         self.init(
             began: began, ended: ended,
-            systemCancelled: systemCancelled, otherCancelled: otherCancelled
+            systemCancelled: systemCancelled, otherCancelled: otherCancelled,
+            lost: fields["lost"] ?? 0
         )
         lastCancel = lines.count > 1 ? String(lines[1]) : nil
     }
@@ -149,6 +153,7 @@ struct SystemCancelRetry {
         "began \(before.began)->\(after.began) ended \(before.ended)->\(after.ended) "
             + "system \(before.systemCancelled)->\(after.systemCancelled) "
             + "other \(before.otherCancelled)->\(after.otherCancelled) "
+            + "lost \(before.lost)->\(after.lost) "
             + (after.lastCancel ?? "")
     }
 
