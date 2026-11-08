@@ -26,9 +26,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - load: no
-            iterations: 30
-          - load: cpu
+          - load: memory
+            iterations: 20
+          - load: io
             iterations: 20
 
     steps:
@@ -79,15 +79,40 @@ jobs:
           echo "destination=$destination" >> "$GITHUB_OUTPUT"
           sysctl -n hw.ncpu hw.memsize
 
-      - name: Start CPU load
-        if: matrix.load == 'cpu'
+      # Failed CI runs spent 2-20 s on single accessibility queries; CPU load
+      # alone did not slow this runner at all (run 42430153346). Memory
+      # pressure (swapping) and disk contention are the next suspects.
+      - name: Start memory load
+        if: matrix.load == 'memory'
         run: |
-          cpus="$(sysctl -n hw.ncpu)"
-          for _ in $(seq 1 $((cpus * 2))); do
-            nohup yes > /dev/null 2>&1 &
+          cat > "$RUNNER_TEMP/hog.py" <<'EOF'
+          import os, time
+          block = os.urandom(64 * 1024 * 1024)
+          buf = bytearray(block) * 56
+          print(f"holding {len(buf) / 1024**3:.1f} GB", flush=True)
+          while True:
+              for i in range(0, len(buf), 16384):
+                  buf[i] ^= 1
+              time.sleep(0.5)
+          EOF
+          nohup python3 -I "$RUNNER_TEMP/hog.py" > "$RUNNER_TEMP/hog.log" 2>&1 &
+          sleep 20
+          cat "$RUNNER_TEMP/hog.log"; sysctl vm.swapusage; uptime
+
+      - name: Start disk load
+        if: matrix.load == 'io'
+        run: |
+          cat > "$RUNNER_TEMP/io.sh" <<'EOF'
+          while true; do
+            dd if=/dev/urandom of="$RUNNER_TEMP/io.bin" bs=1m count=1024 2>/dev/null
+            sync
+            cat "$RUNNER_TEMP/io.bin" > /dev/null
+            rm -f "$RUNNER_TEMP/io.bin"
           done
-          sleep 2
-          ps -axo pid,pcpu,comm | sort -k2 -nr | head -12
+          EOF
+          RUNNER_TEMP="$RUNNER_TEMP" nohup bash "$RUNNER_TEMP/io.sh" > /dev/null 2>&1 &
+          sleep 20
+          uptime; ps -axo pid,pcpu,comm | sort -k2 -nr | head -5
 
       - name: Probes (one launch each)
         continue-on-error: true
@@ -106,6 +131,8 @@ jobs:
       - name: Probe tally
         if: always()
         run: |
+          uptime; sysctl vm.swapusage
+          grep -E "Test Case .*(passed|failed) \(" "$RUNNER_TEMP/probe.log" || true
           echo "PROBE_TALLY_BEGIN (${{ matrix.load }} load)"
           awk '/PROBE_SUMMARY_BEGIN/,/PROBE_SUMMARY_END/' "$RUNNER_TEMP/probe.log" | grep -v PROBE_SUMMARY || true
           echo "PROBE_TALLY_END"
@@ -132,21 +159,36 @@ jobs:
       - name: Flaky tests tally
         if: always()
         run: |
+          uptime; sysctl vm.swapusage
           echo "ITERATIONS_BEGIN (${{ matrix.load }} load)"
           grep -E "^Test Case '-\[ns_marks_the_spotUITests\.MapChromeUITests test" "$RUNNER_TEMP/iterations.log" \
             | sed -E "s/.*MapChromeUITests (test[A-Za-z]+)\]' (passed|failed).*/\1 \2/" | sort | uniq -c || true
           grep -E "error: -\[" "$RUNNER_TEMP/iterations.log" | sed -E 's/.*\] : //' | sort | uniq -c || true
           echo "ITERATIONS_END"
 
-      - name: Stop CPU load
-        if: always() && matrix.load == 'cpu'
-        run: pkill yes || true
+      - name: Stop the load
+        if: always()
+        run: |
+          pkill -f hog.py || true
+          pkill -f io.sh || true
+          pkill dd || true
 
       - name: Dump the app's unified-log trace
         if: always()
         run: |
-          xcrun simctl list devices booted || true
-          xcrun simctl spawn booted log show --style compact --last 4h \
+          udid="$(xcrun simctl list devices -j | python3 -I -c '
+          import json, sys
+          name, os_version = sys.argv[1], sys.argv[2]
+          for runtime, devices in json.load(sys.stdin)["devices"].items():
+              if runtime.endswith("iOS-" + os_version.replace(".", "-")):
+                  for device in devices:
+                      if device["name"] == name:
+                          print(device["udid"])
+          ' "$(echo '${{ steps.test-simulator.outputs.destination }}' | sed -E 's/.*name=([^,]+),.*/\1/')" \
+            "$(echo '${{ steps.test-simulator.outputs.destination }}' | sed -E 's/.*OS=//')" | head -1)"
+          echo "simulator $udid"
+          xcrun simctl boot "$udid" || true
+          xcrun simctl spawn "$udid" log show --style compact --last 6h \
             --predicate 'subsystem == "nsmts.maptaptrace"' > "$RUNNER_TEMP/trace-log.txt" 2>&1 || true
           wc -l "$RUNNER_TEMP/trace-log.txt" || true
 

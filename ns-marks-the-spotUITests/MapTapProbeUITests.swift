@@ -5,6 +5,8 @@ import XCTest
 /// every touch the process received) for each one that did nothing.
 final class MapTapProbeUITests: XCTestCase {
     private var tally: [String: (done: Int, dropped: Int)] = [:]
+    /// Probes whose next passing trace is printed too.
+    private var alwaysTrace: Set<String> = ["corner1 centre tap", "layers close at x=25", "menu OpenStreetMap"]
 
     override func setUpWithError() throws {
         continueAfterFailure = true
@@ -48,7 +50,8 @@ final class MapTapProbeUITests: XCTestCase {
         if ok { entry.done += 1 } else { entry.dropped += 1 }
         tally[key] = entry
         print(String(format: "PROBE %@ ok=%@ took=%.2fs", key, ok ? "true" : "false", Date().timeIntervalSince(started)))
-        if !ok {
+        if !ok || alwaysTrace.contains(key) {
+            if ok { alwaysTrace.remove(key) }
             let slice = traceLines(app).filter { (Int($0.prefix(while: \.isNumber)) ?? 0) > before }
             print("PROBE_TRACE_BEGIN \(key)\n\(slice.joined(separator: "\n"))\nPROBE_TRACE_END")
         }
@@ -89,8 +92,6 @@ final class MapTapProbeUITests: XCTestCase {
             }
         }
         let cornerCentre = { CGPoint(x: corner.frame.midX, y: corner.frame.midY) }
-        // The labelled endpoint view ends in the dot: 14 points at its foot.
-        let lastDot = { CGPoint(x: endpoint.frame.midX, y: endpoint.frame.maxY - 7) }
         let badge = { endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).screenPoint }
         let nearBadge = { app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).screenPoint }
         let far = { app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).screenPoint }
@@ -100,7 +101,6 @@ final class MapTapProbeUITests: XCTestCase {
         for round in 0..<30 {
             place("corner1 centre tap", at: cornerCentre)
             if round.isMultiple(of: 3) {
-                place("last dot tap", at: lastDot)
                 place("badge tap", at: badge)
                 place("nearBadge tap", at: nearBadge)
                 place("far tap", at: far)
@@ -112,6 +112,25 @@ final class MapTapProbeUITests: XCTestCase {
             for _ in 0..<3 {
                 place("corner1 centre press \(duration)s", press: duration, at: cornerCentre)
                 place("edge x25 press \(duration)s", press: duration, at: edge25)
+            }
+        }
+        // Last, because it zooms. A double tap zooms. Count what it places: the trace says how many
+        // times the identify tap fired.
+        for _ in 0..<3 {
+            XCTAssertTrue(waitForUI(timeout: 10) { readout.label == base }, "did not return to two points")
+            let before = lastSequence(app)
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25)).doubleTap()
+            _ = waitForUI(timeout: 3) { false }
+            let slice = traceLines(app).filter { (Int($0.prefix(while: \.isNumber)) ?? 0) > before }
+            let placed = slice.filter { $0.contains("measure count") }.count
+            print("PROBE double tap placed=\(placed)")
+            print("PROBE_TRACE_BEGIN double tap\n\(slice.joined(separator: "\n"))\nPROBE_TRACE_END")
+            var entry = tally["double tap placed nothing"] ?? (done: 0, dropped: 0)
+            if placed == 0 { entry.done += 1 } else { entry.dropped += 1 }
+            tally["double tap placed nothing"] = entry
+            for _ in 0..<placed where undo.isEnabled && readout.label != base {
+                undo.tap()
+                _ = waitForUI(timeout: 3) { readout.label == base }
             }
         }
     }
