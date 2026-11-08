@@ -47,7 +47,9 @@ struct HeldMapTapTests {
             let tapped = Tapped()
             let controller = makeController(recording: tapped)
             controller.holdTap(latitude: 1, longitude: 0, at: spot)
-            controller.settleHeldTap(byTouchOnMapAt: CGPoint(x: spot.x + distance, y: spot.y))
+            controller.settleHeldTap(
+                byTouchOnMapAt: CGPoint(x: spot.x + distance, y: spot.y), mapKitDoubleTapWaiting: true
+            )
             await waitOutTheInterval()
             #expect(tapped.latitudes.isEmpty, "a touch \(distance) points away let the tap count")
         }
@@ -60,7 +62,8 @@ struct HeldMapTapTests {
         let controller = makeController(recording: tapped)
         controller.holdTap(latitude: 1, longitude: 0, at: spot)
         controller.settleHeldTap(
-            byTouchOnMapAt: CGPoint(x: spot.x, y: spot.y + MapController.doubleTapReach)
+            byTouchOnMapAt: CGPoint(x: spot.x, y: spot.y + MapController.doubleTapReach),
+            mapKitDoubleTapWaiting: true
         )
         #expect(tapped.latitudes == [1])
         controller.holdTap(latitude: 2, longitude: 0, at: spot)
@@ -74,16 +77,34 @@ struct HeldMapTapTests {
         let tapped = Tapped()
         let controller = makeController(recording: tapped)
         controller.holdTap(latitude: 1, longitude: 0, at: spot)
-        controller.settleHeldTap(byTouchOnMapAt: nil)
+        controller.settleHeldTap(byTouchOnMapAt: nil, mapKitDoubleTapWaiting: false)
         #expect(tapped.latitudes == [1])
+    }
+
+    /// A second tap on the same spot that MapKit no longer waits for: too slow
+    /// to zoom, so it is a tap of its own, and the first still counts. Holding
+    /// to a timer alone lost the first point here.
+    @Test func aTouchMapKitNoLongerWaitsForReleasesTheHeldTap() {
+        let tapped = Tapped()
+        let controller = makeController(recording: tapped)
+        controller.holdTap(latitude: 1, longitude: 0, at: spot)
+        controller.settleHeldTap(byTouchOnMapAt: spot, mapKitDoubleTapWaiting: false)
+        #expect(tapped.latitudes == [1])
+    }
+
+    /// The measured edges, pinned: MapKit zoomed at 45 points and not at 46,
+    /// and gave up between 0.370 and 0.376 s after the lift.
+    @Test func theReachAndIntervalMatchWhereMapKitGivesUp() {
+        #expect(MapController.doubleTapReach == 46)
+        #expect(MapController.doubleTapInterval > .milliseconds(376))
     }
 
     /// A touch with nothing held is every ordinary touch in the window.
     @Test func aTouchWithNothingHeldDoesNothing() {
         let tapped = Tapped()
         let controller = makeController(recording: tapped)
-        controller.settleHeldTap(byTouchOnMapAt: spot)
-        controller.settleHeldTap(byTouchOnMapAt: nil)
+        controller.settleHeldTap(byTouchOnMapAt: spot, mapKitDoubleTapWaiting: true)
+        controller.settleHeldTap(byTouchOnMapAt: nil, mapKitDoubleTapWaiting: false)
         #expect(tapped.latitudes.isEmpty)
     }
 }
