@@ -359,7 +359,7 @@ describe("UserVectorRows", () => {
       expect(button).toBeDisabled();
       expect(button).toHaveAccessibleDescription(
         "A photo is still being added to Layer camps. Wait for it to finish " +
-          "before you stop editing, open another layer, or remove this layer.",
+          "before you stop editing, open another layer, or remove Layer camps.",
       );
       await userEvent.click(button);
     }

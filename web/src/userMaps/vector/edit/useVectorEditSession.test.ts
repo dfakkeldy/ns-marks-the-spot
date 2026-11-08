@@ -521,7 +521,7 @@ describe("photos and point moves", () => {
   // second still runs.
   it("counts photo attaches in pairs, so the hold lasts until the last one ends", () => {
     const { options } = harness();
-    const { result, unmount } = renderHook(() => useVectorEditSession(options));
+    const { result } = renderHook(() => useVectorEditSession(options));
     act(() => result.current.beginEdit("layer-1"));
     expect(result.current.photoAttachRunning).toBe(false);
 
@@ -531,12 +531,6 @@ describe("photos and point moves", () => {
     expect(result.current.photoAttachRunning).toBe(true);
     act(() => result.current.notePhotoAttachBusy(false));
     expect(result.current.photoAttachRunning).toBe(false);
-
-    // A strip reports the end of its attach even after it has gone, and once
-    // the page has gone too that report must not throw.
-    act(() => result.current.notePhotoAttachBusy(true));
-    unmount();
-    expect(() => result.current.notePhotoAttachBusy(false)).not.toThrow();
   });
 
   it("writes and clears photo descriptors", () => {

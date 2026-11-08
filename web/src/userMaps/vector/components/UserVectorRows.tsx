@@ -81,8 +81,11 @@ function renderUserVectorControls({
   /** The held note's id, so each held button can point at its reason. */
   heldNoteId: string;
 }) {
+  // Named, not "this layer": the note sits above every row, and Edit on
+  // another row or New drawing layer reads it as its own description.
   const editingName =
-    api.records.find((record) => record.id === editingId)?.name ?? null;
+    api.records.find((record) => record.id === editingId)?.name ??
+    "the layer you're editing";
   // Said at each held button, not only in page order: a disabled button
   // with nothing said reads as broken.
   const heldDescription = editSessionHeld ? heldNoteId : undefined;
@@ -95,9 +98,8 @@ function renderUserVectorControls({
         ) : null}
       {editSessionHeld ? (
         <small id={heldNoteId} className="user-vector-edit-held">
-          A photo is still being added to{" "}
-          {editingName ?? "the layer you're editing"}. Wait for it to finish
-          before you stop editing, open another layer, or remove this layer.
+          A photo is still being added to {editingName}. Wait for it to finish
+          before you stop editing, open another layer, or remove {editingName}.
         </small>
       ) : null}
       {onNewLayer ? (

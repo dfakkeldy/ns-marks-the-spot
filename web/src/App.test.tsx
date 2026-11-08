@@ -1943,14 +1943,9 @@ describe("NS Marks The Spot Online", () => {
     expect(within(myMaps).queryByRole("group")).not.toBeInTheDocument();
   });
 
-  // A photo still being processed when its edit session closes has no
-  // feature left to land on: its bytes are deleted and the reader loses a
-  // photo they watched being added. Done in the panel is not the only way
-  // out. The layer list's Edit button closes the session on its own row and
-  // switches it on any other, New drawing layer switches it, and Remove on
-  // the row under edit closes it, so all of them wait for the photo too.
-  it("holds every way out of a vector edit session while a photo is being added", async () => {
-    const layer = (id: string, name: string) => ({
+  /** A drawn layer holding one point, `f1`, for the edit-session tests. */
+  function drawnLayerFixture(id: string, name: string) {
+    return {
       record: {
         id,
         name,
@@ -1973,12 +1968,14 @@ describe("NS Marks The Spot Online", () => {
           },
         ],
       },
-    });
-    const shore = layer("held-shore", "Shore walk");
-    const ridge = layer("held-ridge", "Ridge walk");
-    const store = await UserVectorStore.open();
-    await store.saveVectorLayer(shore.record, shore.collection);
-    await store.saveVectorLayer(ridge.record, ridge.collection);
+    };
+  }
+
+  /**
+   * Has the strip's photo attaches wait for the test, and returns the
+   * answers in the order the attaches were asked for.
+   */
+  function holdPhotoAttaches() {
     const answers: Array<(outcomes: PhotoAttachOutcome[]) => void> = [];
     photoAttachStub.attachPhotos = vi.fn(
       () =>
@@ -1986,9 +1983,34 @@ describe("NS Marks The Spot Online", () => {
           answers.push(resolve);
         }),
     );
+    return answers;
+  }
+
+  /** Picks a photo through the open panel's strip, as its picker would. */
+  function pickPhotoInPanel(panel: HTMLElement) {
+    fireEvent.change(within(panel).getByLabelText("Add photos from files"), {
+      target: {
+        files: [new File(["bytes"], "IMG_1.jpg", { type: "image/jpeg" })],
+      },
+    });
+  }
+
+  // A photo still being processed when its edit session closes has no
+  // feature left to land on: its bytes are deleted and the reader loses a
+  // photo they watched being added. Done in the panel is not the only way
+  // out. The layer list's Edit button closes the session on its own row and
+  // switches it on any other, New drawing layer switches it, and Remove on
+  // the row under edit closes it, so all of them wait for the photo too.
+  it("holds every way out of a vector edit session while a photo is being added", async () => {
+    const shore = drawnLayerFixture("held-shore", "Shore walk");
+    const ridge = drawnLayerFixture("held-ridge", "Ridge walk");
+    const store = await UserVectorStore.open();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
 
     try {
+      await store.saveVectorLayer(shore.record, shore.collection);
+      await store.saveVectorLayer(ridge.record, ridge.collection);
+      const answers = holdPhotoAttaches();
       render(<App />);
       const myMaps = openLayerCategory("My Maps");
       const toggle = await within(myMaps).findByRole("button", {
@@ -1999,11 +2021,7 @@ describe("NS Marks The Spot Online", () => {
         name: "Editing Shore walk",
       });
       fireEvent.click(screen.getByTestId("select-vector-feature-fixture"));
-      fireEvent.change(within(panel).getByLabelText("Add photos from files"), {
-        target: {
-          files: [new File(["bytes"], "IMG_1.jpg", { type: "image/jpeg" })],
-        },
-      });
+      pickPhotoInPanel(panel);
       await waitFor(() => expect(answers).toHaveLength(1));
 
       const held = [
@@ -2065,6 +2083,92 @@ describe("NS Marks The Spot Online", () => {
       photoAttachStub.attachPhotos = null;
       await store.deleteVectorLayer(shore.record.id);
       await store.deleteVectorLayer(ridge.record.id);
+      store.close();
+    }
+  });
+
+  // New drawing layer opens its layer only once the store has written it,
+  // and a photo attach can start in that gap. Opening it then would close
+  // the session the photo belongs to as surely as a click would, so the
+  // open is refused: the new layer waits in the list, and the session being
+  // edited stays as it was, its draw tools included.
+  it("leaves a new drawing layer unopened when a photo attach starts while it is being created", async () => {
+    const shore = drawnLayerFixture("race-shore", "Shore walk");
+    const store = await UserVectorStore.open();
+    const originalSave = UserVectorStore.prototype.saveVectorLayer;
+    const created = deferred<void>();
+    let createdId: string | null = null;
+    let restoreSave = () => {};
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+
+    try {
+      await store.saveVectorLayer(shore.record, shore.collection);
+      // The next write is the new layer's: held until the test lets it land.
+      const save = vi.spyOn(UserVectorStore.prototype, "saveVectorLayer");
+      restoreSave = () => save.mockRestore();
+      save.mockImplementationOnce(async function (
+          this: UserVectorStore,
+          ...args: Parameters<UserVectorStore["saveVectorLayer"]>
+        ) {
+        createdId = args[0].id;
+        await created.promise;
+        return originalSave.apply(this, args);
+      });
+      const answers = holdPhotoAttaches();
+      render(<App />);
+      const myMaps = openLayerCategory("My Maps");
+      await userEvent.click(
+        await within(myMaps).findByRole("button", { name: "Edit Shore walk" }),
+      );
+      const panel = await screen.findByRole("region", {
+        name: "Editing Shore walk",
+      });
+      fireEvent.click(screen.getByTestId("select-vector-feature-fixture"));
+
+      await userEvent.click(
+        within(myMaps).getByRole("button", { name: "New drawing layer" }),
+      );
+      await waitFor(() => expect(createdId).not.toBeNull());
+      pickPhotoInPanel(panel);
+      await waitFor(() => expect(answers).toHaveLength(1));
+      await act(async () => {
+        created.resolve();
+      });
+
+      const newRow = await within(myMaps).findByRole("button", {
+        name: /^Edit My drawing/,
+      });
+      expect(newRow).toHaveAttribute("aria-pressed", "false");
+      expect(newRow).toBeDisabled();
+      expect(panel).toBeInTheDocument();
+      expect(
+        within(panel).getByRole("button", { name: "Draw point" }),
+      ).toHaveAttribute("aria-pressed", "false");
+
+      await act(async () => {
+        answers[0]([
+          {
+            fileName: "IMG_1.jpg",
+            ok: true,
+            descriptor: { id: "photo-race-1", sourceName: "IMG_1.jpg" },
+            gps: null,
+          },
+        ]);
+      });
+      await waitFor(() => expect(newRow).toBeEnabled());
+      expect(screen.queryByText(/Couldn't attach/)).toBeNull();
+      // The new layer opens as usual once the photo has landed.
+      await userEvent.click(newRow);
+      expect(
+        await screen.findByRole("region", { name: /^Editing My drawing/ }),
+      ).toBeInTheDocument();
+    } finally {
+      restoreSave();
+      photoAttachStub.attachPhotos = null;
+      await store.deleteVectorLayer(shore.record.id);
+      if (createdId) {
+        await store.deleteVectorLayer(createdId);
+      }
       store.close();
     }
   });
