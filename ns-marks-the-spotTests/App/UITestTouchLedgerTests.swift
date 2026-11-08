@@ -10,14 +10,14 @@ struct UITestTouchLedgerTests {
         appIsActive: Bool = true,
         windowIsKey: Bool = true,
         viewIsInWindow: Bool = true,
-        gateRecognized: Bool = true,
+        cancelCarriedNewTime: Bool = true,
         longPressHasActed: Bool = false
     ) -> Bool {
         UITestTouchLedger.isRepeatableSystemCancel(
             appIsActive: appIsActive,
             windowIsKey: windowIsKey,
             viewIsInWindow: viewIsInWindow,
-            gateRecognized: gateRecognized,
+            cancelCarriedNewTime: cancelCarriedNewTime,
             longPressHasActed: longPressHasActed
         )
     }
@@ -26,8 +26,9 @@ struct UITestTouchLedgerTests {
         #expect(isRepeatable())
     }
 
-    @Test func aCancelWithoutTheGateIsNotTheSystems() {
-        #expect(!isRepeatable(gateRecognized: false))
+    /// A cancel raised inside the app leaves the touch's time as it was.
+    @Test func aCancelWithNoNewTimeIsTheAppsOwn() {
+        #expect(!isRepeatable(cancelCarriedNewTime: false))
     }
 
     @Test func aViewThatWentAwayIsTheAppsDoing() {

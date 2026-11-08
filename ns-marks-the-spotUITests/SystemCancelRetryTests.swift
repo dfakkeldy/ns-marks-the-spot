@@ -155,10 +155,10 @@ final class SystemCancelRetryTests: XCTestCase {
             TouchLedger(began: 3, ended: 2, systemCancelled: 1)
         )
         let withNote = TouchLedger(
-            published: "began=1 ended=0 systemCancelled=1 otherCancelled=0\nlastCancel=system gate=1"
+            published: "began=1 ended=0 systemCancelled=1 otherCancelled=0\nlastCancel=system newTime=0.180"
         )
         XCTAssertEqual(withNote?.systemCancelled, 1)
-        XCTAssertEqual(withNote?.lastCancel, "lastCancel=system gate=1")
+        XCTAssertEqual(withNote?.lastCancel, "lastCancel=system newTime=0.180")
     }
 
     @MainActor
