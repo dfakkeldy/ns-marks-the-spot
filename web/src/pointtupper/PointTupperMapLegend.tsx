@@ -123,7 +123,7 @@ export function PointTupperMapLegend(context: FocusChromeContext) {
     requestAnimationFrame(() => {
       const heading = document.getElementById('layers-heading');
       const still = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      heading?.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
+      heading?.scrollIntoView?.({ block: 'start', behavior: still ? 'auto' : 'smooth' });
       heading?.focus({ preventScroll: true });
     });
   };

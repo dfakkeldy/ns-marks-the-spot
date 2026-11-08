@@ -5098,7 +5098,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
     window.requestAnimationFrame(() => {
       const button = categoryButtonRefs.current.get(categoryId);
       const still = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-      button?.scrollIntoView({ block: "start", behavior: still ? "auto" : "smooth" });
+      button?.scrollIntoView?.({ block: "start", behavior: still ? "auto" : "smooth" });
       button?.focus({ preventScroll: true });
     });
   };
