@@ -440,8 +440,9 @@ hidden when the sheets are off or no tile host is configured.
 
 Tax-sale mode chips read **Current** / **Historical**; their accessible names
 remain Current notices and Historical records. In Current notices, a sale-date
-legend under **Tax-sale notices** maps overview-dot colour to each notice's
-recorded sale date (see [Data flow](#data-flow)). On the main map, the phone sheet
+legend under **Tax sales** (caption **Dot colour · sale date**) maps
+overview-dot colour to each municipal sale's recorded sale date and counts
+sales, not notices (see [Data flow](#data-flow)). On the main map, the phone sheet
 opens at half height with a grabber (`sheetDetent` in `App.tsx`). Dragging,
 tapping the grabber, typing, or scrolling expands it to full. Point Tupper
 keeps its own sheet; see [Point Tupper page](#point-tupper-page).
@@ -525,12 +526,24 @@ The ten built-in map setups are **Explore Nova Scotia**,
 **Georeferencing**, **Poker**, **Electoral Districts**, **Rhodena**,
 **Fishing**, and **Point Tupper**. Applying a setup replaces the
 catalogue-layer configuration coherently; it does not remove or change
-imported maps or data.
+imported maps or data. Several setups put one first step in the rail
+(`SetupFirstStep`): an action from data the map holds, such as **Go to my
+location** or **Load a scan**, or a note such as Poker’s “Search a civic
+number, or tap the map at the house to start a trace.” Tax Sale, Fishing,
+Rhodena and Point Tupper can overlay a collapsible **Map key**
+(`SetupMapKey`) on the map; the heading is **Map key**, with a **Sources and
+caveats** link.
 
-Across all built-in and custom setups, the footer presents source credits on
-entry, then folds after the first map touch or five seconds. **Show licences**
-restores the full strip and keeps it open for reading; **Hide licences** folds
-it again. On phones, the toggle becomes a corner pill beside the scale bar
+Across all built-in and custom setups, the footer presents source credits by
+itself on page load only, then folds after the first map `pointerdown` or five
+seconds (`5000` ms). Later setup changes leave the strip as the reader left
+it: they do not reopen it or reset the fold cycle (on a phone the open strip
+covers up to 38% of the screen). A setup that settles while the page is still
+opening restarts the timer, as before. **Show licences** restores the full
+strip; **Hide licences** folds it. Reading or reopening the footer cancels
+automatic folding. Restarting to a remembered view passes `licencesPresented`
+so the strip stays folded (no second auto-presentation in the same page
+load). On phones, the toggle remains a corner pill beside the scale bar
 and screen-scale readout. Distance and area measurement actions use the same
 translucent button row as Poker, with instructions above it while drawing and
 the completed total on the map label. These controls follow the current light
@@ -603,6 +616,17 @@ inspector or evidence contents, search text, map position, browser location,
 dated tax-sale event IDs or filters, licence/location permissions, or imported
 map bytes, object references, and file paths. There are no accounts or theme
 synchronization in this release.
+
+Last view is stored separately from custom themes: the address-bar query string
+(leading `?`) plus the setup name then, only in this browser's `localStorage`
+key `ns-marks-the-spot:last-view:v1`. The current tab's query and whether it
+came from a link are stored in `sessionStorage` key
+`ns-marks-the-spot:tab-view:v1`, so a reload of a link is still a link.
+Nothing is uploaded. Returning restores the query through the same path as any
+link, without a page load (`App` `onRestart`). The UI note (`ReturnNote`)
+offers **Go back** (accessible name **Your last view**) or **Return to my
+map** (**Opened from a link**). It yields to work on the map. A blocked or
+full store means nothing is remembered.
 
 New share links write `taxSale=on` or `taxSale=off` explicitly. For backward
 compatibility, a legacy link with `mode` or `event` but no `taxSale` parameter
@@ -735,8 +759,11 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    A PID advertised in two notices takes the soonest of those recorded bands.
    Passed and undated dots draw first so upcoming sales sit on top. Bands
    follow the app's existing 60-second clock, so a dot can change band without
-   a reload. Under **Tax-sale notices**, `TaxSaleDateLegend` lists every band
-   with a per-band notice count, and each notice row shows its band dot.
+   a reload. Under **Tax sales**, `TaxSaleDateLegend` lists every band
+   with a per-band municipal-sale count (“1 sale” / “N sales”); the on-map
+   key (`TaxSaleMapKey`) uses the same **Dot colour · sale date** heading.
+   Each sale row shows its band dot. Confirm dates with the municipality:
+   each sale’s notice records remain something you confirm there.
    Unchanged: grayscale print markers still distinguish current from
    historical by line, weight, and hatch, not sale-date colour. Parcel fills
    above overview zoom remain the existing flat survey-red current style
@@ -884,6 +911,9 @@ position, not a browser-location reading.
 Frame an area on the map and download a Letter portrait/landscape GeoPDF
 (ISO 32000 `/Measure` + OGC `/LGIDict`, EPSG:3857) that works in Avenza,
 QGIS/GDAL, and on paper, with an optional legend and always-on attribution.
+Export keeps only the Title, Subtitle and Notes the reader typed (a default
+such as an auto parcel title is not treated as typed) and clears them on a
+new parcel or setup.
 
 The attribution strip is not optional and is never quietly trimmed: it carries
 every rendered source's licence name and URL plus the capture timestamp,
