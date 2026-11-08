@@ -55,23 +55,50 @@ describe("ThemeManagerDialog", () => {
       .toHaveValue("Field day");
 
     await userEvent.type(
-      screen.getByRole("textbox", { name: "Theme name" }),
+      screen.getByRole("textbox", { name: "Setup name" }),
       "Field kit",
     );
+    // The preview reads the same state Save stores.
+    expect(screen.getByText(/^Saves \d+ layers?/)).toBeInTheDocument();
     await userEvent.click(
       screen.getByRole("button", { name: "Save current setup" }),
     );
 
     expect(props.onSave).toHaveBeenCalledWith("Field kit");
-    // The preview reads the same state Save stores.
-    expect(screen.getByText(/^Saves: \d+ layers?/)).toBeInTheDocument();
+  });
+
+  it("offers a suggested name ready to overtype, and says where the setup went", async () => {
+    const props = dialogProps();
+    render(<ThemeManagerDialog {...props} suggestedName="Explore Nova Scotia, Nov 8" />);
+
+    const name = screen.getByRole<HTMLInputElement>("textbox", { name: "Setup name" });
+    expect(name).toHaveValue("Explore Nova Scotia, Nov 8");
+    expect(name.selectionStart).toBe(0);
+    expect(name.selectionEnd).toBe("Explore Nova Scotia, Nov 8".length);
+
+    await userEvent.click(screen.getByRole("button", { name: "Save current setup" }));
+
+    expect(props.onSave).toHaveBeenCalledWith("Explore Nova Scotia, Nov 8");
+    expect(screen.getByRole("status")).toHaveTextContent("Saved “Explore Nova Scotia, Nov 8” in this browser.");
+    expect(screen.getByRole("button", { name: "Save current setup" })).toBeDisabled();
+  });
+
+  it("gives no receipt when the browser could not keep the setup", async () => {
+    const props = dialogProps();
+    props.onSave.mockReturnValue(false);
+    render(<ThemeManagerDialog {...props} suggestedName="Field kit" />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Save current setup" }));
+
+    expect(screen.queryByText(/in this browser\.$/)).not.toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "Setup name" })).toHaveValue("Field kit");
   });
 
   it("renames, updates, and duplicates the selected custom theme with exact callbacks", async () => {
     const props = dialogProps();
     render(<ThemeManagerDialog {...props} />);
 
-    const row = screen.getByRole("listitem", { name: "Field day theme" });
+    const row = screen.getByRole("listitem", { name: "Field day setup" });
     const renameInput = within(row).getByRole("textbox", {
       name: "Rename Field day",
     });
@@ -98,13 +125,13 @@ describe("ThemeManagerDialog", () => {
     const props = dialogProps();
     render(<ThemeManagerDialog {...props} />);
 
-    const row = screen.getByRole("listitem", { name: "Field day theme" });
+    const row = screen.getByRole("listitem", { name: "Field day setup" });
     await userEvent.click(within(row).getByRole("button", { name: "Delete" }));
     expect(within(row).getByText("Delete Field day?"))
       .toBeInTheDocument();
 
     await userEvent.click(
-      within(row).getByRole("button", { name: "Keep theme" }),
+      within(row).getByRole("button", { name: "Keep setup" }),
     );
     expect(props.onDelete).not.toHaveBeenCalled();
 
@@ -134,7 +161,7 @@ describe("ThemeManagerDialog", () => {
       return (
         <>
           <button type="button" onClick={() => setOpen(true)}>
-            Manage themes
+            My setups
           </button>
           {open ? (
             <ThemeManagerDialog
@@ -147,7 +174,7 @@ describe("ThemeManagerDialog", () => {
     }
 
     render(<Harness />);
-    const opener = screen.getByRole("button", { name: "Manage themes" });
+    const opener = screen.getByRole("button", { name: "My setups" });
     await userEvent.click(opener);
     await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

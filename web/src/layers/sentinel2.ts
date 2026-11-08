@@ -16,7 +16,7 @@ export const sentinel2Layer = {
   sourceDate: "2016 mosaic · Sentinel acquisitions from 2016–2017; not current imagery",
   scale: "10 m Sentinel-2 source imagery · rendered tiles through zoom 14; closer zoom enlarges pixels",
   coverage: "Global mosaic · landscape context, not current site conditions",
-  webCaveat: "2016–2017 imagery · 10 m satellite source · CC BY 4.0 · landscape context only",
+  webCaveat: "10 m satellite imagery · CC BY 4.0 · landscape context only",
   minZoom: 0,
   maxZoom: 24,
   maxNativeZoom: 14,

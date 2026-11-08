@@ -116,7 +116,7 @@ for (const width of [390, 1440]) {
       };
       await verifyTextContrast();
       if (width === 1440) {
-        // Appearance lives with Basemap style under Background Maps.
+        // Appearance lives with the map styles under Background Maps.
         const appearance = page.getByRole("radiogroup", { name: "Interface appearance", exact: true });
         if (!(await appearance.isVisible())) await page.getByRole("button", { name: /^Background Maps/ }).click();
         await appearance.getByRole("radio", { name: "Dark", exact: true }).check();

@@ -343,9 +343,11 @@ a {
   border-radius: 6px;
 }
 
-.search-row input:focus {
-  border-color: var(--survey-blue);
-  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.18);
+/* One 2 px line, so focus is plain and an empty result or error stays the
+   strongest thing in the header. */
+.layer-rail .search-row input:focus-visible {
+  outline: 2px solid var(--survey-blue);
+  outline-offset: -1px;
 }
 
 .field-help,
@@ -360,6 +362,19 @@ a {
 .field-help[role="alert"] {
   color: #a33228;
   font-weight: 600;
+}
+
+/* A search that returned nothing is a result, not a fault: plain ink, then
+   the next thing to try. Red stays for the service failures above. */
+.field-help--empty {
+  color: var(--chart-ink);
+  font-weight: 600;
+}
+
+.field-help-next {
+  display: block;
+  color: var(--muted);
+  font-weight: 400;
 }
 
 .address-search-results {
@@ -440,9 +455,14 @@ a {
 .map-theme-picker select {
   width: 100%;
   min-height: 44px;
-  padding: 8px 10px;
+  padding: 8px 30px 8px 10px;
   color: var(--chart-ink);
-  background: var(--white);
+  appearance: none;
+  /* The rail's own chevron, drawn from the ink token so every room gets it. */
+  background:
+    linear-gradient(45deg, transparent 50%, var(--chart-ink) 50% calc(50% + 1.5px), transparent calc(50% + 1.5px)) calc(100% - 17px) 50% / 6px 6px no-repeat,
+    linear-gradient(-45deg, transparent 50%, var(--chart-ink) 50% calc(50% + 1.5px), transparent calc(50% + 1.5px)) calc(100% - 11px) 50% / 6px 6px no-repeat,
+    var(--white);
   border: 1px solid var(--line);
   border-radius: 5px;
 }
@@ -511,6 +531,56 @@ a {
   color: var(--white);
   background: var(--survey-blue);
   border-color: var(--survey-blue);
+}
+
+.setup-chips-lead,
+.map-theme-picker .map-theme-receipt {
+  color: var(--muted);
+  font-size: var(--type-caption);
+  line-height: 1.4;
+}
+
+.setup-chips-lead {
+  margin-top: 4px;
+}
+
+/* Explore's chips go somewhere; they do not switch anything on. Squared tiles
+   in even rows of 3 + 2 at every width, unlike the round on/off "2024 results". */
+.setup-chips--go {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.map-theme-picker .setup-chips--go .setup-chip {
+  display: inline-flex;
+  grid-column: span 2;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  color: var(--chart-ink);
+  font-weight: 600;
+  background: transparent;
+  border-color: var(--line);
+  border-radius: 6px;
+}
+
+.map-theme-picker .setup-chips--go .setup-chip:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.map-theme-picker .setup-chips--go .setup-chip:hover {
+  background: var(--fog);
+}
+
+.map-theme-picker .setup-chips--go .setup-chip:active {
+  background: color-mix(in srgb, var(--chart-ink) 12%, transparent);
+}
+
+.setup-chips--go .setup-chip svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
 }
 
 .setup-chip-note {
@@ -682,9 +752,28 @@ a {
   cursor: pointer;
 }
 
+/* Disabled reads as waiting, in legible text, not as a washed-out button. */
 .theme-manager-dialog button:disabled {
+  color: var(--muted);
   cursor: default;
-  opacity: 0.5;
+  background: transparent;
+  border-color: var(--line);
+}
+
+.theme-manager-dialog .theme-manager-save-action:not(:disabled) {
+  color: var(--white);
+  background: var(--survey-blue);
+  border-color: var(--survey-blue);
+}
+
+.theme-manager-receipt {
+  margin: 0 0 12px;
+  padding: 6px 10px;
+  color: var(--chart-ink);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  background: var(--fog);
+  border-radius: 5px;
 }
 
 .theme-manager-list {
@@ -734,38 +823,19 @@ a {
 }
 
 .map-mode-switcher {
-  /* Tinted from the tokens, not fixed hex: a fixed blush stayed light on the
-     dark interface and left its caption unreadable. It also sits in the
-     rail's column now instead of bleeding 12px past it. */
+  /* No box and no red: the selected half alone says which mode is on. */
   margin: 18px 0 0;
-  padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--survey-red) 42%, transparent);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--survey-red) 7%, var(--white));
+  padding-bottom: 10px;
 }
 
-.tax-sale-master {
-  display: flex;
+.layer-row.tax-sale-master {
   align-items: center;
-  gap: 10px;
   min-height: 44px;
-  padding: 8px 4px;
+  padding-block: 8px;
   color: var(--chart-ink);
   font-size: var(--type-small);
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.tax-sale-master input {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  accent-color: var(--survey-red);
-}
-
-.tax-sale-master input:focus-visible {
-  outline: 3px solid var(--survey-blue);
-  outline-offset: 2px;
+  font-weight: 600;
+  border-top: 0;
 }
 
 #tax-sale-dependent-controls .map-mode-switcher {
@@ -774,8 +844,6 @@ a {
 
 .map-mode-switcher.historical {
   color: var(--record-violet);
-  background: color-mix(in srgb, var(--record-violet) 8%, var(--white));
-  border-color: color-mix(in srgb, var(--record-violet) 48%, transparent);
 }
 
 .map-mode-buttons {
@@ -798,8 +866,8 @@ a {
 
 .map-mode-buttons button.selected:first-child {
   color: var(--white);
-  background: var(--survey-red);
-  border-color: var(--survey-red);
+  background: var(--survey-blue);
+  border-color: var(--survey-blue);
 }
 
 .map-mode-buttons button.selected:last-child {
@@ -818,7 +886,7 @@ a {
 }
 
 .layer-rail.mode-current .tax-sale-events {
-  border-top: 4px solid var(--survey-red);
+  border-top: 1px solid var(--line);
 }
 
 .layer-rail.mode-historical .historical-layer-controls {
@@ -856,12 +924,15 @@ a {
   pointer-events: none;
 }
 
+/* Off recedes to a pale track with a thin edge, so the layers that are on can
+   be read from the rail's silhouette. The edge keeps the control visible. */
 .switch {
   position: relative;
   width: 40px;
   height: 23px;
-  background: #718087;
+  background: color-mix(in srgb, var(--chart-ink) 8%, transparent);
   border-radius: 999px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chart-ink) 55%, transparent);
   transition: background 160ms ease;
 }
 
@@ -872,20 +943,38 @@ a {
   width: 17px;
   height: 17px;
   content: "";
-  background: var(--white);
+  background: color-mix(in srgb, var(--chart-ink) 62%, var(--white));
   border-radius: 50%;
-  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.35);
-  transition: transform 160ms ease;
+  transition: transform 160ms ease, width 120ms ease;
 }
 
 .layer-row input:checked + .switch,
 .switch.fixed-on {
   background: var(--survey-blue);
+  box-shadow: none;
 }
 
 .layer-row input:checked + .switch::after,
 .switch.fixed-on::after {
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.35);
   transform: translateX(17px);
+}
+
+/* The knob widens under the finger, toward the side it is going. */
+.layer-row:active input:not(:disabled) + .switch::after {
+  width: 21px;
+}
+
+.layer-row:active input:checked:not(:disabled) + .switch::after {
+  transform: translateX(13px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .switch::after {
+    transition: none;
+  }
 }
 
 .layer-row input:focus-visible + .switch {
@@ -915,6 +1004,15 @@ a {
   vertical-align: -1px;
   border: 1.5px solid transparent;
   border-radius: 2px;
+}
+
+/* A rounded sample of the fill. A square with an edge read as an empty checkbox. */
+.layer-swatch--area,
+.layer-swatch--classes {
+  width: 18px;
+  height: 10px;
+  border-width: 1px;
+  border-radius: 5px;
 }
 
 .layer-swatch--area {
@@ -956,8 +1054,23 @@ a {
 }
 
 .layer-row small {
-  color: var(--lichen);
+  color: var(--muted);
   font-size: var(--type-caption);
+}
+
+/* One short line at rest; every word waits in the row's disclosure. */
+.layer-caveat--lead {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.layer-caveat-full {
+  margin: 2px 0 6px;
+  color: var(--chart-ink);
+  line-height: 1.35;
 }
 
 .layer-metadata {
@@ -1017,36 +1130,40 @@ a {
   color: var(--chart-ink);
 }
 
+/* A state is text with a small dot. It is not a control, so it has no pill. */
 .layer-runtime {
   width: fit-content;
-  padding: 2px 6px;
   color: var(--chart-ink) !important;
-  font-weight: 800;
-  background: color-mix(in srgb, var(--chart-ink) 10%, transparent);
-  border-radius: 999px;
+  font-weight: 600;
 }
 
-/* State pills tinted from each room's own tokens. Fixed pastel slabs read as
-   bright green on Night and as modern UI on the Fletcher and Hand-drawn
-   sheets. Text mixes toward the ink so it holds contrast on every ground. */
+.layer-runtime:not(.off)::before {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 5px;
+  vertical-align: 1px;
+  content: "";
+  background: currentColor;
+  border-radius: 50%;
+}
+
+/* State colours from each room's own tokens. Text mixes toward the ink so it
+   holds contrast on every ground. Red is for a source that failed, nothing else. */
 .layer-runtime.loading {
   color: color-mix(in srgb, var(--paper-peach) 40%, var(--chart-ink)) !important;
-  background: color-mix(in srgb, var(--paper-peach) 24%, transparent);
 }
 
 .layer-runtime.ready {
   color: color-mix(in srgb, var(--lichen) 75%, var(--chart-ink)) !important;
-  background: color-mix(in srgb, var(--lichen) 16%, transparent);
 }
 
-.layer-runtime.error {
+.layer-runtime:is(.error, .source-error) {
   color: color-mix(in srgb, var(--survey-red) 80%, var(--chart-ink)) !important;
-  background: color-mix(in srgb, var(--survey-red) 14%, transparent);
 }
 
 .layer-runtime.zoom {
   color: color-mix(in srgb, var(--survey-blue) 85%, var(--chart-ink)) !important;
-  background: color-mix(in srgb, var(--survey-blue) 13%, transparent);
 }
 
 .layer-row.unavailable {
@@ -1066,11 +1183,23 @@ a {
   margin: 0;
 }
 
+/* An open category keeps its name in view however long its list runs. */
+.layer-category:has(> h3 > [aria-expanded="true"]) > h3 {
+  position: sticky;
+  z-index: 3;
+  top: var(--rail-sticky-top, 0);
+  /* Edge to edge of the rail, so scrolled rows never show beside the name. */
+  margin-inline: calc(-1 * var(--rail-gutter, 24px));
+  padding-inline: var(--rail-gutter, 24px);
+  background: var(--rail-sticky-ground, var(--white));
+  box-shadow: 0 1px 0 var(--line);
+}
+
 .layer-category-heading {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px 12px;
+  gap: 1px 12px;
   width: 100%;
   min-height: 56px;
   padding: 8px 4px;
@@ -1151,6 +1280,12 @@ a {
 
 .layer-category-panel {
   padding: 0 4px 12px;
+}
+
+/* One rule between categories: the last row's rule and the next heading's stacked. */
+.layer-category-panel > .context-layer-control:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .layer-category-description {
@@ -1813,7 +1948,6 @@ a {
 
 .tax-sale-property-list {
   margin: -1px 0 12px 54px;
-  border-left: 2px solid rgba(190, 77, 60, 0.24);
 }
 
 .tax-sale-property-list summary {
@@ -1822,8 +1956,8 @@ a {
   gap: 3px 8px;
   align-items: center;
   min-height: 38px;
-  padding: 5px 0 5px 10px;
-  color: var(--survey-red);
+  padding: 5px 0;
+  color: var(--survey-blue);
   cursor: pointer;
   list-style: none;
 }
@@ -1832,16 +1966,21 @@ a {
   display: none;
 }
 
+/* The rail's chevron: right when closed, down when open. */
 .tax-sale-property-list summary::after {
   grid-column: 2;
   grid-row: 1 / span 2;
-  color: var(--survey-red);
-  content: "+";
-  font-size: 1.15rem;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  content: "";
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
 }
 
 .tax-sale-property-list[open] summary::after {
-  content: "−";
+  transform: rotate(45deg);
 }
 
 .tax-sale-property-list summary > span {
@@ -1856,8 +1995,17 @@ a {
   font-weight: 500;
 }
 
+.tax-sale-past-heading {
+  margin: 0;
+  padding-block: 12px 2px;
+  color: var(--muted);
+  font-size: var(--type-caption);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
 .tax-sale-property-list-body {
-  padding: 2px 0 8px 10px;
+  padding: 2px 0 8px;
 }
 
 .tax-sale-property-list-body > p {
@@ -1890,15 +2038,15 @@ a {
 
 .tax-sale-property-list button:hover,
 .tax-sale-property-list button:focus-visible {
-  background: #fff3e5;
-  border-color: rgba(190, 77, 60, 0.48);
+  background: var(--tint-blue);
+  border-color: var(--survey-blue);
 }
 
 .tax-sale-property-list button.selected {
-  color: #7f2e24;
-  background: #fff0ed;
-  border-color: var(--survey-red);
-  box-shadow: inset 3px 0 0 var(--survey-red);
+  color: var(--chart-ink);
+  background: var(--tint-blue);
+  border-color: var(--survey-blue);
+  box-shadow: inset 3px 0 0 var(--survey-blue);
 }
 
 .tax-sale-property-list button:disabled {
@@ -2035,15 +2183,26 @@ a {
   align-items: flex-start;
   gap: 0.5rem;
   margin: 0.5rem 0;
+  color: var(--muted);
   font-size: var(--type-caption);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
-.crown-land-key > span:first-child {
-  flex: 0 0 1rem;
-  height: 1rem;
-  margin-top: 0.15rem;
-  border: 1px solid;
+/* A rounded sample of the fill, not a box to tick. */
+.crown-land-key-chip {
+  flex: 0 0 18px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgba(var(--shadow-rgb), 0.28);
+}
+
+.crown-land-key p {
+  margin: 0;
+}
+
+.crown-land-more p {
+  margin-top: 4px;
 }
 
 .road-legend li {
@@ -2227,7 +2386,7 @@ a {
 .segmented-control button.selected {
   color: var(--survey-blue);
   font-weight: 800;
-  background: #edf5ff;
+  background: var(--tint-blue);
   box-shadow: inset 0 -3px 0 var(--survey-blue);
 }
 
@@ -2238,8 +2397,8 @@ a {
   padding: 14px;
   font-size: var(--type-small);
   line-height: 1.4;
-  background: #f5f9ff;
-  border: 1px solid rgba(47, 128, 237, 0.35);
+  background: transparent;
+  border: 1px solid var(--line);
   border-radius: 6px;
 }
 
@@ -4105,7 +4264,7 @@ a {
     left: 8px;
     display: none;
     /* Follow the visible viewport when the software keyboard opens. */
-    max-height: min(760px, calc(var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)));
+    max-height: min(760px, calc(var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 22px - env(safe-area-inset-top)));
     min-height: 0;
     padding-top: 0;
     overflow-y: auto;
@@ -4118,14 +4277,15 @@ a {
 
   .layer-rail.mobile-open {
     display: block;
-    /* Keep the sheet above the measured attribution strip. */
-    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+    /* Keep the sheet above the measured attribution strip, with air between
+       its corner and the licence pill. */
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 14px);
   }
 
   /* Half height leaves the top of the map in view, so a switched layer shows
      at once. Same bottom edge, so nothing under the sheet moves. */
   .layer-rail.mobile-open[data-sheet-detent="half"] {
-    max-height: min(580px, calc((var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)) * 0.66));
+    max-height: min(580px, calc((var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 22px - env(safe-area-inset-top)) * 0.66));
   }
 
   .layer-rail.mobile-open[data-sheet-detent] {
@@ -4228,11 +4388,79 @@ a {
      52px row: the grabber at the top and the × at the right. The rail
      scrolls under it, never under a floating ×. Focus pages show their
      title and keep the full header. */
-  .mobile-sheet-header:has(> strong.visually-hidden) {
-    min-height: 52px;
-    margin-bottom: 4px;
-    padding-top: 4px;
+  .mobile-sheet-header:has(> .mobile-sheet-title) {
+    min-height: 56px;
+    margin-bottom: 8px;
+    padding-top: 12px;
     padding-bottom: 4px;
+  }
+
+  /* The header names the room at every scroll, so the rail's own title would
+     only say it twice. It stays for assistive technology. */
+  .layer-rail > .rail-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .mobile-sheet-title {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+    padding-right: 10px;
+  }
+
+  .mobile-sheet-header .mobile-sheet-title strong {
+    overflow: hidden;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.12rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  .mobile-sheet-title small {
+    color: var(--muted);
+    font-size: var(--type-caption);
+    line-height: 1.25;
+  }
+
+  /* The header already says it. */
+  .map-theme-picker .map-theme-receipt {
+    display: none;
+  }
+
+  /* Scrolled text fades under the header instead of being cut by its line. */
+  .mobile-sheet-header::after {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: 10px;
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(rgba(var(--surface-rgb), 0.9), rgba(var(--surface-rgb), 0));
+  }
+
+  /* Category names stick below the sheet's header, on the sheet's own ground. */
+  .layer-rail.mobile-open {
+    --rail-sticky-top: 71px;
+    --rail-sticky-ground: rgb(var(--surface-rgb));
+    --rail-gutter: 16px;
+  }
+
+  .layer-rail.mobile-open:has(> .mobile-sheet-header > .mobile-sheet-title) {
+    --rail-sticky-top: 57px;
+  }
+
+  .mobile-sheet-header .mobile-sheet-grabber span {
+    height: 4px;
   }
 
   .map-region {
@@ -7893,27 +8121,15 @@ a {
 }
 .basemap-style-control {
   display: grid;
-  gap: 6px;
+  gap: 4px;
   padding: 0 12px 12px 46px;
   color: var(--muted);
-  font-size: 11px;
-}
-.basemap-style-control select {
-  width: 100%;
-  min-width: 0;
-  min-height: 40px;
-  padding: 7px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: var(--white);
-  color: var(--chart-ink);
-  font: inherit;
-  font-size: 12px;
+  font-size: var(--type-caption);
 }
 
 /* Keep expanded catalogue provenance compact and independently inspectable. */
 .context-layer-control { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
-.context-layer-control > .layer-row { border-top: 0; }
+.context-layer-control > .layer-row { padding-bottom: 2px; border-top: 0; }
 .context-layer-source { margin: 0 0 4px 54px; color: var(--muted); font-size: var(--type-caption); overflow-wrap: anywhere; }
 .context-layer-source summary { cursor: pointer; min-height: 24px; padding: 2px 0; }
 .context-layer-source summary:hover { color: var(--chart-ink); }
@@ -8055,20 +8271,117 @@ a {
   color: var(--chart-ink);
   background: var(--fog);
 }
-/* Basemap style, interface appearance and the Crown Land key belong to the
-   Modern map row, so they hang from its text column, not the switch column. */
+/* What the map looks like, then what it says, then the interface around it.
+   Full width: rooms and caveats need the measure the switch column took. */
 .basemap-settings {
   display: grid;
-  gap: 10px;
-  padding: 0 0 12px 58px;
+  gap: 12px;
+  padding: 2px 0 12px;
 }
 
 .basemap-settings .basemap-style-control {
-  padding: 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--line);
 }
 
 .basemap-settings .crown-land-key {
   margin: 0;
+}
+
+.basemap-rooms-control {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.basemap-rooms-label,
+.basemap-style-control > span {
+  color: var(--chart-ink);
+  font-size: var(--type-caption);
+  font-weight: 600;
+}
+
+/* Rooms: a real radio group, 3 + 2 at every width. */
+.basemap-rooms {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.basemap-rooms label {
+  position: relative;
+  display: grid;
+  grid-column: span 2;
+  gap: 3px;
+  min-height: 44px;
+  padding: 3px 3px 4px;
+  color: var(--chart-ink);
+  font-size: var(--type-caption);
+  line-height: 1.2;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.basemap-rooms label:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.basemap-rooms label:hover {
+  background: var(--fog);
+}
+
+.basemap-rooms label:active {
+  background: color-mix(in srgb, var(--chart-ink) 12%, transparent);
+}
+
+.basemap-rooms label.selected {
+  font-weight: 700;
+  border-color: var(--survey-blue);
+  box-shadow: inset 0 0 0 1px var(--survey-blue);
+}
+
+.basemap-rooms label:has(input:focus-visible) {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 1px;
+}
+
+/* The radio itself covers its tile, so a click or tap lands on it. */
+.basemap-rooms input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.basemap-room-swatch {
+  display: block;
+  width: 100%;
+  height: 24px;
+  border-radius: 3px;
+}
+
+.layer-rail .basemap-rooms-follow {
+  color: var(--muted);
+  font-size: var(--type-caption);
+  font-weight: 500;
+}
+
+@media (pointer: coarse) {
+  .layer-rail button.basemap-rooms-follow {
+    min-height: 44px;
+  }
+
+  /* 44 px for the finger, without 20 px of air around a one-line disclosure. */
+  :is(.layer-provenance, .context-layer-source, .crown-land-more, .fletcher-source-more, .mailing-source, .mailing-notice-more) > summary {
+    min-height: 44px;
+    margin-block: -10px;
+  }
 }
 
 .poker-mode .modern-map-error { top: max(210px, calc(env(safe-area-inset-top) + 198px)); }
@@ -8208,18 +8521,18 @@ a {
 /* One disclosure mark for every row's source details. "Source & scale" lost
    its triangle when it became a flex box, while "Source & legend" kept the
    browser's; both now carry the same small chevron. */
-:is(.layer-provenance, .context-layer-source) > summary {
+:is(.layer-provenance, .context-layer-source, .mailing-source, .mailing-notice-more, .crown-land-more, .fletcher-source-more) > summary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   list-style: none;
 }
 
-:is(.layer-provenance, .context-layer-source) > summary::-webkit-details-marker {
+:is(.layer-provenance, .context-layer-source, .mailing-source, .mailing-notice-more, .crown-land-more, .fletcher-source-more) > summary::-webkit-details-marker {
   display: none;
 }
 
-:is(.layer-provenance, .context-layer-source) > summary::before {
+:is(.layer-provenance, .context-layer-source, .mailing-source, .mailing-notice-more, .crown-land-more, .fletcher-source-more) > summary::before {
   width: 5px;
   height: 5px;
   content: "";
@@ -8229,7 +8542,7 @@ a {
   transition: transform 160ms ease;
 }
 
-:is(.layer-provenance, .context-layer-source)[open] > summary::before {
+:is(.layer-provenance, .context-layer-source, .mailing-source, .mailing-notice-more, .crown-land-more, .fletcher-source-more)[open] > summary::before {
   transform: rotate(45deg);
 }
 
@@ -8484,14 +8797,6 @@ a {
   white-space: nowrap;
 }
 
-.crown-land-key-lead {
-  display: block;
-  color: var(--muted);
-  font-size: var(--type-micro);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 /* The export frame reads on the dimmed map in any room's accent: a white
    line with the accent outside it. */
 .export-frame {
@@ -8525,27 +8830,25 @@ a {
   line-height: 1.3;
 }
 
-/* Interface appearance: four equal radios. A rail column is too narrow for
-   "Match map" in a quarter of it, so they sit two by two, and become one
-   segmented row only where a quarter fits the longest label. */
+/* Interface appearance: four equal radios in one segmented row. */
 .interface-appearance-control {
   container-type: inline-size;
 }
 
 .appearance-segments {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1.45fr 1fr 1fr 1fr;
   gap: 2px;
+  margin-top: 2px;
   padding: 2px;
   background: var(--fog);
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: 999px;
 }
 
-@container (min-width: 340px) {
-  .appearance-segments {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-radius: 999px;
+@media (pointer: coarse) {
+  .appearance-segments label {
+    min-height: 44px;
   }
 }
 
@@ -8562,9 +8865,9 @@ a {
   display: grid;
   min-height: 36px;
   place-items: center;
-  padding: 0 4px;
+  padding: 0 1px;
   color: var(--chart-ink);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   white-space: nowrap;
   border-radius: 999px;
@@ -8612,30 +8915,9 @@ a {
   letter-spacing: 0;
 }
 
-.map-mode-chip {
-  display: inline-block;
-  padding: 1px 7px;
-  color: var(--white);
-  font-size: var(--type-micro);
-  font-weight: 700;
-  line-height: 1.5;
-  vertical-align: 1px;
-  background: var(--survey-red);
-  border-radius: 999px;
-}
-
-.map-mode-switcher.historical .map-mode-chip {
-  background: var(--record-violet);
-}
-
 /* Theme manager: the name field fills its row; Save rides in the footer. */
 .theme-manager-save {
   grid-template-columns: minmax(0, 1fr);
-}
-
-.theme-manager-preview {
-  color: var(--chart-ink);
-  font-size: var(--type-caption);
 }
 
 .theme-manager-footer {
@@ -8643,18 +8925,26 @@ a {
   z-index: 1;
   bottom: 0;
   margin-inline: -24px;
-  margin-bottom: -24px;
-  padding: 12px 24px 24px;
+  padding: 12px 24px 14px;
   background: var(--white);
   border-top: 1px solid var(--line);
 }
 
+/* Sticky stops at the scroller's padding, so the dialog has none at its foot:
+   it ends at its buttons, with no dead band below them. */
+.theme-manager-dialog {
+  padding-bottom: 0;
+}
+
 @media (max-width: 560px) {
+  .theme-manager-dialog {
+    padding-bottom: 0;
+  }
+
   .theme-manager-footer {
     bottom: 0;
     margin-inline: -18px;
-    margin-bottom: -18px;
-    padding: 12px 18px 18px;
+    padding: 12px 18px 14px;
   }
 }
 
@@ -8664,32 +8954,78 @@ a {
   max-height: 236px;
 }
 
-.address-search-results[data-more="true"] {
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+/* Results sit on the rail's paper between two hairlines. Each pickable row ends
+   in the rail's chevron; a list with more below says so in words beneath it. */
+.address-search-results {
+  gap: 0;
+  border: 0;
+  border-block: 1px solid var(--line);
+  border-radius: 0;
 }
 
-/* Background Maps: a 32 x 20 key of the basemap's land and water. */
-.basemap-swatch {
-  display: inline-block;
-  flex: none;
-  width: 32px;
-  height: 20px;
-  margin-right: 8px;
-  vertical-align: -5px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
+.address-search-results button {
+  position: relative;
+  padding-right: 26px;
+  background: transparent;
+  border-top-color: var(--line);
 }
 
-.basemap-swatch--neutral {
-  background: linear-gradient(135deg, #e8e8e8 0 55%, #c9c9c9 55% 100%);
+.address-search-results button::after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  content: "";
+  border-top: 1.5px solid var(--muted);
+  border-right: 1.5px solid var(--muted);
+  transform: translateY(-50%) rotate(45deg);
 }
 
-/* Map setup: one material, the warm panel with a hairline, and the export
-   it feeds full width beneath it. */
+.address-search-results .mailing-search-label {
+  color: var(--muted);
+  font-size: var(--type-caption);
+}
+
+.address-results-more {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: var(--type-caption);
+}
+
+.address-search-results[data-more="false"] + .address-results-more {
+  display: none;
+}
+
+.mailing-source,
+.mailing-notice-more {
+  color: var(--muted);
+  font-size: var(--type-caption);
+}
+
+.mailing-notice-more p {
+  margin-block: 0.3rem;
+}
+
+/* Map setup: a heading and two rules, no box, and the export it feeds full
+   width beneath it. */
 .layer-rail .map-theme-picker {
-  background: var(--paper);
-  border: 1px solid var(--line);
+  padding: 12px 0 2px;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+}
+
+@media (pointer: fine) {
+  .map-theme-actions button {
+    min-height: 32px;
+  }
+
+  .map-theme-picker .map-theme-actions button {
+    min-height: 32px;
+    padding-block: 4px;
+  }
 }
 
 .layer-rail > .export-map-trigger {
@@ -8699,14 +9035,6 @@ a {
 }
 
 /* The category list's label: a quiet 11px small-caps name, not a title. */
-.rail-section h2#layers-heading {
-  color: var(--muted);
-  font-size: 11px;
-  font-variant-caps: all-small-caps;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
 /* About and Data & licences: the × lives in a real sticky header row that
    spans the card in the card's own colour, with a hairline under it, so the
    text scrolls under the row rather than under a floating button. */

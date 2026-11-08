@@ -141,3 +141,21 @@ export function taxSaleDateBandsByPid(
   }
   return bands;
 }
+
+/**
+ * Sales in the order a reader acts on them: the nearest upcoming date first,
+ * then any sale with no stated date, then past dates, newest first. The bands
+ * decide which group a sale is in, so the rail and the dots cannot disagree.
+ */
+export function taxSaleEventsByUrgency(
+  events: TaxSaleEvent[],
+  now: Date | number = Date.now(),
+): { upcoming: TaxSaleEvent[]; past: TaxSaleEvent[] } {
+  const when = (event: TaxSaleEvent) => saleTimestamp(event) ?? Number.POSITIVE_INFINITY;
+  const upcoming = events.filter((event) => taxSaleDateBand(event, now) !== "sale-date-passed");
+  const past = events.filter((event) => taxSaleDateBand(event, now) === "sale-date-passed");
+  return {
+    upcoming: [...upcoming].sort((a, b) => when(a) - when(b)),
+    past: [...past].sort((a, b) => (saleTimestamp(b) ?? 0) - (saleTimestamp(a) ?? 0)),
+  };
+}

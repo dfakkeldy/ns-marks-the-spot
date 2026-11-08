@@ -53,7 +53,7 @@ describe("custom theme storage", () => {
     expect(loadCustomThemes(localStorage)).toEqual({
       status: "fatal",
       themes: [],
-      warning: "Your custom-theme library could not be loaded.",
+      warning: "Your saved setups could not be loaded.",
     });
     expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe("not-json");
   });
@@ -86,7 +86,7 @@ describe("custom theme storage", () => {
     expect(loadCustomThemes(unavailableStorage)).toEqual({
       status: "fatal",
       themes: [],
-      warning: "Your custom-theme library could not be loaded.",
+      warning: "Your saved setups could not be loaded.",
     });
   });
 
@@ -94,7 +94,7 @@ describe("custom theme storage", () => {
     expect(loadCustomThemes(null)).toEqual({
       status: "fatal",
       themes: [],
-      warning: "Your custom-theme library could not be loaded.",
+      warning: "Your saved setups could not be loaded.",
     });
   });
 
@@ -116,7 +116,7 @@ describe("custom theme storage", () => {
 
   it("rejects invalid custom theme names, modes, and opacity bounds", () => {
     expect(() => createCustomTheme("   ", fieldDayState, [], "custom-1"))
-      .toThrow("Custom theme name is required.");
+      .toThrow("A setup name is required.");
     expect(() => createCustomTheme("Field day", {
       ...fieldDayState,
       mapMode: "future" as never,
@@ -155,7 +155,7 @@ describe("custom theme storage", () => {
       .toThrow("Built-in themes are not accepted by the custom-theme repository.");
     expect(saveCustomThemes([builtInMapThemes[0]], localStorage)).toEqual({
       ok: false,
-      message: "Only custom themes can be saved in this browser.",
+      message: "Only your own setups can be saved in this browser.",
     });
   });
 
@@ -169,11 +169,11 @@ describe("custom theme storage", () => {
 
     expect(saveCustomThemes(themes, quotaLimitedStorage)).toEqual({
       ok: false,
-      message: "Your custom themes could not be saved in this browser.",
+      message: "Your setups could not be saved in this browser.",
     });
     expect(saveCustomThemes(themes, null)).toEqual({
       ok: false,
-      message: "Your custom themes could not be saved in this browser.",
+      message: "Your setups could not be saved in this browser.",
     });
     expect(renameCustomTheme(themes, "custom-1", "Woodlot")).toMatchObject([
       { id: "custom-1", name: "Woodlot" },

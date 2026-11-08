@@ -44,6 +44,8 @@ import {
 } from "./components/MapThemePicker";
 import { ThemeManagerDialog } from "./components/ThemeManagerDialog";
 import { useWholeRowList } from "./components/useWholeRowList";
+import { BasemapRooms } from "./components/BasemapRooms";
+import { splitCaveat } from "./components/layerCaveat";
 import { parcelOutlineColor } from "./components/parcelStyle";
 import type { LayerSwatchSpec } from "./components/layerSwatchSpec";
 import { LayerCategorySection } from "./components/LayerCategorySection";
@@ -87,7 +89,7 @@ const PrintPreview = lazy(() =>
 );
 import { TaxSalePropertyList } from "./components/TaxSalePropertyList";
 import { TaxSaleDateDot, TaxSaleDateLegend } from "./components/TaxSaleDateLegend";
-import { taxSaleDateBand, taxSaleDateBandsByPid } from "./services/taxSaleDateBands";
+import { taxSaleEventsByUrgency, taxSaleDateBand, taxSaleDateBandsByPid } from "./services/taxSaleDateBands";
 import {
   advertisedPidsForEvents,
   eventsForStatus,
@@ -434,8 +436,17 @@ const restrictedThemeLayerIds = new Set<ShareLayerId>([
     .map(({ id }) => id),
 ]);
 
+/**
+ * Searches that returned nothing, each with its next step. The wording of the
+ * result stays exact: neither says the address or parcel does not exist.
+ */
+const SEARCH_EMPTY_NEXT_STEP: Readonly<Record<string, string>> = {
+  "No mapped civic address matched that search.": "Try the road name alone, or an 8-digit PID.",
+  "No NSPRD parcel was found for that PID.": "Check that it has 8 digits, or try the civic address.",
+};
+
 const themeLayerNames = new Map<ShareLayerId, string>([
-  ["modern", "Modern map"],
+  ["modern", "Base map"],
   ["fletcher", "Fletcher historical map"],
   ...provinceLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...allResourceLayerCatalog.map(({ id, name }) => [id, name] as const),
@@ -1374,7 +1385,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   const [themeLibraryNotice, setThemeLibraryNotice] = useState<string | null>(
     () => initialCustomThemeLibrary.status === "fatal"
       ? hasRecognizedShareState
-        ? `${initialCustomThemeLibrary.warning} Custom themes are unavailable for this session.`
+        ? `${initialCustomThemeLibrary.warning} Saved setups are unavailable for this session.`
         : `${initialCustomThemeLibrary.warning} Explore Nova Scotia is being used for this session.`
       : initialCustomThemeLibrary.warning,
   );
@@ -4000,7 +4011,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     setThemeLibraryNotice(
       error instanceof Error
         ? error.message
-        : "Your custom themes could not be changed.",
+        : "Your saved setups could not be changed.",
     );
   }, []);
   const saveCurrentTheme = useCallback((name: string) => {
@@ -4692,7 +4703,20 @@ export function App({ focus }: { focus?: FocusId } = {}) {
     return { shape: "area", color, fill: color, fillOpacity: 0, outline: true };
   }, [basemapStyle, parcelImagery]);
   // Whole result rows only, with a fade while more wait below.
+  const railTitle = pokerMode ? "Poker" : mapThemes.find(({ id }) => id === activeThemeId)?.name ?? "NS Marks The Spot";
+  // The same licence rule as a category's own "n on" count.
+  const layersOnCount = activeLayerIds.filter((layerId) => licenceAccepted || !restrictedThemeLayerIds.has(layerId)).length;
+  const layerSummary = `${layersOnCount} ${layersOnCount === 1 ? "layer" : "layers"} on${taxSaleEnabled ? " · tax sale on" : ""}`;
+  // A setup's own categories lead the rail, so entering a task opens on its work.
+  const railPreferredCategoryIds = mapThemes.find(({ id }) => id === activeThemeId)?.preferredCategoryIds ?? [];
+  const railCategories = [
+    ...railPreferredCategoryIds.flatMap((id) => layerCategories.filter((category) => category.id === id)),
+    ...layerCategories.filter(({ id }) => !railPreferredCategoryIds.includes(id)),
+  ];
+  const taxSaleRailEvents = taxSaleEventsByUrgency(upcomingTaxSaleEvents, currentTime);
   const addressResultsRef = useWholeRowList<HTMLUListElement>(3, [addressSearchResults]);
+  const searchEmptyNextStep = searchError ? SEARCH_EMPTY_NEXT_STEP[searchError] : undefined;
+  const mailingNotice = mailingSearchNotice ? splitCaveat(mailingSearchNotice) : null;
   const searchForm = (
     <form className={`pid-search${pokerMode ? " poker-search" : ""}`} onSubmit={submitPidSearch}
       onBlur={(event) => {
@@ -4765,7 +4789,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             }
             selectPokerQueryOnClick.current = false;
           }}
-          placeholder={pokerMode ? "Search civic address" : "PID or address"}
+          placeholder={pokerMode ? "Search civic address" : "8-digit PID or address"}
           aria-describedby="pid-search-help"
           inputMode="search"
           autoComplete="off"
@@ -4777,11 +4801,15 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           </svg>
         </button>
       </div>
-      <p id="pid-search-help" className={`field-help${pokerMode && !searchError && !searchingAddresses ? " sr-only" : ""}`} role={searchError ? "alert" : undefined}>
+      {/* The label and placeholder state the format at rest; this line speaks
+          only when there is something to say. A returned-empty search is a
+          result, not a fault: plain text, with the next thing to try. */}
+      <p id="pid-search-help" className={`field-help${!searchError && !searchingAddresses ? " sr-only" : ""}${searchEmptyNextStep ? " field-help--empty" : ""}`} role={searchEmptyNextStep ? "status" : searchError ? "alert" : undefined}>
         {searchError ??
           (searchingAddresses
             ? "Searching mapped civic addresses…"
             : "Type an 8-digit PID or a civic address.")}
+        {searchEmptyNextStep ? <span className="field-help-next">{searchEmptyNextStep}</span> : null}
       </p>
       <span className="sr-only" role="status">
         {addressSearchResults.length > 0
@@ -4814,7 +4842,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           ))}
         </ul>
       ) : null}
-      {mailingSearchNotice ? <p className="field-help" role="status">{mailingSearchNotice}</p> : null}
+      {addressSearchResults.length > 3 ? (
+        <p className="address-results-more" aria-hidden="true">{addressSearchResults.length} matches. Scroll the list for more.</p>
+      ) : null}
+      {mailingNotice ? <>
+        <p className="field-help" role="status">{mailingNotice.lead}</p>
+        {mailingNotice.full ? <details className="mailing-notice-more"><summary>More about this lookup</summary><p>{mailingNotice.full}</p></details> : null}
+      </> : null}
       {addressSearchResults.some(a => a.mailing?.status === "matched") ? <MailingSource /> : null}
     </form>
   );
@@ -4823,7 +4857,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
   // Native radios share a name, so arrow keys move the choice for free.
   const appearanceControl = (
     <div className="basemap-style-control interface-appearance-control">
-      <span aria-hidden="true">Appearance</span>
+      <span aria-hidden="true">Interface appearance</span>
+      <small>Colours of these menus, not the map.</small>
       <div className="appearance-segments" role="radiogroup" aria-label="Interface appearance">
         {([["map", "Match map"], ["system", "System"], ["day", "Light"], ["night", "Dark"]] as const).map(([value, label]) => (
           <label key={value} className={appearance === value ? "selected" : undefined}>
@@ -4948,7 +4983,13 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                 <span aria-hidden="true" />
               </button>
             ) : null}
-            <strong className={focusDef ? undefined : "visually-hidden"}>{focusDef?.chrome.sheetTitle ?? "Search & layers"}</strong>
+            {focusDef ? <strong>{focusDef.chrome.sheetTitle}</strong> : (
+              // Where you are, at any scroll: the setup and what it has on.
+              <span className="mobile-sheet-title">
+                <strong>{railTitle}</strong>
+                {!pokerMode ? <small>{layerSummary}</small> : null}
+              </span>
+            )}
             <button
               ref={mobileSheetCloseRef}
               type="button"
@@ -4968,7 +5009,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             // The rail is the room the reader is in, so it carries the
             // active setup's name; a shared link that matches no setup falls
             // back to the product's own name rather than another setup's.
-            <h2>{pokerMode ? "Poker" : mapThemes.find(({ id }) => id === activeThemeId)?.name ?? "NS Marks The Spot"}</h2>
+            <h2 className="rail-title">{railTitle}</h2>
           )}
           {!pokerMode && searchForm}
           {/* A focus page carries these in its footer instead. */}
@@ -4979,6 +5020,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             notice={themeNotice}
             selectRef={mapSetupSelectRef}
             onSelect={selectTheme}
+            layerSummary={layerSummary}
             onSave={openThemeManager}
             onManage={openThemeManager}
             onReset={() => {
@@ -5059,7 +5101,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
             {(focusDef
               ? focusDef.categoryIds.map((id) =>
                 layerCategories.find((category) => category.id === id)!)
-              : layerCategories)
+              : railCategories)
               .filter((category) =>
                 !phoneCategoryLayout || focusedCategoryId === null ||
                   category.id === focusedCategoryId)
@@ -5134,7 +5176,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                     <label className="layer-row">
                       <input
                         type="checkbox"
-                        aria-label="Modern map"
+                        aria-label="Base map"
                         checked={showModernMap}
                         onChange={(event) =>
                           { setShowModernMap(event.target.checked);
@@ -5142,19 +5184,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       />
                       <span className="switch" aria-hidden="true" />
                       <span>
-                        <strong>
-                          {/* The style's own land and water (atlas/palette.ts);
-                              OpenStreetMap's colours are not ours to sample,
-                              so its key is neutral. */}
-                          <span
-                            className={`basemap-swatch${basemapStyle === "osm" ? " basemap-swatch--neutral" : ""}`}
-                            aria-hidden="true"
-                            style={basemapStyle === "osm" ? undefined : {
-                              background: `linear-gradient(135deg, ${atlasPalettes[basemapStyle].land} 0 55%, ${atlasPalettes[basemapStyle].water} 55% 100%)`,
-                            }}
-                          />
-                          Modern map
-                        </strong>
+                        <strong>Base map</strong>
                         <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
                         {/* MapCanvas's AerialGapUnderlay draws this map under NS
                             Aerial until the photograph can; the switch stays off
@@ -5175,22 +5205,29 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       </span>
                     </label>
                     <div className="basemap-settings">
-                    <label className="basemap-style-control">
-                      Basemap style
-                      <select aria-label="Basemap style" value={basemapPreference} onChange={(event) => setBasemapPreference(event.target.value as BasemapPreference)}>
-                        <option value="system">Atlas · System appearance</option>
-                        <option value="day">Atlas · Day</option>
-                        <option value="night">Atlas · Night</option>
-                        <option value="fletcher">Atlas · Fletcher</option>
-                        <option value="handdrawn">Atlas · Hand-drawn</option>
-                        <option value="osm">OpenStreetMap</option>
-                      </select>
-                    </label>
-                    {!focusDef ? appearanceControl : null}
-                    {basemapStyle !== "osm" && <p className="crown-land-key">
-                      <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
-                      <span><span className="crown-land-key-lead">Drawn in every Atlas style</span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
-                    </p>}
+                    {/* A room is a choice to see that map, so picking one with
+                        the base map off turns it on, as its switch does. */}
+                    <BasemapRooms
+                      preference={basemapPreference}
+                      style={basemapStyle}
+                      onChange={(preference: BasemapPreference) => {
+                        setBasemapPreference(preference);
+                        if (!showModernMap) {
+                          setShowModernMap(true);
+                          setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false }));
+                        }
+                      }}
+                    />
+                    {basemapStyle !== "osm" && <div className="crown-land-key">
+                      <span className="crown-land-key-chip" aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
+                      <div>
+                        <p><a href={CROWN_SOURCE_URL}>Crown Land</a>, drawn in every Atlas style. Project-derived. Not a survey or permission to enter. <a href={crownReceiptUrl()}>Source receipt</a></p>
+                        <details className="crown-land-more">
+                          <summary>What this shows</summary>
+                          <p>{CROWN_NOTE}</p>
+                        </details>
+                      </div>
+                    </div>}
                     {basemapStyle === 'fletcher' && !focusDef ? <>
                       <label className="fletcher-features-toggle">
                         <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />
@@ -5198,6 +5235,8 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                       </label>
                       <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Historical points and lines are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
                     </> : null}
+                    {/* The interface, not the map, so it sits last and says so. */}
+                    {!focusDef ? appearanceControl : null}
                     </div>
                     </div>
                   ) : null}
@@ -5586,21 +5625,27 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                         >
                           {RUMSEY_LICENCE_NAME}
                         </a>
-                        : noncommercial use only; project georeferencing,
-                        clipping, and tiling changes are identified as
-                        derivatives and remain within the licence’s ShareAlike
-                        boundary. The MIT software licence does not cover the
-                        imagery. This historical layer is context only: it is
-                        not a survey and does not establish current parcels,
-                        title, legal access, roads, shoreline, flood conditions,
-                        value, permissions, or services.
+                        : noncommercial use only. Context only, not a survey.
                       </p>
+                      <details className="fletcher-source-more">
+                        <summary>Licence terms and limits</summary>
+                        <p className="resource-source-note">
+                          Noncommercial use only; project georeferencing,
+                          clipping, and tiling changes are identified as
+                          derivatives and remain within the licence’s ShareAlike
+                          boundary. The MIT software licence does not cover the
+                          imagery. This historical layer is context only: it is
+                          not a survey and does not establish current parcels,
+                          title, legal access, roads, shoreline, flood conditions,
+                          value, permissions, or services.
+                        </p>
+                      </details>
                     </>
                   ) : null}
 
                   {category.id === "tax-sale" ? (
                     <>
-                      <label className="tax-sale-master">
+                      <label className="layer-row tax-sale-master">
                         <input
                           type="checkbox"
                           checked={taxSaleEnabled}
@@ -5609,6 +5654,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                             ? enableTaxSale()
                             : disableTaxSale()}
                         />
+                        <span className="switch" aria-hidden="true" />
                         <span>Show tax-sale information</span>
                       </label>
 
@@ -5643,7 +5689,6 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                           </button>
                         </div>
                         <p className="map-mode-caption">
-                          <span className="map-mode-chip">{mapMode === "current" ? "Current" : "Historical"}</span>{" "}
                           {mapMode === "current"
                             ? "Advertised notices that still require municipal verification."
                             : "Dated notices and verified outcomes, never current offerings."}
@@ -5655,17 +5700,20 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                           <section
                             className="rail-section tax-sale-events"
                             role="region"
-                            aria-label="Current tax-sale notices"
+                            aria-label="Current sales"
                           >
                             <h4 id="events-heading" className="nested-rail-heading">
-                              Tax-sale notices
+                              Tax sales
                             </h4>
+                            {/* A sale is one municipal auction; a notice is one
+                                advertised property within it. */}
                             <p className="section-intro">
-                              Dated official notices. Past sale dates require
-                              municipal result verification.
+                              One row per municipal sale, dated from its official
+                              notice. Past sale dates require municipal result
+                              verification.
                             </p>
                             <TaxSaleDateLegend events={upcomingTaxSaleEvents} now={currentTime} />
-                            {upcomingTaxSaleEvents.map((event) => {
+                            {[...taxSaleRailEvents.upcoming, ...taxSaleRailEvents.past].map((event) => {
                               const pidCount = advertisedPidsForEvents([event]).length;
                               const mappedAdvertisedCount = event.listings.filter(
                                 ({ listingStatus }) => listingStatus === "advertised",
@@ -5680,6 +5728,11 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                               );
                               return (
                                 <div className="tax-sale-event" key={event.id}>
+                                  {event === taxSaleRailEvents.past[0] ? (
+                                    <p className="tax-sale-past-heading">
+                                      Past sale dates ({taxSaleRailEvents.past.length}). Verify results with the municipality.
+                                    </p>
+                                  ) : null}
                                   <label className="layer-row event-row">
                                     <input
                                       type="checkbox"
@@ -5695,11 +5748,6 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                       <small>{eventDateLabel(event)}</small>
                                       <small>{eventLifecycleLabel(event, currentTime)}</small>
                                       <small>
-                                        {geometryExceptions.length > 0
-                                          ? `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
-                                          : `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${withdrawnCount} withdrawn ${withdrawnCount === 1 ? "notice" : "notices"} · ${pidCount} ${pidCount === 1 ? "PID" : "PIDs"} in advertised notices`}
-                                      </small>
-                                      <small>
                                         Snapshot retrieved {snapshotDateLabel(event)}
                                       </small>
                                     </span>
@@ -5711,6 +5759,9 @@ export function App({ focus }: { focus?: FocusId } = {}) {
                                     geometryExceptions={geometryExceptions}
                                     selectedPid={selectedPid}
                                     disabled={!licenceAccepted}
+                                    facts={geometryExceptions.length > 0
+                                      ? `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${event.listings.length} mapped · ${geometryExceptions.length} unavailable in NSPRD`
+                                      : `${advertisedCount} advertised ${advertisedCount === 1 ? "notice" : "notices"} · ${withdrawnCount} withdrawn ${withdrawnCount === 1 ? "notice" : "notices"} · ${pidCount} ${pidCount === 1 ? "PID" : "PIDs"} in advertised notices`}
                                     onSelectPid={(eventId, pid) => {
                                       void selectListedParcel(eventId, pid);
                                     }}
@@ -6387,6 +6438,7 @@ export function App({ focus }: { focus?: FocusId } = {}) {
           currentState={themeComparableState}
           preferredCategoryIds={Array.from(expandedCategoryIds)}
           notice={themeLibraryNotice}
+          suggestedName={`${mapThemes.find(({ id }) => id === activeThemeId)?.name ?? "My setup"}, ${new Date().toLocaleDateString("en-CA", { month: "short", day: "numeric" })}`}
           onSave={saveCurrentTheme}
           onRename={renameSavedTheme}
           onUpdate={updateSavedTheme}

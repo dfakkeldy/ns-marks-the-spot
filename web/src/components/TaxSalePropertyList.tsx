@@ -9,6 +9,8 @@ type TaxSalePropertyListProps = {
   geometryExceptions?: TaxSaleGeometryException[];
   selectedPid: string | null;
   disabled: boolean;
+  /** The sale's notice counts, kept with the properties they count. */
+  facts?: string;
   onSelectPid: (eventId: string, pid: string) => void;
 };
 
@@ -36,6 +38,7 @@ export function TaxSalePropertyList({
   geometryExceptions = [],
   selectedPid,
   disabled,
+  facts,
   onSelectPid,
 }: TaxSalePropertyListProps) {
   const count = propertyCount(listings);
@@ -73,6 +76,7 @@ export function TaxSalePropertyList({
         </small>
       </summary>
       <div className="tax-sale-property-list-body">
+        {facts ? <p className="tax-sale-event-facts">{facts}</p> : null}
         <p>Choose a property to zoom to its parcel and open the notice details.</p>
         {count > 0 ? (
           <ul aria-label={`${municipality} tax-sale properties`}>

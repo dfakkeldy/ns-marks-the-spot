@@ -20,7 +20,7 @@ function event(id: string, saleStartsAt?: string): TaxSaleEvent {
 }
 
 describe("TaxSaleDateLegend", () => {
-  it("names every band, counts notices, and says the bands are relative to today", () => {
+  it("names every band, counts sales, and says the bands are relative to today", () => {
     render(
       <TaxSaleDateLegend
         now={Date.parse("2026-11-06T12:00:00-04:00")}
@@ -38,11 +38,11 @@ describe("TaxSaleDateLegend", () => {
       row.textContent,
     ]);
     expect(rows).toEqual([
-      ["within-7-days", "Within 7 days0 notices"],
-      ["within-30-days", "Within 30 days1 notice"],
-      ["later", "Later0 notices"],
-      ["sale-date-passed", "Sale date passed — verify results2 notices"],
-      ["date-not-stated", "Date not stated1 notice"],
+      ["within-7-days", "Within 7 days0 sales"],
+      ["within-30-days", "Within 30 days1 sale"],
+      ["later", "Later0 sales"],
+      ["sale-date-passed", "Sale date passed — verify results2 sales"],
+      ["date-not-stated", "Date not stated1 sale"],
     ]);
     expect(legend.textContent).toContain("relative to today’s date in Atlantic time");
   });

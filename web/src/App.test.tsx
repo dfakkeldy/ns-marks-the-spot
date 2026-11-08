@@ -95,7 +95,7 @@ const expectedCataloguePlacement = [
   ...contextLayerCatalog.map(({ id, name, category }) => ({
     id, label: name, category: layerCategories.find(({ id }) => id === category)!.name, kind: "control",
   })),
-  { id: "modern", label: "Modern map", category: "Background Maps", kind: "control" },
+  { id: "modern", label: "Base map", category: "Background Maps", kind: "control" },
   { id: "ns-aerial", label: "NS Aerial", category: "Background Maps", kind: "control" },
   { id: "nsprd", label: "NS Property Boundaries", category: "Land & Property", kind: "control" },
   { id: "crown-lands", label: "Crown Lands", category: "Land & Property", kind: "control" },
@@ -1471,7 +1471,7 @@ describe("NS Marks The Spot Online", () => {
     const taxSale = openLayerCategory("Tax Sale");
 
     expect(await within(taxSale).findByRole("region", {
-      name: "Current tax-sale notices",
+      name: "Current sales",
     })).toBeInTheDocument();
     await waitFor(() => {
       expect(screen.getByTestId("map-canvas")).toHaveTextContent(
@@ -1508,7 +1508,7 @@ describe("NS Marks The Spot Online", () => {
       name: /current notices or historical records/i,
     })).not.toBeInTheDocument();
     expect(within(taxSale).queryByRole("region", {
-      name: "Current tax-sale notices",
+      name: "Current sales",
     })).not.toBeInTheDocument();
     expect(within(taxSale).queryByLabelText("Redemption category"))
       .not.toBeInTheDocument();
@@ -2288,10 +2288,10 @@ describe("NS Marks The Spot Online", () => {
     openLayerCategory("Background Maps");
     expect(screen.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" })).toBeChecked();
     expect(screen.getByRole("checkbox", { name: "NS Aerial" })).toBeDisabled();
-    await userEvent.click(screen.getByRole("checkbox", { name: "Modern map" }));
+    await userEvent.click(screen.getByRole("checkbox", { name: "Base map" }));
     expect(screen.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" })).not.toBeChecked();
     await userEvent.click(screen.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" }));
-    expect(screen.getByRole("checkbox", { name: "Modern map" })).not.toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "Base map" })).not.toBeChecked();
   });
 
   it("restores a shared provincial topographic background without adding the modern map", () => {
@@ -2384,7 +2384,7 @@ describe("NS Marks The Spot Online", () => {
     expect(within(taxSale).getByLabelText("Show tax-sale information"))
       .not.toBeChecked();
     expect(within(taxSale).queryByRole("heading", {
-      name: "Tax-sale notices",
+      name: "Tax sales",
       level: 4,
     })).not.toBeInTheDocument();
     expect(within(taxSale).queryByRole("heading", {
@@ -2746,7 +2746,7 @@ describe("NS Marks The Spot Online", () => {
       await userEvent.selectOptions(screen.getByLabelText("Change setup"), id);
       const backgrounds = openLayerCategory("Background Maps");
       const enabledOpaqueBackgrounds = [
-        within(backgrounds).getByLabelText("Modern map"),
+        within(backgrounds).getByLabelText("Base map"),
         within(backgrounds).getByLabelText("NS Aerial"),
       ].filter((control) => (control as HTMLInputElement).checked);
 
@@ -2765,7 +2765,7 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByRole("dialog", { name: /province data licence/i }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
 
     await userEvent.click(screen.getByRole("button", { name: /accept/i }));
 
@@ -2785,13 +2785,13 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByRole("dialog", { name: /province data licence/i })).not.toBeInTheDocument();
 
     openLayerCategory("Background Maps");
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(mapSetupStatus()).toHaveTextContent(
       /Historical Maps — Partially applied.*Fletcher historical map/i,
     );
     expect(mapSetup).toHaveFocus();
 
-    await userEvent.click(screen.getByLabelText("Modern map"));
+    await userEvent.click(screen.getByLabelText("Base map"));
 
     expect(mapSetupStatus()).toHaveTextContent("Historical Maps — Modified");
     expect(mapSetupStatus()).not.toHaveTextContent("Partially applied");
@@ -2811,15 +2811,15 @@ describe("NS Marks The Spot Online", () => {
     unmount();
     window.history.replaceState(null, "", "/");
     render(<App />);
-    await userEvent.click(screen.getByLabelText("Modern map"));
+    await userEvent.click(screen.getByLabelText("Base map"));
 
     expect(mapSetupStatus()).toHaveTextContent(
       "Explore Nova Scotia — Modified",
     );
     await userEvent.click(
-      screen.getByRole("button", { name: "Reset current theme" }),
+      screen.getByRole("button", { name: "Reset setup" }),
     );
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
   });
 
@@ -2909,8 +2909,9 @@ describe("NS Marks The Spot Online", () => {
     await userEvent.click(
       screen.getByRole("button", { name: "Save setup…" }),
     );
+    await userEvent.clear(screen.getByRole("textbox", { name: "Setup name" }));
     await userEvent.type(
-      screen.getByRole("textbox", { name: "Theme name" }),
+      screen.getByRole("textbox", { name: "Setup name" }),
       "Hidden opacity",
     );
     await userEvent.click(
@@ -2946,7 +2947,7 @@ describe("NS Marks The Spot Online", () => {
     await userEvent.click(fletcherToggle);
     expect(mapSetupStatus()).toHaveTextContent("Hidden opacity — Modified");
     await userEvent.click(
-      screen.getByRole("button", { name: "Reset current theme" }),
+      screen.getByRole("button", { name: "Reset setup" }),
     );
     expect(fletcherToggle).not.toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
@@ -3013,8 +3014,9 @@ describe("NS Marks The Spot Online", () => {
       await userEvent.click(
         screen.getByRole("button", { name: "Save setup…" }),
       );
+      await userEvent.clear(screen.getByRole("textbox", { name: "Setup name" }));
       await userEvent.type(
-        screen.getByRole("textbox", { name: "Theme name" }),
+        screen.getByRole("textbox", { name: "Setup name" }),
         "Road work",
       );
       await userEvent.click(
@@ -3072,7 +3074,7 @@ describe("NS Marks The Spot Online", () => {
       await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
       expect(mapSetupStatus()).toHaveTextContent("Road work — Modified");
       await userEvent.click(
-        screen.getByRole("button", { name: "Reset current theme" }),
+        screen.getByRole("button", { name: "Reset setup" }),
       );
       openLayerCategory("Roads & Places");
       expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
@@ -3175,8 +3177,9 @@ describe("NS Marks The Spot Online", () => {
       await userEvent.click(
         screen.getByRole("button", { name: "Save setup…" }),
       );
+      await userEvent.clear(screen.getByRole("textbox", { name: "Setup name" }));
       await userEvent.type(
-        screen.getByRole("textbox", { name: "Theme name" }),
+        screen.getByRole("textbox", { name: "Setup name" }),
         "Private map companion",
       );
       await userEvent.click(
@@ -3210,23 +3213,23 @@ describe("NS Marks The Spot Online", () => {
 
     expect(expandedLayerCategoryIds()).toEqual(["background-maps"]);
     openLayerCategory("Roads & Places");
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
-    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(screen.getByRole("button", { name: "My setups" }));
     const rename = screen.getByRole("textbox", { name: "Rename Field day" });
     await userEvent.clear(rename);
     await userEvent.type(rename, "Woodlot");
     await userEvent.click(screen.getByRole("button", { name: "Rename" }));
 
     expect(screen.getByRole("option", { name: "Woodlot" })).toBeInTheDocument();
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
 
     await userEvent.click(screen.getByRole("button", { name: "Done" }));
     await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
     await userEvent.click(screen.getByRole("button", { name: /^Background Maps/ }));
     expect(expandedLayerCategoryIds()).toEqual(["roads-places"]);
-    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(screen.getByRole("button", { name: "My setups" }));
     await userEvent.click(
       screen.getByRole("button", { name: "Update from current setup" }),
     );
@@ -3265,7 +3268,7 @@ describe("NS Marks The Spot Online", () => {
       "custom-field-day",
     );
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
-    await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+    await userEvent.click(screen.getByRole("button", { name: "My setups" }));
     await userEvent.click(screen.getByRole("button", { name: "Duplicate" }));
 
     let stored = JSON.parse(
@@ -3277,12 +3280,12 @@ describe("NS Marks The Spot Online", () => {
       layerIds: ["modern", "roads"],
     });
 
-    const rows = screen.getAllByRole("listitem", { name: "Woodlot theme" });
+    const rows = screen.getAllByRole("listitem", { name: "Woodlot setup" });
     await userEvent.click(within(rows[1]).getByRole("button", { name: "Delete" }));
     await userEvent.click(
       within(rows[1]).getByRole("button", { name: "Confirm delete" }),
     );
-    const activeRow = screen.getByRole("listitem", { name: "Woodlot theme" });
+    const activeRow = screen.getByRole("listitem", { name: "Woodlot setup" });
     await userEvent.click(within(activeRow).getByRole("button", { name: "Delete" }));
     await userEvent.click(
       within(activeRow).getByRole("button", { name: "Confirm delete" }),
@@ -3294,7 +3297,7 @@ describe("NS Marks The Spot Online", () => {
     expect(stored.themes).toEqual([]);
     openLayerCategory("Background Maps");
     openLayerCategory("Roads & Places");
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByLabelText("Change setup")).toHaveValue("shared");
     expect(mapSetupStatus()).toHaveTextContent("Shared setup");
@@ -3324,7 +3327,7 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent("Field day copy");
     expect(mapSetupStatus()).not.toHaveTextContent("Modified");
     expect(
-      screen.queryByRole("button", { name: "Reset current theme" }),
+      screen.queryByRole("button", { name: "Reset setup" }),
     ).not.toBeInTheDocument();
   });
 
@@ -3351,7 +3354,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Change setup")).toHaveValue("custom-field-day");
     expect(mapSetupStatus()).toHaveTextContent("Field day");
     openLayerCategory("Background Maps");
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
   });
 
@@ -3376,7 +3379,7 @@ describe("NS Marks The Spot Online", () => {
         "explore-nova-scotia",
       );
       expect(mapSetupStatus()).toHaveTextContent(
-        "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+        "Your saved setups could not be loaded. Explore Nova Scotia is being used for this session.",
       );
     } finally {
       Object.defineProperty(window, "localStorage", descriptor);
@@ -3393,7 +3396,7 @@ describe("NS Marks The Spot Online", () => {
       "explore-nova-scotia",
     );
     expect(mapSetupStatus()).toHaveTextContent(
-      "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+      "Your saved setups could not be loaded. Explore Nova Scotia is being used for this session.",
     );
     expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe("not-json");
   });
@@ -3409,11 +3412,11 @@ describe("NS Marks The Spot Online", () => {
       "tax-sale layer: off",
     );
     openLayerCategories("Background Maps", "Roads & Places");
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByLabelText("Change setup")).toHaveValue("shared");
     expect(mapSetupStatus()).toHaveTextContent(
-      "Your custom-theme library could not be loaded. Custom themes are unavailable for this session.",
+      "Your saved setups could not be loaded. Saved setups are unavailable for this session.",
     );
     expect(mapSetupStatus()).not.toHaveTextContent(
       "Explore Nova Scotia is being used",
@@ -3440,23 +3443,23 @@ describe("NS Marks The Spot Online", () => {
     );
 
     try {
-      await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+      await userEvent.click(screen.getByRole("button", { name: "My setups" }));
       const rename = screen.getByRole("textbox", { name: "Rename Field day" });
       await userEvent.clear(rename);
       await userEvent.type(rename, "Woodlot");
       await userEvent.click(screen.getByRole("button", { name: "Rename" }));
 
       expect(mapSetupStatus()).toHaveTextContent(
-        "Your custom themes could not be saved in this browser.",
+        "Your setups could not be saved in this browser.",
       );
       expect(localStorage.getItem(CUSTOM_THEME_STORAGE_KEY)).toBe(oldRaw);
       expect(screen.getByRole("option", { name: "Field day" })).toBeInTheDocument();
       expect(screen.queryByRole("option", { name: "Woodlot" })).not.toBeInTheDocument();
-      expect(screen.getByLabelText("Modern map")).toBeChecked();
+      expect(screen.getByLabelText("Base map")).toBeChecked();
       expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
 
       await userEvent.click(screen.getByRole("button", { name: "Done" }));
-      await userEvent.click(screen.getByRole("button", { name: "Manage themes" }));
+      await userEvent.click(screen.getByRole("button", { name: "My setups" }));
       expect(screen.getByRole("textbox", { name: "Rename Field day" }))
         .toHaveValue("Field day");
     } finally {
@@ -3482,7 +3485,7 @@ describe("NS Marks The Spot Online", () => {
     );
     expect(mapSetupStatus()).toHaveTextContent("Field day — Partially applied");
     await userEvent.click(
-      screen.getByRole("button", { name: "Reset current theme" }),
+      screen.getByRole("button", { name: "Reset setup" }),
     );
     expect(
       screen.getByRole("dialog", { name: "Province data licence" }),
@@ -3758,7 +3761,7 @@ describe("NS Marks The Spot Online", () => {
       "aria-pressed",
       "true",
     );
-    expect(screen.getByRole("region", { name: "Current tax-sale notices" }))
+    expect(screen.getByRole("region", { name: "Current sales" }))
       .toBeInTheDocument();
     expect(screen.queryByRole("region", { name: "Historical tax-sale records" }))
       .not.toBeInTheDocument();
@@ -3769,7 +3772,7 @@ describe("NS Marks The Spot Online", () => {
       "aria-pressed",
       "true",
     );
-    expect(screen.queryByRole("region", { name: "Current tax-sale notices" }))
+    expect(screen.queryByRole("region", { name: "Current sales" }))
       .not.toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Historical tax-sale records" }))
       .toBeInTheDocument();
@@ -3798,7 +3801,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("NS Property Boundaries")).toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "initial position: 46.1,-60.9,12",
     );
@@ -4051,7 +4054,7 @@ describe("NS Marks The Spot Online", () => {
 
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).not.toBeChecked();
     expect(screen.getByLabelText("NS Property Boundaries")).not.toBeChecked();
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
@@ -4454,7 +4457,7 @@ describe("NS Marks The Spot Online", () => {
     expect(summary).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("contours: on");
     expect(
-      within(group as HTMLElement).getByText(/terrain screening only/i),
+      within(group as HTMLElement).getAllByText(/terrain screening only/i)[0],
     ).toBeInTheDocument();
     expect(
       within(group as HTMLElement).getByRole("link", {
@@ -5037,6 +5040,41 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("focus fit: 0");
   });
 
+  it("answers a returned-empty search plainly, with a next step and no alarm", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({ type: "FeatureCollection", features: [] });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50292390");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const help = await screen.findByText("No NSPRD parcel was found for that PID.");
+    expect(help).toHaveAttribute("role", "status");
+    expect(help).toHaveTextContent("Check that it has 8 digits, or try the civic address.");
+  });
+
+  it("turns the base map on when a map style is chosen with it off", async () => {
+    const user = userEvent.setup();
+    renderAppWithCategoriesOpen();
+    const baseMap = screen.getByLabelText("Base map");
+    await user.click(baseMap);
+    expect(baseMap).not.toBeChecked();
+
+    await user.click(within(screen.getByRole("radiogroup", { name: "Map style" })).getByRole("radio", { name: "Fletcher" }));
+
+    expect(screen.getByLabelText("Base map")).toBeChecked();
+    expect(screen.getByRole("radio", { name: "Fletcher" })).toBeChecked();
+  });
+
+  it("leads the rail with the active setup's own categories", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    const { container } = render(<App />);
+    await user.selectOptions(screen.getByLabelText("Change setup"), "tax-sale-research");
+    expect(container.querySelector(".layer-category")).toHaveAttribute("data-category-id", "tax-sale");
+  });
+
   it("searches a civic address and opens its containing parcel", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -5483,7 +5521,7 @@ describe("NS Marks The Spot Online", () => {
     const user = userEvent.setup();
     renderAppWithCategoriesOpen();
 
-    const modernMap = screen.getByLabelText("Modern map");
+    const modernMap = screen.getByLabelText("Base map");
     expect(modernMap).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "modern map: on",
@@ -5509,7 +5547,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.getByLabelText("Show tax-sale information")).not.toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
-    expect(screen.getByLabelText("Modern map")).not.toBeChecked();
+    expect(screen.getByLabelText("Base map")).not.toBeChecked();
   });
 
   it("restores Modern map when shared aerial starts below its display zoom", () => {
@@ -5524,7 +5562,7 @@ describe("NS Marks The Spot Online", () => {
 
     expect(screen.getByLabelText("Show tax-sale information")).not.toBeChecked();
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
-    expect(screen.getByLabelText("Modern map")).toBeChecked();
+    expect(screen.getByLabelText("Base map")).toBeChecked();
   });
 
   it("tracks Safari's visible viewport height", () => {

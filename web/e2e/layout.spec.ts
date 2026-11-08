@@ -124,7 +124,7 @@ test("theme controls expose keyboard focus and open the manager", async ({ page 
   await page.goto("/?basemap=osm");
   await expect(page).toHaveTitle(/NS Marks The Spot/);
   await keyboardFocus(page, page.getByRole("combobox", { name: "Change setup", exact: true }));
-  // "Manage themes" appears only once a custom setup exists; Save opens the same manager.
+  // "My setups" appears only once a custom setup exists; Save opens the same manager.
   const manage = page.getByRole("button", { name: "Save setup…", exact: true });
   await keyboardFocus(page, manage);
   await page.keyboard.press("Enter");

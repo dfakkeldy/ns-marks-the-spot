@@ -1,7 +1,8 @@
 import { memo, useMemo } from "react";
 import type { ContextMapLayer } from "../layers/contextLayerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
-import { LayerMetadata, ProvenanceFields } from "./LayerRows";
+import { LayerMetadata, ProvenanceFields, RowCaveat } from "./LayerRows";
+import { splitCaveat } from "./layerCaveat";
 import { LayerSwatch } from "./LayerSwatch";
 import { contextLayerSwatch } from "./layerSwatchSpec";
 
@@ -18,6 +19,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
   const licenceEnabled = layer.licence !== "province-restricted" || licenceAccepted;
   const enabled = licenceEnabled && !layer.unavailableReason;
   const swatch = useMemo(() => contextLayerSwatch(layer), [layer]);
+  const fullCaveat = splitCaveat(layer.webCaveat).full;
   return (
     <div className="context-layer-control">
       <label className="layer-row">
@@ -27,7 +29,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         <span className="switch" aria-hidden="true" />
         <span>
           <strong><LayerSwatch spec={swatch} />{layer.name}</strong>
-          <small>{layer.webCaveat}</small>
+          <RowCaveat text={layer.webCaveat} />
           {!licenceEnabled ? <small>Province licence required</small> : null}
           {layer.unavailableReason ? <small>{layer.unavailableReason}</small> : null}
           <LayerMetadata openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
@@ -47,6 +49,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         {/* One disclosure per row: the legend, then the source, date, scale,
             coverage and zoom that "Source & scale" used to hold apart. */}
         <summary>{checked && enabled ? "Legend & source" : "Source & legend"}</summary>
+        {fullCaveat ? <p className="layer-caveat-full">{fullCaveat}</p> : null}
         {layer.legend.length > 0 ? (
           <ul className="environmental-health-legend" aria-label={`${layer.name} legend`}>
             {layer.legend.map(({ label, color }, index) => (
