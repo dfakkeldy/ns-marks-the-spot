@@ -26,9 +26,17 @@ enum UITestTouchLedger {
     private static var open: [ObjectIdentifier: OpenTouch] = [:]
     private static var isInstalled = false
 
+    /// A touch held this long may already have acted. The shortest press that
+    /// acts before the finger lifts is the map's 0.45 s long press, which places
+    /// a point, so repeating that touch could place a second one.
+    private static let longestRepeatableHold: TimeInterval = 0.4
+
     private struct OpenTouch {
         weak var view: UIView?
-        let downAt: TimeInterval
+        /// When this process received it. A gesture recognizer's timer starts at
+        /// the same moment, so the hold compares with its duration. An event's own
+        /// timestamp would not: a late delivery would make a long press look short.
+        let receivedAt: TimeInterval
     }
 
     static func install() {
@@ -50,20 +58,24 @@ enum UITestTouchLedger {
         }
     }
 
-    /// Whether the system took this touch back, as opposed to the app losing it.
+    /// Whether the system took this touch back before it could act, as opposed
+    /// to the app losing it or the touch having had time to do something.
     ///
-    /// Every traced simulator cancel had all four. Anything else is left for the
-    /// test to fail on: a touch cancelled because a view went away, a window
-    /// took over or the app resigned is behaviour a repeated tap would hide. If
-    /// a later iOS renames the gate, this reads false and tests fail as they did
-    /// before, rather than repeating taps they should not.
-    static func isSystemCancel(
+    /// Every traced simulator cancel had all of these. Anything else is left for
+    /// the test to fail on: a touch cancelled because a view went away, a window
+    /// took over or the app resigned is behaviour a repeated tap would hide, and
+    /// a touch held long enough to act could act twice. If a later iOS renames
+    /// the gate, this reads false and tests fail as they did before, rather than
+    /// repeating taps they should not.
+    static func isRepeatableSystemCancel(
         appIsActive: Bool,
         windowIsKey: Bool,
         viewIsInWindow: Bool,
-        gateRecognized: Bool
+        gateRecognized: Bool,
+        held: TimeInterval
     ) -> Bool {
         appIsActive && windowIsKey && viewIsInWindow && gateRecognized
+            && held < longestRepeatableHold
     }
 
     fileprivate static func record(_ event: UIEvent) {
@@ -73,7 +85,9 @@ enum UITestTouchLedger {
             switch touch.phase {
             case .began:
                 began += 1
-                open[id] = OpenTouch(view: touch.view, downAt: touch.timestamp)
+                open[id] = OpenTouch(
+                    view: touch.view, receivedAt: ProcessInfo.processInfo.systemUptime
+                )
             case .ended:
                 guard open.removeValue(forKey: id) != nil else { continue }
                 ended += 1
@@ -97,11 +111,13 @@ enum UITestTouchLedger {
             String(describing: type(of: $0)) == "_UISystemGestureGateGestureRecognizer"
                 && $0.state == .recognized
         }
-        let isSystem = isSystemCancel(
+        let held = ProcessInfo.processInfo.systemUptime - opened.receivedAt
+        let isSystem = isRepeatableSystemCancel(
             appIsActive: appIsActive,
             windowIsKey: windowIsKey,
             viewIsInWindow: viewIsInWindow,
-            gateRecognized: gateRecognized
+            gateRecognized: gateRecognized,
+            held: held
         )
         if isSystem {
             systemCancelled += 1
@@ -113,7 +129,7 @@ enum UITestTouchLedger {
             format: "lastCancel=%@ active=%d key=%d viewInWindow=%d gate=%d held=%.3f at=(%.1f,%.1f)",
             isSystem ? "system" : "other",
             appIsActive ? 1 : 0, windowIsKey ? 1 : 0, viewIsInWindow ? 1 : 0, gateRecognized ? 1 : 0,
-            touch.timestamp - opened.downAt, point.x, point.y
+            held, point.x, point.y
         )
     }
 

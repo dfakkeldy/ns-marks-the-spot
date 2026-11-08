@@ -11,6 +11,9 @@ struct TouchLedger: Equatable {
 
     var finished: Int { ended + systemCancelled + otherCancelled }
 
+    /// A touch begun and not yet finished, whose ending the next count could be.
+    var hasOpenTouch: Bool { began > finished }
+
     init(began: Int = 0, ended: Int = 0, systemCancelled: Int = 0, otherCancelled: Int = 0) {
         self.began = began
         self.ended = ended
@@ -55,6 +58,9 @@ enum TapFate: Equatable {
     case otherCancelled
     /// The app never saw it, or has not seen it finish.
     case unfinished
+    /// A cancel that may belong to a touch begun before this gesture. The gesture
+    /// may then still be in flight, and repeating it could act twice.
+    case ambiguous
 
     /// Ordered so that doubt never repeats a tap. A touch that ended outranks
     /// everything, because repeating it would hide the app ignoring a real tap.
@@ -65,6 +71,8 @@ enum TapFate: Equatable {
             self = .ended
         } else if after.otherCancelled > before.otherCancelled {
             self = .otherCancelled
+        } else if before.hasOpenTouch {
+            self = .ambiguous
         } else {
             self = .systemCancelled
         }
@@ -106,9 +114,11 @@ struct SystemCancelRetry {
             log("system cancelled the tap, re-tapping once. \(describe(before, after))")
             retap(gesture, from: after)
         case .otherCancelled:
-            log("cancelled, not by the system; not re-tapping. \(describe(before, after))")
+            log("cancelled, and not safe to repeat; not re-tapping. \(describe(before, after))")
         case .unfinished:
             log("not seen to finish; not re-tapping. \(describe(before, after))")
+        case .ambiguous:
+            log("cancelled while an earlier touch was open; not re-tapping. \(describe(before, after))")
         }
     }
 
@@ -138,7 +148,10 @@ struct SystemCancelRetry {
 
     static var live: SystemCancelRetry {
         SystemCancelRetry(
-            read: { TouchLedger(published: XCUIApplication().value) },
+            // Through a snapshot, so a read that fails answers nothing. Reading
+            // `.value` directly would record a test failure, and a hosted runner
+            // can spend a whole timeout on one snapshot.
+            read: { TouchLedger(published: (try? XCUIApplication().snapshot())?.value) },
             pause: { RunLoop.current.run(until: Date().addingTimeInterval($0)) },
             log: { print("UITEST_TAP \($0)") }
         )

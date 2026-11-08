@@ -62,7 +62,19 @@ final class SystemCancelRetryTests: XCTestCase {
     func testACancelTheSystemDidNotClaimIsNotRepeated() {
         let run = play([start, TouchLedger(began: 5, ended: 4, otherCancelled: 1)])
         XCTAssertEqual(run.gestures, 1)
-        XCTAssertTrue(run.logs[0].hasPrefix("cancelled, not by the system"), run.logs[0])
+        XCTAssertTrue(run.logs[0].hasPrefix("cancelled, and not safe to repeat"), run.logs[0])
+    }
+
+    /// The cancel may be the earlier touch's, with this tap still in flight. It
+    /// would then end and act, and a repeat would act again.
+    @MainActor
+    func testACancelWhileAnEarlierTouchWasOpenIsNotRepeated() {
+        let run = play([
+            TouchLedger(began: 5, ended: 4),
+            TouchLedger(began: 6, ended: 4, systemCancelled: 1),
+        ])
+        XCTAssertEqual(run.gestures, 1)
+        XCTAssertTrue(run.logs[0].hasPrefix("cancelled while an earlier touch"), run.logs[0])
     }
 
     /// A late cancel of an earlier touch must not repeat a tap that ended.
@@ -155,12 +167,12 @@ final class TouchLedgerUITests: XCTestCase {
         super.tearDown()
     }
 
+    /// Through the read the tap itself uses. If it answered nothing, every tap
+    /// would log that and go on, so tests would pass with repeats switched off.
     @MainActor
-    private func ledger(_ app: XCUIApplication, _ state: String) throws -> TouchLedger {
-        try XCTUnwrap(
-            TouchLedger(published: app.value),
-            "the touch ledger cannot be read \(state): \(String(describing: app.value))"
-        )
+    private func ledger(_ state: String) throws -> TouchLedger {
+        let read = SystemCancelRetry.live.read()
+        return try XCTUnwrap(read, "the touch ledger cannot be read \(state)")
     }
 
     /// A tap the app acted on is counted once, as a touch that ended.
@@ -169,7 +181,7 @@ final class TouchLedgerUITests: XCTestCase {
         let app = XCUIApplication.launchedForUITests()
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
-        let before = try ledger(app, "at launch")
+        let before = try ledger("at launch")
 
         layers.tapRetryingSystemCancel()
         XCTAssertTrue(
@@ -177,7 +189,7 @@ final class TouchLedgerUITests: XCTestCase {
             "the layers panel did not open"
         )
 
-        let after = try ledger(app, "with the layers panel open")
+        let after = try ledger("with the layers panel open")
         XCTAssertEqual(after.ended, before.ended + 1)
         XCTAssertEqual(after.otherCancelled, before.otherCancelled)
         // A system cancel may land here too, and is then repeated.
@@ -197,10 +209,10 @@ final class TouchLedgerUITests: XCTestCase {
         more.tapRetryingSystemCancel()
         let sources = app.buttons["Data Sources and Licenses"]
         XCTAssertTrue(sources.waitForExistence(timeout: timeout), "the menu did not open")
-        _ = try ledger(app, "with a menu open")
+        _ = try ledger("with a menu open")
 
         sources.tapRetryingSystemCancel()
         XCTAssertTrue(app.navigationBars["Map Info"].waitForExistence(timeout: timeout), "no sheet")
-        _ = try ledger(app, "with a sheet open")
+        _ = try ledger("with a sheet open")
     }
 }
