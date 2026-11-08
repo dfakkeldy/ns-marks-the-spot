@@ -1990,19 +1990,19 @@ final class MapController: NSObject {
         holdTap(latitude: coordinate.latitude, longitude: coordinate.longitude, at: point)
     }
 
-    /// How long a tap on the map waits to see whether a second tap follows.
+    /// How long a tap on the map waits for a second touch before it counts.
     ///
-    /// UIKit does not publish its double-tap interval, so this is measured on
-    /// iOS 26: MapKit's double tap still took a second touch that reached the
-    /// app 0.355 s after the lift, and not one at 0.361 s. Too short places a
-    /// stray point under a slow double tap; too long makes every tap made alone
-    /// wait that much more. The web waits 250 ms, which here would leave a point
-    /// under every double tap slower than that.
-    static let doubleTapInterval: Duration = .milliseconds(350)
+    /// Only the case with no second touch at all goes by this: a second touch
+    /// is settled by MapKit's own double tap, `settleHeldTap`. So it is set
+    /// past where MapKit gives up, which a probe on iOS 26 put between 0.370
+    /// and 0.376 s after the lift. At 350 ms a slow double tap could find the
+    /// tap already counted, with a point left under the zoom. Longer only makes
+    /// a tap made alone wait that much more.
+    static let doubleTapInterval: Duration = .milliseconds(400)
 
     /// How far from a tap, in points, a second touch can land and still be
-    /// MapKit's double tap. Measured the same way: it zoomed at 45 and not at 50.
-    static let doubleTapReach: CGFloat = 50
+    /// MapKit's double tap. The same probe: it zoomed at 45 and not at 46.
+    static let doubleTapReach: CGFloat = 46
 
     /// A tap is only a tap once it cannot be half of a double tap, which zooms
     /// and must not also identify a parcel or place a point. So it is held
@@ -2039,22 +2039,38 @@ final class MapController: NSObject {
         heldTapWatcher = watcher
     }
 
-    /// The next touch decides. One this soon and this close is the rest of
-    /// MapKit's double tap, or the drag that follows a tap for a one-handed zoom,
-    /// and the held tap never happened. Any other touch means the held tap stood
-    /// alone, and it needn't wait. `point` is nil for a touch off the map.
+    /// The next touch decides. One that MapKit's double tap is still waiting
+    /// for, and this close, is the rest of that double tap, or the drag that
+    /// follows a tap for a one-handed zoom, and the held tap never happened.
+    /// Any other touch means the held tap stood alone, and it needn't wait.
+    /// `point` is nil for a touch off the map.
     ///
-    /// Not `UITouch.tapCount`, which looks like the same question: its terms are
-    /// tighter than MapKit's. A second touch 45 points away, or 0.35 s later,
-    /// counted as a new tap and still zoomed, with a point left under the zoom.
-    func settleHeldTap(byTouchOnMapAt point: CGPoint?) {
+    /// MapKit is asked rather than timed: a second touch it no longer waits for
+    /// is a tap of its own, and swallowing the first one there lost a point.
+    /// Not `UITouch.tapCount` either: its terms are tighter than MapKit's. A
+    /// second touch 45 points away counted as a new tap and still zoomed.
+    func settleHeldTap(byTouchOnMapAt point: CGPoint?, mapKitDoubleTapWaiting: Bool) {
         guard let held = heldTap else { return }
-        if let point, hypot(point.x - held.point.x, point.y - held.point.y) < Self.doubleTapReach {
+        if mapKitDoubleTapWaiting, let point,
+           hypot(point.x - held.point.x, point.y - held.point.y) < Self.doubleTapReach {
             heldTapTimer?.cancel()
             heldTapTimer = nil
             heldTap = nil
         } else {
             releaseHeldTap()
+        }
+    }
+
+    /// Whether a double tap on the map is still waiting for this touch.
+    /// Asked once the touch has reached its recognizers: MapKit's double tap
+    /// is among them only while its window is open, and one this touch has
+    /// already ruled out has failed. MapKit keeps it on a subview of the map.
+    static func doubleTapIsWaiting(for touch: UITouch, on map: UIView) -> Bool {
+        (touch.gestureRecognizers ?? []).contains { recognizer in
+            guard let tap = recognizer as? UITapGestureRecognizer,
+                  tap.numberOfTapsRequired > 1, tap.numberOfTouchesRequired == 1,
+                  tap.view?.isDescendant(of: map) == true else { return false }
+            return tap.state == .possible
         }
     }
 
@@ -2946,11 +2962,21 @@ extension MapController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if gestureRecognizer.name == Self.heldTapWatcherName {
             // Sees every new touch and takes none, so nothing else in the window
-            // competes with it.
-            let pointOnMap = mapView.flatMap { map in
-                touch.view?.isDescendant(of: map) == true ? touch.location(in: map) : nil
+            // competes with it. A touch off the map settles at once, before the
+            // button it lands on acts. One on the map waits a turn, until MapKit's
+            // recognizers have seen it; it cannot have lifted by then.
+            guard let map = mapView, touch.view?.isDescendant(of: map) == true else {
+                settleHeldTap(byTouchOnMapAt: nil, mapKitDoubleTapWaiting: false)
+                return false
             }
-            settleHeldTap(byTouchOnMapAt: pointOnMap)
+            let point = touch.location(in: map)
+            DispatchQueue.main.async { [weak self, weak map] in
+                guard let self, let map else { return }
+                self.settleHeldTap(
+                    byTouchOnMapAt: point,
+                    mapKitDoubleTapWaiting: Self.doubleTapIsWaiting(for: touch, on: map)
+                )
+            }
             return false
         }
         guard gestureRecognizer.name == Self.placeLongPressName else { return true }
