@@ -47,7 +47,7 @@ final class ns_marks_the_spotUITests: XCTestCase {
         )
         wait(for: [closed], timeout: 10)
 
-        layers.tap()
+        layers.tapRetryingSystemCancel()
 
         let opened = expectation(
             for: NSPredicate(format: "value == %@", "Open"),
@@ -73,7 +73,7 @@ final class ns_marks_the_spotUITests: XCTestCase {
             .firstMatch
         XCTAssertTrue(historical.waitForExistence(timeout: timeout))
         XCTAssertTrue(app.scroll(historical, into: panel), "the historical section cannot be reached")
-        historical.tap()
+        historical.tapRetryingSystemCancel()
 
         let fletcher = app.switches["Fletcher visibility"]
         XCTAssertTrue(fletcher.waitForExistence(timeout: timeout), "the section did not open")

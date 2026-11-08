@@ -131,6 +131,10 @@ final class AppContainer {
             container.installTrackActivityActions()
             return container
         }
+        #if DEBUG
+        // Before anything can be touched, so its counts cover every tap.
+        UITestTouchLedger.install()
+        #endif
         // A UI test gets a checkpoint directory thrown away with the run, for
         // the same reason it gets a licence and a session store that remember
         // nothing: a test asserting on what is on screen must not be asserting

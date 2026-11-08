@@ -31,7 +31,7 @@ final class MapChromeUITests: XCTestCase {
         let distance = app.buttons["measure-distance"]
         XCTAssertTrue(distance.waitForExistence(timeout: timeout))
         XCTAssertTrue(distance.waitForHittable(timeout: timeout), "measuring cannot be started")
-        distance.tap()
+        distance.tapRetryingSystemCancel()
 
         let readout = app.descendants(matching: .any)["measure-readout"]
         XCTAssertTrue(readout.waitForExistence(timeout: 10), "no measuring readout")
@@ -45,10 +45,10 @@ final class MapChromeUITests: XCTestCase {
 
         // Left of the control rail and above the card, so both taps land on the
         // map rather than on the chrome over it.
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tapRetryingSystemCancel()
         XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
         XCTAssertFalse(endpoint.exists, "one corner is not a measured distance")
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tapRetryingSystemCancel()
 
         XCTAssertTrue(
             waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
@@ -110,24 +110,24 @@ final class MapChromeUITests: XCTestCase {
         // Keep at least two points after Undo: the old behavior left that
         // shape finished and silently discarded it on the next map tap.
         let beforeFourthPoint = readout.label
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { readout.label != beforeFourthPoint && endpoint.label.hasSuffix(readout.label) },
             "the fourth point was not published before Finish"
         )
         XCTAssertTrue(finish.waitForHittable(timeout: 5))
-        finish.tap()
+        finish.tapRetryingSystemCancel()
         XCTAssertTrue(waitForUI { !finish.isEnabled }, "Finish did not finish the measurement")
         XCTAssertTrue(undo.waitForHittable(timeout: 5))
         XCTAssertEqual(undo.label, "Undo point")
         let beforeUndo = readout.label
-        undo.tap()
+        undo.tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { finish.isEnabled && readout.label != beforeUndo && endpoint.label.hasSuffix(readout.label) },
             "Undo did not reopen the measurement and publish the remaining path"
         )
         let afterUndo = readout.label
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { readout.label != afterUndo && endpoint.label.hasSuffix(readout.label) },
             "the next map tap did not extend the remaining path"
@@ -135,7 +135,7 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertNotEqual(readout.label, prompt, "the next tap discarded the remaining path")
 
         XCTAssertTrue(app.buttons["measure-done"].waitForHittable(timeout: 5))
-        app.buttons["measure-done"].tap()
+        app.buttons["measure-done"].tapRetryingSystemCancel()
         XCTAssertTrue(
             readout.waitForNonExistence(timeout: 10),
             "the measuring card stayed up after Done"
@@ -158,16 +158,16 @@ final class MapChromeUITests: XCTestCase {
         let app = XCUIApplication.launchedForUITests()
         let distance = app.buttons["measure-distance"]
         XCTAssertTrue(distance.waitForHittable(timeout: timeout), "measuring cannot be started")
-        distance.tap()
+        distance.tapRetryingSystemCancel()
         let readout = app.descendants(matching: .any)["measure-readout"]
         XCTAssertTrue(readout.waitForExistence(timeout: 10), "no measuring readout")
         let prompt = readout.label
         let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
         let undo = app.buttons["measure-undo"]
 
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tapRetryingSystemCancel()
         XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
             "two taps did not measure a distance"
@@ -201,16 +201,16 @@ final class MapChromeUITests: XCTestCase {
         let app = XCUIApplication.launchedForUITests()
         let distance = app.buttons["measure-distance"]
         XCTAssertTrue(distance.waitForHittable(timeout: timeout), "measuring cannot be started")
-        distance.tap()
+        distance.tapRetryingSystemCancel()
         let readout = app.descendants(matching: .any)["measure-readout"]
         XCTAssertTrue(readout.waitForExistence(timeout: 10), "no measuring readout")
         let prompt = readout.label
         let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
         let undo = app.buttons["measure-undo"]
 
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tapRetryingSystemCancel()
         XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
             "two taps did not measure a distance"
@@ -248,23 +248,23 @@ final class MapChromeUITests: XCTestCase {
 
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
-        layers.tap()
+        layers.tapRetryingSystemCancel()
         let picker = app.descendants(matching: .any)["base-map-style"]
         XCTAssertTrue(picker.waitForHittable(timeout: timeout), "the base map picker is not offered")
-        picker.tap()
+        picker.tapRetryingSystemCancel()
         let osm = app.buttons["OpenStreetMap"]
         XCTAssertTrue(osm.waitForHittable(timeout: timeout), "OpenStreetMap is not offered as a ground")
-        osm.tap()
+        osm.tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { strip.label.hasPrefix("© OpenStreetMap contributors") },
             "choosing OpenStreetMap did not change the credit: the strip says \"\(strip.label)\""
         )
 
         XCTAssertTrue(picker.waitForHittable(timeout: timeout))
-        picker.tap()
+        picker.tapRetryingSystemCancel()
         let fletcher = app.buttons["Atlas Fletcher"]
         XCTAssertTrue(fletcher.waitForHittable(timeout: timeout), "Atlas Fletcher is not offered as a ground")
-        fletcher.tap()
+        fletcher.tapRetryingSystemCancel()
         XCTAssertTrue(
             waitForUI { strip.label.hasPrefix("NS Marks Atlas") },
             "choosing Atlas Fletcher did not restore the Atlas credit"
@@ -282,10 +282,10 @@ final class MapChromeUITests: XCTestCase {
         let more = app.buttons["More Map Actions"]
         XCTAssertTrue(more.waitForExistence(timeout: timeout))
         XCTAssertTrue(more.waitForHittable(timeout: timeout), "the More control is off screen")
-        more.tap()
+        more.tapRetryingSystemCancel()
         let sources = app.buttons["Data Sources and Licenses"]
         XCTAssertTrue(sources.waitForExistence(timeout: timeout), "the sources action is not in the menu")
-        sources.tap()
+        sources.tapRetryingSystemCancel()
 
         XCTAssertTrue(app.navigationBars["Map Info"].waitForExistence(timeout: 10))
         // What the sheet is for, said before anything it lists.
@@ -337,11 +337,11 @@ final class MapChromeUITests: XCTestCase {
         let app = XCUIApplication.launchedForUITests()
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
-        layers.tap()
+        layers.tapRetryingSystemCancel()
 
         let lock = app.buttons["NS Aerial licence required"]
         XCTAssertTrue(lock.waitForHittable(timeout: timeout), "the locked layer offers nothing to tap")
-        lock.tap()
+        lock.tapRetryingSystemCancel()
 
         XCTAssertTrue(
             app.navigationBars["Province Data Licence"].waitForExistence(timeout: 10),
@@ -353,7 +353,7 @@ final class MapChromeUITests: XCTestCase {
         // an enabled button is the assertion that the text a user is agreeing
         // to actually shipped in this build.
         XCTAssertTrue(accept.isEnabled, "the licence text is missing from the build, so there is nothing to accept")
-        accept.tap()
+        accept.tapRetryingSystemCancel()
 
         let aerial = app.switches["NS Aerial visibility"]
         XCTAssertTrue(
@@ -376,13 +376,13 @@ final class MapChromeUITests: XCTestCase {
         )
         wait(for: [switchedOn], timeout: 10)
 
-        app.buttons["Close layers menu"].tap()
+        app.buttons["Close layers menu"].tapRetryingSystemCancel()
 
         let strip = app.descendants(matching: .any)["map-attribution"]
         XCTAssertTrue(strip.waitForExistence(timeout: timeout), "no attribution on the map")
         XCTAssertTrue(strip.waitForHittable(timeout: timeout), "the attribution is off the bottom of the screen")
         XCTAssertTrue(strip.isEnabled, "a layer is drawn and its source is not named")
-        strip.tap()
+        strip.tapRetryingSystemCancel()
 
         // The credit for this layer, not for whichever layer happens to be on.
         // Service Nova Scotia publishes the imagery, and it is the one credit
@@ -399,7 +399,7 @@ final class MapChromeUITests: XCTestCase {
             all.waitForHittable(timeout: 10),
             "the expanded attribution offers no way to the full source list"
         )
-        all.tap()
+        all.tapRetryingSystemCancel()
         XCTAssertTrue(
             app.navigationBars["Map Info"].waitForExistence(timeout: 10),
             "All sources does not open the sources sheet"
@@ -425,7 +425,7 @@ final class MapChromeUITests: XCTestCase {
         let app = XCUIApplication.launchedForUITests()
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
-        layers.tap()
+        layers.tapRetryingSystemCancel()
         XCTAssertTrue(
             app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
             "the layers panel did not open"
@@ -454,7 +454,7 @@ final class MapChromeUITests: XCTestCase {
         let app = XCUIApplication.launchedForUITests()
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
-        layers.tap()
+        layers.tapRetryingSystemCancel()
 
         let close = app.buttons["Close layers menu"]
         XCTAssertTrue(close.waitForHittable(timeout: timeout), "the layers panel did not open")
@@ -511,7 +511,7 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertTrue(rail.waitForExistence(timeout: timeout), "there is no control rail")
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(app.scroll(layers, into: rail), "the layers control cannot be reached")
-        layers.tap()
+        layers.tapRetryingSystemCancel()
 
         let close = app.buttons["Close layers menu"]
         XCTAssertTrue(close.waitForHittable(timeout: timeout), "the layers panel did not open")

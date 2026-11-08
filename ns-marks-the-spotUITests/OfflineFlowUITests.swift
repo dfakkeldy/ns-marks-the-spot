@@ -26,7 +26,7 @@ final class OfflineFlowUITests: XCTestCase {
 
         let offlineMaps = app.buttons["Offline Maps"]
         XCTAssertTrue(offlineMaps.waitForHittable(timeout: timeout))
-        offlineMaps.tap()
+        offlineMaps.tapRetryingSystemCancel()
         XCTAssertTrue(app.navigationBars["Offline Maps"].waitForExistence(timeout: timeout))
 
         let storage = app.scrollRegion("offline-storage-list")
@@ -35,7 +35,7 @@ final class OfflineFlowUITests: XCTestCase {
         // realized cells. Scroll before requiring existence; waiting alone
         // never brings an offscreen row into the accessibility hierarchy.
         XCTAssertTrue(app.scroll(sample, into: storage), "the sample area cannot be reached")
-        sample.tap()
+        sample.tapRetryingSystemCancel()
 
         XCTAssertTrue(
             app.navigationBars["Save Area"].waitForExistence(timeout: timeout),
@@ -47,7 +47,7 @@ final class OfflineFlowUITests: XCTestCase {
         let estimate = app.buttons["Estimate Fletcher Tiles"]
         XCTAssertTrue(app.scroll(estimate, into: draft), "the estimate cannot be reached")
         XCTAssertTrue(estimate.isEnabled, "a named draft cannot be estimated")
-        estimate.tap()
+        estimate.tapRetryingSystemCancel()
 
         // The section stops asking for an estimate once it has one, and what
         // replaces the question is a tile count the pyramid was actually walked
