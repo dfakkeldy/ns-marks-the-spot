@@ -164,8 +164,10 @@ study and PDF renderer. A separate Crown Land PMTiles archive in
 `provincial/source.json`) adds a fill-only dissolved display union of mapped
 Crown Land, including holes and disconnected pieces, without boundary strokes.
 Live map, study, PDF, and the native raster-generation pipeline share that
-Crown Land source; already published native atlas-raster tiles remain the
-prior provincial-plus-OSM render until a separate raster publish. OSM supplies
+Crown Land source; published native atlas-raster tiles are pinned as
+`atlas-raster-20261107.1`, which includes the Crown Land wash and hatch.
+Later Atlas style changes still need a new raster publish to appear in the
+iOS Atlas. OSM supplies
 supplemental ocean, land-use and building context.
 `web/public/atlas/provincial/source.json` records provincial release provenance
 and explicitly rejected records; the prebuild gates verify each archive hash.
