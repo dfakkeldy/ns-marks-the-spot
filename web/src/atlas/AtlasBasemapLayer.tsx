@@ -8,14 +8,25 @@ import type { AtlasMode } from './palette';
 import type { MapLayerStatus } from '../components/MapCanvas';
 
 /** Leaflet owns navigation and every overlay. Only the basemap is drawn by GL. */
-export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
+export default function AtlasBasemapLayer({ mode, print = false, onStatus, hideNamesAt }: {
   mode: AtlasMode;
   print?: boolean;
   onStatus: (status: MapLayerStatus) => void;
+  /**
+   * At a Leaflet zoom where this is true, the basemap's own names step aside
+   * for a label set drawn over it, so no place is named twice.
+   */
+  hideNamesAt?: (zoom: number) => boolean;
 }) {
   const leaflet = useMap();
   const status = useRef(onStatus);
   useEffect(() => { status.current = onStatus; }, [onStatus]);
+  const hideNames = useRef(hideNamesAt);
+  const applyNames = useRef<() => void>(() => {});
+  useEffect(() => {
+    hideNames.current = hideNamesAt;
+    applyNames.current();
+  }, [hideNamesAt]);
 
   useEffect(() => {
     let disposed = false;
@@ -68,6 +79,17 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
       console.warn('Atlas source failed', 'sourceId' in event ? event.sourceId : undefined, event.error);
       fail(terrainFailureMessage(event));
     });
+    let namesHidden = false;
+    const setNames = () => {
+      const hide = hideNames.current?.(leaflet.getZoom()) ?? false;
+      if (disposed || hide === namesHidden || !atlas.isStyleLoaded()) return;
+      for (const layer of atlas.getStyle().layers) {
+        if (layer.type === 'symbol' && layer.id.endsWith('-names')) atlas.setLayoutProperty(layer.id, 'visibility', hide ? 'none' : 'visible');
+      }
+      namesHidden = hide;
+    };
+    applyNames.current = setNames;
+    atlas.on('styledata', setNames);
     atlas.on('webglcontextlost', () => fail());
     atlas.on('dataloading', () => { if (!watchdog) loading(); });
     atlas.on('idle', () => {
@@ -75,6 +97,7 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
       watchdog = 0;
       if (!zooming) L.DomUtil.setTransform(node, L.point(0, 0), 1);
       if (!failed) report({ status: 'ready' });
+      setNames();
     });
 
     const synchronize = () => {
@@ -97,7 +120,7 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
       const newOrigin = leaflet.project(event.center, event.zoom).subtract(half);
       L.DomUtil.setTransform(node, oldOrigin.multiplyBy(scale).subtract(newOrigin), scale);
     };
-    const finishZoom = () => { zooming = false; schedule(); };
+    const finishZoom = () => { zooming = false; setNames(); schedule(); };
     leaflet.on('move resize viewreset', schedule);
     leaflet.on('zoomanim', animateZoom);
     leaflet.on('zoomend', finishZoom);
@@ -105,6 +128,7 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
     schedule();
     return () => {
       disposed = true;
+      applyNames.current = () => {};
       window.clearTimeout(watchdog);
       window.cancelAnimationFrame(frame);
       leaflet.off('move resize viewreset', schedule);

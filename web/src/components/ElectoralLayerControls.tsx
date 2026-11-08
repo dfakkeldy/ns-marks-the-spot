@@ -3,16 +3,24 @@ import { electoralLayers, electoralLayerById } from '../layers/electoralLayers';
 import { ContextLayerToggle } from './ContextLayerToggle';
 import type { ContextLayerId } from '../layers/contextLayerCatalog';
 import type { MapLayerId, MapLayerStatus } from './MapCanvas';
-import { partyColours, sequentialColours } from '../elections/electoralData';
+import { electoralWashNote, partyColours, sequentialColours } from '../elections/electoralData';
 
-export function ElectoralLegend({ mode, night }: { mode: ElectoralMode; night: boolean }) {
+/** `status` is the washed layer's own; left out (a print), the key always shows. */
+export function ElectoralLegend({ mode, night, status, waiting = false }: { mode: ElectoralMode; night: boolean; status?: MapLayerStatus; waiting?: boolean }) {
   const colours = night ? 'night' : 'day';
   const labels = mode === 'margin' ? ['<5 points','5–<15','15–<30','30–<50','50–100'] : ['<40%','40–<45%','45–<50%','50–<55%','55–100%'];
   const entries = mode === 'winner' ? ['PC','Liberal','NDP','Independent'].map(party => [party, partyColours[colours][party as keyof typeof partyColours.day]]) : labels.map((label,i) => [label, sequentialColours[colours][i]]);
-  return mode === 'boundaries' ? null : <div className="electoral-legend" aria-label={`${mode} legend`}>
-    <strong>{mode === 'winner' ? 'Party' : mode === 'margin' ? 'Margin · share of valid votes' : 'Turnout · listed electors'}</strong>
+  if (mode === 'boundaries') return null;
+  const title = mode === 'winner' ? 'Party' : mode === 'margin' ? 'Margin · share of valid votes' : 'Turnout · listed electors';
+  // A key for colours the map does not show would claim a result it has not drawn.
+  const note = waiting ? electoralWashNote(status) : null;
+  const waitingOnly = status === undefined || status.status === 'idle' || status.status === 'loading';
+  if (note) return <div className="electoral-legend is-waiting" aria-label={`${mode} legend`}><strong>{title}</strong><span>{waitingOnly ? 'The key shows when the results arrive.' : note}</span></div>;
+  return <div className="electoral-legend" aria-label={`${mode} legend`}>
+    <strong>{title}</strong>
     {entries.map(([label,colour]) => <span key={label}><i style={{ background: colour }} aria-hidden="true" />{label}</span>)}
-    <span><i style={{background: partyColours[colours].Independent}} aria-hidden="true" />{mode === 'winner' ? 'Tie / unclassified · see district label' : 'Not available · see district label'}</span>
+    {/* A tie or a missing result has no party or band, so it draws no fill: the outline alone. */}
+    <span><i className="electoral-legend-unfilled" aria-hidden="true" />{mode === 'winner' ? 'Tie / unclassified · no fill' : 'Not available · no fill'}</span>
   </div>;
 }
 export function ElectoralLayerControls({ visibility, statuses, licenceAccepted, modes, onModeChange, onChange, onReviewLicence, night }: {
@@ -33,7 +41,7 @@ export function ElectoralLayerControls({ visibility, statuses, licenceAccepted, 
               <option value="boundaries">Boundaries only</option><option value="winner">{layer.electoral.kind === 'seats' ? 'Seat party' : 'Winning party'}</option>
               {layer.electoral.kind === 'results' ? <><option value="margin">Margin of victory</option><option value="turnout">Turnout</option></> : null}
             </select></label>
-            {enabled ? <ElectoralLegend mode={modes[layer.id]} night={night} /> : null}
+            {enabled ? <ElectoralLegend mode={modes[layer.id]} night={night} status={statuses[layer.id]} waiting /> : null}
           </div> : null}
         </div>;
       })}

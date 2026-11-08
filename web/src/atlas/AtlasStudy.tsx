@@ -53,7 +53,7 @@ export function AtlasStudy() {
         <h2 id="places-title">Explore the detail</h2>
         <div className="atlas-place-list">
           {atlasPlaces.map((place, index) => <button type="button" key={place.id} onClick={() => setCamera({ ...place })}>
-            <span className="atlas-place-number">0{index + 1}</span><span><strong>{place.name}</strong><small>{place.setting}</small></span><span className="atlas-go" aria-hidden="true">↗</span>
+            <span className="atlas-place-number">0{index + 1}</span><span><strong>{place.name}</strong><small>{place.setting}</small></span><span className="atlas-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 14.5s-4.6-4.3-4.6-8a4.6 4.6 0 0 1 9.2 0c0 3.7-4.6 8-4.6 8Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" /><circle cx="8" cy="6.4" r="1.6" fill="currentColor" /></svg></span>
           </button>)}
         </div>
       </section>

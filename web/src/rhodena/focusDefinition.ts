@@ -1,5 +1,6 @@
 import type { FocusDefinition, FocusHiddenFeature } from '../focus/focusDefinition';
-import { RHODENA_BOUNDS, RHODENA_POSITION } from './catalog';
+import { RhodenaMapKey } from '../themes/setupMapKeys';
+import { RHODENA_BOUNDS, RHODENA_PHONE_BOUNDS, RHODENA_POSITION } from './catalog';
 import { rhodenaFocusCategoryIds, rhodenaFocusDeniedLayerIds, rhodenaFocusLayerIds } from './focus';
 import { RhodenaBrandMark, RhodenaFocusHero, RhodenaFooterNote } from './RhodenaFocusChrome';
 
@@ -17,9 +18,15 @@ export const rhodenaFocusDefinition: FocusDefinition = {
   fitBounds: RHODENA_BOUNDS,
   hiddenFeatures: new Set<FocusHiddenFeature>(['tax-sale', 'my-maps', 'setup-picker']),
   backgroundSwitch: true,
+  // The map key's width and margin (components/SetupMapKey.css).
+  mapOverlayInset: 264,
+  // The half-height sheet's share of a phone's height, with the turbines framed in the map above it.
+  phoneSheetShare: 0.59,
+  phoneFitBounds: RHODENA_PHONE_BOUNDS,
   chrome: {
     sheetTitle: 'Wind project & layers',
     Hero: RhodenaFocusHero,
+    MapOverlay: RhodenaMapKey,
     brand: { label: 'Rhodena Wind — summary and layers', Mark: RhodenaBrandMark },
     FooterNote: RhodenaFooterNote,
   },

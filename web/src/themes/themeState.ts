@@ -145,3 +145,36 @@ export function themeStatesMatch(
     && left.taxSaleEnabled === right.taxSaleEnabled
     && (!left.taxSaleEnabled || left.mapMode === right.mapMode);
 }
+
+/**
+ * What a reader changed from a setup, in plain words: "General election
+ * results · 2024 on, Roads off". It names only what the two states record, so
+ * it can say nothing the reader did not do. Null when nothing it can name
+ * differs. Layers past `limit` are counted rather than listed.
+ */
+export function describeThemeChanges(
+  setup: ThemeComparableState,
+  current: ThemeComparableState,
+  layerName: (id: ShareLayerId) => string,
+  limit = 2,
+): string | null {
+  const before = new Set(setup.layerIds);
+  const after = new Set(current.layerIds);
+  const phrases = [
+    ...current.layerIds.filter((id) => !before.has(id)).map((id) => `${layerName(id)} on`),
+    ...setup.layerIds.filter((id) => !after.has(id)).map((id) => `${layerName(id)} off`),
+  ];
+  if (current.taxSaleEnabled !== setup.taxSaleEnabled) {
+    phrases.push(`Tax sale notices ${current.taxSaleEnabled ? "on" : "off"}`);
+  } else if (current.taxSaleEnabled && current.mapMode !== setup.mapMode) {
+    phrases.push(current.mapMode === "historical" ? "Showing past tax sales" : "Showing current tax sales");
+  }
+  if (phrases.length === 0) {
+    return normalizedOpacityOverrides(current.opacityOverrides) === normalizedOpacityOverrides(setup.opacityOverrides)
+      ? null
+      : "Layer opacity changed";
+  }
+  const listed = phrases.slice(0, limit).join(", ");
+  const rest = phrases.length - limit;
+  return rest > 0 ? `${listed}, and ${rest} more` : listed;
+}

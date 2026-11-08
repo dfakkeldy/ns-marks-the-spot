@@ -43,7 +43,7 @@ export function MarkerSwatch({ marker, color, size }: { marker: ContextMarker; c
   return <span className="pointtupper-key-marker" dangerouslySetInnerHTML={{ __html: contextMarkerSvg({ ...marker, size }, color) }} />;
 }
 
-function SwatchGraphic({ swatch }: { swatch: Swatch }) {
+export function SwatchGraphic({ swatch }: { swatch: Swatch }) {
   switch (swatch.kind) {
     case 'marker':
       return <MarkerSwatch marker={swatch.marker} color={swatch.color} size={swatch.marker.glyph === 'turbine' ? 24 : 18} />;

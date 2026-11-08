@@ -15,6 +15,8 @@ interface MapThemePickerProps {
   onReset: () => void;
   /** Quick actions for the active setup, shown under its description. */
   shortcuts?: ReactNode;
+  /** What the reader changed from the setup, in plain words. */
+  changeSummary?: string | null;
 }
 
 /**
@@ -40,12 +42,14 @@ export function MapThemePicker({
   onManage,
   onReset,
   shortcuts,
+  changeSummary,
 }: MapThemePickerProps) {
   const active = themes.find(({ id }) => id === activeThemeId);
   const builtInThemes = themes.filter(({ kind }) => kind === "built-in");
   const customThemes = themes.filter(({ kind }) => kind === "custom");
+  // A change is the reader's own work, not a fault: it says what they did.
   const label = status === "modified"
-    ? `${active?.name ?? "Shared setup"} — Modified`
+    ? `Your changes: ${changeSummary ?? "layers changed"}`
     : status === "partial"
       ? `${active?.name ?? "Shared setup"} — Partially applied`
       : active?.name ?? "Shared setup";
@@ -94,7 +98,7 @@ export function MapThemePicker({
         </div>
       ) : null}
       {shortcuts}
-      <p className={status === "exact" && !notice ? "sr-only" : undefined} aria-live="polite" role="status">
+      <p className={status === "exact" && !notice ? "sr-only" : "map-theme-status"} aria-live="polite" role="status">
         {label}
         {notice ? ` ${notice}` : ""}
       </p>

@@ -520,8 +520,8 @@ a {
   line-height: 1.4;
 }
 
-/* Historical Maps' fade: an outline pill like the chips above, holding a
-   name, the slider and its percentage. The thumb and filled track take the
+/* Historical Maps' fade: a name, the slider and its percentage, with what
+   each end of the track shows beneath it. The thumb and filled track take the
    chip's own ink, so it follows each basemap room with them. */
 .setup-fade {
   display: grid;
@@ -537,21 +537,8 @@ a {
   grid-row: 1;
 }
 
-.setup-fade::before {
-  content: "";
-  grid-row: 1;
-  grid-column: 1 / -1;
-  align-self: stretch;
-  min-height: 36px;
-  margin: 0 -2px;
-  background: var(--white);
-  border: 1px solid color-mix(in srgb, var(--survey-blue) 45%, transparent);
-  border-radius: 999px;
-}
-
 .setup-fade > label {
   grid-column: 1;
-  padding-left: 12px;
   color: var(--survey-blue);
   font-size: var(--type-caption);
   font-weight: 700;
@@ -560,7 +547,6 @@ a {
 
 .setup-fade > output {
   grid-column: 3;
-  padding-right: 12px;
   color: var(--survey-blue);
   font-size: var(--type-caption);
   font-weight: 700;
@@ -585,10 +571,20 @@ a {
   border-radius: 999px;
 }
 
-.setup-fade > .setup-chip-note {
+.setup-fade-ends {
+  display: flex;
   grid-row: 2;
+  grid-column: 2;
+  justify-content: space-between;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--type-micro);
+  white-space: nowrap;
+}
+
+.setup-fade > .setup-chip-note {
+  grid-row: 3;
   grid-column: 1 / -1;
-  padding-left: 12px;
 }
 
 .setup-fade-licence {
@@ -597,10 +593,6 @@ a {
 
 @media (pointer: coarse) {
   .map-theme-picker .setup-chip {
-    min-height: 44px;
-  }
-
-  .setup-fade::before {
     min-height: 44px;
   }
 
@@ -7984,6 +7976,9 @@ a {
 .electoral-legend strong { width: 100%; }
 .electoral-legend span { display: inline-flex; align-items: center; gap: .3rem; }
 .electoral-legend i { width: 14px; height: 11px; border: 1px solid #718087; }
+/* No party or band: the outline alone, as the map draws it. */
+.electoral-legend i.electoral-legend-unfilled { background: transparent; }
+.electoral-legend.is-waiting { max-width: 22rem; line-height: 1.35; }
 .district-inspector { position: absolute; right: 1rem; top: 4rem; width: min(350px, calc(100% - 2rem)); max-height: calc(100% - 6rem); overflow: auto; z-index: 1100; padding: 1.2rem; box-sizing: border-box; color: var(--ink); background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); font-size: var(--type-body); line-height: 1.45; }
 .district-inspector h2 { font-family: 'Fraunces', Georgia, serif; font-size: 1.6rem; line-height: 1.2; margin: .5rem 0; }
 .district-close { float: right; }
