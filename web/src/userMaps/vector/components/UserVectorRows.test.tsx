@@ -328,6 +328,78 @@ describe("UserVectorRows", () => {
     expect(onBulkPhotos).toHaveBeenCalled();
   });
 
+  // A photo still being added when its session closes is deleted when it
+  // finishes. Every control here that closes or switches the session waits
+  // for it; the rest of the list does not touch the session and stays live.
+  it("holds only what would close or switch a session that is still adding a photo", async () => {
+    const onEdit = vi.fn();
+    const onNewLayer = vi.fn();
+    const onAbandonLayer = vi.fn();
+    const layers = api({ records: [record("camps"), record("wells")] });
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    const { rerender } = render(
+      <UserVectorControls
+        api={layers}
+        onEdit={onEdit}
+        onNewLayer={onNewLayer}
+        onAbandonLayer={onAbandonLayer}
+        onBulkPhotos={vi.fn()}
+        editingId="camps"
+        editSessionHeld
+      />,
+    );
+
+    const held = [
+      screen.getByRole("button", { name: "Edit Layer camps" }),
+      screen.getByRole("button", { name: "Edit Layer wells" }),
+      screen.getByRole("button", { name: "New drawing layer" }),
+      screen.getByRole("button", { name: "Remove Layer camps" }),
+    ];
+    for (const button of held) {
+      expect(button).toBeDisabled();
+      expect(button).toHaveAccessibleDescription(
+        "A photo is still being added to Layer camps. Wait for it to finish " +
+          "before you stop editing, open another layer, or remove Layer camps.",
+      );
+      await userEvent.click(button);
+    }
+    expect(onEdit).not.toHaveBeenCalled();
+    expect(onNewLayer).not.toHaveBeenCalled();
+    expect(onAbandonLayer).not.toHaveBeenCalled();
+
+    const live = [
+      screen.getByRole("button", { name: "Remove Layer wells" }),
+      screen.getByRole("button", { name: "Add photos to map" }),
+      screen.getByRole("button", { name: "Export Layer camps as GeoJSON" }),
+      screen.getByRole("checkbox", { name: "Layer camps" }),
+    ];
+    for (const control of live) {
+      expect(control).toBeEnabled();
+      expect(control).not.toHaveAccessibleDescription(
+        /A photo is still being added/,
+      );
+    }
+
+    rerender(
+      <UserVectorControls
+        api={layers}
+        onEdit={onEdit}
+        onNewLayer={onNewLayer}
+        onAbandonLayer={onAbandonLayer}
+        onBulkPhotos={vi.fn()}
+        editingId="camps"
+        editSessionHeld={false}
+      />,
+    );
+    for (const button of held) {
+      expect(button).toBeEnabled();
+      expect(button).not.toHaveAccessibleDescription();
+    }
+    expect(screen.queryByText(/A photo is still being added/)).toBeNull();
+    await userEvent.click(screen.getByRole("button", { name: "Edit Layer camps" }));
+    expect(onEdit).toHaveBeenCalledWith("camps");
+  });
+
   it("starts an edit session for a layer", async () => {
     const onEdit = vi.fn();
     render(<UserVectorRows api={api({ records: [record("camps")] })} onEdit={onEdit} />);

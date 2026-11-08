@@ -6958,6 +6958,22 @@ a {
   text-align: left;
 }
 
+/* Held while a photo is still being added to the layer under edit, and while
+   a row's delete is on its way. A link-styled button that is disabled and
+   still looks live reads as broken, so it looks held too; the note says why. */
+.user-vector-new:disabled,
+.user-vector-edit:disabled,
+.user-vector-row .user-map-remove:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.user-vector-edit-held {
+  display: block;
+  color: var(--muted);
+  font-size: var(--type-caption);
+}
+
 /* On a phone the rail is a bottom sheet, so the panel moves out of the way
    of it rather than overlapping. */
 @media (max-width: 860px) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { UserVectorLayerRecord } from "../types";
 import type { UserVectorLayersApi } from "../useUserVectorLayers";
 
@@ -50,6 +50,15 @@ export interface UserVectorRowsProps {
   onNewLayer?: () => void;
   onBulkPhotos?: () => void;
   editingId?: string | null;
+  /**
+   * The open edit session cannot close or switch yet: a photo is still being
+   * added to it, and one that finishes after its session has closed is
+   * deleted. While this is true, every control here that closes or switches
+   * the session waits: each Edit button (on its own row it closes the
+   * session, on any other it switches it), New drawing layer, and Remove on
+   * the row under edit. Nothing else here touches the session.
+   */
+  editSessionHeld?: boolean;
 }
 
 function renderUserVectorControls({
@@ -59,6 +68,8 @@ function renderUserVectorControls({
   onNewLayer,
   onBulkPhotos,
   editingId = null,
+  editSessionHeld = false,
+  heldNoteId,
   removing,
   onRemoving,
   onRemoved,
@@ -67,7 +78,17 @@ function renderUserVectorControls({
   removing: ReadonlySet<string>;
   onRemoving: (id: string) => void;
   onRemoved: (id: string) => void;
+  /** The held note's id, so each held button can point at its reason. */
+  heldNoteId: string;
 }) {
+  // Named, not "this layer": the note sits above every row, and Edit on
+  // another row or New drawing layer reads it as its own description.
+  const editingName =
+    api.records.find((record) => record.id === editingId)?.name ??
+    "the layer you're editing";
+  // Said at each held button, not only in page order: a disabled button
+  // with nothing said reads as broken.
+  const heldDescription = editSessionHeld ? heldNoteId : undefined;
   return (
     <>
       {api.storageError ? (
@@ -75,10 +96,18 @@ function renderUserVectorControls({
             {api.storageError}
           </small>
         ) : null}
+      {editSessionHeld ? (
+        <small id={heldNoteId} className="user-vector-edit-held">
+          A photo is still being added to {editingName}. Wait for it to finish
+          before you stop editing, open another layer, or remove {editingName}.
+        </small>
+      ) : null}
       {onNewLayer ? (
           <button
             type="button"
             className="user-vector-new"
+            disabled={editSessionHeld}
+            aria-describedby={heldDescription}
             onClick={() => onNewLayer()}
           >
             New drawing layer
@@ -96,6 +125,7 @@ function renderUserVectorControls({
         ) : null}
       {api.records.map((record) => {
           const enabled = api.uiState[record.id]?.enabled ?? false;
+          const removeHeld = editSessionHeld && record.id === editingId;
           return (
             <div className="layer-control user-vector-row" key={record.id}>
               <label className="layer-row">
@@ -171,7 +201,8 @@ function renderUserVectorControls({
                   // answers, and until then Edit would open a session over a
                   // layer that is on its way out, which then vanishes under
                   // the reader with nothing said.
-                  disabled={removing.has(record.id)}
+                  disabled={removing.has(record.id) || editSessionHeld}
+                  aria-describedby={heldDescription}
                   onClick={() => onEdit(record.id)}
                 >
                   {editingId === record.id ? "Editing" : "Edit"}
@@ -181,7 +212,12 @@ function renderUserVectorControls({
                 type="button"
                 className="user-map-remove"
                 aria-label={`Remove ${record.name}`}
-                disabled={removing.has(record.id)}
+                // Held on the layer under edit only. Removing it closes the
+                // session (`onAbandonLayer`), and the photo still being added
+                // would be deleted the moment it finished; removing any other
+                // layer leaves the session as it is.
+                disabled={removing.has(record.id) || removeHeld}
+                aria-describedby={removeHeld ? heldNoteId : undefined}
                 onClick={() => {
                   if (
                     window.confirm(
@@ -252,9 +288,16 @@ function useRemoving(): [
 
 export function UserVectorControls(props: UserVectorRowsProps) {
   const [removing, onRemoving, onRemoved] = useRemoving();
+  const heldNoteId = useId();
   return (
     <div className="resource-layer-controls">
-      {renderUserVectorControls({ ...props, removing, onRemoving, onRemoved })}
+      {renderUserVectorControls({
+        ...props,
+        removing,
+        onRemoving,
+        onRemoved,
+        heldNoteId,
+      })}
     </div>
   );
 }
@@ -262,6 +305,7 @@ export function UserVectorControls(props: UserVectorRowsProps) {
 export function UserVectorRows(props: UserVectorRowsProps) {
   const { api } = props;
   const [removing, onRemoving, onRemoved] = useRemoving();
+  const heldNoteId = useId();
   return (
     <details className="resource-layer-group user-vector-group" open>
       <summary>
@@ -273,7 +317,13 @@ export function UserVectorRows(props: UserVectorRowsProps) {
         </small>
       </summary>
       <div className="resource-layer-controls">
-        {renderUserVectorControls({ ...props, removing, onRemoving, onRemoved })}
+        {renderUserVectorControls({
+          ...props,
+          removing,
+          onRemoving,
+          onRemoved,
+          heldNoteId,
+        })}
       </div>
     </details>
   );

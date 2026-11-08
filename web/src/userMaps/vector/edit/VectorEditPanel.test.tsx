@@ -5,6 +5,7 @@ import type { FeatureCollection } from "geojson";
 import type { PhotoAttachOutcome } from "../photos/usePhotoManager";
 import type { UserVectorLayerRecord } from "../types";
 import { featureCorners, type VertexEditOutcome } from "./featureCorners";
+import { useVectorEditSession } from "./useVectorEditSession";
 import { VectorEditPanel, type EditMode } from "./VectorEditPanel";
 
 const record: UserVectorLayerRecord = {
@@ -56,7 +57,37 @@ const lineData: FeatureCollection = {
   ],
 };
 
-function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
+type PanelProps = Parameters<typeof VectorEditPanel>[0];
+/** What a test sets; the photo-attach count comes from the session. */
+type HarnessProps = Omit<PanelProps, "photoAttachRunning" | "onPhotoAttachBusy">;
+
+const NO_RECORDS: UserVectorLayerRecord[] = [];
+const NO_GEOMETRIES: Record<string, FeatureCollection> = {};
+const writeNothing = async () => true;
+const publishNothing = () => {};
+
+/**
+ * The panel as App mounts it. The edit session counts photo attaches, not
+ * the panel, because the layer list has to wait for them too; so the panel
+ * is tested against the session's real count rather than a copy of it.
+ */
+function PanelInSession(props: HarnessProps) {
+  const session = useVectorEditSession({
+    records: NO_RECORDS,
+    geometries: NO_GEOMETRIES,
+    putVectorLayer: writeNothing,
+    onLayerChanged: publishNothing,
+  });
+  return (
+    <VectorEditPanel
+      {...props}
+      photoAttachRunning={session.photoAttachRunning}
+      onPhotoAttachBusy={session.notePhotoAttachBusy}
+    />
+  );
+}
+
+function panel(overrides: Partial<HarnessProps> = {}) {
   const data = (overrides.data ?? baseData) as FeatureCollection;
   const props = {
     record,
@@ -107,12 +138,12 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     onDone: vi.fn(),
     ...overrides,
   };
-  const { rerender } = render(<VectorEditPanel {...props} />);
+  const { rerender } = render(<PanelInSession {...props} />);
   return Object.assign(props, {
     /** Renders again with the same callbacks and these props changed. */
-    rerender(next: Partial<Parameters<typeof VectorEditPanel>[0]>) {
+    rerender(next: Partial<HarnessProps>) {
       Object.assign(props, next);
-      rerender(<VectorEditPanel {...props} />);
+      rerender(<PanelInSession {...props} />);
     },
   });
 }

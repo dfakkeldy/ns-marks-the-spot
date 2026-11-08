@@ -89,6 +89,22 @@ export type VectorEditSession = {
   /** Takes one notice down once it has been read. */
   dismissDiscardedPhoto: (photoId: string) => void;
   /**
+   * Whether a photo attach is running. Everything that would close or switch
+   * the session waits while one is: Done, the layer list's Edit buttons, New
+   * drawing layer, and Remove on the layer under edit. A photo that finishes
+   * after its session has closed lands nowhere (see `attachFeaturePhotos`),
+   * so the way to keep a photo the reader watched being added is to keep the
+   * session open until it has landed.
+   */
+  photoAttachRunning: boolean;
+  /**
+   * Hears `PhotoStrip`'s `onBusyChange`: `true` once as an attach starts and
+   * `false` once as it ends. Counted here rather than in the panel because
+   * the panel is not the only thing that has to wait: the layer list can end
+   * the session too, and it never sees the panel.
+   */
+  notePhotoAttachBusy: (busy: boolean) => void;
+  /**
    * Says that the discarded photo's bytes are still on the device. The notice
    * above only claims the photo is not on the map, which the session watched
    * happen; whether the copy went is the caller's to observe, and a promise
@@ -263,6 +279,35 @@ export function useVectorEditSession({
           : photo,
       );
     });
+  }, []);
+
+  /**
+   * Photo attaches that have started and not yet ended. A count rather than a
+   * flag: each attach says once that it started and once that it ended, so
+   * the count stays right even if two ever overlap, where the first `false`
+   * to arrive would clear a flag the other still needs. Not clamped either:
+   * a count below zero means the pairing broke, and hiding that would hide
+   * the bug. Never reset when a session begins or ends: an attach's `false`
+   * still on its way would then push it below zero.
+   */
+  const [photoAttachesRunning, setPhotoAttachesRunning] = useState(0);
+  /**
+   * False once the hook's owner has unmounted. A strip reports the end of its
+   * attach even after it has gone, and that end can arrive after the page
+   * itself has gone too, when a setState throws.
+   */
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+  const notePhotoAttachBusy = useCallback((busy: boolean) => {
+    if (!mountedRef.current) {
+      return;
+    }
+    setPhotoAttachesRunning((running) => running + (busy ? 1 : -1));
   }, []);
 
   const timerRef = useRef<number | null>(null);
@@ -831,6 +876,8 @@ export function useVectorEditSession({
     attachFeaturePhotos,
     discardedPhotos,
     dismissDiscardedPhoto,
+    photoAttachRunning: photoAttachesRunning > 0,
+    notePhotoAttachBusy,
     notePhotoCleanupFailure,
     moveFeaturePoint,
     featureCorners: cornersOf,

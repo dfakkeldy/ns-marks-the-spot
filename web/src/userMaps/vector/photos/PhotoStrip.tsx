@@ -26,15 +26,17 @@ type PhotoStripProps = {
    */
   onPhotoCleanupFailed: (photoId: string) => void;
   /**
-   * Whether photos are being processed right now. The panel holds Done while
-   * they are: an attach that finishes after the session closes has no feature
-   * left to land on, and its bytes are deleted — so the way to keep a photo
-   * the reader watched being added is to keep the session open until it is.
+   * Whether photos are being processed right now. The edit session holds
+   * everything that would close or switch it while they are — Done, and the
+   * layer list's Edit, New and Remove controls: an attach that finishes after
+   * the session closes has no feature left to land on, and its bytes are
+   * deleted — so the way to keep a photo the reader watched being added is to
+   * keep the session open until it is.
    *
    * Called in pairs: `true` once as an attach starts and `false` once as it
    * ends, the second even after the strip has unmounted. The panel mounts a
    * new strip each time the selection changes, and an attach outlives the
-   * strip it began in; counting the pairs is how the panel knows one is
+   * strip it began in; counting the pairs is how the session knows one is
    * still running after its strip has gone.
    */
   onBusyChange?: (busy: boolean) => void;

@@ -514,6 +514,25 @@ describe("photos and point moves", () => {
     vi.useRealTimers();
   });
 
+  // The panel and the layer list both hold their session-ending controls on
+  // this, and the strip that started an attach can be gone before it ends,
+  // so the count lives with the session. Two overlapping attaches are the
+  // case a flag would get wrong: the first to end would clear it while the
+  // second still runs.
+  it("counts photo attaches in pairs, so the hold lasts until the last one ends", () => {
+    const { options } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    expect(result.current.photoAttachRunning).toBe(false);
+
+    act(() => result.current.notePhotoAttachBusy(true));
+    act(() => result.current.notePhotoAttachBusy(true));
+    act(() => result.current.notePhotoAttachBusy(false));
+    expect(result.current.photoAttachRunning).toBe(true);
+    act(() => result.current.notePhotoAttachBusy(false));
+    expect(result.current.photoAttachRunning).toBe(false);
+  });
+
   it("writes and clears photo descriptors", () => {
     const { options } = harness();
     const { result } = renderHook(() => useVectorEditSession(options));
