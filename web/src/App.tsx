@@ -1671,29 +1671,40 @@ export function App({ focus, onRestart }: { focus?: FocusId; onRestart?: () => v
       shell.style.removeProperty("--map-attribution-height");
     };
   }, []);
-  // Present source credits on entry to each setup, then give the map its
-  // space back. Reading or reopening the footer cancels automatic folding.
+  // Present source credits when the page opens, then give the map its space
+  // back. Once the strip has folded or the reader has used it, later setup
+  // changes leave it as the reader left it: on a phone the open strip covers
+  // up to 38% of the screen. A setup that settles while the page is still
+  // opening restarts the timer, as before. Reading or reopening the footer
+  // cancels automatic folding.
   const [attributionCollapsed, setAttributionFolded] = useState(false);
   const cancelAttributionFold = useRef<() => void>(() => {});
+  const attributionPresented = useRef(false);
   useEffect(() => {
-    setAttributionFolded(false);
+    if (attributionPresented.current) return;
     const region = mapRegionRef.current;
     const footer = attributionRef.current;
     const cancel = () => {
       window.clearTimeout(timer);
       region?.removeEventListener("pointerdown", fold);
-      footer?.removeEventListener("focusin", cancel);
-      footer?.removeEventListener("pointerdown", cancel);
+      footer?.removeEventListener("focusin", read);
+      footer?.removeEventListener("pointerdown", read);
+    };
+    // Reading the strip ends the automatic presentation as surely as folding.
+    const read = () => {
+      cancel();
+      attributionPresented.current = true;
     };
     const fold = () => {
       cancel();
+      attributionPresented.current = true;
       setAttributionFolded(true);
     };
     const timer = window.setTimeout(fold, 5000);
     cancelAttributionFold.current = cancel;
     region?.addEventListener("pointerdown", fold, { once: true, passive: true });
-    footer?.addEventListener("focusin", cancel);
-    footer?.addEventListener("pointerdown", cancel, { passive: true });
+    footer?.addEventListener("focusin", read);
+    footer?.addEventListener("pointerdown", read, { passive: true });
     return cancel;
   }, [selectedThemeId]);
   // Name the tab after the open parcel: multi-tab research otherwise produces
@@ -6614,6 +6625,7 @@ export function App({ focus, onRestart }: { focus?: FocusId; onRestart?: () => v
         <div className="collar-head">
         <button type="button" aria-expanded={!attributionCollapsed} onClick={() => {
           cancelAttributionFold.current();
+          attributionPresented.current = true;
           setAttributionFolded((folded) => !folded);
         }}>
           {attributionCollapsed ? "Show licences" : "Hide licences"}

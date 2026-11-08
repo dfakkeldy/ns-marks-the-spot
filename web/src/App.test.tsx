@@ -4970,13 +4970,14 @@ describe("NS Marks The Spot Online", () => {
     await user.click(within(footer).getByRole("button", { name: "Hide licences" }));
     expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
 
-    // Switching setups presents the new source credits before folding again.
+    // The strip opens by itself only when the page opens. A setup change
+    // leaves it folded: on a phone the open strip covers up to 38% of the
+    // screen. The folded credit still names its sources.
     await user.selectOptions(screen.getByRole("combobox", { name: "Change setup" }), "explore-nova-scotia");
-    expect(within(footer).queryByRole("button", { name: "Show licences" })).not.toBeInTheDocument();
-    expect(within(footer).getByRole("button", { name: "Hide licences" })).toBeInTheDocument();
+    expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
+    expect(within(footer).queryByRole("button", { name: "Hide licences" })).not.toBeInTheDocument();
     expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
-    expect(region).not.toHaveClass("attribution-folded");
-    fireEvent.pointerDown(region);
+    expect(within(footer).getByText(/Boundaries are not a survey/)).toBeInTheDocument();
     expect(region).toHaveClass("attribution-folded");
   });
 
@@ -6353,7 +6354,7 @@ describe("NS Marks The Spot Online", () => {
     // arrives under the restricted licence whatever the open-data copy of the
     // same compilation says. Crediting it to the Open Government Licence told
     // a reader they could reuse a figure on terms the service never granted.
-    const buildingNote = inspector.querySelector(".building-count-note + .evidence-caveat");
+    const buildingNote = inspector.querySelector(".building-count-note + .building-source-note");
     expect(buildingNote).not.toBeNull();
     const building = within(buildingNote as HTMLElement);
     expect(buildingNote).toHaveTextContent(PROVINCE_ATTRIBUTION);

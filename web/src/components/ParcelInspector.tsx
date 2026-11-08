@@ -157,9 +157,9 @@ export type DwellingState =
     };
 
 /**
- * The source and the multi-sentence limits, one tap from the figures they
- * qualify. The line above it always keeps the load-bearing caveat in view, so
- * the evidence below reaches the first screen without any limit going missing.
+ * The multi-sentence limits, one tap from the figures they qualify. The
+ * load-bearing caveat and the source, attribution and licence lines above it
+ * stay in view, so no limit or credit goes missing behind the fold.
  */
 function EvidenceCaveat({ children }: { children: ReactNode }) {
   return (
@@ -575,19 +575,19 @@ export function ParcelInspector({
         Count of NSTDB building features intersecting the PID. An empty result
         does not prove no building exists.
       </p>
+      <p className="mapped-area-note building-source-note">
+        Source:{" "}
+        <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
+          Nova Scotia Topographic Database — Buildings
+        </a>
+        , counted through the Province&apos;s NSTDB buildings map service.{" "}
+        {PROVINCE_ATTRIBUTION}{" "}
+        <a href={PROVINCE_LICENSE_URL} target="_blank" rel="noreferrer">
+          Read the Province licence
+        </a>
+        .
+      </p>
       <EvidenceCaveat>
-        <p className="mapped-area-note">
-          Source:{" "}
-          <a href={BUILDINGS_DATASET_URL} target="_blank" rel="noreferrer">
-            Nova Scotia Topographic Database — Buildings
-          </a>
-          , counted through the Province&apos;s NSTDB buildings map service.{" "}
-          {PROVINCE_ATTRIBUTION}{" "}
-          <a href={PROVINCE_LICENSE_URL} target="_blank" rel="noreferrer">
-            Read the Province licence
-          </a>
-          .
-        </p>
         <p className="mapped-area-note">
           Smaller buildings are mapped as points; larger buildings as
           polygons. The NSTDB is compiled from aerial photography whose

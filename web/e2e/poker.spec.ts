@@ -186,17 +186,22 @@ test("Poker civic numbers in a crowded view never overlap each other or the map 
     // A number waiting for room is really not drawn.
     expect(await hidden.evaluateAll(elements => elements.filter(element => getComputedStyle(element).visibility !== "hidden").map(element => element.textContent))).toEqual([]);
   };
+  // While the licence strip is open the numbers stay clear of it and of each other.
+  await expect.poll(() => shown.count()).toBeGreaterThan(0);
+  expect(await hidden.count()).toBeGreaterThan(0);
+  await expectClear();
+  // The phone footer folds by itself after a few seconds, sliding the measure buttons down
+  // without the map moving; the numbers are placed again around the buttons' new position.
+  // Placement takes a frame or two after the fold, so wait for it to settle before counting.
+  await expect(page.locator(".map-region.attribution-folded")).toHaveCount(1, { timeout: 10_000 });
+  await expect.poll(async () => { try { await expectClear(); return true; } catch { return false; } }).toBe(true);
   // Houses about 15 px apart at zoom 16: the block's edge is labelled and the rest wait, dots kept.
   await expect.poll(() => shown.count()).toBeGreaterThanOrEqual(12);
   expect(await hidden.count()).toBeGreaterThan(0);
-  await expectClear();
+  await expect.poll(async () => { try { await expectClear(); return true; } catch { return false; } }).toBe(true);
   const dock = (await page.locator(".poker-workspace").boundingBox())!;
   const band = await shown.evaluateAll((elements, bottom) => elements.filter(element => element.getBoundingClientRect().top > bottom).map(element => element.textContent), dock.y + dock.height);
   expect(band.length).toBeGreaterThan(0);
-  // The phone footer folds by itself after a few seconds, sliding the measure buttons down
-  // without the map moving; the numbers are placed again around the buttons' new position.
-  await expect(page.locator(".map-region.attribution-folded")).toHaveCount(1, { timeout: 10_000 });
-  await expect.poll(async () => { try { await expectClear(); return true; } catch { return false; } }).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("poker-crowded-numbers.png") });
   // Two zoom steps closer there is room for every number.
   const scale = page.locator(".leaflet-control-scale-line").first();

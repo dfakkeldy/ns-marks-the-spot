@@ -52,11 +52,11 @@ describe("setup map keys", () => {
     expect(ctx.setProvinceLayerVisibility).not.toHaveBeenCalled();
   });
 
-  it("list only the tax-sale bands that have a notice", () => {
+  it("list only the tax-sale bands that have a sale", () => {
     const now = Date.parse("2026-11-08T12:00:00-04:00");
     const event = { id: "a", saleStartsAt: "2026-11-23T10:00:00-04:00", status: "upcoming", listings: [] } as unknown as TaxSaleEvent;
     const [group] = taxSaleKeyGroups([event], now);
-    expect(group.rows.map((row) => row.hint)).toEqual(["1 notice"]);
+    expect(group.rows.map((row) => row.hint)).toEqual(["1 sale"]);
     expect(taxSaleKeyGroups([], now)[0].rows).toEqual([]);
   });
 });

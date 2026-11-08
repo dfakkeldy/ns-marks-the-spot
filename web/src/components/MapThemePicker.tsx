@@ -69,7 +69,7 @@ export function MapThemePicker({
   const explore = themes.find(({ id }) => id === EXPLORE_THEME_ID);
   // A change is the reader's own work, not a fault: it says what they did.
   const label = status === "modified"
-    ? `Your changes: ${changeSummary ?? "layers changed"}`
+    ? (changeSummary ? `Your changes: ${changeSummary}` : "Your changes")
     : status === "partial"
       ? `${active?.name ?? "Shared setup"} — Partially applied`
       : active?.name ?? "Shared setup";

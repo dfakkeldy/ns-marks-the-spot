@@ -40,6 +40,7 @@ function statusHint(id: ContextLayerId, on: boolean, context: FocusChromeContext
     case "source-error": return "Did not load; pan to retry";
     case "outside-coverage": return "Outside this view";
     case "returned-empty": return "None returned in this view";
+    case "licence-blocked": return "Needs the Province licence";
     default: return null;
   }
 }
@@ -154,7 +155,7 @@ export function pointTupperKeyGroups(context: FocusChromeContext): SetupKeyGroup
   }));
 }
 
-/** One row per date band that has a notice: a band with none has no dot to explain. */
+/** One row per date band that has a sale: a band with none has no dot to explain. */
 export function taxSaleKeyGroups(events: readonly TaxSaleEvent[], now: number): SetupKeyGroup[] {
   const counts = new Map<TaxSaleDateBand, number>();
   for (const event of events) {
@@ -168,7 +169,7 @@ export function taxSaleKeyGroups(events: readonly TaxSaleEvent[], now: number): 
       return {
         label: TAX_SALE_DATE_BAND_LABEL[band],
         graphic: <TaxSaleDateDot band={band} />,
-        hint: count === 1 ? "1 notice" : `${count} notices`,
+        hint: count === 1 ? "1 sale" : `${count} sales`,
       };
     }),
   }];
