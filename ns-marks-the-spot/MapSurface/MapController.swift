@@ -1981,13 +1981,22 @@ final class MapController: NSObject {
     }
 
     @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+        #if DEBUG
+        MapTapTrace.record(
+            "identify action state=\(recognizer.state.rawValue) point=\(recognizer.location(in: recognizer.view))"
+        )
+        #endif
         guard recognizer.state == .ended,
               let mapView = recognizer.view as? MKMapView else { return }
         let point = recognizer.location(in: mapView)
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+        #if BASELINE_GUARD
+        events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        #else
         watchForTheNextTouch(in: mapView.window)
         holdTap(latitude: coordinate.latitude, longitude: coordinate.longitude, at: point)
+        #endif
     }
 
     /// How long a tap on the map waits for a second touch before it counts.
@@ -2051,6 +2060,12 @@ final class MapController: NSObject {
     /// second touch 45 points away counted as a new tap and still zoomed.
     func settleHeldTap(byTouchOnMapAt point: CGPoint?, mapKitDoubleTapWaiting: Bool) {
         guard let held = heldTap else { return }
+        #if DEBUG
+        let distance = point.map { hypot($0.x - held.point.x, $0.y - held.point.y) }
+        MapTapTrace.record(
+            "settle held tap distance=\(distance.map { String(describing: $0) } ?? "off map") waiting=\(mapKitDoubleTapWaiting)"
+        )
+        #endif
         if mapKitDoubleTapWaiting, let point,
            hypot(point.x - held.point.x, point.y - held.point.y) < Self.doubleTapReach {
             heldTapTimer?.cancel()
@@ -2078,6 +2093,9 @@ final class MapController: NSObject {
         heldTapTimer?.cancel()
         heldTapTimer = nil
         guard let tap = heldTap else { return }
+        #if DEBUG
+        MapTapTrace.record("release held tap")
+        #endif
         heldTap = nil
         events?(.mapTapped(latitude: tap.latitude, longitude: tap.longitude))
     }
@@ -2180,6 +2198,13 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        #if DEBUG
+        MapTapTrace.record(String(
+            format: "region latDelta=%.6f lat=%.6f lng=%.6f animated=%@",
+            mapView.region.span.latitudeDelta, mapView.region.center.latitude,
+            mapView.region.center.longitude, animated ? "true" : "false"
+        ))
+        #endif
         guard mapView === self.mapView else { return }
         applyPendingCenterIfPossible()
         startFollowingIfArmed()
