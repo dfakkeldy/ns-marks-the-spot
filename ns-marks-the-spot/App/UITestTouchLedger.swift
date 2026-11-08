@@ -30,9 +30,13 @@ enum UITestTouchLedger {
     private static let environment = ProcessInfo.processInfo.environment
     /// Every nth touch is cancelled by the app itself: not a system cancel.
     private static let appCancelEvery = environment["UITEST_APP_CANCEL_EVERY"].flatMap(Int.init)
-    /// Every nth touch is cancelled as if the gate had recognized. Everything else
-    /// about the touch still goes through the real classifier.
+    /// Every nth touch is cancelled as if the cancel had carried a new time. All
+    /// else about the touch still goes through the real classifier.
     private static let forcedSystemCancelEvery = environment["UITEST_FORCED_SYSTEM_CANCEL_EVERY"].flatMap(Int.init)
+    /// Applies the fault to the first touch on the map, whatever came before it,
+    /// for controls that have to swipe a panel first.
+    private static let faultFirstMapTouch = environment["UITEST_FAULT_FIRST_MAP_TOUCH"] != nil
+    private static var firstMapTouchTaken = false
     /// The same, but 0.5 s after the touch began, past the 0.45 s long press.
     private static let lateCancelEvery = environment["UITEST_LATE_CANCEL_EVERY"].flatMap(Int.init)
     /// Every nth touch is cancelled by the app after a delay, with nothing forced:
@@ -51,20 +55,29 @@ enum UITestTouchLedger {
         return identifyTaps % every == 0
     }
 
-    private static func injectCancelIfDue() {
-        if let every = delayedCancelEvery, began % every == 0 {
+    private static func injectCancelIfDue(on touch: UITouch) {
+        if faultFirstMapTouch {
+            guard !firstMapTouchTaken, let map = MapTapTrace.mapView,
+                  touch.view?.isDescendant(of: map) == true else { return }
+            firstMapTouchTaken = true
+        }
+        func isDue(_ every: Int?) -> Bool {
+            guard let every else { return false }
+            return faultFirstMapTouch || began % every == 0
+        }
+        if isDue(delayedCancelEvery) {
             DispatchQueue.main.asyncAfter(deadline: .now() + delayedCancelAfter) {
                 MainActor.assumeIsolated { injectCancel() }
             }
             return
         }
-        if let every = lateCancelEvery, began % every == 0 {
+        if isDue(lateCancelEvery) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 MainActor.assumeIsolated { injectCancel() }
             }
             return
         }
-        guard let every = appCancelEvery ?? forcedSystemCancelEvery, began % every == 0 else { return }
+        guard isDue(appCancelEvery ?? forcedSystemCancelEvery) else { return }
         DispatchQueue.main.async {
             MainActor.assumeIsolated { injectCancel() }
         }
@@ -82,6 +95,9 @@ enum UITestTouchLedger {
     private struct OpenTouch {
         weak var view: UIView?
         let downAt: TimeInterval
+        /// The touch's own time when it was last seen. A finger that stays still
+        /// leaves it alone, so only an event from outside the process moves it.
+        var seenAt: TimeInterval
     }
 
     static func install() {
@@ -106,19 +122,24 @@ enum UITestTouchLedger {
     /// Whether the system took this touch back before it could act, as opposed
     /// to the app losing it or the touch having already done something.
     ///
+    /// A cancel from outside the process carries a new hardware time. One raised
+    /// inside it leaves the touch's time as it was, however late it comes. The
+    /// system's gesture gate is no guide: natural cancels have found it recognized,
+    /// failed, and already gone from the touch.
+    ///
     /// Anything else is left for the test to fail on: a touch cancelled because a
     /// view went away, a window took over or the app resigned is behaviour a
     /// repeated tap would hide, and a long press that has fired would fire again.
-    /// If a later iOS renames the gate, this reads false and tests fail as they
-    /// did before, rather than repeating taps they should not.
+    /// If a later iOS stops giving a cancel its own time, this reads false and
+    /// tests fail as they did before, rather than repeating taps they should not.
     static func isRepeatableSystemCancel(
         appIsActive: Bool,
         windowIsKey: Bool,
         viewIsInWindow: Bool,
-        gateRecognized: Bool,
+        cancelCarriedNewTime: Bool,
         longPressHasActed: Bool
     ) -> Bool {
-        appIsActive && windowIsKey && viewIsInWindow && gateRecognized && !longPressHasActed
+        appIsActive && windowIsKey && viewIsInWindow && cancelCarriedNewTime && !longPressHasActed
     }
 
     fileprivate static func record(_ event: UIEvent) {
@@ -128,8 +149,8 @@ enum UITestTouchLedger {
             switch touch.phase {
             case .began:
                 began += 1
-                open[id] = OpenTouch(view: touch.view, downAt: touch.timestamp)
-                injectCancelIfDue()
+                open[id] = OpenTouch(view: touch.view, downAt: touch.timestamp, seenAt: touch.timestamp)
+                injectCancelIfDue(on: touch)
             case .ended:
                 guard open.removeValue(forKey: id) != nil else { continue }
                 ended += 1
@@ -137,32 +158,31 @@ enum UITestTouchLedger {
                 guard let opened = open.removeValue(forKey: id) else { continue }
                 recordCancel(of: touch, opened: opened)
             default:
+                // A drag moves the touch's time, and that is not the cancel's doing.
+                open[id]?.seenAt = touch.timestamp
                 continue
             }
             publish()
         }
     }
 
-    /// Must run before the original `sendEvent`: the gate's state is the one the
-    /// cancel arrived with.
+    /// Must run before the original `sendEvent`: the long press's state is the one
+    /// the cancel arrived with.
     private static func recordCancel(of touch: UITouch, opened: OpenTouch) {
         let appIsActive = UIApplication.shared.applicationState == .active
         let windowIsKey = touch.window?.isKeyWindow == true
         let viewIsInWindow = opened.view?.window != nil
-        let recognizers = touch.gestureRecognizers ?? []
-        let gate = recognizers.first {
-            String(describing: type(of: $0)) == "_UISystemGestureGateGestureRecognizer"
-        }
         let forced = injectedCancelPending && (forcedSystemCancelEvery != nil || lateCancelEvery != nil)
         injectedCancelPending = false
         // The one press that acts before the finger lifts. It is asked, not timed:
         // load delays delivery, and load is when the system takes touches back.
-        let press = recognizers.first { $0.name == MapController.placeLongPressName }
+        let press = touch.gestureRecognizers?.first { $0.name == MapController.placeLongPressName }
+        let newTime = touch.timestamp - opened.seenAt
         let isSystem = isRepeatableSystemCancel(
             appIsActive: appIsActive,
             windowIsKey: windowIsKey,
             viewIsInWindow: viewIsInWindow,
-            gateRecognized: gate?.state == .recognized || forced,
+            cancelCarriedNewTime: newTime > 0 || forced,
             longPressHasActed: press?.state == .began || press?.state == .changed
         )
         if isSystem {
@@ -172,11 +192,11 @@ enum UITestTouchLedger {
         }
         let point = touch.location(in: nil)
         lastCancel = String(
-            format: "lastCancel=%@ active=%d key=%d viewInWindow=%d gate=%ld press=%ld held=%.3f at=(%.1f,%.1f)",
+            format: "lastCancel=%@ active=%d key=%d viewInWindow=%d press=%ld held=%.3f newTime=%.3f at=(%.1f,%.1f)",
             isSystem ? "system" : "other",
             appIsActive ? 1 : 0, windowIsKey ? 1 : 0, viewIsInWindow ? 1 : 0,
-            gate?.state.rawValue ?? -1, press?.state.rawValue ?? -1,
-            touch.timestamp - opened.downAt, point.x, point.y
+            press?.state.rawValue ?? -1,
+            touch.timestamp - opened.downAt, newTime, point.x, point.y
         )
     }
 

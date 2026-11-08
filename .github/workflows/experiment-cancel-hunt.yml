@@ -91,6 +91,7 @@ jobs:
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlDelayedAppCancelReadings \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlDrawingEarlyCancelIsRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlDrawingLateCancelIsNotRepeated \
+            -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlAppCancelDuringADragIsNotRepeated \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedCancelOnBaseMapRow \
             -only-testing:ns-marks-the-spotUITests/MapTapProbeUITests/testZZControlForcedCancelOnMoreRow \
             -parallel-testing-enabled NO \
@@ -116,7 +117,6 @@ jobs:
 
   hunt:
     name: "Cancel hunt shard ${{ matrix.shard }}"
-    if: ${{ false }}
     runs-on: macos-26
     timeout-minutes: 300
     strategy:

@@ -348,19 +348,50 @@ final class MapTapProbeUITests: XCTestCase {
         )
     }
 
-    /// A drawing tool armed, so the long press acts while the finger is down:
-    /// layers, Draw, Draw point, then the press, the fourth touch.
+    /// A delayed app cancel during a drag. The drag has moved the touch's time, so
+    /// `held` is above zero, and the cancel itself brings no new time. Expected:
+    /// `other`, `newTime=0.000`, no repeat. Without tracking the drag it would
+    /// pass as the system's.
+    @MainActor
+    func testZZControlAppCancelDuringADragIsNotRepeated() throws {
+        let app = XCUIApplication()
+        app.launchArguments.append("UITestMode")
+        app.launchEnvironment["UITEST_DELAYED_CANCEL_EVERY"] = "1"
+        app.launchEnvironment["UITEST_DELAYED_CANCEL_AFTER"] = "0.35"
+        app.launchEnvironment["UITEST_FAULT_FIRST_MAP_TOUCH"] = "1"
+        app.launch()
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: 30))
+        let from = app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.40))
+        let to = app.coordinate(withNormalizedOffset: CGVector(dx: 0.60, dy: 0.60))
+        SystemCancelRetry.live.perform { from.press(forDuration: 0.1, thenDragTo: to) }
+        _ = waitForUI(timeout: 5) { false }
+        print("DRAG_CONTROL ledger=\(String(describing: app.value))")
+        printCancelTrace("drag", app)
+    }
+
+    /// A drawing tool armed, so the long press acts while the finger is down. The
+    /// fault lands on the press, the first touch on the map.
     @MainActor
     private func runDrawingPressControl(_ label: String, environment key: String) {
         let app = XCUIApplication()
         app.launchArguments.append("UITestMode")
-        app.launchEnvironment[key] = "4"
+        app.launchEnvironment[key] = "1"
+        app.launchEnvironment["UITEST_FAULT_FIRST_MAP_TOUCH"] = "1"
         app.launch()
         let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: 30))
         layers.tap()
+        // The Draw button is inside My Maps, a section that opens collapsed.
+        let panel = app.scrollRegion("layer-panel-scroll")
+        let section = app.descendants(matching: .any)
+            .matching(identifier: "layer-section-my-maps").firstMatch
+        XCTAssertTrue(section.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.scroll(section, into: panel), "My Maps cannot be reached")
+        section.tap()
         let draw = app.buttons["Draw"]
         XCTAssertTrue(draw.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.scroll(draw, into: panel), "Draw cannot be reached")
         draw.tap()
         let point = app.buttons["Draw point"]
         XCTAssertTrue(point.waitForHittable(timeout: 30))
