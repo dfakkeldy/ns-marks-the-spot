@@ -130,6 +130,9 @@ final class MapController: NSObject {
         }
     }
     @ObservationIgnored var events: ((MapEvent) -> Void)?
+    /// A tap on the map that could still be half of a double tap: `holdTap`.
+    @ObservationIgnored private var heldTap: (latitude: Double, longitude: Double)?
+    @ObservationIgnored private var heldTapTimer: Task<Void, Never>?
     /// Whether the closest-zoom limit has been set. Set once, from the first
     /// laid-out frame, and never again: recalibrating would move the limit
     /// every time the reader rotated the phone.
@@ -1982,7 +1985,58 @@ final class MapController: NSObject {
             recognizer.location(in: mapView), toCoordinateFrom: mapView
         )
         guard CLLocationCoordinate2DIsValid(coordinate) else { return }
-        events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        holdTap(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    }
+
+    /// How long a tap on the map waits to see whether a second tap follows.
+    ///
+    /// UIKit does not publish its double-tap interval, so this is measured:
+    /// MapKit's double tap gave up 0.35 s after the lift on iOS 26. The margin
+    /// puts this just after it, so a second tap MapKit would still take always
+    /// finds the first one held. Too short costs a stray point on a slow double
+    /// tap; too long costs that much on every tap made alone.
+    static let doubleTapInterval: Duration = .milliseconds(360)
+
+    /// A tap is only a tap once it cannot be half of a double tap, which zooms
+    /// and must not also identify a parcel or place a point. So it is held
+    /// until the next touch settles it or the interval runs out. The coordinate
+    /// is the one under the finger at the lift, whatever the map does meanwhile.
+    ///
+    /// Held here rather than by making the recognizer wait for MapKit's double
+    /// tap with `require(toFail:)`, because a recognizer that is waiting takes
+    /// no new touches: a second quick tap elsewhere was lost. The recognizer
+    /// goes on competing with MapKit's exactly as it always has.
+    func holdTap(latitude: Double, longitude: Double) {
+        releaseHeldTap()
+        heldTap = (latitude, longitude)
+        heldTapTimer = Task { [weak self] in
+            try? await Task.sleep(for: Self.doubleTapInterval)
+            guard !Task.isCancelled else { return }
+            self?.releaseHeldTap()
+        }
+    }
+
+    /// The next touch on the map decides. UIKit counts a touch as a further tap
+    /// only when it lands soon enough and close enough, which are the terms
+    /// MapKit's double tap goes by: that makes it a zoom, or the drag that
+    /// follows a tap for a one-handed zoom, and the held tap never happened.
+    /// Any other touch means the held tap stood alone, and it needn't wait.
+    func settleHeldTap(byTouchWithTapCount tapCount: Int) {
+        if tapCount > 1 {
+            heldTapTimer?.cancel()
+            heldTapTimer = nil
+            heldTap = nil
+        } else {
+            releaseHeldTap()
+        }
+    }
+
+    private func releaseHeldTap() {
+        heldTapTimer?.cancel()
+        heldTapTimer = nil
+        guard let tap = heldTap else { return }
+        heldTap = nil
+        events?(.mapTapped(latitude: tap.latitude, longitude: tap.longitude))
     }
 
     @objc func handlePlaceLongPress(_ recognizer: UILongPressGestureRecognizer) {
@@ -2860,6 +2914,10 @@ extension MapController: UIGestureRecognizerDelegate {
     /// matures: a drag that started on a handle and crept off it before the
     /// press timer fired is the handle's, and must not become a placement.
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if gestureRecognizer.name == Self.identifyTapName {
+            settleHeldTap(byTouchWithTapCount: touch.tapCount)
+            return true
+        }
         guard gestureRecognizer.name == Self.placeLongPressName else { return true }
         return Self.longPressMayBegin(over: touch.view)
     }
