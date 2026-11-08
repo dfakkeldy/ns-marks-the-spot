@@ -2908,9 +2908,8 @@ extension MapController: UIGestureRecognizerDelegate {
         while let view = hit {
             // A selectable marker still owns its tap; do not identify the
             // parcel underneath it as a second action. A placed corner answers
-            // here too, though it cannot be selected. Its tap still places a
-            // point, because the identify tap recognizes at touch-up, while
-            // MapKit's single tap is still waiting for its double tap to fail.
+            // here too, though it cannot be selected. That does not cost it the
+            // tap: the identify tap still recognizes, and a UI test pins it.
             if view is MKAnnotationView { return false }
             hit = view.superview
         }

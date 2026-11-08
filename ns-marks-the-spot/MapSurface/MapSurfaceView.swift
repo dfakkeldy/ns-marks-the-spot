@@ -60,7 +60,7 @@ struct MapSurfaceView: UIViewRepresentable {
         // at the same thing. On iOS 26 this loop finds nothing: MapKit's
         // recognizers live on a subview (`_MKMapContentView`), so the identify
         // tap recognizes at touch-up and a double tap while measuring places a
-        // point. Tracked from grok-bots#937.
+        // point.
         for recognizer in mapView.gestureRecognizers ?? [] {
             guard let tap = recognizer as? UITapGestureRecognizer,
                   tap.numberOfTapsRequired > 1 else { continue }
