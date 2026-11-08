@@ -5173,6 +5173,18 @@ export function App({ focus, onRestart }: { focus?: FocusId; onRestart?: () => v
           ? PointTupperSetupKey
           : null;
   const showReturnNote = returnNoteOpen && !focusDef && (openingKind === "link" || selectedThemeId === openingThemeId);
+  // The note yields once the reader starts work on the map. It never sits over a tool, and it does
+  // not count as an answer: the last view stays saved, and a link's view is not kept by this.
+  useEffect(() => {
+    if (!showReturnNote) return;
+    const leave = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element) || target.closest(".return-note") || !target.closest(".map-region")) return;
+      setReturnNoteOpen(false);
+    };
+    window.addEventListener("pointerdown", leave, true);
+    return () => window.removeEventListener("pointerdown", leave, true);
+  }, [showReturnNote]);
 
   return (
     <>

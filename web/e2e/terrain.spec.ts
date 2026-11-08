@@ -12,17 +12,20 @@ const transparent = createCanvas(256, 256).toBuffer('image/png');
 test.use({ deviceScaleFactor: 3, hasTouch: true, colorScheme: 'dark', launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } });
 
 async function expectReadable(locator: Locator) {
-  const ratio = await locator.evaluate(element => {
+  // Rooms crossfade, so read the colours once they have settled.
+  await expect.poll(() => locator.evaluate(element => {
     const style = getComputedStyle(element);
     const luminance = (color: string) => {
       const channels = color.match(/[\d.]+/g)!.slice(0, 3).map(Number).map(v => v / 255)
         .map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
       return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
     };
-    const a = luminance(style.color), b = luminance(style.backgroundColor);
+    // A control in a shared capsule is transparent: its background is the first painted one behind it.
+    let painted: Element | null = element;
+    while (painted && /^rgba\(\d+, \d+, \d+, 0\)$|^transparent$/.test(getComputedStyle(painted).backgroundColor)) painted = painted.parentElement;
+    const a = luminance(style.color), b = luminance(painted ? getComputedStyle(painted).backgroundColor : 'rgb(255, 255, 255)');
     return (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
-  });
-  expect(ratio).toBeGreaterThanOrEqual(4.5);
+  }), { timeout: 3_000 }).toBeGreaterThanOrEqual(4.5);
 }
 
 for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {

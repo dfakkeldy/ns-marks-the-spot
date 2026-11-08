@@ -1310,6 +1310,19 @@ describe("NS Marks The Spot Online", () => {
       expect(screen.queryByRole("region", { name: "Opened from a link" })).not.toBeInTheDocument();
     });
 
+    it("takes the note away when the reader starts work on the map, without keeping the link's view", () => {
+      localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+      localStorage.setItem("ns-marks-the-spot:last-view:v1", JSON.stringify(lastView));
+      window.history.replaceState(null, "", "/?theme=fishing&position=45.9,-61.2,12");
+      const { container } = render(<App />);
+      const note = screen.getByRole("region", { name: "Opened from a link" });
+      fireEvent.pointerDown(note);
+      expect(screen.getByRole("region", { name: "Opened from a link" })).toBeInTheDocument();
+      fireEvent.pointerDown(container.querySelector(".map-region")!);
+      expect(screen.queryByRole("region", { name: "Opened from a link" })).not.toBeInTheDocument();
+      expect(remembered()).toEqual(lastView);
+    });
+
     it("treats a bare ?theme= as a door into a setup, with no note and no offer", () => {
       localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
       localStorage.setItem("ns-marks-the-spot:last-view:v1", JSON.stringify(lastView));

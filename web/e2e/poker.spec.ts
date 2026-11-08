@@ -160,7 +160,7 @@ test("Poker civic numbers in a crowded view never overlap each other or the map 
   const features = Array.from({ length: 60 }, (_, i) => ({ type: "Feature", geometry: { type: "Point", coordinates: [-61.414 + (i % 10 - 4.5) * 0.00032, 46.059 + (Math.floor(i / 10) - 2.5) * 0.000225] },
     properties: { pntid: `grid-${i}`, civicnum: String(100 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } }));
   // Two houses just below the measure buttons, where the buttons settle once the footer folds.
-  for (const [i, lng] of [-61.41562, -61.41476].entries()) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [lng, 46.05395] }, properties: { pntid: `band-${i}`, civicnum: String(900 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } });
+  for (const [i, lng] of [-61.41562, -61.41476].entries()) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [lng, 46.0533] }, properties: { pntid: `band-${i}`, civicnum: String(900 + i * 2), strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } });
   for (const unit of ["1", "2", "3"]) features.push({ type: "Feature", geometry: { type: "Point", coordinates: [-61.414, 46.0605] }, properties: { pntid: "shared", civicnum: "40", unit_num: unit, strname: "Test", strsuffix: "Rd", comm: "Long Point", county: "Inverness" } } as typeof features[number]);
   await page.addInitScript(() => localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted"));
   await page.route("https://**/*", route => {
