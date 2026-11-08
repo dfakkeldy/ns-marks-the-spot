@@ -2885,6 +2885,28 @@ extension MapController: UIGestureRecognizerDelegate {
         return isSelectingBounds
     }
 
+    /// A double tap zooms, and only zooms: the identify tap waits for MapKit's
+    /// double tap to fail, so the first tap of a zoom neither identifies what
+    /// was under it nor places a point there. Every single tap pays for this
+    /// with the double tap's own interval, which is the one wait that matches
+    /// the recognizer doing the zooming; the web guesses at it with 250 ms.
+    ///
+    /// Answered here rather than with `require(toFail:)` because that needs the
+    /// recognizer in hand, and MapKit keeps its recognizers on a subview of its
+    /// own (iOS 26 has them on `_MKMapContentView`, not on the map view). UIKit
+    /// asks about every recognizer a touch reaches, once per attempt, so this
+    /// does not depend on where MapKit put it or when.
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        guard gestureRecognizer.name == Self.identifyTapName,
+              let mapView = gestureRecognizer.view,
+              let tap = otherGestureRecognizer as? UITapGestureRecognizer,
+              tap.view?.isDescendant(of: mapView) == true else { return false }
+        return tap.numberOfTapsRequired > 1 && tap.numberOfTouchesRequired == 1
+    }
+
     func gestureRecognizer(
         _ gestureRecognizer: UIGestureRecognizer,
         shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer

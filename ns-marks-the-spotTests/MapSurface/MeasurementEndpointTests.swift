@@ -170,6 +170,44 @@ struct MeasurementEndpointTests {
         #expect(!controller.gestureRecognizer(identify, shouldRecognizeSimultaneouslyWith: mapKitTap))
     }
 
+    /// A double tap zooms, and the identify tap waits to see whether it was
+    /// one. MapKit keeps its recognizers on a subview, so the wait must reach
+    /// past the map view itself.
+    @Test func theIdentifyTapWaitsForADoubleTapAnywhereInsideTheMap() {
+        let map = TapHitMapView()
+        let controller = MapController()
+        let identify = UITapGestureRecognizer()
+        identify.name = MapController.identifyTapName
+        map.addGestureRecognizer(identify)
+        let content = UIView()
+        map.addSubview(content)
+
+        func tap(taps: Int, touches: Int = 1, on view: UIView) -> UITapGestureRecognizer {
+            let recognizer = UITapGestureRecognizer()
+            recognizer.numberOfTapsRequired = taps
+            recognizer.numberOfTouchesRequired = touches
+            view.addGestureRecognizer(recognizer)
+            return recognizer
+        }
+
+        let doubleTap = tap(taps: 2, on: content)
+        #expect(controller.gestureRecognizer(identify, shouldRequireFailureOf: doubleTap))
+        #expect(controller.gestureRecognizer(identify, shouldRequireFailureOf: tap(taps: 2, on: map)))
+
+        // Its rivals for a single tap never fail, so waiting for one would
+        // leave the tap with no answer. Two fingers are not this tap at all.
+        #expect(!controller.gestureRecognizer(identify, shouldRequireFailureOf: tap(taps: 1, on: content)))
+        #expect(!controller.gestureRecognizer(identify, shouldRequireFailureOf: tap(taps: 2, touches: 2, on: content)))
+        #expect(!controller.gestureRecognizer(identify, shouldRequireFailureOf: UIPanGestureRecognizer()))
+        // A double tap in the chrome around the map is not a zoom of the map.
+        #expect(!controller.gestureRecognizer(identify, shouldRequireFailureOf: tap(taps: 2, on: UIView())))
+
+        // The other recognizers on this delegate do not wait for anything.
+        let pan = UIPanGestureRecognizer()
+        map.addGestureRecognizer(pan)
+        #expect(!controller.gestureRecognizer(pan, shouldRequireFailureOf: doubleTap))
+    }
+
     @Test func selectingAnAnnotationDoesNotAlsoIdentifyTheGroundBehindIt() {
         let map = TapHitMapView()
         let controller = MapController()

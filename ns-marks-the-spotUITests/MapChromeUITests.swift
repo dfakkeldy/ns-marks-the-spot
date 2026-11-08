@@ -230,6 +230,69 @@ final class MapChromeUITests: XCTestCase {
         )
     }
 
+    /// A double tap while measuring zooms and places nothing.
+    ///
+    /// The first tap of a double tap is a tap until the second one arrives, so
+    /// the identify tap has to wait for MapKit's double tap to fail. It used to
+    /// look for that recognizer on the map view, find nothing, and place a
+    /// point under every zoom. The zoom is asserted as well: a double tap that
+    /// never reached the app would place nothing either.
+    @MainActor
+    func testADoubleTapWhileMeasuringZoomsAndPlacesNoPoint() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let distance = app.buttons["measure-distance"]
+        XCTAssertTrue(distance.waitForHittable(timeout: timeout), "measuring cannot be started")
+        distance.tap()
+        let readout = app.descendants(matching: .any)["measure-readout"]
+        XCTAssertTrue(readout.waitForExistence(timeout: 10), "no measuring readout")
+        let prompt = readout.label
+        let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
+        let undo = app.buttons["measure-undo"]
+
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
+        XCTAssertTrue(
+            waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
+            "two taps did not measure a distance"
+        )
+        let measured = readout.label
+        let firstCorner = app.descendants(matching: .any)["Placed corner 1"].firstMatch
+        XCTAssertTrue(firstCorner.waitForExistence(timeout: 5), "the first corner is not announced")
+        let cornerBefore = firstCorner.frame
+
+        // Bare ground, clear of both corners and of the badge. A zoom holds
+        // this point still and doubles every distance from it, so the first
+        // corner moves away from here by as far as it already was.
+        let doubleTapped = app.coordinate(withNormalizedOffset: CGVector(dx: 0.20, dy: 0.25))
+        let centre = doubleTapped.screenPoint
+        func reach(_ frame: CGRect) -> CGFloat {
+            hypot(frame.midX - centre.x, frame.midY - centre.y)
+        }
+        doubleTapped.doubleTap()
+
+        XCTAssertTrue(
+            waitForUI(timeout: 10) { firstCorner.exists && reach(firstCorner.frame) > 1.5 * reach(cornerBefore) },
+            "the double tap did not zoom: the first corner went from \(cornerBefore) to \(firstCorner.frame)"
+        )
+        // Past any wait for the second tap: a point held back and then
+        // released would land here, after the zoom has already passed.
+        _ = waitForUI(timeout: 2) { false }
+        // One extra point is the first tap acting as a tap. Two is both taps,
+        // which means the app never saw a double tap at all.
+        let extra = app.descendants(matching: .any)["Placed corner 3"].exists ? 2
+            : app.descendants(matching: .any)["Placed corner 2"].exists ? 1 : 0
+        XCTAssertEqual(extra, 0, "the double tap placed \(extra) point(s): the readout says \"\(readout.label)\"")
+        XCTAssertEqual(readout.label, measured, "the double tap changed the measured distance")
+
+        // The wait must not leave the map deaf: the next tap still places.
+        doubleTapped.tap()
+        XCTAssertTrue(
+            waitForUI(timeout: 10) { readout.label != measured && endpoint.label.hasSuffix(readout.label) },
+            "the tap after a double tap placed no point"
+        )
+    }
+
     /// The map opens on the Atlas, the browser's own ground, and the strip
     /// under it says so; choosing another ground changes the credit with it.
     ///
