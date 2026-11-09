@@ -347,7 +347,7 @@ enum TaxSaleSnapshots {
         }
 
         let snapshot = try JSONDecoder().decode(Snapshot.self, from: bytes)
-        let id = "halifax-2026-09-15"
+        let id = "halifax-\(snapshot.eventDate)"
 
         // One exception, one row, both ways. Two exceptions naming the same row
         // would count it as unavailable twice; two rows answering one exception
@@ -379,8 +379,9 @@ enum TaxSaleSnapshots {
             shortMunicipality: "Halifax",
             eventType: .sealedTender,
             eventStatus: .upcoming,
-            saleStartsAt: try instant(
-                "\(snapshot.eventDate)T\(snapshot.bidDeadlineTime):00-03:00"
+            saleStartsAt: try halifaxInstant(
+                date: snapshot.eventDate,
+                time: snapshot.bidDeadlineTime
             ),
             venue: snapshot.venue,
             sourceURL: try url(snapshot.source),

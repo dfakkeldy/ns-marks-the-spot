@@ -1,136 +1,466 @@
 {
   "schemaVersion": 1,
   "municipality": "Halifax Regional Municipality",
-  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf",
+  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov6.pdf",
   "landingPage": "https://www.halifax.ca/home-property/property-taxes/tax-sale",
-  "tenderInstructions": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
-  "retrievedDate": "2026-09-11",
-  "tenderNumber": "HRM-TaxSale23",
-  "tenderDocumentSha256": "4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56",
-  "scheduleDocumentSha256": "bb9c732f93d1887a4c8a76e70f9a89d94e56fce2215e09cb38b3be8987d4196e",
-  "sourceFactsSha256": "9d66b8b78cb405c5912ae4195245f4c2e4cd253f446604ef934d89cfc046189e",
+  "tenderInstructions": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-dec8.2026.pdf",
+  "retrievedDate": "2026-11-09",
+  "tenderNumber": "HRM-TaxSale24",
+  "tenderDocumentSha256": "2a8bdbe1c6d78eb6782e7d09ceec1e153165266646b31da29ed2e53d052b859b",
+  "scheduleDocumentSha256": "c42cf64bb9c7f192e39bf8e9aaedfaa6d019d41b515131161d8eec2b4cd4d867",
+  "sourceFactsSha256": "544d0b13d88d0c55b5f9fd2d631a8d3e77d328bebd71b1163faf67579233e7a8",
   "sourceHashPolicy": "Both dated official PDFs contain assessed-owner names. This receipt hashes the source bytes and normalized owner-free facts; the PDFs themselves are not committed.",
   "ownerNamesExcluded": true,
-  "eventDate": "2026-09-15",
+  "eventDate": "2026-12-08",
   "bidDeadlineTime": "10:00",
   "venue": "Online or Alderney Customer Service Centre, 40 Alderney Drive, Dartmouth, Nova Scotia",
-  "sourceRowCount": 10,
-  "listingCount": 10,
-  "parcelIdentifierCount": 11,
-  "mappedListingCount": 10,
-  "mappedParcelIdentifierCount": 11,
-  "hstYesCount": 5,
-  "notRedeemableCount": 1,
+  "sourceRowCount": 41,
+  "listingCount": 40,
+  "parcelIdentifierCount": 40,
+  "mappedListingCount": 40,
+  "mappedParcelIdentifierCount": 40,
+  "hstYesCount": 13,
+  "notRedeemableCount": 2,
+  "mobileHomeWithoutPidCount": 1,
   "geometryExceptions": [],
   "listings": [
     {
       "item": 1,
-      "aan": "00418048",
+      "aan": "00473049",
       "pids": [
-        "00577643"
+        "00251272"
       ],
-      "description": "1125 Mushaboom Rd Mushaboom - Dwelling",
-      "openingBidCents": 1489072,
+      "description": "43 Margaret Rd Halifax - Dwelling",
+      "openingBidCents": 240949,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 2,
-      "aan": "02300761",
+      "aan": "00543314",
       "pids": [
-        "00018531"
+        "00531624"
       ],
-      "description": "3484 Intercolonial St Lot E Halifax - Building",
-      "openingBidCents": 6141121,
+      "description": "25464 Highway 7 Port Dufferin - Service Station",
+      "openingBidCents": 1399369,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 3,
-      "aan": "02365103",
+      "aan": "00754587",
       "pids": [
-        "00098723",
-        "00632414"
+        "00591297"
       ],
-      "description": "8 Greenbank Crt Lot 12 Dartmouth - Dwelling",
-      "openingBidCents": 1086255,
+      "description": "St Margarets Bay Rd Lot R-C Head Of St. Margarets - Dwelling",
+      "openingBidCents": 975625,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 4,
-      "aan": "03042227",
+      "aan": "00901318",
       "pids": [
-        "00649160"
+        "00538066"
       ],
-      "description": "Old Public Rd Nine Mile River - Land",
-      "openingBidCents": 428673,
+      "description": "7819 Highway 357 Lot 30k Middle Musquodoboit - Dwelling",
+      "openingBidCents": 442941,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 5,
-      "aan": "03294625",
+      "aan": "01470469",
       "pids": [
-        "40290983"
+        "00154161"
       ],
-      "description": "206 South Rd South Section - Building",
-      "openingBidCents": 2168614,
+      "description": "2053 Gottingen St Lot 1 Halifax - Building",
+      "openingBidCents": 8625458,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 6,
-      "aan": "04360435",
+      "aan": "01568159",
       "pids": [
-        "41414913"
+        "00323527"
       ],
-      "description": "1183 Fall River Rd Lot A-1 Fall River - Dwelling",
-      "openingBidCents": 2023919,
+      "description": "31 Dipper Cres Lot 324-A Halifax - Dwelling",
+      "openingBidCents": 994944,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 7,
-      "aan": "08587949",
+      "aan": "02001632",
       "pids": [
-        "40636888"
+        "40228942"
       ],
-      "description": "Privateer Rd Lot 4 West Dover - Land",
-      "openingBidCents": 2736877,
-      "redeemable": false,
+      "description": "Antrim Rd Lot C Antrim - Land",
+      "openingBidCents": 323596,
+      "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 8,
-      "aan": "08960526",
+      "aan": "02306204",
       "pids": [
-        "40772188"
+        "40005142"
       ],
-      "description": "Jeddore Cape Lot 2 Lower West Jeddore - Land",
-      "openingBidCents": 730640,
+      "description": "29 Candlewood Crt Lot 141-D Lower Sackville - Dwelling",
+      "openingBidCents": 760655,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 9,
-      "aan": "09002952",
+      "aan": "02330997",
       "pids": [
-        "40816878"
+        "40313280"
       ],
-      "description": "61 Byblos Rd Lot 28 Upper Hammonds Plains - Dwelling",
-      "openingBidCents": 1109418,
+      "description": "50 Keltic Dr Lot A4 Lawrencetown - Dwelling",
+      "openingBidCents": 950505,
       "redeemable": true,
       "listingStatus": "advertised"
     },
     {
       "item": 10,
-      "aan": "10117747",
+      "aan": "02732858",
       "pids": [
-        "41270000"
+        "40055295"
       ],
-      "description": "Cresthaven Dr Halifax - Land",
-      "openingBidCents": 850350,
+      "description": "160 Riverwood Dr Lot 295 Timberlea - Dwelling",
+      "openingBidCents": 1047064,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 11,
+      "aan": "03022897",
+      "pids": [
+        "41524166"
+      ],
+      "description": "100 Old Sambro Rd Lot 102a Halifax - Building",
+      "openingBidCents": 453413,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 12,
+      "aan": "03115275",
+      "pids": [
+        "40225195"
+      ],
+      "description": "4716 St Margarets Bay Rd Lot M-1 Upper Tantallon - Dwelling",
+      "openingBidCents": 765635,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 13,
+      "aan": "03120716",
+      "pids": [
+        "40131880"
+      ],
+      "description": "10 Robert Dr Lot B30 Dartmouth - Dwelling",
+      "openingBidCents": 1853640,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 14,
+      "aan": "03287408",
+      "pids": [
+        "00573956"
+      ],
+      "description": "Rouges Roost Prospect Bay - Land",
+      "openingBidCents": 590411,
+      "redeemable": false,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 15,
+      "aan": "03294625",
+      "pids": [
+        "40290983"
+      ],
+      "description": "206 South Rd South Section - Building",
+      "openingBidCents": 77500,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 16,
+      "aan": "03535371",
+      "pids": [
+        "00108811"
+      ],
+      "description": "86 Portland St Dartmouth - Building",
+      "openingBidCents": 5251652,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 17,
+      "aan": "03537293",
+      "pids": [
+        "00174318"
+      ],
+      "description": "7077 Quinpool Rd Lot 4 Halifax - Dwelling",
+      "openingBidCents": 3078362,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 18,
+      "aan": "03986829",
+      "pids": [
+        "00154179"
+      ],
+      "description": "2059 Gottingen St Halifax - Building",
+      "openingBidCents": 4133267,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 19,
+      "aan": "04293835",
+      "pids": [
+        "00493627"
+      ],
+      "description": "1192 Terence Bay Rd Lot Jr5 Terence Bay - Building",
+      "openingBidCents": 561778,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 20,
+      "aan": "04956222",
+      "pids": [
+        "00364463"
+      ],
+      "description": "169 Nordic Cres Lot 249-N Lower Sackville - Dwelling",
+      "openingBidCents": 1169171,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 21,
+      "aan": "05472814",
+      "pids": [
+        "40266132"
+      ],
+      "description": "40 Snow Dr Lot A6 Fall River - Dwelling",
+      "openingBidCents": 698494,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 22,
+      "aan": "05711436",
+      "pids": [
+        "00627356"
+      ],
+      "description": "696 West Petpeswick Rd Parcel A West Petpeswick - Dwelling",
+      "openingBidCents": 582156,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 23,
+      "aan": "05777143",
+      "pids": [
+        "00629741"
+      ],
+      "description": "1598 Ketch Harbour Rd Lot Ral Sambro - Dwelling",
+      "openingBidCents": 909643,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 24,
+      "aan": "07663501",
+      "pids": [
+        "40534083"
+      ],
+      "description": "66 Olive Ave Lot 55b Bedford - Dwelling",
+      "openingBidCents": 2695067,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 25,
+      "aan": "08569010",
+      "pids": [
+        "40599466"
+      ],
+      "description": "43 Sime Crt Lot 164 Hammonds Plains - Dwelling",
+      "openingBidCents": 1915297,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 26,
+      "aan": "08603405",
+      "pids": [
+        "40612947"
+      ],
+      "description": "22 Narrows Lane Parcel D Porters Lake - Land",
+      "openingBidCents": 189745,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 27,
+      "aan": "08897638",
+      "pids": [
+        "40739393"
+      ],
+      "description": "38 Charles Meade Dr Lot 34 Williamswood - Dwelling",
+      "openingBidCents": 1338052,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 28,
+      "aan": "08960550",
+      "pids": [
+        "40772196"
+      ],
+      "description": "Jeddore Cape Lot 3 Lower West Jeddore - Land",
+      "openingBidCents": 741672,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 29,
+      "aan": "08987661",
+      "pids": [
+        "00604546"
+      ],
+      "description": "Clam Harbour Clam Harbour - Land",
+      "openingBidCents": 311777,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 30,
+      "aan": "08994285",
+      "pids": [
+        "40807844"
+      ],
+      "description": "18660 Highway 7 Lot 2a Popes Harbour - Dwelling",
+      "openingBidCents": 345701,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 31,
+      "aan": "09118187",
+      "pids": [
+        "40859399"
+      ],
+      "description": "235 Haliburton Cres Lot 1424 Stillwater Lake - Dwelling",
+      "openingBidCents": 2178205,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 32,
+      "aan": "09275525",
+      "pids": [
+        "41016320"
+      ],
+      "description": "59 Mcquade Lake Cres Lot 64-5b Beechville - Building",
+      "openingBidCents": 6213218,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 33,
+      "aan": "09607862",
+      "pids": [
+        "41108697"
+      ],
+      "description": "5 Strathaven Close Lot Sv25 Bedford - Dwelling",
+      "openingBidCents": 2084064,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 34,
+      "aan": "09666591",
+      "pids": [
+        "41163619"
+      ],
+      "description": "No 333 Hwy Glen Margaret - Land",
+      "openingBidCents": 1581070,
+      "redeemable": false,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 35,
+      "aan": "10573300",
+      "pids": [
+        "41401472"
+      ],
+      "description": "2 Arnold Dr Lot R-B Halifax - Dwelling",
+      "openingBidCents": 3068121,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 36,
+      "aan": "10756650",
+      "pids": [
+        "41440702"
+      ],
+      "description": "15 Crownridge Dr Lot Cd31 Bedford - Dwelling",
+      "openingBidCents": 2927292,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 37,
+      "aan": "10945331",
+      "pids": [
+        "41501958"
+      ],
+      "description": "200 Hobsons Lake Dr Lot 9ca Beechville - Land",
+      "openingBidCents": 4558913,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 38,
+      "aan": "10978874",
+      "pids": [
+        "41509852"
+      ],
+      "description": "81 Neuer Lane Lot 9 Head Of Jeddore - Dwelling",
+      "openingBidCents": 1841649,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 39,
+      "aan": "10999405",
+      "pids": [
+        "41502675"
+      ],
+      "description": "Beaverbank Rd Lot 5 North Beaverbank - Land",
+      "openingBidCents": 382336,
+      "redeemable": true,
+      "listingStatus": "advertised"
+    },
+    {
+      "item": 40,
+      "aan": "11036015",
+      "pids": [
+        "41527086"
+      ],
+      "description": "62 Jamie Dr Lot 5 Beaver Bank - Building",
+      "openingBidCents": 512044,
       "redeemable": true,
       "listingStatus": "advertised"
     }

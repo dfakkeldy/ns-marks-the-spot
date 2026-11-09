@@ -17,39 +17,43 @@ async function sha256Hex(source: string): Promise<string> {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-describe("the Halifax September 2026 tender dataset", () => {
-  it("pins all 10 owner-free source rows byte for byte", async () => {
+describe("the Halifax December 2026 tender dataset", () => {
+  it("pins all 40 owner-free exact-PID rows byte for byte", async () => {
     expect(await sha256Hex(halifaxTaxSaleSnapshotSource)).toBe(HALIFAX_TAX_SALE_DATASET_SHA256);
     expect(halifaxTaxSaleSnapshot.ownerNamesExcluded).toBe(true);
-    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(10);
-    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(11);
-    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(10);
-    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(11);
-    expect(halifaxTaxSaleSnapshot.hstYesCount).toBe(5);
-    expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(1);
+    expect(halifaxTaxSaleSnapshot.tenderNumber).toBe("HRM-TaxSale24");
+    expect(halifaxTaxSaleSnapshot.eventDate).toBe("2026-12-08");
+    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(41);
+    expect(halifaxTaxSaleSnapshot.listingCount).toBe(40);
+    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(40);
+    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(40);
+    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(40);
+    expect(halifaxTaxSaleSnapshot.mobileHomeWithoutPidCount).toBe(1);
+    expect(halifaxTaxSaleSnapshot.hstYesCount).toBe(13);
+    expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(2);
   });
 
-  it("retains all 10 notice rows in historical mode after official results are ingested", () => {
+  it("publishes TaxSale24 as the current upcoming notice", () => {
+    expect(halifaxTaxSaleEvent.id).toBe("halifax-2026-12-08");
     expect(halifaxTaxSaleEvent.eventType).toBe("sealed-tender");
-    expect(halifaxTaxSaleEvent.eventStatus).toBe("historical");
-    expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-09-15T10:00:00-03:00");
-    expect(halifaxTaxSaleEvent.listings).toHaveLength(10);
+    expect(halifaxTaxSaleEvent.eventStatus).toBe("upcoming");
+    expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-12-08T10:00:00-04:00");
+    expect(halifaxTaxSaleEvent.listings).toHaveLength(40);
     const pids = halifaxTaxSaleEvent.listings.flatMap(({ pids }) => pids);
-    expect(pids).toHaveLength(11);
-    expect(new Set(pids).size).toBe(11);
+    expect(pids).toHaveLength(40);
+    expect(new Set(pids).size).toBe(40);
+    expect(pids).toContain("00251272");
     expect(pids).not.toContain("00015966");
     expect(pids).not.toContain("41051889");
     expect(pids).not.toContain("41051897");
-    expect(pids).not.toContain("00535617");
-    expect(pids).not.toContain("41274085");
     expect(halifaxTaxSaleEvent.geometryExceptions).toEqual([]);
   });
 
-  it("pins the official results and preserves missing notice rows as unknown", async () => {
+  it("keeps the closed TaxSale23 results in the historical dataset", async () => {
     expect(await sha256Hex(halifaxResultSource)).toBe(HALIFAX_TAX_SALE_RESULT_DATASET_SHA256);
     expect(halifaxResultSnapshot.ownerNamesExcluded).toBe(true);
     expect(halifaxResultSnapshot.resultRowCount).toBe(4);
-    const records = historicalTaxSaleRecords.filter(({ eventId }) => eventId === halifaxTaxSaleEvent.id);
+    const records = historicalTaxSaleRecords.filter(({ eventId }) => eventId === "halifax-2026-09-15");
     expect(records).toHaveLength(10);
     expect(records.filter(({ outcome }) => outcome === "sold")).toHaveLength(3);
     expect(records.filter(({ outcome }) => outcome === "unsold")).toHaveLength(1);
@@ -59,12 +63,12 @@ describe("the Halifax September 2026 tender dataset", () => {
 
   it("preserves opening-bid semantics and keeps public rows owner-free", () => {
     expect(halifaxTaxSaleEvent.listings[0].financial).toEqual({
-      kind: "minimum-bid", label: "Opening bid", amountCents: 1_489_072,
+      kind: "minimum-bid", label: "Opening bid", amountCents: 240_949,
     });
-    expect(halifaxTaxSaleEvent.listings.find(({ aan }) => aan === "02365103")?.pids).toEqual(["00098723", "00632414"]);
+    expect(halifaxTaxSaleEvent.listings.find(({ aan }) => aan === "00473049")?.pids).toEqual(["00251272"]);
     expect(halifaxTaxSaleEvent.listings.filter(
       ({ redemptionCategory }) => redemptionCategory === "not-redeemable",
-    ).map(({ aan }) => aan)).toEqual(["08587949"]);
+    ).map(({ aan }) => aan)).toEqual(["03287408", "09666591"]);
     for (const listing of halifaxTaxSaleSnapshot.listings) {
       expect(Object.keys(listing).some((key) => /owner|bidder|occupant|tenant|assessed.?name|hst/i.test(key))).toBe(false);
     }
@@ -99,7 +103,7 @@ describe("halifaxListingsAndExceptions", () => {
     expect(derived.listings[0].pids).toEqual(["11111111"]);
     expect(derived.geometryExceptions).toEqual([
       expect.objectContaining({
-        recordId: "halifax-2026-09-15-item-1",
+        recordId: "halifax-2026-12-08-item-1",
         pids: ["22222222"],
         reason: "no-nsprd-geometry",
       }),

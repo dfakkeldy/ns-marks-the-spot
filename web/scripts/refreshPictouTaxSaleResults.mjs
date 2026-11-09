@@ -49,24 +49,46 @@ export function classifyPictouResult(raw) {
   throw new Error(`Unrecognized Pictou selling-price value "${value}".`);
 }
 
+export function pictouNoticeMatchesSale(saleDate, noticeSaleDate = "2026-04-10") {
+  return saleDate === noticeSaleDate;
+}
+
 export function parsePictouResultText(text) {
   const rows = [];
   for (const line of String(text).replaceAll("\r", "").split("\n")) {
-    const match = line.match(
-      /^\s*(\d{8})\s+(\d{8})\s+(\d{2})\s+(.+?)\s+\$([\d,]+\.\d{2})\s+(Yes|No)\s+(Yes|No)\s+(\$[\d,]+\.\d{2}|Removed)\s*$/u,
+    const withArrears = line.match(
+      /^\s*(\d{8})\s+(\d{8})\s+(\d{2})\s+(.+?)\s+(\$[\d,]+\.\d{2})\s+(Yes|No)\s+(\$[\d,]+\.\d{2})\s+(Yes|No)\s+(\$[\d,]+\.\d{2}|Removed)\s*$/u,
     );
-    if (!match) continue;
-    const advertisedAmountCents = moneyToCents(match[5]);
-    classifyPictouResult(match[8]);
+    const legacy = withArrears
+      ? null
+      : line.match(
+          /^\s*(\d{8})\s+(\d{8})\s+(\d{2})\s+(.+?)\s+\$([\d,]+\.\d{2})\s+(Yes|No)\s+(Yes|No)\s+(\$[\d,]+\.\d{2}|Removed)\s*$/u,
+        );
+    if (withArrears) {
+      classifyPictouResult(withArrears[9]);
+      rows.push({
+        listingIdentifier: withArrears[1],
+        pid: withArrears[2],
+        district: withArrears[3],
+        description: withArrears[4],
+        advertisedAmountCents: moneyToCents(withArrears[7]),
+        redemptionLabel: `Redeemable - ${withArrears[6]}`,
+        hst: withArrears[8] === "Yes",
+        sellingRaw: withArrears[9],
+      });
+      continue;
+    }
+    if (!legacy) continue;
+    classifyPictouResult(legacy[8]);
     rows.push({
-      listingIdentifier: match[1],
-      pid: match[2],
-      district: match[3],
-      description: match[4],
-      advertisedAmountCents,
-      redemptionLabel: `Redeemable - ${match[6]}`,
-      hst: match[7] === "Yes",
-      sellingRaw: match[8],
+      listingIdentifier: legacy[1],
+      pid: legacy[2],
+      district: legacy[3],
+      description: legacy[4],
+      advertisedAmountCents: moneyToCents(legacy[5]),
+      redemptionLabel: `Redeemable - ${legacy[6]}`,
+      hst: legacy[7] === "Yes",
+      sellingRaw: legacy[8],
     });
   }
   if (rows.length === 0) {
@@ -267,6 +289,16 @@ async function main() {
       landingHtml,
       LANDING_PAGE_URL,
     );
+    const datasetText = await readFile(DATASET_PATH, "utf8");
+    const dataset = JSON.parse(datasetText);
+    const eventId = `pictou-${latest.saleDate}`;
+    const existingEvent = dataset.events.find(({ id }) => id === eventId);
+    if (!existingEvent && !pictouNoticeMatchesSale(latest.saleDate, NOTICE_SALE_DATE)) {
+      console.log(
+        `pictou: ${latest.saleDate} official results are published without a matching notice PDF; refusing to ingest. Existing events retained.`,
+      );
+      return;
+    }
     const [resultBytes, noticeBytes] = await Promise.all([
       fetchBytes(latest.url, "application/pdf"),
       fetchBytes(NOTICE_URL, "application/pdf"),
@@ -277,12 +309,8 @@ async function main() {
     await execFile("pdftotext", ["-layout", resultPath, textPath]);
     const sale = parsePictouResultText(await readFile(textPath, "utf8"));
 
-    const datasetText = await readFile(DATASET_PATH, "utf8");
     const ledgerText = await readFile(LEDGER_PATH, "utf8");
-    const dataset = JSON.parse(datasetText);
     const ledger = JSON.parse(ledgerText);
-    const eventId = `pictou-${latest.saleDate}`;
-    const existingEvent = dataset.events.find(({ id }) => id === eventId);
     const addition = buildPictouAddition({
       saleDate: latest.saleDate,
       rows: sale.rows,
@@ -360,6 +388,7 @@ const LANDING_PAGE_URL =
   "https://munpict.ca/departments-and-services/finance/tax-sale/";
 const NOTICE_URL =
   "https://munpict.ca/assets/Tax-Sale-2026-01-Final-Advertisement-Posted-revised-April-10.pdf";
+export const NOTICE_SALE_DATE = "2026-04-10";
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(SCRIPT_DIR, "../src/data");
 const DATASET_PATH = resolve(DATA_DIR, "historicalTaxSales.json");

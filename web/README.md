@@ -4,12 +4,13 @@ Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
 The tax-sale catalog is a set of dated snapshots—the August 11, 2026 Inverness
 County auction, the August 31, 2026 Annapolis County tax sale by tender, the
-November 23, 2026 Victoria County public auction, and the September 15, 2026
+November 23, 2026 Victoria County public auction, and the December 8, 2026
 Halifax tender—each pinned to its official notice date. Whether a catalogued event is
 presented as current or past is decided at runtime from its advertised start
 time and any verified result dataset, as described under Data flow below.
 Completed Middleton and CBRM events remain in historical-record mode with only
-printed official outcomes classified.
+printed official outcomes classified. The September 15, 2026 Halifax tender
+remains in the historical record layer.
 
 ## Run locally
 
@@ -1692,10 +1693,28 @@ rather than guessed. A partial removal, malformed or duplicate identifier,
 unfamiliar `YES`/`NO` state, row count regression, or changed notice that
 cannot first be matched to a verified archive capture also fails closed.
 
-## Halifax September 2026 source receipt
+## Halifax December 2026 source receipt
 
 - Official landing page: [Halifax Tax Sale](https://www.halifax.ca/home-property/property-taxes/tax-sale).
-  Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
+  Tender `HRM-TaxSale24` is the current notice for 10:00 AM December 8, 2026.
+  The official
+  [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-dec8.2026.pdf)
+  have SHA-256
+  `2a8bdbe1c6d78eb6782e7d09ceec1e153165266646b31da29ed2e53d052b859b`;
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov6.pdf)
+  has SHA-256
+  `c42cf64bb9c7f192e39bf8e9aaedfaa6d019d41b515131161d8eec2b4cd4d867`.
+- Schedule A contains 41 source rows: 40 exact-PID listings covering 40 PIDs,
+  all mapped, and 1 mobile-home row printed `MOBILE` without a PID. That
+  mobile-home row is counted, not listed. Thirteen source rows print HST
+  `Yes`, and two print redeemable `No`. Those inputs are validated and counted
+  but HST is not added to the public listing schema. Geometry exceptions remain
+  empty; NSPRD was not used to invent unmapped PIDs. The assessed-name column
+  and owner-bearing PDF bytes are not committed. Words that straddle the owner
+  and description columns are dropped rather than copied. The byte-for-byte
+  owner-free public dataset SHA-256 is
+  `ac65239a601a4400c184faf031e5cfe7d211ef960c0c32997a4ff3b020aaef6b`.
+- Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
   refresh verified the dated official
   [results PDF](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf)
   linked from the official results page. Its SHA-256 is
@@ -1703,24 +1722,7 @@ cannot first be matched to a verified archive capture also fails closed.
   Three rows publish numeric selling prices and one prints `NO BIDS`; each
   reconciles exactly by AAN, PID, opening bid, location and redemption flag.
   The six retained notice rows absent from the results remain outcome unknown.
-  The event is now historical; the notice snapshot remains unchanged.
-  The official
-  [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
-  have SHA-256
-  `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf)
-  has SHA-256
-  `bb9c732f93d1887a4c8a76e70f9a89d94e56fce2215e09cb38b3be8987d4196e`.
-- Schedule A contains 10 advertised rows and 11 exact PIDs. All 10 rows
-  covering 11 PIDs are mapped. The sept11 revision no longer advertises one
-  additional row that was on the sept10 draft; the two parking-space PIDs
-  that previously returned empty NSPRD collections remain unpublished, so this
-  snapshot has no geometry exceptions.
-- Five source rows print HST `Yes`, and one prints redeemable `No`. Those inputs
-  are validated and counted but HST is not added to the public listing schema.
-  The assessed-name column and owner-bearing PDF bytes are not committed. The
-  byte-for-byte owner-free public dataset SHA-256 is
-  `e325d369945024df438fb52a47731ec586a272b4e41c3ad9ac0983f1caacf826`.
+  That event stays in `historicalTaxSales.json` / `halifaxTaxSaleResults.snapshot.json`.
 
 Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs, or
 to confirm an awaiting-results page or ingest the dated published results.
@@ -1728,7 +1730,8 @@ The refresh fails closed on a changed document
 link, tender number, layout, identifier, amount, flag, row/PID count, a
 geometry-exception pin that does not match a live Schedule A row, a closed
 notice or results page mixed with current tender documents, an unrecognized
-selling price, or results that no longer reconcile with the retained notice.
+selling price, TaxSale23 and TaxSale24 documents appearing together, or results
+that no longer reconcile with the retained notice.
 Repeated ingestion preserves retrieval dates and rejects rewriting accepted outcomes.
 The live NSPRD test requires every mapped PID to resolve and every declared
 exception PID to remain empty, so either provincial change triggers review.
@@ -1793,7 +1796,10 @@ dated result PDF contributes 18 numeric selling prices and three rows whose
 selling-price column prints `Removed`; those three remain withdrawn with no
 selling-price claim. All 24 exact Richmond and Pictou PIDs returned from NSPRD
 on July 28, 2026. Their public datasets omit the assessed-name and
-successful-bidder fields carried by the source documents.
+successful-bidder fields carried by the source documents. The Pictou landing
+page also links an October 23, 2026 result PDF; that sale is not ingested
+because no matching official notice is published, and the April notice is not
+attached to another sale.
 
 The CBRM July 22, 2025 result prints a `WINNING BID` column and fills
 outcome-bearing rows in yellow. Each rendered row's fill was measured against

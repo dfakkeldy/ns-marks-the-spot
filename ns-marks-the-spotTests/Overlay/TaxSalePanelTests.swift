@@ -245,19 +245,19 @@ struct TaxSalePanelTests {
         #expect(summary.advertised == summary.mapped + summary.unavailable)
     }
 
-    /// The sept11 Schedule A dropped one further advertised row. The two
-    /// parking-space PIDs that previously had empty NSPRD geometry remain
-    /// unpublished, so Halifax still has no unavailable rows.
-    @Test func halifaxSept11ScheduleAAdvertisesTenFullyMappedRows() throws {
+    /// TaxSale24 Schedule A maps every exact-PID row. The one MOBILE source
+    /// row without a PID is counted, not listed, so Halifax still has no
+    /// unavailable NSPRD rows.
+    @Test func halifaxTaxSale24ScheduleAAdvertisesFortyFullyMappedRows() throws {
         let catalog = TaxSaleCatalog.bundled
-        let halifax = try #require(catalog.event(id: "halifax-2026-09-15"))
+        let halifax = try #require(catalog.event(id: "halifax-2026-12-08"))
         let summary = TaxSaleViewModel(catalog: catalog).summary(for: halifax)
 
-        #expect(halifax.listings.count == 10)
-        #expect(halifax.pids.count == 11)
+        #expect(halifax.listings.count == 40)
+        #expect(halifax.pids.count == 40)
         #expect(halifax.geometryExceptions.isEmpty)
-        #expect(summary.advertised == 10)
-        #expect(summary.mapped == 10)
+        #expect(summary.advertised == 40)
+        #expect(summary.mapped == 40)
         #expect(summary.unavailable == 0)
     }
 
