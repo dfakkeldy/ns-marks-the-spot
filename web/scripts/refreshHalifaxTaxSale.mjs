@@ -14,8 +14,11 @@ const execFile = promisify(execFileCallback);
 const LANDING_PAGE_URL = "https://www.halifax.ca/home-property/property-taxes/tax-sale";
 const RESULTS_PAGE_URL =
   "https://www.halifax.ca/home-property/property-taxes/tax-sale/tax-sale-results";
-const CURRENT_TENDER_NUMBER = "HRM-TaxSale23";
-const CURRENT_EVENT_DATE = "2026-09-15";
+const TAXSALE23_NUMBER = "HRM-TaxSale23";
+const TAXSALE23_EVENT_DATE = "2026-09-15";
+const TAXSALE24_NUMBER = "HRM-TaxSale24";
+const TAXSALE24_EVENT_DATE = "2026-12-08";
+const SCHEDULE_DESCRIPTION_MIN_X = 480;
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.snapshot.json");
 const MODEL_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.ts");
@@ -78,14 +81,27 @@ function isClosedAwaitingResults(pageText) {
   );
 }
 
+function saleDocuments(html, { numberPattern, tenderPath, schedulePath }) {
+  return {
+    tenderNumbers: [...new Set(landingPageText(html).match(numberPattern) ?? [])],
+    tenderUrls: uniqueMatchingUrls(html, tenderPath),
+    scheduleUrls: uniqueMatchingUrls(html, schedulePath),
+  };
+}
+
 function currentNoticeDocuments(html) {
   return {
-    tenderNumbers: [...new Set(landingPageText(html).match(/HRM-TaxSale\d+/gu) ?? [])],
-    tenderUrls: uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu),
-    scheduleUrls: uniqueMatchingUrls(
-      html,
-      /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-[a-z]{3,9}-?\d{1,2}\.26\.pdf$/iu,
-    ),
+    sale23: saleDocuments(html, {
+      numberPattern: /HRM-TaxSale23/gu,
+      tenderPath: /\/tender-doc-sept15\.26\.pdf$/iu,
+      schedulePath:
+        /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-[a-z]{3,9}-?\d{1,2}\.26\.pdf$/iu,
+    }),
+    sale24: saleDocuments(html, {
+      numberPattern: /HRM-TaxSale24/gu,
+      tenderPath: /\/tender-doc-dec8\.2026\.pdf$/iu,
+      schedulePath: /\/dec8\.2026newspaper\.website(?:nov\d+)?\.pdf$/iu,
+    }),
     taxSalePdfs: uniqueMatchingUrls(
       html,
       /\/documents\/home-property\/property-taxes\/[^/]+\.pdf$/iu,
@@ -93,48 +109,64 @@ function currentNoticeDocuments(html) {
   };
 }
 
+function completeCurrentTender(sale) {
+  return sale.tenderNumbers.length === 1 && sale.tenderUrls.length === 1 && sale.scheduleUrls.length === 1
+    ? {
+        kind: "current-tender",
+        tenderNumber: sale.tenderNumbers[0],
+        tenderUrl: sale.tenderUrls[0],
+        scheduleUrl: sale.scheduleUrls[0],
+      }
+    : null;
+}
+
 export function classifyLandingPage(html) {
   const pageText = landingPageText(html);
   const closed = isClosedAwaitingResults(pageText);
-  const { tenderNumbers, tenderUrls, scheduleUrls, taxSalePdfs } =
-    currentNoticeDocuments(html);
+  const { sale23, sale24, taxSalePdfs } = currentNoticeDocuments(html);
+  const currentDocs = [
+    ...sale23.tenderNumbers, ...sale23.tenderUrls, ...sale23.scheduleUrls,
+    ...sale24.tenderNumbers, ...sale24.tenderUrls, ...sale24.scheduleUrls,
+    ...taxSalePdfs,
+  ];
 
   if (/TAXSALE23 LIST\s+[–—-]\s+Tuesday,\s+September\s+15,\s*2026\s+RESULTS\b/iu.test(pageText)) {
-    if (tenderNumbers.length || tenderUrls.length || scheduleUrls.length || taxSalePdfs.length) {
+    if (currentDocs.length) {
       throw new Error("Halifax landing page mixes published results with current tender documents; refusing to guess.");
     }
-    return { kind: "published-results", tenderNumber: CURRENT_TENDER_NUMBER, eventDate: CURRENT_EVENT_DATE };
+    return { kind: "published-results", tenderNumber: TAXSALE23_NUMBER, eventDate: TAXSALE23_EVENT_DATE };
   }
 
   if (closed) {
-    if (
-      tenderNumbers.length > 0 ||
-      tenderUrls.length > 0 ||
-      scheduleUrls.length > 0 ||
-      taxSalePdfs.length > 0
-    ) {
+    if (currentDocs.length > 0) {
       throw new Error(
         "Halifax landing page mixes a closed TaxSale23 notice with current tender documents; refusing to guess which is current.",
       );
     }
     return {
       kind: "closed-awaiting-results",
-      tenderNumber: CURRENT_TENDER_NUMBER,
-      eventDate: CURRENT_EVENT_DATE,
+      tenderNumber: TAXSALE23_NUMBER,
+      eventDate: TAXSALE23_EVENT_DATE,
     };
   }
 
-  if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
-    throw new Error(
-      `Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`,
-    );
+  const current24 = completeCurrentTender(sale24);
+  const current23 = completeCurrentTender(sale23);
+  if (current24 && current23) {
+    throw new Error("Halifax landing page mixes TaxSale23 and TaxSale24 tender documents; refusing to guess which is current.");
   }
-  return {
-    kind: "current-tender",
-    tenderNumber: tenderNumbers[0],
-    tenderUrl: tenderUrls[0],
-    scheduleUrl: scheduleUrls[0],
-  };
+  if (current24 && (sale23.tenderUrls.length > 0 || sale23.scheduleUrls.length > 0)) {
+    throw new Error("Halifax landing page mixes TaxSale23 and TaxSale24 tender documents; refusing to guess which is current.");
+  }
+  if (current23 && (sale24.tenderUrls.length > 0 || sale24.scheduleUrls.length > 0)) {
+    throw new Error("Halifax landing page mixes TaxSale23 and TaxSale24 tender documents; refusing to guess which is current.");
+  }
+  if (current24) return current24;
+  if (current23) return current23;
+
+  throw new Error(
+    `Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${sale23.tenderNumbers.length + sale24.tenderNumbers.length}, ${sale23.tenderUrls.length + sale24.tenderUrls.length}, and ${sale23.scheduleUrls.length + sale24.scheduleUrls.length}.`,
+  );
 }
 
 export function parseLandingPage(html) {
@@ -238,7 +270,133 @@ export function parseScheduleText(source) {
   return listings;
 }
 
-export function assertCurrentScheduleCounts(listings) {
+export function parseBboxWords(bboxHtml) {
+  return Array.from(
+    bboxHtml.matchAll(
+      /<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([\s\S]*?)<\/word>/gu,
+    ),
+    ([, xMin, yMin, xMax, yMax, value]) => ({
+      xMin: Number(xMin),
+      yMin: Number(yMin),
+      xMax: Number(xMax),
+      yMax: Number(yMax),
+      value: decodeHtml(value.replace(/<[^>]+>/gu, "")),
+    }),
+  );
+}
+
+function headerWord(words, label) {
+  const matches = words.filter(({ value, yMin }) => value === label && yMin < 80);
+  if (matches.length !== 1) {
+    throw new Error(`Expected one Halifax Schedule A header "${label}", found ${matches.length}.`);
+  }
+  return matches[0];
+}
+
+function clusterScheduleRows(words) {
+  const rows = [];
+  for (const word of [...words].sort((left, right) => left.yMin - right.yMin || left.xMin - right.xMin)) {
+    const current = rows.at(-1);
+    if (!current || word.yMin - current.yMin > 4) {
+      rows.push({ yMin: word.yMin, words: [word] });
+    } else {
+      current.words.push(word);
+    }
+  }
+  return rows;
+}
+
+function columnWords(row, minimumX, maximumX) {
+  return row.words
+    .filter(({ xMin }) => xMin >= minimumX && xMin < maximumX)
+    .sort((left, right) => left.xMin - right.xMin);
+}
+
+export function parseScheduleBbox(bboxHtml) {
+  const words = parseBboxWords(bboxHtml);
+  const pidsHeader = headerWord(words, "PIDS");
+  const opening = headerWord(words, "Opening");
+  const hstHeader = headerWord(words, "HST");
+  const redeemableHeader = headerWord(words, "Redeemable");
+  const listings = [];
+  let mobileHomeWithoutPidCount = 0;
+  const seenAans = new Set();
+  const seenPids = new Set();
+  for (const row of clusterScheduleRows(words)) {
+    const aanWords = columnWords(row, 0, 120).filter(({ value }) => /^\d{8}$/u.test(value));
+    if (aanWords.length === 0) continue;
+    if (aanWords.length !== 1) {
+      throw new Error("Halifax Schedule A row has an ambiguous Assessment number; refusing to guess.");
+    }
+    const aan = aanWords[0].value;
+    const pids = columnWords(row, pidsHeader.xMin - 20, opening.xMin)
+      .map(({ value }) => value)
+      .filter((value) => /^\d{8}$/u.test(value));
+    const printsMobile = row.words.some(({ value }) => value === "MOBILE");
+    if (pids.length === 0) {
+      if (!printsMobile) {
+        throw new Error(`Halifax Schedule A AAN ${aan} prints neither an exact PID nor MOBILE.`);
+      }
+      mobileHomeWithoutPidCount += 1;
+      continue;
+    }
+    if (printsMobile) {
+      throw new Error(`Halifax Schedule A AAN ${aan} prints MOBILE beside an exact PID; refusing to guess.`);
+    }
+    const description = columnWords(row, SCHEDULE_DESCRIPTION_MIN_X, pidsHeader.xMin - 10)
+      .filter(({ value }) => !/^\d{8}$/u.test(value))
+      .map(({ value }) => value)
+      .join(" ")
+      .replace(/\s+/gu, " ")
+      .trim();
+    const amountText = columnWords(row, opening.xMin - 5, hstHeader.xMin)
+      .map(({ value }) => value)
+      .join("");
+    const hstFlags = columnWords(row, hstHeader.xMin - 5, redeemableHeader.xMin)
+      .map(({ value }) => value)
+      .filter((value) => /^(?:Yes|No)$/u.test(value));
+    const redeemFlags = columnWords(row, redeemableHeader.xMin - 5, Infinity)
+      .map(({ value }) => value)
+      .filter((value) => /^(?:Yes|No)$/u.test(value));
+    const openingBidCents = parseMoneyCents(amountText);
+    if (!description || !Number.isSafeInteger(openingBidCents) || hstFlags.length !== 1 || redeemFlags.length !== 1) {
+      throw new Error(`Could not parse owner-free Halifax Schedule A AAN ${aan}.`);
+    }
+    if (seenAans.has(aan) || pids.some((pid) => seenPids.has(pid)) || new Set(pids).size !== pids.length) {
+      throw new Error(`Duplicate Halifax AAN ${aan} or PID.`);
+    }
+    seenAans.add(aan);
+    pids.forEach((pid) => seenPids.add(pid));
+    listings.push({
+      item: listings.length + 1,
+      aan,
+      pids,
+      description,
+      openingBidCents,
+      hst: hstFlags[0] === "Yes",
+      redeemable: redeemFlags[0] === "Yes",
+      listingStatus: "advertised",
+    });
+  }
+  if (listings.length === 0) throw new Error("The Halifax Schedule A contained no complete exact-PID rows.");
+  return { listings, mobileHomeWithoutPidCount };
+}
+
+export function assertCurrentScheduleCounts(listings, tenderNumber = TAXSALE23_NUMBER) {
+  if (tenderNumber === TAXSALE24_NUMBER) {
+    if (listings.length !== 40) {
+      throw new Error(`Expected 40 Halifax Schedule A exact-PID rows, found ${listings.length}.`);
+    }
+    const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
+    if (pidCount !== 40) throw new Error(`Expected 40 Halifax Schedule A PIDs, found ${pidCount}.`);
+    if (listings.some(({ pids }) => pids.length !== 1)) {
+      throw new Error("TaxSale24 exact-PID rows must carry one PID each.");
+    }
+    return;
+  }
+  if (tenderNumber !== TAXSALE23_NUMBER) {
+    throw new Error(`Unrecognized Halifax tender ${tenderNumber}.`);
+  }
   if (listings.length !== 10) throw new Error(`Expected 10 Halifax Schedule A rows, found ${listings.length}.`);
   const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
   if (pidCount !== 11) throw new Error(`Expected 11 Halifax Schedule A PIDs, found ${pidCount}.`);
@@ -289,13 +447,16 @@ export function buildSnapshot(current, receipt, tenderBytes, scheduleBytes, now 
     eventDate: receipt.eventDate,
     bidDeadlineTime: receipt.bidDeadlineTime,
     venue: receipt.venue,
-    sourceRowCount: receipt.listings.length,
+    sourceRowCount: receipt.listings.length + (receipt.mobileHomeWithoutPidCount ?? 0),
     listingCount: receipt.listings.length,
     parcelIdentifierCount: new Set(receipt.listings.flatMap(({ pids }) => pids)).size,
     mappedListingCount: mappedListings.length,
     mappedParcelIdentifierCount: new Set(mappedListings.flatMap(({ pids }) => pids)).size,
     hstYesCount: receipt.listings.filter(({ hst }) => hst).length,
     notRedeemableCount: receipt.listings.filter(({ redeemable }) => !redeemable).length,
+    ...(receipt.mobileHomeWithoutPidCount
+      ? { mobileHomeWithoutPidCount: receipt.mobileHomeWithoutPidCount }
+      : {}),
     geometryExceptions,
     listings: receipt.listings.map(({ item, aan, pids, description, openingBidCents, redeemable, listingStatus }) => ({
       item, aan, pids, description, openingBidCents, redeemable, listingStatus,
@@ -315,6 +476,19 @@ async function pdfText(pdfBytes) {
   try {
     await writeFile(pdfPath, pdfBytes);
     return (await execFile("pdftotext", ["-layout", pdfPath, "-"])).stdout;
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+}
+
+async function pdfBbox(pdfBytes) {
+  const directory = await mkdtemp(join(tmpdir(), "ns-marks-halifax-tax-sale-bbox-"));
+  const pdfPath = join(directory, "source.pdf");
+  const bboxPath = join(directory, "source.html");
+  try {
+    await writeFile(pdfPath, pdfBytes);
+    await execFile("pdftotext", ["-bbox", pdfPath, bboxPath]);
+    return readFile(bboxPath, "utf8");
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
@@ -403,18 +577,43 @@ async function main() {
     }),
     readFile(MODEL_PATH, "utf8"),
   ]);
-  const [tenderText, scheduleText] = await Promise.all([pdfText(tenderBytes), pdfText(scheduleBytes)]);
-  const tender = parseTenderText(tenderText, tenderNumber);
-  const listings = parseScheduleText(scheduleText);
-  assertCurrentScheduleCounts(listings);
-  const receipt = { tenderNumber, tenderUrl, scheduleUrl, ...tender, listings };
+  const tender = parseTenderText(await pdfText(tenderBytes), tenderNumber);
+  let listings;
+  let mobileHomeWithoutPidCount = 0;
+  if (tenderNumber === TAXSALE24_NUMBER) {
+    if (tender.eventDate !== TAXSALE24_EVENT_DATE) {
+      throw new Error(`Expected Halifax ${TAXSALE24_NUMBER} on ${TAXSALE24_EVENT_DATE}, found ${tender.eventDate}.`);
+    }
+    const parsed = parseScheduleBbox(await pdfBbox(scheduleBytes));
+    if (parsed.mobileHomeWithoutPidCount !== 1) {
+      throw new Error(
+        `Expected 1 Halifax mobile-home row without a PID, found ${parsed.mobileHomeWithoutPidCount}.`,
+      );
+    }
+    listings = parsed.listings;
+    mobileHomeWithoutPidCount = parsed.mobileHomeWithoutPidCount;
+  } else {
+    listings = parseScheduleText(await pdfText(scheduleBytes));
+  }
+  assertCurrentScheduleCounts(listings, tenderNumber);
+  const receipt = {
+    tenderNumber, tenderUrl, scheduleUrl, ...tender, listings,
+    ...(mobileHomeWithoutPidCount ? { mobileHomeWithoutPidCount } : {}),
+  };
   const current = currentSource ? JSON.parse(currentSource) : null;
   const snapshot = buildSnapshot(current, receipt, tenderBytes, scheduleBytes);
   const nextSnapshotSource = `${JSON.stringify(snapshot, null, 2)}\n`;
   const datasetHash = sha256(nextSnapshotSource);
+  let nextModel = updateDatasetHash(modelSource, datasetHash);
+  if (tenderNumber === TAXSALE24_NUMBER) {
+    if (!/eventStatus: "(?:upcoming|historical)"/u.test(nextModel)) {
+      throw new Error("Could not find the Halifax lifecycle field.");
+    }
+    nextModel = nextModel.replace(/eventStatus: "(?:upcoming|historical)"/u, 'eventStatus: "upcoming"');
+  }
   await Promise.all([
     writeFile(SNAPSHOT_PATH, nextSnapshotSource),
-    writeFile(MODEL_PATH, updateDatasetHash(modelSource, datasetHash)),
+    writeFile(MODEL_PATH, nextModel),
   ]);
   console.log(`Checked ${snapshot.listingCount} owner-free Halifax listings with ${snapshot.parcelIdentifierCount} official PIDs; ${snapshot.mappedListingCount} rows / ${snapshot.mappedParcelIdentifierCount} PIDs mapped and ${snapshot.geometryExceptions.length} rows declared unavailable in NSPRD; tender SHA-256 ${snapshot.tenderDocumentSha256}; schedule SHA-256 ${snapshot.scheduleDocumentSha256}; dataset SHA-256 ${datasetHash}.`);
 }

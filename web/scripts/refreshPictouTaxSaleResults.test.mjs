@@ -56,6 +56,7 @@ describe("Pictou tax-sale result ingestion", () => {
     const html = `
       <a href="/assets/results-2025.pdf">March 1, 2025</a>
       <a href="/assets/MOPC-Finance-Master-Tax-Sale-Results-April-10-20261.pdf">April 10, 2026</a>
+      <a href="/assets/Results-Tax-Sale-Listing-October-2026.pdf">October 23, 2026</a>
     `;
     expect(
       pictou.extractLatestPictouResultsPdfUrl(
@@ -63,9 +64,51 @@ describe("Pictou tax-sale result ingestion", () => {
         "https://munpict.ca/departments-and-services/finance/tax-sale/",
       ),
     ).toEqual({
-      saleDate: "2026-04-10",
+      saleDate: "2026-10-23",
       url:
-        "https://munpict.ca/assets/MOPC-Finance-Master-Tax-Sale-Results-April-10-20261.pdf",
+        "https://munpict.ca/assets/Results-Tax-Sale-Listing-October-2026.pdf",
+    });
+  });
+
+  it("refuses to attach the April notice to a later result PDF", () => {
+    expect(pictou.NOTICE_SALE_DATE).toBe("2026-04-10");
+    expect(pictou.pictouNoticeMatchesSale("2026-04-10", pictou.NOTICE_SALE_DATE)).toBe(
+      true,
+    );
+    expect(pictou.pictouNoticeMatchesSale("2026-10-23", pictou.NOTICE_SALE_DATE)).toBe(
+      false,
+    );
+  });
+
+  it("reads advertised amount from the minimum-bid column, not arrears, and ignores civic No. flags", () => {
+    const octoberText = `
+Assessment No. PID District Address Total Arrears Redeemable (Post-Sale) Minimum Bid Subject to HST Selling Price
+00477613 65024432 09 Civic Road, Land $2,922.54 No $2,922.54 Yes $11,100.00
+09529276 00875690 04 123 No. 4 Highway, Linacy (Land) $5,000.00 Yes $5,000.00 No Removed
+`;
+    expect(pictou.parsePictouResultText(octoberText)).toEqual({
+      rows: [
+        {
+          listingIdentifier: "00477613",
+          pid: "65024432",
+          district: "09",
+          description: "Civic Road, Land",
+          advertisedAmountCents: 292_254,
+          redemptionLabel: "Redeemable - No",
+          hst: true,
+          sellingRaw: "$11,100.00",
+        },
+        {
+          listingIdentifier: "09529276",
+          pid: "00875690",
+          district: "04",
+          description: "123 No. 4 Highway, Linacy (Land)",
+          advertisedAmountCents: 500_000,
+          redemptionLabel: "Redeemable - Yes",
+          hst: false,
+          sellingRaw: "Removed",
+        },
+      ],
     });
   });
 

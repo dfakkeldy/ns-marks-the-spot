@@ -33,7 +33,7 @@ struct TaxSaleCatalogTests {
             "middleton-2026-08-20",
             "annapolis-county-2026-08-31",
             "victoria-county-2026-11-23",
-            "halifax-2026-09-15",
+            "halifax-2026-12-08",
         ])
     }
 
@@ -126,16 +126,17 @@ struct TaxSaleCatalogTests {
         #expect(context.event.id == event.id)
     }
 
-    @Test func halifaxMapsEveryAdvertisedSept11ScheduleARow() throws {
-        let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-09-15"))
+    @Test func halifaxMapsEveryAdvertisedTaxSale24ScheduleARow() throws {
+        let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-12-08"))
 
-        // Ten rows / 11 PIDs in the sept11 Schedule A. One further advertised
-        // row left the sept10 draft; the two parking-space PIDs that previously
-        // had empty NSPRD geometry remain unpublished.
-        #expect(event.listings.count == 10)
-        #expect(event.pids.count == 11)
+        // Forty exact-PID rows in the December 8 Schedule A. One further source
+        // row prints MOBILE without a PID and is counted, not listed. Geometry
+        // exceptions remain empty; NSPRD was not used to invent unmapped PIDs.
+        #expect(event.listings.count == 40)
+        #expect(event.pids.count == 40)
         #expect(event.geometryExceptions.isEmpty)
 
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00251272")?.event.id == event.id)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00015966") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "41051889") == nil)
         #expect(!event.pids.contains("00015966"))

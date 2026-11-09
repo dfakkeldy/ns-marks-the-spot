@@ -7,7 +7,9 @@ Queens February 10, 2026 result was retrieved and reviewed August 6, 2026; and
 the Clare February 28, 2026 notice and result were retrieved and reviewed
 August 8, 2026; the Victoria County September 14, 2026 result was retrieved
 September 24, 2026; and the Halifax September 15, 2026 result was retrieved
-October 4, 2026. Only official municipal primary sources were used. Text
+October 4, 2026. The current Halifax catalog event is the December 8, 2026
+tender (`halifax-2026-12-08`), catalogued separately from those historical
+September 15 results. Only official municipal primary sources were used. Text
 extraction supported reconciliation;
 PIDs and financial values in the fourteen result-backed Halifax notice/result
 PDFs, the three Victoria County result PDFs, every row of the CBRM July 22, 2025

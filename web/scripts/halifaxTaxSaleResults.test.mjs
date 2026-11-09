@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import * as results from "./halifaxTaxSaleResults.mjs";
 
-const notice = JSON.parse(readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "../src/data/halifaxTaxSale.snapshot.json"), "utf8"));
+const notice = JSON.parse(readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "./halifaxTaxSale23.notice.json"), "utf8"));
 const resultUrl = "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf";
 const resultText = `Assessment #      PID                                        Location    Opening Bid   Selling Price   Redeemable
 03042227       00649160   Old Public Rd Nine Mile River - Land            $4,286.73    $100,000.00         Yes
