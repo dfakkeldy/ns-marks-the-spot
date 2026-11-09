@@ -33,7 +33,9 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
   test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }, testInfo) => {
     // Hosted software rendering is substantially slower than a desktop GPU;
     // keep individual assertions bounded while allowing the full gesture flow.
-    test.setTimeout(120000);
+    // The 1440px canvas is ~4× the 390px one, so MapLibre teardown can
+    // exhaust 120s after the rest of the gesture/identify path.
+    test.setTimeout(180_000);
     await page.setViewportSize({ width, height: 900 });
     const activate = (locator: Locator) => width === 390 ? locator.tap() : locator.click();
     await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
@@ -147,7 +149,7 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
         }
       }
       await page.getByRole('button', { name: 'Back to 2D', exact: true }).click();
-      await expect(page.locator('.research-terrain-map')).toHaveCount(0);
+      await expect(page.locator('.research-terrain-map')).toHaveCount(0, { timeout: 30_000 });
       expect(await page.locator('.leaflet-map-pane').evaluate(el => getComputedStyle(el).visibility)).toBe('visible');
       expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
       expect(errors).toEqual([]);
