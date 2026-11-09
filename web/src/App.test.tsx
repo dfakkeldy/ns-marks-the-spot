@@ -4204,6 +4204,11 @@ describe("NS Marks The Spot Online", () => {
     const historicalMaps = openLayerCategory("Historical Maps");
     const summary = within(historicalMaps).getByText("A.F. Church county maps");
     const group = summary.closest("details")!;
+    await waitFor(() => {
+      expect(new URL(window.location.href).searchParams.get("position")).toBe(
+        "46.25,-61.25,13",
+      );
+    });
     const mapState = screen.getByTestId("map-canvas").textContent;
     const shareState = window.location.search;
 
