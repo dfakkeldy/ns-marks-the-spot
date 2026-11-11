@@ -3250,7 +3250,7 @@ a {
 .inspector-header {
   position: sticky;
   z-index: 2;
-  top: 0;
+  top: -24px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -3371,6 +3371,21 @@ a {
   background: var(--paper);
   border: 1px solid rgba(231, 168, 107, 0.62);
   border-radius: 6px;
+}
+
+/* Evidence cards retain their source tints in every appearance. Scope the
+   matching light-palette text tokens here so night ink cannot wash them out. */
+.assessment-evidence,
+.mapped-context,
+.mapped-context-status,
+.parcel-resources,
+.flood-hazard-evidence,
+.historical-outcome-card {
+  --chart-ink: #12343b;
+  --muted: #4b6266;
+  --deep-water: #0a4f5c;
+  --survey-blue: #1e66cc;
+  color: var(--chart-ink);
 }
 
 .assessment-evidence {
@@ -4728,6 +4743,7 @@ a {
      same re-inset the rail's sticky sheet header gets in this block for its
      own padding. */
   .inspector-header {
+    top: -20px;
     margin-inline: -20px;
     padding-left: 20px;
   }
