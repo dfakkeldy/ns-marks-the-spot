@@ -12,15 +12,15 @@ struct OverlapBarView: View {
     private var topName: String { topID.flatMap { id in rows.first { $0.id == id }?.record.name } ?? "Sheet" }
     private var hidden: Bool { topID.map { model.dismissed.contains($0) } ?? false }
     private var topDescription: String {
-        if hidden { return "\(topName) (hidden)" }
-        if let id = topID, !model.isInsideNow(id) { return "\(topName) (nearby)" }
-        return topName
+        if hidden { return "Hidden: \(topName)" }
+        if let id = topID, !model.isInsideNow(id) { return "Nearby: \(topName)" }
+        return "Top: \(topName)"
     }
     static func isVisible(for status: SheetActivationOutput.Status) -> Bool { status == .overlap }
 
     var body: some View {
         VStack(spacing: 6) {
-            Text("\(model.insideCount) sheets here · top: \(topDescription)")
+            Text("\(model.insideCount) sheets here · \(topDescription)")
                 .font(.system(size: max(18, textSize), weight: .semibold)).lineLimit(2)
             HStack(spacing: 8) {
                 Button {
@@ -36,7 +36,7 @@ struct OverlapBarView: View {
                 }
                 .disabled(!catalogues.canEdit || topID == nil)
                 .accessibilityLabel("Swap. Top sheet is \(topName)")
-                .accessibilityHint(catalogues.canEdit ? "Changes the saved sheet order." : "Catalogue order is unavailable.")
+                .accessibilityHint(!catalogues.canEdit ? "Catalogue order is unavailable." : (topID == nil ? "No entered sheet is available." : "Changes the saved sheet order."))
                 .accessibilityIdentifier("drive-overlap-swap")
                 Button {
                     guard let id = topID else { return }
@@ -52,6 +52,7 @@ struct OverlapBarView: View {
                 .accessibilityIdentifier("drive-overlap-visibility")
             }
             .buttonStyle(.borderedProminent)
+            if !catalogues.canEdit { Text("Catalogue order is unavailable.").font(.system(size: max(18, textSize))) }
         }
         .padding(10)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))

@@ -9,6 +9,8 @@ struct NSMarksTheSpotApp: App {
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("UITestMode") && ProcessInfo.processInfo.arguments.contains("UITestDriveOverlap") {
                 DriveOverlapTestHarness()
+            } else if ProcessInfo.processInfo.arguments.contains("UITestMode") && ProcessInfo.processInfo.arguments.contains("UITestDriveNoOverlap") {
+                DriveOverlapTestHarness(shouldOverlap: false)
             } else {
                 mainMap
             }
