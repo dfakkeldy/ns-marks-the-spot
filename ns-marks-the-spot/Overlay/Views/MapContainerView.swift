@@ -1755,7 +1755,27 @@ struct MapContainerView: View {
     }
 
     var body: some View {
-        sceneWiring(editWiring(snapWiring(contentWiring(surfaceAndSheets))))
+        sceneWiring(editWiring(snapWiring(driveWiring(contentWiring(surfaceAndSheets)))))
+    }
+
+    private func driveWiring(_ content: some View) -> some View {
+        content
+            .onChange(of: displayedUserMaps) { _, drapes in controller.setUserMaps(drapes) }
+            .onChange(of: controller.lastUserFix) { _, _ in refreshDriveMode() }
+            .onChange(of: controller.userTrackingState) { _, _ in refreshDriveMode() }
+            .onChange(of: controller.locationMessage) { _, _ in refreshDriveMode() }
+            .onChange(of: driveCataloguesVM.loaded) { _, _ in refreshDriveMode() }
+            .onChange(of: driveCataloguesVM.ui.autoActivate) { _, _ in refreshDriveMode() }
+            .onChange(of: userMapsVM.rows.map(\.record)) { _, _ in refreshDriveMode() }
+            .onChange(of: driveModeVM.output.shown) { _, _ in refreshDrivePreviews() }
+            .task(id: driveModeVM.isOn) {
+                guard driveModeVM.isOn else { return }
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(5))
+                    guard !Task.isCancelled else { return }
+                    refreshDriveMode()
+                }
+            }
     }
 
     private func contentWiring(_ content: some View) -> some View {
@@ -1829,27 +1849,6 @@ struct MapContainerView: View {
             // The live trace follows the fixes as they arrive.
             .onChange(of: recorder.recording.liveSegments) { _, _ in
                 pushUserVectors()
-            }
-            // The view model owns the rows; the map only ever draws what they
-            // currently say. Pushed on change rather than on a timer so a slider
-            // drag moves the drape it is under.
-            .onChange(of: displayedUserMaps) { _, drapes in
-                controller.setUserMaps(drapes)
-            }
-            .onChange(of: controller.lastUserFix) { _, _ in refreshDriveMode() }
-            .onChange(of: controller.userTrackingState) { _, _ in refreshDriveMode() }
-            .onChange(of: controller.locationMessage) { _, _ in refreshDriveMode() }
-            .onChange(of: driveCataloguesVM.loaded) { _, _ in refreshDriveMode() }
-            .onChange(of: driveCataloguesVM.ui.autoActivate) { _, _ in refreshDriveMode() }
-            .onChange(of: userMapsVM.rows.map(\.record)) { _, _ in refreshDriveMode() }
-            .onChange(of: driveModeVM.output.shown) { _, _ in refreshDrivePreviews() }
-            .task(id: driveModeVM.isOn) {
-                guard driveModeVM.isOn else { return }
-                while !Task.isCancelled {
-                    try? await Task.sleep(for: .seconds(5))
-                    guard !Task.isCancelled else { return }
-                    refreshDriveMode()
-                }
             }
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
