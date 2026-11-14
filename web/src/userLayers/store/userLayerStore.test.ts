@@ -8,6 +8,7 @@ describe("user layer store", () => {
   it("round trips and deletes a layer", async () => {
     const store = await UserLayerStore.open(new IDBFactory());
     const item = { id: "user-layer:1", name: "Test" } as UserLayerRecord;
+    await expect(store.put({ ...item, id: "ns-aerial" })).rejects.toThrow("Invalid user layer ID");
     await store.put(item); expect(await store.list()).toEqual([item]);
     await store.delete(item.id); expect(await store.list()).toEqual([]); store.close();
   });

@@ -19,6 +19,7 @@ export const DB_VERSION = 4;
  * One schema owner for the shared user-content database:
  * - `maps` holds small raster-map metadata records (listed on every load),
  * - `vectors` holds small vector-layer metadata records,
+ * - `userLayers` holds user-supplied layer metadata,
  * - `photos` holds small photo metadata records, indexed by owning layer id,
  * - `blobs` holds the heavy payloads out-of-line (`${id}:raster`,
  *   `${id}:preview`, `${id}:vector`, `${id}:vector-original`,

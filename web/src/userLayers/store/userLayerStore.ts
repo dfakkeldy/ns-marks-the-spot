@@ -10,6 +10,7 @@ export class UserLayerStore {
     return request(this.db.transaction(USER_LAYERS).objectStore(USER_LAYERS).getAll());
   }
   async put(record: UserLayerRecord): Promise<void> {
+    if (!record.id.startsWith("user-layer:") || record.id === "user-layer:") throw new Error("Invalid user layer ID.");
     const tx = this.db.transaction(USER_LAYERS, "readwrite");
     tx.objectStore(USER_LAYERS).put(record);
     await transactionDone(tx);

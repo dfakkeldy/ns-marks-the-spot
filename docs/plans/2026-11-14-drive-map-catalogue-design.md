@@ -645,7 +645,7 @@ export type UserLayerRecord = {
   arcgis?: { layers: string | null };
   createdAt: string;
   modifiedAt: string;
-  acknowledgement: { version: 1; at: string };
+  acknowledgement: { version: 1; at: string } | null;
   probe: { display: boolean | null; corsReadable: boolean | null; at: string } | null;
 };
 

@@ -12,6 +12,7 @@ export function validateLayerUrl(value: string, kind: UserLayerKind = guessKind(
   try {
     const url = new URL(value);
     if (url.protocol !== "https:" && !(url.protocol === "http:" && ["localhost", "127.0.0.1"].includes(url.hostname))) return "Use HTTPS, or HTTP for localhost.";
+    try { decodeURIComponent(url.pathname); } catch { return "Address contains invalid encoding."; }
     if (url.username || url.password || url.hash) return "Addresses cannot contain credentials or fragments.";
     if ((kind === "xyz" || kind === "tms") && (!/\{z\}/i.test(value) || !/\{x\}/i.test(value) || !/\{(?:-y|y)\}/i.test(value))) return "Tile addresses need {z}, {x}, and {y} or {-y}.";
     if (/\{(?:switch:|q\})/i.test(value)) return "This tile template is not supported.";
@@ -27,7 +28,10 @@ export function validateTermsUrl(value: string): string | null {
 
 export function normalizeLayerUrl(value: string, kind: UserLayerKind): string {
   const trimmed = value.trim();
-  return kind === "arcgis-map" || kind === "arcgis-image" ? trimmed.replace(/\/$/, "") : trimmed;
+  if (kind !== "arcgis-map" && kind !== "arcgis-image") return trimmed;
+  const url = new URL(trimmed);
+  url.pathname = url.pathname.replace(/\/(MapServer|ImageServer)(?:\/.*)?$/i, "/$1");
+  return url.toString();
 }
 export function hostOf(value: string): string { try { return new URL(value).host; } catch { return ""; } }
 export function maskUrl(value: string): string {

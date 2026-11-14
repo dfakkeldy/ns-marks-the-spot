@@ -31,9 +31,14 @@ describe("catalogue matching", () => {
   it("matches original infrastructure and distinct open replacements", () => {
     const original = infrastructureLayers.find(x => x.serviceUrl.includes("BASE_NSTDB_10k_Utilities_UT83"))!;
     expect(userLayerUse(record(original.serviceUrl)).view).toBe("needs-acceptance");
+    expect(userLayerUse(record(original.serviceUrl), "same-lock", true).export).toBe("held");
     const roads = provinceLayerCatalog.find(x => x.id === "roads")!;
     expect(matchCatalogueSource(roads.serviceUrl).map(x => x.layerId)).toContain("roads");
     expect(userLayerUse(record(roads.serviceUrl), "same-lock", true).export).toBe("allowed");
+  });
+  it("normalizes benign host and path variants, and fails closed for unimplemented policies", () => {
+    expect(sourceKey(aerial.replace("nsgiwa.novascotia.ca/", "nsgiwa.novascotia.ca./").replace("/BASE/", "//BASE//"))).toBe(sourceKey(aerial));
+    for (const policy of ["owner-build", "user-responsibility"] as const) expect(userLayerUse(record("https://tiles.example.org/{z}/{x}/{y}.png"), policy).view).toBe("refused");
   });
   it("does not conflate ArcGIS Online account paths", () => {
     expect(sourceKey("https://services.arcgis.com/a/arcgis/rest/services/foo/MapServer")).not.toBe(sourceKey("https://services.arcgis.com/b/arcgis/rest/services/foo/MapServer"));
