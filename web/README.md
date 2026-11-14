@@ -469,10 +469,16 @@ reload and setup changes. The layer name and address are not put in the URL or
 shared state. Each row is labelled **Your layer** (“Added by you - {host} -
 not an NS Marks The Spot source”); map credits use a “Your layer:” prefix.
 Addresses that `sourceMatch` recognizes as known catalogue sources keep those
-sources' viewing gates, including the Province acknowledgement. Visible user
-layers are omitted from **Export map (PDF)** and listed as
-“{name} — user layer is not included”; they are not mounted for browser
-**Print / Save PDF**. They draw in Leaflet's tile pane at z-index 152 as a
+sources' viewing gates, including the Province acknowledgement. Known
+restricted services and Fletcher revision paths keep their reproduction
+holds. Eligible layers — tested, PDF-readable, not below their display
+scale, and not held — are included in **Export map (PDF)** GeoPDF. The
+page carries an app-written provenance clause; catalogue credits stay
+separate; the optional legend labels them **Your layer:** plus the layer
+name. A transparent base keeps the underlying map; a base explicitly
+marked opaque can cover lower layers. Held, untested and PDF-unreadable
+sources are named in the dialog's omission list. User layers are not
+mounted for browser **Print / Save PDF**. They draw in Leaflet's tile pane at z-index 152 as a
 base map and 158 as an overlay (`USER_LAYER_BASE_Z_INDEX`,
 `USER_LAYER_OVERLAY_Z_INDEX` in `mapPanes.ts`). Viewing a layer sends map
 requests from this browser directly to the server in that URL.
@@ -911,8 +917,10 @@ unsupported vector formats, including new GIS feature overlays, electoral
 feature entries, Rhodena source formats, the four fishing layers, the Point
 Tupper key places, the wind turbines from EA filings, and the static radon image, are
 omitted and explicitly
-listed as not included. Visible **Your layers** are omitted the same way and
-named “{name} — user layer is not included”.
+listed as not included. Eligible **Your layers** are included in that
+GeoPDF; held, untested and PDF-unreadable sources are named in the
+dialog's omission list. Browser **Print / Save PDF** still does not
+mount user layers.
 
 Attribution follows the material actually rendered or reported:
 
@@ -946,8 +954,11 @@ every rendered source's licence name and URL plus the capture timestamp,
 shrinking its own type to fit and ellipsizing visibly if even that is not
 enough. Layers that are on screen but not carried into the export are named in
 the dialog before the download, so the page never credits data it does not
-contain. Visible **Your layers** are in that list
-(“{name} — user layer is not included”).
+contain. Eligible **Your layers** (tested, PDF-readable, not below their
+display scale, and not under a reproduction hold) are composited into the
+GeoPDF. The attribution strip adds an app-written provenance clause for
+each; catalogue credits for a matched source stay on separate lines, and
+the optional legend labels them **Your layer:** plus the layer name.
 
 ## Web data sources and native parity
 
@@ -1902,7 +1913,8 @@ from print capture and share links. **Your layers** (XYZ, TMS, WMS, and
 ArcGIS map or image URLs) store metadata in the same database's `userLayers`
 object store and are labelled user-supplied; the name and address stay out of
 share links. Viewing a layer sends requests from this browser to that server.
-Visible user layers are omitted from generated PDF export and named as such.
+Eligible user layers are included in **Export map (PDF)** GeoPDF; they
+are not mounted for browser **Print / Save PDF**.
 Vector layers export back out as GeoJSON,
 KML, KMZ, or GPX (GPX carries points and tracks; polygons are skipped).
 Recorded layers also offer a Raw GPX download of the original file. A shapefile without its `.prj`
