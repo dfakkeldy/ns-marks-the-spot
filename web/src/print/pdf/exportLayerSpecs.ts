@@ -1,3 +1,6 @@
+import { userLayerUse } from "../../userLayers/sourceMatch";
+import { imageUrlForBox, tileUrl } from "../../userLayers/tileUrls";
+import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
 import { assertReproductionAllowed } from "../../licensing/layerUse";
 import type { OpenDataSource } from "../../layers/openDataSources";
 import type { BasemapStyle } from "../../atlas/basemap";
@@ -56,6 +59,7 @@ export type ExportLayerInputs = {
   };
   arcgisLayers: ExportArcGisLayerInput[];
   userMaps: ExportUserMapInput[];
+  userLayers?: VisibleUserLayer[];
   selectedParcelRings: LatLngPoint[][];
 };
 
@@ -163,23 +167,61 @@ function arcGisLayerZIndex(id: string): number {
     ?? Number.POSITIVE_INFINITY;
 }
 
+export function selectUserLayersForExport(layers: readonly VisibleUserLayer[], licenceAccepted: boolean): { included: VisibleUserLayer[]; omitted: string[] } {
+  const included: VisibleUserLayer[] = [];
+  const omitted: string[] = [];
+  for (const layer of layers) {
+    const use = userLayerUse(layer.record, undefined, licenceAccepted);
+    if (use.view !== "allowed") continue;
+    if (use.export === "held") { omitted.push(`${layer.record.name} — ${use.reason ?? "export locked"}`); continue; }
+    if (!layer.record.probe) { omitted.push(`${layer.record.name} — not tested`); continue; }
+    if (layer.record.probe.corsReadable !== true) { omitted.push(`${layer.record.name} — cannot be read for a PDF`); continue; }
+    included.push(layer);
+  }
+  return { included, omitted };
+}
+
+export function isOpaqueUserBase(layer: VisibleUserLayer): boolean {
+  return layer.record.role === "base" && layer.opacity === 1 && (layer.record.kind !== "wms" || layer.record.wms?.transparent === false);
+}
+
+function userLayer(layer: VisibleUserLayer): CompositorLayer {
+  const { record, opacity } = layer;
+  const match = userLayerUse(record, undefined, true).matched[0];
+  const shared = { id: record.id, name: record.name, opacity, sourceId: match?.layerId, userSource: record };
+  if (record.kind === "xyz" || record.kind === "tms") return { ...shared, kind: "tile", maxNativeZoom: record.maxNativeZoom, url: tile => tileUrl(record, tile) };
+  return { ...shared, kind: "image", url: ({ bounds, widthPx, heightPx }) => {
+    const nw = toMercator({ lat: bounds.north, lng: bounds.west });
+    const se = toMercator({ lat: bounds.south, lng: bounds.east });
+    return imageUrlForBox(record, { minX: nw.x, minY: se.y, maxX: se.x, maxY: nw.y }, widthPx, heightPx);
+  } };
+}
+
 /** App state → compositor layers, bottom-to-top in on-screen pane order. */
 export function buildExportLayers(
   inputs: ExportLayerInputs,
 ): CompositorLayer[] {
-  for (const layer of inputs.arcgisLayers) {
+  const userLayers = inputs.userLayers ?? [];
+  for (const layer of userLayers) {
+    const use = userLayerUse(layer.record, undefined, true);
+    if (use.export !== "allowed") throw new Error(use.reason ?? "User layer export is locked.");
+    if (layer.record.probe?.corsReadable !== true) throw new Error("User layer has not been tested as readable for PDF export.");
+  }
+  const opaqueBase = userLayers.some(isOpaqueUserBase);
+  const includedArcgis = inputs.arcgisLayers.filter(layer => !opaqueBase || arcGisLayerZIndex(layer.id) >= 152);
+  for (const layer of includedArcgis) {
     const exclusion = forestryExclusionReason(layer.id);
     if (exclusion) throw new Error(exclusion);
   }
   assertReproductionAllowed([
-    ...inputs.arcgisLayers.map(layer => ({ id: layer.id, openData: layer.openData })),
+    ...includedArcgis.map(layer => ({ id: layer.id, openData: layer.openData })),
     ...(inputs.fletcher.visible ? ["fletcher"] : []),
     ...(inputs.selectedParcelRings.length ? ["selected-parcel"] : []),
   ]);
   const layers: CompositorLayer[] = [];
-  if (inputs.showModernMap && inputs.basemapStyle && inputs.basemapStyle !== "osm") {
+  if (!opaqueBase && inputs.showModernMap && inputs.basemapStyle && inputs.basemapStyle !== "osm") {
     layers.push({ kind: "atlas", id: "modern", name: `Atlas ${inputs.basemapStyle} base map`, mode: inputs.basemapStyle });
-  } else if (inputs.showModernMap) {
+  } else if (!opaqueBase && inputs.showModernMap) {
     layers.push({
       kind: "tile",
       id: "modern",
@@ -194,7 +236,7 @@ export function buildExportLayers(
   // (155). Topographic (145) and aerial (150) backgrounds must render first
   // so their opaque images do not cover Fletcher or user maps. Broad context
   // fills remain below parcel lines; detailed infrastructure keeps its pane order.
-  const sortedArcgis = [...inputs.arcgisLayers].sort(
+  const sortedArcgis = [...includedArcgis].sort(
     (a, b) => arcGisLayerZIndex(a.id) - arcGisLayerZIndex(b.id),
   );
   const belowFletcher = sortedArcgis.filter(
@@ -204,12 +246,16 @@ export function buildExportLayers(
     (layer) => arcGisLayerZIndex(layer.id) >= FLETCHER_LAYER_Z_INDEX,
   );
 
-  layers.push(...belowFletcher.map(arcGisLayer));
+  layers.push(...belowFletcher.filter(layer => arcGisLayerZIndex(layer.id) < 152).map(arcGisLayer));
+  layers.push(...userLayers.filter(layer => layer.record.role === "base").map(userLayer));
+  layers.push(...belowFletcher.filter(layer => arcGisLayerZIndex(layer.id) >= 152).map(arcGisLayer));
   layers.push(...fletcherLayers(inputs));
+  layers.push(...aboveFletcher.filter(layer => arcGisLayerZIndex(layer.id) < 158).map(arcGisLayer));
+  layers.push(...userLayers.filter(layer => layer.record.role === "overlay").map(userLayer));
   for (const userMap of inputs.userMaps) {
     layers.push({ kind: "warped", ...userMap });
   }
-  layers.push(...aboveFletcher.map(arcGisLayer));
+  layers.push(...aboveFletcher.filter(layer => arcGisLayerZIndex(layer.id) >= 158).map(arcGisLayer));
 
   if (inputs.selectedParcelRings.length > 0) {
     layers.push({

@@ -59,3 +59,14 @@ export function exportAttributionLines(
     return licenceUrl ? `${line} — ${licenceUrl}` : line;
   });
 }
+
+import { hostOf } from "../../userLayers/parseLayerUrl";
+import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
+
+function textWithoutAddresses(value: string): string {
+  return value.replace(/https?:\/\/[^\s]+/gi, address => hostOf(address) || "[address]");
+}
+
+export function userLayerAttributionLines(layers: readonly VisibleUserLayer[]): string[] {
+  return layers.map(({ record }) => `User-supplied layer, not an NS Marks The Spot source: "${textWithoutAddresses(record.name)}" - ${textWithoutAddresses(record.attribution)} - Terms as noted by the user: ${textWithoutAddresses(record.termsNote)}. Read ${record.acknowledgement?.at.slice(0, 10) ?? "unknown"}. - ${hostOf(record.url)}`);
+}

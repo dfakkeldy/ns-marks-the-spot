@@ -265,8 +265,9 @@ const ExportDialog = lazy(() =>
     default: module.ExportDialog,
   })),
 );
-import { exportAttributionLines } from "./print/pdf/attributionLines";
-import { buildExportLayers, contextExportOmission } from "./print/pdf/exportLayerSpecs";
+import { PROVINCE_LAYER_Z_INDEXES } from "./components/mapPanes";
+import { exportAttributionLines, userLayerAttributionLines } from "./print/pdf/attributionLines";
+import { buildExportLayers, contextExportOmission, isOpaqueUserBase, selectUserLayersForExport } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
 import { atlasPalettes } from "./atlas/palette";
 import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceipt, crownReceiptUrl } from "./atlas/crown";
@@ -4356,25 +4357,29 @@ export function App({ focus, onRestart, licencesPresented = false }: {
    * from its output, because a compositor layer's id is not always the
    * catalog id (Fletcher fans out into one `fletcher-NN` layer per sheet).
    */
+  const userLayerExport = useMemo(() => selectUserLayersForExport(focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers, licenceAccepted), [focusDef, userLayersApi.visibleLayers, licenceAccepted]);
+  const exportUserLayers = userLayerExport.included;
+  const opaqueUserBase = exportUserLayers.some(isOpaqueUserBase);
   const exportedLayerIds = useMemo(() => {
     const ids = new Set<ShareLayerId>();
-    if (showModernMap) ids.add("modern");
+    if (showModernMap && !opaqueUserBase) ids.add("modern");
     if (fletcherVisible && fletcherTileConfiguration.baseUrl) {
       ids.add("fletcher");
     }
     for (const layer of provinceLayerCatalog) {
-      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions) {
+      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions && (!opaqueUserBase || (PROVINCE_LAYER_Z_INDEXES[layer.id] ?? Infinity) >= 152)) {
         ids.add(layer.id);
       }
     }
     for (const layer of contextLayerCatalog) {
-      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null) ids.add(layer.id);
+      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null && (!opaqueUserBase || layer.zIndex >= 152)) ids.add(layer.id);
     }
     return ids;
   }, [
     fletcherTileConfiguration.baseUrl,
     fletcherVisible,
     licenceAccepted,
+    opaqueUserBase,
     provinceLayers,
     effectiveContextLayers,
     mapViewport.position.zoom,
@@ -4409,14 +4414,14 @@ export function App({ focus, onRestart, licencesPresented = false }: {
         const reason = layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
         return reason ? `${name} — ${reason}` : name;
       }),
-    ...userLayersApi.visibleLayers.map(({ record }) => `${record.name} — user layer is not included`),
+    ...userLayerExport.omitted,
     ...userMapsApi.visibleMaps.map(({ record }) => record.name),
     ...userVectorApi.visibleLayers.map(({ record }) => record.name),
   ], [
     captureLayerSources,
     exportedLayerIds,
     mapViewport.position.zoom,
-    userLayersApi.visibleLayers,
+    userLayerExport.omitted,
     userMapsApi.visibleMaps,
     userVectorApi.visibleLayers,
   ]);
@@ -6822,6 +6827,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
           // `omittedLayerNames` below, alongside every other visible layer
           // this export will not contain, rather than silently dropped.
           userMaps: [],
+          userLayers: exportUserLayers,
           selectedParcelRings: selectedParcelGeometry.features.flatMap(
             ({ geometry }) =>
               geometry.type === "Polygon"
@@ -6844,7 +6850,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
               ? "historical map export"
               : "map export"
         }`}
-        attributionLines={exportAttributionLines([
+        attributionLines={[...exportAttributionLines([
           // Credit exactly what the PDF contains: `captureLayerSources` is
           // every visible source, but the compositor only carries the subset
           // in `exportedLayerIds` (OSM, Fletcher, and Province layers with
@@ -6869,7 +6875,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
                 licenceUrl: PROVINCE_LICENSE_URL,
               }]
             : []),
-        ])}
+        ]), ...userLayerAttributionLines(exportUserLayers)]}
         omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
         initialFields={exportDraft.current}

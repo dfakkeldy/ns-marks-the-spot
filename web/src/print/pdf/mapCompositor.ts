@@ -1,4 +1,6 @@
 import { assertReproductionAllowed } from "../../licensing/layerUse";
+import { userLayerUse } from "../../userLayers/sourceMatch";
+import type { UserLayerRecord } from "../../userLayers/types";
 import type { OpenDataSource } from "../../layers/openDataSources";
 import type { AtlasMode } from "../../atlas/palette";
 import { buildSrcMesh, drawWarpedImage } from "../../userMaps/render/mesh";
@@ -18,6 +20,8 @@ import {
 export type CompositorTileLayer = {
   kind: "tile";
   id: string;
+  sourceId?: string;
+  userSource?: UserLayerRecord;
   name: string;
   /** Null means the tile is outside this layer's coverage — skip quietly. */
   url: (tile: TileCoords) => string | null;
@@ -41,6 +45,8 @@ export type CompositorImageRequest = {
 export type CompositorImageLayer = {
   kind: "image";
   id: string;
+  sourceId?: string;
+  userSource?: UserLayerRecord;
   name: string;
   /** Null means this layer has nothing to draw here — reported as `empty`. */
   url: (request: CompositorImageRequest) => string | null;
@@ -79,6 +85,18 @@ export type CompositorLayer =
   | CompositorImageLayer
   | CompositorWarpedLayer
   | CompositorVectorRing;
+
+export function assertCompositorLayersAllowed(layers: readonly CompositorLayer[]): void {
+  for (const layer of layers) {
+    if ((layer.kind === "tile" || layer.kind === "image") && layer.userSource) {
+      const use = userLayerUse(layer.userSource, undefined, true);
+      if (use.export !== "allowed") throw new Error(use.reason ?? "User layer export is locked.");
+      if (layer.sourceId && !use.matched.some(match => match.layerId === layer.sourceId)) throw new Error("User layer source identity changed.");
+      assertReproductionAllowed(use.matched.map(match => ({ id: match.layerId, openData: match.openData })));
+    }
+  }
+  assertReproductionAllowed(layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: (layer.kind === "tile" || layer.kind === "image") && !layer.userSource ? layer.sourceId ?? layer.id : layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
+}
 
 export type CompositorLayerStatus = {
   id: string;
@@ -339,7 +357,7 @@ export async function composeMapImage(
     signal?: AbortSignal;
   } = {},
 ): Promise<CompositorResult> {
-  assertReproductionAllowed(layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
+  assertCompositorLayersAllowed(layers);
   const fetchImage = options.fetchImage ?? defaultFetchImage;
   const canvas = document.createElement("canvas");
   canvas.width = size.widthPx;
