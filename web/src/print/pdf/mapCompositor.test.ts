@@ -67,6 +67,13 @@ describe("composeMapImage", () => {
     expect(pixel(canvas, 100, 80).slice(0, 3)).toEqual([255, 0, 0]);
   });
 
+  it("requests no tile below a user layer's minimum zoom", async () => {
+    const seen: string[] = [];
+    await composeMapImage(bounds, size, [redTileLayer({ minZoom: 11 })], { fetchImage: async url => { seen.push(url); return solidTile("#ff0000"); } });
+    expect(seen.length).toBeGreaterThan(0);
+    expect(seen.every(url => new URL(url).pathname.startsWith("/11/"))).toBe(true);
+  });
+
   it("places tiles individually rather than stretching one tile across the canvas", async () => {
     const layer = redTileLayer();
     const zoom = zoomForOutput(bounds, size.widthPx, layer.maxNativeZoom);

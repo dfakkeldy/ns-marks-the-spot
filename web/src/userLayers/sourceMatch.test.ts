@@ -51,6 +51,18 @@ describe("catalogue matching", () => {
       expect(matchUse(record(lidarCanopyLayer.serviceUrl), "same-lock", true).matched.some(x => x.layerId === "lidar-canopy-height")).toBe(false);
     } finally { vi.unstubAllEnvs(); vi.resetModules(); }
   });
+  it("holds historical Fletcher revisions without claiming other tiles", () => {
+    const old = "https://tiles.kinnokilabs.com/fletcher-seams-20250101/{z}/{x}/{y}.png";
+    expect(userLayerUse(record(old), "same-lock", true).export).toBe("held");
+    expect(matchCatalogueSource("https://tiles.kinnokilabs.com/other/{z}/{x}/{y}.png")).toEqual([]);
+  });
+  it("does not crash on an invalid Fletcher hosting configuration", async () => {
+    vi.stubEnv("VITE_FLETCHER_TILE_BASE_URL", "javascript:bad"); vi.resetModules();
+    try {
+      const { userLayerUse: check } = await import("./sourceMatch");
+      expect(check(record("https://tiles.example.org/{z}/{x}/{y}.png")).view).toBe("allowed");
+    } finally { vi.unstubAllEnvs(); vi.resetModules(); }
+  });
   it("does not conflate ArcGIS Online account paths", () => {
     expect(sourceKey("https://services.arcgis.com/a/arcgis/rest/services/foo/MapServer")).not.toBe(sourceKey("https://services.arcgis.com/b/arcgis/rest/services/foo/MapServer"));
   });

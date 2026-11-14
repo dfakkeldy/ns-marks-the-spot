@@ -4,6 +4,7 @@ export type UserLayerRecord = {
   id: string;
   kind: UserLayerKind;
   role: "base" | "overlay";
+  opaque?: boolean;
   name: string;
   url: string;
   attribution: string;

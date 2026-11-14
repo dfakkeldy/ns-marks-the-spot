@@ -19,6 +19,7 @@ function readState(): UserLayerUiState {
 export function isUsableUserLayer(record: UserLayerRecord): boolean {
   if (!record || typeof record !== "object" || typeof record.url !== "string" || typeof record.id !== "string" || !record.id.startsWith("user-layer:") || typeof record.name !== "string" || typeof record.createdAt !== "string" || typeof record.modifiedAt !== "string" || typeof record.attribution !== "string" || typeof record.termsNote !== "string" || !(record.termsUrl === null || typeof record.termsUrl === "string")) return false;
   if (record.role !== "base" && record.role !== "overlay") return false;
+  if (record.opaque !== undefined && typeof record.opaque !== "boolean") return false;
   if (!Number.isInteger(record.minZoom) || !Number.isInteger(record.maxNativeZoom) || record.minZoom < 0 || record.minZoom > record.maxNativeZoom || record.maxNativeZoom > 23 || (record.tileSize !== 256 && record.tileSize !== 512)) return false;
   if (record.acknowledgement?.version !== 1 || typeof record.acknowledgement.at !== "string") return false;
   const p = record.probe;
