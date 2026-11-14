@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { infrastructureLayers } from "../layers/infrastructureLayers";
 import { fletcherTileUrl } from "../layers/fletcherLayer";
-import { nativeProvinceLayerCatalog, zoningLayerCatalog } from "../layers/layerCatalog";
+import { nativeProvinceLayerCatalog, provinceLayerCatalog, zoningLayerCatalog } from "../layers/layerCatalog";
 import { reproductionLockReason } from "../licensing/layerUse";
 import { matchCatalogueSource, sourceKey, userLayerUse } from "./sourceMatch";
 import type { UserLayerRecord } from "./types";
@@ -26,6 +27,13 @@ describe("catalogue matching", () => {
     const zoning = zoningLayerCatalog.find(x => x.id === "zoning-inverness")!;
     expect(userLayerUse(record(zoning.serviceUrl), "same-lock", true).view).toBe("refused");
     expect(userLayerUse(record("https://tiles.example.org/{z}/{x}/{y}.png")).export).toBe("allowed");
+  });
+  it("matches original infrastructure and distinct open replacements", () => {
+    const original = infrastructureLayers.find(x => x.serviceUrl.includes("BASE_NSTDB_10k_Utilities_UT83"))!;
+    expect(userLayerUse(record(original.serviceUrl)).view).toBe("needs-acceptance");
+    const roads = provinceLayerCatalog.find(x => x.id === "roads")!;
+    expect(matchCatalogueSource(roads.serviceUrl).map(x => x.layerId)).toContain("roads");
+    expect(userLayerUse(record(roads.serviceUrl), "same-lock", true).export).toBe("allowed");
   });
   it("does not conflate ArcGIS Online account paths", () => {
     expect(sourceKey("https://services.arcgis.com/a/arcgis/rest/services/foo/MapServer")).not.toBe(sourceKey("https://services.arcgis.com/b/arcgis/rest/services/foo/MapServer"));

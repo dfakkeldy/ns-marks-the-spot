@@ -1,7 +1,7 @@
 import type { UserLayerKind } from "./types";
 
 export function guessKind(url: string): UserLayerKind {
-  if (/\{(?:-y|y)\}/i.test(url) && /\{z\}/i.test(url)) return /\{-y\}/i.test(url) ? "tms" : "xyz";
+  if (/\{(?:z|x|-y|y)\}/i.test(url)) return /\{-y\}/i.test(url) ? "tms" : "xyz";
   if (/\/imageserver(?:\/|\?|$)/i.test(url)) return "arcgis-image";
   if (/\/mapserver\/wmsserver(?:\/|\?|$)/i.test(url) || /[?&]service=wms(?:&|$)/i.test(url)) return "wms";
   if (/\/mapserver(?:\/|\?|$)/i.test(url)) return "arcgis-map";
