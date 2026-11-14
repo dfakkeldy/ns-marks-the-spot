@@ -242,12 +242,16 @@ height settings cannot conceal it.
 Tilt, bearing and dimension choice are not persisted in shared URLs.
 
 MapLibre mirrors the mounted Leaflet image and tile layers, local warped
-rasters, paths and markers. The existing data queries and licence gates still
+rasters, paths and markers. User-supplied **Your layers** tiles
+(`user-supplied-tile-layer`) are not collected into that 3D scene. The existing
+data queries and licence gates still
 own these layers, and parcel clicks are forwarded by geographic position. Research markers retain
 their configured opacity even behind terrain; fading is not used as a confidence
 indicator. Feature evidence opens in the 3D view without a hidden 2D popup
 pulling the camera back after a drag. Closing it restores the map controls.
-User-loaded raster and vector inputs remain in the browser. Roads, bridges
+User-loaded raster and vector files remain in the browser. A URL added under
+**Your layers** is stored in this browser, but viewing it sends map requests
+from this device to that server. Roads, bridges
 and property outlines draw above water. Editing, measurement and print framing
 use the 2D map; print/export does not capture a tilted terrain scene. Remote
 imagery used in WebGL must permit browser cross-origin access.
@@ -456,6 +460,29 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Tax Sale**, and **My Maps**. The web map also shows **Rhodena Wind
 Project**, **Point Tupper Site**, and **Elections & Districts**.
 
+Inside **My Maps**, **Your layers** is a group for map services you add by URL:
+XYZ, TMS, WMS, and ArcGIS map or image services. **Add your own layer** opens
+a dialog; **Test** reports whether the source draws and whether its images are
+PDF-readable. Records stay in this browser — metadata in the IndexedDB
+`userLayers` object store, on/off and opacity in local storage — and survive
+reload and setup changes. The layer name and address are not put in the URL or
+shared state. Each row is labelled **Your layer** (“Added by you - {host} -
+not an NS Marks The Spot source”); map credits use a “Your layer:” prefix.
+Addresses that `sourceMatch` recognizes as known catalogue sources keep those
+sources' viewing gates, including the Province acknowledgement. Known
+restricted services and Fletcher revision paths keep their reproduction
+holds. Eligible layers — tested, PDF-readable, not below their display
+scale, and not held — are included in **Export map (PDF)** GeoPDF. The
+page carries an app-written provenance clause; catalogue credits stay
+separate; the optional legend labels them **Your layer:** plus the layer
+name. A transparent base keeps the underlying map; a base explicitly
+marked opaque can cover lower layers. Held, untested and PDF-unreadable
+sources are named in the dialog's omission list. User layers are not
+mounted for browser **Print / Save PDF**. They draw in Leaflet's tile pane at z-index 152 as a
+base map and 158 as an overlay (`USER_LAYER_BASE_Z_INDEX`,
+`USER_LAYER_OVERLAY_Z_INDEX` in `mapPanes.ts`). Viewing a layer sends map
+requests from this browser directly to the server in that URL.
+
 An **Unavailable layers** disclosure below the categories starts collapsed on
 both the main and Rhodena maps. Its three disabled informational entries explain
 the existing forestry exclusions: the two 2005–2007 WAM overlays have
@@ -527,7 +554,8 @@ The ten built-in map setups are **Explore Nova Scotia**,
 **Georeferencing**, **Poker**, **Electoral Districts**, **Rhodena**,
 **Fishing**, and **Point Tupper**. Applying a setup replaces the
 catalogue-layer configuration coherently; it does not remove or change
-imported maps or data. Several setups put one first step in the rail
+imported maps or data, or **Your layers** records and their on/off state.
+Several setups put one first step in the rail
 (`SetupFirstStep`): an action from data the map holds, such as **Go to my
 location** or **Load a scan**, or a note such as Poker’s “Search a civic
 number, or tap the map at the house to start a trace.” Tax Sale, Fishing,
@@ -793,6 +821,8 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    and is not sent to an application server. If you mark a point or save a
    track, those geometries (and for a recording, the raw GPX original) are
    stored locally as user layers and leave only if you export or share them.
+   A map URL added under **Your layers** is also stored only in this browser;
+   viewing it sends tile or image requests to that third-party server.
    While a track is recording, the walk so far is also written to this
    device's storage every few seconds, so a reloaded or discarded tab does not
    lose it. That copy is offered back the next time the map is opened, and
@@ -887,7 +917,10 @@ unsupported vector formats, including new GIS feature overlays, electoral
 feature entries, Rhodena source formats, the four fishing layers, the Point
 Tupper key places, the wind turbines from EA filings, and the static radon image, are
 omitted and explicitly
-listed as not included.
+listed as not included. Eligible **Your layers** are included in that
+GeoPDF; held, untested and PDF-unreadable sources are named in the
+dialog's omission list. Browser **Print / Save PDF** still does not
+mount user layers.
 
 Attribution follows the material actually rendered or reported:
 
@@ -921,7 +954,11 @@ every rendered source's licence name and URL plus the capture timestamp,
 shrinking its own type to fit and ellipsizing visibly if even that is not
 enough. Layers that are on screen but not carried into the export are named in
 the dialog before the download, so the page never credits data it does not
-contain.
+contain. Eligible **Your layers** (tested, PDF-readable, not below their
+display scale, and not under a reproduction hold) are composited into the
+GeoPDF. The attribution strip adds an app-written provenance clause for
+each; catalogue credits for a matched source stay on separate lines, and
+the optional legend labels them **Your layer:** plus the layer name.
 
 ## Web data sources and native parity
 
@@ -1872,7 +1909,13 @@ User-loaded files stay in the browser: raster maps (GeoTIFF, GeoPDF, PNG,
 JPEG) under "Your maps" and vector data (GeoJSON, KML, KMZ, GPX, and zipped
 shapefiles) under "Your data" share one drop zone, are stored locally in
 IndexedDB, render clearly labeled as user-loaded material, and are excluded
-from print capture and share links. Vector layers export back out as GeoJSON,
+from print capture and share links. **Your layers** (XYZ, TMS, WMS, and
+ArcGIS map or image URLs) store metadata in the same database's `userLayers`
+object store and are labelled user-supplied; the name and address stay out of
+share links. Viewing a layer sends requests from this browser to that server.
+Eligible user layers are included in **Export map (PDF)** GeoPDF; they
+are not mounted for browser **Print / Save PDF**.
+Vector layers export back out as GeoJSON,
 KML, KMZ, or GPX (GPX carries points and tracks; polygons are skipped).
 Recorded layers also offer a Raw GPX download of the original file. A shapefile without its `.prj`
 is refused rather than assumed to be longitude/latitude. Vector layers can also be drawn and edited on the map —
