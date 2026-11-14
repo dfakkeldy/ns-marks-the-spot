@@ -134,9 +134,12 @@ final class DriveCataloguesViewModel {
         for id in pendingAtLaunch {
             if confirmedIDs.contains(id) { cancelSheetDeletion(id) }
             else if committed.contains(id) { await finishSheetDeletion(id) }
-            else { cancelSheetDeletion(id); uncertain = true }
+            else {
+                if canEdit && catalogues.contains(where: { $0.sheetIDs.contains(id) }) { uncertain = true }
+                cancelSheetDeletion(id)
+            }
         }
-        if uncertain { error = "A sheet deletion could not be confirmed. Catalogue membership was kept; check the missing sheet." }
+        if uncertain && error == nil { error = "A sheet deletion could not be confirmed. Catalogue membership was kept; check the missing sheet." }
     }
     var pendingDeletions: Set<String> { uiStore.pendingDeletions() }
     func remove(_ sheetID: String, from id: String) async { await change(.removeSheet(id, sheetID)) }

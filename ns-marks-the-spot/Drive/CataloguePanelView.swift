@@ -56,11 +56,12 @@ struct CataloguePanelView: View {
                             .accessibilityLabel("Add sheets to \(catalogue.name)")
                         Button("Order") { editing = .init(catalogueID: catalogue.id, mode: .order) }
                             .accessibilityLabel("Order sheets in \(catalogue.name)")
+                            .disabled(catalogue.sheetIDs.isEmpty)
                     }.disabled(!viewModel.canEdit || maps.isLibrarySealed)
                     if viewModel.ui.loadedCatalogueID == catalogue.id {
                         Text(viewModel.ui.autoActivate ? "Loaded · Auto on" : "Loaded · Auto off").font(.caption).foregroundStyle(.secondary)
                         HStack {
-                            Text("Sheet opacity").font(.caption)
+                            Text("Sheet opacity").font(.caption).accessibilityHidden(true)
                             Slider(value: Binding(get: { viewModel.opacity(for: catalogue) }, set: { viewModel.previewOpacity($0, in: catalogue.id) }), in: 0...1) { editing in
                                 if !editing { Task { await viewModel.finishOpacity(in: catalogue.id) } }
                             }
@@ -113,6 +114,7 @@ private struct CatalogueSheetsView: View {
             List {
                 if let catalogue {
                     if mode == .order { Section("Order") {
+                        if catalogue.sheetIDs.isEmpty { Text("No sheets in this catalogue.").foregroundStyle(.secondary) }
                         ForEach(Array(catalogue.sheetIDs.enumerated()), id: \.element) { index, id in
                             let name = maps.rows.first(where: { $0.id == id })?.record.name ?? "Missing sheet"
                             HStack {
@@ -135,6 +137,9 @@ private struct CatalogueSheetsView: View {
                     } }
                     if mode == .add { Section("Add existing sheets") {
                         Button("Import files") { importing = true }
+                        if maps.rows.filter({ maps.confirmedMapIDs.contains($0.id) && !catalogue.sheetIDs.contains($0.id) }).isEmpty {
+                            Text("No saved sheets available to add.").foregroundStyle(.secondary)
+                        }
                         ForEach(maps.rows.filter { maps.confirmedMapIDs.contains($0.id) && !catalogue.sheetIDs.contains($0.id) }) { row in
                             Button(row.record.name) { Task { await catalogues.add([row.id], to: catalogueID) } }
                         }

@@ -87,6 +87,10 @@ struct DriveCatalogueStoreTests {
         await vm.load()
         #expect(!vm.canEdit)
         #expect(vm.error?.contains("newer") == true)
+        vm.beginSheetDeletion("uncertain")
+        await vm.retryPendingDeletions(vm.pendingDeletions, confirmedIDs: [])
+        #expect(vm.error?.contains("newer") == true)
+        #expect(vm.pendingDeletions.isEmpty)
     }
 
     @Test @MainActor func opacityUpdatesImmediatelyAndSaves() async throws {
@@ -105,6 +109,11 @@ struct DriveCatalogueStoreTests {
         await vm.finishOpacity(in: catalogue.id)
         let saved = try await store.load()
         #expect(saved.first?.opacity == 0.35)
+        vm.previewOpacity(0.2, in: catalogue.id)
+        vm.previewOpacity(0.7, in: catalogue.id)
+        try await Task.sleep(for: .seconds(1))
+        let debounced = try await store.load()
+        #expect(debounced.first?.opacity == 0.7)
     }
 
     @Test @MainActor func loadedCatalogueSurvivesRelaunch() throws {
@@ -154,6 +163,20 @@ struct DriveCatalogueStoreTests {
         #expect(vm.catalogues.first?.sheetIDs == ["uncertain"])
         #expect(vm.pendingDeletions.isEmpty)
         #expect(vm.error?.contains("could not be confirmed") == true)
+    }
+
+    @Test @MainActor func unrelatedUncertainDeletionDoesNotWarn() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let suite = "drive-unrelated-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let vm = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: DriveUiStateStore(defaults: defaults))
+        await vm.load()
+        vm.beginSheetDeletion("unrelated")
+        await vm.retryPendingDeletions(vm.pendingDeletions, confirmedIDs: [])
+        #expect(vm.pendingDeletions.isEmpty)
+        #expect(vm.error == nil)
     }
 
     @Test @MainActor func importedSheetsCanCreateAnOrderedCatalogue() async throws {
