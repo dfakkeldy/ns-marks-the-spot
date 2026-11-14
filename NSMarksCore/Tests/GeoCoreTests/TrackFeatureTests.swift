@@ -286,9 +286,9 @@ struct RecordedOriginTests {
         #expect(origin.provenanceText == "Recorded on this device")
     }
 
-    @Test func theLibraryVersionIsThree() {
-        #expect(UserVectorLibrary.currentVersion == 3)
-        #expect(!UserVectorLibrary(version: 4, layers: []).isReadable)
+    @Test func theLibraryVersionIsFour() {
+        #expect(UserVectorLibrary.currentVersion == 4)
+        #expect(!UserVectorLibrary(version: 5, layers: []).isReadable)
         // A version-1 document from an earlier build still reads.
         #expect(UserVectorLibrary(version: 1, layers: []).isReadable)
         #expect(UserVectorLibrary(version: 2, layers: []).isReadable)

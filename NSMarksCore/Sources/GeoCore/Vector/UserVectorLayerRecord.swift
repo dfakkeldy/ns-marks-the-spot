@@ -175,6 +175,24 @@ extension UserVectorOrigin: Codable {
 /// ten thousand features are not, and loading every layer's geometry to draw a
 /// row of switches would stall the panel on the largest file the user ever
 /// imported.
+public struct DriveCoverage: Hashable, Sendable, Codable {
+    public enum Profile: String, Hashable, Sendable, Codable { case drive }
+    public var catalogueID: String
+    public var tripID: String
+    public var leg: Int
+    public var profile: Profile
+    public var distanceM: Double?
+    public var wasInterrupted: Bool?
+    public init(catalogueID: String, tripID: String, leg: Int = 1, distanceM: Double? = nil) {
+        self.catalogueID = catalogueID
+        self.tripID = tripID
+        self.leg = leg
+        self.profile = .drive
+        self.distanceM = distanceM
+        self.wasInterrupted = nil
+    }
+}
+
 public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
     public var id: String
     public var name: String
@@ -203,6 +221,7 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
     /// GeoJSON as if it were the file the user imported would be handing them
     /// something they never gave us.
     public var originalFileID: String?
+    public var coverage: DriveCoverage?
 
     public init(
         id: String,
@@ -215,7 +234,8 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
         colorHex: String,
         featureCount: Int,
         bbox: GeoBoundingBox?,
-        originalFileID: String? = nil
+        originalFileID: String? = nil,
+        coverage: DriveCoverage? = nil
     ) {
         self.id = id
         self.name = name
@@ -228,6 +248,7 @@ public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
         self.featureCount = featureCount
         self.bbox = bbox
         self.originalFileID = originalFileID
+        self.coverage = coverage
     }
 }
 
@@ -248,7 +269,8 @@ public struct UserVectorLibrary: Hashable, Sendable, Codable {
     /// photo map. Bumped so a build from before them refuses the document
     /// cleanly (`fromALaterVersion`) instead of decoding an origin kind it
     /// has never heard of and reporting the library as damaged.
-    public static let currentVersion = 3
+    /// Version 4 prevents an older writer from dropping coverage tags.
+    public static let currentVersion = 4
 
     public init(
         version: Int = UserVectorLibrary.currentVersion,

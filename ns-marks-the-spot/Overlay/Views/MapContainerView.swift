@@ -72,6 +72,8 @@ struct MapContainerView: View {
     /// Why the last save attempt failed, shown inside the sheet — which
     /// stays up on failure, holding the only copy of the walk.
     @State private var saveTrackError: String?
+    @State private var isSavingCoverage = false
+    @State private var coverageRecoveryNotice: String?
     /// A checkpoint that was there at launch and could not be read as a walk.
     /// Raised as an alert rather than a passing notice: it is the app saying
     /// something may have been recorded and it cannot show it, which is not a
@@ -424,6 +426,14 @@ struct MapContainerView: View {
             // would land under whichever card happens to be open — and two
             // answers at one spot covered each other's buttons.
             VStack(spacing: 8) {
+                if let notice = coverageRecoveryNotice {
+                    VStack(spacing: 6) {
+                        Text(notice).font(.footnote).multilineTextAlignment(.center)
+                        DismissNoticeButton { coverageRecoveryNotice = nil }
+                    }
+                    .padding(.horizontal, 14).padding(.vertical, 10)
+                    .mapChromeSurface(cornerRadius: 8, shadow: nil)
+                }
                 if let locationMessage = controller.locationMessage {
                     // Settings helps only with this app's own settings: its
                     // permission and its Precise Location switch. Neither a
@@ -592,7 +602,7 @@ struct MapContainerView: View {
                             .frame(maxWidth: .infinity, minHeight: 64)
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(markLocation.isAcquiring)
+                    .disabled(markLocation.isAcquiring || isSavingCoverage)
                     .frame(maxWidth: 220)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
                     .onDisappear { driveRecordHeight = 0 }
@@ -1200,7 +1210,7 @@ struct MapContainerView: View {
 
                 Button {
                     driveModeVM.setOn(!driveModeVM.isOn)
-                    recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk)
+                    recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk, coverage: driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil)
                     if driveModeVM.isOn {
                         controller.showsUserLocation = true
                         if controller.userTrackingState != .following && controller.userTrackingState != .heading {
@@ -1264,7 +1274,7 @@ struct MapContainerView: View {
                 // reading "Recording not started" while the button, still
                 // enabled, would otherwise have nothing to say at all.
                 .accessibilityValue(recorderState)
-                .disabled(isSelectingSaveArea || recorder.isActive)
+                .disabled(isSelectingSaveArea || recorder.isActive || isSavingCoverage)
 
                 // Two buttons rather than one with a mode, as on the
                 // web: distance and area are different questions, and a
@@ -1748,8 +1758,10 @@ struct MapContainerView: View {
     }
 
     private func startTrackRecording() {
+        guard !isSavingCoverage else { return }
         controller.showsUserLocation = true
-        if let refusal = recorder.start(profile: driveModeVM.isOn ? .drive : .walk) {
+        let coverage = driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil
+        if let refusal = recorder.start(profile: driveModeVM.isOn ? .drive : .walk, coverage: coverage) {
             MapHaptics.refused()
             AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
         } else if recorder.isActive {
@@ -1787,7 +1799,22 @@ struct MapContainerView: View {
     }
 
     var body: some View {
-        sceneWiring(editWiring(snapWiring(driveWiring(contentWiring(surfaceAndSheets)))))
+        sceneWiring(editWiring(snapWiring(coverageWiring(driveWiring(contentWiring(surfaceAndSheets))))))
+    }
+
+    private func refreshCoverageVisibility() {
+        userVectorsVM.configureCoverage(catalogues: Set(driveCataloguesVM.catalogues.map(\.id)),
+            loaded: driveCataloguesVM.ui.loadedCatalogueID, show: driveCataloguesVM.ui.showCoverage,
+            known: driveCataloguesVM.canEdit)
+        pushUserVectors()
+    }
+
+    private func coverageWiring(_ content: some View) -> some View {
+        content
+            .onChange(of: driveCataloguesVM.catalogues) { _, _ in refreshCoverageVisibility() }
+            .onChange(of: driveCataloguesVM.ui.loadedCatalogueID) { _, _ in refreshCoverageVisibility() }
+            .onChange(of: driveCataloguesVM.ui.showCoverage) { _, _ in refreshCoverageVisibility() }
+            .onChange(of: driveCataloguesVM.canEdit) { _, _ in refreshCoverageVisibility() }
     }
 
     private func driveWiring(_ content: some View) -> some View {
@@ -1814,7 +1841,9 @@ struct MapContainerView: View {
         content
             .task {
                 userMapsVM.driveCatalogues = driveCataloguesVM
+                driveCataloguesVM.coverageVectors = userVectorsVM
                 let pendingCatalogueDeletions = driveCataloguesVM.pendingDeletions
+                let pendingDeletedCatalogues = driveCataloguesVM.pendingCatalogueDeletions
                 // Concurrently: the two libraries touch different actors and
                 // different files, and awaiting the raster previews before the
                 // vector load even started kept the user's drawing layers off
@@ -1823,9 +1852,11 @@ struct MapContainerView: View {
                 async let vectors: Void = userVectorsVM.load()
                 async let catalogues: Void = driveCataloguesVM.load()
                 _ = await (maps, vectors, catalogues)
+                refreshCoverageVisibility()
                 if userMapsVM.hasConfirmedLibrary {
                     await driveCataloguesVM.retryPendingDeletions(pendingCatalogueDeletions, confirmedIDs: userMapsVM.confirmedMapIDs)
                 }
+                await driveCataloguesVM.retryCatalogueDeletions(pendingDeletedCatalogues)
                 userContentReady = true
                 // After the vector library, and not before: whether a restored
                 // walk has already been saved is a question only the library can
@@ -2091,6 +2122,9 @@ struct MapContainerView: View {
             unreadableCheckpoint = TrackRestoreNotice.unreadableMessage(keptAt: keptAt)
         case .walk(let restored):
             guard !userVectorsVM.rows.contains(where: { $0.id == restored.id.uuidString }) else {
+                if restored.wasInterrupted, restored.result.coverage != nil {
+                    coverageRecoveryNotice = TrackRestoreNotice.text(for: restored)
+                }
                 recorder.clearCheckpoint()
                 return
             }
@@ -2099,7 +2133,7 @@ struct MapContainerView: View {
             // now, and the walk read at launch has already been set aside by
             // the start that replaced it.
             guard !recorder.isActive, saveTrack == nil else { return }
-            saveTrack = SaveTrackPayload(
+            let payload = SaveTrackPayload(
                 id: restored.id,
                 result: restored.result,
                 // The refusal is not knowable from the journal — it records
@@ -2107,8 +2141,11 @@ struct MapContainerView: View {
                 // so the sheet's empty-result wording falls back to the general
                 // one rather than claiming a refusal that may not have happened.
                 stoppedWhileRefused: false,
-                restoredNote: TrackRestoreNotice.text(for: restored)
+                restoredNote: TrackRestoreNotice.text(for: restored),
+                wasInterrupted: restored.wasInterrupted
             )
+            if hasLivingCoverage(restored.result) { saveCoverage(payload) }
+            else { saveTrack = payload }
         }
     }
 
@@ -2126,7 +2163,8 @@ struct MapContainerView: View {
                 // layer however many times this runs.
                 id: payload.id.uuidString,
                 name: name,
-                simplifyToleranceM: toleranceM
+                simplifyToleranceM: toleranceM,
+                coverage: coverageForManualSave(payload)
             ) else {
                 saveTrackError = "This track could not be saved to your "
                     + "device. Free some space and save again, or discard it."
@@ -2141,6 +2179,48 @@ struct MapContainerView: View {
             if let box = row.record.bbox {
                 controller.frame(box)
             }
+        }
+    }
+
+    private func hasLivingCoverage(_ result: TrackRecording.StopResult) -> Bool {
+        guard driveCataloguesVM.canEdit, result.profile == .drive, let coverage = result.coverage else { return false }
+        return driveCataloguesVM.catalogues.contains { $0.id == coverage.catalogueID }
+    }
+
+    private func coverageForManualSave(_ payload: SaveTrackPayload) -> DriveCoverage? {
+        guard payload.result.profile == .drive, var coverage = payload.result.coverage else { return nil }
+        guard !driveCataloguesVM.canEdit || driveCataloguesVM.catalogues.contains(where: { $0.id == coverage.catalogueID }) else { return nil }
+        coverage.wasInterrupted = payload.wasInterrupted ? true : nil
+        return coverage
+    }
+
+    private func saveCoverage(_ payload: SaveTrackPayload) {
+        guard !isSavingCoverage else { return }
+        isSavingCoverage = true
+        Task {
+            defer { isSavingCoverage = false }
+            guard payload.result.segments.contains(where: { $0.count >= 2 }) else {
+                saveTrack = payload
+                return
+            }
+            guard var tag = payload.result.coverage, hasLivingCoverage(payload.result) else {
+                saveTrack = payload
+                return
+            }
+            tag.wasInterrupted = payload.wasInterrupted ? true : nil
+            let name = TrackFeature.defaultTrackName(startedAt: payload.result.startedAt)
+            guard await userVectorsVM.addRecordedLayer(payload.result, id: payload.id.uuidString,
+                name: name, simplifyToleranceM: CaptureSpec.driveSimplifyToleranceM, coverage: tag) != nil else {
+                saveTrackError = "This drive could not be saved. Save it or discard it using the track screen."
+                saveTrack = payload
+                return
+            }
+            if await driveCataloguesVM.containsPersistedCatalogue(tag.catalogueID) != true {
+                await driveCataloguesVM.scheduleCoverageCleanup(catalogueID: tag.catalogueID)
+            }
+            recorder.clearCheckpoint()
+            if let notice = payload.restoredNote { coverageRecoveryNotice = notice }
+            pushUserVectors()
         }
     }
 
@@ -2421,11 +2501,13 @@ struct MapContainerView: View {
         // no longer waiting on that: it is on disk from the moment it stopped,
         // and stays there until this sheet is answered.
         MapHaptics.modeChanged()
-        saveTrack = SaveTrackPayload(
+        let payload = SaveTrackPayload(
             id: stopped.id,
             result: stopped.result,
             stoppedWhileRefused: stopped.stoppedWhileRefused
         )
+        if hasLivingCoverage(stopped.result) { saveCoverage(payload) }
+        else { saveTrack = payload }
         // The live trace is drawn from the recorder, which just went idle.
         pushUserVectors()
         return true
@@ -3448,6 +3530,7 @@ private struct SaveTrackPayload: Identifiable {
     /// What happened to a walk that was read back off disk, or nil for one the
     /// reader has just stopped.
     var restoredNote: String?
+    var wasInterrupted = false
 }
 
 /// Photos the user picked for bulk EXIF placement, waiting on the confirm

@@ -28,6 +28,76 @@ final class UserVectorsViewModel {
     }
 
     private(set) var rows: [Row] = []
+    private var coverageCatalogueIDs: Set<String> = []
+    private var loadedCoverageCatalogueID: String?
+    private var showCoverage = true
+    private var coverageCataloguesKnown = false
+
+    func configureCoverage(catalogues: Set<String>, loaded: String?, show: Bool, known: Bool) {
+        coverageCatalogueIDs = catalogues
+        loadedCoverageCatalogueID = loaded
+        showCoverage = show
+        coverageCataloguesKnown = known
+    }
+
+    var ordinaryRows: [Row] {
+        rows.filter { row in
+            guard let coverage = row.record.coverage else { return true }
+            guard coverageCataloguesKnown else { return false }
+            return !coverageCatalogueIDs.contains(coverage.catalogueID)
+        }
+    }
+
+    func trips(for catalogueID: String) -> [Row] {
+        rows.filter { $0.record.coverage?.catalogueID == catalogueID }
+    }
+
+    private func coverageIsVisible(_ row: Row) -> Bool {
+        guard let coverage = row.record.coverage else { return true }
+        guard coverageCataloguesKnown else { return false }
+        guard coverageCatalogueIDs.contains(coverage.catalogueID) else { return true }
+        return showCoverage && coverage.catalogueID == loadedCoverageCatalogueID
+    }
+
+    func clearCoverage(catalogueID: String) async -> Bool {
+        writeGeneration += 1
+        let mark = writeGeneration
+        do {
+            let library = try await store.clearCoverage(catalogueID: catalogueID)
+            guard mark == writeGeneration else { await load(); return true }
+            let records = Dictionary(library.layers.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            for index in rows.indices { if let record = records[rows[index].id] { rows[index].record = record } }
+            return true
+        } catch {
+            refuse("Tracks could not be updated. They remain on this device.", after: error)
+            return false
+        }
+    }
+
+    func coverageGPX(catalogueID: String, tripID: String? = nil) async -> String? {
+        let selected = trips(for: catalogueID).filter { tripID == nil || $0.record.coverage?.tripID == tripID }
+        let groups = Dictionary(grouping: selected) { $0.record.coverage?.tripID ?? "" }
+        guard !groups.isEmpty else { return nil }
+        do {
+            var trips: [DriveCoverageExport.Trip] = []
+            for id in groups.keys.sorted() {
+                guard let group = groups[id], let first = group.first else { continue }
+                var legs: [Data] = []
+                for row in group.sorted(by: { ($0.record.coverage?.leg ?? 0) < ($1.record.coverage?.leg ?? 0) }) {
+                    guard let loaded = await loadedRow(id: row.id), let parsed = loaded.parsed,
+                          let data = await originalFile(for: row.id) else { throw DriveCoverageExport.Refusal.malformed }
+                    try VectorExport.requireReproduction(parsed)
+                    legs.append(data)
+                }
+                trips.append(.init(name: first.record.name, legs: legs))
+            }
+            return try DriveCoverageExport.gpx(trips)
+        } catch {
+            let message = (error as? LocalizedError)?.errorDescription ?? "Coverage could not be exported. All tracks remain on this device."
+            reportExportShortfall(layerName: "Coverage", message: message)
+            return nil
+        }
+    }
     /// The last refusal from renaming, redrawing or deleting a layer, for the
     /// panel to show. Held rather than thrown past the user: work that failed
     /// silently reads as work the app kept.
@@ -540,27 +610,41 @@ final class UserVectorsViewModel {
         id: String = UUID().uuidString,
         name: String,
         simplifyToleranceM: Double,
+        coverage: DriveCoverage? = nil,
         now: Date = Date()
     ) async -> Row? {
+        if let existing = await loadedRow(id: id) {
+            guard existing.record.source == .recorded,
+                  existing.record.origin == .recorded(startedAt: result.startedAt, endedAt: result.endedAt) else { return nil }
+            return existing
+        }
         guard let feature = TrackFeature.buildRecordedTrackFeature(
             result, name: name, simplifyToleranceM: simplifyToleranceM
         ) else { return nil }
         let parsed = VectorEdit.recomputed([feature])
         let rawGpx = TrackGpx.rawGpx(name: name, rawSegments: result.rawSegments)
+        var savedCoverage = coverage
+        savedCoverage?.distanceM = result.distanceM
         let record = UserVectorLayerRecord(
             id: id,
             name: name,
             source: .recorded,
             origin: .recorded(startedAt: result.startedAt, endedAt: result.endedAt),
             createdAt: now,
-            colorHex: VectorStyle.nextLayerColor(existingCount: rows.count),
+            colorHex: coverage == nil ? VectorStyle.nextLayerColor(existingCount: rows.count) : "#ff2d95",
             featureCount: parsed.featureCount,
             bbox: parsed.bbox,
-            originalFileID: UUID().uuidString
+            originalFileID: UUID().uuidString,
+            coverage: savedCoverage
         )
         do {
             writeGeneration += 1
             _ = try await store.add(record, geometry: parsed, original: Data(rawGpx.utf8))
+        } catch UserVectorStore.StoreRefusal.duplicateLayer(_) {
+            await load()
+            guard let existing = await loadedRow(id: id), existing.record.source == .recorded,
+                  existing.record.origin == .recorded(startedAt: result.startedAt, endedAt: result.endedAt) else { return nil }
+            return existing
         } catch {
             refuse(
                 "This track could not be saved to your device. Free some space and try again.",
@@ -903,7 +987,7 @@ final class UserVectorsViewModel {
         at position: GeoJsonPosition, toleranceDegrees: Double
     ) -> UserVectorCalloutItem? {
         var found: UserVectorCalloutItem?
-        for row in rows where row.isVisible {
+        for row in rows where row.isVisible && coverageIsVisible(row) {
             guard let parsed = row.parsed else { continue }
             if let feature = VectorEdit.feature(
                 at: position, in: parsed, toleranceDegrees: toleranceDegrees
@@ -1087,6 +1171,7 @@ final class UserVectorsViewModel {
     var drawings: [UserVectorDrawing] {
         rows.compactMap { row in
             guard row.isVisible, let parsed = row.parsed else { return nil }
+            guard coverageIsVisible(row) else { return nil }
             return UserVectorDrawing(record: row.record, parsed: parsed)
         }
     }

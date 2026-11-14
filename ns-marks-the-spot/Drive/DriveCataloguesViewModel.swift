@@ -15,6 +15,7 @@ final class DriveCataloguesViewModel {
     private var pendingError: String?
     private var opacityPreviews: [String: Double] = [:]
     private var opacityTasks: [String: Task<Void, Never>] = [:]
+    var coverageVectors: UserVectorsViewModel?
 
     init(store: DriveCatalogueStore = .shared, uiStore: DriveUiStateStore = DriveUiStateStore()) {
         self.store = store
@@ -22,6 +23,10 @@ final class DriveCataloguesViewModel {
         self.ui = uiStore.load()
     }
     var loaded: DriveCatalogue? { catalogues.first { $0.id == ui.loadedCatalogueID } }
+    func containsPersistedCatalogue(_ id: String) async -> Bool? {
+        guard let confirmed = try? await store.load() else { return nil }
+        return confirmed.contains { $0.id == id }
+    }
     func load() async {
         let mark = generation
         do {
@@ -106,7 +111,51 @@ final class DriveCataloguesViewModel {
         await change(.rename(id, trimmed))
     }
     func delete(_ id: String) async {
-        if await change(.delete(id)), ui.loadedCatalogueID == id { select(nil) }
+        var pending = uiStore.pendingCatalogueDeletions()
+        pending.insert(id)
+        uiStore.setPendingCatalogueDeletions(pending)
+        if await change(.delete(id)) {
+            if ui.loadedCatalogueID == id { select(nil) }
+            await finishCatalogueDeletion(id)
+        } else {
+            clearCatalogueDeletionMarker(id)
+        }
+    }
+    private func clearCatalogueDeletionMarker(_ id: String) {
+        var pending = uiStore.pendingCatalogueDeletions(); pending.remove(id); uiStore.setPendingCatalogueDeletions(pending)
+    }
+    private func finishCatalogueDeletion(_ id: String) async {
+        guard let coverageVectors, await coverageVectors.clearCoverage(catalogueID: id) else {
+            error = "The catalogue was removed. Its tracks remain on this device, but their tags could not be cleared."
+            return
+        }
+        clearCatalogueDeletionMarker(id)
+    }
+    func retryCatalogueDeletions(_ pendingAtLaunch: Set<String>) async {
+        guard canEdit else { return }
+        let receipts: Set<String>
+        do { receipts = try await store.deletedCatalogueIDs() }
+        catch {
+            if self.error == nil { self.error = "Catalogue deletion receipts could not be read. Track tags were kept." }
+            return
+        }
+        var uncertain = false
+        for id in pendingAtLaunch.union(receipts) {
+            if catalogues.contains(where: { $0.id == id }) { clearCatalogueDeletionMarker(id) }
+            else if receipts.contains(id) { await finishCatalogueDeletion(id) }
+            else { uncertain = true }
+        }
+        if uncertain && error == nil { error = "A catalogue deletion could not be confirmed. Track tags and retry information were kept." }
+    }
+    var pendingCatalogueDeletions: Set<String> { uiStore.pendingCatalogueDeletions() }
+    func scheduleCoverageCleanup(catalogueID id: String) async {
+        var pending = uiStore.pendingCatalogueDeletions()
+        pending.insert(id)
+        uiStore.setPendingCatalogueDeletions(pending)
+        guard canEdit else { return }
+        if (try? await store.wasCatalogueDeleted(id)) == true { await finishCatalogueDeletion(id) }
+        else if (try? await store.load().contains(where: { $0.id == id })) == true { clearCatalogueDeletionMarker(id) }
+        else { error = "Track tags could not be checked. Retry information was kept." }
     }
     func add(_ ids: [String], to id: String) async { await change(.addSheets(id, ids)) }
     func beginSheetDeletion(_ id: String) {
@@ -172,5 +221,6 @@ final class DriveCataloguesViewModel {
         uiStore.save(ui)
     }
     func setAuto(_ value: Bool) { ui.autoActivate = value; uiStore.save(ui) }
+    func setShowCoverage(_ value: Bool) { ui.showCoverage = value; uiStore.save(ui) }
     func reportNoSheets() { error = "No saved map sheets were imported. No catalogue was created." }
 }

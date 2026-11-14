@@ -12,6 +12,7 @@ private struct CatalogueEditRoute: Identifiable {
 struct CataloguePanelView: View {
     @Bindable var viewModel: DriveCataloguesViewModel
     @Bindable var maps: UserMapsViewModel
+    var vectors: UserVectorsViewModel?
     @State private var newName = ""
     @State private var naming = false
     @State private var importing = false
@@ -19,6 +20,9 @@ struct CataloguePanelView: View {
     @State private var renaming: DriveCatalogue?
     @State private var renameText = ""
     @State private var deleting: DriveCatalogue?
+    @State private var deletingTrip: CoverageTrip?
+    @State private var sharing: SharePayload?
+    @State private var shareError: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -30,6 +34,7 @@ struct CataloguePanelView: View {
                     .disabled(!viewModel.canEdit || maps.isLibrarySealed)
             }
             if let error = viewModel.error { Text(error).font(.caption).foregroundStyle(.orange) }
+            if let shareError { Text(shareError).font(.caption).foregroundStyle(.orange) }
             ForEach(viewModel.catalogues) { catalogue in
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
@@ -67,6 +72,9 @@ struct CataloguePanelView: View {
                             }
                             .accessibilityLabel("Sheet opacity for \(catalogue.name)")
                         }.disabled(!viewModel.canEdit)
+                        if let vectors {
+                            coverageSection(catalogue: catalogue, vectors: vectors)
+                        }
                     }
                 }
             }
@@ -97,6 +105,64 @@ struct CataloguePanelView: View {
             Button("Cancel", role: .cancel) { deleting = nil }
         } message: { _ in Text("Your maps and recorded tracks stay on this device.") }
         .sheet(item: $editing) { item in CatalogueSheetsView(catalogueID: item.catalogueID, mode: item.mode, catalogues: viewModel, maps: maps) }
+        .sheet(item: $sharing) { payload in ShareSheet(items: payload.items) }
+        .confirmationDialog("Delete this trip?", isPresented: Binding(get: { deletingTrip != nil }, set: { if !$0 { deletingTrip = nil } }), titleVisibility: .visible, presenting: deletingTrip) { trip in
+            Button("Delete trip", role: .destructive) {
+                if let vectors { Task { for row in trip.rows { await vectors.delete(id: row.id) } } }
+                deletingTrip = nil
+            }
+            Button("Cancel", role: .cancel) { deletingTrip = nil }
+        } message: { _ in Text("The recorded track and its original fixes will be removed from this device.") }
+    }
+
+    private struct CoverageTrip: Identifiable {
+        let id: String
+        let rows: [UserVectorsViewModel.Row]
+        var name: String { rows.first?.record.name ?? "Trip" }
+        var distance: Double? {
+            let values = rows.compactMap { row -> Double? in
+                guard let value = row.record.coverage?.distanceM, value.isFinite, value >= 0 else { return nil }
+                return value
+            }
+            return values.count == rows.count ? values.reduce(0, +) : nil
+        }
+    }
+
+    @ViewBuilder private func coverageSection(catalogue: DriveCatalogue, vectors: UserVectorsViewModel) -> some View {
+        let groups = Dictionary(grouping: vectors.trips(for: catalogue.id)) { $0.record.coverage?.tripID ?? "" }
+        let trips = groups.map { CoverageTrip(id: $0.key, rows: $0.value) }.sorted {
+            ($0.rows.first?.record.createdAt ?? .distantPast) > ($1.rows.first?.record.createdAt ?? .distantPast)
+        }
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle("Show coverage", isOn: Binding(get: { viewModel.ui.showCoverage }, set: { viewModel.setShowCoverage($0) }))
+            if let refusal = vectors.lastRefusal { Text(refusal.userMessage).font(.caption).foregroundStyle(.orange) }
+            ForEach(trips) { trip in
+                VStack(alignment: .leading) {
+                    Text(trip.name).font(.caption.weight(.semibold))
+                    if trip.rows.contains(where: { $0.record.coverage?.wasInterrupted == true }) {
+                        Text("Recovered after interruption").font(.caption).foregroundStyle(.secondary)
+                    }
+                    Text("\(trip.rows.count) \(trip.rows.count == 1 ? "leg" : "legs") · \(trip.distance.map { Geodesy.formatDistance($0) } ?? "Distance unavailable")").font(.caption)
+                    HStack {
+                        Button("GPX") { Task { await shareCoverage(catalogueID: catalogue.id, tripID: trip.id, vectors: vectors) } }
+                        Button("Delete", role: .destructive) { deletingTrip = trip }
+                    }
+                }
+            }
+            if !trips.isEmpty {
+                Text("GPX exports include all received fixes, including fixes rejected from the displayed track.").font(.caption).foregroundStyle(.secondary)
+                if trips.allSatisfy({ $0.distance != nil }) {
+                    Text("Total driven: \(Geodesy.formatDistance(trips.compactMap(\.distance).reduce(0, +))) (not unique roads)").font(.caption)
+                }
+                Button("Export coverage") { Task { await shareCoverage(catalogueID: catalogue.id, tripID: nil, vectors: vectors) } }
+            }
+        }
+    }
+
+    private func shareCoverage(catalogueID: String, tripID: String?, vectors: UserVectorsViewModel) async {
+        guard let gpx = await vectors.coverageGPX(catalogueID: catalogueID, tripID: tripID) else { return }
+        sharing = SharePayload(text: gpx, filename: tripID == nil ? "coverage.gpx" : "trip.gpx")
+        shareError = sharing == nil ? "The GPX file could not be prepared. Your tracks remain on this device." : nil
     }
 }
 

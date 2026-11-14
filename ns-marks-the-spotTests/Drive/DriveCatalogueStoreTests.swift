@@ -39,6 +39,22 @@ struct DriveCatalogueStoreTests {
         #expect(remaining.map(\.id) == ["b", "late"])
     }
 
+    @Test func deletingFromVersionOneStampsAndPreservesReceipt() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let store = DriveCatalogueStore(directory: directory)
+        _ = try await store.apply(.create(DriveCatalogue(id: "old", name: "Trip")))
+        let url = directory.appendingPathComponent("drive-catalogues.json")
+        var document = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        document["version"] = 1
+        document.removeValue(forKey: "deletedCatalogueIDs")
+        try JSONSerialization.data(withJSONObject: document).write(to: url)
+        _ = try await store.apply(.delete("old"))
+        let written = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        #expect(written["version"] as? Int == 2)
+        #expect(try await DriveCatalogueStore(directory: directory).wasCatalogueDeleted("old"))
+    }
+
     @Test func newerDocumentIsNeverOverwritten() async throws {
         let directory = try temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -156,8 +172,9 @@ struct DriveCatalogueStoreTests {
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
         let store = DriveUiStateStore(defaults: defaults)
-        store.save(DriveUiState(loadedCatalogueID: "a", autoActivate: true, showCoverage: true))
+        store.save(DriveUiState(loadedCatalogueID: "a", autoActivate: true, showCoverage: false))
         #expect(DriveUiStateStore(defaults: defaults).load().loadedCatalogueID == "a")
+        #expect(!DriveUiStateStore(defaults: defaults).load().showCoverage)
     }
 
     @Test @MainActor func pendingDeletionSurvivesRelaunchAndRetries() async throws {

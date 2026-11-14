@@ -9,6 +9,82 @@ import Testing
 @Suite("Field-capture storage")
 @MainActor
 struct FieldCaptureStoreTests {
+    @Test func coverageIsStoredHiddenAndRestoredAsAnOrdinaryTrack() async throws {
+        let (store, root) = try temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let vm = UserVectorsViewModel(store: store)
+        let suite = "coverage-catalogue-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let catalogueStore = DriveCatalogueStore(directory: root.appendingPathComponent("catalogues"))
+        _ = try await catalogueStore.apply(.create(DriveCatalogue(id: "catalogue", name: "Trip")))
+        let catalogues = DriveCataloguesViewModel(store: catalogueStore, uiStore: DriveUiStateStore(defaults: defaults))
+        catalogues.coverageVectors = vm
+        await catalogues.load()
+        let tag = DriveCoverage(catalogueID: "catalogue", tripID: "trip")
+        var recording = TrackRecording(profile: .drive, coverage: tag)
+        let start = Date(timeIntervalSince1970: 1_000)
+        recording.start(now: start)
+        for i in 0...2 {
+            recording.addFix(.init(latitude: 45 + Double(i) * 0.0002, longitude: -61, accuracyM: 5, timestamp: start.addingTimeInterval(Double(i))))
+        }
+        let stopResult = recording.stop(now: start.addingTimeInterval(3))
+        let stopped = try #require(stopResult)
+        let row = try #require(await vm.addRecordedLayer(stopped, name: "Drive", simplifyToleranceM: 3, coverage: tag))
+        #expect(row.record.coverage?.tripID == "trip")
+        let repeated = await vm.addRecordedLayer(stopped, id: row.id, name: "Drive", simplifyToleranceM: 3, coverage: tag)
+        #expect(repeated?.id == row.id)
+        #expect(vm.rows.count == 1)
+        vm.configureCoverage(catalogues: ["catalogue"], loaded: "catalogue", show: true, known: true)
+        #expect(vm.ordinaryRows.isEmpty)
+        #expect(vm.drawings.count == 1)
+        vm.configureCoverage(catalogues: ["catalogue"], loaded: "catalogue", show: false, known: true)
+        #expect(vm.drawings.isEmpty)
+        let gpx = try #require(await vm.coverageGPX(catalogueID: "catalogue", tripID: "trip"))
+        let xml = try XmlTree.parse(Data(gpx.utf8))
+        #expect(xml.children(named: "trk").count == 1)
+        await catalogues.delete("catalogue")
+        #expect(vm.ordinaryRows.count == 1)
+        #expect(vm.ordinaryRows[0].record.coverage == nil)
+        let reloaded = try await UserVectorStore(directory: root).load()
+        #expect(reloaded.layers.first?.coverage == nil)
+        #expect(reloaded.version == 4)
+    }
+
+    @Test func deletionReceiptRetriesCleanupAfterAStoreRefusal() async throws {
+        let (store, root) = try temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let suite = "coverage-retry-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let catalogueStore = DriveCatalogueStore(directory: root.appendingPathComponent("catalogues"))
+        _ = try await catalogueStore.apply(.create(DriveCatalogue(id: "cat", name: "Trip")))
+        let vectors = UserVectorsViewModel(store: store)
+        let tag = DriveCoverage(catalogueID: "cat", tripID: "trip")
+        var recording = TrackRecording(profile: .drive, coverage: tag)
+        let start = Date(timeIntervalSince1970: 1_000)
+        recording.start(now: start)
+        recording.addFix(.init(latitude: 45, longitude: -61, accuracyM: 5, timestamp: start))
+        recording.addFix(.init(latitude: 45.0002, longitude: -61, accuracyM: 5, timestamp: start.addingTimeInterval(1)))
+        let stopResult = recording.stop(now: start.addingTimeInterval(2))
+        let stopped = try #require(stopResult)
+        _ = try #require(await vectors.addRecordedLayer(stopped, name: "Drive", simplifyToleranceM: 3, coverage: tag))
+        let libraryURL = root.appendingPathComponent("library.json")
+        let savedLibrary = try Data(contentsOf: libraryURL)
+        let uiStore = DriveUiStateStore(defaults: defaults)
+        _ = try await catalogueStore.apply(.delete("cat")) // Process ends before preferences or cleanup reach disk.
+        try Data(#"{"version":999,"layers":[]}"#.utf8).write(to: libraryURL)
+        let catalogues = DriveCataloguesViewModel(store: catalogueStore, uiStore: uiStore)
+        catalogues.coverageVectors = vectors
+        await catalogues.load()
+        await catalogues.retryCatalogueDeletions(catalogues.pendingCatalogueDeletions)
+        #expect(try await catalogueStore.wasCatalogueDeleted("cat"))
+        try savedLibrary.write(to: libraryURL)
+        await catalogues.retryCatalogueDeletions(catalogues.pendingCatalogueDeletions)
+        #expect(catalogues.pendingCatalogueDeletions.isEmpty)
+        let reloaded = try await store.load()
+        #expect(reloaded.layers.first?.coverage == nil)
+    }
     private func temporaryStore() throws -> (UserVectorStore, URL) {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
@@ -47,7 +123,7 @@ struct FieldCaptureStoreTests {
             Stamp.self, from: Data(contentsOf: libraryURL)
         )
         #expect(written.version == UserVectorLibrary.currentVersion)
-        #expect(written.version == 3)
+        #expect(written.version == 4)
     }
 
     @Test("A recording saves geometry, raw GPX original, and recorded origin")

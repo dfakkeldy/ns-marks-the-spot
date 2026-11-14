@@ -13,6 +13,7 @@ struct UserMapRowsView: View {
     @Bindable var viewModel: UserMapsViewModel
     var catalogues: DriveCataloguesViewModel?
     var driveMode: DriveModeModel?
+    var vectors: UserVectorsViewModel?
 
     /// Read here rather than inside the sheet: the opening view has to be
     /// known before the georeferencer's map pane is built.
@@ -30,7 +31,7 @@ struct UserMapRowsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            if let catalogues { CataloguePanelView(viewModel: catalogues, maps: viewModel) }
+            if let catalogues { CataloguePanelView(viewModel: catalogues, maps: viewModel, vectors: vectors) }
             Text("Your Maps")
                 .font(.caption)
                 .fontWeight(.semibold)

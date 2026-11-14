@@ -26,6 +26,18 @@ struct TrackJournalTests {
         #expect(replay.result.acceptedFixCount == 3)
         #expect(replay.result.segments.map(\.count) == [2, 1])
     }
+
+    @Test func interruptedCoverageKeepsTripIdentity() throws {
+        let coverage = DriveCoverage(catalogueID: "catalogue", tripID: "trip")
+        let entries: [TrackJournal.Entry] = [
+            .coverageStarted(id: UUID(), at: Date(timeIntervalSince1970: 1_000), coverage: coverage),
+            .fix(fix(1_000)), .fix(fix(1_001, lat: 45.0002)),
+        ]
+        let restored = try #require(TrackJournal.replay(TrackJournal.decode(TrackJournal.encode(entries))))
+        #expect(restored.wasInterrupted)
+        #expect(restored.result.coverage == coverage)
+        #expect(restored.result.profile == .drive)
+    }
     private func fix(
         _ seconds: TimeInterval,
         lat: Double = 45.0,
@@ -74,6 +86,7 @@ struct TrackJournalTests {
             switch entry {
             case .started(_, let at): live.start(now: at)
             case .driveStarted: Issue.record("This fixture is a walk")
+            case .coverageStarted: Issue.record("This fixture is a walk")
             case .fix(let fix): live.addFix(fix)
             case .paused(let at): live.pause(now: at)
             case .resumed(let at): live.resume(now: at)

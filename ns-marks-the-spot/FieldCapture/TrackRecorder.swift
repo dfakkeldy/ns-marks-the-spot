@@ -91,6 +91,7 @@ final class TrackRecorder: NSObject {
     /// held awake for a session that cannot record" is a rule a test can check.
     @ObservationIgnored private let screenCoordinator: ScreenAwakeCoordinator
     @ObservationIgnored private var requestedProfile: TrackRecording.Profile = .walk
+    @ObservationIgnored private var requestedCoverage: DriveCoverage?
     /// The walk's licence to continue off screen, held for exactly as long as
     /// the recording runs. Same seam, same reason: what a recorder does with a
     /// system service is a rule, and a rule wants a test.
@@ -224,8 +225,11 @@ final class TrackRecorder: NSObject {
     /// back, the recording begins then, with the clock started then.
     private(set) var isWaitingForPermission = false
 
-    func updatePendingProfile(_ profile: TrackRecording.Profile) {
-        if isWaitingForPermission && recording.status == .idle { requestedProfile = profile }
+    func updatePendingProfile(_ profile: TrackRecording.Profile, coverage: DriveCoverage? = nil) {
+        if isWaitingForPermission && recording.status == .idle {
+            requestedProfile = profile
+            requestedCoverage = profile == .drive ? coverage : nil
+        }
     }
 
     /// A grant that landed while the app was off screen, owed a start when it
@@ -238,9 +242,9 @@ final class TrackRecorder: NSObject {
     /// returned as well as kept, so the button can say it out loud on every
     /// attempt.
     @discardableResult
-    func start(now: Date = Date(), profile: TrackRecording.Profile? = nil) -> Refusal? {
+    func start(now: Date = Date(), profile: TrackRecording.Profile? = nil, coverage: DriveCoverage? = nil) -> Refusal? {
         guard recording.status == .idle else { return nil }
-        if let profile { requestedProfile = profile }
+        if let profile { requestedProfile = profile; requestedCoverage = profile == .drive ? coverage : nil }
         let status = source.authorizationStatus
         // Read now, not waited for: the delegate reports a status only when
         // it changes, and a refusal already on file never changes again. The
@@ -274,13 +278,13 @@ final class TrackRecorder: NSObject {
             return refusal
         }
         isWaitingForPermission = false
-        recording = TrackRecording(profile: requestedProfile)
+        recording = TrackRecording(profile: requestedProfile, coverage: requestedCoverage)
         recording.start(now: now)
         // The journal opens before the first fix can arrive, so there is no
         // window in which a walk is running and nothing is being written down.
         let id = UUID()
         walkID = id
-        checkpointNotice = checkpoint.begin(id: id, startedAt: now, profile: requestedProfile)
+        checkpointNotice = checkpoint.begin(id: id, startedAt: now, profile: requestedProfile, coverage: requestedCoverage)
             ? nil : Self.checkpointFailureText
         source.setActivityType(requestedProfile == .drive ? .automotiveNavigation : .fitness)
         source.startUpdatingLocation()
@@ -359,6 +363,7 @@ final class TrackRecorder: NSObject {
         // the web replaces its recorder on stop the same way.
         recording = TrackRecording()
         requestedProfile = .walk
+        requestedCoverage = nil
         walkID = nil
         source.stopUpdatingLocation()
         reconcileScreen()

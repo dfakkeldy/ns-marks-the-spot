@@ -11,6 +11,7 @@ struct DriveUiStateStore {
     static let key = "drive-ui-state-v1"
     private static let pendingKey = "drive-pending-sheet-deletions-v1"
     private static let committedKey = "drive-committed-sheet-deletions-v1"
+    private static let pendingCataloguesKey = "drive-pending-catalogue-deletions-v1"
     private let defaults: UserDefaults
     init(defaults: UserDefaults = .standard) { self.defaults = defaults }
     func load() -> DriveUiState {
@@ -25,4 +26,6 @@ struct DriveUiStateStore {
     func setPendingDeletions(_ ids: Set<String>) { defaults.set(Array(ids).sorted(), forKey: Self.pendingKey) }
     func committedDeletions() -> Set<String> { Set(defaults.stringArray(forKey: Self.committedKey) ?? []) }
     func setCommittedDeletions(_ ids: Set<String>) { defaults.set(Array(ids).sorted(), forKey: Self.committedKey) }
+    func pendingCatalogueDeletions() -> Set<String> { Set(defaults.stringArray(forKey: Self.pendingCataloguesKey) ?? []) }
+    func setPendingCatalogueDeletions(_ ids: Set<String>) { defaults.set(Array(ids).sorted(), forKey: Self.pendingCataloguesKey) }
 }

@@ -311,7 +311,7 @@ struct TransparencySliderView: View {
         }
 
         if let userMaps {
-            UserMapRowsView(viewModel: userMaps, catalogues: driveCatalogues, driveMode: driveMode)
+            UserMapRowsView(viewModel: userMaps, catalogues: driveCatalogues, driveMode: driveMode, vectors: userVectors)
                 .disabled(!userContentReady)
         }
 

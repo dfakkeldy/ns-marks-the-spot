@@ -21,13 +21,15 @@ actor DriveCatalogueStore {
         var version: Int
         var catalogues: [DriveCatalogue]
         var removedSheetIDs: Set<String>?
+        var deletedCatalogueIDs: Set<String>?
     }
     private struct Stamp: Decodable { var version: Int }
     private let url: URL
     private let manager: FileManager
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
-    private static let version = 1
+    // Version 2 protects catalogue-deletion receipts from older writers.
+    private static let version = 2
 
     init(directory: URL? = nil, manager: FileManager = .default) {
         self.manager = manager
@@ -50,7 +52,7 @@ actor DriveCatalogueStore {
     }
 
     private func readDocument() throws -> Document {
-        guard manager.fileExists(atPath: url.path) else { return Document(version: Self.version, catalogues: [], removedSheetIDs: []) }
+        guard manager.fileExists(atPath: url.path) else { return Document(version: Self.version, catalogues: [], removedSheetIDs: [], deletedCatalogueIDs: []) }
         let data = try Data(contentsOf: url)
         guard let stamp = try? decoder.decode(Stamp.self, from: data), stamp.version >= 1 else { throw Refusal.unreadable }
         guard stamp.version <= Self.version else { throw Refusal.newerVersion(stamp.version) }
@@ -58,18 +60,29 @@ actor DriveCatalogueStore {
         return document
     }
 
+    func wasCatalogueDeleted(_ id: String) throws -> Bool {
+        try readDocument().deletedCatalogueIDs?.contains(id) == true
+    }
+
+    func deletedCatalogueIDs() throws -> Set<String> {
+        try readDocument().deletedCatalogueIDs ?? []
+    }
+
     func apply(_ change: Change, now: Date = Date()) throws -> [DriveCatalogue] {
         var document = try readDocument()
         var items = document.catalogues
         var removed = document.removedSheetIDs ?? []
+        var deletedCatalogues = document.deletedCatalogueIDs ?? []
         switch change {
         case .create(var item):
-            guard !items.contains(where: { $0.id == item.id }) else { return items }
+            guard !deletedCatalogues.contains(item.id), !items.contains(where: { $0.id == item.id }) else { return items }
             item.sheetIDs.removeAll { removed.contains($0) }
             items.append(item)
         case .rename(let id, let name):
             if let i = items.firstIndex(where: { $0.id == id }) { items[i].name = name; items[i].modifiedAt = now }
-        case .delete(let id): items.removeAll { $0.id == id }
+        case .delete(let id):
+            if items.contains(where: { $0.id == id }) { deletedCatalogues.insert(id) }
+            items.removeAll { $0.id == id }
         case .addSheets(let id, let ids):
             if let i = items.firstIndex(where: { $0.id == id }) {
                 var seen = Set(items[i].sheetIDs)
@@ -113,8 +126,10 @@ actor DriveCatalogueStore {
             }
         }
         try manager.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        document.version = Self.version
         document.catalogues = items
         document.removedSheetIDs = removed
+        document.deletedCatalogueIDs = deletedCatalogues
         try encoder.encode(document).write(to: url, options: .atomic)
         return items
     }
