@@ -71,6 +71,7 @@ final class AppContainer {
         historical: historicalTaxSaleViewModel
     )
     private(set) lazy var georeferenceReferences = GeoreferenceReferenceServices(container: self)
+    private(set) lazy var driveCataloguesViewModel = DriveCataloguesViewModel()
 
     /// The track recorder, for the life of the process.
     ///

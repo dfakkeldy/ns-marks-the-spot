@@ -215,6 +215,21 @@ struct UserMapsLibraryTests {
         }
     }
 
+    @Test("A later import can save an earlier map from the same batch")
+    func aLaterImportConfirmsAnEarlierCandidate() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+            let blocked = directory.appendingPathComponent("library.json")
+            try FileManager.default.createDirectory(at: blocked, withIntermediateDirectories: true)
+            let first = try #require(await viewModel.importMapReturningID(data: image(), name: "First"))
+            #expect(!viewModel.confirmedMapIDs.contains(first))
+            try FileManager.default.removeItem(at: blocked)
+            let second = try #require(await viewModel.importMapReturningID(data: image(), name: "Second"))
+            #expect([first, second].filter { viewModel.confirmedMapIDs.contains($0) } == [first, second])
+        }
+    }
+
     @Test("Placement the device will not keep is undone rather than shown")
     func aRejectedSaveIsRolledBack() async throws {
         try await withLibraryDirectory { directory in

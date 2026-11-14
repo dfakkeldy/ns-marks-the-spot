@@ -18,6 +18,7 @@ struct MapContainerView: View {
     /// The user's own maps. Owned here rather than injected: nothing outside
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
+    @State private var driveCataloguesVM: DriveCataloguesViewModel
     @State private var userVectorsVM = UserVectorsViewModel()
     @State private var photoMapVM = PhotoMapViewModel()
     @State private var bulkPlacement: BulkPlacementDraft?
@@ -167,12 +168,14 @@ struct MapContainerView: View {
         historicalViewModel: HistoricalTaxSaleViewModel = HistoricalTaxSaleViewModel(),
         navigationModel: NavigationModel,
         offlineAreasViewModel: OfflineAreasViewModel,
+        driveCataloguesViewModel: DriveCataloguesViewModel = DriveCataloguesViewModel(),
         recorder: TrackRecorder,
         restoredWalk: TrackCheckpointStore.Found = .none,
     ) {
         self.controller = controller
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
+        _driveCataloguesVM = State(initialValue: driveCataloguesViewModel)
         self.recorder = recorder
         self.restoredWalk = restoredWalk
         // Supplied rather than built here: it needs the licence store and the
@@ -959,6 +962,7 @@ struct MapContainerView: View {
         TransparencySliderView(
             viewModel: overlayVM,
             userMaps: userMapsVM,
+            driveCatalogues: driveCataloguesVM,
             userVectors: userVectorsVM,
             onZoomToLayer: { controller.frame($0) },
             onEditLayer: { row in
@@ -1667,6 +1671,22 @@ struct MapContainerView: View {
         return recorder.isWaitingForPermission ? "Waiting for location permission" : ""
     }
 
+    /// The loaded catalogue's first sheet is topmost, at catalogue opacity.
+    /// Individual map display preferences remain untouched.
+    private var displayedUserMaps: [UserMapDrape] {
+        let maps = userMapsVM.drapes
+        guard let catalogue = driveCataloguesVM.loaded else { return maps }
+        let ids = Set(catalogue.sheetIDs)
+        let others = maps.filter { !ids.contains($0.record.id) }
+        let byID = Dictionary(maps.map { ($0.record.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let sheets = catalogue.sheetIDs.reversed().compactMap { id -> UserMapDrape? in
+            guard var drape = byID[id] else { return nil }
+            drape.alpha = CGFloat(catalogue.opacity)
+            return drape
+        }
+        return others + sheets
+    }
+
     var body: some View {
         sceneWiring(editWiring(snapWiring(contentWiring(surfaceAndSheets))))
     }
@@ -1674,13 +1694,19 @@ struct MapContainerView: View {
     private func contentWiring(_ content: some View) -> some View {
         content
             .task {
+                userMapsVM.driveCatalogues = driveCataloguesVM
+                let pendingCatalogueDeletions = driveCataloguesVM.pendingDeletions
                 // Concurrently: the two libraries touch different actors and
                 // different files, and awaiting the raster previews before the
                 // vector load even started kept the user's drawing layers off
                 // the map until the last preview image had been read.
                 async let maps: Void = userMapsVM.load()
                 async let vectors: Void = userVectorsVM.load()
-                _ = await (maps, vectors)
+                async let catalogues: Void = driveCataloguesVM.load()
+                _ = await (maps, vectors, catalogues)
+                if userMapsVM.hasConfirmedLibrary {
+                    await driveCataloguesVM.retryPendingDeletions(pendingCatalogueDeletions, confirmedIDs: userMapsVM.confirmedMapIDs)
+                }
                 // After the vector library, and not before: whether a restored
                 // walk has already been saved is a question only the library can
                 // answer.
@@ -1739,7 +1765,7 @@ struct MapContainerView: View {
             // The view model owns the rows; the map only ever draws what they
             // currently say. Pushed on change rather than on a timer so a slider
             // drag moves the drape it is under.
-            .onChange(of: userMapsVM.drapes) { _, drapes in
+            .onChange(of: displayedUserMaps) { _, drapes in
                 controller.setUserMaps(drapes)
             }
             .onChange(of: userVectorsVM.drawings) { _, _ in
