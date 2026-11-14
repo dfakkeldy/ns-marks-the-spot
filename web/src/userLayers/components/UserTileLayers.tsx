@@ -9,7 +9,7 @@ function OneLayer({ record, opacity, onStatus }: VisibleUserLayer & { onStatus: 
   useEffect(() => {
     const layer = new UserTiles(record, opacity);
     let failed = false;
-    const report = () => onStatus(record.id, map.getZoom() < record.minZoom ? `Zoom in to level ${record.minZoom}.` : failed ? record.probe?.diagnostic ?? "The server did not return an image." : layer.isLoading() ? "Loading" : "Ready");
+    const report = () => onStatus(record.id, map.getZoom() < record.minZoom ? `Zoom in to level ${record.minZoom}.` : failed ? "The server did not return an image." : layer.isLoading() ? "Loading" : "Ready");
     layer.on("loading", () => { failed = false; report(); });
     layer.on("tileerror", () => { failed = true; report(); });
     layer.on("load", report); map.on("zoomend", report); layer.addTo(map); report();

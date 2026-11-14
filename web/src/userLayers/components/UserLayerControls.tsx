@@ -66,7 +66,7 @@ export function UserLayerControls({ api, statuses, licenceAccepted, onReviewLice
       {gate.view === "refused" && <p>{gate.reason}</p>}
       <p>{record.termsNote} {record.termsUrl && <a href={record.termsUrl} target="_blank" rel="noreferrer">Terms</a>}</p>
       <p>Added {record.createdAt.slice(0, 10)}. {record.probe ? `Last tested ${record.probe.at.slice(0, 10)}.` : "Not tested. Tap Test."}</p>
-      {record.probe?.diagnostic && <p>{record.probe.diagnostic}</p>}
+      {record.probe?.diagnostic && <p>Test on {record.probe.at.slice(0, 10)}: {record.probe.diagnostic}</p>}
       {record.probe?.display && !record.probe.corsReadable && <p>Draws here. Cannot go in a PDF: the server does not let other sites read its images.</p>}
       <label>Opacity <input type="range" min="0" max="1" step="0.05" value={state?.opacity ?? 1} onChange={event => api.setOpacity(record.id, Number(event.target.value))} /></label>
       <button type="button" onClick={() => { probeSequence.current++; setTesting(false); setSuspended(false); setDraft(record); setShowUrl(false); setError(""); }}>Edit</button> <button type="button" onClick={() => void api.remove(record.id)}>Remove</button>

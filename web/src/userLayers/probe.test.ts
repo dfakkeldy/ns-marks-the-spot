@@ -21,6 +21,8 @@ describe("probe diagnostics", () => {
       expect((await probeLayer(layer, true, { lat: 46, lng: -61 }, 10)).diagnostic).toContain("HTTP 404");
       fetchSpy.mockResolvedValueOnce(new Response("<ServiceException>InvalidCRS</ServiceException>", { headers: { "content-type": "text/xml" } }));
       expect((await probeLayer(layer, true, { lat: 46, lng: -61 }, 10)).diagnostic).toContain("projection");
+      fetchSpy.mockResolvedValueOnce(new Response("<ServiceException>InvalidCRS</ServiceException>", { status: 400, headers: { "content-type": "text/xml" } }));
+      expect((await probeLayer(layer, true, { lat: 46, lng: -61 }, 10)).diagnostic).toMatch(/projection.*HTTP 400/);
     } finally { fetchSpy.mockRestore(); vi.unstubAllGlobals(); }
   });
 });

@@ -12,11 +12,11 @@ export async function probeLayer(record: UserLayerRecord, licenceAccepted: boole
   const url = tileUrl(record, { x, y, z });
   const display = new Promise<boolean>(resolve => { const img = new Image(); const timer = setTimeout(() => { img.removeAttribute("src"); resolve(false); }, 15000); img.onload = () => { clearTimeout(timer); resolve(true); }; img.onerror = () => { clearTimeout(timer); resolve(false); }; img.src = url; });
   const readable = fetch(url, { mode: "cors", signal: AbortSignal.timeout(15000) }).then(async response => {
-    if (!response.ok) return { corsReadable: false, diagnostic: `The server did not return an image (HTTP ${response.status}).` };
     const blob = await response.blob();
-    if (blob.type.startsWith("image/")) return { corsReadable: true, diagnostic: undefined };
+    if (response.ok && blob.type.startsWith("image/")) return { corsReadable: true, diagnostic: undefined };
     const text = await blob.text();
-    return { corsReadable: false, diagnostic: /invalid(?:crs|srs)|unsupported.*(?:crs|srs)|projection/i.test(text) ? "This server cannot serve the map projection the app uses." : "The server did not return an image." };
+    const http = response.ok ? "" : ` (HTTP ${response.status})`;
+    return { corsReadable: false, diagnostic: /invalid(?:crs|srs)|unsupported.*(?:crs|srs)|projection/i.test(text) ? `This server cannot serve the map projection the app uses${http}.` : `The server did not return an image${http}.` };
   }).catch(() => ({ corsReadable: false, diagnostic: undefined }));
   const [draws, result] = await Promise.all([display, readable]);
   return { display: draws, ...result, at: new Date().toISOString() };

@@ -21,7 +21,7 @@ describe("your layers controls", () => {
     expect(add).toBeDisabled();
   });
   it("discards a probe after WMS request settings change", async () => {
-    let finish!: (value: { display: boolean; corsReadable: boolean; at: string }) => void;
+    let finish!: (value: { display: boolean; corsReadable: boolean; at: string; diagnostic: undefined }) => void;
     vi.mocked(probeLayer).mockReturnValueOnce(new Promise(resolve => { finish = resolve; }));
     const api = { loaded: true, records: [], state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     render(<UserLayerControls api={api} statuses={{}} licenceAccepted={true} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
@@ -30,7 +30,7 @@ describe("your layers controls", () => {
     fireEvent.change(screen.getByLabelText("WMS layers"), { target: { value: "first" } });
     fireEvent.click(screen.getByRole("button", { name: "Test" }));
     fireEvent.change(screen.getByLabelText("WMS layers"), { target: { value: "second" } });
-    await act(async () => finish({ display: true, corsReadable: true, at: "2026-11-14" }));
+    await act(async () => finish({ display: true, corsReadable: true, at: "2026-11-14", diagnostic: undefined }));
     await waitFor(() => expect(screen.getByRole("button", { name: "Test" })).toBeEnabled());
     expect(screen.queryByText(/Draws: yes/)).not.toBeInTheDocument();
   });
