@@ -66,6 +66,21 @@ struct DriveCatalogueStoreTests {
         #expect(items.first?.sheetIDs == ["three", "one", "two"])
     }
 
+    @Test func cyclingEnteredSheetsPreservesOtherSlots() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let store = DriveCatalogueStore(directory: directory)
+        _ = try await store.apply(.create(DriveCatalogue(id: "a", name: "Trip", sheetIDs: ["one", "other", "two", "three"])))
+        let entered: Set<String> = ["one", "two", "three"]
+        let first = try await store.apply(.cycleTop("a", entered))
+        #expect(first[0].sheetIDs == ["two", "other", "three", "one"])
+        _ = try await store.apply(.cycleTop("a", entered))
+        let third = try await store.apply(.cycleTop("a", entered))
+        #expect(third[0].sheetIDs == ["one", "other", "two", "three"])
+        let two = try await store.apply(.cycleTop("a", ["one", "two"]))
+        #expect(two[0].sheetIDs == ["two", "other", "one", "three"])
+    }
+
     @Test @MainActor func damagedFileIsPreservedAndNewerFileSeals() async throws {
         let directory = try temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: directory) }

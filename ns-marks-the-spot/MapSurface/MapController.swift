@@ -1684,7 +1684,7 @@ final class MapController: NSObject {
     /// The cards that can cover the bottom of the map, keyed so one leaving
     /// does not zero the height of another arriving in the same update.
     enum BottomCard: Hashable, Sendable {
-        case parcel, editPanel, vectorCallout, featureCallout, measure
+        case parcel, editPanel, vectorCallout, featureCallout, measure, driveOverlap
     }
 
     @ObservationIgnored private var bottomCardHeights: [BottomCard: CGFloat] = [:]

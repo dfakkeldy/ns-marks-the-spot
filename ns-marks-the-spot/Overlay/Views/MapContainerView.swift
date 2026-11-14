@@ -549,12 +549,19 @@ struct MapContainerView: View {
 
             if driveModeVM.isOn, printFrame == nil {
                 VStack {
-                    DriveStatusChip(model: driveModeVM, catalogue: driveCataloguesVM.loaded,
-                                    rows: userMapsVM.rows, fix: controller.lastUserFix,
-                                    signalLost: controller.locationMessage == .signalLost,
-                                    failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
-                                    autoEnabled: driveCataloguesVM.ui.autoActivate,
-                                    searching: controller.userTrackingState == .searching)
+                    Button {
+                        openLayerSections = (openLayerSections ?? []).union([.myMaps])
+                        isLayersMenuExpanded = true
+                    } label: {
+                        DriveStatusChip(model: driveModeVM, catalogue: driveCataloguesVM.loaded,
+                                        rows: userMapsVM.rows, fix: controller.lastUserFix,
+                                        signalLost: controller.locationMessage == .signalLost,
+                                        failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
+                                        autoEnabled: driveCataloguesVM.ui.autoActivate,
+                                        searching: controller.userTrackingState == .searching)
+                    }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Opens the catalogue panel.")
                         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveChipHeight = $0 }
                         .frame(maxWidth: 420)
                         .padding(.horizontal, 16)
@@ -562,7 +569,6 @@ struct MapContainerView: View {
                         .padding(.top, recorder.isShowingRecorder ? 68 + hudHeight : 60)
                     Spacer()
                 }
-                .allowsHitTesting(false)
             }
 
             if driveModeVM.isOn, printFrame == nil, !isSelectingSaveArea,
@@ -582,6 +588,20 @@ struct MapContainerView: View {
                     .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
                 }
                 .padding(.horizontal, 16)
+            }
+
+            if let catalogue = driveCataloguesVM.loaded,
+               driveCataloguesVM.ui.autoActivate, driveModeVM.output.status == .overlap,
+               printFrame == nil, !isSelectingSaveArea, overlayVM.inspection == nil,
+               editSession == nil, vectorCallout == nil, featureVM.selection == nil,
+               measure == nil, !isLayersMenuExpanded {
+                OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows)
+                    .frame(maxWidth: 420)
+                    .padding(.horizontal, 16)
+                    .clearOfRail(controlsWidth)
+                    .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn ? 64 : 0))
+                    .coversMapBottom(.driveOverlap, on: controller)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
