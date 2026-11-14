@@ -3,7 +3,7 @@ import XCTest
 
 final class UserLayerTests: XCTestCase {
     func testURLValidationAndMasking() throws {
-        for value in ["http://example.org/{z}/{x}/{y}", "javascript:alert(1)", "data:text/plain,x", "file:///tmp/a", "https://example.org/{x}/{y}", "https://example.org/%E0/{z}/{x}/{y}", "https://example.org/MapServer/%33"] {
+        for value in ["http://example.org/{z}/{x}/{y}", "javascript:alert(1)", "data:text/plain,x", "file:///tmp/a", "https://example.org/{x}/{y}", "https://example.org/%E0/{z}/{x}/{y}", "https://example.org/MapServer/%33", "https://example.org/{z}/{x}/{y}?bad=%7Bswitch:a,b%7D"] {
             XCTAssertThrowsError(try UserLayerURL(value, kind: value.contains("MapServer") ? .arcgisMap : .xyz), value)
         }
         XCTAssertNoThrow(try UserLayerURL("http://localhost:8080/{z}/{x}/{y}.png", kind: .xyz))

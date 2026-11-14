@@ -2,6 +2,7 @@ import Foundation
 
 public struct UserLayerRecord: Codable, Equatable, Identifiable, Sendable {
     public enum Role: String, Codable, Sendable { case base, overlay }
+    public enum TileSize: Int, Codable, Sendable { case standard = 256, large = 512 }
     public struct WMS: Codable, Equatable, Sendable {
         public enum Format: String, Codable, Sendable { case png = "image/png", jpeg = "image/jpeg" }
         public enum Version: String, Codable, Sendable { case v111 = "1.1.1", v130 = "1.3.0" }
@@ -10,9 +11,18 @@ public struct UserLayerRecord: Codable, Equatable, Identifiable, Sendable {
         public var format: Format
         public var version: Version
         public var transparent: Bool
+        public init(layers: String, styles: String, format: Format, version: Version, transparent: Bool) {
+            self.layers = layers; self.styles = styles; self.format = format; self.version = version; self.transparent = transparent
+        }
     }
-    public struct Acknowledgement: Codable, Equatable, Sendable { public var version: Int; public var at: Date }
-    public struct Probe: Codable, Equatable, Sendable { public var display: Bool?; public var corsReadable: Bool?; public var at: Date }
+    public struct Acknowledgement: Codable, Equatable, Sendable {
+        public var version: Int; public var at: Date
+        public init(version: Int, at: Date) { self.version = version; self.at = at }
+    }
+    public struct Probe: Codable, Equatable, Sendable {
+        public var display: Bool?; public var corsReadable: Bool?; public var at: Date
+        public init(display: Bool?, corsReadable: Bool?, at: Date) { self.display = display; self.corsReadable = corsReadable; self.at = at }
+    }
     public let id: UUID
     public var role: Role
     public var name: String
@@ -22,7 +32,7 @@ public struct UserLayerRecord: Codable, Equatable, Identifiable, Sendable {
     public var termsURL: URL?
     public var minZoom: Int
     public var maxNativeZoom: Int
-    public var tileSize: Int
+    public var tileSize: TileSize
     public var wms: WMS?
     public var arcgisLayers: String?
     public var createdAt: Date
@@ -33,7 +43,7 @@ public struct UserLayerRecord: Codable, Equatable, Identifiable, Sendable {
     public init(id: UUID = UUID(), role: Role = .overlay, name: String, url: UserLayerURL, attribution: String, termsNote: String, now: Date = Date()) {
         self.id = id; self.role = role; self.name = name; self.url = url
         self.attribution = attribution; self.termsNote = termsNote; self.termsURL = nil
-        self.minZoom = 0; self.maxNativeZoom = 19; self.tileSize = 256
+        self.minZoom = 0; self.maxNativeZoom = 19; self.tileSize = .standard
         self.wms = nil; self.arcgisLayers = nil; self.createdAt = now; self.modifiedAt = now
         self.acknowledgement = nil; self.probe = nil
     }

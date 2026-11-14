@@ -8,6 +8,9 @@ final class UserLayerSourceMatchTests: XCTestCase {
             XCTAssertTrue(UserLayerSourceMatch.match(address).contains { $0.id == .nsAerial }, address)
         }
         XCTAssertTrue(UserLayerSourceMatch.match("https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer").contains { $0.id == .nsprd })
+        let roads = LayerCatalog.all.first { $0.id == .roads }!
+        XCTAssertTrue(UserLayerSourceMatch.match(roads.serviceURL!.absoluteString).contains { $0.id == .roads })
+        XCTAssertTrue(UserLayerSourceMatch.match(aerial.replacingOccurrences(of: "BASE_NSODB", with: "%42ASE_NSODB")).contains { $0.id == .nsAerial })
         XCTAssertTrue(UserLayerSourceMatch.match("https://tiles.example.org/{z}/{x}/{y}.png").isEmpty)
         XCTAssertNotEqual(UserLayerSourceMatch.key("https://services.arcgis.com/a/arcgis/rest/services/foo/MapServer"), UserLayerSourceMatch.key("https://services.arcgis.com/b/arcgis/rest/services/foo/MapServer"))
     }

@@ -19,7 +19,7 @@ public struct UserLayerURL: Codable, Equatable, Sendable {
               parts.user == nil, parts.password == nil, parts.fragment == nil,
               let path = parts.percentEncodedPath.removingPercentEncoding,
               !path.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }) else { throw ValidationError.invalidAddress }
-        let lower = value.lowercased()
+        let lower = (value.removingPercentEncoding ?? value).lowercased()
         if kind == .xyz || kind == .tms {
             guard lower.contains("{z}"), lower.contains("{x}"), (lower.contains("{y}") || lower.contains("{-y}")), !lower.contains("{switch:"), !lower.contains("{q}") else { throw ValidationError.invalidAddress }
         }
