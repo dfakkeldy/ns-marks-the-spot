@@ -42,9 +42,10 @@ export function catalogueSourceIndex(): Map<string, SourceMatch[]> {
   return index;
 }
 
+let cachedIndex: Map<string, SourceMatch[]> | undefined;
 export function matchCatalogueSource(url: string): SourceMatch[] {
   const key = sourceKey(url);
-  return key ? catalogueSourceIndex().get(key) ?? [] : [];
+  return key ? (cachedIndex ??= catalogueSourceIndex()).get(key) ?? [] : [];
 }
 
 export function userLayerUse(record: UserLayerRecord, policy: MatchPolicy = USER_LAYER_MATCH_POLICY, provinceLicenceAccepted = false): { view: "allowed" | "refused" | "needs-acceptance"; export: "allowed" | "held"; reason: string | null; matched: SourceMatch[] } {

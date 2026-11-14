@@ -279,6 +279,7 @@ import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapControls } from "./userMaps/components/UserMapRows";
 import { useUserLayers } from "./userLayers/useUserLayers";
+import { UserLayerCredits } from "./userLayers/components/UserLayerCredits";
 import { UserLayerControls } from "./userLayers/components/UserLayerControls";
 import { userLayerUse } from "./userLayers/sourceMatch";
 import { routeImportFiles } from "./userMaps/importRouting";
@@ -4408,12 +4409,14 @@ export function App({ focus, onRestart, licencesPresented = false }: {
         const reason = layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
         return reason ? `${name} — ${reason}` : name;
       }),
+    ...userLayersApi.visibleLayers.map(({ record }) => `${record.name} — user layer is not included`),
     ...userMapsApi.visibleMaps.map(({ record }) => record.name),
     ...userVectorApi.visibleLayers.map(({ record }) => record.name),
   ], [
     captureLayerSources,
     exportedLayerIds,
     mapViewport.position.zoom,
+    userLayersApi.visibleLayers,
     userMapsApi.visibleMaps,
     userVectorApi.visibleLayers,
   ]);
@@ -5036,10 +5039,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
   // The licence strip's credits for what is on screen, a shared licence stated
   // once. The Province line comes first: a phone must reach it first.
   const collarCredits = groupAttributions([
-    ...userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, "same-lock", licenceAccepted).view === "allowed").flatMap(({ record }) => [
-      `Your layer: ${record.attribution}`,
-      ...userLayerUse(record, "same-lock", licenceAccepted).matched.flatMap(match => match.attribution ? [match.attribution] : []),
-    ]),
+    ...(focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, undefined, licenceAccepted).view === "allowed").flatMap(({ record }) => userLayerUse(record, undefined, licenceAccepted).matched.flatMap(match => match.attribution ? [match.attribution] : []))),
     ...(oglLayerVisible || pokerMode ? [OPEN_GOVERNMENT_ATTRIBUTION] : []),
     ...(coastalLayerVisible ? COASTAL_HAZARD_NOTICES : []),
     ...contextLayerCatalog.filter((layer) => effectiveContextLayers[layer.id] && layer.attribution).map((layer) => layer.attribution!),
@@ -6378,7 +6378,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
             onUserLayerStatus={onUserLayerStatus}
-            userLayers={focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, "same-lock", licenceAccepted).view === "allowed")}
+            userLayers={focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, undefined, licenceAccepted).view === "allowed")}
             userMaps={focusHides(focusDef, "my-maps") ? undefined : userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
             userVectorLayers={focusHides(focusDef, "my-maps") ? undefined : readOnlyVectorLayers}
@@ -6679,6 +6679,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
         </div>
         {!attributionCollapsed && <>
           <div className="collar-groups">
+            <UserLayerCredits layers={focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, undefined, licenceAccepted).view === "allowed")} />
             {collarCredits.groups.map(({ licence, sources }) => (
               <section key={licence} className={`collar-group${licence === PROVINCE_ATTRIBUTION ? " province-attribution" : ""}`}>
                 <p className="collar-licence">{licence}</p>

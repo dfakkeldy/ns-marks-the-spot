@@ -7,8 +7,9 @@ describe("user layer state", () => {
   it("keeps only one enabled base and restores row state", async () => {
     const { result, unmount } = renderHook(() => useUserLayers());
     await waitFor(() => expect(result.current.loaded).toBe(true));
-    const first = { id: "user-layer:base-a", role: "base", name: "A" } as UserLayerRecord;
-    const second = { id: "user-layer:base-b", role: "base", name: "B" } as UserLayerRecord;
+    const shared = { kind: "xyz", role: "base", url: "https://example.org/{z}/{x}/{y}.png", termsUrl: null, attribution: "Credit", termsNote: "Terms", createdAt: "2026-11-14", acknowledgement: { version: 1, at: "2026-11-14" } } as UserLayerRecord;
+    const first = { ...shared, id: "user-layer:base-a", name: "A" };
+    const second = { ...shared, id: "user-layer:base-b", name: "B" };
     await act(async () => { await result.current.save(first); });
     await act(async () => { await result.current.save(second); });
     act(() => { result.current.setEnabled(first.id, true); });

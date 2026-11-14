@@ -1,5 +1,8 @@
 import type { ProvinceLayerId } from "../layers/layerCatalog";
 
+export const USER_LAYER_BASE_Z_INDEX = 152;
+export const USER_LAYER_OVERLAY_Z_INDEX = 158;
+
 export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
   contours: 180,

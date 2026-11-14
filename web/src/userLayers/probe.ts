@@ -3,7 +3,7 @@ import { tileUrl } from "./tileUrls";
 import type { UserLayerRecord } from "./types";
 
 export async function probeLayer(record: UserLayerRecord, licenceAccepted: boolean, center: { lat: number; lng: number }, zoom: number) {
-  const gate = userLayerUse(record, "same-lock", licenceAccepted);
+  const gate = userLayerUse(record, undefined, licenceAccepted);
   if (gate.view !== "allowed") throw new Error(gate.reason ?? "Accept the source licence before testing.");
   const z = Math.max(record.minZoom, Math.min(record.maxNativeZoom, Math.floor(zoom)));
   const n = 2 ** z; const lat = Math.max(-85, Math.min(85, center.lat)) * Math.PI / 180;

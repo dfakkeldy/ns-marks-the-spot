@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { UserLayerStore } from "./store/userLayerStore";
+import { validateLayerUrl, validateTermsUrl } from "./parseLayerUrl";
 import type { UserLayerRecord, UserLayerUiState } from "./types";
 
 const KEY = "user-layer-ui-state-v1";
@@ -22,7 +23,7 @@ export function useUserLayers() {
   const [storageError, setStorageError] = useState(false);
   useEffect(() => {
     let live = true;
-    UserLayerStore.open().then(async store => { try { const rows = await store.list(); if (live) { setRecords(rows); setLoaded(true); } } finally { store.close(); } }).catch(() => { if (live) { setStorageError(true); setLoaded(true); } });
+    UserLayerStore.open().then(async store => { try { const rows = await store.list(); if (live) { setRecords(rows.filter(record => record && typeof record.url === "string" && typeof record.id === "string" && record.id.startsWith("user-layer:") && typeof record.name === "string" && typeof record.createdAt === "string" && typeof record.attribution === "string" && typeof record.termsNote === "string" && (record.termsUrl === null || typeof record.termsUrl === "string") && record.acknowledgement?.version === 1 && ["xyz", "tms", "wms", "arcgis-map", "arcgis-image"].includes(record.kind) && !validateLayerUrl(record.url, record.kind) && !validateTermsUrl(record.termsUrl ?? ""))); setLoaded(true); } } finally { store.close(); } }).catch(() => { if (live) { setStorageError(true); setLoaded(true); } });
     return () => { live = false; };
   }, []);
   useEffect(() => {
