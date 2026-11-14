@@ -43,7 +43,7 @@ final class UserVectorsViewModel {
     var ordinaryRows: [Row] {
         rows.filter { row in
             guard let coverage = row.record.coverage else { return true }
-            guard coverageCataloguesKnown else { return false }
+            guard coverageCataloguesKnown else { return true }
             return !coverageCatalogueIDs.contains(coverage.catalogueID)
         }
     }
@@ -54,7 +54,7 @@ final class UserVectorsViewModel {
 
     private func coverageIsVisible(_ row: Row) -> Bool {
         guard let coverage = row.record.coverage else { return true }
-        guard coverageCataloguesKnown else { return false }
+        guard coverageCataloguesKnown else { return true }
         guard coverageCatalogueIDs.contains(coverage.catalogueID) else { return true }
         return showCoverage && coverage.catalogueID == loadedCoverageCatalogueID
     }
@@ -80,7 +80,12 @@ final class UserVectorsViewModel {
         guard !groups.isEmpty else { return nil }
         do {
             var trips: [DriveCoverageExport.Trip] = []
-            for id in groups.keys.sorted() {
+            let orderedIDs = groups.keys.sorted {
+                let left = groups[$0]?.map(\.record.createdAt).min() ?? .distantPast
+                let right = groups[$1]?.map(\.record.createdAt).min() ?? .distantPast
+                return left == right ? $0 < $1 : left < right
+            }
+            for id in orderedIDs {
                 guard let group = groups[id], let first = group.first else { continue }
                 var legs: [Data] = []
                 for row in group.sorted(by: { ($0.record.coverage?.leg ?? 0) < ($1.record.coverage?.leg ?? 0) }) {

@@ -1812,7 +1812,10 @@ struct MapContainerView: View {
     private func coverageWiring(_ content: some View) -> some View {
         content
             .onChange(of: driveCataloguesVM.catalogues) { _, _ in refreshCoverageVisibility() }
-            .onChange(of: driveCataloguesVM.ui.loadedCatalogueID) { _, _ in refreshCoverageVisibility() }
+            .onChange(of: driveCataloguesVM.ui.loadedCatalogueID) { _, _ in
+                refreshCoverageVisibility()
+                recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk, coverage: driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil)
+            }
             .onChange(of: driveCataloguesVM.ui.showCoverage) { _, _ in refreshCoverageVisibility() }
             .onChange(of: driveCataloguesVM.canEdit) { _, _ in refreshCoverageVisibility() }
     }
@@ -2183,8 +2186,8 @@ struct MapContainerView: View {
     }
 
     private func hasLivingCoverage(_ result: TrackRecording.StopResult) -> Bool {
-        guard driveCataloguesVM.canEdit, result.profile == .drive, let coverage = result.coverage else { return false }
-        return driveCataloguesVM.catalogues.contains { $0.id == coverage.catalogueID }
+        DriveCoverageSaveDecision.decide(result, cataloguesKnown: driveCataloguesVM.canEdit,
+            catalogueIDs: Set(driveCataloguesVM.catalogues.map(\.id))) == .automatic
     }
 
     private func coverageForManualSave(_ payload: SaveTrackPayload) -> DriveCoverage? {

@@ -169,12 +169,7 @@ extension UserVectorOrigin: Codable {
     }
 }
 
-/// One of the user's own vector layers, as the app remembers it.
-///
-/// The geometry is not in here. A record is small enough to list a panel from;
-/// ten thousand features are not, and loading every layer's geometry to draw a
-/// row of switches would stall the panel on the largest file the user ever
-/// imported.
+/// A recording's optional drive-catalogue membership.
 public struct DriveCoverage: Hashable, Sendable, Codable {
     public enum Profile: String, Hashable, Sendable, Codable { case drive }
     public var catalogueID: String
@@ -193,6 +188,7 @@ public struct DriveCoverage: Hashable, Sendable, Codable {
     }
 }
 
+/// One of the user's vector layers; its geometry is stored separately.
 public struct UserVectorLayerRecord: Identifiable, Hashable, Sendable, Codable {
     public var id: String
     public var name: String

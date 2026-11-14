@@ -145,7 +145,9 @@ struct CataloguePanelView: View {
                     Text("\(trip.rows.count) \(trip.rows.count == 1 ? "leg" : "legs") · \(trip.distance.map { Geodesy.formatDistance($0) } ?? "Distance unavailable")").font(.caption)
                     HStack {
                         Button("GPX") { Task { await shareCoverage(catalogueID: catalogue.id, tripID: trip.id, vectors: vectors) } }
+                            .accessibilityLabel("Export \(trip.name) as GPX")
                         Button("Delete", role: .destructive) { deletingTrip = trip }
+                            .accessibilityLabel("Delete \(trip.name)")
                     }
                 }
             }
@@ -161,7 +163,9 @@ struct CataloguePanelView: View {
 
     private func shareCoverage(catalogueID: String, tripID: String?, vectors: UserVectorsViewModel) async {
         guard let gpx = await vectors.coverageGPX(catalogueID: catalogueID, tripID: tripID) else { return }
-        sharing = SharePayload(text: gpx, filename: tripID == nil ? "coverage.gpx" : "trip.gpx")
+        let date = tripID.flatMap { id in vectors.trips(for: catalogueID).first { $0.record.coverage?.tripID == id }?.record.createdAt }
+        let day = date.map { ISO8601DateFormatter().string(from: $0).prefix(10) }
+        sharing = SharePayload(text: gpx, filename: day.map { "trip-\($0).gpx" } ?? "coverage.gpx")
         shareError = sharing == nil ? "The GPX file could not be prepared. Your tracks remain on this device." : nil
     }
 }
