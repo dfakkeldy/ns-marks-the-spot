@@ -42,6 +42,16 @@ public struct TrackFilterState: Hashable, Sendable {
 }
 
 public enum TrackFilter {
+    public struct Spec: Sendable {
+        public var accuracyGateM: Double
+        public var maxSpeedMps: Double
+        public var smoothingAlpha: Double
+        public var minSpacingFloorM: Double
+        public var spacingAccuracyFactor: Double
+
+        public static let walk = Spec(accuracyGateM: CaptureSpec.TrackFilter.accuracyGateM, maxSpeedMps: CaptureSpec.TrackFilter.maxSpeedMps, smoothingAlpha: CaptureSpec.TrackFilter.smoothingAlpha, minSpacingFloorM: CaptureSpec.TrackFilter.minSpacingFloorM, spacingAccuracyFactor: CaptureSpec.TrackFilter.spacingAccuracyFactor)
+        public static let drive = Spec(accuracyGateM: CaptureSpec.DriveTrackFilter.accuracyGateM, maxSpeedMps: CaptureSpec.DriveTrackFilter.maxSpeedMps, smoothingAlpha: CaptureSpec.DriveTrackFilter.smoothingAlpha, minSpacingFloorM: CaptureSpec.DriveTrackFilter.minSpacingFloorM, spacingAccuracyFactor: CaptureSpec.DriveTrackFilter.spacingAccuracyFactor)
+    }
     public struct FixResult: Sendable {
         public var next: TrackFilterState
         /// Non-nil when the fix passed the gates (counts as accepted).
@@ -50,10 +60,10 @@ public enum TrackFilter {
         public var kept: Bool
     }
 
-    public static func applyFix(_ state: TrackFilterState, fix: TrackFix) -> FixResult {
+    public static func applyFix(_ state: TrackFilterState, fix: TrackFix, spec: Spec = .walk) -> FixResult {
         // Accuracy gate: a non-positive accuracy is a broken fix, not a
         // perfect one.
-        guard fix.accuracyM > 0, fix.accuracyM <= CaptureSpec.TrackFilter.accuracyGateM else {
+        guard fix.accuracyM > 0, fix.accuracyM <= spec.accuracyGateM else {
             return FixResult(next: state, accepted: nil, kept: false)
         }
 
@@ -68,14 +78,14 @@ public enum TrackFilter {
                 from: GeoPoint(lat: last.latitude, lng: last.longitude),
                 to: GeoPoint(lat: fix.latitude, lng: fix.longitude)
             )
-            guard metres / dtSeconds <= CaptureSpec.TrackFilter.maxSpeedMps else {
+            guard metres / dtSeconds <= spec.maxSpeedMps else {
                 return FixResult(next: state, accepted: nil, kept: false)
             }
         }
 
-        let alpha = CaptureSpec.TrackFilter.smoothingAlpha
+        let alpha = spec.smoothingAlpha
         let smoothed: GeoPoint
-        if let previous = state.smoothed {
+        if let previous = state.smoothed, alpha != 1 {
             smoothed = GeoPoint(
                 lat: previous.lat + alpha * (fix.latitude - previous.lat),
                 lng: previous.lng + alpha * (fix.longitude - previous.lng)
@@ -100,8 +110,8 @@ public enum TrackFilter {
         // noise, with a floor so a stationary pin-drop doesn't accumulate
         // vertices.
         let spacingM = max(
-            CaptureSpec.TrackFilter.minSpacingFloorM,
-            CaptureSpec.TrackFilter.spacingAccuracyFactor * fix.accuracyM
+            spec.minSpacingFloorM,
+            spec.spacingAccuracyFactor * fix.accuracyM
         )
         if let lastKept = state.lastKept,
            Geodesy.distanceMetres(from: lastKept, to: smoothed) < spacingM
