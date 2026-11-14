@@ -65,6 +65,8 @@ import type {
   PdfRegistrationCandidate,
   UserMapRecord,
 } from "./userMaps/types";
+import { UserLayerStore } from "./userLayers/store/userLayerStore";
+import type { UserLayerRecord } from "./userLayers/types";
 import { CUSTOM_THEME_STORAGE_KEY } from "./themes/themeStorage";
 import { layerCategories } from "./layers/layerCategories";
 import { builtInMapThemes } from "./themes/mapThemes";
@@ -3290,6 +3292,25 @@ describe("NS Marks The Spot Online", () => {
       store.close();
     }
   });
+
+  it("keeps a user layer enabled through built-in themes and out of shared URLs", async () => {
+    const id = "user-layer:theme-test";
+    const name = "Private user layer name";
+    const record: UserLayerRecord = { id, name, kind: "xyz", role: "overlay", url: "https://example.org/{z}/{x}/{y}.png?key=private-secret", attribution: "Credit", termsNote: "Terms", termsUrl: null, minZoom: 0, maxNativeZoom: 19, tileSize: 256, createdAt: "2026-11-14", modifiedAt: "2026-11-14", acknowledgement: { version: 1, at: "2026-11-14" }, probe: null };
+    const store = await UserLayerStore.open(); await store.put(record);
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    localStorage.setItem("user-layer-ui-state-v1", JSON.stringify({ [id]: { enabled: true, opacity: 1 } }));
+    try {
+      render(<App />);
+      await waitFor(() => expect(openLayerCategory("My Maps")).toHaveTextContent(name));
+      for (const theme of builtInMapThemes) {
+        await userEvent.selectOptions(screen.getByLabelText("Change setup"), theme.id);
+        expect(JSON.parse(localStorage.getItem("user-layer-ui-state-v1") ?? "{}") [id].enabled).toBe(true);
+        expect(window.location.href).not.toContain("private-secret");
+        expect(window.location.href).not.toContain(encodeURIComponent(name));
+      }
+    } finally { await store.delete(id); store.close(); }
+  }, 60000);
 
   it("persists rename and update without changing map layers", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
