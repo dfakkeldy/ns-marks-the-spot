@@ -46,6 +46,7 @@ struct MapContainerView: View {
     @State private var hudHeight: CGFloat = 0
     @State private var driveChipHeight: CGFloat = 0
     @State private var driveRecordHeight: CGFloat = 0
+    private var compactOverlap: Bool { driveModeVM.output.status == .overlap && mapWidth > mapHeight }
     /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
     /// cannot write its answer, or its failure, over the current viewport's.
     @State private var parcelSnapGeneration = 0
@@ -492,11 +493,12 @@ struct MapContainerView: View {
                         .accessibilityElement(children: .combine)
                 }
             }
+            .frame(maxWidth: compactOverlap ? 140 : .infinity, alignment: .leading)
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
             // guessed: the HUD grows with Dynamic Type.
             .padding(.top, driveModeVM.isOn ? (recorder.isShowingRecorder ? 76 + hudHeight + driveChipHeight : max(116, 68 + driveChipHeight)) : (recorder.isShowingRecorder ? 68 + hudHeight : 116))
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: compactOverlap ? .topLeading : .top)
 
             // The photo map's cap, on the map: the row that also says it is
             // behind the closed layers panel while the pins are looked at.
@@ -515,12 +517,13 @@ struct MapContainerView: View {
                         .padding(.vertical, 10)
                         .mapChromeSurface(cornerRadius: 8, shadow: nil)
                         .padding(.horizontal, 16)
+                        .frame(maxWidth: compactOverlap ? 140 : .infinity, alignment: .leading)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
                         .padding(.top, driveModeVM.isOn ? (recorder.isShowingRecorder ? 76 + hudHeight + driveChipHeight : max(116, 68 + driveChipHeight)) : (recorder.isShowingRecorder ? 68 + hudHeight : 116))
 
                     Spacer()
-                }
+                }.frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
                 .allowsHitTesting(false)
                 .accessibilityElement(children: .combine)
             }
@@ -536,13 +539,14 @@ struct MapContainerView: View {
             if recorder.isShowingRecorder, printFrame == nil {
                 VStack {
                     TrackRecordingHUD(recorder: recorder) { stopRecording() }
-                    .frame(maxWidth: 420)
+                    .frame(maxWidth: compactOverlap ? 220 : 420)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { hudHeight = $0 }
                     .padding(.horizontal, 16)
                     // Clear of the rail, as the cards are: on a phone the HUD
                     // reached under Current Location and Mark My Location.
                     .clearOfRail(controlsWidth)
                     .padding(.top, 60)
+                    .frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
 
                     Spacer()
                 }
@@ -577,7 +581,8 @@ struct MapContainerView: View {
 
             if driveModeVM.isOn, printFrame == nil, !isSelectingSaveArea,
                overlayVM.inspection == nil, editSession == nil, vectorCallout == nil,
-               featureVM.selection == nil, measure == nil, !isLayersMenuExpanded {
+               featureVM.selection == nil, measure == nil, !isLayersMenuExpanded,
+               !(compactOverlap && (controller.locationMessage != nil || markLocation.outcome != nil || markLocation.isAcquiring || photoMapVM.truncationNote != nil)) {
                 VStack {
                     Spacer()
                     Button {
@@ -592,6 +597,7 @@ struct MapContainerView: View {
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
                     .onDisappear { driveRecordHeight = 0 }
                     .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
+                    .frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
                 }
                 .padding(.horizontal, 16)
             }
@@ -602,12 +608,12 @@ struct MapContainerView: View {
                editSession == nil, vectorCallout == nil, featureVM.selection == nil,
                measure == nil, !isLayersMenuExpanded {
                 OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows)
-                    .frame(maxWidth: 420)
+                    .frame(maxWidth: compactOverlap ? max(160, min(420, mapWidth - controlsWidth - 280)) : 420)
                     .padding(.horizontal, 16)
                     .clearOfRail(controlsWidth)
-                    .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn ? driveRecordHeight : 0))
+                    .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn && !compactOverlap ? driveRecordHeight : 0))
                     .coversMapBottom(.driveOverlap, on: controller)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: compactOverlap ? .bottomTrailing : .bottom)
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
