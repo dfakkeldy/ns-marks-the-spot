@@ -1684,13 +1684,15 @@ final class MapController: NSObject {
     /// The cards that can cover the bottom of the map, keyed so one leaving
     /// does not zero the height of another arriving in the same update.
     enum BottomCard: Hashable, Sendable {
-        case parcel, editPanel, vectorCallout, featureCallout, measure
+        case parcel, editPanel, vectorCallout, featureCallout, measure, driveOverlap
     }
 
     @ObservationIgnored private var bottomCardHeights: [BottomCard: CGFloat] = [:]
 
     /// How much of the bottom of the map the tallest open card covers.
-    private var bottomCardInset: CGFloat { bottomCardHeights.values.max() ?? 0 }
+    static func bottomInset(ornament: CGFloat, cards: [BottomCard: CGFloat]) -> CGFloat {
+        max(ornament, cards.values.max() ?? 0)
+    }
 
     /// Reported by the container as cards open, resize and close. Routed
     /// into the map's layout margins, which is where MapKit centres a
@@ -1703,7 +1705,7 @@ final class MapController: NSObject {
     }
 
     private func applyBottomLayoutMargin() {
-        mapView?.layoutMargins.bottom = max(bottomOrnamentInset, bottomCardInset)
+        mapView?.layoutMargins.bottom = Self.bottomInset(ornament: bottomOrnamentInset, cards: bottomCardHeights)
         updateReticle()
     }
 

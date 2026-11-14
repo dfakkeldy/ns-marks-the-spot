@@ -82,6 +82,17 @@ struct TrackFeatureTests {
         )
     }
 
+    @Test func driveRecordingDeclaresItsActualSmoothing() throws {
+        var drive = result(segments: [[point(44.6, secondsIn: 0), point(44.6002, secondsIn: 10)]])
+        drive.profile = .drive
+        let feature = try #require(TrackFeature.buildRecordedTrackFeature(drive, name: "Drive", simplifyToleranceM: 3))
+        guard case .object(let recording)? = feature.properties[CaptureSpec.recordingKey] else {
+            Issue.record("Expected recording metadata")
+            return
+        }
+        #expect(recording["smoothingAlpha"] == .number(CaptureSpec.DriveTrackFilter.smoothingAlpha))
+    }
+
     @Test func pausedSegmentsBecomeAMultiLineStringWithNestedTimes() throws {
         let feature = try #require(
             TrackFeature.buildRecordedTrackFeature(

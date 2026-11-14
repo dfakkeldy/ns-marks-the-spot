@@ -14,6 +14,7 @@ actor DriveCatalogueStore {
         case removeSheetEverywhere(String)
         case reorder(String, [String])
         case move(String, String, Int)
+        case cycleTop(String, Set<String>)
         case opacity(String, Double)
     }
     private struct Document: Codable {
@@ -95,6 +96,16 @@ actor DriveCatalogueStore {
                let from = items[i].sheetIDs.firstIndex(of: sheetID),
                items[i].sheetIDs.indices.contains(from + delta), abs(delta) == 1 {
                 items[i].sheetIDs.swapAt(from, from + delta); items[i].modifiedAt = now
+            }
+        case .cycleTop(let id, let entered):
+            if let i = items.firstIndex(where: { $0.id == id }) {
+                let slots = items[i].sheetIDs.indices.filter { entered.contains(items[i].sheetIDs[$0]) }
+                if slots.count >= 2 {
+                    let values = slots.map { items[i].sheetIDs[$0] }
+                    let rotated = Array(values.dropFirst()) + [values[0]]
+                    for (slot, value) in zip(slots, rotated) { items[i].sheetIDs[slot] = value }
+                    items[i].modifiedAt = now
+                }
             }
         case .opacity(let id, let opacity):
             if let i = items.firstIndex(where: { $0.id == id }), opacity.isFinite {

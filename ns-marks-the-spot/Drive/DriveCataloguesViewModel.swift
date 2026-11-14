@@ -145,6 +145,8 @@ final class DriveCataloguesViewModel {
     func remove(_ sheetID: String, from id: String) async { await change(.removeSheet(id, sheetID)) }
     func reorder(_ ids: [String], in id: String) async { await change(.reorder(id, ids)) }
     func move(_ sheetID: String, in id: String, by delta: Int) async { await change(.move(id, sheetID, delta)) }
+    @discardableResult
+    func cycleTop(in id: String, entered: Set<String>) async -> Bool { await change(.cycleTop(id, entered)) }
     func opacity(for catalogue: DriveCatalogue) -> Double { opacityPreviews[catalogue.id] ?? catalogue.opacity }
     func previewOpacity(_ value: Double, in id: String) {
         opacityPreviews[id] = min(1, max(0, value))
