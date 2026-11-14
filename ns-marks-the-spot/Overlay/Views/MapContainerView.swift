@@ -494,7 +494,7 @@ struct MapContainerView: View {
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
             // guessed: the HUD grows with Dynamic Type.
-            .padding(.top, (recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116) + (driveModeVM.isOn ? driveChipHeight + 8 : 0))
+            .padding(.top, driveModeVM.isOn ? (recorder.isShowingRecorder ? 76 + hudHeight + driveChipHeight : max(116, 68 + driveChipHeight)) : (recorder.isShowingRecorder ? 68 + hudHeight : 116))
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
             // The photo map's cap, on the map: the row that also says it is
@@ -516,7 +516,7 @@ struct MapContainerView: View {
                         .padding(.horizontal, 16)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
-                        .padding(.top, (recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116) + (driveModeVM.isOn ? driveChipHeight + 8 : 0))
+                        .padding(.top, driveModeVM.isOn ? (recorder.isShowingRecorder ? 76 + hudHeight + driveChipHeight : max(116, 68 + driveChipHeight)) : (recorder.isShowingRecorder ? 68 + hudHeight : 116))
 
                     Spacer()
                 }
@@ -566,7 +566,8 @@ struct MapContainerView: View {
             }
 
             if driveModeVM.isOn, printFrame == nil, !isSelectingSaveArea,
-               overlayVM.inspection == nil, editSession == nil {
+               overlayVM.inspection == nil, editSession == nil, vectorCallout == nil,
+               featureVM.selection == nil, measure == nil, !isLayersMenuExpanded {
                 VStack {
                     Spacer()
                     Button {
@@ -576,8 +577,9 @@ struct MapContainerView: View {
                             .frame(maxWidth: .infinity, minHeight: 64)
                     }
                     .buttonStyle(.borderedProminent)
+                    .disabled(markLocation.isAcquiring)
                     .frame(maxWidth: 220)
-                    .padding(.bottom, 12 + attributionHeight)
+                    .padding(.bottom, 100 + attributionHeight)
                 }
                 .padding(.horizontal, 16)
             }

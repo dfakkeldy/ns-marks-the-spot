@@ -11,7 +11,7 @@ final class DriveModeModel {
     private(set) var autoPaused = false
     private(set) var locationUnavailable = false
     private(set) var hasUsableActivation = false
-    private(set) var manualNotice: String?
+    private var manualNoticeID: String?
     private let screen: ScreenAwakeCoordinator
     private var state = SheetActivationState()
     private var activeCatalogueID: String?
@@ -31,7 +31,7 @@ final class DriveModeModel {
         pinned = []; dismissed = []; activeCatalogueID = nil
         sheets = []; cachedRecords = []; cachedIDs = []
         firstFix = true; lastTimestamp = nil; autoPaused = false; locationUnavailable = false
-        hasUsableActivation = false; manualNotice = nil
+        hasUsableActivation = false; manualNoticeID = nil
     }
     func update(catalogue: DriveCatalogue?, auto: Bool, records: [UserMapRecord], fix: TrackFix?, following: Bool,
                 signalAvailable: Bool = true, now: Date = Date()) {
@@ -57,6 +57,7 @@ final class DriveModeModel {
             } == true ? .heldPoorFix : output.reason
             output = SheetActivation.output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
             output.reason = reason
+            clearResolvedNotice()
             return
         }
         if autoPaused { autoPaused = false; firstFix = true }
@@ -67,6 +68,7 @@ final class DriveModeModel {
             let reason = output.reason
             output = SheetActivation.output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
             output.reason = reason
+            clearResolvedNotice()
             return
         }
         locationUnavailable = false
@@ -75,18 +77,21 @@ final class DriveModeModel {
                 fix: .init(point: .init(lat: fix.latitude, lng: fix.longitude), accuracyM: fix.accuracyM),
                 pinned: pinned, dismissed: dismissed, isFirstFix: firstFix)
             output = held.output
+            clearResolvedNotice()
             return
         }
         guard lastTimestamp.map({ fix.timestamp > $0 }) ?? true else {
             let reason = output.reason
             output = SheetActivation.output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
             output.reason = reason
+            clearResolvedNotice()
             return
         }
         let result = SheetActivation.step(state: state, sheets: sheets,
             fix: .init(point: .init(lat: fix.latitude, lng: fix.longitude), accuracyM: fix.accuracyM),
             pinned: pinned, dismissed: dismissed, isFirstFix: firstFix)
         state = result.state; output = result.output
+        clearResolvedNotice()
         if output.reason == .updated { firstFix = false; lastTimestamp = fix.timestamp; hasUsableActivation = true }
         for id in output.clearedDismissals { dismissed.remove(id) }
     }
@@ -101,7 +106,22 @@ final class DriveModeModel {
         let reason = output.reason
         output = SheetActivation.output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
         output.reason = reason
-        manualNotice = visible && !output.shown.contains(id) ? "This sheet is outside the three-sheet limit. Change catalogue order to show it." : nil
+        manualNoticeID = visible && !output.shown.contains(id) ? id : nil
+    }
+
+    var manualNotice: String? {
+        guard let id = manualNoticeID else { return nil }
+        let name = cachedRecords.first(where: { $0.id == id })?.name ?? "Sheet"
+        if !sheets.contains(where: { $0.id == id }) { return "\(name) is not placed on the map." }
+        return "\(name) is outside the three-sheet limit. Change catalogue order to show it."
+    }
+
+    private func clearResolvedNotice() {
+        if let id = manualNoticeID, output.shown.contains(id) { manualNoticeID = nil }
+    }
+
+    var topShownHere: String? {
+        output.shown.first { state.sheets[$0]?.entered == true && state.sheets[$0]?.insideNow == true }
     }
 
     var insideCount: Int {

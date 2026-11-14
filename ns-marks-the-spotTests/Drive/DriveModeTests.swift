@@ -167,4 +167,26 @@ struct DriveModeTests {
             #expect(model.output.shown == expected)
         }
     }
+
+    @Test func waitingAndPoorFixMessagesStayDistinct() {
+        let model = DriveModeModel(screen: ScreenAwakeCoordinator(screen: DriveTestScreen()))
+        let catalogue = DriveCatalogue(id: "cat", name: "Trip")
+        model.setOn(true)
+        model.update(catalogue: catalogue, auto: true, records: [], fix: nil, following: false)
+        let paused = DriveStatusChip(model: model, catalogue: catalogue, rows: [], fix: nil, signalLost: false, failedSheetID: nil, autoEnabled: true, searching: false)
+        #expect(paused.message == "Auto paused. Tap Follow.")
+        let poor = TrackFix(latitude: 45, longitude: -61, accuracyM: 150, timestamp: Date())
+        model.update(catalogue: catalogue, auto: true, records: [], fix: poor, following: true, now: poor.timestamp)
+        let rough = DriveStatusChip(model: model, catalogue: catalogue, rows: [], fix: poor, signalLost: false, failedSheetID: nil, autoEnabled: true, searching: false)
+        #expect(rough.message.contains("Location is rough"))
+    }
+
+    @Test func unplacedManualOverrideExplainsWhy() {
+        let model = DriveModeModel(screen: ScreenAwakeCoordinator(screen: DriveTestScreen()))
+        let unplaced = UserMapRecord(id: "a", name: "Unplaced map", pixelSize: .init(width: 10, height: 10), placement: .controlPoints([], method: .affine))
+        let catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["a"])
+        model.update(catalogue: catalogue, auto: true, records: [unplaced], fix: nil, following: false)
+        model.setVisible(true, id: "a")
+        #expect(model.manualNotice?.contains("Unplaced map is not placed") == true)
+    }
 }

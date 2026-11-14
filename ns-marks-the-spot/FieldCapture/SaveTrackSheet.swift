@@ -177,7 +177,7 @@ struct SaveTrackSheet: View {
                 }
             }
             .navigationTitle(
-                isEmpty ? "Nothing to save" : (restoredNote == nil ? "Save track" : "Unsaved walk")
+                isEmpty ? "Nothing to save" : (restoredNote == nil ? "Save track" : (result.profile == .drive ? "Unsaved drive" : "Unsaved walk"))
             )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

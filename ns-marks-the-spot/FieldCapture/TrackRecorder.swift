@@ -159,7 +159,7 @@ final class TrackRecorder: NSObject {
     private(set) var checkpointNotice: String?
 
     static let checkpointFailureText =
-        "This walk is not being saved as it goes. If the app closes before you "
+        "This recording is not being saved as it goes. If the app closes before you "
             + "stop it, it will be lost. Free some space on your device."
 
     /// Appends to the journal, and says so when it does not land.
