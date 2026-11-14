@@ -1805,14 +1805,14 @@ struct MapContainerView: View {
     private func refreshCoverageVisibility() {
         userVectorsVM.configureCoverage(catalogues: Set(driveCataloguesVM.catalogues.map(\.id)),
             loaded: driveCataloguesVM.ui.loadedCatalogueID, show: driveCataloguesVM.ui.showCoverage,
-            known: driveCataloguesVM.canEdit)
+            known: driveCataloguesVM.canEdit, loadFinished: userContentReady)
         pushUserVectors()
     }
 
     private func coverageWiring(_ content: some View) -> some View {
         content
             .onChange(of: driveCataloguesVM.catalogues) { _, _ in refreshCoverageVisibility() }
-            .onChange(of: driveCataloguesVM.ui.loadedCatalogueID) { _, _ in
+            .onChange(of: driveCataloguesVM.loaded?.id) { _, _ in
                 refreshCoverageVisibility()
                 recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk, coverage: driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil)
             }
@@ -1861,6 +1861,7 @@ struct MapContainerView: View {
                 }
                 await driveCataloguesVM.retryCatalogueDeletions(pendingDeletedCatalogues)
                 userContentReady = true
+                refreshCoverageVisibility()
                 // After the vector library, and not before: whether a restored
                 // walk has already been saved is a question only the library can
                 // answer.

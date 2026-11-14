@@ -163,9 +163,16 @@ struct CataloguePanelView: View {
 
     private func shareCoverage(catalogueID: String, tripID: String?, vectors: UserVectorsViewModel) async {
         guard let gpx = await vectors.coverageGPX(catalogueID: catalogueID, tripID: tripID) else { return }
-        let date = tripID.flatMap { id in vectors.trips(for: catalogueID).first { $0.record.coverage?.tripID == id }?.record.createdAt }
-        let day = date.map { ISO8601DateFormatter().string(from: $0).prefix(10) }
-        sharing = SharePayload(text: gpx, filename: day.map { "trip-\($0).gpx" } ?? "coverage.gpx")
+        let starts = vectors.trips(for: catalogueID).filter { $0.record.coverage?.tripID == tripID }.map { row in
+            if case .recorded(let startedAt, _, _) = row.record.origin { return startedAt }
+            return row.record.createdAt
+        }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = .current
+        formatter.dateFormat = "yyyy-MM-dd-HHmmss"
+        let filename = starts.min().flatMap { date in tripID.map { "trip-\(formatter.string(from: date))-\($0.prefix(8)).gpx" } } ?? "coverage.gpx"
+        sharing = SharePayload(text: gpx, filename: filename)
         shareError = sharing == nil ? "The GPX file could not be prepared. Your tracks remain on this device." : nil
     }
 }

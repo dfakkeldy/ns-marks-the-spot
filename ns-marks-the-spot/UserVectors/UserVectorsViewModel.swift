@@ -32,18 +32,20 @@ final class UserVectorsViewModel {
     private var loadedCoverageCatalogueID: String?
     private var showCoverage = true
     private var coverageCataloguesKnown = false
+    private var coverageCatalogueLoadFinished = false
 
-    func configureCoverage(catalogues: Set<String>, loaded: String?, show: Bool, known: Bool) {
+    func configureCoverage(catalogues: Set<String>, loaded: String?, show: Bool, known: Bool, loadFinished: Bool = true) {
         coverageCatalogueIDs = catalogues
         loadedCoverageCatalogueID = loaded
         showCoverage = show
         coverageCataloguesKnown = known
+        coverageCatalogueLoadFinished = loadFinished
     }
 
     var ordinaryRows: [Row] {
         rows.filter { row in
             guard let coverage = row.record.coverage else { return true }
-            guard coverageCataloguesKnown else { return true }
+            guard coverageCataloguesKnown else { return coverageCatalogueLoadFinished }
             return !coverageCatalogueIDs.contains(coverage.catalogueID)
         }
     }
@@ -54,7 +56,7 @@ final class UserVectorsViewModel {
 
     private func coverageIsVisible(_ row: Row) -> Bool {
         guard let coverage = row.record.coverage else { return true }
-        guard coverageCataloguesKnown else { return true }
+        guard coverageCataloguesKnown else { return coverageCatalogueLoadFinished }
         guard coverageCatalogueIDs.contains(coverage.catalogueID) else { return true }
         return showCoverage && coverage.catalogueID == loadedCoverageCatalogueID
     }
@@ -80,9 +82,15 @@ final class UserVectorsViewModel {
         guard !groups.isEmpty else { return nil }
         do {
             var trips: [DriveCoverageExport.Trip] = []
+            func started(_ rows: [Row]?) -> Date {
+                rows?.map { row in
+                    if case .recorded(let start, _, _) = row.record.origin { return start }
+                    return row.record.createdAt
+                }.min() ?? .distantPast
+            }
             let orderedIDs = groups.keys.sorted {
-                let left = groups[$0]?.map(\.record.createdAt).min() ?? .distantPast
-                let right = groups[$1]?.map(\.record.createdAt).min() ?? .distantPast
+                let left = started(groups[$0])
+                let right = started(groups[$1])
                 return left == right ? $0 < $1 : left < right
             }
             for id in orderedIDs {
