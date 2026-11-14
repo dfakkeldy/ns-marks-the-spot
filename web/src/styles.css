@@ -9948,3 +9948,12 @@ a {
   background-image: none;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Ccircle cx='23' cy='15.5' r='2.2'/%3E%3Crect x='21.2' y='20' width='3.6' height='11' rx='1.2'/%3E%3C/svg%3E") center / 46px no-repeat;
 }
+
+.user-layer-row { border-top: 1px solid #b8c5c5; padding: 0.8rem 0; overflow-wrap: anywhere; }
+.user-layer-row p { margin: 0.4rem 0; }
+.user-layer-dialog { position: fixed; z-index: 2100; inset: 5vh max(1rem, calc((100vw - 38rem) / 2)); overflow-y: auto; background: #fff; color: #18373b; border: 1px solid #81999a; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 0 0 100vmax #0008; }
+.user-layer-dialog label { display: block; margin: 0.75rem 0; }
+.user-layer-dialog input:not([type=checkbox]), .user-layer-dialog select { display: block; width: 100%; min-height: 2.75rem; }
+.user-layer-dialog button { min-height: 2.75rem; margin: 0.25rem; }
+
+@media print { .user-layer-dialog { display: none !important; } }
