@@ -18,6 +18,7 @@ struct TransparencySliderView: View {
     /// test) should still be the same panel.
     var userMaps: UserMapsViewModel?
     var driveCatalogues: DriveCataloguesViewModel?
+    var driveMode: DriveModeModel?
     var userContentReady: Bool = true
     /// The user's own vector layers, optional for the same reason.
     var userVectors: UserVectorsViewModel?
@@ -310,7 +311,7 @@ struct TransparencySliderView: View {
         }
 
         if let userMaps {
-            UserMapRowsView(viewModel: userMaps, catalogues: driveCatalogues)
+            UserMapRowsView(viewModel: userMaps, catalogues: driveCatalogues, driveMode: driveMode)
                 .disabled(!userContentReady)
         }
 

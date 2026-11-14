@@ -19,6 +19,7 @@ private final class ScriptedFixSource: LocationFixSource {
     private(set) var didRequestAuthorization = false
     /// `allowsBackgroundLocationUpdates` on the real manager.
     var deliversInBackground = false
+    private(set) var activityType: CLActivityType = .fitness
     /// How many times updates have been asked for and let go, so a test can
     /// see a refused start ask CoreLocation for nothing at all.
     private(set) var updateStarts = 0
@@ -28,6 +29,7 @@ private final class ScriptedFixSource: LocationFixSource {
     func requestWhenInUseAuthorization() { didRequestAuthorization = true }
     func startUpdatingLocation() { updateStarts += 1 }
     func stopUpdatingLocation() { updateStops += 1 }
+    func setActivityType(_ type: CLActivityType) { activityType = type }
 
     func deliver(
         latitude: Double, longitude: Double, accuracyM: Double, at seconds: TimeInterval
@@ -98,6 +100,21 @@ private final class SpyBackground: BackgroundActivity {
 @Suite("Track recorder, driven")
 @MainActor
 struct TrackRecorderSeamTests {
+    @Test func stoppingDriveRecordingKeepsDriveModeAwake() {
+        let source = ScriptedFixSource()
+        let screen = SpyScreen()
+        let coordinator = ScreenAwakeCoordinator(screen: screen)
+        let recorder = TrackRecorder(source: source, screen: screen, screenCoordinator: coordinator,
+                                     background: SpyBackground(), activity: UnwatchedActivity(),
+                                     checkpoint: temporaryCheckpointStore())
+        coordinator.set(.driveMode, active: true)
+        #expect(recorder.start(profile: .drive) == nil)
+        #expect(source.activityType == .automotiveNavigation)
+        _ = recorder.stop()
+        #expect(screen.isHeldAwake)
+        coordinator.set(.driveMode, active: false)
+        #expect(!screen.isHeldAwake)
+    }
     private func recorder() -> (TrackRecorder, ScriptedFixSource, SpyScreen, SpyBackground) {
         let source = ScriptedFixSource()
         let screen = SpyScreen()

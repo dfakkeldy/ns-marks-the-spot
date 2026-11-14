@@ -42,6 +42,7 @@ struct SaveTrackSheet: View {
         self.onSave = onSave
         self.onDiscard = onDiscard
         _name = State(initialValue: TrackFeature.defaultTrackName(startedAt: result.startedAt))
+        _toleranceM = State(initialValue: result.profile == .drive ? CaptureSpec.driveSimplifyToleranceM : CaptureSpec.Simplify.defaultToleranceM)
     }
 
     /// Vertices before simplification, drawable segments only.
@@ -152,7 +153,7 @@ struct SaveTrackSheet: View {
                 if !isEmpty {
                     Section {
                         Picker("Simplify", selection: $toleranceM) {
-                            ForEach(CaptureSpec.Simplify.presetsM, id: \.self) { preset in
+                            ForEach(result.profile == .drive ? (CaptureSpec.Simplify.presetsM + [CaptureSpec.driveSimplifyToleranceM]).sorted() : CaptureSpec.Simplify.presetsM, id: \.self) { preset in
                                 Text(presetLabel(preset)).tag(preset)
                             }
                         }

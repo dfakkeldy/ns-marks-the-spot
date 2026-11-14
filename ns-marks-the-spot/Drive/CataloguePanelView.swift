@@ -61,7 +61,7 @@ struct CataloguePanelView: View {
                     if viewModel.ui.loadedCatalogueID == catalogue.id {
                         Text(viewModel.ui.autoActivate ? "Loaded · Auto on" : "Loaded · Auto off").font(.caption).foregroundStyle(.secondary)
                         HStack {
-                            Text("Sheet opacity").font(.caption).accessibilityHidden(true)
+                            Text("Auto sheet opacity").font(.caption).accessibilityHidden(true)
                             Slider(value: Binding(get: { viewModel.opacity(for: catalogue) }, set: { viewModel.previewOpacity($0, in: catalogue.id) }), in: 0...1) { editing in
                                 if !editing { Task { await viewModel.finishOpacity(in: catalogue.id) } }
                             }

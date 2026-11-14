@@ -54,6 +54,10 @@ final class UserMapsViewModel {
     typealias Notice = UserImportNotice
 
     private(set) var rows: [Row] = []
+    private var driveManagedIDs: Set<String> = []
+    private var driveWantedIDs: Set<String> = []
+    private var previewLoads: Set<String> = []
+    private(set) var drivePreviewFailures: Set<String> = []
     var driveCatalogues: DriveCataloguesViewModel?
     /// What the last thing the user asked for came to, for the panel to show.
     /// Held rather than thrown past the user: an import that failed silently
@@ -267,15 +271,23 @@ final class UserMapsViewModel {
         // hidden row's pixels were being pinned for the app's lifetime for
         // nothing. Hidden rows load theirs on demand: when switched visible,
         // or when their frame-chooser or georeferencing sheet opens.
-        let visibleIDs = Set(rows.filter(\.isVisible).map(\.id))
         var previews: [String: CGImage] = [:]
-        for record in records where visibleIDs.contains(record.id) {
-            if let preview = try? await store.preview(id: record.id) {
+        for record in records {
+            previews = previews.filter { id, _ in
+                guard let row = rows.first(where: { $0.id == id }) else { return false }
+                return wantsPreview(id: id, visible: row.isVisible)
+            }
+            guard let row = rows.first(where: { $0.id == record.id }),
+                  wantsPreview(id: record.id, visible: row.isVisible) else { continue }
+            if let preview = try? await store.preview(id: record.id),
+               let current = rows.first(where: { $0.id == record.id }),
+               wantsPreview(id: record.id, visible: current.isVisible) {
                 previews[record.id] = preview
             }
         }
         for (id, preview) in previews {
-            guard let index = rows.firstIndex(where: { $0.id == id }) else { continue }
+            guard let index = rows.firstIndex(where: { $0.id == id }),
+                  wantsPreview(id: id, visible: rows[index].isVisible) else { continue }
             rows[index].preview = preview
         }
     }
@@ -656,7 +668,7 @@ final class UserMapsViewModel {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible
         rememberDisplay()
-        if isVisible {
+        if wantsPreview(id: id, visible: isVisible) {
             ensurePreviewLoaded(id: id)
         } else {
             // The decoded raster goes with the drape. The preview file stays
@@ -667,19 +679,41 @@ final class UserMapsViewModel {
         }
     }
 
+    private func wantsPreview(id: String, visible: Bool) -> Bool {
+        driveWantedIDs.contains(id) || (visible && !driveManagedIDs.contains(id))
+    }
+
+    /// Keep only catalogue sheets selected by activation decoded while Auto runs.
+    func setDrivePreviews(managed: Set<String>, wanted: Set<String>) {
+        for id in wanted.subtracting(driveWantedIDs) { drivePreviewFailures.remove(id) }
+        drivePreviewFailures.formIntersection(wanted)
+        driveManagedIDs = managed
+        driveWantedIDs = wanted
+        for index in rows.indices {
+            let row = rows[index]
+            if wantsPreview(id: row.id, visible: row.isVisible) { ensurePreviewLoaded(id: row.id) }
+            else if rows[index].preview != nil { rows[index].preview = nil }
+        }
+    }
+
     /// Loads a row's full preview if eviction (or a hidden-at-launch load)
     /// dropped it. Assigned only if the row is still visible when the read
     /// lands, so a quick off-on-off does not resurrect the pixels.
     private func ensurePreviewLoaded(id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }),
-              rows[index].preview == nil else { return }
+              rows[index].preview == nil, !previewLoads.contains(id), !drivePreviewFailures.contains(id) else { return }
+        previewLoads.insert(id)
         Task { [weak self, store] in
-            guard let preview = try? await store.preview(id: id),
-                  let self,
-                  let index = self.rows.firstIndex(where: { $0.id == id }),
-                  self.rows[index].isVisible
-            else { return }
-            self.rows[index].preview = preview
+            defer { self?.previewLoads.remove(id) }
+            do {
+                let preview = try await store.preview(id: id)
+                guard let self, let index = self.rows.firstIndex(where: { $0.id == id }),
+                      self.wantsPreview(id: id, visible: self.rows[index].isVisible) else { return }
+                self.rows[index].preview = preview
+            } catch {
+                guard let self, self.driveWantedIDs.contains(id) else { return }
+                self.drivePreviewFailures.insert(id)
+            }
         }
     }
 

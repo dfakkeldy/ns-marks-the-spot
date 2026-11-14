@@ -19,6 +19,7 @@ struct MapContainerView: View {
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
     @State private var driveCataloguesVM: DriveCataloguesViewModel
+    @State private var driveModeVM: DriveModeModel
     @State private var userContentReady = false
     @State private var userVectorsVM = UserVectorsViewModel()
     @State private var photoMapVM = PhotoMapViewModel()
@@ -170,6 +171,7 @@ struct MapContainerView: View {
         navigationModel: NavigationModel,
         offlineAreasViewModel: OfflineAreasViewModel,
         driveCataloguesViewModel: DriveCataloguesViewModel = DriveCataloguesViewModel(),
+        screenAwakeCoordinator: ScreenAwakeCoordinator = ScreenAwakeCoordinator(),
         recorder: TrackRecorder,
         restoredWalk: TrackCheckpointStore.Found = .none,
     ) {
@@ -177,6 +179,7 @@ struct MapContainerView: View {
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
         _driveCataloguesVM = State(initialValue: driveCataloguesViewModel)
+        _driveModeVM = State(initialValue: DriveModeModel(screen: screenAwakeCoordinator))
         self.recorder = recorder
         self.restoredWalk = restoredWalk
         // Supplied rather than built here: it needs the licence store and the
@@ -541,6 +544,22 @@ struct MapContainerView: View {
 
                     Spacer()
                 }
+            }
+
+            if driveModeVM.isOn, printFrame == nil {
+                VStack {
+                    DriveStatusChip(model: driveModeVM, catalogue: driveCataloguesVM.loaded,
+                                    rows: userMapsVM.rows, fix: controller.lastUserFix,
+                                    signalLost: controller.locationMessage == .signalLost,
+                                    failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
+                                    autoEnabled: driveCataloguesVM.ui.autoActivate)
+                        .frame(maxWidth: 420)
+                        .padding(.horizontal, 16)
+                        .clearOfRail(controlsWidth)
+                        .padding(.top, recorder.isShowingRecorder ? 68 + hudHeight : 60)
+                    Spacer()
+                }
+                .allowsHitTesting(false)
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
@@ -964,6 +983,7 @@ struct MapContainerView: View {
             viewModel: overlayVM,
             userMaps: userMapsVM,
             driveCatalogues: driveCataloguesVM,
+            driveMode: driveModeVM,
             userContentReady: userContentReady,
             userVectors: userVectorsVM,
             onZoomToLayer: { controller.frame($0) },
@@ -1125,6 +1145,21 @@ struct MapContainerView: View {
                 .disabled(isSelectingSaveArea)
 
                 Button {
+                    driveModeVM.setOn(!driveModeVM.isOn)
+                    if driveModeVM.isOn {
+                        controller.showsUserLocation = true
+                        if controller.userTrackingState != .following && controller.userTrackingState != .heading {
+                            controller.centerOnUserLocation()
+                        }
+                    }
+                    refreshDriveMode()
+                } label: {
+                    MapControlIcon(systemName: "car.fill", isActive: driveModeVM.isOn)
+                }
+                .accessibilityLabel(driveModeVM.isOn ? "Turn drive mode off" : "Turn drive mode on")
+                .disabled(isSelectingSaveArea)
+
+                Button {
                     // Registered with the session on the tap itself, before
                     // the task that finds the fix has run: a scene change
                     // between the two would otherwise drain nothing and let
@@ -1163,7 +1198,7 @@ struct MapContainerView: View {
                     // second refused tap is a second answer. A first prompt's
                     // answer arrives later, through the recorder's own
                     // announcement.
-                    if let refusal = recorder.start() {
+                    if let refusal = recorder.start(profile: driveModeVM.isOn ? .drive : .walk) {
                         MapHaptics.refused()
                         AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
                     } else if recorder.isActive {
@@ -1676,17 +1711,29 @@ struct MapContainerView: View {
     /// The loaded catalogue's first sheet is topmost, at catalogue opacity.
     /// Individual map display preferences remain untouched.
     private var displayedUserMaps: [UserMapDrape] {
-        let maps = userMapsVM.drapes
-        guard let catalogue = driveCataloguesVM.loaded else { return maps }
-        let ids = Set(catalogue.sheetIDs)
-        let others = maps.filter { !ids.contains($0.record.id) }
-        let byID = Dictionary(maps.map { ($0.record.id, $0) }, uniquingKeysWith: { first, _ in first })
-        let sheets = catalogue.sheetIDs.reversed().compactMap { id -> UserMapDrape? in
-            guard var drape = byID[id] else { return nil }
-            drape.alpha = CGFloat(driveCataloguesVM.opacity(for: catalogue))
-            return drape
-        }
-        return others + sheets
+        let catalogue = driveCataloguesVM.loaded
+        return DriveDrapeSelection.build(
+            maps: userMapsVM.drapes, rows: userMapsVM.rows, catalogue: catalogue,
+            auto: driveCataloguesVM.ui.autoActivate,
+            shown: driveModeVM.output.shown,
+            opacity: catalogue.map { driveCataloguesVM.opacity(for: $0) }
+        )
+    }
+
+    private func refreshDriveMode() {
+        let following = controller.userTrackingState == .following || controller.userTrackingState == .heading
+        let catalogue = driveCataloguesVM.loaded
+        driveModeVM.update(catalogue: catalogue, auto: driveCataloguesVM.ui.autoActivate,
+                           records: userMapsVM.rows.map(\.record), fix: controller.lastUserFix, following: following,
+                           signalAvailable: controller.locationMessage != .signalLost)
+        refreshDrivePreviews()
+    }
+
+    private func refreshDrivePreviews() {
+        let catalogue = driveCataloguesVM.loaded
+        let active = driveCataloguesVM.ui.autoActivate && catalogue != nil
+        userMapsVM.setDrivePreviews(managed: active ? Set(catalogue?.sheetIDs ?? []) : [],
+                                    wanted: active ? Set(driveModeVM.output.shown) : [])
     }
 
     var body: some View {
@@ -1771,6 +1818,13 @@ struct MapContainerView: View {
             .onChange(of: displayedUserMaps) { _, drapes in
                 controller.setUserMaps(drapes)
             }
+            .onChange(of: controller.lastUserFix) { _, _ in refreshDriveMode() }
+            .onChange(of: controller.userTrackingState) { _, _ in refreshDriveMode() }
+            .onChange(of: controller.locationMessage) { _, _ in refreshDriveMode() }
+            .onChange(of: driveCataloguesVM.loaded) { _, _ in refreshDriveMode() }
+            .onChange(of: driveCataloguesVM.ui.autoActivate) { _, _ in refreshDriveMode() }
+            .onChange(of: userMapsVM.rows.map(\.record)) { _, _ in refreshDriveMode() }
+            .onChange(of: driveModeVM.output.shown) { _, _ in refreshDrivePreviews() }
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
             }

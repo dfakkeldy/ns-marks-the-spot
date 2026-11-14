@@ -89,7 +89,8 @@ final class TrackRecorder: NSObject {
     @ObservationIgnored private let source: any LocationFixSource
     /// The screen, behind the same kind of seam, so "the screen must not be
     /// held awake for a session that cannot record" is a rule a test can check.
-    @ObservationIgnored private let screen: any ScreenWakeLock
+    @ObservationIgnored private let screenCoordinator: ScreenAwakeCoordinator
+    @ObservationIgnored private var requestedProfile: TrackRecording.Profile = .walk
     /// The walk's licence to continue off screen, held for exactly as long as
     /// the recording runs. Same seam, same reason: what a recorder does with a
     /// system service is a rule, and a rule wants a test.
@@ -190,12 +191,13 @@ final class TrackRecorder: NSObject {
     init(
         source: any LocationFixSource = CoreLocationFixSource(),
         screen: any ScreenWakeLock = ApplicationScreenWakeLock(),
+        screenCoordinator: ScreenAwakeCoordinator? = nil,
         background: any BackgroundActivity = LocationBackgroundActivity(),
         activity: any TrackActivityPresenter = LiveActivityPresenter(),
         checkpoint: TrackCheckpointStore = TrackCheckpointStore.inApplicationSupport()
     ) {
         self.source = source
-        self.screen = screen
+        self.screenCoordinator = screenCoordinator ?? ScreenAwakeCoordinator(screen: screen)
         self.background = background
         self.activity = activity
         self.checkpoint = checkpoint
@@ -232,8 +234,9 @@ final class TrackRecorder: NSObject {
     /// returned as well as kept, so the button can say it out loud on every
     /// attempt.
     @discardableResult
-    func start(now: Date = Date()) -> Refusal? {
+    func start(now: Date = Date(), profile: TrackRecording.Profile? = nil) -> Refusal? {
         guard recording.status == .idle else { return nil }
+        if let profile { requestedProfile = profile }
         let status = source.authorizationStatus
         // Read now, not waited for: the delegate reports a status only when
         // it changes, and a refusal already on file never changes again. The
@@ -267,13 +270,15 @@ final class TrackRecorder: NSObject {
             return refusal
         }
         isWaitingForPermission = false
+        recording = TrackRecording(profile: requestedProfile)
         recording.start(now: now)
         // The journal opens before the first fix can arrive, so there is no
         // window in which a walk is running and nothing is being written down.
         let id = UUID()
         walkID = id
-        checkpointNotice = checkpoint.begin(id: id, startedAt: now)
+        checkpointNotice = checkpoint.begin(id: id, startedAt: now, profile: requestedProfile)
             ? nil : Self.checkpointFailureText
+        source.setActivityType(requestedProfile == .drive ? .automotiveNavigation : .fitness)
         source.startUpdatingLocation()
         // The screen stays on while the walk is on screen — derived, never
         // asserted: a grant that arrives while the app is in Settings reaches
@@ -349,6 +354,7 @@ final class TrackRecorder: NSObject {
         // stopped one keeps its segments and counters in the StopResult, and
         // the web replaces its recorder on stop the same way.
         recording = TrackRecording()
+        requestedProfile = .walk
         walkID = nil
         source.stopUpdatingLocation()
         reconcileScreen()
@@ -378,6 +384,7 @@ final class TrackRecorder: NSObject {
     /// carries on.
     func scenePhaseChanged(isActive: Bool) {
         isSceneActive = isActive
+        screenCoordinator.sceneBecame(active: isActive)
         // The walk a grant in Settings promised. Begun here rather than at the
         // callback, so its clock starts when fixes do.
         if isActive, startsOnReturn, recording.status == .idle, refusal == nil {
@@ -393,7 +400,7 @@ final class TrackRecorder: NSObject {
     /// nowhere else. Held for a recording being watched; handed back the
     /// moment either half stops being true.
     private func reconcileScreen() {
-        screen.isHeldAwake = isSceneActive && recording.status == .recording
+        screenCoordinator.set(.recording, active: recording.status == .recording)
     }
 
     /// What the Lock Screen is told, from what the recorder knows.
