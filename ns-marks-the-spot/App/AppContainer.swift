@@ -86,7 +86,8 @@ final class AppContainer {
     /// builds a `CLLocationManager`, and a unit test that constructs a
     /// container to ask which layers install must not reach CoreLocation to
     /// find out.
-    private(set) lazy var trackRecorder = TrackRecorder(checkpoint: trackCheckpoint)
+    private(set) lazy var screenAwakeCoordinator = ScreenAwakeCoordinator()
+    private(set) lazy var trackRecorder = TrackRecorder(screenCoordinator: screenAwakeCoordinator, checkpoint: trackCheckpoint)
 
     /// The container the app launches with.
     ///

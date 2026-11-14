@@ -48,7 +48,10 @@ protocol LocationFixSource: AnyObject {
     func requestWhenInUseAuthorization()
     func startUpdatingLocation()
     func stopUpdatingLocation()
+    func setActivityType(_ type: CLActivityType)
 }
+
+extension LocationFixSource { func setActivityType(_ type: CLActivityType) {} }
 
 /// The other half of the seam.
 @MainActor
@@ -71,7 +74,7 @@ final class CoreLocationFixSource: NSObject, LocationFixSource {
     /// which takes it as an autoclosure for exactly that reason.
     var servicesEnabled: Bool { CLLocationManager.locationServicesEnabled() }
 
-    init(desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyBest) {
+    init(desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyBest, activityType: CLActivityType = .fitness) {
         super.init()
         manager.delegate = self
         manager.desiredAccuracy = desiredAccuracy
@@ -93,7 +96,7 @@ final class CoreLocationFixSource: NSObject, LocationFixSource {
         // What the walk is. `.fitness` is CoreLocation's "a person moving on
         // foot", which is what a boundary walk is; it is not a claim about
         // exercise.
-        manager.activityType = .fitness
+        manager.activityType = activityType
     }
 
     var deliversInBackground: Bool {
@@ -104,6 +107,7 @@ final class CoreLocationFixSource: NSObject, LocationFixSource {
     func requestWhenInUseAuthorization() { manager.requestWhenInUseAuthorization() }
     func startUpdatingLocation() { manager.startUpdatingLocation() }
     func stopUpdatingLocation() { manager.stopUpdatingLocation() }
+    func setActivityType(_ type: CLActivityType) { manager.activityType = type }
 
     /// One-shot, for a mark rather than a walk.
     func requestLocation() { manager.requestLocation() }

@@ -19,6 +19,7 @@ struct MapContainerView: View {
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
     @State private var driveCataloguesVM: DriveCataloguesViewModel
+    @State private var driveModeVM: DriveModeModel
     @State private var userContentReady = false
     @State private var userVectorsVM = UserVectorsViewModel()
     @State private var photoMapVM = PhotoMapViewModel()
@@ -43,6 +44,9 @@ struct MapContainerView: View {
     /// The recording HUD's measured height while it is up, so the notice
     /// stack sits below it rather than under it.
     @State private var hudHeight: CGFloat = 0
+    @State private var driveChipHeight: CGFloat = 0
+    @State private var driveRecordHeight: CGFloat = 0
+    private var compactOverlap: Bool { driveModeVM.output.status == .overlap && mapWidth > mapHeight }
     /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
     /// cannot write its answer, or its failure, over the current viewport's.
     @State private var parcelSnapGeneration = 0
@@ -68,6 +72,8 @@ struct MapContainerView: View {
     /// Why the last save attempt failed, shown inside the sheet — which
     /// stays up on failure, holding the only copy of the walk.
     @State private var saveTrackError: String?
+    @State private var isSavingCoverage = false
+    @State private var coverageRecoveryNotice: String?
     /// A checkpoint that was there at launch and could not be read as a walk.
     /// Raised as an alert rather than a passing notice: it is the app saying
     /// something may have been recorded and it cannot show it, which is not a
@@ -170,6 +176,7 @@ struct MapContainerView: View {
         navigationModel: NavigationModel,
         offlineAreasViewModel: OfflineAreasViewModel,
         driveCataloguesViewModel: DriveCataloguesViewModel = DriveCataloguesViewModel(),
+        screenAwakeCoordinator: ScreenAwakeCoordinator = ScreenAwakeCoordinator(),
         recorder: TrackRecorder,
         restoredWalk: TrackCheckpointStore.Found = .none,
     ) {
@@ -177,6 +184,7 @@ struct MapContainerView: View {
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
         _driveCataloguesVM = State(initialValue: driveCataloguesViewModel)
+        _driveModeVM = State(initialValue: DriveModeModel(screen: screenAwakeCoordinator))
         self.recorder = recorder
         self.restoredWalk = restoredWalk
         // Supplied rather than built here: it needs the licence store and the
@@ -418,6 +426,14 @@ struct MapContainerView: View {
             // would land under whichever card happens to be open — and two
             // answers at one spot covered each other's buttons.
             VStack(spacing: 8) {
+                if let notice = coverageRecoveryNotice {
+                    VStack(spacing: 6) {
+                        Text(notice).font(.footnote).multilineTextAlignment(.center)
+                        DismissNoticeButton { coverageRecoveryNotice = nil }
+                    }
+                    .padding(.horizontal, 14).padding(.vertical, 10)
+                    .mapChromeSurface(cornerRadius: 8, shadow: nil)
+                }
                 if let locationMessage = controller.locationMessage {
                     // Settings helps only with this app's own settings: its
                     // permission and its Precise Location switch. Neither a
@@ -487,11 +503,12 @@ struct MapContainerView: View {
                         .accessibilityElement(children: .combine)
                 }
             }
+            .frame(maxWidth: compactOverlap ? 140 : .infinity, alignment: .leading)
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
             // guessed: the HUD grows with Dynamic Type.
-            .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .padding(.top, driveModeVM.isOn ? (recorder.isShowingRecorder ? 76 + hudHeight + driveChipHeight : max(116, 68 + driveChipHeight)) : (recorder.isShowingRecorder ? 68 + hudHeight : 116))
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: compactOverlap ? .topLeading : .top)
 
             // The photo map's cap, on the map: the row that also says it is
             // behind the closed layers panel while the pins are looked at.
@@ -510,12 +527,13 @@ struct MapContainerView: View {
                         .padding(.vertical, 10)
                         .mapChromeSurface(cornerRadius: 8, shadow: nil)
                         .padding(.horizontal, 16)
+                        .frame(maxWidth: compactOverlap ? 140 : .infinity, alignment: .leading)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
-                        .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
+                        .padding(.top, driveModeVM.isOn ? (recorder.isShowingRecorder ? 76 + hudHeight + driveChipHeight : max(116, 68 + driveChipHeight)) : (recorder.isShowingRecorder ? 68 + hudHeight : 116))
 
                     Spacer()
-                }
+                }.frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
                 .allowsHitTesting(false)
                 .accessibilityElement(children: .combine)
             }
@@ -531,16 +549,81 @@ struct MapContainerView: View {
             if recorder.isShowingRecorder, printFrame == nil {
                 VStack {
                     TrackRecordingHUD(recorder: recorder) { stopRecording() }
-                    .frame(maxWidth: 420)
+                    .frame(maxWidth: compactOverlap ? 220 : 420)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { hudHeight = $0 }
                     .padding(.horizontal, 16)
                     // Clear of the rail, as the cards are: on a phone the HUD
                     // reached under Current Location and Mark My Location.
                     .clearOfRail(controlsWidth)
                     .padding(.top, 60)
+                    .frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
 
                     Spacer()
                 }
+            }
+
+            if driveModeVM.isOn, printFrame == nil {
+                VStack {
+                    Button {
+                        openLayerSections = (openLayerSections ?? []).union([.myMaps])
+                        isLayersMenuExpanded = true
+                    } label: {
+                        DriveStatusChip(model: driveModeVM, catalogue: driveCataloguesVM.loaded,
+                                        rows: userMapsVM.rows, fix: controller.lastUserFix,
+                                        signalLost: controller.locationMessage == .signalLost,
+                                        failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
+                                        autoEnabled: driveCataloguesVM.ui.autoActivate,
+                                        searching: controller.userTrackingState == .searching)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Opens the catalogue panel.")
+                        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveChipHeight = $0 }
+                        .frame(maxWidth: driveModeVM.output.status == .overlap ? 150 : 420, alignment: .leading)
+                        .padding(.horizontal, 16)
+                        .clearOfRail(controlsWidth)
+                        .padding(.top, recorder.isShowingRecorder ? 68 + hudHeight : 60)
+                        .frame(maxWidth: .infinity, alignment: driveModeVM.output.status == .overlap ? .leading : .center)
+                    Spacer()
+                }
+            }
+
+            if driveModeVM.isOn, printFrame == nil, !isSelectingSaveArea,
+               overlayVM.inspection == nil, editSession == nil, vectorCallout == nil,
+               featureVM.selection == nil, measure == nil, !isLayersMenuExpanded,
+               !(compactOverlap && (controller.locationMessage != nil || markLocation.outcome != nil || markLocation.isAcquiring || photoMapVM.truncationNote != nil)) {
+                VStack {
+                    Spacer()
+                    Button {
+                        if recorder.isActive { stopRecording() } else { startTrackRecording() }
+                    } label: {
+                        Label(recorder.isActive ? "End" : "Record", systemImage: recorder.isActive ? "stop.fill" : "record.circle")
+                            .frame(maxWidth: .infinity, minHeight: 64)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(markLocation.isAcquiring || isSavingCoverage)
+                    .frame(maxWidth: 220)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
+                    .onDisappear { driveRecordHeight = 0 }
+                    .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
+                    .frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
+                }
+                .padding(.horizontal, 16)
+            }
+
+            if let catalogue = driveCataloguesVM.loaded,
+               driveCataloguesVM.ui.autoActivate, OverlapBarView.isVisible(for: driveModeVM.output.status),
+               printFrame == nil, !isSelectingSaveArea, overlayVM.inspection == nil,
+               editSession == nil, vectorCallout == nil, featureVM.selection == nil,
+               measure == nil, !isLayersMenuExpanded {
+                OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows)
+                    .frame(maxWidth: compactOverlap ? max(160, min(420, mapWidth - controlsWidth - 280)) : 420)
+                    .padding(.horizontal, 16)
+                    .clearOfRail(controlsWidth)
+                    .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn && !compactOverlap ? driveRecordHeight : 0))
+                    .coversMapBottom(.driveOverlap, on: controller)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: compactOverlap ? .bottomTrailing : .bottom)
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
@@ -964,6 +1047,7 @@ struct MapContainerView: View {
             viewModel: overlayVM,
             userMaps: userMapsVM,
             driveCatalogues: driveCataloguesVM,
+            driveMode: driveModeVM,
             userContentReady: userContentReady,
             userVectors: userVectorsVM,
             onZoomToLayer: { controller.frame($0) },
@@ -1125,6 +1209,22 @@ struct MapContainerView: View {
                 .disabled(isSelectingSaveArea)
 
                 Button {
+                    driveModeVM.setOn(!driveModeVM.isOn)
+                    recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk, coverage: driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil)
+                    if driveModeVM.isOn {
+                        controller.showsUserLocation = true
+                        if controller.userTrackingState != .following && controller.userTrackingState != .heading {
+                            controller.centerOnUserLocation()
+                        }
+                    }
+                    refreshDriveMode()
+                } label: {
+                    MapControlIcon(systemName: "car.fill", isActive: driveModeVM.isOn)
+                }
+                .accessibilityLabel(driveModeVM.isOn ? "Turn drive mode off" : "Turn drive mode on")
+                .disabled(isSelectingSaveArea)
+
+                Button {
                     // Registered with the session on the tap itself, before
                     // the task that finds the fix has run: a scene change
                     // between the two would otherwise drain nothing and let
@@ -1157,23 +1257,7 @@ struct MapContainerView: View {
                 // and "the layer changed" would not be what happened.
                 .disabled(isSelectingSaveArea || markLocation.isAcquiring || editSession?.isEnding == true)
 
-                Button {
-                    controller.showsUserLocation = true
-                    // Said on every attempt, not on a value changing: the
-                    // second refused tap is a second answer. A first prompt's
-                    // answer arrives later, through the recorder's own
-                    // announcement.
-                    if let refusal = recorder.start() {
-                        MapHaptics.refused()
-                        AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
-                    } else if recorder.isActive {
-                        // Only once the recording has actually begun: a tap
-                        // that raised the system prompt has started nothing
-                        // yet, and its answer comes back below.
-                        MapHaptics.modeChanged()
-                        AccessibilityNotification.Announcement("Recording started").post()
-                    }
-                } label: {
+                Button { startTrackRecording() } label: {
                     MapControlIcon(
                         systemName: recorder.isActive ? "record.circle.fill" : "record.circle",
                         tint: .red,
@@ -1190,7 +1274,7 @@ struct MapContainerView: View {
                 // reading "Recording not started" while the button, still
                 // enabled, would otherwise have nothing to say at all.
                 .accessibilityValue(recorderState)
-                .disabled(isSelectingSaveArea || recorder.isActive)
+                .disabled(isSelectingSaveArea || recorder.isActive || isSavingCoverage)
 
                 // Two buttons rather than one with a mode, as on the
                 // web: distance and area are different questions, and a
@@ -1673,31 +1757,96 @@ struct MapContainerView: View {
         return recorder.isWaitingForPermission ? "Waiting for location permission" : ""
     }
 
+    private func startTrackRecording() {
+        guard !isSavingCoverage else { return }
+        controller.showsUserLocation = true
+        let coverage = driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil
+        if let refusal = recorder.start(profile: driveModeVM.isOn ? .drive : .walk, coverage: coverage) {
+            MapHaptics.refused()
+            AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+        } else if recorder.isActive {
+            MapHaptics.modeChanged()
+            AccessibilityNotification.Announcement("Recording started").post()
+        }
+    }
+
     /// The loaded catalogue's first sheet is topmost, at catalogue opacity.
     /// Individual map display preferences remain untouched.
     private var displayedUserMaps: [UserMapDrape] {
-        let maps = userMapsVM.drapes
-        guard let catalogue = driveCataloguesVM.loaded else { return maps }
-        let ids = Set(catalogue.sheetIDs)
-        let others = maps.filter { !ids.contains($0.record.id) }
-        let byID = Dictionary(maps.map { ($0.record.id, $0) }, uniquingKeysWith: { first, _ in first })
-        let sheets = catalogue.sheetIDs.reversed().compactMap { id -> UserMapDrape? in
-            guard var drape = byID[id] else { return nil }
-            drape.alpha = CGFloat(driveCataloguesVM.opacity(for: catalogue))
-            return drape
-        }
-        return others + sheets
+        let catalogue = driveCataloguesVM.loaded
+        return DriveDrapeSelection.build(
+            maps: userMapsVM.drapes, rows: userMapsVM.rows, catalogue: catalogue,
+            auto: driveCataloguesVM.ui.autoActivate && driveModeVM.hasUsableActivation,
+            shown: driveModeVM.output.shown,
+            opacity: catalogue.map { driveCataloguesVM.opacity(for: $0) }
+        )
+    }
+
+    private func refreshDriveMode() {
+        let following = controller.userTrackingState == .following || controller.userTrackingState == .heading
+        let catalogue = driveCataloguesVM.loaded
+        driveModeVM.update(catalogue: catalogue, auto: driveCataloguesVM.ui.autoActivate,
+                           records: userMapsVM.rows.map(\.record), fix: controller.lastUserFix, following: following,
+                           signalAvailable: controller.locationMessage != .signalLost)
+        refreshDrivePreviews()
+    }
+
+    private func refreshDrivePreviews() {
+        let catalogue = driveCataloguesVM.loaded
+        let active = driveCataloguesVM.ui.autoActivate && catalogue != nil && driveModeVM.hasUsableActivation
+        userMapsVM.setDrivePreviews(managed: active ? Set(catalogue?.sheetIDs ?? []) : [],
+                                    wanted: active ? Set(driveModeVM.output.shown) : [])
     }
 
     var body: some View {
-        sceneWiring(editWiring(snapWiring(contentWiring(surfaceAndSheets))))
+        sceneWiring(editWiring(snapWiring(coverageWiring(driveWiring(contentWiring(surfaceAndSheets))))))
+    }
+
+    private func refreshCoverageVisibility() {
+        userVectorsVM.configureCoverage(catalogues: Set(driveCataloguesVM.catalogues.map(\.id)),
+            loaded: driveCataloguesVM.ui.loadedCatalogueID, show: driveCataloguesVM.ui.showCoverage,
+            known: driveCataloguesVM.canEdit, loadFinished: userContentReady)
+        pushUserVectors()
+    }
+
+    private func coverageWiring(_ content: some View) -> some View {
+        content
+            .onChange(of: driveCataloguesVM.catalogues) { _, _ in refreshCoverageVisibility() }
+            .onChange(of: driveCataloguesVM.loaded?.id) { _, _ in
+                refreshCoverageVisibility()
+                recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk, coverage: driveModeVM.isOn ? driveCataloguesVM.loaded.map { DriveCoverage(catalogueID: $0.id, tripID: UUID().uuidString) } : nil)
+            }
+            .onChange(of: driveCataloguesVM.ui.showCoverage) { _, _ in refreshCoverageVisibility() }
+            .onChange(of: driveCataloguesVM.canEdit) { _, _ in refreshCoverageVisibility() }
+    }
+
+    private func driveWiring(_ content: some View) -> some View {
+        content
+            .onChange(of: displayedUserMaps) { _, drapes in controller.setUserMaps(drapes) }
+            .onChange(of: controller.lastUserFix) { _, _ in refreshDriveMode() }
+            .onChange(of: controller.userTrackingState) { _, _ in refreshDriveMode() }
+            .onChange(of: controller.locationMessage) { _, _ in refreshDriveMode() }
+            .onChange(of: driveCataloguesVM.loaded) { _, _ in refreshDriveMode() }
+            .onChange(of: driveCataloguesVM.ui.autoActivate) { _, _ in refreshDriveMode() }
+            .onChange(of: userMapsVM.rows.map(\.record)) { _, _ in refreshDriveMode() }
+            .onChange(of: driveModeVM.output.shown) { _, _ in refreshDrivePreviews() }
+            .task(id: driveModeVM.isOn) {
+                guard driveModeVM.isOn else { return }
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(5))
+                    guard !Task.isCancelled else { return }
+                    refreshDriveMode()
+                }
+            }
     }
 
     private func contentWiring(_ content: some View) -> some View {
         content
             .task {
                 userMapsVM.driveCatalogues = driveCataloguesVM
+                driveCataloguesVM.coverageVectors = userVectorsVM
                 let pendingCatalogueDeletions = driveCataloguesVM.pendingDeletions
+                let pendingDeletedCatalogues = driveCataloguesVM.pendingCatalogueDeletions
                 // Concurrently: the two libraries touch different actors and
                 // different files, and awaiting the raster previews before the
                 // vector load even started kept the user's drawing layers off
@@ -1706,10 +1855,13 @@ struct MapContainerView: View {
                 async let vectors: Void = userVectorsVM.load()
                 async let catalogues: Void = driveCataloguesVM.load()
                 _ = await (maps, vectors, catalogues)
+                refreshCoverageVisibility()
                 if userMapsVM.hasConfirmedLibrary {
                     await driveCataloguesVM.retryPendingDeletions(pendingCatalogueDeletions, confirmedIDs: userMapsVM.confirmedMapIDs)
                 }
+                await driveCataloguesVM.retryCatalogueDeletions(pendingDeletedCatalogues)
                 userContentReady = true
+                refreshCoverageVisibility()
                 // After the vector library, and not before: whether a restored
                 // walk has already been saved is a question only the library can
                 // answer.
@@ -1764,12 +1916,6 @@ struct MapContainerView: View {
             // The live trace follows the fixes as they arrive.
             .onChange(of: recorder.recording.liveSegments) { _, _ in
                 pushUserVectors()
-            }
-            // The view model owns the rows; the map only ever draws what they
-            // currently say. Pushed on change rather than on a timer so a slider
-            // drag moves the drape it is under.
-            .onChange(of: displayedUserMaps) { _, drapes in
-                controller.setUserMaps(drapes)
             }
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
@@ -1980,6 +2126,9 @@ struct MapContainerView: View {
             unreadableCheckpoint = TrackRestoreNotice.unreadableMessage(keptAt: keptAt)
         case .walk(let restored):
             guard !userVectorsVM.rows.contains(where: { $0.id == restored.id.uuidString }) else {
+                if restored.wasInterrupted, restored.result.coverage != nil {
+                    coverageRecoveryNotice = TrackRestoreNotice.text(for: restored)
+                }
                 recorder.clearCheckpoint()
                 return
             }
@@ -1988,7 +2137,7 @@ struct MapContainerView: View {
             // now, and the walk read at launch has already been set aside by
             // the start that replaced it.
             guard !recorder.isActive, saveTrack == nil else { return }
-            saveTrack = SaveTrackPayload(
+            let payload = SaveTrackPayload(
                 id: restored.id,
                 result: restored.result,
                 // The refusal is not knowable from the journal — it records
@@ -1996,8 +2145,11 @@ struct MapContainerView: View {
                 // so the sheet's empty-result wording falls back to the general
                 // one rather than claiming a refusal that may not have happened.
                 stoppedWhileRefused: false,
-                restoredNote: TrackRestoreNotice.text(for: restored)
+                restoredNote: TrackRestoreNotice.text(for: restored),
+                wasInterrupted: restored.wasInterrupted
             )
+            if hasLivingCoverage(restored.result) { saveCoverage(payload) }
+            else { saveTrack = payload }
         }
     }
 
@@ -2015,7 +2167,8 @@ struct MapContainerView: View {
                 // layer however many times this runs.
                 id: payload.id.uuidString,
                 name: name,
-                simplifyToleranceM: toleranceM
+                simplifyToleranceM: toleranceM,
+                coverage: coverageForManualSave(payload)
             ) else {
                 saveTrackError = "This track could not be saved to your "
                     + "device. Free some space and save again, or discard it."
@@ -2030,6 +2183,48 @@ struct MapContainerView: View {
             if let box = row.record.bbox {
                 controller.frame(box)
             }
+        }
+    }
+
+    private func hasLivingCoverage(_ result: TrackRecording.StopResult) -> Bool {
+        DriveCoverageSaveDecision.decide(result, cataloguesKnown: driveCataloguesVM.canEdit,
+            catalogueIDs: Set(driveCataloguesVM.catalogues.map(\.id))) == .automatic
+    }
+
+    private func coverageForManualSave(_ payload: SaveTrackPayload) -> DriveCoverage? {
+        guard payload.result.profile == .drive, var coverage = payload.result.coverage else { return nil }
+        guard !driveCataloguesVM.canEdit || driveCataloguesVM.catalogues.contains(where: { $0.id == coverage.catalogueID }) else { return nil }
+        coverage.wasInterrupted = payload.wasInterrupted ? true : nil
+        return coverage
+    }
+
+    private func saveCoverage(_ payload: SaveTrackPayload) {
+        guard !isSavingCoverage else { return }
+        isSavingCoverage = true
+        Task {
+            defer { isSavingCoverage = false }
+            guard payload.result.segments.contains(where: { $0.count >= 2 }) else {
+                saveTrack = payload
+                return
+            }
+            guard var tag = payload.result.coverage, hasLivingCoverage(payload.result) else {
+                saveTrack = payload
+                return
+            }
+            tag.wasInterrupted = payload.wasInterrupted ? true : nil
+            let name = TrackFeature.defaultTrackName(startedAt: payload.result.startedAt)
+            guard await userVectorsVM.addRecordedLayer(payload.result, id: payload.id.uuidString,
+                name: name, simplifyToleranceM: CaptureSpec.driveSimplifyToleranceM, coverage: tag) != nil else {
+                saveTrackError = "This drive could not be saved. Save it or discard it using the track screen."
+                saveTrack = payload
+                return
+            }
+            if await driveCataloguesVM.containsPersistedCatalogue(tag.catalogueID) != true {
+                await driveCataloguesVM.scheduleCoverageCleanup(catalogueID: tag.catalogueID)
+            }
+            recorder.clearCheckpoint()
+            if let notice = payload.restoredNote { coverageRecoveryNotice = notice }
+            pushUserVectors()
         }
     }
 
@@ -2310,11 +2505,13 @@ struct MapContainerView: View {
         // no longer waiting on that: it is on disk from the moment it stopped,
         // and stays there until this sheet is answered.
         MapHaptics.modeChanged()
-        saveTrack = SaveTrackPayload(
+        let payload = SaveTrackPayload(
             id: stopped.id,
             result: stopped.result,
             stoppedWhileRefused: stopped.stoppedWhileRefused
         )
+        if hasLivingCoverage(stopped.result) { saveCoverage(payload) }
+        else { saveTrack = payload }
         // The live trace is drawn from the recorder, which just went idle.
         pushUserVectors()
         return true
@@ -3337,6 +3534,7 @@ private struct SaveTrackPayload: Identifiable {
     /// What happened to a walk that was read back off disk, or nil for one the
     /// reader has just stopped.
     var restoredNote: String?
+    var wasInterrupted = false
 }
 
 /// Photos the user picked for bulk EXIF placement, waiting on the confirm

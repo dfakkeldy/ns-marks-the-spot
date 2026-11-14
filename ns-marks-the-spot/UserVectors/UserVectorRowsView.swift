@@ -27,7 +27,7 @@ struct UserVectorRowsView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
 
-            if viewModel.rows.isEmpty, !viewModel.isLibrarySealed {
+            if viewModel.ordinaryRows.isEmpty, !viewModel.isLibrarySealed {
                 // Not while a library this build could not read is sitting on
                 // the device. There is no telling whether it holds nothing or
                 // holds everything the reader has drawn, and an invitation to
@@ -38,7 +38,7 @@ struct UserVectorRowsView: View {
                     .foregroundStyle(.secondary)
             }
 
-            ForEach(viewModel.rows) { row in
+            ForEach(viewModel.ordinaryRows) { row in
                 UserVectorRow(
                     row: row,
                     onVisible: { viewModel.setVisible($0, id: row.id) },

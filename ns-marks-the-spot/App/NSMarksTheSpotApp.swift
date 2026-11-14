@@ -6,6 +6,21 @@ struct NSMarksTheSpotApp: App {
 
     var body: some Scene {
         WindowGroup {
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("UITestMode") && ProcessInfo.processInfo.arguments.contains("UITestDriveOverlap") {
+                DriveOverlapTestHarness()
+            } else if ProcessInfo.processInfo.arguments.contains("UITestMode") && ProcessInfo.processInfo.arguments.contains("UITestDriveNoOverlap") {
+                DriveOverlapTestHarness(shouldOverlap: false)
+            } else {
+                mainMap
+            }
+            #else
+            mainMap
+            #endif
+        }
+    }
+
+    private var mainMap: some View {
             // Everything here comes off the container, which owns one set of
             // view models for the life of the process. This closure is a
             // description SwiftUI may re-evaluate — a backgrounded scene
@@ -20,6 +35,7 @@ struct NSMarksTheSpotApp: App {
                 navigationModel: container.navigationModel,
                 offlineAreasViewModel: container.offlineAreasViewModel,
                 driveCataloguesViewModel: container.driveCataloguesViewModel,
+                screenAwakeCoordinator: container.screenAwakeCoordinator,
                 // Both off the container, which read the checkpoint before any
                 // view existed and owns the recorder a Lock Screen button can
                 // reach without one.
@@ -31,6 +47,5 @@ struct NSMarksTheSpotApp: App {
             // layers outside the main map, and it must draw them through the
             // app's own cache and clearance.
             .environment(\.georeferenceReferences, container.georeferenceReferences)
-        }
     }
 }
