@@ -17,7 +17,7 @@ export type UserLayerRecord = {
   createdAt: string;
   modifiedAt: string;
   acknowledgement: { version: 1; at: string } | null;
-  probe: { display: boolean | null; corsReadable: boolean | null; at: string } | null;
+  probe: { display: boolean | null; corsReadable: boolean | null; at: string; diagnostic?: string } | null;
 };
 
 export type UserLayerUiState = Record<string, { enabled: boolean; opacity: number }>;

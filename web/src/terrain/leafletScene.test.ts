@@ -21,6 +21,11 @@ describe('Leaflet sources in the terrain view', () => {
     expect(urlForTile(tiles, Object.assign(L.point(2, 3), { z: 8 }))).toBe('https://example.test/8/2/252.png');
     expect(m.getZoom()).toBe(13);
   });
+  it('does not collect user tiles for 3D', () => {
+    const m = makeMap();
+    const userTiles = L.tileLayer('https://example.test/{z}/{x}/{y}.png', { className: 'user-supplied-tile-layer' }).addTo(m);
+    expect(collectScene(m).rasters.some(entry => entry.layer === userTiles)).toBe(false);
+  });
   it('preserves the exact export extent for ArcGIS imagery', () => {
     const m = makeMap();
     const layer = new ArcGISExportTileLayer({ serviceUrl: 'https://example.test/MapServer', transparent: true }, {}).addTo(m);
