@@ -9,6 +9,7 @@ import Foundation
 /// if spacing had suppressed it, so the track ends where the user actually
 /// stopped (the contract's final-fix rule).
 public struct TrackRecording: Sendable {
+    public enum Profile: Sendable { case walk, drive }
     public enum Status: String, Sendable {
         case idle, recording, paused
     }
@@ -43,15 +44,19 @@ public struct TrackRecording: Sendable {
     private var acceptedCount = 0
     private var rawCount = 0
     private var filter = TrackFilterState()
+    private var latestRawTimestamp: Date?
     private var segments: [[TrackPoint]] = []
     private var rawSegments: [[TrackFix]] = []
 
-    public init() {}
+    private let profile: Profile
+
+    public init(profile: Profile = .walk) { self.profile = profile }
 
     private mutating func openSegment() {
         segments.append([])
         rawSegments.append([])
         filter = TrackFilterState()
+        latestRawTimestamp = nil
     }
 
     private mutating func closeSegment() {
@@ -115,9 +120,21 @@ public struct TrackRecording: Sendable {
     @discardableResult
     public mutating func addFix(_ fix: TrackFix) -> Bool {
         guard status == .recording else { return false }
+        if profile == .drive, let previous = latestRawTimestamp,
+           fix.timestamp.timeIntervalSince(previous) > CaptureSpec.DriveTrackFilter.gapSplitS {
+            closeSegment()
+            openSegment()
+        }
+        if fix.timestamp.timeIntervalSinceReferenceDate.isFinite {
+            if let previous = latestRawTimestamp {
+                if fix.timestamp > previous { latestRawTimestamp = fix.timestamp }
+            } else {
+                latestRawTimestamp = fix.timestamp
+            }
+        }
         rawSegments[rawSegments.count - 1].append(fix)
         rawCount += 1
-        let result = TrackFilter.applyFix(filter, fix: fix)
+        let result = TrackFilter.applyFix(filter, fix: fix, spec: profile == .drive ? .drive : .walk)
         filter = result.next
         if result.accepted != nil {
             acceptedCount += 1

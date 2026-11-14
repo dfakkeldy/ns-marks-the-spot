@@ -37,6 +37,15 @@ export const FIELD_CAPTURE_SPEC = {
     minSpacingFloorM: 2,
     spacingAccuracyFactor: 0.5,
   },
+  driveTrackFilter: {
+    accuracyGateM: 30,
+    maxSpeedMps: 50,
+    smoothingAlpha: 1,
+    minSpacingFloorM: 5,
+    spacingAccuracyFactor: 0.25,
+    gapSplitS: 10,
+  },
+  driveSimplifyToleranceM: 3,
   simplify: {
     defaultToleranceM: 1,
     presetsM: [0, 0.5, 1, 2, 5],

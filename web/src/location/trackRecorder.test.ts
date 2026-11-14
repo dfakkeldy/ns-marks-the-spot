@@ -28,6 +28,32 @@ function clock(startMs: number) {
 }
 
 describe("createTrackRecorder", () => {
+  it("records highway fixes without smoothing and splits only real gaps", () => {
+    const drive = createTrackRecorder(() => 120_000, "drive");
+    const walk = createTrackRecorder(() => 120_000);
+    drive.start(); walk.start();
+    for (let i = 0; i < 3; i++) {
+      expect(drive.addFix(fix(i * 30.6, i * 1_000))).toBe(true);
+      expect(walk.addFix(fix(i * 30.6, i * 1_000))).toBe(i === 0);
+    }
+    drive.addFix(fix(100, 14_000));
+    walk.addFix(fix(100, 14_000));
+    const d = drive.stop()!;
+    expect(d.segments.map(s => s.length)).toEqual([3, 1]);
+    expect(d.segments[0][2].lat).toBe(fix(61.2, 2_000).latitude);
+    expect(walk.stop()!.segments).toHaveLength(1);
+  });
+
+  it("does not reset the speed gate after an out-of-order raw fix", () => {
+    const drive = createTrackRecorder(() => 120_000, "drive");
+    drive.start();
+    expect(drive.addFix(fix(0, 100_000))).toBe(true);
+    expect(drive.addFix(fix(0, 80_000))).toBe(false);
+    expect(drive.addFix(fix(10_000, 101_000))).toBe(false);
+    const result = drive.stop()!;
+    expect(result.segments).toHaveLength(1);
+    expect(result.acceptedFixCount).toBe(1);
+  });
   it("collects vertices, counts raw and accepted fixes, and sums distance", () => {
     const time = clock(0);
     const recorder = createTrackRecorder(time.now);

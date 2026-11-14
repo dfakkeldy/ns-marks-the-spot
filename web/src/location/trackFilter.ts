@@ -64,8 +64,11 @@ export type FixResult = {
   rejected: FixRejection | null;
 };
 
-export function applyFix(state: TrackFilterState, fix: LiveFix): FixResult {
-  const spec = FIELD_CAPTURE_SPEC.trackFilter;
+type FilterSpec = { [K in keyof typeof FIELD_CAPTURE_SPEC.trackFilter]: number };
+
+export function applyFix(
+  state: TrackFilterState, fix: LiveFix, spec: FilterSpec = FIELD_CAPTURE_SPEC.trackFilter,
+): FixResult {
 
   // Accuracy gate: a non-positive accuracy is a broken fix, not a perfect one.
   if (!(fix.accuracyM > 0)) {
@@ -91,7 +94,7 @@ export function applyFix(state: TrackFilterState, fix: LiveFix): FixResult {
     }
   }
 
-  const smoothed = state.smoothed
+  const smoothed = state.smoothed && spec.smoothingAlpha !== 1
     ? {
         lat:
           state.smoothed.lat +

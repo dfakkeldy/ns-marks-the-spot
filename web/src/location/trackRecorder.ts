@@ -7,6 +7,7 @@ import {
   type TrackPoint,
 } from "./trackFilter";
 import type { LiveFix } from "./liveLocation";
+import { FIELD_CAPTURE_SPEC } from "./captureSpec";
 
 /**
  * The recording state machine: segments, raw-fix retention, live stats. Pure
@@ -70,7 +71,7 @@ export type TrackRecorder = {
   liveSegments: () => [number, number][][];
 };
 
-export function createTrackRecorder(now: () => number = Date.now): TrackRecorder {
+export function createTrackRecorder(now: () => number = Date.now, profile: "walk" | "drive" = "walk"): TrackRecorder {
   let status: RecorderStatus = "idle";
   let startedAtMs = 0;
   let recordingMs = 0;
@@ -81,6 +82,7 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
   let rawCount = 0;
   let lastRejection: FixRejection | null = null;
   let filter: TrackFilterState = createTrackFilterState();
+  let latestRawTimestampMs: number | null = null;
   const segments: TrackPoint[][] = [];
   const rawSegments: LiveFix[][] = [];
 
@@ -88,6 +90,7 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
     segments.push([]);
     rawSegments.push([]);
     filter = createTrackFilterState();
+    latestRawTimestampMs = null;
   };
 
   // The last accepted fix when spacing suppressed it: the vertex the
@@ -200,9 +203,17 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
       if (status !== "recording") {
         return false;
       }
+      if (profile === "drive" && latestRawTimestampMs !== null &&
+          fix.timestampMs - latestRawTimestampMs > FIELD_CAPTURE_SPEC.driveTrackFilter.gapSplitS * 1_000) {
+        closeSegment();
+        openSegment();
+      }
+      if (Number.isFinite(fix.timestampMs) && (latestRawTimestampMs === null || fix.timestampMs > latestRawTimestampMs)) {
+        latestRawTimestampMs = fix.timestampMs;
+      }
       rawSegments[rawSegments.length - 1].push(fix);
       rawCount += 1;
-      const result = applyFix(filter, fix);
+      const result = applyFix(filter, fix, profile === "drive" ? FIELD_CAPTURE_SPEC.driveTrackFilter : FIELD_CAPTURE_SPEC.trackFilter);
       filter = result.next;
       lastRejection = result.rejected;
       if (result.accepted) {
