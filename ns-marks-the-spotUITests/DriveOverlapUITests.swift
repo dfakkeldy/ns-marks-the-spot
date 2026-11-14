@@ -24,4 +24,13 @@ final class DriveOverlapUITests: XCTestCase {
             }
         }
     }
+
+    @MainActor func testOverlapControlsAreAbsentWithoutOverlap() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestDriveNoOverlap"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["drive-overlap-fixture-ready"].waitForExistence(timeout: 30))
+        XCTAssertFalse(app.buttons["drive-overlap-swap"].exists)
+        XCTAssertFalse(app.buttons["drive-overlap-visibility"].exists)
+    }
 }

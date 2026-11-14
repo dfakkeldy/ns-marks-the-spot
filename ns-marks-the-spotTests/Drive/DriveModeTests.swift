@@ -2,6 +2,7 @@ import Foundation
 import CoreGraphics
 import GeoCore
 import Testing
+import UIKit
 @testable import ns_marks_the_spot
 
 @MainActor private final class DriveTestScreen: ScreenWakeLock { var isHeldAwake = false }
@@ -14,11 +15,11 @@ struct DriveModeTests {
         #expect(!OverlapBarView.isVisible(for: .offSheets))
     }
 
-    @Test func overlapInsetKeepsFollowTargetBelowFortyPercent() {
+    @Test func followTargetClearsTheMeasuredOverlapArea() {
         let height: CGFloat = 390
-        let inset = MapController.clampedDriveOverlapInset(220, mapHeight: height)
-        #expect(inset == 78)
-        #expect((height - inset) / 2 >= height * 0.4)
+        let covered: CGFloat = 230
+        let room = MapController.uncoveredRect(in: CGRect(x: 0, y: 0, width: 844, height: height), insets: UIEdgeInsets(top: 10, left: 0, bottom: covered, right: 0))
+        #expect(room.midY + 12 < height - covered)
     }
     @Test func screenReasonsAndSceneAreIndependent() {
         let screen = DriveTestScreen()

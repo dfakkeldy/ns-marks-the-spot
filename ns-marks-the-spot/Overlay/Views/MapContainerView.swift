@@ -560,15 +560,17 @@ struct MapContainerView: View {
                                         failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
                                         autoEnabled: driveCataloguesVM.ui.autoActivate,
                                         searching: controller.userTrackingState == .searching)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                         .buttonStyle(.plain)
-                        .frame(minHeight: 44)
                         .accessibilityHint("Opens the catalogue panel.")
                         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveChipHeight = $0 }
-                        .frame(maxWidth: 420)
+                        .frame(maxWidth: driveModeVM.output.status == .overlap ? 150 : 420, alignment: .leading)
                         .padding(.horizontal, 16)
                         .clearOfRail(controlsWidth)
                         .padding(.top, recorder.isShowingRecorder ? 68 + hudHeight : 60)
+                        .frame(maxWidth: .infinity, alignment: driveModeVM.output.status == .overlap ? .leading : .center)
                     Spacer()
                 }
             }
