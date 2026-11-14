@@ -126,6 +126,18 @@ struct TrackRecorderSeamTests {
         #expect(source.activityType == .fitness)
         _ = recorder.stop()
     }
+
+    @Test func changingCatalogueWhilePermissionIsRefusedUpdatesCoverage() throws {
+        for replacement in [DriveCoverage(catalogueID: "b", tripID: "two"), nil] {
+            let (recorder, source, _, _) = self.recorder()
+            source.authorizationStatus = .denied
+            #expect(recorder.start(profile: .drive, coverage: DriveCoverage(catalogueID: "a", tripID: "one")) == .denied)
+            recorder.updatePendingProfile(.drive, coverage: replacement)
+            source.changeAuthorization(to: .authorizedWhenInUse)
+            let stopped = recorder.stop()
+            #expect(try #require(stopped).result.coverage == replacement)
+        }
+    }
     private func recorder() -> (TrackRecorder, ScriptedFixSource, SpyScreen, SpyBackground) {
         let source = ScriptedFixSource()
         let screen = SpyScreen()

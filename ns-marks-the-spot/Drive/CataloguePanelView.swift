@@ -119,6 +119,12 @@ struct CataloguePanelView: View {
         let id: String
         let rows: [UserVectorsViewModel.Row]
         var name: String { rows.first?.record.name ?? "Trip" }
+        var started: Date {
+            rows.map { row in
+                if case .recorded(let start, _, _) = row.record.origin { return start }
+                return row.record.createdAt
+            }.min() ?? .distantPast
+        }
         var distance: Double? {
             let values = rows.compactMap { row -> Double? in
                 guard let value = row.record.coverage?.distanceM, value.isFinite, value >= 0 else { return nil }
@@ -128,11 +134,17 @@ struct CataloguePanelView: View {
         }
     }
 
-    @ViewBuilder private func coverageSection(catalogue: DriveCatalogue, vectors: UserVectorsViewModel) -> some View {
-        let groups = Dictionary(grouping: vectors.trips(for: catalogue.id)) { $0.record.coverage?.tripID ?? "" }
-        let trips = groups.map { CoverageTrip(id: $0.key, rows: $0.value) }.sorted {
-            ($0.rows.first?.record.createdAt ?? .distantPast) > ($1.rows.first?.record.createdAt ?? .distantPast)
+    private func sortedTrips(catalogueID: String, vectors: UserVectorsViewModel) -> [CoverageTrip] {
+        let groups = Dictionary(grouping: vectors.trips(for: catalogueID)) { $0.record.coverage?.tripID ?? "" }
+        let trips: [CoverageTrip] = groups.map { CoverageTrip(id: $0.key, rows: $0.value) }
+        return trips.sorted { left, right in
+            if left.started == right.started { return left.id < right.id }
+            return left.started > right.started
         }
+    }
+
+    @ViewBuilder private func coverageSection(catalogue: DriveCatalogue, vectors: UserVectorsViewModel) -> some View {
+        let trips = sortedTrips(catalogueID: catalogue.id, vectors: vectors)
         VStack(alignment: .leading, spacing: 8) {
             Toggle("Show coverage", isOn: Binding(get: { viewModel.ui.showCoverage }, set: { viewModel.setShowCoverage($0) }))
             if let refusal = vectors.lastRefusal { Text(refusal.userMessage).font(.caption).foregroundStyle(.orange) }
