@@ -37,6 +37,13 @@ enum UserFileImport {
     /// otherwise be unpickable rather than refused with a reason.
     static let contentTypes: [UTType] = [.tiff, .png, .jpeg, .pdf, .json, .xml, .zip, .data]
 
+    /// Import catalogue sheets in file-name order and retain only saved IDs.
+    static func loadCatalogueSheets(_ urls: [URL], maps: UserMapsViewModel) async -> [String] {
+        let sorted = urls.sorted { $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == .orderedAscending }
+        let candidates = await load(sorted, maps: maps, vectors: nil)
+        return candidates.filter { maps.confirmedMapIDs.contains($0) }
+    }
+
     /// What reading one chosen file produced.
     ///
     /// `tooLarge` carries the pipeline rather than the bytes: the file was
@@ -95,14 +102,16 @@ enum UserFileImport {
     /// as many as the user selects; holding the whole selection as `Data` is a
     /// gigabyte resident before the first sheet is decoded, and the system ends
     /// the app for it while every file was inside the size limit on its own.
+    @discardableResult
     static func load(
         _ urls: [URL], maps: UserMapsViewModel?, vectors: UserVectorsViewModel?
-    ) async {
+    ) async -> [String] {
         // Both sides, every batch: whichever pipeline gets nothing this time
         // still clears its stale messages, so what the panel says is always
         // about the files just chosen.
         maps?.beginImports()
         vectors?.beginImports()
+        var importedIDs: [String] = []
         for url in urls {
             let filename = url.lastPathComponent
             let name = url.deletingPathExtension().lastPathComponent
@@ -138,7 +147,7 @@ enum UserFileImport {
             switch ImportRouting.pipeline(for: data) {
             case .raster:
                 if let maps {
-                    await maps.importMap(data: data, name: name, filename: filename)
+                    if let id = await maps.importMapReturningID(data: data, name: name, filename: filename) { importedIDs.append(id) }
                 } else {
                     // No map section on this panel. Sent to the other pipeline
                     // rather than dropped, because a file that refuses a file
@@ -149,9 +158,10 @@ enum UserFileImport {
                 if let vectors {
                     await vectors.importFile(data: data, filename: filename)
                 } else {
-                    await maps?.importMap(data: data, name: name, filename: filename)
+                    if let id = await maps?.importMapReturningID(data: data, name: name, filename: filename) { importedIDs.append(id) }
                 }
             }
         }
+        return importedIDs
     }
 }

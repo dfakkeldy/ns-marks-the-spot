@@ -54,6 +54,7 @@ final class UserMapsViewModel {
     typealias Notice = UserImportNotice
 
     private(set) var rows: [Row] = []
+    var driveCatalogues: DriveCataloguesViewModel?
     /// What the last thing the user asked for came to, for the panel to show.
     /// Held rather than thrown past the user: an import that failed silently
     /// reads as a file that vanished.
@@ -83,6 +84,8 @@ final class UserMapsViewModel {
     /// first edit, which never reached the disk either, while the panel says
     /// the change was undone.
     private var saved: [UserMapRecord] = []
+    private(set) var hasConfirmedLibrary = false
+    var confirmedMapIDs: Set<String> { Set(saved.map(\.id)) }
 
     /// How many library writes have been started since launch.
     ///
@@ -195,6 +198,7 @@ final class UserMapsViewModel {
         }
         isLibrarySealed = false
         saved = records
+        hasConfirmedLibrary = true
         let remembered = display.load()
         rows = records.map { record in
             let last = remembered[record.id]
@@ -302,8 +306,12 @@ final class UserMapsViewModel {
     /// `lots.json` and `lots.geojson` are two different files and `lots` is
     /// neither.
     func importMap(data: Data, name: String, filename: String? = nil) async {
+        _ = await importMapReturningID(data: data, name: name, filename: filename)
+    }
+
+    func importMapReturningID(data: Data, name: String, filename: String? = nil) async -> String? {
         let named = filename ?? name
-        guard !isLibrarySealed else { return refuseWhileSealed(name: named) }
+        guard !isLibrarySealed else { refuseWhileSealed(name: named); return nil }
         let id = UUID().uuidString
         do {
             // Detached: decoding a 4096 px thumbnail out of a possibly
@@ -327,7 +335,7 @@ final class UserMapsViewModel {
             // over a library the app had meanwhile refused to read. The preview
             // just written is left where it is: the next load that succeeds
             // sweeps it, which is what the sweep is for.
-            guard !isLibrarySealed else { return refuseWhileSealed(name: named) }
+            guard !isLibrarySealed else { refuseWhileSealed(name: named); return nil }
             rows.append(
                 Row(
                     record: imported.record,
@@ -472,6 +480,10 @@ final class UserMapsViewModel {
                 )
             )
         }
+        // A failed save can leave a usable row on the map. A later file in
+        // the batch can save that row with the whole library, so the caller
+        // retains its ID and checks the confirmed library after the batch.
+        return rows.contains(where: { $0.id == id }) ? id : nil
     }
 
     /// Puts the notices away once the user has read them.
@@ -740,12 +752,14 @@ final class UserMapsViewModel {
 
     func delete(id: String) async {
         guard !isLibrarySealed else { return }
+        driveCatalogues?.beginSheetDeletion(id)
         writes += 1
         let named = rows.first(where: { $0.id == id })?.record.name ?? "This map"
         let remaining: [UserMapRecord]
         do {
             remaining = try await store.delete(id: id, from: rows.map(\.record))
         } catch is UserMapStore.StoreRefusal {
+            driveCatalogues?.cancelSheetDeletion(id)
             // The same sealing every other write path performs: a library this
             // build must not write to refuses deletes too, and the panel has
             // to say so rather than leave a Delete button that does nothing.
@@ -755,6 +769,7 @@ final class UserMapsViewModel {
             )
             return
         } catch {
+            driveCatalogues?.cancelSheetDeletion(id)
             // A failed delete looks identical to an unresponsive button
             // without this. The file's own principle — an import that failed
             // silently reads as a file that vanished — applies symmetrically.
@@ -780,6 +795,7 @@ final class UserMapsViewModel {
         // no map has any more is unreachable ground truth about somewhere the
         // user has been, kept forever. Deleting a map deletes it.
         drafts.discard(identifier: id)
+        await driveCatalogues?.finishSheetDeletion(id)
     }
 
     /// What the map should be drawing, in panel order.

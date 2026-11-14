@@ -11,6 +11,7 @@ import SwiftUI
 /// research, not a record.
 struct UserMapRowsView: View {
     @Bindable var viewModel: UserMapsViewModel
+    var catalogues: DriveCataloguesViewModel?
 
     /// Read here rather than inside the sheet: the opening view has to be
     /// known before the georeferencer's map pane is built.
@@ -28,6 +29,7 @@ struct UserMapRowsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
+            if let catalogues { CataloguePanelView(viewModel: catalogues, maps: viewModel) }
             Text("Your Maps")
                 .font(.caption)
                 .fontWeight(.semibold)
@@ -46,6 +48,7 @@ struct UserMapRowsView: View {
             ForEach(viewModel.rows) { row in
                 UserMapRow(
                     row: row,
+                    inCatalogue: catalogues?.loaded?.sheetIDs.contains(row.id) == true,
                     onVisible: { viewModel.setVisible($0, id: row.id) },
                     onOpacity: { viewModel.setOpacity($0, id: row.id) },
                     // Through the ensure call, not the row value in hand: a
@@ -158,6 +161,7 @@ struct UserMapRowsView: View {
 
 private struct UserMapRow: View {
     let row: UserMapsViewModel.Row
+    let inCatalogue: Bool
     // `@MainActor`, not a bare function type: `Binding(get:set:)` wants a
     // `@Sendable` setter, and a plain closure property is not one. An
     // actor-isolated closure is Sendable-convertible because it can only
@@ -207,6 +211,8 @@ private struct UserMapRow: View {
                 .accessibilityLabel("Options for \(row.record.name)")
             }
 
+            if inCatalogue { Text("In catalogue").font(.caption2).foregroundStyle(.secondary) }
+
             if let provenance = row.provenance {
                 // What placed this sheet, said in the row. Once a file-placed
                 // map and a hand-placed one are both drawn, this line is the
@@ -245,7 +251,11 @@ private struct UserMapRow: View {
                     value: Binding(get: { row.opacity }, set: mainActorSetter(onOpacity)),
                     in: 0...1
                 )
+                .disabled(inCatalogue)
                 .accessibilityLabel("Opacity for \(row.record.name)")
+                if inCatalogue {
+                    Text("Opacity is controlled by the loaded catalogue.").font(.caption2).foregroundStyle(.secondary)
+                }
             }
         }
     }

@@ -17,6 +17,8 @@ struct TransparencySliderView: View {
     /// the catalogued layers, and a panel shown without them (a preview, a
     /// test) should still be the same panel.
     var userMaps: UserMapsViewModel?
+    var driveCatalogues: DriveCataloguesViewModel?
+    var userContentReady: Bool = true
     /// The user's own vector layers, optional for the same reason.
     var userVectors: UserVectorsViewModel?
     /// Where to send the map when a row asks to be seen.
@@ -290,6 +292,7 @@ struct TransparencySliderView: View {
                         .frame(minHeight: 44)
                         .contentShape(Rectangle())
                 }
+                .disabled(!userContentReady)
                 .accessibilityIdentifier("import-user-file")
             }
             .fileImporter(
@@ -307,7 +310,8 @@ struct TransparencySliderView: View {
         }
 
         if let userMaps {
-            UserMapRowsView(viewModel: userMaps)
+            UserMapRowsView(viewModel: userMaps, catalogues: driveCatalogues)
+                .disabled(!userContentReady)
         }
 
         if let userVectors {
