@@ -1,13 +1,13 @@
 import { IDBFactory } from "fake-indexeddb";
 import { describe, expect, it } from "vitest";
-import { DB_NAME, DB_VERSION, MAPS, BLOBS, PHOTOS, VECTORS, openUserContentDatabase } from "./database";
+import { DB_NAME, DB_VERSION, MAPS, BLOBS, PHOTOS, VECTORS, USER_LAYERS, openUserContentDatabase } from "./database";
 import { UserMapStore } from "./userMapStore";
 
 describe("openUserContentDatabase", () => {
   it("creates the maps, blobs, vectors, and photos object stores", async () => {
     const db = await openUserContentDatabase(new IDBFactory());
     expect(Array.from(db.objectStoreNames).sort()).toEqual(
-      [BLOBS, MAPS, PHOTOS, VECTORS].sort(),
+      [BLOBS, MAPS, PHOTOS, VECTORS, USER_LAYERS].sort(),
     );
     db.close();
   });
@@ -90,6 +90,7 @@ describe("version 3 upgrade", () => {
       "blobs",
       "maps",
       "photos",
+      "userLayers",
       "vectors",
     ]);
     const photos = db.transaction("photos", "readonly").objectStore("photos");

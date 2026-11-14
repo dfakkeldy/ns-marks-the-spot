@@ -647,7 +647,7 @@ export type UserLayerRecord = {
   arcgis?: { layers: string | null };
   createdAt: string;
   modifiedAt: string;
-  acknowledgement: { version: 1; at: string };
+  acknowledgement: { version: 1; at: string } | null;
   probe: { display: boolean | null; corsReadable: boolean | null; at: string } | null;
 };
 
@@ -773,7 +773,7 @@ A user pastes the address of the NSGIWA `BASE_NSODB_10k_WM84` service. That is t
 3. For other addresses, take the path without the tile or query part.
 4. Treat hosts listed as aliases as one host. Start with `nsgiwa.novascotia.ca` and `nsgiwa2.novascotia.ca`.
 5. Compare against every catalogue entry with a service or tile address. On the web, index `nativeProvinceLayerCatalog` as well as `provinceLayerCatalog`.
-6. Ask the lock about a matched id **without** the open-data argument: `reproductionLockReason(id)`, not `reproductionLockReason(id, openData)`. Nine web layers were replaced by open downloads. A pasted address reaches the restricted raster service, not the open download, so the open-data exception does not apply to it.
+6. Ask the lock about a restricted service without an open-data argument. Nine web layers were replaced by open downloads; the restricted raster service cannot inherit their exception. For a matched open-download address, pass its documented open-data metadata to the lock for receipt verification.
 
 **What the match cannot do.** It finds the plain case. A proxy, a mirror or a copy on another host does not match. The guard stops an honest user from walking around a lock by accident. It does not stop a determined one. The document should not claim more.
 
@@ -803,7 +803,7 @@ Under A, a matched layer is handled as the catalogue layer:
 - The row says: `This address is the Province's NS Aerial service. NS Marks The Spot already offers it as "NS Aerial". The same conditions apply.`
 - Viewing needs the Province licence acceptance.
 - Export passes the matched catalogue id to `assertReproductionAllowed`, which refuses it with the existing reason.
-- A match to an open catalogue source is allowed, and the catalogue's own attribution is added to the credits.
+- A match to a verified open-download address is allowed, and the catalogue's own attribution is added to the credits. A restricted service address never inherits the open-download exception.
 
 The policy is one constant, so the decision is one line and one test table:
 

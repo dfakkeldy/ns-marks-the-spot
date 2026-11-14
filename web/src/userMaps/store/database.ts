@@ -3,21 +3,23 @@ export const MAPS = "maps";
 export const BLOBS = "blobs";
 export const VECTORS = "vectors";
 export const PHOTOS = "photos";
+export const USER_LAYERS = "userLayers";
 export const PHOTOS_BY_LAYER_INDEX = "by-layer";
 
 /**
- * Version 2 added the `vectors` store; version 3 added `photos`. Every
+ * Version 2 added `vectors`, version 3 added `photos`, and version 4 adds `userLayers`. Every
  * consumer of this database MUST open it through `openUserContentDatabase` —
  * a second open path with its own version constant would throw VersionError
  * the moment the constants diverge, taking the whole "Your maps" /
  * "Your data" UI down with it.
  */
-export const DB_VERSION = 3;
+export const DB_VERSION = 4;
 
 /**
  * One schema owner for the shared user-content database:
  * - `maps` holds small raster-map metadata records (listed on every load),
  * - `vectors` holds small vector-layer metadata records,
+ * - `userLayers` holds user-supplied layer metadata,
  * - `photos` holds small photo metadata records, indexed by owning layer id,
  * - `blobs` holds the heavy payloads out-of-line (`${id}:raster`,
  *   `${id}:preview`, `${id}:vector`, `${id}:vector-original`,
@@ -45,6 +47,9 @@ export function openUserContentDatabase(
       }
       if (!db.objectStoreNames.contains(VECTORS)) {
         db.createObjectStore(VECTORS, { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains(USER_LAYERS)) {
+        db.createObjectStore(USER_LAYERS, { keyPath: "id" });
       }
       if (!db.objectStoreNames.contains(PHOTOS)) {
         const photos = db.createObjectStore(PHOTOS, { keyPath: "id" });
