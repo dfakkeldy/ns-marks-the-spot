@@ -9,3 +9,18 @@ describe("probe licence gate", () => {
     expect(fetchSpy).not.toHaveBeenCalled(); fetchSpy.mockRestore();
   });
 });
+
+describe("probe diagnostics", () => {
+  it("distinguishes HTTP failures from projection refusal", async () => {
+    class FailedImage { onload: (() => void) | null = null; onerror: (() => void) | null = null; set src(_value: string) { queueMicrotask(() => this.onerror?.()); } removeAttribute() {} }
+    vi.stubGlobal("Image", FailedImage);
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const layer = { url: "https://example.org/wms", kind: "wms", minZoom: 0, maxNativeZoom: 19, tileSize: 256 } as UserLayerRecord;
+    try {
+      fetchSpy.mockResolvedValueOnce(new Response("missing", { status: 404 }));
+      expect((await probeLayer(layer, true, { lat: 46, lng: -61 }, 10)).diagnostic).toContain("HTTP 404");
+      fetchSpy.mockResolvedValueOnce(new Response("<ServiceException>InvalidCRS</ServiceException>", { headers: { "content-type": "text/xml" } }));
+      expect((await probeLayer(layer, true, { lat: 46, lng: -61 }, 10)).diagnostic).toContain("projection");
+    } finally { fetchSpy.mockRestore(); vi.unstubAllGlobals(); }
+  });
+});

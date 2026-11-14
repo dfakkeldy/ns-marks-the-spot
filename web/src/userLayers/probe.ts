@@ -10,8 +10,14 @@ export async function probeLayer(record: UserLayerRecord, licenceAccepted: boole
   const x = Math.floor(((center.lng + 180) / 360) * n);
   const y = Math.floor((1 - Math.asinh(Math.tan(lat)) / Math.PI) / 2 * n);
   const url = tileUrl(record, { x, y, z });
-  const display = new Promise<boolean>(resolve => { const img = new Image(); img.onload = () => resolve(true); img.onerror = () => resolve(false); img.src = url; });
-  const readable = fetch(url, { mode: "cors" }).then(response => response.ok && response.blob().then(blob => blob.type.startsWith("image/"))).catch(() => false);
-  const [draws, corsReadable] = await Promise.all([display, readable]);
-  return { display: draws, corsReadable, at: new Date().toISOString() };
+  const display = new Promise<boolean>(resolve => { const img = new Image(); const timer = setTimeout(() => { img.removeAttribute("src"); resolve(false); }, 15000); img.onload = () => { clearTimeout(timer); resolve(true); }; img.onerror = () => { clearTimeout(timer); resolve(false); }; img.src = url; });
+  const readable = fetch(url, { mode: "cors", signal: AbortSignal.timeout(15000) }).then(async response => {
+    if (!response.ok) return { corsReadable: false, diagnostic: `The server did not return an image (HTTP ${response.status}).` };
+    const blob = await response.blob();
+    if (blob.type.startsWith("image/")) return { corsReadable: true, diagnostic: undefined };
+    const text = await blob.text();
+    return { corsReadable: false, diagnostic: /invalid(?:crs|srs)|unsupported.*(?:crs|srs)|projection/i.test(text) ? "This server cannot serve the map projection the app uses." : "The server did not return an image." };
+  }).catch(() => ({ corsReadable: false, diagnostic: undefined }));
+  const [draws, result] = await Promise.all([display, readable]);
+  return { display: draws, ...result, at: new Date().toISOString() };
 }

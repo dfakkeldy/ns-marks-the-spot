@@ -9955,3 +9955,5 @@ a {
 .user-layer-dialog label { display: block; margin: 0.75rem 0; }
 .user-layer-dialog input:not([type=checkbox]), .user-layer-dialog select { display: block; width: 100%; min-height: 2.75rem; }
 .user-layer-dialog button { min-height: 2.75rem; margin: 0.25rem; }
+
+@media print { .user-layer-dialog { display: none !important; } }

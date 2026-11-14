@@ -49,6 +49,7 @@ export function collectScene(map: L.Map): Scene {
     const id = L.stamp(layer);
     scene.layers.set(id, layer);
     if (layer instanceof L.GridLayer) {
+      if ((layer.options as L.GridLayerOptions).className?.split(" ").includes("user-supplied-tile-layer")) return;
       // The GL basemap already draws the selected OSM background.
       if (layer instanceof L.TileLayer && layer.options.attribution?.includes('OpenStreetMap')) return;
       scene.rasters.push({ id: `leaf-${id}`, layer, kind: 'tiles', grid: layer, order: layerOrder(map, layer), opacity: (layer.options as L.GridLayerOptions).opacity ?? 1 });
