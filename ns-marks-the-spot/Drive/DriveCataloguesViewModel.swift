@@ -14,6 +14,7 @@ final class DriveCataloguesViewModel {
     private var pendingMutations = 0
     private var pendingError: String?
     private var opacityPreviews: [String: Double] = [:]
+    private var opacityTasks: [String: Task<Void, Never>] = [:]
 
     init(store: DriveCatalogueStore = .shared, uiStore: DriveUiStateStore = DriveUiStateStore()) {
         self.store = store
@@ -40,6 +41,8 @@ final class DriveCataloguesViewModel {
                 guard mark == generation else { return }
                 catalogues = found
                 canEdit = true
+                ui.loadedCatalogueID = nil
+                uiStore.save(ui)
                 error = "The damaged catalogue file was set aside on this device. A new catalogue list has started."
             } catch {
                 guard mark == generation else { return }
@@ -127,18 +130,33 @@ final class DriveCataloguesViewModel {
     }
     func retryPendingDeletions(_ pendingAtLaunch: Set<String>, confirmedIDs: Set<String>) async {
         let committed = uiStore.committedDeletions()
+        var uncertain = false
         for id in pendingAtLaunch {
             if confirmedIDs.contains(id) { cancelSheetDeletion(id) }
             else if committed.contains(id) { await finishSheetDeletion(id) }
-            else { error = "A sheet deletion could not be confirmed. Catalogue membership was kept; check the missing sheet." }
+            else { cancelSheetDeletion(id); uncertain = true }
         }
+        if uncertain { error = "A sheet deletion could not be confirmed. Catalogue membership was kept; check the missing sheet." }
     }
     var pendingDeletions: Set<String> { uiStore.pendingDeletions() }
     func remove(_ sheetID: String, from id: String) async { await change(.removeSheet(id, sheetID)) }
     func reorder(_ ids: [String], in id: String) async { await change(.reorder(id, ids)) }
     func move(_ sheetID: String, in id: String, by delta: Int) async { await change(.move(id, sheetID, delta)) }
     func opacity(for catalogue: DriveCatalogue) -> Double { opacityPreviews[catalogue.id] ?? catalogue.opacity }
-    func previewOpacity(_ value: Double, in id: String) { opacityPreviews[id] = min(1, max(0, value)) }
+    func previewOpacity(_ value: Double, in id: String) {
+        opacityPreviews[id] = min(1, max(0, value))
+        opacityTasks[id]?.cancel()
+        opacityTasks[id] = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(400))
+            guard !Task.isCancelled, let self else { return }
+            await self.saveOpacity(in: id)
+        }
+    }
+    func finishOpacity(in id: String) async {
+        opacityTasks[id]?.cancel()
+        opacityTasks[id] = nil
+        await saveOpacity(in: id)
+    }
     func saveOpacity(in id: String) async {
         guard let value = opacityPreviews[id] else { return }
         _ = await change(.opacity(id, value))

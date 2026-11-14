@@ -74,15 +74,37 @@ struct DriveCatalogueStoreTests {
         defer { defaults.removePersistentDomain(forName: suite) }
         let url = directory.appendingPathComponent("drive-catalogues.json")
         try Data("bad".utf8).write(to: url)
-        let vm = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: DriveUiStateStore(defaults: defaults))
+        let uiStore = DriveUiStateStore(defaults: defaults)
+        uiStore.save(DriveUiState(loadedCatalogueID: "old", autoActivate: true, showCoverage: true))
+        let vm = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: uiStore)
         await vm.load()
         #expect(vm.canEdit)
+        #expect(vm.ui.loadedCatalogueID == nil)
         let names = try FileManager.default.contentsOfDirectory(atPath: directory.path)
-        #expect(names.contains { $0.hasPrefix("drive-catalogues-damaged-") })
+        let backup = try #require(names.first { $0.hasPrefix("drive-catalogues-damaged-") })
+        #expect(try Data(contentsOf: directory.appendingPathComponent(backup)) == Data("bad".utf8))
         try Data("{\"version\":999}".utf8).write(to: url)
         await vm.load()
         #expect(!vm.canEdit)
         #expect(vm.error?.contains("newer") == true)
+    }
+
+    @Test @MainActor func opacityUpdatesImmediatelyAndSaves() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let suite = "drive-opacity-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = DriveCatalogueStore(directory: directory)
+        let vm = DriveCataloguesViewModel(store: store, uiStore: DriveUiStateStore(defaults: defaults))
+        await vm.load()
+        await vm.create(name: "Trip", sheetIDs: [])
+        let catalogue = try #require(vm.catalogues.first)
+        vm.previewOpacity(0.35, in: catalogue.id)
+        #expect(vm.opacity(for: catalogue) == 0.35)
+        await vm.finishOpacity(in: catalogue.id)
+        let saved = try await store.load()
+        #expect(saved.first?.opacity == 0.35)
     }
 
     @Test @MainActor func loadedCatalogueSurvivesRelaunch() throws {
@@ -130,7 +152,8 @@ struct DriveCatalogueStoreTests {
         vm.beginSheetDeletion("uncertain")
         await vm.retryPendingDeletions(vm.pendingDeletions, confirmedIDs: [])
         #expect(vm.catalogues.first?.sheetIDs == ["uncertain"])
-        #expect(vm.pendingDeletions.contains("uncertain"))
+        #expect(vm.pendingDeletions.isEmpty)
+        #expect(vm.error?.contains("could not be confirmed") == true)
     }
 
     @Test @MainActor func importedSheetsCanCreateAnOrderedCatalogue() async throws {

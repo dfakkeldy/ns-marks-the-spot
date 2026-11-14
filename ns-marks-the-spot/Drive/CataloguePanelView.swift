@@ -2,13 +2,20 @@ import GeoCore
 import SwiftUI
 import UniformTypeIdentifiers
 
+private struct CatalogueEditRoute: Identifiable {
+    enum Mode: Equatable { case add, order }
+    let catalogueID: String
+    let mode: Mode
+    var id: String { "\(catalogueID)-\(mode)" }
+}
+
 struct CataloguePanelView: View {
     @Bindable var viewModel: DriveCataloguesViewModel
     @Bindable var maps: UserMapsViewModel
     @State private var newName = ""
     @State private var naming = false
     @State private var importing = false
-    @State private var editing: DriveCatalogue?
+    @State private var editing: CatalogueEditRoute?
     @State private var renaming: DriveCatalogue?
     @State private var renameText = ""
     @State private var deleting: DriveCatalogue?
@@ -36,26 +43,28 @@ struct CataloguePanelView: View {
                         Spacer()
                         Text("\(catalogue.sheetIDs.count) \(catalogue.sheetIDs.count == 1 ? "sheet" : "sheets")").font(.caption).foregroundStyle(.secondary)
                         Menu {
-                            Button("Rename") { renameText = catalogue.name; renaming = catalogue }
+                            Button("Rename") { renameText = catalogue.name; renaming = catalogue }.disabled(!viewModel.canEdit)
                             if viewModel.ui.loadedCatalogueID == catalogue.id {
                                 Toggle("Auto activation", isOn: Binding(get: { viewModel.ui.autoActivate }, set: { viewModel.setAuto($0) }))
                             }
-                            Button("Delete catalogue", role: .destructive) { deleting = catalogue }
+                            Button("Delete catalogue", role: .destructive) { deleting = catalogue }.disabled(!viewModel.canEdit)
                         } label: { Image(systemName: "ellipsis.circle").frame(width: 44, height: 44) }
                             .accessibilityLabel("Options for \(catalogue.name)")
-                            .disabled(!viewModel.canEdit)
                     }
                     HStack {
-                        Button("Add sheets") { editing = catalogue }
-                        Button("Order") { editing = catalogue }
+                        Button("Add sheets") { editing = .init(catalogueID: catalogue.id, mode: .add) }
+                            .accessibilityLabel("Add sheets to \(catalogue.name)")
+                        Button("Order") { editing = .init(catalogueID: catalogue.id, mode: .order) }
+                            .accessibilityLabel("Order sheets in \(catalogue.name)")
                     }.disabled(!viewModel.canEdit || maps.isLibrarySealed)
                     if viewModel.ui.loadedCatalogueID == catalogue.id {
                         Text(viewModel.ui.autoActivate ? "Loaded · Auto on" : "Loaded · Auto off").font(.caption).foregroundStyle(.secondary)
                         HStack {
                             Text("Sheet opacity").font(.caption)
                             Slider(value: Binding(get: { viewModel.opacity(for: catalogue) }, set: { viewModel.previewOpacity($0, in: catalogue.id) }), in: 0...1) { editing in
-                                if !editing { Task { await viewModel.saveOpacity(in: catalogue.id) } }
+                                if !editing { Task { await viewModel.finishOpacity(in: catalogue.id) } }
                             }
+                            .accessibilityLabel("Sheet opacity for \(catalogue.name)")
                         }.disabled(!viewModel.canEdit)
                     }
                 }
@@ -86,12 +95,13 @@ struct CataloguePanelView: View {
             Button("Delete catalogue", role: .destructive) { Task { await viewModel.delete(item.id) }; deleting = nil }
             Button("Cancel", role: .cancel) { deleting = nil }
         } message: { _ in Text("Your maps and recorded tracks stay on this device.") }
-        .sheet(item: $editing) { item in CatalogueSheetsView(catalogueID: item.id, catalogues: viewModel, maps: maps) }
+        .sheet(item: $editing) { item in CatalogueSheetsView(catalogueID: item.catalogueID, mode: item.mode, catalogues: viewModel, maps: maps) }
     }
 }
 
 private struct CatalogueSheetsView: View {
     let catalogueID: String
+    let mode: CatalogueEditRoute.Mode
     @Bindable var catalogues: DriveCataloguesViewModel
     @Bindable var maps: UserMapsViewModel
     @Environment(\.dismiss) private var dismiss
@@ -102,32 +112,37 @@ private struct CatalogueSheetsView: View {
         NavigationStack {
             List {
                 if let catalogue {
-                    Section("Order") {
+                    if mode == .order { Section("Order") {
                         ForEach(Array(catalogue.sheetIDs.enumerated()), id: \.element) { index, id in
+                            let name = maps.rows.first(where: { $0.id == id })?.record.name ?? "Missing sheet"
                             HStack {
-                                Text(maps.rows.first(where: { $0.id == id })?.record.name ?? "Missing sheet")
+                                Text(name)
                                 if maps.rows.first(where: { $0.id == id })?.needsGeoreferencing == true {
                                     Text("Not placed").font(.caption).foregroundStyle(.secondary)
                                 }
                                 Spacer()
                                 Button("Up", systemImage: "chevron.up") { move(index, by: -1, ids: catalogue.sheetIDs) }
                                     .disabled(index == 0).buttonStyle(.borderless).labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
+                                    .accessibilityLabel("Move \(name) up")
                                 Button("Down", systemImage: "chevron.down") { move(index, by: 1, ids: catalogue.sheetIDs) }
                                     .disabled(index == catalogue.sheetIDs.count - 1).buttonStyle(.borderless).labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
+                                    .accessibilityLabel("Move \(name) down")
                                 Button("Remove", systemImage: "minus.circle") { Task { await catalogues.remove(id, from: catalogueID) } }
                                     .buttonStyle(.borderless).labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
+                                    .accessibilityLabel("Remove \(name) from catalogue")
                             }
                         }
-                    }
-                    Section("Add existing sheets") {
+                    } }
+                    if mode == .add { Section("Add existing sheets") {
                         Button("Import files") { importing = true }
                         ForEach(maps.rows.filter { maps.confirmedMapIDs.contains($0.id) && !catalogue.sheetIDs.contains($0.id) }) { row in
                             Button(row.record.name) { Task { await catalogues.add([row.id], to: catalogueID) } }
                         }
-                    }
+                    } }
                 }
             }
-            .navigationTitle("Catalogue sheets")
+            .disabled(!catalogues.canEdit || maps.isLibrarySealed)
+            .navigationTitle(mode == .add ? "Add sheets" : "Order sheets")
             .toolbar { Button("Done") { dismiss() } }
             .fileImporter(isPresented: $importing, allowedContentTypes: [.tiff, .png, .jpeg, .pdf], allowsMultipleSelection: true) { result in
                 guard case .success(let urls) = result else { return }
