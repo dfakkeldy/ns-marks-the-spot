@@ -29,6 +29,7 @@ struct OverlapBarView: View {
                 }
                 .disabled(!catalogues.canEdit || topID == nil)
                 .accessibilityLabel("Swap. Top sheet is \(topName)")
+                .accessibilityIdentifier("drive-overlap-swap")
                 Button {
                     guard let id = topID else { return }
                     model.setVisible(hidden, id: id)
@@ -40,6 +41,7 @@ struct OverlapBarView: View {
                 }
                 .disabled(topID == nil)
                 .accessibilityLabel("\(hidden ? "Show" : "Hide") top. Top sheet is \(topName)")
+                .accessibilityIdentifier("drive-overlap-visibility")
             }
             .buttonStyle(.borderedProminent)
         }
