@@ -251,7 +251,11 @@ private struct UserMapRow: View {
                     value: Binding(get: { row.opacity }, set: mainActorSetter(onOpacity)),
                     in: 0...1
                 )
+                .disabled(inCatalogue)
                 .accessibilityLabel("Opacity for \(row.record.name)")
+                if inCatalogue {
+                    Text("Opacity is controlled by the loaded catalogue.").font(.caption2).foregroundStyle(.secondary)
+                }
             }
         }
     }

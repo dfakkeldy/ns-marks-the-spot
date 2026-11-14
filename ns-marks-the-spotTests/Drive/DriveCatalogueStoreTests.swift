@@ -55,6 +55,36 @@ struct DriveCatalogueStoreTests {
         #expect(try Data(contentsOf: url) == original)
     }
 
+    @Test func repeatedMovesUseCurrentStoredOrder() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let store = DriveCatalogueStore(directory: directory)
+        _ = try await store.apply(.create(DriveCatalogue(id: "a", name: "Trip", sheetIDs: ["one", "two", "three"])))
+        _ = try await store.apply(.move("a", "three", -1))
+        _ = try await store.apply(.move("a", "three", -1))
+        let items = try await store.load()
+        #expect(items.first?.sheetIDs == ["three", "one", "two"])
+    }
+
+    @Test @MainActor func damagedFileIsPreservedAndNewerFileSeals() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let suite = "drive-seal-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let url = directory.appendingPathComponent("drive-catalogues.json")
+        try Data("bad".utf8).write(to: url)
+        let vm = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: DriveUiStateStore(defaults: defaults))
+        await vm.load()
+        #expect(vm.canEdit)
+        let names = try FileManager.default.contentsOfDirectory(atPath: directory.path)
+        #expect(names.contains { $0.hasPrefix("drive-catalogues-damaged-") })
+        try Data("{\"version\":999}".utf8).write(to: url)
+        await vm.load()
+        #expect(!vm.canEdit)
+        #expect(vm.error?.contains("newer") == true)
+    }
+
     @Test @MainActor func loadedCatalogueSurvivesRelaunch() throws {
         let suite = "drive-ui-test-\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
@@ -75,12 +105,32 @@ struct DriveCatalogueStoreTests {
         let uiStore = DriveUiStateStore(defaults: defaults)
         let first = DriveCataloguesViewModel(store: store, uiStore: uiStore)
         first.beginSheetDeletion("deleted")
+        uiStore.setCommittedDeletions(["deleted"])
         let reopened = DriveCataloguesViewModel(store: store, uiStore: uiStore)
         let pending = reopened.pendingDeletions
         await reopened.load()
         await reopened.retryPendingDeletions(pending, confirmedIDs: ["kept"])
         #expect(reopened.catalogues.first?.sheetIDs == ["kept"])
         #expect(reopened.pendingDeletions.isEmpty)
+    }
+
+    @Test @MainActor func pendingDeletionForExistingSheetIsCleared() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let suite = "drive-existing-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let uiStore = DriveUiStateStore(defaults: defaults)
+        let vm = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: uiStore)
+        await vm.load()
+        vm.beginSheetDeletion("still-there")
+        await vm.retryPendingDeletions(vm.pendingDeletions, confirmedIDs: ["still-there"])
+        #expect(vm.pendingDeletions.isEmpty)
+        await vm.create(name: "Trip", sheetIDs: ["uncertain"])
+        vm.beginSheetDeletion("uncertain")
+        await vm.retryPendingDeletions(vm.pendingDeletions, confirmedIDs: [])
+        #expect(vm.catalogues.first?.sheetIDs == ["uncertain"])
+        #expect(vm.pendingDeletions.contains("uncertain"))
     }
 
     @Test @MainActor func importedSheetsCanCreateAnOrderedCatalogue() async throws {
@@ -99,11 +149,19 @@ struct DriveCatalogueStoreTests {
         for url in urls { try (bytes as Data).write(to: url) }
         let maps = UserMapsViewModel(store: UserMapStore(directory: directory.appendingPathComponent("maps")), display: UserMapDisplayStore(defaults: defaults))
         let catalogues = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory.appendingPathComponent("catalogues")), uiStore: DriveUiStateStore(defaults: defaults))
-        let sorted = urls.sorted { $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == .orderedAscending }
-        let ids = await UserFileImport.load(sorted, maps: maps, vectors: nil)
+        await catalogues.load()
+        maps.driveCatalogues = catalogues
+        let ids = await UserFileImport.loadCatalogueSheets(urls, maps: maps)
         await catalogues.create(name: "Drive", sheetIDs: ids)
         #expect(ids.count == 3)
         #expect(catalogues.catalogues.first?.sheetIDs == ids)
         #expect(maps.rows.map(\.record.name) == ["01", "02", "03"])
+        await maps.delete(id: ids[0])
+        #expect(catalogues.catalogues.first?.sheetIDs == Array(ids.dropFirst()))
+        let catalogueID = try #require(catalogues.catalogues.first?.id)
+        await catalogues.delete(catalogueID)
+        #expect(maps.rows.map(\.id) == Array(ids.dropFirst()))
+        let reloadedMaps = try await UserMapStore(directory: directory.appendingPathComponent("maps")).load()
+        #expect(Set(reloadedMaps.map(\.id)) == Set(ids.dropFirst()))
     }
 }

@@ -1,5 +1,6 @@
 import GeoCore
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct CataloguePanelView: View {
     @Bindable var viewModel: DriveCataloguesViewModel
@@ -19,6 +20,7 @@ struct CataloguePanelView: View {
                 Spacer()
                 Button("New", systemImage: "plus") { newName = ""; naming = true }
                     .frame(minHeight: 44)
+                    .disabled(!viewModel.canEdit || maps.isLibrarySealed)
             }
             if let error = viewModel.error { Text(error).font(.caption).foregroundStyle(.orange) }
             ForEach(viewModel.catalogues) { catalogue in
@@ -30,19 +32,31 @@ struct CataloguePanelView: View {
                             Label(catalogue.name, systemImage: viewModel.ui.loadedCatalogueID == catalogue.id ? "largecircle.fill.circle" : "circle")
                                 .frame(minHeight: 44, alignment: .leading)
                         }
+                        .accessibilityAddTraits(viewModel.ui.loadedCatalogueID == catalogue.id ? .isSelected : [])
                         Spacer()
-                        Text("\(catalogue.sheetIDs.count) sheets").font(.caption).foregroundStyle(.secondary)
+                        Text("\(catalogue.sheetIDs.count) \(catalogue.sheetIDs.count == 1 ? "sheet" : "sheets")").font(.caption).foregroundStyle(.secondary)
                         Menu {
-                            Button("Add sheets or order") { editing = catalogue }
                             Button("Rename") { renameText = catalogue.name; renaming = catalogue }
                             if viewModel.ui.loadedCatalogueID == catalogue.id {
                                 Toggle("Auto activation", isOn: Binding(get: { viewModel.ui.autoActivate }, set: { viewModel.setAuto($0) }))
                             }
                             Button("Delete catalogue", role: .destructive) { deleting = catalogue }
                         } label: { Image(systemName: "ellipsis.circle").frame(width: 44, height: 44) }
+                            .accessibilityLabel("Options for \(catalogue.name)")
+                            .disabled(!viewModel.canEdit)
                     }
+                    HStack {
+                        Button("Add sheets") { editing = catalogue }
+                        Button("Order") { editing = catalogue }
+                    }.disabled(!viewModel.canEdit || maps.isLibrarySealed)
                     if viewModel.ui.loadedCatalogueID == catalogue.id {
                         Text(viewModel.ui.autoActivate ? "Loaded · Auto on" : "Loaded · Auto off").font(.caption).foregroundStyle(.secondary)
+                        HStack {
+                            Text("Sheet opacity").font(.caption)
+                            Slider(value: Binding(get: { viewModel.opacity(for: catalogue) }, set: { viewModel.previewOpacity($0, in: catalogue.id) }), in: 0...1) { editing in
+                                if !editing { Task { await viewModel.saveOpacity(in: catalogue.id) } }
+                            }
+                        }.disabled(!viewModel.canEdit)
                     }
                 }
             }
@@ -53,13 +67,14 @@ struct CataloguePanelView: View {
                 .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             Button("Cancel", role: .cancel) { }
         }
-        .fileImporter(isPresented: $importing, allowedContentTypes: UserFileImport.contentTypes, allowsMultipleSelection: true) { result in
+        .fileImporter(isPresented: $importing, allowedContentTypes: [.tiff, .png, .jpeg, .pdf], allowsMultipleSelection: true) { result in
             guard case .success(let urls) = result else { return }
+            guard viewModel.canEdit, !maps.isLibrarySealed else { return }
             let name = newName
             Task {
-                let sorted = urls.sorted { $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == .orderedAscending }
-                let ids = await UserFileImport.load(sorted, maps: maps, vectors: nil)
-                await viewModel.create(name: name, sheetIDs: ids.filter { maps.confirmedMapIDs.contains($0) })
+                let confirmed = await UserFileImport.loadCatalogueSheets(urls, maps: maps)
+                guard !confirmed.isEmpty else { viewModel.reportNoSheets(); return }
+                await viewModel.create(name: name, sheetIDs: confirmed)
             }
         }
         .alert("Rename catalogue", isPresented: Binding(get: { renaming != nil }, set: { if !$0 { renaming = nil } })) {
@@ -106,32 +121,27 @@ private struct CatalogueSheetsView: View {
                     }
                     Section("Add existing sheets") {
                         Button("Import files") { importing = true }
-                        ForEach(maps.rows.filter { !catalogue.sheetIDs.contains($0.id) }) { row in
+                        ForEach(maps.rows.filter { maps.confirmedMapIDs.contains($0.id) && !catalogue.sheetIDs.contains($0.id) }) { row in
                             Button(row.record.name) { Task { await catalogues.add([row.id], to: catalogueID) } }
                         }
-                    }
-                    Section("Sheet opacity") {
-                        Slider(value: Binding(get: { catalogue.opacity }, set: { value in Task { await catalogues.setOpacity(value, in: catalogueID) } }), in: 0...1)
                     }
                 }
             }
             .navigationTitle("Catalogue sheets")
             .toolbar { Button("Done") { dismiss() } }
-            .fileImporter(isPresented: $importing, allowedContentTypes: UserFileImport.contentTypes, allowsMultipleSelection: true) { result in
+            .fileImporter(isPresented: $importing, allowedContentTypes: [.tiff, .png, .jpeg, .pdf], allowsMultipleSelection: true) { result in
                 guard case .success(let urls) = result else { return }
+                guard catalogues.canEdit, !maps.isLibrarySealed else { return }
                 Task {
-                    let sorted = urls.sorted { $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == .orderedAscending }
-                    let ids = await UserFileImport.load(sorted, maps: maps, vectors: nil)
-                    await catalogues.add(ids.filter { maps.confirmedMapIDs.contains($0) }, to: catalogueID)
+                    let ids = await UserFileImport.loadCatalogueSheets(urls, maps: maps)
+                    await catalogues.add(ids, to: catalogueID)
                 }
             }
         }
     }
     private func move(_ index: Int, by delta: Int, ids: [String]) {
-        let target = index + delta
-        guard ids.indices.contains(target) else { return }
-        var order = ids
-        order.swapAt(index, target)
-        Task { await catalogues.reorder(order, in: catalogueID) }
+        guard ids.indices.contains(index) else { return }
+        let sheetID = ids[index]
+        Task { await catalogues.move(sheetID, in: catalogueID, by: delta) }
     }
 }

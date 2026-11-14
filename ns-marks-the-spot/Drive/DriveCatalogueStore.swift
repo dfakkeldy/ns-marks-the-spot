@@ -12,8 +12,8 @@ actor DriveCatalogueStore {
         case addSheets(String, [String])
         case removeSheet(String, String)
         case removeSheetEverywhere(String)
-        case reconcileSheets(Set<String>)
         case reorder(String, [String])
+        case move(String, String, Int)
         case opacity(String, Double)
     }
     private struct Document: Codable {
@@ -37,6 +37,15 @@ actor DriveCatalogueStore {
 
     func load() throws -> [DriveCatalogue] {
         try readDocument().catalogues
+    }
+
+    /// Preserve an unreadable document for recovery. Never move a newer file.
+    func setAsideDamagedDocument() throws {
+        do { _ = try readDocument(); return }
+        catch Refusal.unreadable {
+            let backup = url.deletingLastPathComponent().appendingPathComponent("drive-catalogues-damaged-\(UUID().uuidString).json")
+            try manager.moveItem(at: url, to: backup)
+        }
     }
 
     private func readDocument() throws -> Document {
@@ -76,19 +85,16 @@ actor DriveCatalogueStore {
             if let i = items.firstIndex(where: { $0.id == catalogueID }) {
                 items[i].sheetIDs.removeAll { $0 == sheetID }; items[i].modifiedAt = now
             }
-        case .reconcileSheets(let valid):
-            for i in items.indices {
-                let missing = items[i].sheetIDs.filter { !valid.contains($0) }
-                if !missing.isEmpty {
-                    removed.formUnion(missing)
-                    items[i].sheetIDs.removeAll { !valid.contains($0) }
-                    items[i].modifiedAt = now
-                }
-            }
         case .reorder(let id, let ids):
             if let i = items.firstIndex(where: { $0.id == id }),
                ids.count == items[i].sheetIDs.count, Set(ids) == Set(items[i].sheetIDs) {
                 items[i].sheetIDs = ids; items[i].modifiedAt = now
+            }
+        case .move(let id, let sheetID, let delta):
+            if let i = items.firstIndex(where: { $0.id == id }),
+               let from = items[i].sheetIDs.firstIndex(of: sheetID),
+               items[i].sheetIDs.indices.contains(from + delta), abs(delta) == 1 {
+                items[i].sheetIDs.swapAt(from, from + delta); items[i].modifiedAt = now
             }
         case .opacity(let id, let opacity):
             if let i = items.firstIndex(where: { $0.id == id }), opacity.isFinite {

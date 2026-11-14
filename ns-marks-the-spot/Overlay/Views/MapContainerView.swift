@@ -19,6 +19,7 @@ struct MapContainerView: View {
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
     @State private var driveCataloguesVM: DriveCataloguesViewModel
+    @State private var userContentReady = false
     @State private var userVectorsVM = UserVectorsViewModel()
     @State private var photoMapVM = PhotoMapViewModel()
     @State private var bulkPlacement: BulkPlacementDraft?
@@ -963,6 +964,7 @@ struct MapContainerView: View {
             viewModel: overlayVM,
             userMaps: userMapsVM,
             driveCatalogues: driveCataloguesVM,
+            userContentReady: userContentReady,
             userVectors: userVectorsVM,
             onZoomToLayer: { controller.frame($0) },
             onEditLayer: { row in
@@ -1681,7 +1683,7 @@ struct MapContainerView: View {
         let byID = Dictionary(maps.map { ($0.record.id, $0) }, uniquingKeysWith: { first, _ in first })
         let sheets = catalogue.sheetIDs.reversed().compactMap { id -> UserMapDrape? in
             guard var drape = byID[id] else { return nil }
-            drape.alpha = CGFloat(catalogue.opacity)
+            drape.alpha = CGFloat(driveCataloguesVM.opacity(for: catalogue))
             return drape
         }
         return others + sheets
@@ -1707,6 +1709,7 @@ struct MapContainerView: View {
                 if userMapsVM.hasConfirmedLibrary {
                     await driveCataloguesVM.retryPendingDeletions(pendingCatalogueDeletions, confirmedIDs: userMapsVM.confirmedMapIDs)
                 }
+                userContentReady = true
                 // After the vector library, and not before: whether a restored
                 // walk has already been saved is a question only the library can
                 // answer.

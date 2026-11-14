@@ -37,6 +37,13 @@ enum UserFileImport {
     /// otherwise be unpickable rather than refused with a reason.
     static let contentTypes: [UTType] = [.tiff, .png, .jpeg, .pdf, .json, .xml, .zip, .data]
 
+    /// Import catalogue sheets in file-name order and retain only saved IDs.
+    static func loadCatalogueSheets(_ urls: [URL], maps: UserMapsViewModel) async -> [String] {
+        let sorted = urls.sorted { $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == .orderedAscending }
+        let candidates = await load(sorted, maps: maps, vectors: nil)
+        return candidates.filter { maps.confirmedMapIDs.contains($0) }
+    }
+
     /// What reading one chosen file produced.
     ///
     /// `tooLarge` carries the pipeline rather than the bytes: the file was
