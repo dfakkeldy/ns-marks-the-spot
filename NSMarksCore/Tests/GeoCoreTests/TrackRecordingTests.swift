@@ -7,6 +7,73 @@ import Testing
 struct TrackRecordingTests {
     private let start = Date(timeIntervalSince1970: 1_700_000_000)
 
+    @Test func driveKeepsHighwayFixesAndSplitsGaps() throws {
+        var drive = TrackRecording(profile: .drive)
+        var walk = TrackRecording()
+        drive.start(now: start)
+        walk.start(now: start)
+        for i in 0...2 {
+            let f = fix(lat: 44.6 + Double(i) * 30.6 / 111_320, secondsIn: Double(i))
+            let driveKept = drive.addFix(f)
+            let walkKept = walk.addFix(f)
+            #expect(driveKept)
+            #expect(walkKept == (i == 0))
+        }
+        let afterGap = fix(lat: 44.601, secondsIn: 14)
+        drive.addFix(afterGap)
+        walk.addFix(afterGap)
+        let stopped = drive.stop(now: start.addingTimeInterval(15))
+        let result = try #require(stopped)
+        #expect(result.segments.map(\.count) == [3, 1])
+        #expect(result.segments[0][2].lat == fix(lat: 44.6 + 61.2 / 111_320, secondsIn: 2).latitude)
+        let stoppedWalk = walk.stop(now: start.addingTimeInterval(15))
+        #expect(stoppedWalk?.segments.count == 1)
+    }
+
+    @Test func staleFixCannotCauseFalseGapAndAdmitTeleport() throws {
+        var drive = TrackRecording(profile: .drive)
+        drive.start(now: start)
+        let first = drive.addFix(fix(lat: 44.6, secondsIn: 100))
+        let stale = drive.addFix(fix(lat: 44.6, secondsIn: 80))
+        let jump = drive.addFix(fix(lat: 44.7, secondsIn: 101))
+        #expect(first)
+        #expect(!stale)
+        #expect(!jump)
+        let stopped = drive.stop(now: start.addingTimeInterval(102))
+        let result = try #require(stopped)
+        #expect(result.segments.count == 1)
+        #expect(result.acceptedFixCount == 1)
+    }
+
+    @Test func rejectedFixesSplitCoverageAndGapKeepsSpeedAnchor() throws {
+        var drive = TrackRecording(profile: .drive)
+        drive.start(now: start)
+        drive.addFix(fix(lat: 44.6, secondsIn: 0))
+        for i in 1...11 {
+            drive.addFix(fix(lat: 44.6, accuracy: 60, secondsIn: Double(i)))
+        }
+        let outlier = drive.addFix(fix(lat: 44.62, secondsIn: 12))
+        let real = drive.addFix(fix(lat: 44.601, secondsIn: 13))
+        #expect(!outlier)
+        #expect(real)
+        let stopped = drive.stop(now: start.addingTimeInterval(14))
+        let result = try #require(stopped)
+        #expect(result.segments.map(\.count) == [1, 1])
+        #expect(result.segments[1][0].timestamp == start.addingTimeInterval(13))
+    }
+
+    @Test func gapBoundaryAlsoWorksWithoutAcceptedFixes() throws {
+        var drive = TrackRecording(profile: .drive)
+        drive.start(now: start)
+        drive.addFix(fix(lat: 44.6, accuracy: 60, secondsIn: 0))
+        drive.addFix(fix(lat: 44.6, accuracy: 60, secondsIn: 10))
+        #expect(drive.liveSegments.count == 1)
+        drive.addFix(fix(lat: 44.6, secondsIn: 20.001))
+        let stopped = drive.stop(now: start.addingTimeInterval(21))
+        let result = try #require(stopped)
+        #expect(result.segments.map(\.count) == [0, 1])
+    }
+
     private func fix(
         lat: Double, lng: Double = -63.5, accuracy: Double = 5, secondsIn: Double
     ) -> TrackFix {

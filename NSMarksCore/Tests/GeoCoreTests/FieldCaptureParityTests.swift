@@ -56,6 +56,17 @@ struct FieldCaptureParityTests {
         #expect(presets.compactMap(\.double) == CaptureSpec.Simplify.presetsM)
     }
 
+    @Test func theDriveConstantsMatch() throws {
+        let filter = try #require(fixture.object("driveTrackFilter"))
+        #expect(filter["accuracyGateM"]?.double == CaptureSpec.DriveTrackFilter.accuracyGateM)
+        #expect(filter["maxSpeedMps"]?.double == CaptureSpec.DriveTrackFilter.maxSpeedMps)
+        #expect(filter["smoothingAlpha"]?.double == CaptureSpec.DriveTrackFilter.smoothingAlpha)
+        #expect(filter["minSpacingFloorM"]?.double == CaptureSpec.DriveTrackFilter.minSpacingFloorM)
+        #expect(filter["spacingAccuracyFactor"]?.double == CaptureSpec.DriveTrackFilter.spacingAccuracyFactor)
+        #expect(filter["gapSplitS"]?.double == CaptureSpec.DriveTrackFilter.gapSplitS)
+        #expect(fixture["driveSimplifyToleranceM"]?.double == CaptureSpec.driveSimplifyToleranceM)
+    }
+
     @Test func theSnapConstantsMatch() throws {
         let snap = try #require(fixture.object("snap"))
         #expect(snap["minZoom"]?.int == CaptureSpec.Snap.minZoom)
