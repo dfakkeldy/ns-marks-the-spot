@@ -46,9 +46,9 @@ describe("catalogue matching", () => {
     vi.resetModules();
     try {
       const { lidarCanopyLayer } = await import("../layers/lidarCanopy");
-      const { userLayerUse: use } = await import("./sourceMatch");
-      expect(use(record(lidarCanopyLayer.tileUrl!), "same-lock", true).export).toBe("held");
-      expect(use(record(lidarCanopyLayer.serviceUrl), "same-lock", true).matched.some(x => x.layerId === "lidar-canopy-height")).toBe(false);
+      const { userLayerUse: matchUse } = await import("./sourceMatch");
+      expect(matchUse(record(lidarCanopyLayer.tileUrl!), "same-lock", true).export).toBe("held");
+      expect(matchUse(record(lidarCanopyLayer.serviceUrl), "same-lock", true).matched.some(x => x.layerId === "lidar-canopy-height")).toBe(false);
     } finally { vi.unstubAllEnvs(); vi.resetModules(); }
   });
   it("does not conflate ArcGIS Online account paths", () => {

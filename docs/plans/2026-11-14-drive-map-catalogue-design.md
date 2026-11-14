@@ -771,7 +771,7 @@ A user pastes the address of the NSGIWA `BASE_NSODB_10k_WM84` service. That is t
 3. For other addresses, take the path without the tile or query part.
 4. Treat hosts listed as aliases as one host. Start with `nsgiwa.novascotia.ca` and `nsgiwa2.novascotia.ca`.
 5. Compare against every catalogue entry with a service or tile address. On the web, index `nativeProvinceLayerCatalog` as well as `provinceLayerCatalog`.
-6. Ask the lock about a matched id **without** the open-data argument: `reproductionLockReason(id)`, not `reproductionLockReason(id, openData)`. Nine web layers were replaced by open downloads. A pasted address reaches the restricted raster service, not the open download, so the open-data exception does not apply to it.
+6. Ask the lock about a restricted service without an open-data argument. Nine web layers were replaced by open downloads; the restricted raster service cannot inherit their exception. For a matched open-download address, pass its documented open-data metadata to the lock for receipt verification.
 
 **What the match cannot do.** It finds the plain case. A proxy, a mirror or a copy on another host does not match. The guard stops an honest user from walking around a lock by accident. It does not stop a determined one. The document should not claim more.
 
