@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { COASTAL_HAZARD_ATTRIBUTION, COASTAL_HAZARD_LICENCE_URL, floodHazardLayerCatalog, zoningLayerCatalog } from "../../layers/layerCatalog";
 import { userLayerAttributionLines } from "./attributionLines";
-import { buildExportLayers, selectUserLayersForExport, type ExportLayerInputs } from "./exportLayerSpecs";
+import { buildExportLayers, coveredByOpaqueUserBase, selectUserLayersForExport, type ExportLayerInputs } from "./exportLayerSpecs";
 import { composeMapImage } from "./mapCompositor";
 import type { UserLayerRecord } from "../../userLayers/types";
 import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
@@ -18,6 +18,13 @@ describe("user layer PDF export", () => {
     const tile = layers[0]; if (tile.kind !== "tile") throw new Error("Expected tile");
     expect(tile.name).toBe("Your layer: Example");
     expect(tile.url({ z: 2, x: 1, y: 3 })).toBe("https://tiles.example.org/2/1/3.png?key=secret");
+  });
+  it("uses one covered-source rule for export layers and credits", () => {
+    expect(coveredByOpaqueUserBase("modern", true)).toBe(true);
+    expect(coveredByOpaqueUserBase("ns-aerial", true)).toBe(true);
+    expect(coveredByOpaqueUserBase("ns-topographic", true)).toBe(true);
+    expect(coveredByOpaqueUserBase("roads", true)).toBe(false);
+    expect(coveredByOpaqueUserBase("modern", false)).toBe(false);
   });
   it("builds one WMS image request for the frame", () => {
     const wms = layer({ kind: "wms", url: "https://example.org/wms", wms: { layers: "a", styles: "", format: "image/png", version: "1.3.0", transparent: true } });

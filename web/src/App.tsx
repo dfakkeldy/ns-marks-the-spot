@@ -265,9 +265,8 @@ const ExportDialog = lazy(() =>
     default: module.ExportDialog,
   })),
 );
-import { PROVINCE_LAYER_Z_INDEXES, USER_LAYER_BASE_Z_INDEX } from "./components/mapPanes";
 import { exportAttributionLines, userLayerAttributionLines } from "./print/pdf/attributionLines";
-import { buildExportLayers, contextExportOmission, isOpaqueUserBase, selectUserLayersForExport } from "./print/pdf/exportLayerSpecs";
+import { buildExportLayers, contextExportOmission, coveredByOpaqueUserBase, isOpaqueUserBase, selectUserLayersForExport } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
 import { atlasPalettes } from "./atlas/palette";
 import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceipt, crownReceiptUrl } from "./atlas/crown";
@@ -4363,17 +4362,17 @@ export function App({ focus, onRestart, licencesPresented = false }: {
   const opaqueUserBase = exportUserLayers.some(isOpaqueUserBase);
   const exportedLayerIds = useMemo(() => {
     const ids = new Set<ShareLayerId>();
-    if (showModernMap && !opaqueUserBase) ids.add("modern");
+    if (showModernMap && !coveredByOpaqueUserBase("modern", opaqueUserBase)) ids.add("modern");
     if (fletcherVisible && fletcherTileConfiguration.baseUrl) {
       ids.add("fletcher");
     }
     for (const layer of provinceLayerCatalog) {
-      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions && (!opaqueUserBase || (PROVINCE_LAYER_Z_INDEXES[layer.id] ?? Infinity) >= USER_LAYER_BASE_Z_INDEX)) {
+      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions && !coveredByOpaqueUserBase(layer.id, opaqueUserBase)) {
         ids.add(layer.id);
       }
     }
     for (const layer of contextLayerCatalog) {
-      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null && (!opaqueUserBase || layer.zIndex >= USER_LAYER_BASE_Z_INDEX)) ids.add(layer.id);
+      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null && !coveredByOpaqueUserBase(layer.id, opaqueUserBase)) ids.add(layer.id);
     }
     return ids;
   }, [
@@ -4412,8 +4411,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
       .filter(({ id }) => !exportedLayerIds.has(id))
       .map(({ id, name }) => {
         const layer = contextLayerCatalog.find((candidate) => candidate.id === id);
-        const sourceZ = id === "modern" ? 0 : PROVINCE_LAYER_Z_INDEXES[id as keyof typeof PROVINCE_LAYER_Z_INDEXES] ?? layer?.zIndex ?? Infinity;
-        const reason = opaqueUserBase && sourceZ < USER_LAYER_BASE_Z_INDEX ? "under your opaque base layer" : layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
+        const reason = coveredByOpaqueUserBase(id, opaqueUserBase) ? "under your opaque base layer" : layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
         return reason ? `${name} — ${reason}` : name;
       }),
     ...userLayerExport.omitted,

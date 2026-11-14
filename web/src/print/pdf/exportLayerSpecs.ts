@@ -171,6 +171,10 @@ function arcGisLayerZIndex(id: string): number {
     ?? Number.POSITIVE_INFINITY;
 }
 
+export function coveredByOpaqueUserBase(id: string, opaqueBase: boolean): boolean {
+  return opaqueBase && (id === "modern" || arcGisLayerZIndex(id) < USER_LAYER_BASE_Z_INDEX);
+}
+
 export function selectUserLayersForExport(layers: readonly VisibleUserLayer[], licenceAccepted: boolean, zoom = Infinity, catalogueSources: ReadonlyMap<string, PrintLayerSource> = new Map()): { included: VisibleUserLayer[]; omitted: string[] } {
   const included: VisibleUserLayer[] = [];
   const omitted: string[] = [];
@@ -214,7 +218,7 @@ export function buildExportLayers(
     if (layer.record.probe?.corsReadable !== true) throw new Error("User layer has not been tested as readable for PDF export.");
   }
   const opaqueBase = userLayers.some(isOpaqueUserBase);
-  const includedArcgis = inputs.arcgisLayers.filter(layer => !opaqueBase || arcGisLayerZIndex(layer.id) >= USER_LAYER_BASE_Z_INDEX);
+  const includedArcgis = inputs.arcgisLayers.filter(layer => !coveredByOpaqueUserBase(layer.id, opaqueBase));
   for (const layer of includedArcgis) {
     const exclusion = forestryExclusionReason(layer.id);
     if (exclusion) throw new Error(exclusion);
