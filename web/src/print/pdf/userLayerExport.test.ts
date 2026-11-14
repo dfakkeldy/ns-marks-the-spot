@@ -49,6 +49,8 @@ describe("user layer PDF export", () => {
     expect(text).toContain("tiles.example.org"); expect(text).not.toContain("secret");
     const withAddress = userLayerAttributionLines([layer({ termsNote: "See https://example.org/licence?key=private" })])[0];
     expect(withAddress).toContain("example.org"); expect(withAddress).not.toContain("private");
+    const bare = userLayerAttributionLines([layer({ name: "tiles.example.org/path?key=abc", termsNote: 'See "https://x.org/terms", no resale!' })])[0];
+    expect(bare).not.toContain("key=abc"); expect(bare).toContain('See "x.org", no resale! Read');
   });
   it("keeps the modern map under a base with transparency", () => {
     const transparent = layer({ opaque: false, kind: "arcgis-map", url: "https://example.org/MapServer" });
