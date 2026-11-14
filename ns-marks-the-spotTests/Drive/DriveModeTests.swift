@@ -54,6 +54,7 @@ struct DriveModeTests {
         let record = UserMapRecord(id: "a", name: "A", pixelSize: .init(width: 100, height: 100), placement: .controlPoints(points, method: .affine))
         #expect(record.mesh != nil)
         let catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["a"])
+        #expect(!model.hasUsableActivation)
         func fix(_ time: Double, lat: Double, lng: Double) -> TrackFix {
             TrackFix(latitude: lat, longitude: lng, accuracyM: 5, timestamp: Date(timeIntervalSince1970: time))
         }
@@ -139,12 +140,31 @@ struct DriveModeTests {
         }
         let rows = [row("a", visible: false, alpha: 0.4), row("b", visible: true, alpha: 0.6), row("outside", visible: true, alpha: 0.8)]
         let original = rows.filter(\.isVisible).map { UserMapDrape(record: $0.record, image: image, alpha: $0.opacity) }
-        let catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["a", "b"], opacity: 1)
-        let auto = DriveDrapeSelection.build(maps: original, rows: rows, catalogue: catalogue, auto: true, shown: ["a", "b"], opacity: 1)
+        let catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["a", "b"], opacity: 0.7)
+        let auto = DriveDrapeSelection.build(maps: original, rows: rows, catalogue: catalogue, auto: true, shown: ["a", "b"], opacity: 0.9)
         #expect(auto.map(\.record.id) == ["outside", "b", "a"])
-        #expect(auto.map(\.alpha) == [0.8, 1, 1])
+        #expect(auto.map(\.alpha) == [0.8, 0.9, 0.9])
         let manual = DriveDrapeSelection.build(maps: original, rows: rows, catalogue: catalogue, auto: false, shown: [], opacity: 1)
         #expect(manual == original)
         #expect(!rows[0].isVisible)
+    }
+
+    @Test func scriptedSequenceMatchesSharedFirstFixAndExitCase() {
+        // Same rectangle, fixes and shown arrays as the shared fixture's
+        // "first fix and exit margin" case.
+        let model = DriveModeModel(screen: ScreenAwakeCoordinator(screen: DriveTestScreen()))
+        let points = [
+            SessionControlPoint(id: "1", pixel: .init(x: 0, y: 0), map: .init(lat: 0.01, lng: 0)),
+            SessionControlPoint(id: "2", pixel: .init(x: 100, y: 0), map: .init(lat: 0.01, lng: 0.01)),
+            SessionControlPoint(id: "3", pixel: .init(x: 0, y: 100), map: .init(lat: 0, lng: 0)),
+        ]
+        let record = UserMapRecord(id: "a", name: "A", pixelSize: .init(width: 100, height: 100), placement: .controlPoints(points, method: .affine))
+        let catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["a"])
+        for (index, lng, expected) in [(0, 0.005, ["a"]), (1, 0.012, ["a"]), (2, 0.012, [])] {
+            let date = Date(timeIntervalSince1970: Double(index + 1))
+            let fix = TrackFix(latitude: 0.005, longitude: lng, accuracyM: 10, timestamp: date)
+            model.update(catalogue: catalogue, auto: true, records: [record], fix: fix, following: true, now: date)
+            #expect(model.output.shown == expected)
+        }
     }
 }

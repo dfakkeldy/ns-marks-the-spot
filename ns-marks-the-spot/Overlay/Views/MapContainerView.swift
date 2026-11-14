@@ -44,6 +44,7 @@ struct MapContainerView: View {
     /// The recording HUD's measured height while it is up, so the notice
     /// stack sits below it rather than under it.
     @State private var hudHeight: CGFloat = 0
+    @State private var driveChipHeight: CGFloat = 0
     /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
     /// cannot write its answer, or its failure, over the current viewport's.
     @State private var parcelSnapGeneration = 0
@@ -493,7 +494,7 @@ struct MapContainerView: View {
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
             // guessed: the HUD grows with Dynamic Type.
-            .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
+            .padding(.top, (recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116) + (driveModeVM.isOn ? driveChipHeight + 8 : 0))
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
             // The photo map's cap, on the map: the row that also says it is
@@ -515,7 +516,7 @@ struct MapContainerView: View {
                         .padding(.horizontal, 16)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
-                        .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
+                        .padding(.top, (recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116) + (driveModeVM.isOn ? driveChipHeight + 8 : 0))
 
                     Spacer()
                 }
@@ -552,7 +553,9 @@ struct MapContainerView: View {
                                     rows: userMapsVM.rows, fix: controller.lastUserFix,
                                     signalLost: controller.locationMessage == .signalLost,
                                     failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
-                                    autoEnabled: driveCataloguesVM.ui.autoActivate)
+                                    autoEnabled: driveCataloguesVM.ui.autoActivate,
+                                    searching: controller.userTrackingState == .searching)
+                        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveChipHeight = $0 }
                         .frame(maxWidth: 420)
                         .padding(.horizontal, 16)
                         .clearOfRail(controlsWidth)
@@ -560,6 +563,23 @@ struct MapContainerView: View {
                     Spacer()
                 }
                 .allowsHitTesting(false)
+            }
+
+            if driveModeVM.isOn, printFrame == nil, !isSelectingSaveArea,
+               overlayVM.inspection == nil, editSession == nil {
+                VStack {
+                    Spacer()
+                    Button {
+                        if recorder.isActive { stopRecording() } else { startTrackRecording() }
+                    } label: {
+                        Label(recorder.isActive ? "End" : "Record", systemImage: recorder.isActive ? "stop.fill" : "record.circle")
+                            .frame(maxWidth: .infinity, minHeight: 64)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .frame(maxWidth: 220)
+                    .padding(.bottom, 12 + attributionHeight)
+                }
+                .padding(.horizontal, 16)
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
@@ -1146,6 +1166,7 @@ struct MapContainerView: View {
 
                 Button {
                     driveModeVM.setOn(!driveModeVM.isOn)
+                    recorder.updatePendingProfile(driveModeVM.isOn ? .drive : .walk)
                     if driveModeVM.isOn {
                         controller.showsUserLocation = true
                         if controller.userTrackingState != .following && controller.userTrackingState != .heading {
@@ -1192,23 +1213,7 @@ struct MapContainerView: View {
                 // and "the layer changed" would not be what happened.
                 .disabled(isSelectingSaveArea || markLocation.isAcquiring || editSession?.isEnding == true)
 
-                Button {
-                    controller.showsUserLocation = true
-                    // Said on every attempt, not on a value changing: the
-                    // second refused tap is a second answer. A first prompt's
-                    // answer arrives later, through the recorder's own
-                    // announcement.
-                    if let refusal = recorder.start(profile: driveModeVM.isOn ? .drive : .walk) {
-                        MapHaptics.refused()
-                        AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
-                    } else if recorder.isActive {
-                        // Only once the recording has actually begun: a tap
-                        // that raised the system prompt has started nothing
-                        // yet, and its answer comes back below.
-                        MapHaptics.modeChanged()
-                        AccessibilityNotification.Announcement("Recording started").post()
-                    }
-                } label: {
+                Button { startTrackRecording() } label: {
                     MapControlIcon(
                         systemName: recorder.isActive ? "record.circle.fill" : "record.circle",
                         tint: .red,
@@ -1708,13 +1713,24 @@ struct MapContainerView: View {
         return recorder.isWaitingForPermission ? "Waiting for location permission" : ""
     }
 
+    private func startTrackRecording() {
+        controller.showsUserLocation = true
+        if let refusal = recorder.start(profile: driveModeVM.isOn ? .drive : .walk) {
+            MapHaptics.refused()
+            AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+        } else if recorder.isActive {
+            MapHaptics.modeChanged()
+            AccessibilityNotification.Announcement("Recording started").post()
+        }
+    }
+
     /// The loaded catalogue's first sheet is topmost, at catalogue opacity.
     /// Individual map display preferences remain untouched.
     private var displayedUserMaps: [UserMapDrape] {
         let catalogue = driveCataloguesVM.loaded
         return DriveDrapeSelection.build(
             maps: userMapsVM.drapes, rows: userMapsVM.rows, catalogue: catalogue,
-            auto: driveCataloguesVM.ui.autoActivate,
+            auto: driveCataloguesVM.ui.autoActivate && driveModeVM.hasUsableActivation,
             shown: driveModeVM.output.shown,
             opacity: catalogue.map { driveCataloguesVM.opacity(for: $0) }
         )
@@ -1731,7 +1747,7 @@ struct MapContainerView: View {
 
     private func refreshDrivePreviews() {
         let catalogue = driveCataloguesVM.loaded
-        let active = driveCataloguesVM.ui.autoActivate && catalogue != nil
+        let active = driveCataloguesVM.ui.autoActivate && catalogue != nil && driveModeVM.hasUsableActivation
         userMapsVM.setDrivePreviews(managed: active ? Set(catalogue?.sheetIDs ?? []) : [],
                                     wanted: active ? Set(driveModeVM.output.shown) : [])
     }
@@ -1825,6 +1841,14 @@ struct MapContainerView: View {
             .onChange(of: driveCataloguesVM.ui.autoActivate) { _, _ in refreshDriveMode() }
             .onChange(of: userMapsVM.rows.map(\.record)) { _, _ in refreshDriveMode() }
             .onChange(of: driveModeVM.output.shown) { _, _ in refreshDrivePreviews() }
+            .task(id: driveModeVM.isOn) {
+                guard driveModeVM.isOn else { return }
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(5))
+                    guard !Task.isCancelled else { return }
+                    refreshDriveMode()
+                }
+            }
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
             }

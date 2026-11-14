@@ -224,6 +224,10 @@ final class TrackRecorder: NSObject {
     /// back, the recording begins then, with the clock started then.
     private(set) var isWaitingForPermission = false
 
+    func updatePendingProfile(_ profile: TrackRecording.Profile) {
+        if isWaitingForPermission && recording.status == .idle { requestedProfile = profile }
+    }
+
     /// A grant that landed while the app was off screen, owed a start when it
     /// comes back. See `apply(refusal:granted:)`.
     @ObservationIgnored private var startsOnReturn = false

@@ -50,10 +50,10 @@ struct UserMapRowsView: View {
                 UserMapRow(
                     row: row,
                     inCatalogue: catalogues?.loaded?.sheetIDs.contains(row.id) == true,
-                    catalogueControlsOpacity: driveMode != nil && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true,
-                    visible: driveMode != nil && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true ? (driveMode?.output.shown.contains(row.id) == true) : row.isVisible,
+                    catalogueControlsOpacity: driveMode?.hasUsableActivation == true && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true,
+                    visible: driveMode?.hasUsableActivation == true && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true ? (driveMode?.output.shown.contains(row.id) == true) : row.isVisible,
                     onVisible: { visible in
-                        if let driveMode, catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true {
+                        if let driveMode, driveMode.hasUsableActivation && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true {
                             driveMode.setVisible(visible, id: row.id)
                         } else { viewModel.setVisible(visible, id: row.id) }
                     },
@@ -69,6 +69,10 @@ struct UserMapRowsView: View {
                     },
                     onDelete: { deleting = row }
                 )
+            }
+
+            if let notice = driveMode?.manualNotice {
+                Text(notice).font(.caption).foregroundStyle(.secondary)
             }
 
             if !viewModel.notices.isEmpty {

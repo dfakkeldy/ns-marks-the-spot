@@ -57,6 +57,7 @@ final class UserMapsViewModel {
     private var driveManagedIDs: Set<String> = []
     private var driveWantedIDs: Set<String> = []
     private var previewLoads: Set<String> = []
+    private var failedPreviewIDs: Set<String> = []
     private(set) var drivePreviewFailures: Set<String> = []
     var driveCatalogues: DriveCataloguesViewModel?
     /// What the last thing the user asked for came to, for the panel to show.
@@ -667,6 +668,7 @@ final class UserMapsViewModel {
     func setVisible(_ isVisible: Bool, id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible
+        if isVisible { failedPreviewIDs.remove(id) }
         rememberDisplay()
         if wantsPreview(id: id, visible: isVisible) {
             ensurePreviewLoaded(id: id)
@@ -685,7 +687,7 @@ final class UserMapsViewModel {
 
     /// Keep only catalogue sheets selected by activation decoded while Auto runs.
     func setDrivePreviews(managed: Set<String>, wanted: Set<String>) {
-        for id in wanted.subtracting(driveWantedIDs) { drivePreviewFailures.remove(id) }
+        for id in wanted.subtracting(driveWantedIDs) { drivePreviewFailures.remove(id); failedPreviewIDs.remove(id) }
         drivePreviewFailures.formIntersection(wanted)
         driveManagedIDs = managed
         driveWantedIDs = wanted
@@ -701,7 +703,7 @@ final class UserMapsViewModel {
     /// lands, so a quick off-on-off does not resurrect the pixels.
     private func ensurePreviewLoaded(id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }),
-              rows[index].preview == nil, !previewLoads.contains(id), !drivePreviewFailures.contains(id) else { return }
+              rows[index].preview == nil, !previewLoads.contains(id), !failedPreviewIDs.contains(id) else { return }
         previewLoads.insert(id)
         Task { [weak self, store] in
             defer { self?.previewLoads.remove(id) }
@@ -711,8 +713,9 @@ final class UserMapsViewModel {
                       self.wantsPreview(id: id, visible: self.rows[index].isVisible) else { return }
                 self.rows[index].preview = preview
             } catch {
-                guard let self, self.driveWantedIDs.contains(id) else { return }
-                self.drivePreviewFailures.insert(id)
+                guard let self else { return }
+                self.failedPreviewIDs.insert(id)
+                if self.driveWantedIDs.contains(id) { self.drivePreviewFailures.insert(id) }
             }
         }
     }

@@ -79,7 +79,8 @@ struct SaveTrackSheet: View {
                 + "recording, so no fixes could arrive. The recording can only be discarded."
         }
         if restoredNote != nil {
-            return "No usable track was recorded. This walk kept no positions, and why "
+            let kind = result.profile == .drive ? "drive" : "walk"
+            return "No usable track was recorded. This \(kind) kept no positions, and why "
                 + "it kept none is not recorded. It can only be discarded."
         }
         return "No usable track was recorded. Every fix was filtered out — usually "

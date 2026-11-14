@@ -115,6 +115,17 @@ struct TrackRecorderSeamTests {
         coordinator.set(.driveMode, active: false)
         #expect(!screen.isHeldAwake)
     }
+
+    @Test func changingModeWhilePermissionIsRefusedUpdatesPendingProfile() {
+        let (recorder, source, _, _) = self.recorder()
+        source.authorizationStatus = .denied
+        #expect(recorder.start(profile: .drive) == .denied)
+        recorder.updatePendingProfile(.walk)
+        source.changeAuthorization(to: .authorizedWhenInUse)
+        #expect(recorder.status == .recording)
+        #expect(source.activityType == .fitness)
+        _ = recorder.stop()
+    }
     private func recorder() -> (TrackRecorder, ScriptedFixSource, SpyScreen, SpyBackground) {
         let source = ScriptedFixSource()
         let screen = SpyScreen()

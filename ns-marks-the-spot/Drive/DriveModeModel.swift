@@ -10,6 +10,8 @@ final class DriveModeModel {
     private(set) var dismissed: Set<String> = []
     private(set) var autoPaused = false
     private(set) var locationUnavailable = false
+    private(set) var hasUsableActivation = false
+    private(set) var manualNotice: String?
     private let screen: ScreenAwakeCoordinator
     private var state = SheetActivationState()
     private var activeCatalogueID: String?
@@ -29,6 +31,7 @@ final class DriveModeModel {
         pinned = []; dismissed = []; activeCatalogueID = nil
         sheets = []; cachedRecords = []; cachedIDs = []
         firstFix = true; lastTimestamp = nil; autoPaused = false; locationUnavailable = false
+        hasUsableActivation = false; manualNotice = nil
     }
     func update(catalogue: DriveCatalogue?, auto: Bool, records: [UserMapRecord], fix: TrackFix?, following: Bool,
                 signalAvailable: Bool = true, now: Date = Date()) {
@@ -84,7 +87,7 @@ final class DriveModeModel {
             fix: .init(point: .init(lat: fix.latitude, lng: fix.longitude), accuracyM: fix.accuracyM),
             pinned: pinned, dismissed: dismissed, isFirstFix: firstFix)
         state = result.state; output = result.output
-        if output.reason == .updated { firstFix = false; lastTimestamp = fix.timestamp }
+        if output.reason == .updated { firstFix = false; lastTimestamp = fix.timestamp; hasUsableActivation = true }
         for id in output.clearedDismissals { dismissed.remove(id) }
     }
     func setVisible(_ visible: Bool, id: String) {
@@ -98,5 +101,10 @@ final class DriveModeModel {
         let reason = output.reason
         output = SheetActivation.output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
         output.reason = reason
+        manualNotice = visible && !output.shown.contains(id) ? "This sheet is outside the three-sheet limit. Change catalogue order to show it." : nil
+    }
+
+    var insideCount: Int {
+        sheets.filter { state.sheets[$0.id]?.entered == true && state.sheets[$0.id]?.insideNow == true }.count
     }
 }
