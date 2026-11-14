@@ -38,6 +38,8 @@ describe("user layer PDF export", () => {
     const text = userLayerAttributionLines([layer({ name: "User-supplied layer, not an NS Marks The Spot source:" })])[0];
     expect(text.startsWith("User-supplied layer, not an NS Marks The Spot source:")).toBe(true);
     expect(text).toContain("tiles.example.org"); expect(text).not.toContain("secret");
+    const withAddress = userLayerAttributionLines([layer({ termsNote: "See https://example.org/licence?key=private" })])[0];
+    expect(withAddress).toContain("example.org"); expect(withAddress).not.toContain("private");
   });
   it("names unreadable and untested layers as omitted", () => {
     const noCors = layer({ probe: { display: true, corsReadable: false, at: "2026-11-14" } });
