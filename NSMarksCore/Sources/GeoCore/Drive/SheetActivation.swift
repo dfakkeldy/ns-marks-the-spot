@@ -6,6 +6,7 @@ public enum SheetActivationConfig {
     public static let exitFixes = 2
     public static let maxAccuracyM = 100.0
     public static let maxShown = 3
+    public static let boundaryToleranceM = 0.000_001
 }
 
 public struct SheetActivationSheet: Sendable {
@@ -44,6 +45,8 @@ public struct SheetActivationState: Sendable {
         public var insideCount = 0
         public var outsideCount = 0
         public var insideNow = false
+        public var distanceM: Double?
+        public var nearest: SheetActivationOutput.Nearest?
         public init() {}
     }
     public var sheets: [String: Sheet] = [:]
@@ -59,7 +62,7 @@ public enum SheetActivation {
         guard fix.accuracyM.isFinite, fix.accuracyM > 0,
               fix.accuracyM <= SheetActivationConfig.maxAccuracyM,
               fix.point.lat.isFinite, fix.point.lng.isFinite else {
-            var held = state.output
+            var held = output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
             held.reason = .heldPoorFix
             held.clearedDismissals = []
             return (state, held)
@@ -68,21 +71,17 @@ public enum SheetActivation {
         let ids = Set(sheets.map(\.id))
         next.sheets = next.sheets.filter { ids.contains($0.key) }
         var cleared: [String] = []
-        var nearest: SheetActivationOutput.Nearest?
-        var distances: [String: Double] = [:]
         for sheet in sheets {
             guard let measurement = SheetFootprint.measure(from: fix.point, toRing: sheet.ring) else {
                 next.sheets.removeValue(forKey: sheet.id)
                 continue
             }
             let distance = measurement.distance
-            distances[sheet.id] = distance
-            let distanceToSheet = max(0, distance)
-            if nearest.map({ distanceToSheet < $0.distanceM }) ?? true {
-                nearest = .init(id: sheet.id, distanceM: distanceToSheet,
-                                bearingDegrees: distance <= 0 ? nil : Geodesy.initialBearingDegrees(from: fix.point, to: measurement.nearest))
-            }
             var item = next.sheets[sheet.id] ?? .init()
+            item.distanceM = distance
+            let distanceToSheet = max(0, distance)
+            item.nearest = .init(id: sheet.id, distanceM: distanceToSheet,
+                                 bearingDegrees: distance <= 0 ? nil : Geodesy.initialBearingDegrees(from: fix.point, to: measurement.nearest))
             item.insideNow = distance <= 0
             if item.entered {
                 if distance > max(SheetActivationConfig.exitMarginM, fix.accuracyM) {
@@ -105,27 +104,36 @@ public enum SheetActivation {
             }
             next.sheets[sheet.id] = item
         }
-        let contained = sheets.filter { next.sheets[$0.id]?.entered == true }.map(\.id)
+        var result = output(state: next, sheets: sheets, pinned: pinned, dismissed: dismissed.subtracting(cleared))
+        result.clearedDismissals = cleared
+        next.output = result
+        return (next, result)
+    }
+
+    /// Rebuild the presentation after a manual action without consuming a fix.
+    public static func output(
+        state: SheetActivationState, sheets: [SheetActivationSheet],
+        pinned: Set<String>, dismissed: Set<String>
+    ) -> SheetActivationOutput {
+        let contained = sheets.filter { state.sheets[$0.id]?.entered == true }.map(\.id)
         let visible = sheets.filter {
-            (pinned.contains($0.id) || next.sheets[$0.id]?.entered == true)
-                && (!dismissed.contains($0.id) || cleared.contains($0.id))
+            (pinned.contains($0.id) || state.sheets[$0.id]?.entered == true)
+                && !dismissed.contains($0.id)
         }.map(\.id)
-        var output = SheetActivationOutput()
-        output.contained = contained
-        output.shown = Array(visible.prefix(SheetActivationConfig.maxShown))
-        output.notDrawn = max(0, visible.count - output.shown.count)
+        var result = SheetActivationOutput()
+        result.contained = contained
+        result.shown = Array(visible.prefix(SheetActivationConfig.maxShown))
+        result.notDrawn = max(0, visible.count - result.shown.count)
         let inside = sheets.filter {
-            guard let item = next.sheets[$0.id] else { return false }
+            guard let item = state.sheets[$0.id] else { return false }
             return item.entered && item.insideNow
         }
-        // An exact shared edge belongs to both rings, but does not enclose an
-        // overlap. Keep edges inside for entry while avoiding an overlap bar
-        // when every containing sheet is only touching the fix at its edge.
-        let overlapping = inside.count >= 2 && inside.contains { (distances[$0.id] ?? 0) < 0 }
-        output.status = overlapping ? .overlap : (contained.isEmpty ? .offSheets : .onSheet)
-        output.nearest = contained.isEmpty ? nearest : nil
-        output.clearedDismissals = cleared
-        next.output = output
-        return (next, output)
+        let overlapping = inside.count >= 2 && inside.contains { (state.sheets[$0.id]?.distanceM ?? 0) < 0 }
+        result.status = overlapping ? .overlap : (contained.isEmpty ? .offSheets : .onSheet)
+        if contained.isEmpty {
+            let nearest = sheets.compactMap { state.sheets[$0.id]?.nearest }.min { $0.distanceM < $1.distanceM }
+            result.nearest = nearest
+        }
+        return result
     }
 }

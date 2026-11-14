@@ -44,7 +44,7 @@ public enum SheetFootprint {
         }
         // Projection and segment arithmetic can leave sub-micrometre residue
         // at an exact edge. Treat that numerical noise as the boundary.
-        if best < 0.000_001 { return (0, nearest) }
+        if best < SheetActivationConfig.boundaryToleranceM { return (0, nearest) }
         return (inside ? -best : best, nearest)
     }
 

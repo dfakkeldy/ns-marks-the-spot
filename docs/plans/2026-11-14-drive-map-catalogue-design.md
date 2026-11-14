@@ -249,6 +249,8 @@ The ring, not a bounding box. A UTM sheet is rotated against latitude and longit
 
 Distance is measured in local metres: project the ring and the fix to an equirectangular plane centred on the fix. `signedDistanceM` is negative inside the ring and positive outside.
 
+Distances less than 0.000001 m from an edge are treated as zero to absorb projection rounding. The shared fixture pins this tolerance.
+
 ### 7.3 Rules
 
 Constants, shared by both surfaces and pinned in the fixture:
@@ -292,6 +294,8 @@ Why these numbers:
 The overlap status uses `insideNow`, not `entered`. Two sheets that only share an edge are both entered for a few seconds because of the exit margin. That is not an overlap, and the bar must not flash on every switch.
 
 At an exact shared edge, both sheets count as inside for entry, but the overlap bar stays hidden when every containing sheet touches the fix only on its boundary. This resolves the edge case between the inclusive entry rule and the no-overlap-at-a-join acceptance test.
+
+The fixture uses `onSheet`, `offSheets`, and `heldPoorFix` as serialized names for the corresponding hyphenated labels above. A fix inside a sheet that has not yet entered can report that sheet as nearest at 0 m with no bearing. Manual pin, hide, or sheet-list changes rebuild the output without counting another location fix, including while fixes are held.
 
 ### 7.4 Behaviour at edges, and off the sheets
 

@@ -4,7 +4,8 @@
     "exitMarginM": 60,
     "exitFixes": 2,
     "maxAccuracyM": 100,
-    "maxShown": 3
+    "maxShown": 3,
+    "boundaryToleranceM": 1e-06
   },
   "cases": [
     {
@@ -44,7 +45,13 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestId": "a",
+          "nearestDistanceM": 0,
+          "nearestBearingAbsent": true
         },
         {
           "point": [
@@ -61,7 +68,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -106,7 +117,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -123,7 +138,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -136,7 +155,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         }
       ]
     },
@@ -181,7 +203,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -198,7 +224,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -215,7 +245,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "heldPoorFix",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -232,7 +266,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -245,7 +283,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         }
       ]
     },
@@ -311,7 +352,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -328,7 +373,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -347,7 +396,11 @@
             "a",
             "b"
           ],
-          "status": "overlap"
+          "status": "overlap",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -366,7 +419,11 @@
             "a",
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -383,7 +440,11 @@
           "contained": [
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -497,7 +558,10 @@
             "d"
           ],
           "status": "overlap",
-          "notDrawn": 1
+          "notDrawn": 1,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -545,7 +609,10 @@
           "status": "offSheets",
           "nearestId": "a",
           "nearestDistanceM": 1111.95,
-          "nearestBearing": 270
+          "nearestBearing": 270,
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         }
       ]
     },
@@ -611,7 +678,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -628,7 +699,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -647,7 +722,11 @@
             "a",
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -666,7 +745,11 @@
             "a",
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -683,7 +766,11 @@
           "contained": [
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -728,7 +815,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -745,7 +836,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -763,7 +858,9 @@
           "status": "offSheets",
           "cleared": [
             "a"
-          ]
+          ],
+          "notDrawn": 0,
+          "reason": "updated"
         },
         {
           "point": [
@@ -776,7 +873,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         },
         {
           "point": [
@@ -793,7 +893,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -861,7 +965,11 @@
             "a",
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -929,7 +1037,11 @@
             "a",
             "b"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -970,7 +1082,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         },
         {
           "point": [
@@ -983,7 +1098,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         },
         {
           "point": [
@@ -996,7 +1114,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         },
         {
           "point": [
@@ -1013,7 +1134,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         }
       ]
     },
@@ -1058,7 +1183,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -1075,7 +1204,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -1092,7 +1225,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -1109,7 +1246,11 @@
           "contained": [
             "a"
           ],
-          "status": "onSheet"
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
         },
         {
           "point": [
@@ -1122,7 +1263,10 @@
           "dismissed": [],
           "shown": [],
           "contained": [],
-          "status": "offSheets"
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         }
       ]
     },
@@ -1187,7 +1331,311 @@
           "status": "offSheets",
           "nearestId": "b",
           "nearestDistanceM": 111.195,
-          "nearestBearing": 90
+          "nearestBearing": 90,
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
+        }
+      ]
+    },
+    {
+      "name": "pinned sheet follows catalogue order",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0.03
+            ],
+            [
+              0,
+              0.04
+            ],
+            [
+              0.01,
+              0.04
+            ],
+            [
+              0.01,
+              0.03
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [
+            "b"
+          ],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
+        }
+      ]
+    },
+    {
+      "name": "dismissal before drawing cap",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "c",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "d",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [
+            "a"
+          ],
+          "dismissed": [
+            "a"
+          ],
+          "shown": [
+            "b",
+            "c",
+            "d"
+          ],
+          "contained": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          "status": "overlap",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
+        }
+      ]
+    },
+    {
+      "name": "exact exit margin",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
+        },
+        {
+          "point": [
+            0.005,
+            0.010539592965605856
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated",
+          "nearestAbsent": true
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets",
+          "notDrawn": 0,
+          "cleared": [],
+          "reason": "updated"
         }
       ]
     }
