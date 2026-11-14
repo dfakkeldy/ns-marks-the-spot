@@ -172,7 +172,7 @@ export function selectUserLayersForExport(layers: readonly VisibleUserLayer[], l
   const omitted: string[] = [];
   for (const layer of layers) {
     const use = userLayerUse(layer.record, undefined, licenceAccepted);
-    if (use.view !== "allowed") continue;
+    if (use.view !== "allowed") { omitted.push(`${layer.record.name} — ${use.view === "needs-acceptance" ? "Province licence acceptance is needed" : use.reason ?? "viewing is locked"}`); continue; }
     if (use.export === "held") { omitted.push(`${layer.record.name} — ${use.reason ?? "export locked"}`); continue; }
     if (!layer.record.probe) { omitted.push(`${layer.record.name} — not tested`); continue; }
     if (layer.record.probe.corsReadable !== true) { omitted.push(`${layer.record.name} — cannot be read for a PDF`); continue; }
@@ -182,7 +182,7 @@ export function selectUserLayersForExport(layers: readonly VisibleUserLayer[], l
 }
 
 export function isOpaqueUserBase(layer: VisibleUserLayer): boolean {
-  return layer.record.role === "base" && layer.opacity === 1 && (layer.record.kind !== "wms" || layer.record.wms?.transparent === false);
+  return layer.record.role === "base" && layer.record.opaque === true && layer.opacity === 1 && (layer.record.kind !== "wms" || layer.record.wms?.transparent === false);
 }
 
 function userLayer(layer: VisibleUserLayer): CompositorLayer {

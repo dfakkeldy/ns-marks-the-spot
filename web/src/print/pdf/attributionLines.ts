@@ -60,6 +60,7 @@ export function exportAttributionLines(
   });
 }
 
+import { matchCatalogueSource } from "../../userLayers/sourceMatch";
 import { hostOf } from "../../userLayers/parseLayerUrl";
 import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
 
@@ -68,5 +69,9 @@ function textWithoutAddresses(value: string): string {
 }
 
 export function userLayerAttributionLines(layers: readonly VisibleUserLayer[]): string[] {
-  return layers.map(({ record }) => `User-supplied layer, not an NS Marks The Spot source: "${textWithoutAddresses(record.name)}" - ${textWithoutAddresses(record.attribution)} - Terms as noted by the user: ${textWithoutAddresses(record.termsNote)}. Read ${record.acknowledgement?.at.slice(0, 10) ?? "unknown"}. - ${hostOf(record.url)}`);
+  return layers.flatMap(({ record }) => {
+    const user = `User-supplied layer, not an NS Marks The Spot source: "${textWithoutAddresses(record.name)}" - ${textWithoutAddresses(record.attribution)} - Terms as noted by the user: ${textWithoutAddresses(record.termsNote)}. Read ${record.acknowledgement?.at.slice(0, 10) ?? "unknown"}. - ${hostOf(record.url)}`;
+    const credits = matchCatalogueSource(record.url).flatMap(match => match.attribution ? [`Catalogue attribution (${match.name}): ${match.attribution}${match.licenceUrl ? ` — ${match.licenceUrl}` : ""}`] : []);
+    return [user, ...new Set(credits)];
+  });
 }

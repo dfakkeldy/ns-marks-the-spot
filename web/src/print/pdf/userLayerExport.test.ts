@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { zoningLayerCatalog } from "../../layers/layerCatalog";
 import { userLayerAttributionLines } from "./attributionLines";
 import { buildExportLayers, selectUserLayersForExport, type ExportLayerInputs } from "./exportLayerSpecs";
 import { composeMapImage } from "./mapCompositor";
@@ -6,7 +7,7 @@ import type { UserLayerRecord } from "../../userLayers/types";
 import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
 
 const bounds = { north: 46.35, south: 46.25, west: -61.25, east: -61.10 };
-const record: UserLayerRecord = { id: "user-layer:test", name: "Example", kind: "xyz", role: "base", url: "https://tiles.example.org/{z}/{x}/{y}.png?key=secret", attribution: "Credit", termsNote: "Personal use", termsUrl: null, minZoom: 0, maxNativeZoom: 19, tileSize: 256, createdAt: "2026-11-14", modifiedAt: "2026-11-14", acknowledgement: { version: 1, at: "2026-11-14" }, probe: { display: true, corsReadable: true, at: "2026-11-14" } };
+const record: UserLayerRecord = { id: "user-layer:test", name: "Example", kind: "xyz", role: "base", opaque: true, url: "https://tiles.example.org/{z}/{x}/{y}.png?key=secret", attribution: "Credit", termsNote: "Personal use", termsUrl: null, minZoom: 0, maxNativeZoom: 19, tileSize: 256, createdAt: "2026-11-14", modifiedAt: "2026-11-14", acknowledgement: { version: 1, at: "2026-11-14" }, probe: { display: true, corsReadable: true, at: "2026-11-14" } };
 const layer = (overrides: Partial<UserLayerRecord> = {}): VisibleUserLayer => ({ record: { ...record, ...overrides }, opacity: 1 });
 const frame = (overrides: Partial<ExportLayerInputs> = {}): ExportLayerInputs => ({ bounds, showModernMap: true, basemapStyle: "osm", fletcher: { visible: false, opacity: 1, tileBaseUrl: null, maxNativeZoom: 15 }, arcgisLayers: [], userMaps: [], selectedParcelRings: [], ...overrides });
 
@@ -40,6 +41,23 @@ describe("user layer PDF export", () => {
     expect(text).toContain("tiles.example.org"); expect(text).not.toContain("secret");
     const withAddress = userLayerAttributionLines([layer({ termsNote: "See https://example.org/licence?key=private" })])[0];
     expect(withAddress).toContain("example.org"); expect(withAddress).not.toContain("private");
+  });
+  it("keeps the modern map under a base with transparency", () => {
+    const transparent = layer({ opaque: false, kind: "arcgis-map", url: "https://example.org/MapServer" });
+    expect(buildExportLayers(frame({ userLayers: [transparent] })).map(x => x.id)).toContain("modern");
+    expect(buildExportLayers(frame({ userLayers: [layer({ opaque: false })] })).map(x => x.id)).toContain("modern");
+  });
+  it("credits matched catalogue sources independently of user text", async () => {
+    const { sentinel2Layer } = await import("../../layers/sentinel2");
+    const lines = userLayerAttributionLines([layer({ url: sentinel2Layer.tileUrl })]);
+    expect(lines.join(" ")).toContain("EOX IT Services");
+    expect(lines.join(" ")).toContain("https://creativecommons.org/licenses/by/4.0/");
+  });
+  it("names view-blocked sources as omitted", () => {
+    const restricted = layer({ kind: "arcgis-map", url: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer" });
+    expect(selectUserLayersForExport([restricted], false).omitted[0]).toMatch(/Example.*acceptance/);
+    const municipal = zoningLayerCatalog.find(entry => entry.id === "zoning-inverness")!;
+    expect(selectUserLayersForExport([layer({ kind: "arcgis-map", url: municipal.serviceUrl })], true).omitted[0]).toMatch(/queries/i);
   });
   it("names unreadable and untested layers as omitted", () => {
     const noCors = layer({ probe: { display: true, corsReadable: false, at: "2026-11-14" } });

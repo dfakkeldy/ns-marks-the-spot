@@ -11,7 +11,7 @@ export function imageUrlForBox(record: UserLayerRecord, box: WebMercatorBox, wid
     for (const [key, value] of Object.entries({ service: "WMS", request: "GetMap", version: wms?.version ?? "1.3.0", layers: wms?.layers ?? "", styles: wms?.styles ?? "", format: wms?.format ?? "image/png", transparent: String(wms?.transparent ?? true), bbox, width: String(width), height: String(height), [(wms?.version ?? "1.3.0") === "1.3.0" ? "crs" : "srs"]: "EPSG:3857" })) url.searchParams.set(key, value);
   } else {
     url.pathname = `${url.pathname.replace(/\/$/, "")}/${record.kind === "arcgis-image" ? "exportImage" : "export"}`;
-    for (const [key, value] of Object.entries({ bbox, bboxSR: "3857", imageSR: "3857", size: `${width},${height}`, format: "png32", transparent: "true", f: "image" })) url.searchParams.set(key, value);
+    for (const [key, value] of Object.entries({ bbox, bboxSR: "3857", imageSR: "3857", size: `${width},${height}`, format: "png32", transparent: record.role === "base" && record.opaque ? "false" : "true", f: "image" })) url.searchParams.set(key, value);
     if (record.arcgis?.layers) url.searchParams.set("layers", record.arcgis.layers);
   }
   return url.toString();
