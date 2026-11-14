@@ -92,7 +92,7 @@ final class TrackCheckpointStore {
     /// be a walk nobody has saved or discarded, and the first thing a new
     /// recording would otherwise do is destroy it.
     @discardableResult
-    func begin(id: UUID, startedAt: Date) -> Bool {
+    func begin(id: UUID, startedAt: Date, profile: TrackRecording.Profile = .walk) -> Bool {
         close()
         if fileManager.fileExists(atPath: file.path) { setAside() }
         Self.ensureDirectory(directory, fileManager)
@@ -108,7 +108,7 @@ final class TrackCheckpointStore {
         guard isWritingDown else { return false }
         handle = try? FileHandle(forWritingTo: file)
         isWritingDown = handle != nil
-        return append(.started(id: id, at: startedAt))
+        return append(profile == .drive ? .driveStarted(id: id, at: startedAt) : .started(id: id, at: startedAt))
     }
 
     /// Appends one thing that happened. Answers whether it landed.

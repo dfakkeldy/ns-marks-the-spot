@@ -20,6 +20,7 @@ struct NSMarksTheSpotApp: App {
                 navigationModel: container.navigationModel,
                 offlineAreasViewModel: container.offlineAreasViewModel,
                 driveCataloguesViewModel: container.driveCataloguesViewModel,
+                screenAwakeCoordinator: container.screenAwakeCoordinator,
                 // Both off the container, which read the checkpoint before any
                 // view existed and owns the recorder a Lock Screen button can
                 // reach without one.

@@ -12,6 +12,7 @@ import SwiftUI
 struct UserMapRowsView: View {
     @Bindable var viewModel: UserMapsViewModel
     var catalogues: DriveCataloguesViewModel?
+    var driveMode: DriveModeModel?
 
     /// Read here rather than inside the sheet: the opening view has to be
     /// known before the georeferencer's map pane is built.
@@ -49,7 +50,13 @@ struct UserMapRowsView: View {
                 UserMapRow(
                     row: row,
                     inCatalogue: catalogues?.loaded?.sheetIDs.contains(row.id) == true,
-                    onVisible: { viewModel.setVisible($0, id: row.id) },
+                    catalogueControlsOpacity: driveMode?.hasUsableActivation == true && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true,
+                    visible: driveMode?.hasUsableActivation == true && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true ? (driveMode?.output.shown.contains(row.id) == true) : row.isVisible,
+                    onVisible: { visible in
+                        if let driveMode, driveMode.hasUsableActivation && catalogues?.ui.autoActivate == true && catalogues?.loaded?.sheetIDs.contains(row.id) == true {
+                            driveMode.setVisible(visible, id: row.id)
+                        } else { viewModel.setVisible(visible, id: row.id) }
+                    },
                     onOpacity: { viewModel.setOpacity($0, id: row.id) },
                     // Through the ensure call, not the row value in hand: a
                     // hidden row's preview is evicted, and both sheets draw
@@ -62,6 +69,10 @@ struct UserMapRowsView: View {
                     },
                     onDelete: { deleting = row }
                 )
+            }
+
+            if let notice = driveMode?.manualNotice {
+                Text(notice).font(.caption).foregroundStyle(.secondary)
             }
 
             if !viewModel.notices.isEmpty {
@@ -162,6 +173,8 @@ struct UserMapRowsView: View {
 private struct UserMapRow: View {
     let row: UserMapsViewModel.Row
     let inCatalogue: Bool
+    let catalogueControlsOpacity: Bool
+    let visible: Bool
     // `@MainActor`, not a bare function type: `Binding(get:set:)` wants a
     // `@Sendable` setter, and a plain closure property is not one. An
     // actor-isolated closure is Sendable-convertible because it can only
@@ -184,7 +197,7 @@ private struct UserMapRow: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Toggle(
-                    isOn: Binding(get: { row.isVisible }, set: mainActorSetter(onVisible))
+                    isOn: Binding(get: { visible }, set: mainActorSetter(onVisible))
                 ) {
                     Text(row.record.name).font(.subheadline)
                 }
@@ -251,9 +264,9 @@ private struct UserMapRow: View {
                     value: Binding(get: { row.opacity }, set: mainActorSetter(onOpacity)),
                     in: 0...1
                 )
-                .disabled(inCatalogue)
+                .disabled(catalogueControlsOpacity)
                 .accessibilityLabel("Opacity for \(row.record.name)")
-                if inCatalogue {
+                if catalogueControlsOpacity {
                     Text("Opacity is controlled by the loaded catalogue.").font(.caption2).foregroundStyle(.secondary)
                 }
             }

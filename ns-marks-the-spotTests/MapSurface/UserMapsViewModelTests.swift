@@ -230,6 +230,20 @@ struct UserMapsLibraryTests {
         }
     }
 
+    @Test("Bulk reload respects drive preview residency")
+    func bulkReloadDoesNotRestoreUnshownDrivePreviews() async throws {
+        try await withLibraryDirectory { directory in
+            let viewModel = UserMapsViewModel(store: UserMapStore(directory: directory))
+            await viewModel.load()
+            let first = try #require(await viewModel.importMapReturningID(data: image(), name: "First"))
+            let second = try #require(await viewModel.importMapReturningID(data: image(), name: "Second"))
+            viewModel.setDrivePreviews(managed: [first, second], wanted: [first])
+            await viewModel.load()
+            #expect(viewModel.rows.first(where: { $0.id == first })?.preview != nil)
+            #expect(viewModel.rows.first(where: { $0.id == second })?.preview == nil)
+        }
+    }
+
     @Test("Placement the device will not keep is undone rather than shown")
     func aRejectedSaveIsRolledBack() async throws {
         try await withLibraryDirectory { directory in

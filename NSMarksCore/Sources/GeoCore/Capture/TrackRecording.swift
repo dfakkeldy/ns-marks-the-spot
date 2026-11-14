@@ -25,6 +25,7 @@ public struct TrackRecording: Sendable {
         public var acceptedFixCount: Int
         public var distanceM: Double
         public var recordingSeconds: Double
+        public var profile: Profile = .walk
 
     }
 
@@ -112,7 +113,8 @@ public struct TrackRecording: Sendable {
             rawFixCount: rawCount,
             acceptedFixCount: acceptedCount,
             distanceM: distanceM,
-            recordingSeconds: recordingSeconds
+            recordingSeconds: recordingSeconds,
+            profile: profile
         )
     }
 

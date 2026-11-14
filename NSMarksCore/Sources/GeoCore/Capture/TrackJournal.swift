@@ -25,6 +25,8 @@ public enum TrackJournal {
     /// One thing that happened to a recording.
     public enum Entry: Hashable, Sendable {
         case started(id: UUID, at: Date)
+        /// A distinct kind makes older builds refuse rather than replay as a walk.
+        case driveStarted(id: UUID, at: Date)
         case fix(TrackFix)
         case paused(at: Date)
         case resumed(at: Date)
@@ -36,7 +38,7 @@ public enum TrackJournal {
         /// When it happened, for closing a walk the journal ran out on.
         var at: Date {
             switch self {
-            case .started(_, let at), .paused(let at), .resumed(let at), .stopped(let at):
+            case .started(_, let at), .driveStarted(_, let at), .paused(let at), .resumed(let at), .stopped(let at):
                 at
             case .fix(let fix):
                 fix.timestamp
@@ -51,7 +53,7 @@ public enum TrackJournal {
     }
 
     private enum Kind: String, Codable {
-        case start, fix, pause, resume, stop
+        case start, driveStart, fix, pause, resume, stop
     }
 
     /// The bytes for one entry, newline-terminated, ready to append.
@@ -110,6 +112,10 @@ public enum TrackJournal {
                 try container.encode(Kind.start, forKey: .kind)
                 try container.encode(id, forKey: .id)
                 try container.encode(at.timeIntervalSince1970, forKey: .at)
+            case .driveStarted(let id, let at):
+                try container.encode(Kind.driveStart, forKey: .kind)
+                try container.encode(id, forKey: .id)
+                try container.encode(at.timeIntervalSince1970, forKey: .at)
             case .fix(let fix):
                 try container.encode(Kind.fix, forKey: .kind)
                 try container.encode(fix.latitude, forKey: .lat)
@@ -140,6 +146,8 @@ public enum TrackJournal {
             switch kind {
             case .start:
                 entry = .started(id: try container.decode(UUID.self, forKey: .id), at: at)
+            case .driveStart:
+                entry = .driveStarted(id: try container.decode(UUID.self, forKey: .id), at: at)
             case .fix:
                 entry = .fix(
                     TrackFix(
@@ -195,8 +203,15 @@ public enum TrackJournal {
     /// reopened at six in the evening did not record for eight hours, and a
     /// walk that says it did is a fabricated measurement.
     public static func replay(_ entries: [Entry]) -> Restored? {
-        guard case .started(let id, let startedAt)? = entries.first else { return nil }
-        var recording = TrackRecording()
+        let id: UUID
+        let startedAt: Date
+        let profile: TrackRecording.Profile
+        switch entries.first {
+        case .started(let foundID, let at): id = foundID; startedAt = at; profile = .walk
+        case .driveStarted(let foundID, let at): id = foundID; startedAt = at; profile = .drive
+        default: return nil
+        }
+        var recording = TrackRecording(profile: profile)
         recording.start(now: startedAt)
         // Monotonic on purpose. A fix carries the device's timestamp for it and
         // a pause carries the wall clock, so the two can cross by a moment;
@@ -215,7 +230,7 @@ public enum TrackJournal {
             case .stopped:
                 guard let result = recording.stop(now: lastSeen) else { return nil }
                 return Restored(id: id, result: result, wasInterrupted: false)
-            case .started:
+            case .started, .driveStarted:
                 // A second start in one file is not a walk this can read. The
                 // journal holds one recording; two would mean the file was
                 // reused without being cleared, and guessing which one the
