@@ -801,7 +801,7 @@ Under A, a matched layer is handled as the catalogue layer:
 - The row says: `This address is the Province's NS Aerial service. NS Marks The Spot already offers it as "NS Aerial". The same conditions apply.`
 - Viewing needs the Province licence acceptance.
 - Export passes the matched catalogue id to `assertReproductionAllowed`, which refuses it with the existing reason.
-- A match to an open catalogue source is allowed, and the catalogue's own attribution is added to the credits.
+- A match to a verified open-download address is allowed, and the catalogue's own attribution is added to the credits. A restricted service address never inherits the open-download exception.
 
 The policy is one constant, so the decision is one line and one test table:
 

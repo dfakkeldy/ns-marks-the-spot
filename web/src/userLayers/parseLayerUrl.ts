@@ -14,6 +14,7 @@ export function validateLayerUrl(value: string, kind: UserLayerKind = guessKind(
     if (url.protocol !== "https:" && !(url.protocol === "http:" && ["localhost", "127.0.0.1"].includes(url.hostname))) return "Use HTTPS, or HTTP for localhost.";
     try { decodeURIComponent(url.pathname); } catch { return "Address contains invalid encoding."; }
     if (url.username || url.password || url.hash) return "Addresses cannot contain credentials or fragments.";
+    if ((kind === "arcgis-map" || kind === "arcgis-image") && /\/(?:mapserver|imageserver)\/\d+(?:\/|$)/i.test(url.pathname)) return "Use the service address and specify sublayers separately.";
     if ((kind === "xyz" || kind === "tms") && (!/\{z\}/i.test(value) || !/\{x\}/i.test(value) || !/\{(?:-y|y)\}/i.test(value))) return "Tile addresses need {z}, {x}, and {y} or {-y}.";
     if (/\{(?:switch:|q\})/i.test(value)) return "This tile template is not supported.";
     return null;

@@ -1,4 +1,6 @@
 import { contextLayerCatalog } from "../layers/contextLayerCatalog";
+import { lidarCanopyLayer } from "../layers/lidarCanopy";
+import type { OpenDataSource } from "../layers/openDataSources";
 import { infrastructureLayers } from "../layers/infrastructureLayers";
 import { landContextLayers } from "../layers/landContextLayers";
 import { fletcherTileUrl } from "../layers/fletcherLayer";
@@ -9,14 +11,14 @@ import type { UserLayerRecord } from "./types";
 
 export type MatchPolicy = "same-lock" | "user-responsibility" | "owner-build";
 export const USER_LAYER_MATCH_POLICY: MatchPolicy = "same-lock";
-export type SourceMatch = { layerId: string; name: string; licence: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean };
-type Descriptor = { id: string; name: string; licence: string; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean };
+export type SourceMatch = { layerId: string; name: string; licence: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
+type Descriptor = { id: string; name: string; licence: string; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
 
 export function sourceKey(value: string): string | null {
   try {
     const url = new URL(value);
     const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
-    const host = ["nsgiwa.novascotia.ca", "nsgiwa2.novascotia.ca"].includes(hostname) ? `nsgiwa.novascotia.ca${url.port ? `:${url.port}` : ""}` : `${hostname}${url.port ? `:${url.port}` : ""}`;
+    const host = ["nsgiwa.novascotia.ca", "nsgiwa2.novascotia.ca"].includes(hostname) ? "nsgiwa.novascotia.ca" : `${hostname}${url.port ? `:${url.port}` : ""}`;
     const path = decodeURIComponent(url.pathname).toLowerCase().replace(/\/{2,}/g, "/");
     const arcgis = path.match(/^(.*?)(?:\/arcgis)?\/(?:rest\/)?services\/(.+?\/(?:mapserver|imageserver))(?:\/|$)/);
     if (arcgis) return `${host}${arcgis[1]}/services/${arcgis[2]}`;
@@ -30,12 +32,13 @@ export function catalogueSourceIndex(): Map<string, SourceMatch[]> {
   const add = (layer: Descriptor, address: string | null | undefined) => {
     if (!address) return;
     const key = sourceKey(address); if (!key) return;
-    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence };
+    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence, openData: layer.licence === "province-open" && address === layer.serviceUrl ? layer.openData : undefined };
     const previous = index.get(key) ?? [];
     if (!previous.some(entry => entry.layerId === match.layerId && entry.unavailableReason === match.unavailableReason)) index.set(key, [...previous, match]);
   };
   for (const layer of layers) { add(layer, layer.serviceUrl); add(layer, layer.tileUrl); }
   add(nativeLayerCatalog[0], fletcherTileUrl());
+  add(lidarCanopyLayer, lidarCanopyLayer.tileUrl);
   return index;
 }
 
@@ -56,6 +59,6 @@ export function userLayerUse(record: UserLayerRecord, policy: MatchPolicy = USER
   const restricted = matched.some(entry => entry.licence === "province-restricted" || entry.requiresProvinceLicence);
   const reason = matched.map(entry => entry.licence === "province-restricted" || entry.requiresProvinceLicence
     ? reproductionLockReason(entry.layerId) ?? reproductionLockReason("ns-aerial")
-    : entry.licence === "province-open" && entry.layerId !== "lidar-canopy-height" ? null : reproductionLockReason(entry.layerId)).find(Boolean) ?? null;
+    : reproductionLockReason(entry.layerId, entry.openData)).find(Boolean) ?? null;
   return { view: restricted && !provinceLicenceAccepted ? "needs-acceptance" : "allowed", export: reason ? "held" : "allowed", reason, matched };
 }

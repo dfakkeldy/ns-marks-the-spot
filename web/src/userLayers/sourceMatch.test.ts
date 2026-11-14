@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { infrastructureLayers } from "../layers/infrastructureLayers";
 import { fletcherTileUrl } from "../layers/fletcherLayer";
 import { nativeProvinceLayerCatalog, provinceLayerCatalog, zoningLayerCatalog } from "../layers/layerCatalog";
@@ -38,7 +38,18 @@ describe("catalogue matching", () => {
   });
   it("normalizes benign host and path variants, and fails closed for unimplemented policies", () => {
     expect(sourceKey(aerial.replace("nsgiwa.novascotia.ca/", "nsgiwa.novascotia.ca./").replace("/BASE/", "//BASE//"))).toBe(sourceKey(aerial));
+    expect(sourceKey(aerial.replace(".ca/", ".ca:6443/"))).toBe(sourceKey(aerial));
     for (const policy of ["owner-build", "user-responsibility"] as const) expect(userLayerUse(record("https://tiles.example.org/{z}/{x}/{y}.png"), policy).view).toBe("refused");
+  });
+  it("holds configured canopy tiles without matching the lookup service", async () => {
+    vi.stubEnv("VITE_CHM_TILE_BASE_URL", "http://localhost:8080/canopy");
+    vi.resetModules();
+    try {
+      const { lidarCanopyLayer } = await import("../layers/lidarCanopy");
+      const { userLayerUse: use } = await import("./sourceMatch");
+      expect(use(record(lidarCanopyLayer.tileUrl!), "same-lock", true).export).toBe("held");
+      expect(use(record(lidarCanopyLayer.serviceUrl), "same-lock", true).matched.some(x => x.layerId === "lidar-canopy-height")).toBe(false);
+    } finally { vi.unstubAllEnvs(); vi.resetModules(); }
   });
   it("does not conflate ArcGIS Online account paths", () => {
     expect(sourceKey("https://services.arcgis.com/a/arcgis/rest/services/foo/MapServer")).not.toBe(sourceKey("https://services.arcgis.com/b/arcgis/rest/services/foo/MapServer"));

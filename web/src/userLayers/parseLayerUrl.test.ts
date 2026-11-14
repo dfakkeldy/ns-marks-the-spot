@@ -8,6 +8,7 @@ describe("user layer addresses", () => {
     expect(validateLayerUrl("https://example.org/{z}/{x}.png")).not.toBeNull();
     expect(validateLayerUrl("https://example.org/%E0/{z}/{x}/{y}")).not.toBeNull();
     expect(normalizeLayerUrl("https://example.org/MapServer/export?key=a", "arcgis-map")).toBe("https://example.org/MapServer?key=a");
+    expect(validateLayerUrl("https://example.org/MapServer/3", "arcgis-map")).not.toBeNull();
     expect(validateTermsUrl("javascript:alert(1)")).not.toBeNull();
     expect(guessKind("https://example.org/MapServer/WMSServer")).toBe("wms");
   });
