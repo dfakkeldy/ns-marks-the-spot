@@ -6875,7 +6875,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
                 licenceUrl: PROVINCE_LICENSE_URL,
               }]
             : []),
-        ]), ...userLayerAttributionLines(exportUserLayers)]}
+        ]), ...userLayerAttributionLines(exportUserLayers, new Map<string, PrintLayerSource>(printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle)))]}
         omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
         initialFields={exportDraft.current}

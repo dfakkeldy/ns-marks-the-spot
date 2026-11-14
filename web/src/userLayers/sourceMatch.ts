@@ -12,7 +12,7 @@ import type { UserLayerRecord } from "./types";
 export type MatchPolicy = "same-lock" | "user-responsibility" | "owner-build";
 export const USER_LAYER_MATCH_POLICY: MatchPolicy = "same-lock";
 export type SourceMatch = { layerId: string; name: string; licence: string; licenceUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
-type Descriptor = { id: string; name: string; licence: string; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
+type Descriptor = { id: string; name: string; licence: string; licenceUrl?: string | null; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
 
 export function sourceKey(value: string): string | null {
   try {
@@ -32,7 +32,7 @@ export function catalogueSourceIndex(): Map<string, SourceMatch[]> {
   const add = (layer: Descriptor, address: string | null | undefined) => {
     if (!address) return;
     const key = sourceKey(address); if (!key) return;
-    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, licenceUrl: layer.licenceUrl, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence, openData: layer.licence === "province-open" && address === layer.serviceUrl ? layer.openData : undefined };
+    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, licenceUrl: layer.licenceUrl ?? undefined, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence, openData: layer.licence === "province-open" && address === layer.serviceUrl ? layer.openData : undefined };
     const previous = index.get(key) ?? [];
     if (!previous.some(entry => entry.layerId === match.layerId && entry.unavailableReason === match.unavailableReason)) index.set(key, [...previous, match]);
   };

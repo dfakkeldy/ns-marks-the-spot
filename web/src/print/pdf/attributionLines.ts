@@ -68,10 +68,15 @@ function textWithoutAddresses(value: string): string {
   return value.replace(/https?:\/\/[^\s]+/gi, address => hostOf(address) || "[address]");
 }
 
-export function userLayerAttributionLines(layers: readonly VisibleUserLayer[]): string[] {
+export function userLayerAttributionLines(layers: readonly VisibleUserLayer[], catalogueSources: ReadonlyMap<string, PrintLayerSource> = new Map()): string[] {
   return layers.flatMap(({ record }) => {
     const user = `User-supplied layer, not an NS Marks The Spot source: "${textWithoutAddresses(record.name)}" - ${textWithoutAddresses(record.attribution)} - Terms as noted by the user: ${textWithoutAddresses(record.termsNote)}. Read ${record.acknowledgement?.at.slice(0, 10) ?? "unknown"}. - ${hostOf(record.url)}`;
-    const credits = matchCatalogueSource(record.url).flatMap(match => match.attribution ? [`Catalogue attribution (${match.name}): ${match.attribution}${match.licenceUrl ? ` — ${match.licenceUrl}` : ""}`] : []);
+    const credits = matchCatalogueSource(record.url).flatMap(match => {
+      const source = catalogueSources.get(match.layerId);
+      const attribution = source?.attribution ?? match.attribution;
+      const licenceUrl = source?.licenceUrl ?? match.licenceUrl;
+      return attribution ? [`Catalogue attribution (${match.name}): ${attribution}${licenceUrl ? ` — ${licenceUrl}` : ""}`] : [];
+    });
     return [user, ...new Set(credits)];
   });
 }

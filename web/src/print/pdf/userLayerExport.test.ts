@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { zoningLayerCatalog } from "../../layers/layerCatalog";
+import { COASTAL_HAZARD_ATTRIBUTION, COASTAL_HAZARD_LICENCE_URL, floodHazardLayerCatalog, zoningLayerCatalog } from "../../layers/layerCatalog";
 import { userLayerAttributionLines } from "./attributionLines";
 import { buildExportLayers, selectUserLayersForExport, type ExportLayerInputs } from "./exportLayerSpecs";
 import { composeMapImage } from "./mapCompositor";
@@ -52,6 +52,12 @@ describe("user layer PDF export", () => {
     const lines = userLayerAttributionLines([layer({ url: sentinel2Layer.tileUrl })]);
     expect(lines.join(" ")).toContain("EOX IT Services");
     expect(lines.join(" ")).toContain("https://creativecommons.org/licenses/by/4.0/");
+  });
+  it("uses the resolved coastal notices and licence for matched sources", () => {
+    const coastal = floodHazardLayerCatalog.find(entry => entry.id === "coastal-flood-current")!;
+    const sources = new Map([[coastal.id, { id: coastal.id, name: coastal.name, sourceUrl: coastal.sourceUrl, sourceDate: coastal.sourceDate, attribution: COASTAL_HAZARD_ATTRIBUTION, licenceUrl: COASTAL_HAZARD_LICENCE_URL }]]);
+    const text = userLayerAttributionLines([layer({ kind: "arcgis-map", url: coastal.serviceUrl })], sources).join(" ");
+    expect(text).toContain(COASTAL_HAZARD_ATTRIBUTION); expect(text).toContain(COASTAL_HAZARD_LICENCE_URL);
   });
   it("names view-blocked sources as omitted", () => {
     const restricted = layer({ kind: "arcgis-map", url: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer" });
