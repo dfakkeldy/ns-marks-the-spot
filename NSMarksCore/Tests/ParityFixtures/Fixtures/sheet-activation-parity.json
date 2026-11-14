@@ -1,0 +1,1195 @@
+{
+  "config": {
+    "enterFixes": 2,
+    "exitMarginM": 60,
+    "exitFixes": 2,
+    "maxAccuracyM": 100,
+    "maxShown": 3
+  },
+  "cases": [
+    {
+      "name": "two fixes enter",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        },
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "first fix and exit margin",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        }
+      ]
+    },
+    {
+      "name": "accuracy margin and poor hold",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0107
+          ],
+          "accuracyM": 90,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 150,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0107
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0107
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        }
+      ]
+    },
+    {
+      "name": "overlap",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0.009
+            ],
+            [
+              0,
+              0.019
+            ],
+            [
+              0.01,
+              0.019
+            ],
+            [
+              0.01,
+              0.009
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0095
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0095
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a",
+            "b"
+          ],
+          "status": "overlap"
+        },
+        {
+          "point": [
+            0.005,
+            0.015
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a",
+            "b"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.015
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "b"
+          ],
+          "contained": [
+            "b"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "pins and draw limit",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "c",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "d",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b",
+            "c"
+          ],
+          "contained": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          "status": "overlap",
+          "notDrawn": 1
+        }
+      ]
+    },
+    {
+      "name": "pin outside",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.02
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [
+            "a"
+          ],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [],
+          "status": "offSheets",
+          "nearestId": "a",
+          "nearestDistanceM": 1111.95,
+          "nearestBearing": 270
+        }
+      ]
+    },
+    {
+      "name": "abutting sheets never overlap off the boundary",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0.01
+            ],
+            [
+              0,
+              0.02
+            ],
+            [
+              0.01,
+              0.02
+            ],
+            [
+              0.01,
+              0.01
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.009
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0101
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0102
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a",
+            "b"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.011
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a",
+            "b"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.011
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "b"
+          ],
+          "contained": [
+            "b"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "dismissal clears on exit",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [
+            "a"
+          ],
+          "shown": [],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [
+            "a"
+          ],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets",
+          "cleared": [
+            "a"
+          ]
+        },
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        },
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "exact shared edge",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0.01
+            ],
+            [
+              0,
+              0.02
+            ],
+            [
+              0.01,
+              0.02
+            ],
+            [
+              0.01,
+              0.01
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.01
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a",
+            "b"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "rotated exact shared edge",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              45.5,
+              -61.3
+            ],
+            [
+              45.51,
+              -61.29
+            ],
+            [
+              45.52,
+              -61.3
+            ],
+            [
+              45.51,
+              -61.31
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              45.51,
+              -61.29
+            ],
+            [
+              45.5,
+              -61.3
+            ],
+            [
+              45.49,
+              -61.29
+            ],
+            [
+              45.5,
+              -61.28
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            45.5075,
+            -61.2925
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a",
+            "b"
+          ],
+          "contained": [
+            "a",
+            "b"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "interrupted entry",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        },
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        },
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        }
+      ]
+    },
+    {
+      "name": "interrupted exit",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.005
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.0102
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [
+            "a"
+          ],
+          "contained": [
+            "a"
+          ],
+          "status": "onSheet"
+        },
+        {
+          "point": [
+            0.005,
+            0.012
+          ],
+          "accuracyM": 10,
+          "first": false,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets"
+        }
+      ]
+    },
+    {
+      "name": "nearest of two sheets",
+      "sheets": [
+        {
+          "id": "a",
+          "ring": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0.01
+            ],
+            [
+              0.01,
+              0.01
+            ],
+            [
+              0.01,
+              0
+            ]
+          ]
+        },
+        {
+          "id": "b",
+          "ring": [
+            [
+              0,
+              0.03
+            ],
+            [
+              0,
+              0.04
+            ],
+            [
+              0.01,
+              0.04
+            ],
+            [
+              0.01,
+              0.03
+            ]
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "point": [
+            0.005,
+            0.029
+          ],
+          "accuracyM": 10,
+          "first": true,
+          "pinned": [],
+          "dismissed": [],
+          "shown": [],
+          "contained": [],
+          "status": "offSheets",
+          "nearestId": "b",
+          "nearestDistanceM": 111.195,
+          "nearestBearing": 90
+        }
+      ]
+    }
+  ]
+}
