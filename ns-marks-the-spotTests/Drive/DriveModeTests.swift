@@ -179,6 +179,12 @@ struct DriveModeTests {
         model.update(catalogue: catalogue, auto: true, records: [], fix: poor, following: true, now: poor.timestamp)
         let rough = DriveStatusChip(model: model, catalogue: catalogue, rows: [], fix: poor, signalLost: false, failedSheetID: nil, autoEnabled: true, searching: false)
         #expect(rough.message.contains("Location is rough"))
+        let searching = DriveStatusChip(model: model, catalogue: catalogue, rows: [], fix: nil, signalLost: false, failedSheetID: nil, autoEnabled: true, searching: true)
+        #expect(searching.message == "Waiting for location. Sheet not changed.")
+        let good = TrackFix(latitude: 45, longitude: -61, accuracyM: 12, timestamp: poor.timestamp.addingTimeInterval(1))
+        model.update(catalogue: catalogue, auto: true, records: [], fix: good, following: false, now: good.timestamp)
+        model.update(catalogue: catalogue, auto: true, records: [], fix: good, following: true, now: good.timestamp)
+        #expect(model.output.reason == .updated)
     }
 
     @Test func unplacedManualOverrideExplainsWhy() {
@@ -188,5 +194,56 @@ struct DriveModeTests {
         model.update(catalogue: catalogue, auto: true, records: [unplaced], fix: nil, following: false)
         model.setVisible(true, id: "a")
         #expect(model.manualNotice?.contains("Unplaced map is not placed") == true)
+    }
+
+    @Test func cutSheetNoticeClearsWhenOrderMakesItVisible() {
+        let model = DriveModeModel(screen: ScreenAwakeCoordinator(screen: DriveTestScreen()))
+        let points = [
+            SessionControlPoint(id: "1", pixel: .init(x: 0, y: 0), map: .init(lat: 45, lng: -61)),
+            SessionControlPoint(id: "2", pixel: .init(x: 100, y: 0), map: .init(lat: 45, lng: -60.99)),
+            SessionControlPoint(id: "3", pixel: .init(x: 0, y: 100), map: .init(lat: 44.99, lng: -61)),
+        ]
+        let records = ["a", "b", "c", "d"].map { UserMapRecord(id: $0, name: $0, pixelSize: .init(width: 100, height: 100), placement: .controlPoints(points, method: .affine)) }
+        var catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["a", "b", "c", "d"])
+        let fix = TrackFix(latitude: 44.995, longitude: -60.995, accuracyM: 5, timestamp: Date())
+        model.update(catalogue: catalogue, auto: true, records: records, fix: fix, following: true, now: fix.timestamp)
+        model.setVisible(true, id: "d")
+        #expect(model.manualNotice?.contains("d is outside the three-sheet limit") == true)
+        catalogue.sheetIDs = ["d", "a", "b", "c"]
+        model.update(catalogue: catalogue, auto: true, records: records, fix: fix, following: true, now: fix.timestamp)
+        #expect(model.output.shown.contains("d"))
+        #expect(model.manualNotice == nil)
+    }
+
+    @Test func chipNamesAContainedSheetInsteadOfAnOutsidePin() {
+        let model = DriveModeModel(screen: ScreenAwakeCoordinator(screen: DriveTestScreen()))
+        let points = [
+            SessionControlPoint(id: "1", pixel: .init(x: 0, y: 0), map: .init(lat: 45, lng: -61)),
+            SessionControlPoint(id: "2", pixel: .init(x: 100, y: 0), map: .init(lat: 45, lng: -60.99)),
+            SessionControlPoint(id: "3", pixel: .init(x: 0, y: 100), map: .init(lat: 44.99, lng: -61)),
+        ]
+        let outside = points.map { point in
+            var result = point
+            result.map.lat += 1
+            return result
+        }
+        let records = [
+            UserMapRecord(id: "p", name: "Pinned", pixelSize: .init(width: 100, height: 100), placement: .controlPoints(outside, method: .affine)),
+            UserMapRecord(id: "a", name: "Here A", pixelSize: .init(width: 100, height: 100), placement: .controlPoints(points, method: .affine)),
+            UserMapRecord(id: "b", name: "Here B", pixelSize: .init(width: 100, height: 100), placement: .controlPoints(points, method: .affine)),
+        ]
+        let rows = records.map { UserMapsViewModel.Row(record: $0, isVisible: false, opacity: 1, preview: nil) }
+        var catalogue = DriveCatalogue(id: "cat", name: "Trip", sheetIDs: ["p", "a", "b"])
+        let fix = TrackFix(latitude: 44.995, longitude: -60.995, accuracyM: 5, timestamp: Date())
+        model.update(catalogue: catalogue, auto: true, records: records, fix: fix, following: true, now: fix.timestamp)
+        model.setVisible(true, id: "p")
+        let chip = DriveStatusChip(model: model, catalogue: catalogue, rows: rows, fix: fix, signalLost: false, failedSheetID: nil, autoEnabled: true, searching: false)
+        #expect(chip.message.contains("Here A"))
+        #expect(chip.message.contains("2 sheets here"))
+        #expect(!chip.message.contains("Pinned"))
+        catalogue.sheetIDs = ["p", "a"]
+        model.update(catalogue: catalogue, auto: true, records: records, fix: fix, following: true, now: fix.timestamp)
+        let single = DriveStatusChip(model: model, catalogue: catalogue, rows: rows, fix: fix, signalLost: false, failedSheetID: nil, autoEnabled: true, searching: false)
+        #expect(single.message == "Trip · Here A")
     }
 }

@@ -54,7 +54,8 @@ final class DriveModeModel {
                lastTimestamp.map({ fix.timestamp > $0 }) ?? true { lastTimestamp = fix.timestamp }
             let reason: SheetActivationOutput.Reason = fix.map {
                 !$0.accuracyM.isFinite || $0.accuracyM <= 0 || $0.accuracyM > SheetActivationConfig.maxAccuracyM
-            } == true ? .heldPoorFix : output.reason
+                    ? .heldPoorFix : .updated
+            } ?? output.reason
             output = SheetActivation.output(state: state, sheets: sheets, pinned: pinned, dismissed: dismissed)
             output.reason = reason
             clearResolvedNotice()
@@ -123,6 +124,7 @@ final class DriveModeModel {
     var topShownHere: String? {
         output.shown.first { state.sheets[$0]?.entered == true && state.sheets[$0]?.insideNow == true }
     }
+    var topShownContained: String? { output.shown.first { output.contained.contains($0) } }
 
     var insideCount: Int {
         sheets.filter { state.sheets[$0.id]?.entered == true && state.sheets[$0.id]?.insideNow == true }.count

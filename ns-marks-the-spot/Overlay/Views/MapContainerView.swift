@@ -579,7 +579,7 @@ struct MapContainerView: View {
                     .buttonStyle(.borderedProminent)
                     .disabled(markLocation.isAcquiring)
                     .frame(maxWidth: 220)
-                    .padding(.bottom, 100 + attributionHeight)
+                    .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
                 }
                 .padding(.horizontal, 16)
             }

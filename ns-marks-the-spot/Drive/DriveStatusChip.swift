@@ -28,9 +28,9 @@ struct DriveStatusChip: View {
         if !model.hasUsableActivation { return "Waiting for location. Sheet not changed." }
         switch model.output.status {
         case .onSheet:
-            return "\(catalogue.name) · \(model.output.shown.first.map(name) ?? "No sheet drawn")"
+            return "\(catalogue.name) · \(model.topShownContained.map(name) ?? "No sheet drawn here")"
         case .overlap:
-            return "\(catalogue.name) · \(model.topShownHere.map(name) ?? "No sheet here drawn") · \(model.insideCount) sheets here"
+            return "\(catalogue.name) · \(model.topShownHere.map(name) ?? "No sheet drawn here") · \(model.insideCount) sheets here"
         case .offSheets:
             guard let nearest = model.output.nearest else { return "Off the sheets" }
             let direction = nearest.bearingDegrees.map { " · \(Geodesy.compassPoint(forBearingDegrees: $0))" } ?? ""
