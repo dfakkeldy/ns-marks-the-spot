@@ -1,0 +1,33 @@
+import { describe, expect, it } from "vitest";
+import { fletcherTileUrl } from "../layers/fletcherLayer";
+import { nativeProvinceLayerCatalog, zoningLayerCatalog } from "../layers/layerCatalog";
+import { reproductionLockReason } from "../licensing/layerUse";
+import { matchCatalogueSource, sourceKey, userLayerUse } from "./sourceMatch";
+import type { UserLayerRecord } from "./types";
+
+const aerial = "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer";
+const record = (url: string) => ({ url } as UserLayerRecord);
+describe("catalogue matching", () => {
+  it("recognizes service, WMS, export and tile variants on either host", () => {
+    for (const url of [aerial, `${aerial}/export?token=secret`, `${aerial}/tile/{z}/{y}/{x}`, aerial.replace("/rest/services/", "/services/") + "/WMSServer", aerial.replace("nsgiwa.", "nsgiwa2.")]) {
+      expect(sourceKey(url)).toBe(sourceKey(aerial));
+      expect(matchCatalogueSource(url).map(x => x.layerId)).toContain("ns-aerial");
+    }
+  });
+  it("holds restricted imagery, excluded forestry and Fletcher", () => {
+    expect(userLayerUse(record(aerial)).view).toBe("needs-acceptance");
+    expect(userLayerUse(record(aerial), "same-lock", true)).toMatchObject({ view: "allowed", export: "held", reason: reproductionLockReason("ns-aerial") });
+    expect(userLayerUse(record("https://nsgiwa.novascotia.ca/arcgis/rest/services/FOR/FOR_WetAreasMapping_UT83/MapServer"), "same-lock", true).view).toBe("refused");
+    expect(userLayerUse(record(fletcherTileUrl()!)).export).toBe("held");
+  });
+  it("keeps restricted raster and municipal query locks", () => {
+    const roads = nativeProvinceLayerCatalog.find(x => x.id === "roads")!;
+    expect(userLayerUse(record(roads.serviceUrl), "same-lock", true).export).toBe("held");
+    const zoning = zoningLayerCatalog.find(x => x.id === "zoning-inverness")!;
+    expect(userLayerUse(record(zoning.serviceUrl), "same-lock", true).view).toBe("refused");
+    expect(userLayerUse(record("https://tiles.example.org/{z}/{x}/{y}.png")).export).toBe("allowed");
+  });
+  it("does not conflate ArcGIS Online account paths", () => {
+    expect(sourceKey("https://services.arcgis.com/a/arcgis/rest/services/foo/MapServer")).not.toBe(sourceKey("https://services.arcgis.com/b/arcgis/rest/services/foo/MapServer"));
+  });
+});

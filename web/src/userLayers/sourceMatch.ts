@@ -1,0 +1,55 @@
+import { contextLayerCatalog } from "../layers/contextLayerCatalog";
+import { landContextLayers } from "../layers/landContextLayers";
+import { fletcherTileUrl } from "../layers/fletcherLayer";
+import { forestryExclusionReason } from "../layers/forestryExclusions";
+import { nativeLayerCatalog, nativeProvinceLayerCatalog, floodHazardLayerCatalog, environmentalHealthLayerCatalog, forestryLayerCatalog, resourceLayerCatalog, hydroPilotLayerCatalog, zoningLayerCatalog, wellLogLayerCatalog, liveConditionsLayerCatalog } from "../layers/layerCatalog";
+import { queryLockReason, reproductionLockReason } from "../licensing/layerUse";
+import type { UserLayerRecord } from "./types";
+
+export type MatchPolicy = "same-lock" | "user-responsibility" | "owner-build";
+export const USER_LAYER_MATCH_POLICY: MatchPolicy = "same-lock";
+export type SourceMatch = { layerId: string; name: string; licence: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean };
+type Descriptor = { id: string; name: string; licence: string; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean };
+
+export function sourceKey(value: string): string | null {
+  try {
+    const url = new URL(value);
+    const host = ["nsgiwa.novascotia.ca", "nsgiwa2.novascotia.ca"].includes(url.hostname.toLowerCase()) ? "nsgiwa.novascotia.ca" : url.host.toLowerCase();
+    const path = decodeURIComponent(url.pathname).toLowerCase();
+    const arcgis = path.match(/^(.*?)(?:\/arcgis)?\/(?:rest\/)?services\/(.+?\/(?:mapserver|imageserver))(?:\/|$)/);
+    if (arcgis) return `${host}${arcgis[1]}/services/${arcgis[2]}`;
+    return `${host}${path.replace(/\/(?:\{z\}|\d+)\/[^/]+\/[^/]+$/, "").replace(/\/+$/, "")}`;
+  } catch { return null; }
+}
+
+export function catalogueSourceIndex(): Map<string, SourceMatch[]> {
+  const index = new Map<string, SourceMatch[]>();
+  const layers: readonly Descriptor[] = [...nativeLayerCatalog, ...nativeProvinceLayerCatalog, ...contextLayerCatalog, ...landContextLayers, ...floodHazardLayerCatalog, ...environmentalHealthLayerCatalog, ...forestryLayerCatalog, ...resourceLayerCatalog, ...hydroPilotLayerCatalog, ...zoningLayerCatalog, ...wellLogLayerCatalog, ...liveConditionsLayerCatalog];
+  const add = (layer: Descriptor, address: string | null | undefined) => {
+    if (!address) return;
+    const key = sourceKey(address); if (!key) return;
+    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence };
+    const previous = index.get(key) ?? [];
+    if (!previous.some(entry => entry.layerId === match.layerId && entry.unavailableReason === match.unavailableReason)) index.set(key, [...previous, match]);
+  };
+  for (const layer of layers) { add(layer, layer.serviceUrl); add(layer, layer.tileUrl); }
+  add(nativeLayerCatalog[0], fletcherTileUrl());
+  return index;
+}
+
+export function matchCatalogueSource(url: string): SourceMatch[] {
+  const key = sourceKey(url);
+  return key ? catalogueSourceIndex().get(key) ?? [] : [];
+}
+
+export function userLayerUse(record: UserLayerRecord, policy: MatchPolicy = USER_LAYER_MATCH_POLICY, provinceLicenceAccepted = false): { view: "allowed" | "refused" | "needs-acceptance"; export: "allowed" | "held"; reason: string | null; matched: SourceMatch[] } {
+  const matched = matchCatalogueSource(record.url);
+  if (policy !== "same-lock") return { view: "refused", export: "held", reason: "This source policy is not enabled.", matched };
+  for (const entry of matched) {
+    const reason = forestryExclusionReason(entry.layerId) ?? entry.unavailableReason ?? queryLockReason(entry.layerId);
+    if (reason) return { view: "refused", export: "held", reason, matched };
+  }
+  const restricted = matched.some(entry => entry.licence === "province-restricted" || entry.requiresProvinceLicence);
+  const reason = matched.map(entry => reproductionLockReason(entry.layerId)).find(Boolean) ?? null;
+  return { view: restricted && !provinceLicenceAccepted ? "needs-acceptance" : "allowed", export: reason ? "held" : "allowed", reason, matched };
+}
