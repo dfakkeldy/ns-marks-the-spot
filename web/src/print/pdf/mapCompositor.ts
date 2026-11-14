@@ -27,6 +27,7 @@ export type CompositorTileLayer = {
   url: (tile: TileCoords) => string | null;
   opacity: number;
   maxNativeZoom: number;
+  minZoom?: number;
 };
 
 export type CompositorImageRequest = {
@@ -175,7 +176,7 @@ async function renderTileLayer(
   fetchImage: FetchImage,
   signal?: AbortSignal,
 ): Promise<CompositorLayerStatus> {
-  const zoom = zoomForOutput(bounds, space.widthPx, layer.maxNativeZoom);
+  const zoom = Math.max(layer.minZoom ?? 0, zoomForOutput(bounds, space.widthPx, layer.maxNativeZoom));
   const covered = tilesForBounds(bounds, zoom)
     .map((tile) => ({ tile, url: layer.url(tile) }))
     .filter((entry): entry is { tile: TileCoords; url: string } =>

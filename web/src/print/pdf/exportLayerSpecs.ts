@@ -1,3 +1,5 @@
+import { textWithoutAddresses } from "./attributionLines";
+import type { PrintLayerSource } from "../../services/printSnapshot";
 import { userLayerUse } from "../../userLayers/sourceMatch";
 import { imageUrlForBox, tileUrl } from "../../userLayers/tileUrls";
 import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
@@ -6,6 +8,8 @@ import type { OpenDataSource } from "../../layers/openDataSources";
 import type { BasemapStyle } from "../../atlas/basemap";
 import {
   FLETCHER_LAYER_Z_INDEX,
+  USER_LAYER_BASE_Z_INDEX,
+  USER_LAYER_OVERLAY_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
 } from "../../components/mapPanes";
 import { arcGISExportUrlForBox } from "../../layers/arcGISExport";
@@ -167,13 +171,15 @@ function arcGisLayerZIndex(id: string): number {
     ?? Number.POSITIVE_INFINITY;
 }
 
-export function selectUserLayersForExport(layers: readonly VisibleUserLayer[], licenceAccepted: boolean): { included: VisibleUserLayer[]; omitted: string[] } {
+export function selectUserLayersForExport(layers: readonly VisibleUserLayer[], licenceAccepted: boolean, zoom = Infinity, catalogueSources: ReadonlyMap<string, PrintLayerSource> = new Map()): { included: VisibleUserLayer[]; omitted: string[] } {
   const included: VisibleUserLayer[] = [];
   const omitted: string[] = [];
   for (const layer of layers) {
     const use = userLayerUse(layer.record, undefined, licenceAccepted);
     if (use.view !== "allowed") { omitted.push(`${layer.record.name} — ${use.view === "needs-acceptance" ? "Province licence acceptance is needed" : use.reason ?? "viewing is locked"}`); continue; }
+    if (zoom < layer.record.minZoom) { omitted.push(`${layer.record.name} — below display scale (zoom ${layer.record.minZoom} required)`); continue; }
     if (use.export === "held") { omitted.push(`${layer.record.name} — ${use.reason ?? "export locked"}`); continue; }
+    if (use.matched.some(match => !catalogueSources.get(match.layerId)?.attribution && !match.attribution)) { omitted.push(`${layer.record.name} — catalogue attribution unavailable`); continue; }
     if (!layer.record.probe) { omitted.push(`${layer.record.name} — not tested`); continue; }
     if (layer.record.probe.corsReadable !== true) { omitted.push(`${layer.record.name} — cannot be read for a PDF`); continue; }
     included.push(layer);
@@ -188,8 +194,8 @@ export function isOpaqueUserBase(layer: VisibleUserLayer): boolean {
 function userLayer(layer: VisibleUserLayer): CompositorLayer {
   const { record, opacity } = layer;
   const match = userLayerUse(record, undefined, true).matched[0];
-  const shared = { id: record.id, name: record.name, opacity, sourceId: match?.layerId, userSource: record };
-  if (record.kind === "xyz" || record.kind === "tms") return { ...shared, kind: "tile", maxNativeZoom: record.maxNativeZoom, url: tile => tileUrl(record, tile) };
+  const shared = { id: record.id, name: `Your layer: ${textWithoutAddresses(record.name)}`, opacity, sourceId: match?.layerId, userSource: record };
+  if (record.kind === "xyz" || record.kind === "tms") return { ...shared, kind: "tile", maxNativeZoom: record.maxNativeZoom, minZoom: record.minZoom, url: tile => tileUrl(record, tile) };
   return { ...shared, kind: "image", url: ({ bounds, widthPx, heightPx }) => {
     const nw = toMercator({ lat: bounds.north, lng: bounds.west });
     const se = toMercator({ lat: bounds.south, lng: bounds.east });
@@ -208,7 +214,7 @@ export function buildExportLayers(
     if (layer.record.probe?.corsReadable !== true) throw new Error("User layer has not been tested as readable for PDF export.");
   }
   const opaqueBase = userLayers.some(isOpaqueUserBase);
-  const includedArcgis = inputs.arcgisLayers.filter(layer => !opaqueBase || arcGisLayerZIndex(layer.id) >= 152);
+  const includedArcgis = inputs.arcgisLayers.filter(layer => !opaqueBase || arcGisLayerZIndex(layer.id) >= USER_LAYER_BASE_Z_INDEX);
   for (const layer of includedArcgis) {
     const exclusion = forestryExclusionReason(layer.id);
     if (exclusion) throw new Error(exclusion);
@@ -246,16 +252,16 @@ export function buildExportLayers(
     (layer) => arcGisLayerZIndex(layer.id) >= FLETCHER_LAYER_Z_INDEX,
   );
 
-  layers.push(...belowFletcher.filter(layer => arcGisLayerZIndex(layer.id) < 152).map(arcGisLayer));
+  layers.push(...belowFletcher.filter(layer => arcGisLayerZIndex(layer.id) < USER_LAYER_BASE_Z_INDEX).map(arcGisLayer));
   layers.push(...userLayers.filter(layer => layer.record.role === "base").map(userLayer));
-  layers.push(...belowFletcher.filter(layer => arcGisLayerZIndex(layer.id) >= 152).map(arcGisLayer));
+  layers.push(...belowFletcher.filter(layer => arcGisLayerZIndex(layer.id) >= USER_LAYER_BASE_Z_INDEX).map(arcGisLayer));
   layers.push(...fletcherLayers(inputs));
-  layers.push(...aboveFletcher.filter(layer => arcGisLayerZIndex(layer.id) < 158).map(arcGisLayer));
+  layers.push(...aboveFletcher.filter(layer => arcGisLayerZIndex(layer.id) < USER_LAYER_OVERLAY_Z_INDEX).map(arcGisLayer));
   layers.push(...userLayers.filter(layer => layer.record.role === "overlay").map(userLayer));
   for (const userMap of inputs.userMaps) {
     layers.push({ kind: "warped", ...userMap });
   }
-  layers.push(...aboveFletcher.filter(layer => arcGisLayerZIndex(layer.id) >= 158).map(arcGisLayer));
+  layers.push(...aboveFletcher.filter(layer => arcGisLayerZIndex(layer.id) >= USER_LAYER_OVERLAY_Z_INDEX).map(arcGisLayer));
 
   if (inputs.selectedParcelRings.length > 0) {
     layers.push({

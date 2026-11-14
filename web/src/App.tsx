@@ -265,7 +265,7 @@ const ExportDialog = lazy(() =>
     default: module.ExportDialog,
   })),
 );
-import { PROVINCE_LAYER_Z_INDEXES } from "./components/mapPanes";
+import { PROVINCE_LAYER_Z_INDEXES, USER_LAYER_BASE_Z_INDEX } from "./components/mapPanes";
 import { exportAttributionLines, userLayerAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers, contextExportOmission, isOpaqueUserBase, selectUserLayersForExport } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
@@ -4344,20 +4344,21 @@ export function App({ focus, onRestart, licencesPresented = false }: {
     selectedEvidenceRequest,
     selectedMappedArea,
   ]);
+  const printSources = useMemo(() => new Map<string, PrintLayerSource>(printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle)), [fletcherTileConfiguration.baseUrl, basemapStyle]);
   const captureLayerSources = useMemo(() => {
-    const sources = printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle);
+    const sources = printSources;
     return captureLayerIds.flatMap((id) => {
       const source = sources.get(id);
       return source ? [source] : [];
     });
-  }, [captureLayerIds, fletcherTileConfiguration.baseUrl, basemapStyle]);
+  }, [captureLayerIds, printSources]);
   /**
    * The layer ids `buildExportLayers` actually carries into the PDF. Kept as
    * an explicit mirror of that function's own filters rather than inferred
    * from its output, because a compositor layer's id is not always the
    * catalog id (Fletcher fans out into one `fletcher-NN` layer per sheet).
    */
-  const userLayerExport = useMemo(() => selectUserLayersForExport(focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers, licenceAccepted), [focusDef, userLayersApi.visibleLayers, licenceAccepted]);
+  const userLayerExport = useMemo(() => selectUserLayersForExport(focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers, licenceAccepted, mapViewport.position.zoom, printSources), [focusDef, userLayersApi.visibleLayers, licenceAccepted, mapViewport.position.zoom, printSources]);
   const exportUserLayers = userLayerExport.included;
   const opaqueUserBase = exportUserLayers.some(isOpaqueUserBase);
   const exportedLayerIds = useMemo(() => {
@@ -4367,12 +4368,12 @@ export function App({ focus, onRestart, licencesPresented = false }: {
       ids.add("fletcher");
     }
     for (const layer of provinceLayerCatalog) {
-      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions && (!opaqueUserBase || (PROVINCE_LAYER_Z_INDEXES[layer.id] ?? Infinity) >= 152)) {
+      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions && (!opaqueUserBase || (PROVINCE_LAYER_Z_INDEXES[layer.id] ?? Infinity) >= USER_LAYER_BASE_Z_INDEX)) {
         ids.add(layer.id);
       }
     }
     for (const layer of contextLayerCatalog) {
-      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null && (!opaqueUserBase || layer.zIndex >= 152)) ids.add(layer.id);
+      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null && (!opaqueUserBase || layer.zIndex >= USER_LAYER_BASE_Z_INDEX)) ids.add(layer.id);
     }
     return ids;
   }, [
@@ -4411,7 +4412,8 @@ export function App({ focus, onRestart, licencesPresented = false }: {
       .filter(({ id }) => !exportedLayerIds.has(id))
       .map(({ id, name }) => {
         const layer = contextLayerCatalog.find((candidate) => candidate.id === id);
-        const reason = layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
+        const sourceZ = id === "modern" ? 0 : PROVINCE_LAYER_Z_INDEXES[id as keyof typeof PROVINCE_LAYER_Z_INDEXES] ?? layer?.zIndex ?? Infinity;
+        const reason = opaqueUserBase && sourceZ < USER_LAYER_BASE_Z_INDEX ? "under your opaque base layer" : layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
         return reason ? `${name} — ${reason}` : name;
       }),
     ...userLayerExport.omitted,
@@ -4420,6 +4422,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
   ], [
     captureLayerSources,
     exportedLayerIds,
+    opaqueUserBase,
     mapViewport.position.zoom,
     userLayerExport.omitted,
     userMapsApi.visibleMaps,
@@ -6875,7 +6878,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
                 licenceUrl: PROVINCE_LICENSE_URL,
               }]
             : []),
-        ]), ...userLayerAttributionLines(exportUserLayers, new Map<string, PrintLayerSource>(printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle)))]}
+        ]), ...userLayerAttributionLines(exportUserLayers, printSources)]}
         omittedLayerNames={omittedLayerNames}
         shareUrl={window.location.href}
         initialFields={exportDraft.current}

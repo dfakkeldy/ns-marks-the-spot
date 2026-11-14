@@ -64,13 +64,13 @@ import { matchCatalogueSource } from "../../userLayers/sourceMatch";
 import { hostOf } from "../../userLayers/parseLayerUrl";
 import type { VisibleUserLayer } from "../../userLayers/components/UserTileLayers";
 
-function textWithoutAddresses(value: string): string {
+export function textWithoutAddresses(value: string): string {
   return value.replace(/https?:\/\/[^\s]+/gi, address => hostOf(address) || "[address]");
 }
 
 export function userLayerAttributionLines(layers: readonly VisibleUserLayer[], catalogueSources: ReadonlyMap<string, PrintLayerSource> = new Map()): string[] {
   return layers.flatMap(({ record }) => {
-    const user = `User-supplied layer, not an NS Marks The Spot source: "${textWithoutAddresses(record.name)}" - ${textWithoutAddresses(record.attribution)} - Terms as noted by the user: ${textWithoutAddresses(record.termsNote)}. Read ${record.acknowledgement?.at.slice(0, 10) ?? "unknown"}. - ${hostOf(record.url)}`;
+    const user = `User-supplied layer, not an NS Marks The Spot source: "${textWithoutAddresses(record.name)}" - ${textWithoutAddresses(record.attribution)} - Terms as noted by the user: ${textWithoutAddresses(record.termsNote).replace(/[.\s]+$/, "")}. Read ${record.acknowledgement?.at.slice(0, 10) ?? "unknown"}. - ${hostOf(record.url)}`;
     const credits = matchCatalogueSource(record.url).flatMap(match => {
       const source = catalogueSources.get(match.layerId);
       const attribution = source?.attribution ?? match.attribution;

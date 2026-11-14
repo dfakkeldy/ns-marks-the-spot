@@ -16,6 +16,7 @@ describe("user layer PDF export", () => {
     const layers = buildExportLayers(frame({ userLayers: [layer()] }));
     expect(layers.map(x => x.id)).toEqual([record.id]);
     const tile = layers[0]; if (tile.kind !== "tile") throw new Error("Expected tile");
+    expect(tile.name).toBe("Your layer: Example");
     expect(tile.url({ z: 2, x: 1, y: 3 })).toBe("https://tiles.example.org/2/1/3.png?key=secret");
   });
   it("builds one WMS image request for the frame", () => {
@@ -69,6 +70,25 @@ describe("user layer PDF export", () => {
     const noCors = layer({ probe: { display: true, corsReadable: false, at: "2026-11-14" } });
     expect(selectUserLayersForExport([noCors], true)).toEqual({ included: [], omitted: ["Example — cannot be read for a PDF"] });
     expect(selectUserLayersForExport([layer({ probe: null })], true).omitted).toEqual(["Example — not tested"]);
+  });
+
+  it("omits layers below their display scale", () => {
+    const highZoom = layer({ minZoom: 14 });
+    expect(selectUserLayersForExport([highZoom], true, 12)).toEqual({ included: [], omitted: ["Example — below display scale (zoom 14 required)"] });
+    expect(selectUserLayersForExport([highZoom], true, 14).included).toEqual([highZoom]);
+  });
+  it("keeps the user legend label and removes query secrets from names", () => {
+    const item = layer({ name: "Map https://private.example/path?key=secret" });
+    const output = buildExportLayers(frame({ userLayers: [item] })).find(entry => entry.id === record.id)!;
+    expect(output.name).toContain("Your layer: Map private.example"); expect(output.name).not.toContain("secret");
+  });
+  it("requests TMS tiles using the flipped row", () => {
+    const output = buildExportLayers(frame({ userLayers: [layer({ kind: "tms" })] })).find(entry => entry.id === record.id)!;
+    if (output.kind !== "tile") throw new Error("Expected tile");
+    expect(output.url({ z: 2, x: 1, y: 0 })).toContain("/2/1/3.png");
+  });
+  it("does not double punctuate the terms note", () => {
+    expect(userLayerAttributionLines([layer({ termsNote: "No resale." })])[0]).toContain("No resale. Read");
   });
 
 });
