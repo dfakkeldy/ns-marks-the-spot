@@ -58,6 +58,7 @@ export function UserLayerControls({ api, statuses, licenceAccepted, onReviewLice
     await api.save({ ...draft, url: normalizeLayerUrl(draft.url, draft.kind), modifiedAt: new Date().toISOString() }); setDraft(null); setError("");
   }
   return <section aria-label="Your layers"><h3>Your layers</h3><p>Layers you add stay in this browser.</p>
+    {api.skippedRecords > 0 && <p role="status">{api.skippedRecords} saved layer record(s) could not be read and remain in storage.</p>}
     {api.storageError && <p role="status">Could not save your layers. Changes may last only for this session.</p>}
     <button type="button" disabled={!api.loaded} onClick={() => { probeSequence.current++; setTesting(false); setSuspended(false); setKindChosen(false); setDraft(newRecord()); setShowUrl(false); setError(""); }}>Add your own layer</button>
     {draft && suspended && <button type="button" onClick={() => setSuspended(false)}>Resume editing layer</button>}
@@ -76,8 +77,8 @@ export function UserLayerControls({ api, statuses, licenceAccepted, onReviewLice
       <button type="button" onClick={() => { probeSequence.current++; setTesting(false); setSuspended(false); setKindChosen(true); setDraft(record); setShowUrl(false); setError(""); }}>Edit</button> <button type="button" onClick={() => { if (window.confirm(`Remove your layer “${record.name}”?`)) void api.remove(record.id); }}>Remove</button>
     </div>; })}
     {draft && !suspended && createPortal(<div ref={dialogRef} role="dialog" aria-modal="true" aria-label={isEditing ? "Edit your layer" : "Add your own layer"} className="user-layer-dialog"><h3>{isEditing ? "Edit your layer" : "Add your own layer"}</h3>
-      <label>Address <input type="text" autoComplete="off" spellCheck={false} readOnly={isEditing && !showUrl} value={showUrl || (!isEditing && addressFocused) ? draft.url : draft.url ? maskUrl(draft.url) : ""} onFocus={() => setAddressFocused(true)} onBlur={() => setAddressFocused(false)} onChange={e => { const url = e.target.value; update({ url, kind: kindChosen ? draft.kind : guessKind(url), acknowledgement: null, probe: null }); }} /></label>
-      <button type="button" onClick={() => setShowUrl(!showUrl)}>{showUrl ? "Hide" : "Show"}</button>{draft.url && <p>{maskUrl(draft.url)}</p>}
+      <label>Address <input type="text" autoComplete="off" spellCheck={false} readOnly={isEditing && !showUrl} value={showUrl || (!isEditing && addressFocused) ? draft.url : draft.url ? (maskUrl(draft.url) === "Invalid address" ? "Address is incomplete" : maskUrl(draft.url)) : ""} onFocus={() => setAddressFocused(true)} onBlur={() => setAddressFocused(false)} onChange={e => { const url = e.target.value; update({ url, kind: kindChosen ? draft.kind : guessKind(url), acknowledgement: null, probe: null }); }} /></label>
+      <button type="button" onClick={() => { if (!showUrl && isEditing) setKindChosen(false); setShowUrl(!showUrl); }}>{showUrl ? "Hide" : "Show"}</button>{draft.url && <p>{maskUrl(draft.url)}</p>}
       <label>Kind <select value={draft.kind} onChange={e => { setKindChosen(true); update({ kind: e.target.value as UserLayerKind, probe: null }); }}>{kinds.map(kind => <option key={kind}>{kind}</option>)}</select></label>
       <label>Name <input value={draft.name} onChange={e => update({ name: e.target.value })} /></label>
       <label>Use as <select value={draft.role} onChange={e => update({ role: e.target.value as "base" | "overlay" })}><option value="base">Base map</option><option value="overlay">Overlay</option></select></label>

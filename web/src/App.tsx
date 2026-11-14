@@ -6679,7 +6679,6 @@ export function App({ focus, onRestart, licencesPresented = false }: {
         </div>
         {!attributionCollapsed && <>
           <div className="collar-groups">
-            <UserLayerCredits layers={focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, undefined, licenceAccepted).view === "allowed")} />
             {collarCredits.groups.map(({ licence, sources }) => (
               <section key={licence} className={`collar-group${licence === PROVINCE_ATTRIBUTION ? " province-attribution" : ""}`}>
                 <p className="collar-licence">{licence}</p>
@@ -6695,6 +6694,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
                 ) : null}
               </section>
             ))}
+            <UserLayerCredits layers={focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, undefined, licenceAccepted).view === "allowed")} />
             <section className="collar-group">
               <p className="collar-licence">Map data</p>
               <ul>
