@@ -6,6 +6,19 @@ struct NSMarksTheSpotApp: App {
 
     var body: some Scene {
         WindowGroup {
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("UITestMode") && ProcessInfo.processInfo.arguments.contains("UITestDriveOverlap") {
+                DriveOverlapTestHarness()
+            } else {
+                mainMap
+            }
+            #else
+            mainMap
+            #endif
+        }
+    }
+
+    private var mainMap: some View {
             // Everything here comes off the container, which owns one set of
             // view models for the life of the process. This closure is a
             // description SwiftUI may re-evaluate — a backgrounded scene
@@ -32,6 +45,5 @@ struct NSMarksTheSpotApp: App {
             // layers outside the main map, and it must draw them through the
             // app's own cache and clearance.
             .environment(\.georeferenceReferences, container.georeferenceReferences)
-        }
     }
 }
