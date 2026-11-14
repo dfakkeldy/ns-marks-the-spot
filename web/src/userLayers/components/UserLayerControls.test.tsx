@@ -9,7 +9,7 @@ import type { useUserLayers } from "../useUserLayers";
 
 describe("your layers controls", () => {
   it("requires terms and clears acknowledgement when the address changes", () => {
-    const api = { loaded: true, records: [], state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
+    const api = { loaded: true, records: [], state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     render(<UserLayerControls api={api} statuses={{}} licenceAccepted={false} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
     fireEvent.click(screen.getByRole("button", { name: "Add your own layer" }));
     const add = screen.getByRole("button", { name: "Add" }); expect(add).toBeDisabled();
@@ -25,7 +25,7 @@ describe("your layers controls", () => {
   it("discards a probe after WMS request settings change", async () => {
     let finish!: (value: { display: boolean; corsReadable: boolean; at: string; diagnostic: undefined }) => void;
     vi.mocked(probeLayer).mockReturnValueOnce(new Promise(resolve => { finish = resolve; }));
-    const api = { loaded: true, records: [], state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
+    const api = { loaded: true, records: [], state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     render(<UserLayerControls api={api} statuses={{}} licenceAccepted={true} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
     fireEvent.click(screen.getByRole("button", { name: "Add your own layer" }));
     fireEvent.change(screen.getByLabelText("Address"), { target: { value: "https://example.org/wms?service=WMS" } });
@@ -37,7 +37,7 @@ describe("your layers controls", () => {
     expect(screen.queryByText(/Draws: yes/)).not.toBeInTheDocument();
   });
   it("suspends the editor before opening Province acceptance", () => {
-    const api = { loaded: true, records: [], state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
+    const api = { loaded: true, records: [], state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     const review = vi.fn();
     render(<UserLayerControls api={api} statuses={{}} licenceAccepted={false} onReviewLicence={review} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
     fireEvent.click(screen.getByRole("button", { name: "Add your own layer" }));
@@ -54,7 +54,7 @@ describe("your layers controls", () => {
       { ...common, id: "user-layer:2", name: "Aerial", url: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer" },
       { ...common, id: "user-layer:3", name: "Zoning", url: zoning.serviceUrl },
     ];
-    const api = { loaded: true, records, state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
+    const api = { loaded: true, records, state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     const { container } = render(<UserLayerControls api={api} statuses={{}} licenceAccepted={false} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
     expect(screen.getByText(/Added by you - example.org - not an NS Marks The Spot source/)).toBeVisible();
     expect(screen.getByText(/already offered by NS Marks The Spot as “NS Aerial”/)).toBeVisible();
@@ -64,7 +64,7 @@ describe("your layers controls", () => {
   });
   it("tests the normalized ArcGIS address", async () => {
     vi.mocked(probeLayer).mockResolvedValueOnce({ display: true, corsReadable: true, at: "2026-11-14", diagnostic: undefined });
-    const api = { loaded: true, records: [], state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
+    const api = { loaded: true, records: [], state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     render(<UserLayerControls api={api} statuses={{}} licenceAccepted={true} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
     fireEvent.click(screen.getByRole("button", { name: "Add your own layer" }));
     fireEvent.change(screen.getByLabelText("Address"), { target: { value: "https://example.org/MapServer/export?key=1" } });
@@ -74,7 +74,7 @@ describe("your layers controls", () => {
 
   it("does not promise PDF permission for a readable restricted source", async () => {
     vi.mocked(probeLayer).mockResolvedValueOnce({ display: true, corsReadable: true, at: "2026-11-14", diagnostic: undefined });
-    const api = { loaded: true, records: [], state: {}, storageError: false, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
+    const api = { loaded: true, records: [], state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
     render(<UserLayerControls api={api} statuses={{}} licenceAccepted={true} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
     fireEvent.click(screen.getByRole("button", { name: "Add your own layer" }));
     fireEvent.change(screen.getByLabelText("Address"), { target: { value: "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSODB_10k_WM84/MapServer" } });
