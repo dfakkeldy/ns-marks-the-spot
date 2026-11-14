@@ -55,10 +55,14 @@ describe("your layers controls", () => {
       { ...common, id: "user-layer:3", name: "Zoning", url: zoning.serviceUrl },
     ];
     const api = { loaded: true, records, state: {}, storageError: false, skippedRecords: 0, save: vi.fn(), remove: vi.fn(), setEnabled: vi.fn(), setOpacity: vi.fn(), visibleLayers: [] } as ReturnType<typeof useUserLayers>;
-    const { container } = render(<UserLayerControls api={api} statuses={{}} licenceAccepted={false} onReviewLicence={vi.fn()} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
+    const review = vi.fn();
+    const { container } = render(<UserLayerControls api={api} statuses={{}} licenceAccepted={false} onReviewLicence={review} position={{ latitude: 46, longitude: -61, zoom: 10 }} />);
+    fireEvent.click(screen.getByRole("checkbox", { name: /Aerial Your layer/ }));
+    expect(review).toHaveBeenCalledOnce(); expect(api.setEnabled).not.toHaveBeenCalled();
     expect(screen.getByText(/Added by you - example.org - not an NS Marks The Spot source/)).toBeVisible();
     expect(screen.getByText(/already offered by NS Marks The Spot as “NS Aerial”/)).toBeVisible();
     expect(screen.getByRole("checkbox", { name: /Zoning Your layer/ })).toBeDisabled();
+    expect(screen.getByText(/permission for app queries/i)).toBeVisible();
     expect(screen.queryByText(/key=private/)).not.toBeInTheDocument();
     expect(container.querySelector("img")).toBeNull();
   });
