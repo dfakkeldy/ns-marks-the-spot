@@ -3,7 +3,7 @@ import { lidarCanopyLayer } from "../layers/lidarCanopy";
 import type { OpenDataSource } from "../layers/openDataSources";
 import { infrastructureLayers } from "../layers/infrastructureLayers";
 import { landContextLayers } from "../layers/landContextLayers";
-import { fletcherTileUrl } from "../layers/fletcherLayer";
+import { FLETCHER_TILE_REVISION, fletcherTileUrl, normalizeFletcherTileBaseUrl } from "../layers/fletcherLayer";
 import { forestryExclusionReason } from "../layers/forestryExclusions";
 import { nativeLayerCatalog, nativeProvinceLayerCatalog, provinceLayerCatalog, floodHazardLayerCatalog, environmentalHealthLayerCatalog, forestryLayerCatalog, resourceLayerCatalog, hydroPilotLayerCatalog, zoningLayerCatalog, wellLogLayerCatalog, liveConditionsLayerCatalog } from "../layers/layerCatalog";
 import { queryLockReason, reproductionLockReason } from "../licensing/layerUse";
@@ -11,8 +11,8 @@ import type { UserLayerRecord } from "./types";
 
 export type MatchPolicy = "same-lock" | "user-responsibility" | "owner-build";
 export const USER_LAYER_MATCH_POLICY: MatchPolicy = "same-lock";
-export type SourceMatch = { layerId: string; name: string; licence: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
-type Descriptor = { id: string; name: string; licence: string; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
+export type SourceMatch = { layerId: string; name: string; licence: string; licenceUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
+type Descriptor = { id: string; name: string; licence: string; licenceUrl?: string | null; serviceUrl?: string; tileUrl?: string; attribution?: string; unavailableReason?: string; requiresProvinceLicence?: boolean; openData?: OpenDataSource };
 
 export function sourceKey(value: string): string | null {
   try {
@@ -32,12 +32,13 @@ export function catalogueSourceIndex(): Map<string, SourceMatch[]> {
   const add = (layer: Descriptor, address: string | null | undefined) => {
     if (!address) return;
     const key = sourceKey(address); if (!key) return;
-    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence, openData: layer.licence === "province-open" && address === layer.serviceUrl ? layer.openData : undefined };
+    const match: SourceMatch = { layerId: layer.id, name: layer.name, licence: layer.licence, licenceUrl: layer.licenceUrl ?? undefined, attribution: layer.attribution, unavailableReason: layer.unavailableReason, requiresProvinceLicence: layer.requiresProvinceLicence, openData: layer.licence === "province-open" && address === layer.serviceUrl ? layer.openData : undefined };
     const previous = index.get(key) ?? [];
     if (!previous.some(entry => entry.layerId === match.layerId && entry.unavailableReason === match.unavailableReason)) index.set(key, [...previous, match]);
   };
   for (const layer of layers) { add(layer, layer.serviceUrl); add(layer, layer.tileUrl); }
-  add(nativeLayerCatalog[0], fletcherTileUrl());
+  try { add(nativeLayerCatalog[0], fletcherTileUrl()); } catch { /* Invalid hosting config must not crash the map. */ }
+  add(nativeLayerCatalog[0], fletcherTileUrl("https://tiles.kinnokilabs.com"));
   add(lidarCanopyLayer, lidarCanopyLayer.tileUrl);
   return index;
 }
@@ -45,7 +46,23 @@ export function catalogueSourceIndex(): Map<string, SourceMatch[]> {
 let cachedIndex: Map<string, SourceMatch[]> | undefined;
 export function matchCatalogueSource(url: string): SourceMatch[] {
   const key = sourceKey(url);
-  return key ? (cachedIndex ??= catalogueSourceIndex()).get(key) ?? [] : [];
+  if (!key) return [];
+  const matches = [...((cachedIndex ??= catalogueSourceIndex()).get(key) ?? [])];
+  try {
+    const address = new URL(url);
+    const configured = (() => { try { return normalizeFletcherTileBaseUrl(); } catch { return null; } })();
+    const family = `${FLETCHER_TILE_REVISION.split("-")[0]}-`.toLowerCase();
+    const bases = [configured, "https://tiles.kinnokilabs.com"].filter((value): value is string => !!value);
+    if (bases.some(value => {
+      const base = new URL(value);
+      const prefix = `${base.pathname.replace(/\/$/, "")}/${family}`.toLowerCase();
+      return address.host.toLowerCase() === base.host.toLowerCase() && address.pathname.toLowerCase().startsWith(prefix);
+    }) && !matches.some(match => match.layerId === "fletcher")) {
+      const source = nativeLayerCatalog[0];
+      matches.push({ layerId: source.id, name: source.name, licence: source.licence, attribution: source.attribution, licenceUrl: source.licenceUrl });
+    }
+  } catch { /* Invalid input has no matches; the caller refuses its source key. */ }
+  return matches;
 }
 
 export function userLayerUse(record: UserLayerRecord, policy: MatchPolicy = USER_LAYER_MATCH_POLICY, provinceLicenceAccepted = false): { view: "allowed" | "refused" | "needs-acceptance"; export: "allowed" | "held"; reason: string | null; matched: SourceMatch[] } {

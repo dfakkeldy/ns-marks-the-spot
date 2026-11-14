@@ -46,7 +46,7 @@ export function UserLayerControls({ api, statuses, licenceAccepted, onReviewLice
     if (!draft || validate) return;
     const gate = userLayerUse(draft, undefined, licenceAccepted);
     if (gate.view !== "allowed") { if (gate.view === "needs-acceptance") { setSuspended(true); onReviewLicence(); } setError(gate.reason ?? "Accept the Province licence before testing."); return; }
-    const requestKey = (record: UserLayerRecord) => JSON.stringify([record.id, record.url, record.kind, record.tileSize, record.minZoom, record.maxNativeZoom, record.wms, record.arcgis]);
+    const requestKey = (record: UserLayerRecord) => JSON.stringify([record.id, record.url, record.kind, record.role, record.opaque, record.tileSize, record.minZoom, record.maxNativeZoom, record.wms, record.arcgis]);
     const key = requestKey(draft);
     const sequence = ++probeSequence.current;
     setTesting(true); setError("");
@@ -81,7 +81,8 @@ export function UserLayerControls({ api, statuses, licenceAccepted, onReviewLice
       <button type="button" onClick={() => { if (!showUrl && isEditing) setKindChosen(false); setShowUrl(!showUrl); }}>{showUrl ? "Hide" : "Show"}</button>{draft.url && <p>{maskUrl(draft.url)}</p>}
       <label>Kind <select value={draft.kind} onChange={e => { setKindChosen(true); update({ kind: e.target.value as UserLayerKind, probe: null }); }}>{kinds.map(kind => <option key={kind}>{kind}</option>)}</select></label>
       <label>Name <input value={draft.name} onChange={e => update({ name: e.target.value })} /></label>
-      <label>Use as <select value={draft.role} onChange={e => update({ role: e.target.value as "base" | "overlay" })}><option value="base">Base map</option><option value="overlay">Overlay</option></select></label>
+      <label>Use as <select value={draft.role} onChange={e => update({ role: e.target.value as "base" | "overlay", probe: null })}><option value="base">Base map</option><option value="overlay">Overlay</option></select></label>
+      {draft.role === "base" && <label><input type="checkbox" checked={draft.opaque === true} onChange={e => update({ opaque: e.target.checked, probe: null })} /> This base covers the map completely, with no transparent pixels.</label>}
       <label>Credit line <input value={draft.attribution} onChange={e => update({ attribution: e.target.value })} /></label>
       <label>Terms <input value={draft.termsNote} onChange={e => update({ termsNote: e.target.value })} /></label>
       <label>Terms link <input value={draft.termsUrl ?? ""} onChange={e => update({ termsUrl: e.target.value || null })} /></label>
