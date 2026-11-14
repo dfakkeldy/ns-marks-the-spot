@@ -69,6 +69,16 @@ public enum CaptureSpec {
         public static let presetsM: [Double] = [0, 0.5, 1, 2, 5]
     }
 
+    public enum DriveTrackFilter {
+        public static let accuracyGateM: Double = 30
+        public static let maxSpeedMps: Double = 50
+        public static let smoothingAlpha: Double = 1
+        public static let minSpacingFloorM: Double = 5
+        public static let spacingAccuracyFactor: Double = 0.25
+        public static let gapSplitS: Double = 10
+    }
+    public static let driveSimplifyToleranceM: Double = 3
+
     public enum Snap {
         /// Parcel snapping arms at this zoom or closer.
         public static let minZoom = 16
