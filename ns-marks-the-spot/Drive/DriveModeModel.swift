@@ -125,6 +125,7 @@ final class DriveModeModel {
         output.shown.first { state.sheets[$0]?.entered == true && state.sheets[$0]?.insideNow == true }
     }
     var topShownContained: String? { output.shown.first { output.contained.contains($0) } }
+    func isInsideNow(_ id: String) -> Bool { state.sheets[id]?.insideNow == true }
 
     var insideCount: Int {
         sheets.filter { state.sheets[$0.id]?.entered == true && state.sheets[$0.id]?.insideNow == true }.count

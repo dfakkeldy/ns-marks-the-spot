@@ -79,6 +79,26 @@ struct DriveCatalogueStoreTests {
         #expect(third[0].sheetIDs == ["one", "other", "two", "three"])
         let two = try await store.apply(.cycleTop("a", ["one", "two"]))
         #expect(two[0].sheetIDs == ["two", "other", "one", "three"])
+        let reopened = try await DriveCatalogueStore(directory: directory).load()
+        #expect(reopened[0].sheetIDs == ["two", "other", "one", "three"])
+    }
+
+    @Test @MainActor func viewModelCyclesAndPersists() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let suite = "drive-cycle-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = DriveCatalogueStore(directory: directory)
+        let vm = DriveCataloguesViewModel(store: store, uiStore: DriveUiStateStore(defaults: defaults))
+        await vm.load()
+        await vm.create(name: "Trip", sheetIDs: ["one", "two"])
+        let id = try #require(vm.catalogues.first?.id)
+        let changed = await vm.cycleTop(in: id, entered: ["one", "two"])
+        #expect(changed)
+        #expect(vm.catalogues.first?.sheetIDs == ["two", "one"])
+        let reopened = try await DriveCatalogueStore(directory: directory).load()
+        #expect(reopened.first?.sheetIDs == ["two", "one"])
     }
 
     @Test @MainActor func damagedFileIsPreservedAndNewerFileSeals() async throws {

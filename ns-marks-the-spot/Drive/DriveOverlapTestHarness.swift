@@ -13,8 +13,10 @@ struct DriveOverlapTestHarness: View {
     @State private var directory: URL
 
     init() {
-        let suite = "nsmarks-overlap-ui-\(UUID().uuidString)"
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let suite = "nsmarks-overlap-ui-test"
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("nsmarks-overlap-ui-test")
+        UserDefaults.standard.removePersistentDomain(forName: suite)
+        try? FileManager.default.removeItem(at: directory)
         guard let defaults = UserDefaults(suiteName: suite) else { preconditionFailure("Test defaults unavailable") }
         _suite = State(initialValue: suite)
         _directory = State(initialValue: directory)

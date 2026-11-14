@@ -8,6 +8,18 @@ import Testing
 
 @Suite("Drive mode") @MainActor
 struct DriveModeTests {
+    @Test func overlapBarRequiresOverlapStatus() {
+        #expect(OverlapBarView.isVisible(for: .overlap))
+        #expect(!OverlapBarView.isVisible(for: .onSheet))
+        #expect(!OverlapBarView.isVisible(for: .offSheets))
+    }
+
+    @Test func overlapInsetKeepsFollowTargetBelowFortyPercent() {
+        let height: CGFloat = 390
+        let inset = MapController.clampedDriveOverlapInset(220, mapHeight: height)
+        #expect(inset == 78)
+        #expect((height - inset) / 2 >= height * 0.4)
+    }
     @Test func screenReasonsAndSceneAreIndependent() {
         let screen = DriveTestScreen()
         let coordinator = ScreenAwakeCoordinator(screen: screen)

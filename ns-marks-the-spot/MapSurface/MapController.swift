@@ -1690,7 +1690,18 @@ final class MapController: NSObject {
     @ObservationIgnored private var bottomCardHeights: [BottomCard: CGFloat] = [:]
 
     /// How much of the bottom of the map the tallest open card covers.
-    private var bottomCardInset: CGFloat { bottomCardHeights.values.max() ?? 0 }
+    private var bottomCardInset: CGFloat {
+        let other = bottomCardHeights.filter { $0.key != .driveOverlap }.values.max() ?? 0
+        let overlap = bottomCardHeights[.driveOverlap] ?? 0
+        // MapKit centers Follow within these margins. A 20% bottom margin
+        // keeps its target at or below 40% of the screen from the top.
+        return max(other, Self.clampedDriveOverlapInset(overlap, mapHeight: mapView?.bounds.height ?? 0))
+    }
+
+    static func clampedDriveOverlapInset(_ inset: CGFloat, mapHeight: CGFloat) -> CGFloat {
+        let maximum = mapHeight * 0.2
+        return maximum > 0 ? min(max(0, inset), maximum) : max(0, inset)
+    }
 
     /// Reported by the container as cards open, resize and close. Routed
     /// into the map's layout margins, which is where MapKit centres a

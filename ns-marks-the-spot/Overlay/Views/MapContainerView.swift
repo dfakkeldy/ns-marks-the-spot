@@ -45,6 +45,7 @@ struct MapContainerView: View {
     /// stack sits below it rather than under it.
     @State private var hudHeight: CGFloat = 0
     @State private var driveChipHeight: CGFloat = 0
+    @State private var driveRecordHeight: CGFloat = 0
     /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
     /// cannot write its answer, or its failure, over the current viewport's.
     @State private var parcelSnapGeneration = 0
@@ -561,6 +562,7 @@ struct MapContainerView: View {
                                         searching: controller.userTrackingState == .searching)
                     }
                         .buttonStyle(.plain)
+                        .frame(minHeight: 44)
                         .accessibilityHint("Opens the catalogue panel.")
                         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveChipHeight = $0 }
                         .frame(maxWidth: 420)
@@ -585,13 +587,15 @@ struct MapContainerView: View {
                     .buttonStyle(.borderedProminent)
                     .disabled(markLocation.isAcquiring)
                     .frame(maxWidth: 220)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
+                    .onDisappear { driveRecordHeight = 0 }
                     .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
                 }
                 .padding(.horizontal, 16)
             }
 
             if let catalogue = driveCataloguesVM.loaded,
-               driveCataloguesVM.ui.autoActivate, driveModeVM.output.status == .overlap,
+               driveCataloguesVM.ui.autoActivate, OverlapBarView.isVisible(for: driveModeVM.output.status),
                printFrame == nil, !isSelectingSaveArea, overlayVM.inspection == nil,
                editSession == nil, vectorCallout == nil, featureVM.selection == nil,
                measure == nil, !isLayersMenuExpanded {
@@ -599,7 +603,7 @@ struct MapContainerView: View {
                     .frame(maxWidth: 420)
                     .padding(.horizontal, 16)
                     .clearOfRail(controlsWidth)
-                    .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn ? 64 : 0))
+                    .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn ? driveRecordHeight : 0))
                     .coversMapBottom(.driveOverlap, on: controller)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             }
