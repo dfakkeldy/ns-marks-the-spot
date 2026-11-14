@@ -172,6 +172,7 @@ import {
   GeoreferenceMapLayer,
   type GeoreferenceBinding,
 } from "../userMaps/components/GeoreferenceMapLayer";
+import { UserTileLayers, type VisibleUserLayer } from "../userLayers/components/UserTileLayers";
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
@@ -268,6 +269,8 @@ type MapCanvasProps = {
   fletcherTileBaseUrl?: string | null;
   fletcherRetryToken?: number;
   userMaps?: VisibleUserMap[];
+  userLayers?: VisibleUserLayer[];
+  onUserLayerStatus?: (id: string, status: string) => void;
   userMapFitRequest?: UserMapFitRequest | null;
   userVectorLayers?: VisibleUserVectorLayer[];
   userVectorFitRequest?: UserVectorFitRequest | null;
@@ -2042,6 +2045,8 @@ export function MapCanvas({
   fletcherTileBaseUrl = null,
   fletcherRetryToken = 0,
   userMaps = EMPTY_USER_MAPS,
+  userLayers = [],
+  onUserLayerStatus,
   userMapFitRequest = null,
   userVectorLayers = EMPTY_USER_VECTOR_LAYERS,
   userVectorFitRequest = null,
@@ -2697,6 +2702,7 @@ export function MapCanvas({
         ref={setMap}
       >
         <MapSizeController />
+        {!isPrintMode && onUserLayerStatus && <UserTileLayers layers={userLayers} onStatus={onUserLayerStatus} />}
         <UserMapLayers
           maps={userMaps}
           draft={georeference?.draft ?? null}

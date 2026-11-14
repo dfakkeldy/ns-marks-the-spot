@@ -278,6 +278,9 @@ import type { PdfTemplateId } from "./print/pdf/templates/types";
 import { useUserMaps } from "./userMaps/useUserMaps";
 import { useGeoreferenceSession } from "./userMaps/useGeoreferenceSession";
 import { UserMapControls } from "./userMaps/components/UserMapRows";
+import { useUserLayers } from "./userLayers/useUserLayers";
+import { UserLayerControls } from "./userLayers/components/UserLayerControls";
+import { userLayerUse } from "./userLayers/sourceMatch";
 import { routeImportFiles } from "./userMaps/importRouting";
 import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
 import { UserVectorControls } from "./userMaps/vector/components/UserVectorRows";
@@ -1987,6 +1990,9 @@ export function App({ focus, onRestart, licencesPresented = false }: {
   const [wellLogAccuracyFilter, setWellLogAccuracyFilter] =
     useState<WellLogAccuracyFilter>("surveyed");
   const userMapsApi = useUserMaps();
+  const userLayersApi = useUserLayers();
+  const [userLayerStatuses, setUserLayerStatuses] = useState<Record<string, string>>({});
+  const onUserLayerStatus = useCallback((id: string, status: string) => setUserLayerStatuses(current => current[id] === status ? current : { ...current, [id]: status }), []);
   const userVectorApi = useUserVectorLayers();
 
   // The one drop zone serves both pipelines: files route by sniffed content,
@@ -5030,6 +5036,10 @@ export function App({ focus, onRestart, licencesPresented = false }: {
   // The licence strip's credits for what is on screen, a shared licence stated
   // once. The Province line comes first: a phone must reach it first.
   const collarCredits = groupAttributions([
+    ...userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, "same-lock", licenceAccepted).view === "allowed").flatMap(({ record }) => [
+      `Your layer: ${record.attribution}`,
+      ...userLayerUse(record, "same-lock", licenceAccepted).matched.flatMap(match => match.attribution ? [match.attribution] : []),
+    ]),
     ...(oglLayerVisible || pokerMode ? [OPEN_GOVERNMENT_ATTRIBUTION] : []),
     ...(coastalLayerVisible ? COASTAL_HAZARD_NOTICES : []),
     ...contextLayerCatalog.filter((layer) => effectiveContextLayers[layer.id] && layer.attribution).map((layer) => layer.attribution!),
@@ -6217,6 +6227,7 @@ export function App({ focus, onRestart, licencesPresented = false }: {
 
                   {category.id === "my-maps" ? (
                     <>
+                      <UserLayerControls api={userLayersApi} statuses={userLayerStatuses} licenceAccepted={licenceAccepted} onReviewLicence={reviewProvinceLicence} position={mapViewport.position} />
                       <UserMapControls
                         api={userMapsApi}
                         onImportFiles={(files) => void handleImportFiles(files)}
@@ -6366,6 +6377,8 @@ export function App({ focus, onRestart, licencesPresented = false }: {
             contextOpacity={contextOpacityOverrides}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
+            onUserLayerStatus={onUserLayerStatus}
+            userLayers={focusHides(focusDef, "my-maps") ? [] : userLayersApi.visibleLayers.filter(({ record }) => userLayerUse(record, "same-lock", licenceAccepted).view === "allowed")}
             userMaps={focusHides(focusDef, "my-maps") ? undefined : userMapsApi.visibleMaps}
             userMapFitRequest={userMapsApi.fitRequest}
             userVectorLayers={focusHides(focusDef, "my-maps") ? undefined : readOnlyVectorLayers}
