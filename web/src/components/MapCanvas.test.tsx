@@ -335,6 +335,8 @@ vi.mock("./MeasureTool", () => ({
   ),
 }));
 
+vi.mock("../userLayers/components/UserTileLayers", () => ({ UserTileLayers: () => <div data-testid="user-tile-layers" /> }));
+
 vi.mock("../userMaps/components/UserMapLayers", () => ({
   UserMapLayers: ({
     maps,
@@ -3893,6 +3895,13 @@ describe("MapCanvas parcel styling", () => {
 });
 
 describe("MapCanvas print mode", () => {
+  it("does not mount user tiles in print mode", () => {
+    const props = { ...baseMapProps(), onUserLayerStatus: vi.fn() };
+    const { rerender } = render(<MapCanvas {...props} />);
+    expect(screen.getByTestId("user-tile-layers")).toBeInTheDocument();
+    rerender(<MapCanvas {...props} renderMode="print" />);
+    expect(screen.queryByTestId("user-tile-layers")).not.toBeInTheDocument();
+  });
   beforeEach(() => {
     vi.clearAllMocks();
     mapEventHandlers.click = undefined;
