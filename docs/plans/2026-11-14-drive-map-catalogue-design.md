@@ -101,6 +101,8 @@ Four problems in today's code affect driving. They were found while reading for 
 
 Not verified on native: the preview pixel cap, how the map reports the user location when no recording runs (`MapController.swift:2373` is the delegate call), and whether one real drive sheet imports cleanly. Section 15 lists these as checks.
 
+N0 preflight: the actual native `PdfMapReader` read the supplied Port Hawkesbury West sheet in a macOS test. It selected one automatic `/Measure` frame with four control points and rendered one page at 2547 × 4096 pixels. This narrows the planned simulator import to a reader test; the on-device import and encoded preview file size remain unmeasured. `MapController.receiveFix` stores `lastUserFix` from MapKit's `didUpdate userLocation` callback independently of recording. The vector library must increment its version when adding coverage: an older build refuses a newer version, while a same-version rewrite would discard unknown fields.
+
 ### 3.3 Platform facts
 
 | Fact | Source |
@@ -247,6 +249,8 @@ The ring, not a bounding box. A UTM sheet is rotated against latitude and longit
 
 Distance is measured in local metres: project the ring and the fix to an equirectangular plane centred on the fix. `signedDistanceM` is negative inside the ring and positive outside.
 
+Distances less than 0.000001 m from an edge are treated as zero to absorb projection rounding. The shared fixture pins this tolerance.
+
 ### 7.3 Rules
 
 Constants, shared by both surfaces and pinned in the fixture:
@@ -288,6 +292,10 @@ Why these numbers:
 | 3 sheets drawn | One decoded sheet is about 34 MB at 3300 x 2550. Three is a safe ceiling on a phone. |
 
 The overlap status uses `insideNow`, not `entered`. Two sheets that only share an edge are both entered for a few seconds because of the exit margin. That is not an overlap, and the bar must not flash on every switch.
+
+At an exact shared edge, both sheets count as inside for entry, but the overlap bar stays hidden when every containing sheet touches the fix only on its boundary. This resolves the edge case between the inclusive entry rule and the no-overlap-at-a-join acceptance test.
+
+The fixture uses `onSheet`, `offSheets`, and `heldPoorFix` as serialized names for the corresponding hyphenated labels above. A fix inside a sheet that has not yet entered can report that sheet as nearest at 0 m with no bearing. Manual pin, hide, or sheet-list changes rebuild the output without counting another location fix, including while fixes are held.
 
 ### 7.4 Behaviour at edges, and off the sheets
 
