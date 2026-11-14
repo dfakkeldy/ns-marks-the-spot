@@ -35,6 +35,7 @@ describe("createTrackRecorder", () => {
     for (let i = 0; i < 3; i++) {
       expect(drive.addFix(fix(i * 30.6, i * 1_000))).toBe(true);
       expect(walk.addFix(fix(i * 30.6, i * 1_000))).toBe(i === 0);
+      if (i > 0) expect(walk.stats().lastRejection).toBe("too-fast");
     }
     drive.addFix(fix(100, 14_000));
     walk.addFix(fix(100, 14_000));
@@ -42,6 +43,29 @@ describe("createTrackRecorder", () => {
     expect(d.segments.map(s => s.length)).toEqual([3, 1]);
     expect(d.segments[0][2].lat).toBe(fix(61.2, 2_000).latitude);
     expect(walk.stop()!.segments).toHaveLength(1);
+  });
+
+  it("splits a run of rejected fixes and retains the speed gate across a gap", () => {
+    const drive = createTrackRecorder(() => 30_000, "drive");
+    drive.start();
+    drive.addFix(fix(0, 0));
+    for (let i = 1; i <= 11; i++) drive.addFix(fix(0, i * 1_000, 60));
+    expect(drive.addFix(fix(2_000, 12_000))).toBe(false);
+    expect(drive.stats().lastRejection).toBe("too-fast");
+    expect(drive.addFix(fix(100, 13_000))).toBe(true);
+    const result = drive.stop()!;
+    expect(result.segments.map(s => s.length)).toEqual([1, 1]);
+    expect(result.segments[1][0].timestampMs).toBe(13_000);
+  });
+
+  it("splits only beyond ten seconds, including before any accepted fix", () => {
+    const drive = createTrackRecorder(() => 30_000, "drive");
+    drive.start();
+    drive.addFix(fix(0, 0, 60));
+    drive.addFix(fix(0, 10_000, 60));
+    expect(drive.liveSegments()).toHaveLength(1);
+    drive.addFix(fix(0, 20_001));
+    expect(drive.stop()!.segments.map(s => s.length)).toEqual([0, 1]);
   });
 
   it("does not reset the speed gate after an out-of-order raw fix", () => {

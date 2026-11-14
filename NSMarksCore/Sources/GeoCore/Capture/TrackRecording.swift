@@ -52,10 +52,11 @@ public struct TrackRecording: Sendable {
 
     public init(profile: Profile = .walk) { self.profile = profile }
 
-    private mutating func openSegment() {
+    private mutating func openSegment(speedAnchor: TrackFix? = nil) {
         segments.append([])
         rawSegments.append([])
         filter = TrackFilterState()
+        filter.lastAcceptedRaw = speedAnchor
         latestRawTimestamp = nil
     }
 
@@ -120,10 +121,16 @@ public struct TrackRecording: Sendable {
     @discardableResult
     public mutating func addFix(_ fix: TrackFix) -> Bool {
         guard status == .recording else { return false }
-        if profile == .drive, let previous = latestRawTimestamp,
-           fix.timestamp.timeIntervalSince(previous) > CaptureSpec.DriveTrackFilter.gapSplitS {
+        let rawGap = latestRawTimestamp.map {
+            fix.timestamp.timeIntervalSince($0) > CaptureSpec.DriveTrackFilter.gapSplitS
+        } ?? false
+        let acceptedGap = filter.lastAccepted != nil && (filter.lastAcceptedRaw.map {
+            fix.timestamp.timeIntervalSince($0.timestamp) > CaptureSpec.DriveTrackFilter.gapSplitS
+        } ?? false)
+        if profile == .drive && (rawGap || acceptedGap) {
+            let speedAnchor = filter.lastAcceptedRaw
             closeSegment()
-            openSegment()
+            openSegment(speedAnchor: speedAnchor)
         }
         if fix.timestamp.timeIntervalSinceReferenceDate.isFinite {
             if let previous = latestRawTimestamp {

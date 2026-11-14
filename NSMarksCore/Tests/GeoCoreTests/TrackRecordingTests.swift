@@ -45,6 +45,35 @@ struct TrackRecordingTests {
         #expect(result.acceptedFixCount == 1)
     }
 
+    @Test func rejectedFixesSplitCoverageAndGapKeepsSpeedAnchor() throws {
+        var drive = TrackRecording(profile: .drive)
+        drive.start(now: start)
+        drive.addFix(fix(lat: 44.6, secondsIn: 0))
+        for i in 1...11 {
+            drive.addFix(fix(lat: 44.6, accuracy: 60, secondsIn: Double(i)))
+        }
+        let outlier = drive.addFix(fix(lat: 44.62, secondsIn: 12))
+        let real = drive.addFix(fix(lat: 44.601, secondsIn: 13))
+        #expect(!outlier)
+        #expect(real)
+        let stopped = drive.stop(now: start.addingTimeInterval(14))
+        let result = try #require(stopped)
+        #expect(result.segments.map(\.count) == [1, 1])
+        #expect(result.segments[1][0].timestamp == start.addingTimeInterval(13))
+    }
+
+    @Test func gapBoundaryAlsoWorksWithoutAcceptedFixes() throws {
+        var drive = TrackRecording(profile: .drive)
+        drive.start(now: start)
+        drive.addFix(fix(lat: 44.6, accuracy: 60, secondsIn: 0))
+        drive.addFix(fix(lat: 44.6, accuracy: 60, secondsIn: 10))
+        #expect(drive.liveSegments.count == 1)
+        drive.addFix(fix(lat: 44.6, secondsIn: 20.001))
+        let stopped = drive.stop(now: start.addingTimeInterval(21))
+        let result = try #require(stopped)
+        #expect(result.segments.map(\.count) == [0, 1])
+    }
+
     private func fix(
         lat: Double, lng: Double = -63.5, accuracy: Double = 5, secondsIn: Double
     ) -> TrackFix {

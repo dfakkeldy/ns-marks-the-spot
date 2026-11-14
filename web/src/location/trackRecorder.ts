@@ -86,10 +86,11 @@ export function createTrackRecorder(now: () => number = Date.now, profile: "walk
   const segments: TrackPoint[][] = [];
   const rawSegments: LiveFix[][] = [];
 
-  const openSegment = () => {
+  const openSegment = (speedAnchor: TrackFilterState["lastAcceptedRaw"] = null) => {
     segments.push([]);
     rawSegments.push([]);
     filter = createTrackFilterState();
+    filter.lastAcceptedRaw = speedAnchor;
     latestRawTimestampMs = null;
   };
 
@@ -203,10 +204,14 @@ export function createTrackRecorder(now: () => number = Date.now, profile: "walk
       if (status !== "recording") {
         return false;
       }
-      if (profile === "drive" && latestRawTimestampMs !== null &&
-          fix.timestampMs - latestRawTimestampMs > FIELD_CAPTURE_SPEC.driveTrackFilter.gapSplitS * 1_000) {
+      const gapMs = FIELD_CAPTURE_SPEC.driveTrackFilter.gapSplitS * 1_000;
+      const rawGap = latestRawTimestampMs !== null && fix.timestampMs - latestRawTimestampMs > gapMs;
+      const acceptedGap = filter.lastAccepted !== null && filter.lastAcceptedRaw !== null &&
+        fix.timestampMs - filter.lastAcceptedRaw.timestampMs > gapMs;
+      if (profile === "drive" && (rawGap || acceptedGap)) {
+        const speedAnchor = filter.lastAcceptedRaw;
         closeSegment();
-        openSegment();
+        openSegment(speedAnchor);
       }
       if (Number.isFinite(fix.timestampMs) && (latestRawTimestampMs === null || fix.timestampMs > latestRawTimestampMs)) {
         latestRawTimestampMs = fix.timestampMs;

@@ -440,6 +440,8 @@ These numbers are proposals. Confirm them on a real drive (section 14.3).
 
 The gap split is the evidence rule in practice. A track is a record of where the device was. A straight line across ten missing minutes says the car was somewhere it was not.
 
+P1 review refinement: also split when more than 10 seconds have passed since the last accepted fix in the current segment, even if rejected raw fixes continue to arrive. Keep the last accepted raw fix as the speed anchor across an automatic split; reset smoothing and vertex spacing. This prevents a rejected-fix run from drawing a false chord and keeps a bad reacquisition fix from bypassing the speed gate. A manual pause and resume still starts a fresh filter.
+
 ### 9.3 Data model
 
 A coverage leg is an ordinary recorded layer with one more field.
