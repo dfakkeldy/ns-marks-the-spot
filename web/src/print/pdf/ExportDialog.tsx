@@ -1,4 +1,3 @@
-import { assertReproductionAllowed } from "../../licensing/layerUse";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDialogChrome } from "../../components/useDialogChrome";
 import { downloadFile } from "../../services/downloadFile";
@@ -7,6 +6,7 @@ import { buildScaleBar } from "./scaleBar";
 import { buildExportQrPng } from "./exportQr";
 import {
   composeMapImage,
+  assertCompositorLayersAllowed,
   type CompositorLayer,
   type CompositorLayerStatus,
   type CompositorProgress,
@@ -175,7 +175,7 @@ export function ExportDialog(props: ExportDialogProps) {
     controller: AbortController,
   ) => {
     if (controller.signal.aborted) return;
-    assertReproductionAllowed(props.layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
+    assertCompositorLayersAllowed(props.layers);
     const generatedAt = new Date().toISOString();
     const input: ComposeInput = {
       template,
@@ -232,7 +232,7 @@ export function ExportDialog(props: ExportDialogProps) {
     exportAbortRef.current = controller;
     setPhase({ stage: "rendering", progress: null });
     try {
-      assertReproductionAllowed(props.layers.map(layer => layer.kind === "parcel-ring" ? "selected-parcel" : { id: layer.id, openData: layer.kind === "open-data" ? layer.source : undefined }));
+      assertCompositorLayersAllowed(props.layers);
       const result = await composeImage((progress) => {
         // A stray progress tick that arrives after cancellation must not
         // resurrect the "rendering" phase on an export the user walked away
@@ -311,6 +311,7 @@ export function ExportDialog(props: ExportDialogProps) {
           Include legend
         </label>
 
+        {props.layers.flatMap(layer => (layer.kind === "tile" || layer.kind === "image") && layer.userSource ? [layer.userSource] : []).map(record => <p key={record.id}>Includes your layer “{record.name}”. You are responsible for its terms. The PDF says it is user-supplied.</p>)}
         {omittedLayerNames.length > 0 ? (
           <div role="alert" className="export-failures export-omitted-layers">
             <p>
