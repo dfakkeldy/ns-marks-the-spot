@@ -7,8 +7,19 @@ import SwiftUI
 /// A deterministic, isolated surface for the overlap controls' UI-frame test.
 struct DriveOverlapTestHarness: View {
     @State private var model = DriveModeModel(screen: ScreenAwakeCoordinator(screen: OverlapTestScreen()))
-    @State private var catalogues = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)))
+    @State private var catalogues: DriveCataloguesViewModel
     @State private var rows: [UserMapsViewModel.Row] = []
+    @State private var suite: String
+    @State private var directory: URL
+
+    init() {
+        let suite = "nsmarks-overlap-ui-\(UUID().uuidString)"
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        guard let defaults = UserDefaults(suiteName: suite) else { preconditionFailure("Test defaults unavailable") }
+        _suite = State(initialValue: suite)
+        _directory = State(initialValue: directory)
+        _catalogues = State(initialValue: DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: DriveUiStateStore(defaults: defaults)))
+    }
 
     var body: some View {
         VStack {
@@ -17,6 +28,10 @@ struct DriveOverlapTestHarness: View {
             }
         }
         .padding()
+        .onDisappear {
+            UserDefaults.standard.removePersistentDomain(forName: suite)
+            try? FileManager.default.removeItem(at: directory)
+        }
         .task {
             let points = [
                 SessionControlPoint(id: "1", pixel: .init(x: 0, y: 0), map: .init(lat: 45, lng: -61)),

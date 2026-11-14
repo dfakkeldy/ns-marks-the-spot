@@ -13,7 +13,7 @@ final class DriveOverlapUITests: XCTestCase {
         app.launchArguments += ["UITestMode", "UITestDriveOverlap"]
         app.launch()
         for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
-            XCUIDevice.shared.orientation = orientation
+            XCTAssertTrue(app.rotate(to: orientation), "The app did not reach \(orientation)")
             let swap = app.buttons["drive-overlap-swap"]
             let visibility = app.buttons["drive-overlap-visibility"]
             XCTAssertTrue(swap.waitForExistence(timeout: 30))
