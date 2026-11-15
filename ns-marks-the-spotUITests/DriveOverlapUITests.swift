@@ -34,7 +34,7 @@ final class DriveOverlapUITests: XCTestCase {
         XCTAssertFalse(app.buttons["drive-overlap-visibility"].exists)
     }
 
-    @MainActor func testMountedMapDriveChromeDoesNotOverlapWhenSignalIsLost() {
+    @MainActor func testMountedMapDriveChromeDoesNotOverlapWhenFixIsUnavailable() {
         let app = XCUIApplication()
         app.launchArguments += ["UITestMode", "UITestMountedDrive", "lost"]
         app.launch()
@@ -53,7 +53,7 @@ final class DriveOverlapUITests: XCTestCase {
                 XCTAssertTrue(element.waitForExistence(timeout: 30), "Missing \(element)")
             }
             XCTAssertTrue(chip.label.contains("No location right now"), chip.label)
-            let frames = [("chip", chip.frame), ("record", record.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("swap", app.buttons["drive-overlap-swap"].frame), ("visibility", app.buttons["drive-overlap-visibility"].frame)]
+            let frames = [("chip", chip.frame), ("record", record.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("overlap bar", app.descendants(matching: .any)["drive-overlap-bar"].frame)]
             for i in frames.indices {
                 XCTAssertFalse(frames[i].1.isEmpty, "Empty \(frames[i].0)")
                 XCTAssertTrue(app.windows.firstMatch.frame.contains(frames[i].1), "Off screen: \(frames[i])")
@@ -63,6 +63,23 @@ final class DriveOverlapUITests: XCTestCase {
             }
             XCTAssertTrue(record.isHittable)
             XCTAssertTrue(chip.isHittable)
+        }
+    }
+
+    @MainActor func testMountedMapSignalLostNotice() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestMountedDrive", "signal"]
+        app.launch()
+        let chip = app.buttons["drive-status-chip"]
+        let notice = app.staticTexts["GPS signal lost — still trying."]
+        XCTAssertTrue(chip.waitForExistence(timeout: 30))
+        XCTAssertTrue(notice.waitForExistence(timeout: 30))
+        for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+            XCTAssertTrue(app.rotate(to: orientation))
+            XCTAssertTrue(chip.label.contains("No location right now"))
+            XCTAssertFalse(chip.frame.intersects(notice.frame))
+            if orientation.isLandscape { XCTAssertFalse(app.buttons["drive-record"].exists) }
+            else { XCTAssertTrue(app.buttons["drive-record"].exists) }
         }
     }
 

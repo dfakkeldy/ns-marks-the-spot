@@ -58,6 +58,9 @@ struct MapContainerView: View {
     }
     #endif
     private var compactOverlap: Bool { driveModeVM.output.status == .overlap && mapWidth > mapHeight }
+    private var compactRecordShift: CGFloat {
+        min(0, mapWidth / 2 - controlsWidth - 100 - 160)
+    }
     private var chipFix: TrackFix? {
         #if DEBUG
         if driveUITestState != nil { return driveUITestFix }
@@ -66,9 +69,15 @@ struct MapContainerView: View {
     }
     private var chipSignalLost: Bool {
         #if DEBUG
-        if let state = driveUITestState { return state == "lost" }
+        if let state = driveUITestState { return state == "lost" || state == "signal" }
         #endif
         return controller.locationMessage == .signalLost
+    }
+    private var chipSearching: Bool {
+        #if DEBUG
+        if driveUITestState != nil { return false }
+        #endif
+        return controller.userTrackingState == .searching
     }
     /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
     /// cannot write its answer, or its failure, over the current viewport's.
@@ -605,7 +614,7 @@ struct MapContainerView: View {
                                         signalLost: chipSignalLost,
                                         failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
                                         autoEnabled: driveCataloguesVM.ui.autoActivate,
-                                        searching: controller.userTrackingState == .searching)
+                                        searching: chipSearching)
                             .frame(minHeight: 44)
                             .contentShape(Rectangle())
                     }
@@ -637,11 +646,12 @@ struct MapContainerView: View {
                     .buttonStyle(.borderedProminent)
                     .accessibilityIdentifier("drive-record")
                     .disabled(markLocation.isAcquiring || isSavingCoverage)
-                    .frame(maxWidth: compactOverlap ? 150 : 220)
+                    .frame(maxWidth: compactOverlap ? 128 : 220)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
                     .onDisappear { driveRecordHeight = 0 }
                     .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .offset(x: compactOverlap ? compactRecordShift : 0)
                 }
                 .padding(.horizontal, 16)
             }
@@ -652,7 +662,9 @@ struct MapContainerView: View {
                editSession == nil, vectorCallout == nil, featureVM.selection == nil,
                measure == nil, !isLayersMenuExpanded {
                 OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows)
-                    .frame(maxWidth: compactOverlap ? max(160, min(240, mapWidth - controlsWidth - 280)) : 420)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityIdentifier("drive-overlap-bar")
+                    .frame(maxWidth: compactOverlap ? max(160, min(240, mapWidth / 2 - controlsWidth - 100)) : 420)
                     .padding(.horizontal, 16)
                     .clearOfRail(controlsWidth)
                     .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn && !compactOverlap ? driveRecordHeight : 0))
@@ -1916,6 +1928,7 @@ struct MapContainerView: View {
                             driveModeVM.update(catalogue: catalogue, auto: true, records: records, fix: good, following: true, signalAvailable: false)
                         }
                         driveModeVM.setOn(true)
+                        if state == "signal" { controller.setUITestSignalLost() }
                     }
                 }
                 #endif

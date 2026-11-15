@@ -1486,6 +1486,13 @@ final class MapController: NSObject {
         }
     }
 
+    #if DEBUG
+    func setUITestSignalLost() {
+        messageLifetime = { _ in nil }
+        report(.signalLost)
+    }
+    #endif
+
     /// The reader acted on the message, or waved it away. A waved-away
     /// Precise Location caveat stays away until the setting changes or the
     /// reader asks for their location again; a foreground return does not
