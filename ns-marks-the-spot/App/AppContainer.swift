@@ -152,6 +152,14 @@ final class AppContainer {
                     .appendingPathComponent("ui-test-\(UUID().uuidString)", isDirectory: true)
             )
         )
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("UITestMountedDrive") {
+            let id = UUID().uuidString
+            let directory = FileManager.default.temporaryDirectory.appendingPathComponent("drive-ui-\(id)")
+            let defaults = UserDefaults(suiteName: "drive-ui-\(id)")!
+            container.driveCataloguesViewModel = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: DriveUiStateStore(defaults: defaults))
+        }
+        #endif
         container.installTrackActivityActions()
         return container
     }

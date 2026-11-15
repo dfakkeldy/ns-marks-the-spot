@@ -33,4 +33,50 @@ final class DriveOverlapUITests: XCTestCase {
         XCTAssertFalse(app.buttons["drive-overlap-swap"].exists)
         XCTAssertFalse(app.buttons["drive-overlap-visibility"].exists)
     }
+
+    @MainActor func testMountedMapDriveChromeDoesNotOverlapWhenSignalIsLost() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestMountedDrive", "lost"]
+        app.launch()
+        XCTAssertTrue(app.maps.firstMatch.waitForExistence(timeout: 30), "Real map did not mount")
+        let chip = app.buttons["drive-status-chip"]
+        let record = app.buttons["drive-record"]
+        let scale = app.descendants(matching: .any)["map-scale-stack"]
+        let coordinates = app.buttons["map-position-readout"]
+        let scaleReadout = app.buttons["map-scale-readout"]
+        let attribution = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(chip.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.buttons["drive-overlap-swap"].waitForExistence(timeout: 30), "Synthetic overlap not active")
+        for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+            XCTAssertTrue(app.rotate(to: orientation))
+            for element in [record, scale, coordinates, scaleReadout, attribution] {
+                XCTAssertTrue(element.waitForExistence(timeout: 30), "Missing \(element)")
+            }
+            XCTAssertTrue(chip.label.contains("No location right now"), chip.label)
+            let frames = [("chip", chip.frame), ("record", record.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("swap", app.buttons["drive-overlap-swap"].frame), ("visibility", app.buttons["drive-overlap-visibility"].frame)]
+            for i in frames.indices {
+                XCTAssertFalse(frames[i].1.isEmpty, "Empty \(frames[i].0)")
+                for j in frames.indices where j > i {
+                    XCTAssertFalse(frames[i].1.intersects(frames[j].1), "\(orientation): \(frames[i]) intersects \(frames[j])")
+                }
+            }
+        }
+    }
+
+    @MainActor func testMountedMapPoorFixAndPausedFollowMessages() {
+        for (state, expected) in [("poor", "Location is rough"), ("paused", "Auto paused. Tap Follow.")] {
+            let app = XCUIApplication()
+            app.launchArguments += ["UITestMode", "UITestMountedDrive", state]
+            app.launch()
+            XCTAssertTrue(app.maps.firstMatch.waitForExistence(timeout: 30))
+            let chip = app.buttons["drive-status-chip"]
+            XCTAssertTrue(chip.waitForExistence(timeout: 30))
+            for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+                XCTAssertTrue(app.rotate(to: orientation))
+                XCTAssertTrue(chip.label.contains(expected), "\(state) / \(orientation): \(chip.label)")
+                XCTAssertTrue(chip.label.contains("Sheet not changed") || state == "paused", chip.label)
+            }
+            app.terminate()
+        }
+    }
 }

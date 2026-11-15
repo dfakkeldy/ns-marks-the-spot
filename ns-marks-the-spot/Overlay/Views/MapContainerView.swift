@@ -46,7 +46,30 @@ struct MapContainerView: View {
     @State private var hudHeight: CGFloat = 0
     @State private var driveChipHeight: CGFloat = 0
     @State private var driveRecordHeight: CGFloat = 0
+    #if DEBUG
+    private var driveUITestState: String? {
+        let args = ProcessInfo.processInfo.arguments
+        guard args.contains("UITestMode"), let index = args.firstIndex(of: "UITestMountedDrive"), args.indices.contains(index + 1) else { return nil }
+        return args[index + 1]
+    }
+    private var driveUITestFix: TrackFix? {
+        guard let state = driveUITestState else { return nil }
+        return TrackFix(latitude: 44.995, longitude: -60.995, accuracyM: state == "poor" ? 150 : 5, timestamp: Date())
+    }
+    #endif
     private var compactOverlap: Bool { driveModeVM.output.status == .overlap && mapWidth > mapHeight }
+    private var chipFix: TrackFix? {
+        #if DEBUG
+        if driveUITestState != nil { return driveUITestFix }
+        #endif
+        return controller.lastUserFix
+    }
+    private var chipSignalLost: Bool {
+        #if DEBUG
+        if let state = driveUITestState { return state == "lost" }
+        #endif
+        return controller.locationMessage == .signalLost
+    }
     /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
     /// cannot write its answer, or its failure, over the current viewport's.
     @State private var parcelSnapGeneration = 0
@@ -569,8 +592,8 @@ struct MapContainerView: View {
                         isLayersMenuExpanded = true
                     } label: {
                         DriveStatusChip(model: driveModeVM, catalogue: driveCataloguesVM.loaded,
-                                        rows: userMapsVM.rows, fix: controller.lastUserFix,
-                                        signalLost: controller.locationMessage == .signalLost,
+                                        rows: userMapsVM.rows, fix: chipFix,
+                                        signalLost: chipSignalLost,
                                         failedSheetID: driveModeVM.output.shown.first { userMapsVM.drivePreviewFailures.contains($0) },
                                         autoEnabled: driveCataloguesVM.ui.autoActivate,
                                         searching: controller.userTrackingState == .searching)
@@ -578,6 +601,7 @@ struct MapContainerView: View {
                             .contentShape(Rectangle())
                     }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("drive-status-chip")
                         .accessibilityHint("Opens the catalogue panel.")
                         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveChipHeight = $0 }
                         .frame(maxWidth: driveModeVM.output.status == .overlap ? 150 : 420, alignment: .leading)
@@ -602,6 +626,7 @@ struct MapContainerView: View {
                             .frame(maxWidth: .infinity, minHeight: 64)
                     }
                     .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("drive-record")
                     .disabled(markLocation.isAcquiring || isSavingCoverage)
                     .frame(maxWidth: 220)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
@@ -821,6 +846,8 @@ struct MapContainerView: View {
 
                     MapPositionReadout(position: mapPosition, screenScale: screenScale)
                 }
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("map-scale-stack")
                 // Capped, not frozen: these chips are informational overlays,
                 // and at full accessibility sizes the coordinate pair wrapped
                 // to a third of an SE-class screen and collided with the
@@ -1783,6 +1810,9 @@ struct MapContainerView: View {
     }
 
     private func refreshDriveMode() {
+        #if DEBUG
+        if driveUITestState != nil { return }
+        #endif
         let following = controller.userTrackingState == .following || controller.userTrackingState == .heading
         let catalogue = driveCataloguesVM.loaded
         driveModeVM.update(catalogue: catalogue, auto: driveCataloguesVM.ui.autoActivate,
@@ -1855,6 +1885,31 @@ struct MapContainerView: View {
                 async let vectors: Void = userVectorsVM.load()
                 async let catalogues: Void = driveCataloguesVM.load()
                 _ = await (maps, vectors, catalogues)
+                #if DEBUG
+                if let state = driveUITestState {
+                    let points = [
+                        SessionControlPoint(id: "1", pixel: .init(x: 0, y: 0), map: .init(lat: 45, lng: -61)),
+                        SessionControlPoint(id: "2", pixel: .init(x: 100, y: 0), map: .init(lat: 45, lng: -60.99)),
+                        SessionControlPoint(id: "3", pixel: .init(x: 0, y: 100), map: .init(lat: 44.99, lng: -61)),
+                    ]
+                    let records = ["SYNTHETIC A", "SYNTHETIC B"].map {
+                        UserMapRecord(id: $0, name: $0, pixelSize: .init(width: 100, height: 100), placement: .controlPoints(points, method: .affine))
+                    }
+                    await driveCataloguesVM.create(name: "SYNTHETIC", sheetIDs: records.map(\.id))
+                    if let catalogue = driveCataloguesVM.loaded {
+                        let good = TrackFix(latitude: 44.995, longitude: -60.995, accuracyM: 5, timestamp: Date())
+                        driveModeVM.update(catalogue: catalogue, auto: true, records: records, fix: good, following: true)
+                        if state == "poor" {
+                            driveModeVM.update(catalogue: catalogue, auto: true, records: records, fix: driveUITestFix, following: true)
+                        } else if state == "paused" {
+                            driveModeVM.update(catalogue: catalogue, auto: true, records: records, fix: good, following: false)
+                        } else {
+                            driveModeVM.update(catalogue: catalogue, auto: true, records: records, fix: good, following: true, signalAvailable: false)
+                        }
+                        driveModeVM.setOn(true)
+                    }
+                }
+                #endif
                 refreshCoverageVisibility()
                 if userMapsVM.hasConfirmedLibrary {
                     await driveCataloguesVM.retryPendingDeletions(pendingCatalogueDeletions, confirmedIDs: userMapsVM.confirmedMapIDs)
