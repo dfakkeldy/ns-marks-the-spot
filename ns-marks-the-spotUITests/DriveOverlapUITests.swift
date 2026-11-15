@@ -77,9 +77,23 @@ final class DriveOverlapUITests: XCTestCase {
         for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
             XCTAssertTrue(app.rotate(to: orientation))
             XCTAssertTrue(chip.label.contains("No location right now"))
-            XCTAssertFalse(chip.frame.intersects(notice.frame))
+            let scale = app.descendants(matching: .any)["map-scale-stack"]
+            let attribution = app.descendants(matching: .any)["map-attribution"]
+            let bar = app.descendants(matching: .any)["drive-overlap-bar"]
+            let record = app.buttons["drive-record"]
+            for element in [scale, attribution, bar] { XCTAssertTrue(element.waitForExistence(timeout: 30)) }
+            var frames = [("chip", chip.frame), ("notice", notice.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("bar", bar.frame)]
             if orientation.isLandscape { XCTAssertFalse(app.buttons["drive-record"].exists) }
-            else { XCTAssertTrue(app.buttons["drive-record"].exists) }
+            else {
+                XCTAssertTrue(record.exists)
+                frames.append(("record", record.frame))
+            }
+            for i in frames.indices {
+                XCTAssertFalse(frames[i].1.isEmpty, "Empty \(frames[i].0)")
+                for j in frames.indices where j > i {
+                    XCTAssertFalse(frames[i].1.intersects(frames[j].1), "\(orientation): \(frames[i]) intersects \(frames[j])")
+                }
+            }
         }
     }
 
