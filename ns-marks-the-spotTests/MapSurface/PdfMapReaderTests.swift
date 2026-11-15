@@ -460,3 +460,94 @@ struct RotatedPdfPageTests {
         #expect((down > 0.5) == (rotation == 180 || rotation == 270))
     }
 }
+
+@Suite("Synthetic GeoPDF import persistence")
+@MainActor
+struct PdfMapPersistenceTests {
+    @Test("Automatic placement and preview survive a fresh store and view model")
+    func automaticImportSurvivesReload() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("synthetic-geopdf-\(UUID().uuidString)", isDirectory: true)
+        let suite = "synthetic-geopdf-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer {
+            try? FileManager.default.removeItem(at: directory)
+            defaults.removePersistentDomain(forName: suite)
+        }
+        let display = UserMapDisplayStore(defaults: defaults)
+        let drafts = GeoreferenceDraftStore(directory: directory.appendingPathComponent("drafts"))
+        let model = UserMapsViewModel(
+            store: UserMapStore(directory: directory), display: display, drafts: drafts
+        )
+        await model.load()
+        // Generated above, with explicit EPSG:4326 GPTS corners. These are
+        // synthetic coordinates, not evidence about any actual site.
+        let id = try #require(await model.importMapReturningID(
+            data: rotatedRegisteredPdf(rotation: 0), name: "Synthetic GeoPDF regression"
+        ))
+        #expect(model.notices.isEmpty)
+        let original = try #require(model.rows.first)
+        #expect(!original.record.needsGeoreferencing)
+        #expect(original.record.pixelSize == PixelSize(width: 4096, height: 2048))
+        #expect(original.record.sourceRect == PixelRect(x: 0, y: 0, width: 4096, height: 2048))
+        guard case .embedded(let registration) = original.record.pdf?.registration else {
+            Issue.record("the generated single-frame PDF did not place automatically")
+            return
+        }
+        #expect(registration.selection == .sole)
+        #expect(registration.flavour == .measure)
+        #expect(!registration.adjusted)
+        let mesh = try #require(original.record.mesh)
+        // GPTS lists bottom-left, top-left, top-right, bottom-right. The mesh
+        // is in rendered pixel order, top-left first. Check all four corners
+        // independently of the importer rather than merely comparing reloads.
+        let corners = [mesh.first?.first, mesh.first?.last, mesh.last?.first, mesh.last?.last]
+        let expected = [(44.70, -63.70), (44.70, -63.50), (44.60, -63.70), (44.60, -63.50)]
+        for (corner, (lat, lng)) in zip(corners, expected) {
+            let point = try #require(corner)
+            #expect(abs(point.lat - lat) < 1e-6)
+            #expect(abs(point.lng - lng) < 1e-6)
+        }
+        #expect(model.drapes.count == 1)
+        let preview = try #require(original.preview)
+
+        // A malformed PDF must be refused, not added as a placed map or
+        // allowed to replace the valid map's record or preview.
+        let refused = await model.importMapReturningID(
+            data: Data("%PDF-1.7 and then nothing".utf8), name: "Synthetic malformed control"
+        )
+        #expect(refused == nil)
+        #expect(model.rows.count == 1)
+        #expect(model.notices.last?.isRefusal == true)
+
+        let freshStore = UserMapStore(directory: directory)
+        #expect(try await freshStore.load() == [original.record])
+        let reloaded = UserMapsViewModel(store: freshStore, display: display, drafts: drafts)
+        await reloaded.load()
+        #expect(reloaded.notices.isEmpty)
+        #expect(reloaded.rows.count == 1)
+        let row = try #require(reloaded.rows.first)
+        #expect(row.id == id)
+        #expect(row.record == original.record)
+        #expect(row.record.mesh == mesh)
+        #expect(row.isVisible)
+        let storedPreview = try #require(row.preview)
+        #expect(storedPreview.width == preview.width)
+        #expect(storedPreview.height == preview.height)
+        // Compare decoded pixels through the same explicit bitmap format.
+        // PNG file bytes cannot be compared to the in-memory render.
+        func pixels(_ image: CGImage) throws -> Data {
+            let context = try #require(CGContext(
+                data: nil, width: image.width, height: image.height,
+                bitsPerComponent: 8, bytesPerRow: image.width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ))
+            context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+            return Data(bytes: try #require(context.data), count: context.bytesPerRow * context.height)
+        }
+        #expect(try pixels(storedPreview) == pixels(preview))
+        #expect(reloaded.drapes.count == 1)
+        #expect(reloaded.drapes.first?.record == original.record)
+    }
+}
