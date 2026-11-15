@@ -1,5 +1,9 @@
 # Web Map Portfolio Polish Implementation Plan
 
+> Release update, 14 November 2026: version 1.0 is available on the App Store.
+> See the [release receipt](../../APP_STORE_RELEASE.md). Pre-release wording and
+> submission tasks below are historical, not the current release state.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Make the `web/` map look professional at every zoom, present its data

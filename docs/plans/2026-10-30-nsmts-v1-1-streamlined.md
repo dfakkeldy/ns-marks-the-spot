@@ -1,5 +1,9 @@
 # NSMtS v1.1: streamlined UI, measured performance, hardened workflows
 
+> Release update, 14 November 2026: version 1.0 is available on the App Store.
+> See the [release receipt](../APP_STORE_RELEASE.md). Pre-release wording and
+> submission tasks below are historical, not the current release state.
+
 Date: 2026-10-30. Source: nightly `096c5be6b`. Every finding comes from reading the code and docs. Nothing was built, run or measured for this plan.
 
 ## 1. Summary

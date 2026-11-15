@@ -1,5 +1,8 @@
 # NS Marks The Spot — Online
 
+The native iPhone and iPad companion is [available on the App Store](https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336).
+Version 1.0 was released on 14 November 2026. The web map's About dialog links to the listing; the browser and native feature sets differ.
+
 Online map companion for the native map catalog, PID/civic-address search,
 mapped-address Plus Code directions, and municipality-sourced property layers.
 The tax-sale catalog is a set of dated snapshots—the August 11, 2026 Inverness

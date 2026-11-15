@@ -1,5 +1,9 @@
 # NS Marks The Spot print handouts
 
+The native iPhone and iPad app is [available on the App Store](https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336).
+Version 1.0 was released on 14 November 2026. These handouts promote the web map;
+their QR codes continue to open that map.
+
 This folder contains the source for two monochrome-friendly handouts:
 
 - a two-page, duplex-ready introduction to the general Nova Scotia land and

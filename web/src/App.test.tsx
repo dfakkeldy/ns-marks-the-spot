@@ -3690,24 +3690,24 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("keeps launch updates in About without a top bar", async () => {
+  it("links to the released native app in About without a top bar", async () => {
     const user = userEvent.setup();
     renderAppWithCategoriesOpen();
     await user.click(screen.getByRole("button", { name: "About this map" }));
 
-    const betaLinks = screen.getAllByRole("link", {
-      name: "Get launch updates",
+    const appStoreLinks = screen.getAllByRole("link", {
+      name: "Download on the App Store",
     });
 
-    expect(betaLinks).toHaveLength(1);
-    betaLinks.forEach((link) => {
+    expect(appStoreLinks).toHaveLength(1);
+    appStoreLinks.forEach((link) => {
       expect(link).toHaveAttribute(
         "href",
-        "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup",
+        "https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336",
       );
     });
     expect(
-      screen.getByText(/iPhone app in development/),
+      screen.getByText(/Version 1.0 was released on 14 November 2026/),
     ).toBeInTheDocument();
     expect(screen.queryByText(/not open yet/)).not.toBeInTheDocument();
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
@@ -3735,14 +3735,12 @@ describe("NS Marks The Spot Online", () => {
       "href",
       "https://github.com/dfakkeldy/ns-marks-the-spot",
     );
-    // The dialog is the phone's beta-signup route: the header invite is
-    // display:none below 861px, and About stays reachable from the
-    // attribution strip.
+    // About keeps the App Store link reachable from the phone's attribution strip.
     expect(
-      within(dialog).getByRole("link", { name: "Get launch updates" }),
+      within(dialog).getByRole("link", { name: "Download on the App Store" }),
     ).toHaveAttribute(
       "href",
-      "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup",
+      "https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336",
     );
 
     await user.click(within(dialog).getByRole("button", { name: "Close" }));

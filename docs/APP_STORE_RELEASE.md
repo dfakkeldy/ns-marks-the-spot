@@ -1,5 +1,30 @@
 # Native App Store release packet
 
+## November 14, 2026: version 1.0 released
+
+Apple approved and released NS Marks the Spot version **1.0** on **14 November 2026**.
+[Download on the App Store](https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336).
+
+The public [Apple lookup](https://itunes.apple.com/lookup?bundleId=com.danfakkeldy.nsmarksthespot&country=ca),
+checked 15 November 2026, returned one matching app:
+
+| Field | Public value |
+| --- | --- |
+| Bundle identifier | `com.danfakkeldy.nsmarksthespot` |
+| App Store ID | `6785084336` |
+| Version | `1.0` |
+| Release date | `2026-11-14T08:00:00Z` |
+| Current version release date | `2026-11-14T12:41:10Z` |
+
+The owner confirmed approval and release on 14 November; the public listing
+independently confirms availability. The lookup does not expose a build number,
+so this receipt does not identify the released binary as build 128.
+
+The records below are historical. Their waiting-for-review and hold decisions
+are not the current release state. Release does not resolve data rights or
+remove source-specific licence gates. Future versions still need their own
+validation and submission decisions.
+
 ## November 1, 2026 — 1.0 (128) resubmitted
 
 App Review's own rejection screenshot (build 124) shows zoom 5 over Quebec.
@@ -98,9 +123,9 @@ Activity extension. Browser-map publication does not establish native readiness.
 This packet prepares a release; it does not authorize promotion, upload,
 submission, pricing, agreement acceptance, or legal declarations.
 
-## Release decision
+## October 6 release decision (historical)
 
-**Hold public release.** A recent internal upload exists, but the current native
+**Historical decision: hold public release.** A recent internal upload exists, but the current native
 test gate now passes at the earlier documentation head and the native privacy
 link is implemented; native/offline rights remain unresolved. Complete those
 bounded items before choosing a final build. Keep existing features intact while
