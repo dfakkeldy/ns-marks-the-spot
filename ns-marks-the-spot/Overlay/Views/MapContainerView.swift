@@ -206,6 +206,15 @@ struct MapContainerView: View {
         self.controller = controller
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("UITestMode"), ProcessInfo.processInfo.arguments.contains("UITestMountedDrive") {
+            let id = UUID().uuidString
+            let directory = FileManager.default.temporaryDirectory.appendingPathComponent("drive-map-ui-\(id)")
+            let defaults = UserDefaults(suiteName: "drive-map-ui-\(id)")!
+            _userMapsVM = State(initialValue: UserMapsViewModel(store: UserMapStore(directory: directory.appendingPathComponent("maps")), display: UserMapDisplayStore(defaults: defaults), drafts: GeoreferenceDraftStore(directory: directory.appendingPathComponent("drafts"))))
+            _userVectorsVM = State(initialValue: UserVectorsViewModel(store: UserVectorStore(directory: directory.appendingPathComponent("vectors"))))
+        }
+        #endif
         _driveCataloguesVM = State(initialValue: driveCataloguesViewModel)
         _driveModeVM = State(initialValue: DriveModeModel(screen: screenAwakeCoordinator))
         self.recorder = recorder
@@ -628,11 +637,11 @@ struct MapContainerView: View {
                     .buttonStyle(.borderedProminent)
                     .accessibilityIdentifier("drive-record")
                     .disabled(markLocation.isAcquiring || isSavingCoverage)
-                    .frame(maxWidth: 220)
+                    .frame(maxWidth: compactOverlap ? 150 : 220)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { driveRecordHeight = $0 }
                     .onDisappear { driveRecordHeight = 0 }
                     .padding(.bottom, 20 + max(attributionHeight, scaleStackHeight))
-                    .frame(maxWidth: .infinity, alignment: compactOverlap ? .leading : .center)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding(.horizontal, 16)
             }
@@ -643,7 +652,7 @@ struct MapContainerView: View {
                editSession == nil, vectorCallout == nil, featureVM.selection == nil,
                measure == nil, !isLayersMenuExpanded {
                 OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows)
-                    .frame(maxWidth: compactOverlap ? max(160, min(420, mapWidth - controlsWidth - 280)) : 420)
+                    .frame(maxWidth: compactOverlap ? max(160, min(240, mapWidth - controlsWidth - 280)) : 420)
                     .padding(.horizontal, 16)
                     .clearOfRail(controlsWidth)
                     .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn && !compactOverlap ? driveRecordHeight : 0))

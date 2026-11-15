@@ -56,10 +56,13 @@ final class DriveOverlapUITests: XCTestCase {
             let frames = [("chip", chip.frame), ("record", record.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("swap", app.buttons["drive-overlap-swap"].frame), ("visibility", app.buttons["drive-overlap-visibility"].frame)]
             for i in frames.indices {
                 XCTAssertFalse(frames[i].1.isEmpty, "Empty \(frames[i].0)")
+                XCTAssertTrue(app.windows.firstMatch.frame.contains(frames[i].1), "Off screen: \(frames[i])")
                 for j in frames.indices where j > i {
                     XCTAssertFalse(frames[i].1.intersects(frames[j].1), "\(orientation): \(frames[i]) intersects \(frames[j])")
                 }
             }
+            XCTAssertTrue(record.isHittable)
+            XCTAssertTrue(chip.isHittable)
         }
     }
 
