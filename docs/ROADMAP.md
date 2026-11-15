@@ -1,8 +1,12 @@
 # Roadmap - NS Marks The Spot
 
+Version **1.0 was released on 14 November 2026**. See the
+[release receipt and App Store link](APP_STORE_RELEASE.md). The July roadmap
+below is historical; its remaining-v1.0 list is not the current release state.
+
 Status as of July 1, 2026.
 
-> **Superseded in part (2026-10-30).** The current 1.0 release checklist is
+> **Superseded in part (2026-10-30).** The 1.0 release record is
 > [`APP_STORE_RELEASE.md`](APP_STORE_RELEASE.md). The proposed 1.0 closeout and
 > v1.1 program, with a reconciliation of the lists below, is in
 > [`plans/2026-10-30-nsmts-v1-1-streamlined.md`](plans/2026-10-30-nsmts-v1-1-streamlined.md).

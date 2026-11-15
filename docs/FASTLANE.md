@@ -1,5 +1,9 @@
 # Fastlane Operations
 
+Version **1.0 was released on 14 November 2026**. The
+[release packet](APP_STORE_RELEASE.md) records the verified public App Store link.
+The October receipts below describe earlier pipeline checks, not current availability.
+
 Re-checked: October 6, 2026.
 
 Match covers both the app and the Live Activity extension. A post-#330 internal

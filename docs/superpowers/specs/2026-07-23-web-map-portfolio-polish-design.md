@@ -1,5 +1,9 @@
 # Web map portfolio polish — design
 
+> Release update, 14 November 2026: version 1.0 is available on the App Store.
+> See the [release receipt](../../APP_STORE_RELEASE.md). Pre-release wording and
+> submission tasks below are historical, not the current release state.
+
 **Date:** 2026-07-23
 **Status:** Approved (user approved scope and order C → A → B on 2026-07-23; defaults are not contracts and may change)
 **Scope:** `web/` React app only. No native-app changes. No new runtime dependencies.

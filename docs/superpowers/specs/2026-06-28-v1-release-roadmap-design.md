@@ -1,5 +1,9 @@
 # NS Marks The Spot v1.0 Release Roadmap Design
 
+> Release update, 14 November 2026: version 1.0 is available on the App Store.
+> See the [release receipt](../../APP_STORE_RELEASE.md). Pre-release wording and
+> submission tasks below are historical, not the current release state.
+
 ## Purpose
 
 NS Marks The Spot v1.0 will ship as a field-ready historical map explorer for

@@ -344,8 +344,8 @@ function fullMapUrl(shareUrl: string): string {
   return new URL(`./${query ? `?${query}` : ""}`, document.baseURI).href;
 }
 
-const BETA_SIGNUP_URL =
-  "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup";
+const APP_STORE_URL =
+  "https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336";
 
 type TaxSaleFilter = "all" | "redemption" | "immediate-or-none";
 type HistoricalOutcomeFilter = "all" | HistoricalOutcome;
@@ -1018,7 +1018,8 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           An open-source map for screening Nova Scotia parcels: search by PID
           or civic address, see municipal tax-sale notices on live parcel
           geometry, and read the mapped evidence for any property. It is the
-          online companion to a native iPhone app in development.
+          online companion to the native iPhone and iPad app, available on the
+          App Store. Version 1.0 was released on 14 November 2026.
         </p>
         <h3>Nova Scotia’s public data, made useful</h3>
         <p>
@@ -1074,7 +1075,7 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
             Source on GitHub
           </a>
           {" · "}
-          <a href={BETA_SIGNUP_URL}>Get launch updates</a>
+          <a href={APP_STORE_URL}>Download on the App Store</a>
           {" · "}
           <a href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot">
             Email the maker

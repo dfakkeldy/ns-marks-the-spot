@@ -4,11 +4,11 @@
 
 Open-source tools for overlaying georeferenced historical Nova Scotia maps and
 property evidence on modern maps. The browser map under `web/` is the current
-product focus. The native iOS app is a separate surface with internal TestFlight
-delivery. Its [App Store release packet](docs/APP_STORE_RELEASE.md), re-checked
-October 6, 2026, records the current native test, privacy and content-rights
-holds. The earlier November 13 planning target is not a verified store outcome
-or a newly confirmed release date.
+product focus. The native iPhone and iPad app is available on the
+[App Store](https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336). Apple approved and released
+version **1.0** on **14 November 2026**. The
+[App Store release packet](docs/APP_STORE_RELEASE.md) records the public listing
+and earlier submission history. Source licences and feature restrictions still apply.
 
 The live map is at [kinnokilabs.com/map](https://kinnokilabs.com/map)
 (canonical URL

@@ -1,12 +1,18 @@
 # App Store Next Steps
 
+Version **1.0 was released on 14 November 2026**. See the
+[release receipt and App Store link](APP_STORE_RELEASE.md).
+
+The July checklist below is retained as history, not pending work for the
+released version. It does not record completion of each individual check.
+
 Status as of July 1, 2026.
 
-This is the next operational path to get NS Marks The Spot onto the App Store.
-It is based on the current repository, recent GitHub Actions evidence, Fastlane
+This was the July operational plan to get NS Marks The Spot onto the App Store.
+It was based on the repository at that time, GitHub Actions evidence, Fastlane
 metadata, and Axiom's App Store submission checklist.
 
-## Current Proof
+## July 1 evidence (historical)
 
 - Bundle id: `com.danfakkeldy.nsmarksthespot`
 - App Store Connect app id: `6785084336`
@@ -16,7 +22,7 @@ metadata, and Axiom's App Store submission checklist.
 - Upload proof: package uploaded to App Store Connect, processed, and distributed to internal testers.
 - Current remaining uncertainty: tester invite/acceptance state in App Store Connect.
 
-## Next Ten Steps
+## July submission plan (historical)
 
 1. Confirm internal TestFlight visibility in App Store Connect.
    Build `1.0 (4)` is uploaded and internally distributed, but testers still need accepted invitations.
