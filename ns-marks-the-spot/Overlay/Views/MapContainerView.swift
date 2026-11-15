@@ -53,13 +53,13 @@ struct MapContainerView: View {
         return args[index + 1]
     }
     private var driveUITestFix: TrackFix? {
-        guard let state = driveUITestState else { return nil }
+        guard let state = driveUITestState, state != "lost" else { return nil }
         return TrackFix(latitude: 44.995, longitude: -60.995, accuracyM: state == "poor" ? 150 : 5, timestamp: Date())
     }
     #endif
     private var compactOverlap: Bool { driveModeVM.output.status == .overlap && mapWidth > mapHeight }
     private var compactRecordShift: CGFloat {
-        min(0, mapWidth / 2 - controlsWidth - 100 - 160)
+        min(0, mapWidth / 2 - controlsWidth - 132 - 160)
     }
     private var chipFix: TrackFix? {
         #if DEBUG
@@ -69,7 +69,7 @@ struct MapContainerView: View {
     }
     private var chipSignalLost: Bool {
         #if DEBUG
-        if let state = driveUITestState { return state == "lost" || state == "signal" }
+        if let state = driveUITestState, state != "signal" { return false }
         #endif
         return controller.locationMessage == .signalLost
     }
@@ -634,7 +634,7 @@ struct MapContainerView: View {
             if driveModeVM.isOn, printFrame == nil, !isSelectingSaveArea,
                overlayVM.inspection == nil, editSession == nil, vectorCallout == nil,
                featureVM.selection == nil, measure == nil, !isLayersMenuExpanded,
-               !(compactOverlap && (controller.locationMessage != nil || markLocation.outcome != nil || markLocation.isAcquiring || photoMapVM.truncationNote != nil)) {
+               !(compactOverlap && ((controller.locationMessage != nil && controller.locationMessage != .signalLost) || markLocation.outcome != nil || markLocation.isAcquiring || photoMapVM.truncationNote != nil)) {
                 VStack {
                     Spacer()
                     Button {
@@ -661,10 +661,10 @@ struct MapContainerView: View {
                printFrame == nil, !isSelectingSaveArea, overlayVM.inspection == nil,
                editSession == nil, vectorCallout == nil, featureVM.selection == nil,
                measure == nil, !isLayersMenuExpanded {
-                OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows)
+                OverlapBarView(model: driveModeVM, catalogues: driveCataloguesVM, catalogue: catalogue, rows: userMapsVM.rows, compact: compactOverlap)
                     .accessibilityElement(children: .contain)
                     .accessibilityIdentifier("drive-overlap-bar")
-                    .frame(maxWidth: compactOverlap ? max(160, min(240, mapWidth / 2 - controlsWidth - 100)) : 420)
+                    .frame(maxWidth: compactOverlap ? max(160, min(240, mapWidth / 2 - controlsWidth - 132)) : 420)
                     .padding(.horizontal, 16)
                     .clearOfRail(controlsWidth)
                     .padding(.bottom, 28 + max(attributionHeight, scaleStackHeight) + (driveModeVM.isOn && !compactOverlap ? driveRecordHeight : 0))

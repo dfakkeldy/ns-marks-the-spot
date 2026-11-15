@@ -7,6 +7,7 @@ struct OverlapBarView: View {
     @Bindable var catalogues: DriveCataloguesViewModel
     let catalogue: DriveCatalogue
     let rows: [UserMapsViewModel.Row]
+    var compact = false
 
     private var topID: String? { model.output.contained.first }
     private var topName: String { topID.flatMap { id in rows.first { $0.id == id }?.record.name } ?? "Sheet" }
@@ -30,9 +31,7 @@ struct OverlapBarView: View {
                         } else { MapHaptics.refused() }
                     }
                 } label: {
-                    Label("Swap", systemImage: "arrow.left.arrow.right")
-                        .font(.system(size: max(18, textSize), weight: .semibold))
-                        .frame(maxWidth: .infinity, minHeight: 64)
+                    controlLabel("Swap", systemImage: "arrow.left.arrow.right")
                 }
                 .disabled(!catalogues.canEdit || topID == nil)
                 .accessibilityLabel("Swap. Top sheet is \(topName)")
@@ -43,9 +42,7 @@ struct OverlapBarView: View {
                     model.setVisible(hidden, id: id)
                     MapHaptics.modeChanged()
                 } label: {
-                    Label(hidden ? "Show top" : "Hide top", systemImage: hidden ? "eye" : "eye.slash")
-                        .font(.system(size: max(18, textSize), weight: .semibold))
-                        .frame(maxWidth: .infinity, minHeight: 64)
+                    controlLabel(hidden ? "Show top" : "Hide top", systemImage: hidden ? "eye" : "eye.slash")
                 }
                 .disabled(topID == nil)
                 .accessibilityLabel("\(hidden ? "Show" : "Hide") top. Top sheet is \(topName)")
@@ -56,5 +53,20 @@ struct OverlapBarView: View {
         }
         .padding(10)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+    }
+
+    @ViewBuilder private func controlLabel(_ title: String, systemImage: String) -> some View {
+        Group {
+            if compact {
+                VStack(spacing: 2) {
+                    Image(systemName: systemImage)
+                    Text(title).fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Label(title, systemImage: systemImage)
+            }
+        }
+        .font(.system(size: max(18, textSize), weight: .semibold))
+        .frame(maxWidth: .infinity, minHeight: 64)
     }
 }

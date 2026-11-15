@@ -1488,7 +1488,6 @@ final class MapController: NSObject {
 
     #if DEBUG
     func setUITestSignalLost() {
-        messageLifetime = { _ in nil }
         report(.signalLost)
     }
     #endif
