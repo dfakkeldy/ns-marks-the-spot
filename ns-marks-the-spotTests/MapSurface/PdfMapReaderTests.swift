@@ -485,7 +485,8 @@ struct PdfMapPersistenceTests {
         let id = try #require(await model.importMapReturningID(
             data: rotatedRegisteredPdf(rotation: 0), name: "Synthetic GeoPDF regression"
         ))
-        #expect(model.notices.isEmpty)
+        #expect(model.notices.count == 1)
+        #expect(model.notices.first?.isRefusal == false)
         let original = try #require(model.rows.first)
         #expect(!original.record.needsGeoreferencing)
         #expect(original.record.pixelSize == PixelSize(width: 4096, height: 2048))
