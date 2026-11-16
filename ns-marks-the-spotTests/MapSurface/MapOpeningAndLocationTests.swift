@@ -209,6 +209,38 @@ struct MapOpeningAndLocationTests {
         #expect(mapView.layoutMargins.bottom == 0)
     }
 
+    /// Seen in the simulator on a drive: after a few overlap-bar and Record
+    /// changes the map's top margin had grown to 496 points, eight times the
+    /// status bar, and Follow drew the dot under the Record button. Reading
+    /// `layoutMargins` adds the safe area in; a bottom-only write stored it
+    /// back each time. Here the map sits under a 62-point safe area, as on a
+    /// phone, and the cards change many times.
+    @Test func cardChangesDoNotGrowTheOtherMargins() {
+        let controller = MapController()
+        let host = UIViewController()
+        host.additionalSafeAreaInsets = UIEdgeInsets(top: 62, left: 0, bottom: 34, right: 0)
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = host
+        window.isHidden = false
+        let mapView = MKMapView(frame: host.view.bounds)
+        host.view.addSubview(mapView)
+        window.layoutIfNeeded()
+        #expect(mapView.safeAreaInsets.top >= 62)
+        controller.mapView = mapView
+
+        controller.setBottomCardHeight(100, for: .parcel)
+        let top = mapView.layoutMargins.top
+        let left = mapView.layoutMargins.left
+        for height in stride(from: 110, through: 400, by: 10) {
+            controller.setBottomCardHeight(CGFloat(height), for: .parcel)
+            controller.setBottomOrnamentInset(CGFloat(height % 30 + 40))
+        }
+        #expect(mapView.layoutMargins.top == top)
+        #expect(mapView.layoutMargins.left == left)
+        #expect(mapView.layoutMargins.top == mapView.safeAreaInsets.top + MapController.sideLayoutMargin)
+        window.isHidden = true
+    }
+
     /// The zoom rule itself, at the width of a phone: 5 km across 390 points
     /// is a little over zoom 13 at Nova Scotia's latitude.
     @Test func theLocateScaleIsAboutZoomThirteen() {
