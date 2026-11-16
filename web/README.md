@@ -1741,19 +1741,20 @@ cannot first be matched to a verified archive capture also fails closed.
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-dec8.2026.pdf)
   have SHA-256
   `2a8bdbe1c6d78eb6782e7d09ceec1e153165266646b31da29ed2e53d052b859b`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov6.pdf)
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov13.pdf)
   has SHA-256
-  `c42cf64bb9c7f192e39bf8e9aaedfaa6d019d41b515131161d8eec2b4cd4d867`.
-- Schedule A contains 41 source rows: 40 exact-PID listings covering 40 PIDs,
+  `fc6f34f4d73dcc1b1aa1aa4f489760104cefbd5e14591cfe0068d45c4803cced`.
+  The owner-free snapshot records retrieval on 2026-11-16.
+- Schedule A contains 34 source rows: 33 exact-PID listings covering 33 PIDs,
   all mapped, and 1 mobile-home row printed `MOBILE` without a PID. That
-  mobile-home row is counted, not listed. Thirteen source rows print HST
+  mobile-home row is counted, not listed. Eleven source rows print HST
   `Yes`, and two print redeemable `No`. Those inputs are validated and counted
   but HST is not added to the public listing schema. Geometry exceptions remain
   empty; NSPRD was not used to invent unmapped PIDs. The assessed-name column
   and owner-bearing PDF bytes are not committed. Words that straddle the owner
   and description columns are dropped rather than copied. The byte-for-byte
   owner-free public dataset SHA-256 is
-  `ac65239a601a4400c184faf031e5cfe7d211ef960c0c32997a4ff3b020aaef6b`.
+  `9a7c9cd7510889f8733b0f8340b9691ef77e5e7959fd66825570b570cbe10cad`.
 - Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
   refresh verified the dated official
   [results PDF](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf)
