@@ -215,7 +215,7 @@ struct MapOpeningAndLocationTests {
     /// `layoutMargins` adds the safe area in; a bottom-only write stored it
     /// back each time. Here the map sits under a 62-point safe area, as on a
     /// phone, and the cards change many times.
-    @Test func cardChangesDoNotGrowTheOtherMargins() {
+    @Test func cardChangesDoNotGrowTheOtherMargins() throws {
         let controller = MapController()
         let host = UIViewController()
         host.additionalSafeAreaInsets = UIEdgeInsets(top: 62, left: 0, bottom: 34, right: 0)
@@ -225,7 +225,7 @@ struct MapOpeningAndLocationTests {
         let mapView = MKMapView(frame: host.view.bounds)
         host.view.addSubview(mapView)
         window.layoutIfNeeded()
-        #expect(mapView.safeAreaInsets.top >= 62)
+        try #require(mapView.safeAreaInsets.top >= 62)
         controller.mapView = mapView
 
         controller.setBottomCardHeight(100, for: .parcel)
