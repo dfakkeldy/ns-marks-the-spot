@@ -248,16 +248,16 @@ struct TaxSalePanelTests {
     /// TaxSale24 Schedule A maps every exact-PID row. The one MOBILE source
     /// row without a PID is counted, not listed, so Halifax still has no
     /// unavailable NSPRD rows.
-    @Test func halifaxTaxSale24ScheduleAAdvertisesThirtyThreeFullyMappedRows() throws {
+    @Test func halifaxTaxSale24ScheduleAAdvertisesThirtyFullyMappedRows() throws {
         let catalog = TaxSaleCatalog.bundled
         let halifax = try #require(catalog.event(id: "halifax-2026-12-08"))
         let summary = TaxSaleViewModel(catalog: catalog).summary(for: halifax)
 
-        #expect(halifax.listings.count == 33)
-        #expect(halifax.pids.count == 33)
+        #expect(halifax.listings.count == 30)
+        #expect(halifax.pids.count == 30)
         #expect(halifax.geometryExceptions.isEmpty)
-        #expect(summary.advertised == 33)
-        #expect(summary.mapped == 33)
+        #expect(summary.advertised == 30)
+        #expect(summary.mapped == 30)
         #expect(summary.unavailable == 0)
     }
 
