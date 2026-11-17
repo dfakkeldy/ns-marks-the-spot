@@ -140,7 +140,7 @@ struct TaxSaleCatalogTests {
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00251272") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00364463") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40131880") == nil)
-        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40313280") == nil))
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40313280") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00015966") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "41051889") == nil)
         #expect(!event.pids.contains("00015966"))
