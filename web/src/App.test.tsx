@@ -5208,7 +5208,7 @@ describe("NS Marks The Spot Online", () => {
       "11064 Highway 19, Southwest Mabou, Inverness County",
     );
     result.coordinates = [-61.414138, 46.059488];
-    vi.mocked(searchCivicAddresses).mockResolvedValueOnce([result]);
+    vi.mocked(searchCivicAddresses).mockResolvedValue([result]);
     vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [parcelFeature("50251750")],
