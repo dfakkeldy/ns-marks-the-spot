@@ -233,9 +233,9 @@ describe("the multi-municipality tax-sale catalog", () => {
       "victoria-county-2026-11-23",
       "halifax-2026-12-08",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(79);
-    expect(pidsForEvents(upcoming)).toHaveLength(81);
-    expect(advertisedPidsForEvents(upcoming)).toHaveLength(61);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(78);
+    expect(pidsForEvents(upcoming)).toHaveLength(80);
+    expect(advertisedPidsForEvents(upcoming)).toHaveLength(60);
     expect(geometryExceptionPidsForEvents(upcoming)).toEqual([]);
     expect(historical.map(({ id }) => id)).toEqual([
       "cbrm-2026-07-21",
@@ -264,6 +264,7 @@ describe("the multi-municipality tax-sale catalog", () => {
     expect(listingContextForPid("00364463")).toBeUndefined();
     expect(listingContextForPid("40131880")).toBeUndefined();
     expect(listingContextForPid("40313280")).toBeUndefined();
+    expect(listingContextForPid("00591297")).toBeUndefined();
     expect(listingContextForPid("00577643")).toBeUndefined();
     expect(listingContextForPid("00015966")).toBeUndefined();
     expect(listingContextForPid("00535617")).toBeUndefined();

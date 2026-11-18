@@ -7318,20 +7318,20 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 61;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 60;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 34;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 33;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 33;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 32;");
     await user.click(
       screen.getByRole("checkbox", { name: /Victoria County.*November 23, 2026/i }),
     );
     expect(screen.queryByRole("checkbox", { name: /Halifax.*September 15, 2026/i })).not.toBeInTheDocument();
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 30;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 29;");
     await user.click(
       screen.getByRole("checkbox", { name: /Halifax.*December 8, 2026/i }),
     );
