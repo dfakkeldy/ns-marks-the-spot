@@ -330,15 +330,15 @@ describe("Halifax December 2026 TaxSale24 tender refresh", () => {
     );
   });
 
-  it("fails closed unless the revised Schedule A has 30 exact-PID rows", async () => {
+  it("fails closed unless the revised Schedule A has 29 exact-PID rows", async () => {
     const { assertCurrentScheduleCounts } = await loadModule();
-    const revisedListings = Array.from({ length: 30 }, (_, index) => ({
+    const revisedListings = Array.from({ length: 29 }, (_, index) => ({
       pids: [String(index + 1).padStart(8, "0")],
     }));
 
     expect(() => assertCurrentScheduleCounts(revisedListings, "HRM-TaxSale24")).not.toThrow();
-    expect(() => assertCurrentScheduleCounts(revisedListings.slice(0, 29), "HRM-TaxSale24")).toThrow(
-      /Expected 30 Halifax Schedule A exact-PID rows, found 29/,
+    expect(() => assertCurrentScheduleCounts(revisedListings.slice(0, 28), "HRM-TaxSale24")).toThrow(
+      /Expected 29 Halifax Schedule A exact-PID rows, found 28/,
     );
     expect(() => assertCurrentScheduleCounts([
       { pids: ["00000001", "00000002"] },
@@ -399,7 +399,7 @@ describe("Halifax December 2026 TaxSale24 tender refresh", () => {
     });
     expect(JSON.stringify(parsed)).not.toMatch(/OWNER|OVERFLOW15TOKEN/);
     expect(() => assertCurrentScheduleCounts(parsed.listings, "HRM-TaxSale24")).toThrow(
-      /Expected 30 Halifax Schedule A exact-PID rows, found 2/,
+      /Expected 29 Halifax Schedule A exact-PID rows, found 2/,
     );
   });
 

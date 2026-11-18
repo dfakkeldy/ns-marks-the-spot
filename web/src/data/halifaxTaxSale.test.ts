@@ -18,16 +18,16 @@ async function sha256Hex(source: string): Promise<string> {
 }
 
 describe("the Halifax December 2026 tender dataset", () => {
-  it("pins all 30 revised owner-free exact-PID rows byte for byte", async () => {
+  it("pins all 29 revised owner-free exact-PID rows byte for byte", async () => {
     expect(await sha256Hex(halifaxTaxSaleSnapshotSource)).toBe(HALIFAX_TAX_SALE_DATASET_SHA256);
     expect(halifaxTaxSaleSnapshot.ownerNamesExcluded).toBe(true);
     expect(halifaxTaxSaleSnapshot.tenderNumber).toBe("HRM-TaxSale24");
     expect(halifaxTaxSaleSnapshot.eventDate).toBe("2026-12-08");
-    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(31);
-    expect(halifaxTaxSaleSnapshot.listingCount).toBe(30);
-    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(30);
-    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(30);
-    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(30);
+    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(30);
+    expect(halifaxTaxSaleSnapshot.listingCount).toBe(29);
+    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(29);
+    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(29);
+    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(29);
     expect(halifaxTaxSaleSnapshot.mobileHomeWithoutPidCount).toBe(1);
     expect(halifaxTaxSaleSnapshot.hstYesCount).toBe(11);
     expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(2);
@@ -38,10 +38,10 @@ describe("the Halifax December 2026 tender dataset", () => {
     expect(halifaxTaxSaleEvent.eventType).toBe("sealed-tender");
     expect(halifaxTaxSaleEvent.eventStatus).toBe("upcoming");
     expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-12-08T10:00:00-04:00");
-    expect(halifaxTaxSaleEvent.listings).toHaveLength(30);
+    expect(halifaxTaxSaleEvent.listings).toHaveLength(29);
     const pids = halifaxTaxSaleEvent.listings.flatMap(({ pids }) => pids);
-    expect(pids).toHaveLength(30);
-    expect(new Set(pids).size).toBe(30);
+    expect(pids).toHaveLength(29);
+    expect(new Set(pids).size).toBe(29);
     expect(pids).toContain("00531624");
     expect(pids).not.toContain("00251272");
     expect(pids).not.toContain("00015966");
@@ -50,6 +50,7 @@ describe("the Halifax December 2026 tender dataset", () => {
     expect(pids).not.toContain("00364463");
     expect(pids).not.toContain("40131880");
     expect(pids).not.toContain("40313280");
+    expect(pids).not.toContain("00591297");
     expect(halifaxTaxSaleEvent.geometryExceptions).toEqual([]);
   });
 

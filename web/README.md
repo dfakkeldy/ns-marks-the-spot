@@ -1741,11 +1741,11 @@ cannot first be matched to a verified archive capture also fails closed.
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-dec8.2026.pdf)
   have SHA-256
   `2a8bdbe1c6d78eb6782e7d09ceec1e153165266646b31da29ed2e53d052b859b`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov17.pdf)
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov18.pdf)
   has SHA-256
-  `14a2d6588530c8818a37906c4b62a8229dd6466a895efabe35e16162b736ab41`.
-  The owner-free snapshot records retrieval on 2026-11-17.
-- Schedule A contains 31 source rows: 30 exact-PID listings covering 30 PIDs,
+  `badd7991b505c7794ef6da6aa7f1fd3f41951ecdaeff494e4f7ece8c6502ffe6`.
+  The owner-free snapshot records retrieval on 2026-11-18.
+- Schedule A contains 30 source rows: 29 exact-PID listings covering 29 PIDs,
   all mapped, and 1 mobile-home row printed `MOBILE` without a PID. That
   mobile-home row is counted, not listed. Eleven source rows print HST
   `Yes`, and two print redeemable `No`. Those inputs are validated and counted
@@ -1754,7 +1754,7 @@ cannot first be matched to a verified archive capture also fails closed.
   and owner-bearing PDF bytes are not committed. Words that straddle the owner
   and description columns are dropped rather than copied. The byte-for-byte
   owner-free public dataset SHA-256 is
-  `6b842909b5f586e222072af2f27fe2920bfd4f5f058f6dac9e0ac39d3780e9ae`.
+  `bf03f96696e2363a34c035c75c2c585d78c861d7a622ba94212b86808be432e4`.
 - Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
   refresh verified the dated official
   [results PDF](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf)
