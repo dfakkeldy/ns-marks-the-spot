@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NS Marks the Spot poster</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+  :root {
+    --ink: #12181c;
+    --ink-2: #1d272d;
+    --paper: #f4ecdc;
+    --paper-2: #ebe0c9;
+    --rule: #cdbb98;
+    --lobster: #e23c28;
+    --spruce: #1b7550;
+    --sea: #3f7f95;
+    --muted: #6a5d48;
+    --serif: "Iowan Old Style", "Palatino", Georgia, serif;
+    --sans: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 8.5in; height: 11in; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    overflow: hidden;
+  }
+  .page { position: relative; width: 8.5in; height: 11in; display: flex; flex-direction: column; }
+
+  /* ---------- Masthead ---------- */
+  .mast {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.36in 0.5in 0.2in; flex: none;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 0.3in;
+  }
+  .kicker {
+    font: 600 8.5pt/1 var(--sans); letter-spacing: 0.28em; text-transform: uppercase;
+    color: #d9b77a; margin-bottom: 0.1in;
+  }
+  h1 {
+    font: 600 36pt/0.95 var(--serif); white-space: nowrap; letter-spacing: -0.01em;
+  }
+  h1 .x { color: var(--lobster); font-style: italic; }
+  .tag {
+    font: italic 400 13pt/1.3 var(--serif); color: #e8dcc2; max-width: 2.7in; text-align: right; font-size: 10.5pt;
+  }
+  .icon { width: 0.66in; height: 0.66in; border-radius: 0.17in; overflow: hidden; flex: none; box-shadow: 0 0 0 1px #2c383f; }
+  .icon img { width: 100%; height: 100%; display: block; }
+  .mast-left { display: flex; gap: 0.2in; align-items: flex-end; }
+
+  /* ---------- Hero: then / now ---------- */
+  .hero { position: relative; flex: none; height: 2.6in; background: var(--ink); overflow: hidden; }
+  .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  .hero .then { clip-path: polygon(52% 0, 100% 0, 100% 100%, 46% 100%); }
+  .seam {
+    position: absolute; top: 0; bottom: 0; left: 49%; width: 0;
+  }
+  .seam svg { position: absolute; top: 0; left: -0.3in; width: 0.6in; height: 100%; overflow: visible; }
+  .knob {
+    position: absolute; left: 49%; top: 50%; transform: translate(-50%, -50%);
+    width: 0.46in; height: 0.46in; border-radius: 50%;
+    background: var(--paper); border: 2.5px solid var(--ink);
+    display: grid; place-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.35);
+  }
+  .label { white-space: nowrap;
+    position: absolute; top: 0.16in; padding: 0.05in 0.12in; border-radius: 0.06in;
+    font: 700 7.5pt/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .label.lab-now { left: 0.5in; background: rgba(255,255,255,.92); color: var(--ink); }
+  .label.lab-then { right: 0.5in; width: max-content; z-index: 3; background: #f1d9a6; color: var(--ink); }
+  .hero-cap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 0.42in 0.5in 0.12in;
+    background: linear-gradient(rgba(12,16,19,0), rgba(12,16,19,.72) 45%, rgba(12,16,19,.92));
+    color: #f3ead8; font: 400 8pt/1.35 var(--sans);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 0.3in;
+  }
+  .hero-cap b { font: 600 italic 12.5pt/1.15 var(--serif); display: block; margin-bottom: 0.03in; }
+  .hero-cap .slide { text-align: right; max-width: 2.6in; color: #eadcbf; }
+
+  /* ---------- Body ---------- */
+  .body { flex: 1; display: grid; grid-template-columns: 1.95in 1fr; gap: 0.34in; padding: 0.24in 0.5in 0.16in; min-height: 0; }
+
+  .phone {
+    position: relative; width: 1.95in; height: 4.05in;
+    border-radius: 0.34in; background: #0b0f12; padding: 0.075in;
+    box-shadow: 0 10px 22px rgba(40,30,10,.28), 0 0 0 1px #000;
+  }
+  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 0.27in; display: block; }
+  .phone-cap { margin-top: 0.12in; font: 400 7.5pt/1.35 var(--sans); color: var(--muted); }
+  .phone-cap b { color: var(--ink); font-weight: 600; }
+
+  .feat-head { display: block; border-bottom: 1.5px solid var(--ink); padding-bottom: 0.06in; margin-bottom: 0.12in; }
+  h2 { font: 600 18pt/1 var(--serif); white-space: nowrap; }
+  h2 em { color: var(--lobster); }
+  .legend { margin-top: 0.06in; font: 600 6.5pt/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; gap: 0.1in; }
+
+  .feats { display: grid; grid-template-columns: 1fr 1fr; column-gap: 0.24in; row-gap: 0.13in; }
+  .f { display: grid; grid-template-columns: 0.36in 1fr; column-gap: 0.1in; }
+  .f .ic {
+    width: 0.36in; height: 0.36in; border-radius: 50%;
+    display: grid; place-items: center; color: #fff;
+  }
+  .f .ic svg { width: 0.2in; height: 0.2in; }
+  .f h3 { font: 700 10pt/1.15 var(--sans); margin: 0.01in 0 0.03in; }
+  .f p { font: 400 8pt/1.36 var(--sans); color: #2e3438; }
+  .chip { display: inline-block; font: 700 5.6pt/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; padding: 0.025in 0.05in; border-radius: 0.04in; margin-left: 0.04in; vertical-align: 1.5px; }
+  .chip.both { background: var(--ink); color: var(--paper); }
+  .chip.ios { background: var(--sea); color: #fff; }
+
+  .parcel {
+    margin-top: 0.18in; display: grid; grid-template-columns: 2.25in 1fr; gap: 0.16in; align-items: center;
+    border-top: 1px solid var(--rule); padding-top: 0.14in;
+  }
+  .parcel .shot { height: 1.12in; border-radius: 0.08in; overflow: hidden; box-shadow: 0 0 0 1px var(--rule); }
+  .parcel .shot img { width: 100%; height: 100%; object-fit: cover; object-position: 78% 45%; display: block; }
+  .parcel q { font: italic 400 11.5pt/1.3 var(--serif); quotes: none; display: block; }
+  .parcel small { display: block; margin-top: 0.06in; font: 400 7pt/1.35 var(--sans); color: var(--muted); }
+
+  /* ---------- Footer CTA ---------- */
+  .cta {
+    background: var(--paper-2); border-top: 1px solid var(--rule);
+    padding: 0.15in 0.5in 0.13in; flex: none;
+    display: grid; grid-template-columns: 1fr auto auto; gap: 0.26in; align-items: center;
+  }
+  .promise { font: 600 15pt/1.15 var(--serif); }
+  .promise span { display: block; margin-top: 0.05in; font: 500 8pt/1.4 var(--sans); color: var(--muted); }
+  .promise .dots b { color: var(--lobster); }
+  .qr { display: flex; gap: 0.1in; align-items: center; }
+  .qr img { width: 0.92in; height: 0.92in; background: #fff; border-radius: 0.06in; padding: 0.02in; display: block; }
+  .qr div { font: 700 7.5pt/1.25 var(--sans); max-width: 1.05in; }
+  .qr div span { display: block; font: 500 7pt/1.3 var(--sans); color: var(--muted); margin-top: 0.03in;  }
+
+  .fine {
+    background: var(--ink); color: #a9a08d;
+    padding: 0.1in 0.5in 0.32in; flex: none;
+    font: 400 5.9pt/1.45 var(--sans);
+  }
+  .fine b { color: #e5dac3; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="mast">
+    <div class="mast-left">
+      <div class="icon"><img src="../../docs/assets/app-icon.svg" alt=""></div>
+      <div>
+        <div class="kicker">Nova Scotia · Then &amp; Now</div>
+        <h1>NS Marks <span class="x">the</span> Spot</h1>
+      </div>
+    </div>
+    <p class="tag">The province's old survey maps, its property parcels and its public layers&nbsp;— on one map that shows its sources.</p>
+  </header>
+
+  <section class="hero">
+    <img class="now" src="hero-now-guysborough.jpg" alt="Melford and Cape Argos today on the NS Marks Atlas map">
+    <img class="then" src="hero-then-guysborough.jpg" alt="Melford and Cape Argos on Fletcher Sheet 24, 1884">
+    <div class="seam">
+      <svg viewBox="0 0 60 100" preserveAspectRatio="none"><line x1="40" y1="0" x2="16" y2="100" stroke="#f4ecdc" stroke-width="2.4" vector-effect="non-scaling-stroke"/></svg>
+    </div>
+    <div class="knob">
+      <svg width="22" height="12" viewBox="0 0 22 12"><path d="M7 1 2 6l5 5M15 1l5 5-5 5" fill="none" stroke="#12181c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="label lab-now">Today</span>
+    <span class="label lab-then">1880s · Fletcher</span>
+    <div class="hero-cap">
+      <div><b>Melford to Cape Argos, Guysborough County</b>Left: today's NS Marks Atlas. Right: Hugh Fletcher's Geological Survey of Canada Sheet 24, 1884.</div>
+      <div class="slide">Slide the transparency and watch 1884 roads, rivers and place names line up with today's map.</div>
+    </div>
+  </section>
+
+  <main class="body">
+    <div>
+      <div class="phone"><img src="../../fastlane/screenshots/en-US/iphone-6-9-06-data-sources.png" alt="The iPhone app's Map Info sheet listing each map's source and licence"></div>
+      <p class="phone-cap"><b>On iPhone and iPad.</b> Map Info names every map's source, licence and limits.</p>
+    </div>
+
+    <div>
+      <div class="feat-head">
+        <h2>What other maps <em>don't</em> show you</h2>
+        <div class="legend">App &amp; web map, except <span class="chip ios" style="margin:0 0 0 .04in">iPhone · iPad</span></div>
+      </div>
+
+      <div class="feats">
+        <div class="f">
+          <div class="ic" style="background:#8a6a2f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg></div>
+          <div><h3>Maps from the 1880s</h3>
+          <p>24 of Hugh Fletcher's survey sheets, georeferenced from David Rumsey scans. A sheet can sit a few hundred metres off — and the layer says so.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:var(--lobster)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div>
+          <div><h3>Find any parcel</h3>
+          <p>Search by PID or civic address, or tap the map. Inspect the parcel and follow each record back to its source.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:#9b3b22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div>
+          <div><h3>Tax-sale notices, mapped</h3>
+          <p>Dated municipal tax-sale notices on live parcel outlines, each with its source named. Public records — not listings or offers.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:#4b5a63"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="8" rx="1.5"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></div>
+          <div><h3>Measure frontage &amp; area</h3>
+          <p>Distances in metres and kilometres; areas in hectares and acres — for frontage and part-lot checks.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:var(--spruce)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 12H5z"/><path d="M12 15v6"/><path d="M8 21h8"/></svg></div>
+          <div><h3>Provincial layers built in</h3>
+          <p>Property boundaries, Crown lands, flood risk areas, waterfalls, NS aerial imagery, water and roads — under the Province's viewing terms.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:var(--sea)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-6 6 2 9-4s4-6 7-4"/><circle cx="4" cy="18" r="1.6"/><path d="M20 4v6M17 7h6" /></svg></div>
+          <div><h3>A field kit that works off-grid<span class="chip ios">iPhone · iPad</span></h3>
+          <p>Save Fletcher tiles for a weak-signal trip. Drop a mark, record a track, draw features and import your own maps.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:#6b4c7a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
+          <div><h3>Every layer shows its source</h3>
+          <p>Each layer names its source and licence. An empty result and a failed source never look the same.</p></div>
+        </div>
+
+        <div class="f">
+          <div class="ic" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></svg></div>
+          <div><h3>No account. Open source.</h3>
+          <p>No NS Marks account needed. Tracks and imported files are stored on your device. The code is MIT-licensed.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="cta">
+    <div class="promise">Free on the App Store and in your browser.
+      <span>A screening and research tool for land, history and field trips across Nova Scotia.</span>
+    </div>
+    <div class="qr"><img src="qr-appstore.svg" alt="QR code for the App Store listing"><div>iPhone &amp; iPad<span>Search the App Store for “NS Marks the Spot”</span></div></div>
+    <div class="qr"><img src="qr-web.svg" alt="QR code for kinnokilabs.com/map"><div>Web map<span>kinnokilabs.com/map</span></div></div>
+  </section>
+
+  <footer class="fine">
+    <b>Fletcher sheets</b> and the 1884 Melford image: David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries, CC BY-NC-SA 3.0.
+    <b>Modern maps</b> © OpenStreetMap contributors. <b>Parcels and provincial layers</b> contain information obtained under licence from the Province of Nova Scotia, provided without warranty or liability for errors or omissions.
+    Parcel outlines are representations of records, not surveyed boundaries. Nothing here establishes title, access rights, site conditions or flood risk. Not for navigation or emergency use.
+  </footer>
+</div>
+</body>
+</html>
