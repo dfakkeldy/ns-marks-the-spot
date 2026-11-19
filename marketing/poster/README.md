@@ -17,7 +17,8 @@ The page uses system fonts (Iowan Old Style, Avenir Next), so print it on a Mac.
 
 ## Sources
 
-- Feature claims come from `fastlane/metadata/en-US/description.txt` and
+- Feature claims come from `fastlane/metadata/en-US/description.txt`,
+  `README.md` (Your maps: PDF, GeoTIFF, georeferencer), `web/README.md` (3D terrain) and
   `docs/index.html`. Recheck them there before reusing the poster.
 - `hero-then-guysborough.jpg`: Fletcher mosaic tiles (z13) for
   61.58–61.20° W, 45.455–45.546° N, from Sheet 24 (Rumsey 3997.026, 1884).
@@ -25,6 +26,5 @@ The page uses system fonts (Iowan Old Style, Avenir Next), so print it on a Mac.
   hatched olive Carboniferous fill, which is hard to read in print.
 - `hero-now-guysborough.jpg`: NS Marks Atlas Day raster tiles (z12) for the
   same extent.
-- The phone shows `fastlane/screenshots/en-US/iphone-6-9-06-data-sources.png`.
 - `qr-appstore.svg` opens the App Store listing; `qr-web.svg` opens
   https://kinnokilabs.com/map. Both were made with `segno`.
