@@ -20,11 +20,12 @@ The page uses system fonts (Iowan Old Style, Avenir Next), so print it on a Mac.
 - Feature claims come from `fastlane/metadata/en-US/description.txt`,
   `README.md` (Your maps: PDF, GeoTIFF, georeferencer), `web/README.md` (3D terrain) and
   `docs/index.html`. Recheck them there before reusing the poster.
-- `hero-then-guysborough.jpg`: Fletcher mosaic tiles (z13) for
-  61.58–61.20° W, 45.455–45.546° N, from Sheet 24 (Rumsey 3997.026, 1884).
-  David Rumsey Map Collection, CC BY-NC-SA 3.0. The area is chosen to avoid the
+- `hero-then-glendale.jpg`: Fletcher mosaic tiles (z15) for
+  61.3796–61.3184° W, 45.8261–45.8391° N, from Sheet 19 (Rumsey 3997.021, 1884),
+  around the gold mine the sheet marks beside Glendale Brook. David Rumsey Map
+  Collection, CC BY-NC-SA 3.0. The area sits in the pink fill, away from the
   hatched olive Carboniferous fill, which is hard to read in print.
-- `hero-now-guysborough.jpg`: NS Marks Atlas Day raster tiles (z12) for the
-  same extent.
+- `hero-now-glendale.jpg`: NS Marks Atlas Day raster tiles (z13, upscaled 2×)
+  for the same extent.
 - `qr-appstore.svg` opens the App Store listing; `qr-web.svg` opens
   https://kinnokilabs.com/map. Both were made with `segno`.
