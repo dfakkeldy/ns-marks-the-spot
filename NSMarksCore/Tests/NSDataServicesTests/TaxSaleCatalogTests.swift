@@ -129,14 +129,19 @@ struct TaxSaleCatalogTests {
     @Test func halifaxMapsEveryAdvertisedTaxSale24ScheduleARow() throws {
         let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-12-08"))
 
-        // Forty exact-PID rows in the December 8 Schedule A. One further source
+        // Twenty-nine exact-PID rows in the revised December 8 Schedule A. One further source
         // row prints MOBILE without a PID and is counted, not listed. Geometry
         // exceptions remain empty; NSPRD was not used to invent unmapped PIDs.
-        #expect(event.listings.count == 40)
-        #expect(event.pids.count == 40)
+        #expect(event.listings.count == 29)
+        #expect(event.pids.count == 29)
         #expect(event.geometryExceptions.isEmpty)
 
-        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00251272")?.event.id == event.id)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00531624")?.event.id == event.id)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00251272") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00364463") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40131880") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40313280") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00591297") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00015966") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "41051889") == nil)
         #expect(!event.pids.contains("00015966"))

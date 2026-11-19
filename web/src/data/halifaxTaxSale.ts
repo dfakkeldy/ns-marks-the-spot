@@ -3,7 +3,7 @@ import { halifaxTimestamp } from "./halifaxTime";
 import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
 
 export const HALIFAX_TAX_SALE_DATASET_SHA256 =
-  "ac65239a601a4400c184faf031e5cfe7d211ef960c0c32997a4ff3b020aaef6b";
+  "bf03f96696e2363a34c035c75c2c585d78c861d7a622ba94212b86808be432e4";
 export const HALIFAX_TAX_SALE_RESULT_DATASET_SHA256 =
   "c94a1fd9ce7347635d9976f6cc581f0582ff7bb0d603fa4e0ec1187f912888e5";
 

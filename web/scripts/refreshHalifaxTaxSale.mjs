@@ -18,6 +18,7 @@ const TAXSALE23_NUMBER = "HRM-TaxSale23";
 const TAXSALE23_EVENT_DATE = "2026-09-15";
 const TAXSALE24_NUMBER = "HRM-TaxSale24";
 const TAXSALE24_EVENT_DATE = "2026-12-08";
+const TAXSALE24_EXACT_PID_ROW_COUNT = 29;
 const SCHEDULE_DESCRIPTION_MIN_X = 480;
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SNAPSHOT_PATH = resolve(SCRIPT_DIR, "../src/data/halifaxTaxSale.snapshot.json");
@@ -384,11 +385,13 @@ export function parseScheduleBbox(bboxHtml) {
 
 export function assertCurrentScheduleCounts(listings, tenderNumber = TAXSALE23_NUMBER) {
   if (tenderNumber === TAXSALE24_NUMBER) {
-    if (listings.length !== 40) {
-      throw new Error(`Expected 40 Halifax Schedule A exact-PID rows, found ${listings.length}.`);
+    if (listings.length !== TAXSALE24_EXACT_PID_ROW_COUNT) {
+      throw new Error(`Expected ${TAXSALE24_EXACT_PID_ROW_COUNT} Halifax Schedule A exact-PID rows, found ${listings.length}.`);
     }
     const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-    if (pidCount !== 40) throw new Error(`Expected 40 Halifax Schedule A PIDs, found ${pidCount}.`);
+    if (pidCount !== TAXSALE24_EXACT_PID_ROW_COUNT) {
+      throw new Error(`Expected ${TAXSALE24_EXACT_PID_ROW_COUNT} Halifax Schedule A PIDs, found ${pidCount}.`);
+    }
     if (listings.some(({ pids }) => pids.length !== 1)) {
       throw new Error("TaxSale24 exact-PID rows must carry one PID each.");
     }
