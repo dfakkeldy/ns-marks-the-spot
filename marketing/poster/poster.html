@@ -79,23 +79,15 @@
   .hero-cap .slide { text-align: right; max-width: 2.6in; color: #eadcbf; }
 
   /* ---------- Body ---------- */
-  .body { flex: 1; display: grid; grid-template-columns: 1.95in 1fr; gap: 0.34in; padding: 0.24in 0.5in 0.16in; min-height: 0; }
+  .body { flex: 1; display: block; padding: 0.24in 0.5in 0.16in; min-height: 0; }
 
-  .phone {
-    position: relative; width: 1.95in; height: 4.05in;
-    border-radius: 0.34in; background: #0b0f12; padding: 0.075in;
-    box-shadow: 0 10px 22px rgba(40,30,10,.28), 0 0 0 1px #000;
-  }
-  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 0.27in; display: block; }
-  .phone-cap { margin-top: 0.12in; font: 400 7.5pt/1.35 var(--sans); color: var(--muted); }
-  .phone-cap b { color: var(--ink); font-weight: 600; }
 
   .feat-head { display: block; border-bottom: 1.5px solid var(--ink); padding-bottom: 0.06in; margin-bottom: 0.12in; }
   h2 { font: 600 18pt/1 var(--serif); white-space: nowrap; }
   h2 em { color: var(--lobster); }
   .legend { margin-top: 0.06in; font: 600 6.5pt/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; gap: 0.1in; }
 
-  .feats { display: grid; grid-template-columns: 1fr 1fr; column-gap: 0.24in; row-gap: 0.13in; }
+  .feats { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 0.22in; row-gap: 0.2in; }
   .f { display: grid; grid-template-columns: 0.36in 1fr; column-gap: 0.1in; }
   .f .ic {
     width: 0.36in; height: 0.36in; border-radius: 50%;
@@ -107,6 +99,8 @@
   .chip { display: inline-block; font: 700 5.6pt/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; padding: 0.025in 0.05in; border-radius: 0.04in; margin-left: 0.04in; vertical-align: 1.5px; }
   .chip.both { background: var(--ink); color: var(--paper); }
   .chip.ios { background: var(--sea); color: #fff; }
+  .chip.web { background: #8a6a2f; color: #fff; }
+  .feats .f:last-child { grid-column: span 2; }
 
   .parcel {
     margin-top: 0.18in; display: grid; grid-template-columns: 2.25in 1fr; gap: 0.16in; align-items: center;
@@ -169,15 +163,9 @@
   </section>
 
   <main class="body">
-    <div>
-      <div class="phone"><img src="../../fastlane/screenshots/en-US/iphone-6-9-06-data-sources.png" alt="The iPhone app's Map Info sheet listing each map's source and licence"></div>
-      <p class="phone-cap"><b>On iPhone and iPad.</b> Map Info names every map's source, licence and limits.</p>
-    </div>
-
-    <div>
       <div class="feat-head">
         <h2>What other maps <em>don't</em> show you</h2>
-        <div class="legend">App &amp; web map, except <span class="chip ios" style="margin:0 0 0 .04in">iPhone · iPad</span></div>
+        <div class="legend">App &amp; web map, except <span class="chip ios" style="margin:0 0 0 .04in">iPhone · iPad</span><span class="chip web" style="margin:0">Web map</span></div>
       </div>
 
       <div class="feats">
@@ -186,51 +174,57 @@
           <div><h3>Maps from the 1880s</h3>
           <p>24 of Hugh Fletcher's survey sheets, georeferenced from David Rumsey scans. A sheet can sit a few hundred metres off — and the layer says so.</p></div>
         </div>
-
+        <div class="f">
+          <div class="ic" style="background:#a0522d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="13" rx="1.5"/><path d="M8 21l4-4 9 4-4-9"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div>
+          <div><h3>Pin any scan to the map</h3>
+          <p>Open PDF maps and GeoTIFFs, or georeference a plain scan: tap three matching landmarks and it drapes over today's map. A curved warp suits hand-drawn maps.</p></div>
+        </div>
+        <div class="f">
+          <div class="ic" style="background:#5b6b2f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-3 3 6 2-4 2 2h7"/><path d="M12 3v3M5.6 5.6l2 2M18.4 5.6l-2 2"/></svg></div>
+          <div><h3>NS aerial imagery</h3>
+          <p>The Province's aerial photographs as a background map, under the Province's viewing terms.</p></div>
+        </div>
         <div class="f">
           <div class="ic" style="background:var(--lobster)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div>
           <div><h3>Find any parcel</h3>
           <p>Search by PID or civic address, or tap the map. Inspect the parcel and follow each record back to its source.</p></div>
         </div>
-
         <div class="f">
           <div class="ic" style="background:#9b3b22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div>
           <div><h3>Tax-sale notices, mapped</h3>
           <p>Dated municipal tax-sale notices on live parcel outlines, each with its source named. Public records — not listings or offers.</p></div>
         </div>
-
         <div class="f">
           <div class="ic" style="background:#4b5a63"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="8" rx="1.5"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></div>
           <div><h3>Measure frontage &amp; area</h3>
           <p>Distances in metres and kilometres; areas in hectares and acres — for frontage and part-lot checks.</p></div>
         </div>
-
+        <div class="f">
+          <div class="ic" style="background:#2f4f6f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l6-9 4 5 3-4 7 8z"/><path d="M8 10l1.5 2"/></svg></div>
+          <div><h3>3D terrain<span class="chip web">Web map</span></h3>
+          <p>Tilt and turn the map over province-wide relief, with 1–10× height exaggeration. Not a LiDAR survey.</p></div>
+        </div>
         <div class="f">
           <div class="ic" style="background:var(--spruce)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 12H5z"/><path d="M12 15v6"/><path d="M8 21h8"/></svg></div>
           <div><h3>Provincial layers built in</h3>
-          <p>Property boundaries, Crown lands, flood risk areas, waterfalls, NS aerial imagery, water and roads — under the Province's viewing terms.</p></div>
+          <p>Property boundaries, Crown lands, flood risk areas, waterfalls, water and roads — under the Province's viewing terms.</p></div>
         </div>
-
         <div class="f">
           <div class="ic" style="background:var(--sea)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-6 6 2 9-4s4-6 7-4"/><circle cx="4" cy="18" r="1.6"/><path d="M20 4v6M17 7h6" /></svg></div>
-          <div><h3>A field kit that works off-grid<span class="chip ios">iPhone · iPad</span></h3>
-          <p>Save Fletcher tiles for a weak-signal trip. Drop a mark, record a track, draw features and import your own maps.</p></div>
+          <div><h3>An off-grid field kit<span class="chip ios">iPhone · iPad</span></h3>
+          <p>Save Fletcher tiles for a weak-signal trip. Drop a mark, record a track, and draw lines and polygons.</p></div>
         </div>
-
         <div class="f">
           <div class="ic" style="background:#6b4c7a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
           <div><h3>Every layer shows its source</h3>
           <p>Each layer names its source and licence. An empty result and a failed source never look the same.</p></div>
         </div>
-
         <div class="f">
           <div class="ic" style="background:var(--ink)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></svg></div>
           <div><h3>No account. Open source.</h3>
           <p>No NS Marks account needed. Tracks and imported files are stored on your device. The code is MIT-licensed.</p></div>
         </div>
       </div>
-
-    </div>
   </main>
 
   <section class="cta">
