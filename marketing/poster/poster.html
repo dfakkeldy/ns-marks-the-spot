@@ -55,10 +55,7 @@
   .hero { position: relative; flex: none; height: 2.6in; background: var(--ink); overflow: hidden; }
   .hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
   .hero .then { clip-path: polygon(52% 0, 100% 0, 100% 100%, 46% 100%); }
-  .seam {
-    position: absolute; top: 0; bottom: 0; left: 49%; width: 0;
-  }
-  .seam svg { position: absolute; top: 0; left: -0.3in; width: 0.6in; height: 100%; overflow: visible; }
+  .seam { position: absolute; inset: 0; width: 100%; height: 100%; }
   .knob {
     position: absolute; left: 49%; top: 50%; transform: translate(-50%, -50%);
     width: 0.46in; height: 0.46in; border-radius: 50%;
@@ -159,9 +156,7 @@
   <section class="hero">
     <img class="now" src="hero-now-guysborough.jpg" alt="Melford and Cape Argos today on the NS Marks Atlas map">
     <img class="then" src="hero-then-guysborough.jpg" alt="Melford and Cape Argos on Fletcher Sheet 24, 1884">
-    <div class="seam">
-      <svg viewBox="0 0 60 100" preserveAspectRatio="none"><line x1="40" y1="0" x2="16" y2="100" stroke="#f4ecdc" stroke-width="2.4" vector-effect="non-scaling-stroke"/></svg>
-    </div>
+    <svg class="seam" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="52" y1="0" x2="46" y2="100" stroke="#f4ecdc" stroke-width="2.4" vector-effect="non-scaling-stroke"/></svg>
     <div class="knob">
       <svg width="22" height="12" viewBox="0 0 22 12"><path d="M7 1 2 6l5 5M15 1l5 5-5 5" fill="none" stroke="#12181c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
