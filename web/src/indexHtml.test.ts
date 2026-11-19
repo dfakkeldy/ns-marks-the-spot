@@ -81,8 +81,7 @@ describe("web document metadata", () => {
   });
 
   it("names the native app for Safari and manifest tooling", () => {
-    // Safari's Smart App Banner stays hidden until the app is publicly on
-    // the App Store, so this stages the wiring without claiming availability.
+    // Safari's Smart App Banner identifies the released native app.
     expect(indexHtml).toContain(
       '<meta name="apple-itunes-app" content="app-id=6785084336" />',
     );

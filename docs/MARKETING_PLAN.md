@@ -1,14 +1,32 @@
 # Marketing Plan - NS Marks The Spot
 
+## Released on 14 November 2026
+
+NS Marks the Spot version **1.0** is available for iPhone and iPad.
+[Download on the App Store](https://apps.apple.com/ca/app/ns-marks-the-spot/id6785084336).
+The [release packet](APP_STORE_RELEASE.md) records the public lookup evidence.
+
+Current release copy: "NS Marks the Spot is available on the App Store for
+iPhone and iPad. Version 1.0 was released on 14 November 2026."
+Use the verified listing for download calls to action. The website and devlog
+now record release; the separately maintained KinNoKi Labs site needs its own
+copy update and web-map source-pin update after this change lands.
+
+## July marketing strategy (historical)
+
+The strategy below predates release. Its launch checklist, proposed subtitle,
+pricing questions and beta outreach are historical planning notes, not current
+storefront facts or pending requirements for version 1.0.
+
 Status as of July 1, 2026.
 
 ## App Profile
 
-| Attribute | Current read |
+| Attribute | July 1 assessment |
 | --- | --- |
 | App name | NS Marks the Spot |
 | App Store subtitle | Historical Nova Scotia maps |
-| Stage | Pre-launch / internal TestFlight |
+| Stage | Released on 14 November 2026, version 1.0; supersedes the July pre-launch status |
 | Platform | iOS and iPadOS |
 | Monetization | Undecided in repository; no IAP, subscription, ads, or paywall detected |
 | Recommended category direction | Primary: Reference. Secondary candidate: Travel or Navigation, only if the listing stays clear that the app is not navigation-grade. |

@@ -96,4 +96,70 @@ struct SheetActivationTests {
             #expect(restored.shown == ["a"])
         }
     }
+
+    @Test(arguments: [0.0, -1.0, Double.nan, Double.infinity, 101.0])
+    func poorFixesPreservePendingEntryWhileManualVisibilityChanges(accuracy: Double) {
+        // Generated square, unrelated to any real map or parcel.
+        let ring = [GeoPoint(lat: 0, lng: 0), .init(lat: 0, lng: 0.01), .init(lat: 0.01, lng: 0.01), .init(lat: 0.01, lng: 0)]
+        let sheets = [SheetActivationSheet(id: "synthetic-a", ring: ring)]
+        let inside = GeoPoint(lat: 0.005, lng: 0.005)
+        let outside = GeoPoint(lat: 0.005, lng: 0.012)
+        let first = SheetActivation.step(state: .init(), sheets: sheets,
+            fix: .init(point: inside, accuracyM: 100), pinned: [], dismissed: [], isFirstFix: false)
+        #expect(first.output.contained.isEmpty)
+        var state = first.state
+
+        // Neither an apparent inside fix nor an apparent outside fix may
+        // advance or reset the one usable entry fix already collected.
+        for point in [inside, outside] {
+            let held = SheetActivation.step(state: state, sheets: sheets,
+                fix: .init(point: point, accuracyM: accuracy), pinned: ["synthetic-a"], dismissed: [], isFirstFix: false)
+            #expect(held.output.reason == .heldPoorFix)
+            #expect(held.output.contained.isEmpty)
+            #expect(held.output.shown == ["synthetic-a"])
+            let hidden = SheetActivation.output(state: held.state, sheets: sheets,
+                pinned: ["synthetic-a"], dismissed: ["synthetic-a"])
+            #expect(hidden.shown.isEmpty)
+            #expect(hidden.contained.isEmpty)
+            state = held.state
+        }
+
+        let entered = SheetActivation.step(state: state, sheets: sheets,
+            fix: .init(point: inside, accuracyM: 100), pinned: [], dismissed: [], isFirstFix: false)
+        #expect(entered.output.contained == ["synthetic-a"])
+        #expect(entered.output.shown == ["synthetic-a"])
+        #expect(entered.output.reason == .updated)
+    }
+
+    @Test(arguments: [0.0, -1.0, Double.nan, Double.infinity, 101.0])
+    func poorFixesPreservePendingExitAndDismissal(accuracy: Double) {
+        // Generated square, unrelated to any real map or parcel.
+        let ring = [GeoPoint(lat: 0, lng: 0), .init(lat: 0, lng: 0.01), .init(lat: 0.01, lng: 0.01), .init(lat: 0.01, lng: 0)]
+        let sheets = [SheetActivationSheet(id: "synthetic-a", ring: ring)]
+        let inside = GeoPoint(lat: 0.005, lng: 0.005)
+        let outside = GeoPoint(lat: 0.005, lng: 0.012)
+        let entered = SheetActivation.step(state: .init(), sheets: sheets,
+            fix: .init(point: inside, accuracyM: 10), pinned: [], dismissed: [], isFirstFix: true)
+        let firstExit = SheetActivation.step(state: entered.state, sheets: sheets,
+            fix: .init(point: outside, accuracyM: 10), pinned: [], dismissed: ["synthetic-a"], isFirstFix: false)
+        #expect(firstExit.output.contained == ["synthetic-a"])
+        #expect(firstExit.output.clearedDismissals.isEmpty)
+        var state = firstExit.state
+
+        for point in [outside, inside] {
+            let held = SheetActivation.step(state: state, sheets: sheets,
+                fix: .init(point: point, accuracyM: accuracy), pinned: [], dismissed: ["synthetic-a"], isFirstFix: false)
+            #expect(held.output.reason == .heldPoorFix)
+            #expect(held.output.contained == ["synthetic-a"])
+            #expect(held.output.shown.isEmpty)
+            #expect(held.output.clearedDismissals.isEmpty)
+            state = held.state
+        }
+
+        let exited = SheetActivation.step(state: state, sheets: sheets,
+            fix: .init(point: outside, accuracyM: 10), pinned: [], dismissed: ["synthetic-a"], isFirstFix: false)
+        #expect(exited.output.contained.isEmpty)
+        #expect(exited.output.status == .offSheets)
+        #expect(exited.output.clearedDismissals == ["synthetic-a"])
+    }
 }
