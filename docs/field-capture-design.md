@@ -82,6 +82,9 @@ than navigation features.
    grant arriving from Settings while the app is off screen used to light it.
    That same path now defers the start until the app returns, because standard
    location updates started while backgrounded do not start.
+   Native drive mode ([#714](https://github.com/dfakkeldy/ns-marks-the-spot/pull/714))
+   later added a second idle-timer reason: `ScreenAwakeCoordinator` holds the
+   screen while the scene is active and either a recording or drive mode is on.
 
    **The Lock Screen is the account of a walk that continues off screen.**
    While a recording runs, a Live Activity (`NSMarksLiveActivity` widget
@@ -365,13 +368,16 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 - `GpxParse` reads trkpt `<time>` into `coordinateProperties.times`
   (null-padded, togeojson convention)
   ([GpxParse.swift](../NSMarksCore/Sources/GeoCore/Vector/GpxParse.swift)).
-- `UserVectorLibrary.currentVersion` is 3; `UserVectorStore.write(_:)` stamps
+- `UserVectorLibrary.currentVersion` is 4 (version 3 was photos; version 4
+  keeps coverage tags from native drive [#714](https://github.com/dfakkeldy/ns-marks-the-spot/pull/714)
+  so an older writer cannot drop them); `UserVectorStore.write(_:)` stamps
   `currentVersion`
   ([UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift),
   [UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
 - App: `TrackRecorder` (injected `LocationFixSource`, `ScreenWakeLock`,
-  `BackgroundActivity` and `TrackActivityPresenter`; idle-timer held only
-  while the recording is on screen; a `CLBackgroundActivitySession` held for
+  `BackgroundActivity` and `TrackActivityPresenter`; idle-timer held through
+  `ScreenAwakeCoordinator` while the scene is active and a recording or drive
+  mode is on; a `CLBackgroundActivitySession` held for
   as long as it runs), recording HUD, Live Activity on the Lock Screen and
   Dynamic Island (elapsed time and distance, never coordinates; Pause and
   Resume; Stop stays in the app), `SaveTrackSheet` (simplify presets, live
@@ -534,9 +540,10 @@ the claim the data makes about itself.
   MultiLineString when pause/resume produced multiple segments). The raw GPX is
   the evidence; the geometry is the labeled, processed view. There is no
   separate raw-track store and no per-fix disposition taxonomy.
-- iOS `UserVectorLibrary.currentVersion` is 3 so old builds refuse cleanly
+- iOS `UserVectorLibrary.currentVersion` is 4 so old builds refuse cleanly
   (`fromALaterVersion`) instead of reporting damage, and
-  `UserVectorStore.write(_:)` stamps the current version.
+  `UserVectorStore.write(_:)` stamps the current version. Version 4 exists so
+  an older writer cannot drop coverage tags.
 
 ### Track filter and simplification constants
 
@@ -552,6 +559,11 @@ fix:
 | `spacingAccuracyFactor` | 0.5 | the adaptive half of the spacing rule: movement smaller than half the error radius is noise |
 | `simplifyDefaultToleranceM` | 1 | Douglas-Peucker default; below the GPS noise floor, typically 60-80 % vertex reduction |
 | `simplifyPresetsM` | [0, 0.5, 1, 2, 5] | user-selectable in the save dialog on both surfaces; 0 = off; chosen value recorded in `nsmts:recording.simplifyToleranceM` |
+
+Native drive recordings ([#714](https://github.com/dfakkeldy/ns-marks-the-spot/pull/714))
+use a separate `DriveTrackFilter` (accuracy 30 m, 50 m/s, no smoothing, 5 m
+spacing floor, 10 s gap split) and `driveSimplifyToleranceM` of 3. That
+profile is not on the web and is not the walk contract above.
 
 The final fix on stop is always kept so the track ends where the user did.
 Pause closes the current segment; resume opens a new one; no connector is drawn
@@ -959,8 +971,8 @@ App N1, present:
 
 - `FieldCapture/TrackRecorder.swift` (@Observable, an injected
   `LocationFixSource` — `CoreLocationFixSource` in the app, when-in-use — an
-  injected `ScreenWakeLock` held only while the recording is on screen and
-  released on stop or scene-phase change, an injected `BackgroundActivity`
+  injected `ScreenWakeLock` held through `ScreenAwakeCoordinator` while the
+  scene is active and a recording or drive mode is on, an injected `BackgroundActivity`
   — `CLBackgroundActivitySession` in the app — held for as long as the recording
   runs, so leaving the app no longer pauses it, and an injected
   `TrackActivityPresenter` so unit tests never reach ActivityKit),
@@ -1077,7 +1089,7 @@ App N3, present:
 - Bulk placement: the row's "Add photos to map" `PhotosPicker` → classify →
   `BulkPhotoPlacementSheet` (navigation title "Place photos") creates a
   `source: photos` layer with provenance
-  "Created from N of your photos". `UserVectorLibrary.currentVersion` is 3.
+  "Created from N of your photos". `UserVectorLibrary.currentVersion` is 4.
 
 Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
 scripted sequences, FieldCaptureParityTests against the fixture,

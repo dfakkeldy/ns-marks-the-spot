@@ -16,9 +16,12 @@ Please try:
 - Start a track recording, collect some points, then force-quit the app (or otherwise end it). Relaunch and confirm a restore notice, and that the walk is in the save sheet up to the last recorded point — not a gap filled to the time you reopened the app.
 - Optionally: stop a recording without saving, force-quit, relaunch, and confirm the "stopped and never saved" restore path.
 
+Drive maps (not App Store 1.0): Catalogues (My Maps): New, import GeoPDFs, load, tap the car button. Cross sheet edges; Swap / Hide top on overlap. Record a coverage trip; export trip GPX and Export coverage. Force-quit mid-recording; check recovery.
+
 Known scope for this build:
 - The 1885 historical overlay can load when the build uses the published default tile host. If the layer row is present, you can toggle it. An empty or explicit host override still disables hosting. Saved offline areas store historical-overlay tiles.
 - NS Aerial and the provincial reference layers are online services. Recently viewed tiles redraw offline until the cache makes room for newer ones.
 - The Atlas base map is pre-rendered provincial-plus-OSM tiles from the published tile host, not a live vector map: zooming in past its deepest level magnifies the tiles rather than adding detail, and the Atlas is not part of saved offline areas yet. Those tiles now include the browser Atlas Crown Land fills. With no tile host configured the Atlas entries are absent and the map opens on OpenStreetMap.
+- Drive mode off after relaunch. Overlap names truncate to two lines. Index sheet first sits on top everywhere. Narrow iPad (~380x300 pt) can put Record off screen. Unverified: lock-screen drive recording, a real phone drive, larger Dynamic Type.
 
 An empty search result or an empty layer is worth reporting, with the place and the time — but note that the app deliberately reports an empty answer as "nothing returned", never as proof that nothing exists.
