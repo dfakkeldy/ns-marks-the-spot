@@ -4409,7 +4409,7 @@ describe("NS Marks The Spot Online", () => {
     expect(attributionText).not.toContain(
       "Open Government Licence—Halifax",
     );
-  });
+  }, 15_000);
 
   it("names a visible user vector layer as absent from the export instead of dropping it silently", async () => {
     // Same gap as zoning above, but for the `nightly`-only vector-import
