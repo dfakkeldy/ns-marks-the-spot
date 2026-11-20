@@ -31,7 +31,9 @@ nonisolated struct UserVectorDrawing: Identifiable, Equatable, Sendable {
         for geometry: GeoJsonGeometry?, feature: GeoJsonFeature
     ) -> [any MKOverlay & WebDrawOrdered] {
         guard let geometry else { return [] }
-        let style = VectorStyle.style(for: feature, layerColorHex: record.colorHex)
+        let style = record.coverage == nil
+            ? VectorStyle.style(for: feature, layerColorHex: record.colorHex)
+            : UserVectorStyle(strokeHex: "#ff2d95", weight: 5, strokeOpacity: 0.9, fillHex: "#ff2d95", fillOpacity: 0.25)
         switch geometry {
         case .point, .multiPoint:
             return []

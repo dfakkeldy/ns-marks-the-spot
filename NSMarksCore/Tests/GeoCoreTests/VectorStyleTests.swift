@@ -165,10 +165,10 @@ struct VectorStyleTests {
 
     @Test func aLibraryFromALaterVersionIsNotReadable() {
         #expect(UserVectorLibrary(layers: []).isReadable)
-        // Version 3 is current since the photos origin arrived; earlier
+        // Version 4 is current since drive coverage arrived; earlier
         // documents still read.
         #expect(UserVectorLibrary(version: 1, layers: []).isReadable)
-        #expect(!UserVectorLibrary(version: 4, layers: []).isReadable)
+        #expect(!UserVectorLibrary(version: 5, layers: []).isReadable)
         #expect(!UserVectorLibrary(version: 0, layers: []).isReadable)
     }
 

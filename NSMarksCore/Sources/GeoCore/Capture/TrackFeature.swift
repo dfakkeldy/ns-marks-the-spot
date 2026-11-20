@@ -51,7 +51,7 @@ public enum TrackFeature {
                 "acceptedFixCount": .number(Double(result.acceptedFixCount)),
                 "simplifiedVertexCount": .number(Double(simplifiedVertexCount)),
                 "simplifyToleranceM": .number(simplifyToleranceM),
-                "smoothingAlpha": .number(CaptureSpec.TrackFilter.smoothingAlpha),
+                "smoothingAlpha": .number(result.profile == .drive ? CaptureSpec.DriveTrackFilter.smoothingAlpha : CaptureSpec.TrackFilter.smoothingAlpha),
             ]),
             "coordinateProperties": .object(["times": times]),
         ]

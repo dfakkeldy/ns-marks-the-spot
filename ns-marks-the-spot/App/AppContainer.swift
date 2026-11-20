@@ -86,7 +86,8 @@ final class AppContainer {
     /// builds a `CLLocationManager`, and a unit test that constructs a
     /// container to ask which layers install must not reach CoreLocation to
     /// find out.
-    private(set) lazy var trackRecorder = TrackRecorder(checkpoint: trackCheckpoint)
+    private(set) lazy var screenAwakeCoordinator = ScreenAwakeCoordinator()
+    private(set) lazy var trackRecorder = TrackRecorder(screenCoordinator: screenAwakeCoordinator, checkpoint: trackCheckpoint)
 
     /// The container the app launches with.
     ///
@@ -151,6 +152,14 @@ final class AppContainer {
                     .appendingPathComponent("ui-test-\(UUID().uuidString)", isDirectory: true)
             )
         )
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("UITestMountedDrive") {
+            let id = UUID().uuidString
+            let directory = FileManager.default.temporaryDirectory.appendingPathComponent("drive-ui-\(id)")
+            let defaults = UserDefaults(suiteName: "drive-ui-\(id)")!
+            container.driveCataloguesViewModel = DriveCataloguesViewModel(store: DriveCatalogueStore(directory: directory), uiStore: DriveUiStateStore(defaults: defaults))
+        }
+        #endif
         container.installTrackActivityActions()
         return container
     }

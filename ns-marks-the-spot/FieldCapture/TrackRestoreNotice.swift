@@ -24,11 +24,12 @@ enum TrackRestoreNotice {
     /// before the walk was written to a layer. Nothing is missing from it.
     static func text(for restored: TrackJournal.Restored) -> String {
         let when = moment(restored.result.endedAt)
+        let kind = restored.result.profile == .drive ? "drive" : "walk"
         guard restored.wasInterrupted else {
-            return "You stopped this walk on \(when) and closed the app before saving it. "
+            return "You stopped this \(kind) on \(when) and closed the app before saving it. "
                 + "It is all here."
         }
-        return "This walk was still recording when the app closed. Everything up to \(when) "
+        return "This \(kind) was still recording when the app closed. Everything up to \(when) "
             + "was kept; nothing was recorded after that."
     }
 

@@ -37,6 +37,7 @@ actor UserVectorStore {
         case geometryMissing(String)
         /// The layer this operation names is not in the library any more.
         case noSuchLayer(String)
+        case duplicateLayer(String)
     }
 
     private let directory: URL
@@ -304,6 +305,9 @@ actor UserVectorStore {
         // before a geometry file and an original are written beside it for
         // nothing.
         var library = try read()
+        guard !library.layers.contains(where: { $0.id == record.id }) else {
+            throw StoreRefusal.duplicateLayer(record.id)
+        }
         try writeGeometry(geometry, id: record.id)
         if let original, let originalFileID = record.originalFileID {
             try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -316,6 +320,17 @@ actor UserVectorStore {
             }
         }
         library.layers.append(record)
+        try write(library)
+        return library
+    }
+
+    /// A deleted catalogue leaves its recorded tracks as ordinary layers.
+    func clearCoverage(catalogueID: String) throws -> UserVectorLibrary {
+        var library = try read()
+        guard library.layers.contains(where: { $0.coverage?.catalogueID == catalogueID }) else { return library }
+        for index in library.layers.indices where library.layers[index].coverage?.catalogueID == catalogueID {
+            library.layers[index].coverage = nil
+        }
         try write(library)
         return library
     }

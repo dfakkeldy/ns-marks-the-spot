@@ -1,0 +1,113 @@
+import XCTest
+import UIKit
+
+final class DriveOverlapUITests: XCTestCase {
+    override func tearDown() {
+        attachUIFailure()
+        XCUIDevice.shared.orientation = .portrait
+        super.tearDown()
+    }
+
+    @MainActor func testOverlapControlsHaveLargeHitFrames() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestDriveOverlap"]
+        app.launch()
+        for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+            XCTAssertTrue(app.rotate(to: orientation), "The app did not reach \(orientation)")
+            let swap = app.buttons["drive-overlap-swap"]
+            let visibility = app.buttons["drive-overlap-visibility"]
+            XCTAssertTrue(swap.waitForExistence(timeout: 30))
+            XCTAssertTrue(visibility.waitForExistence(timeout: 30))
+            for control in [swap, visibility] {
+                XCTAssertGreaterThanOrEqual(control.frame.width, 64)
+                XCTAssertGreaterThanOrEqual(control.frame.height, 64)
+            }
+        }
+    }
+
+    @MainActor func testOverlapControlsAreAbsentWithoutOverlap() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestDriveNoOverlap"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["drive-overlap-fixture-ready"].waitForExistence(timeout: 30))
+        XCTAssertFalse(app.buttons["drive-overlap-swap"].exists)
+        XCTAssertFalse(app.buttons["drive-overlap-visibility"].exists)
+    }
+
+    @MainActor func testMountedMapDriveChromeDoesNotOverlapWhenFixIsUnavailable() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestMountedDrive", "lost"]
+        app.launch()
+        XCTAssertTrue(app.maps.firstMatch.waitForExistence(timeout: 30), "Real map did not mount")
+        let chip = app.buttons["drive-status-chip"]
+        let record = app.buttons["drive-record"]
+        let scale = app.descendants(matching: .any)["map-scale-stack"]
+        let coordinates = app.buttons["map-position-readout"]
+        let scaleReadout = app.buttons["map-scale-readout"]
+        let attribution = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(chip.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.buttons["drive-overlap-swap"].waitForExistence(timeout: 30), "Synthetic overlap not active")
+        for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+            XCTAssertTrue(app.rotate(to: orientation))
+            for element in [record, scale, coordinates, scaleReadout, attribution] {
+                XCTAssertTrue(element.waitForExistence(timeout: 30), "Missing \(element)")
+            }
+            XCTAssertTrue(chip.label.contains("No location right now"), chip.label)
+            let frames = [("chip", chip.frame), ("record", record.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("overlap bar", app.descendants(matching: .any)["drive-overlap-bar"].frame)]
+            for i in frames.indices {
+                XCTAssertFalse(frames[i].1.isEmpty, "Empty \(frames[i].0)")
+                XCTAssertTrue(app.windows.firstMatch.frame.contains(frames[i].1), "Off screen: \(frames[i])")
+                for j in frames.indices where j > i {
+                    XCTAssertFalse(frames[i].1.intersects(frames[j].1), "\(orientation): \(frames[i]) intersects \(frames[j])")
+                }
+            }
+            XCTAssertTrue(record.isHittable)
+            XCTAssertTrue(chip.isHittable)
+        }
+    }
+
+    @MainActor func testMountedMapSignalLostNotice() {
+        let app = XCUIApplication()
+        app.launchArguments += ["UITestMode", "UITestMountedDrive", "signal"]
+        app.launch()
+        let chip = app.buttons["drive-status-chip"]
+        let notice = app.staticTexts["GPS signal lost — still trying."]
+        XCTAssertTrue(chip.waitForExistence(timeout: 30))
+        XCTAssertTrue(notice.waitForExistence(timeout: 30))
+        for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+            XCTAssertTrue(app.rotate(to: orientation))
+            XCTAssertTrue(chip.label.contains("No location right now"))
+            let scale = app.descendants(matching: .any)["map-scale-stack"]
+            let attribution = app.descendants(matching: .any)["map-attribution"]
+            let bar = app.descendants(matching: .any)["drive-overlap-bar"]
+            let record = app.buttons["drive-record"]
+            for element in [scale, attribution, bar] { XCTAssertTrue(element.waitForExistence(timeout: 30)) }
+            var frames = [("chip", chip.frame), ("notice", notice.frame), ("scale", scale.frame), ("attribution", attribution.frame), ("bar", bar.frame)]
+            XCTAssertTrue(record.exists)
+            frames.append(("record", record.frame))
+            for i in frames.indices {
+                XCTAssertFalse(frames[i].1.isEmpty, "Empty \(frames[i].0)")
+                for j in frames.indices where j > i {
+                    XCTAssertFalse(frames[i].1.intersects(frames[j].1), "\(orientation): \(frames[i]) intersects \(frames[j])")
+                }
+            }
+        }
+    }
+
+    @MainActor func testMountedMapPoorFixAndPausedFollowMessages() {
+        for (state, expected) in [("poor", "Location is rough"), ("paused", "Auto paused. Tap Follow.")] {
+            let app = XCUIApplication()
+            app.launchArguments += ["UITestMode", "UITestMountedDrive", state]
+            app.launch()
+            XCTAssertTrue(app.maps.firstMatch.waitForExistence(timeout: 30))
+            let chip = app.buttons["drive-status-chip"]
+            XCTAssertTrue(chip.waitForExistence(timeout: 30))
+            for orientation in [UIDeviceOrientation.portrait, .landscapeLeft] {
+                XCTAssertTrue(app.rotate(to: orientation))
+                XCTAssertTrue(chip.label.contains(expected), "\(state) / \(orientation): \(chip.label)")
+                XCTAssertTrue(chip.label.contains("Sheet not changed") || state == "paused", chip.label)
+            }
+            app.terminate()
+        }
+    }
+}

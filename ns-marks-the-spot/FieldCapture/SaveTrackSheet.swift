@@ -42,6 +42,7 @@ struct SaveTrackSheet: View {
         self.onSave = onSave
         self.onDiscard = onDiscard
         _name = State(initialValue: TrackFeature.defaultTrackName(startedAt: result.startedAt))
+        _toleranceM = State(initialValue: result.profile == .drive ? CaptureSpec.driveSimplifyToleranceM : CaptureSpec.Simplify.defaultToleranceM)
     }
 
     /// Vertices before simplification, drawable segments only.
@@ -78,7 +79,8 @@ struct SaveTrackSheet: View {
                 + "recording, so no fixes could arrive. The recording can only be discarded."
         }
         if restoredNote != nil {
-            return "No usable track was recorded. This walk kept no positions, and why "
+            let kind = result.profile == .drive ? "drive" : "walk"
+            return "No usable track was recorded. This \(kind) kept no positions, and why "
                 + "it kept none is not recorded. It can only be discarded."
         }
         return "No usable track was recorded. Every fix was filtered out — usually "
@@ -152,7 +154,7 @@ struct SaveTrackSheet: View {
                 if !isEmpty {
                     Section {
                         Picker("Simplify", selection: $toleranceM) {
-                            ForEach(CaptureSpec.Simplify.presetsM, id: \.self) { preset in
+                            ForEach(result.profile == .drive ? (CaptureSpec.Simplify.presetsM + [CaptureSpec.driveSimplifyToleranceM]).sorted() : CaptureSpec.Simplify.presetsM, id: \.self) { preset in
                                 Text(presetLabel(preset)).tag(preset)
                             }
                         }
@@ -175,7 +177,7 @@ struct SaveTrackSheet: View {
                 }
             }
             .navigationTitle(
-                isEmpty ? "Nothing to save" : (restoredNote == nil ? "Save track" : "Unsaved walk")
+                isEmpty ? "Nothing to save" : (restoredNote == nil ? "Save track" : (result.profile == .drive ? "Unsaved drive" : "Unsaved walk"))
             )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

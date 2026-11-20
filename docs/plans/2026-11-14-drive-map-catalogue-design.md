@@ -470,6 +470,8 @@ This reuses what exists: storage, the GPX original, the interrupted-recording ma
 
 Native adds the same optional field to its vector layer record. Check first whether an older build would drop the field when it rewrites the library. If it would, raise the library version.
 
+N5 raises the native vector library to version 4. It also records the measured trip distance and whether recovery followed an interruption. Catalogue storage advances to version 2 so older writers cannot erase the durable deletion receipt. GPX coverage exports contain raw received fixes, including fixes excluded from the displayed line; the panel says so.
+
 ### 9.4 Trips and legs
 
 - Starting drive mode with a recording creates a `tripId`.

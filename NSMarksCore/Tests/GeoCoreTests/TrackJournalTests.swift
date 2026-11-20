@@ -11,6 +11,33 @@ import Testing
 /// walk, and that it never says more about it than was written down.
 @Suite("A walk written down")
 struct TrackJournalTests {
+    @Test func driveJournalReplaysWithDriveFilterAndGap() throws {
+        let id = UUID()
+        let start = Date(timeIntervalSince1970: 1_000)
+        let entries: [TrackJournal.Entry] = [
+            .driveStarted(id: id, at: start),
+            .fix(fix(1_000, lat: 45)),
+            .fix(fix(1_001, lat: 45 + 30.6 / 111_320)),
+            .fix(fix(1_013, lat: 45 + 40 / 111_320)),
+            .stopped(at: Date(timeIntervalSince1970: 1_014)),
+        ]
+        let replay = try #require(TrackJournal.replay(TrackJournal.decode(TrackJournal.encode(entries))))
+        #expect(replay.result.profile == .drive)
+        #expect(replay.result.acceptedFixCount == 3)
+        #expect(replay.result.segments.map(\.count) == [2, 1])
+    }
+
+    @Test func interruptedCoverageKeepsTripIdentity() throws {
+        let coverage = DriveCoverage(catalogueID: "catalogue", tripID: "trip")
+        let entries: [TrackJournal.Entry] = [
+            .coverageStarted(id: UUID(), at: Date(timeIntervalSince1970: 1_000), coverage: coverage),
+            .fix(fix(1_000)), .fix(fix(1_001, lat: 45.0002)),
+        ]
+        let restored = try #require(TrackJournal.replay(TrackJournal.decode(TrackJournal.encode(entries))))
+        #expect(restored.wasInterrupted)
+        #expect(restored.result.coverage == coverage)
+        #expect(restored.result.profile == .drive)
+    }
     private func fix(
         _ seconds: TimeInterval,
         lat: Double = 45.0,
@@ -58,6 +85,8 @@ struct TrackJournalTests {
         for entry in entries {
             switch entry {
             case .started(_, let at): live.start(now: at)
+            case .driveStarted: Issue.record("This fixture is a walk")
+            case .coverageStarted: Issue.record("This fixture is a walk")
             case .fix(let fix): live.addFix(fix)
             case .paused(let at): live.pause(now: at)
             case .resumed(let at): live.resume(now: at)

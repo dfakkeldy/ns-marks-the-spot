@@ -39,6 +39,22 @@ struct DriveCatalogueStoreTests {
         #expect(remaining.map(\.id) == ["b", "late"])
     }
 
+    @Test func deletingFromVersionOneStampsAndPreservesReceipt() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let store = DriveCatalogueStore(directory: directory)
+        _ = try await store.apply(.create(DriveCatalogue(id: "old", name: "Trip")))
+        let url = directory.appendingPathComponent("drive-catalogues.json")
+        var document = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        document["version"] = 1
+        document.removeValue(forKey: "deletedCatalogueIDs")
+        try JSONSerialization.data(withJSONObject: document).write(to: url)
+        _ = try await store.apply(.delete("old"))
+        let written = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        #expect(written["version"] as? Int == 2)
+        #expect(try await DriveCatalogueStore(directory: directory).wasCatalogueDeleted("old"))
+    }
+
     @Test func newerDocumentIsNeverOverwritten() async throws {
         let directory = try temporaryDirectory()
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -64,6 +80,41 @@ struct DriveCatalogueStoreTests {
         _ = try await store.apply(.move("a", "three", -1))
         let items = try await store.load()
         #expect(items.first?.sheetIDs == ["three", "one", "two"])
+    }
+
+    @Test func cyclingEnteredSheetsPreservesOtherSlots() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let store = DriveCatalogueStore(directory: directory)
+        _ = try await store.apply(.create(DriveCatalogue(id: "a", name: "Trip", sheetIDs: ["one", "other", "two", "three"])))
+        let entered: Set<String> = ["one", "two", "three"]
+        let first = try await store.apply(.cycleTop("a", entered))
+        #expect(first[0].sheetIDs == ["two", "other", "three", "one"])
+        _ = try await store.apply(.cycleTop("a", entered))
+        let third = try await store.apply(.cycleTop("a", entered))
+        #expect(third[0].sheetIDs == ["one", "other", "two", "three"])
+        let two = try await store.apply(.cycleTop("a", ["one", "two"]))
+        #expect(two[0].sheetIDs == ["two", "other", "one", "three"])
+        let reopened = try await DriveCatalogueStore(directory: directory).load()
+        #expect(reopened[0].sheetIDs == ["two", "other", "one", "three"])
+    }
+
+    @Test @MainActor func viewModelCyclesAndPersists() async throws {
+        let directory = try temporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let suite = "drive-cycle-test-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let store = DriveCatalogueStore(directory: directory)
+        let vm = DriveCataloguesViewModel(store: store, uiStore: DriveUiStateStore(defaults: defaults))
+        await vm.load()
+        await vm.create(name: "Trip", sheetIDs: ["one", "two"])
+        let id = try #require(vm.catalogues.first?.id)
+        let changed = await vm.cycleTop(in: id, entered: ["one", "two"])
+        #expect(changed)
+        #expect(vm.catalogues.first?.sheetIDs == ["two", "one"])
+        let reopened = try await DriveCatalogueStore(directory: directory).load()
+        #expect(reopened.first?.sheetIDs == ["two", "one"])
     }
 
     @Test @MainActor func damagedFileIsPreservedAndNewerFileSeals() async throws {
@@ -121,8 +172,9 @@ struct DriveCatalogueStoreTests {
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
         let store = DriveUiStateStore(defaults: defaults)
-        store.save(DriveUiState(loadedCatalogueID: "a", autoActivate: true, showCoverage: true))
+        store.save(DriveUiState(loadedCatalogueID: "a", autoActivate: true, showCoverage: false))
         #expect(DriveUiStateStore(defaults: defaults).load().loadedCatalogueID == "a")
+        #expect(!DriveUiStateStore(defaults: defaults).load().showCoverage)
     }
 
     @Test @MainActor func pendingDeletionSurvivesRelaunchAndRetries() async throws {

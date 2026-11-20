@@ -1486,6 +1486,12 @@ final class MapController: NSObject {
         }
     }
 
+    #if DEBUG
+    func setUITestSignalLost() {
+        report(.signalLost)
+    }
+    #endif
+
     /// The reader acted on the message, or waved it away. A waved-away
     /// Precise Location caveat stays away until the setting changes or the
     /// reader asks for their location again; a foreground return does not
@@ -1684,13 +1690,15 @@ final class MapController: NSObject {
     /// The cards that can cover the bottom of the map, keyed so one leaving
     /// does not zero the height of another arriving in the same update.
     enum BottomCard: Hashable, Sendable {
-        case parcel, editPanel, vectorCallout, featureCallout, measure
+        case parcel, editPanel, vectorCallout, featureCallout, measure, driveOverlap
     }
 
     @ObservationIgnored private var bottomCardHeights: [BottomCard: CGFloat] = [:]
 
     /// How much of the bottom of the map the tallest open card covers.
-    private var bottomCardInset: CGFloat { bottomCardHeights.values.max() ?? 0 }
+    static func bottomInset(ornament: CGFloat, cards: [BottomCard: CGFloat]) -> CGFloat {
+        max(ornament, cards.values.max() ?? 0)
+    }
 
     /// Reported by the container as cards open, resize and close. Routed
     /// into the map's layout margins, which is where MapKit centres a
@@ -1715,7 +1723,9 @@ final class MapController: NSObject {
     private func applyBottomLayoutMargin() {
         let side = Self.sideLayoutMargin
         mapView?.layoutMargins = UIEdgeInsets(
-            top: side, left: side, bottom: max(bottomOrnamentInset, bottomCardInset), right: side
+            top: side, left: side,
+            bottom: Self.bottomInset(ornament: bottomOrnamentInset, cards: bottomCardHeights),
+            right: side
         )
         updateReticle()
     }

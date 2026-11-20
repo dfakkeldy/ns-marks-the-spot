@@ -25,6 +25,8 @@ public struct TrackRecording: Sendable {
         public var acceptedFixCount: Int
         public var distanceM: Double
         public var recordingSeconds: Double
+        public var profile: Profile = .walk
+        public var coverage: DriveCoverage? = nil
 
     }
 
@@ -49,8 +51,9 @@ public struct TrackRecording: Sendable {
     private var rawSegments: [[TrackFix]] = []
 
     private let profile: Profile
+    private let coverage: DriveCoverage?
 
-    public init(profile: Profile = .walk) { self.profile = profile }
+    public init(profile: Profile = .walk, coverage: DriveCoverage? = nil) { self.profile = profile; self.coverage = profile == .drive ? coverage : nil }
 
     private mutating func openSegment(speedAnchor: TrackFix? = nil) {
         segments.append([])
@@ -112,7 +115,9 @@ public struct TrackRecording: Sendable {
             rawFixCount: rawCount,
             acceptedFixCount: acceptedCount,
             distanceM: distanceM,
-            recordingSeconds: recordingSeconds
+            recordingSeconds: recordingSeconds,
+            profile: profile,
+            coverage: coverage
         )
     }
 
