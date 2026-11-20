@@ -19,6 +19,20 @@ licences are separate and layer-specific: each rendered layer keeps its own
 source, licence gate, and attribution, and none of them is covered by the code
 licence.
 
+## The native app
+
+Version **1.0** on the App Store is the field map: Fletcher overlay, provincial
+layers, parcel search, imported maps, and track recording. Nightly TestFlight
+builds from `nightly` also include drive maps: a catalogue of georeferenced
+GeoPDF sheets under My Maps, a car-button drive mode that keeps the screen
+awake and shows the sheet under the vehicle, overlap controls (Swap, Hide
+top), and coverage trips with coverage GPX, raw GPX, and recording recovery.
+Drive mode is off after a relaunch. An index sheet first in the catalogue
+sits on top everywhere; leave it out or order it last. These drive
+features are not in the released App Store build. Tester steps and known
+limits are in
+[fastlane/testflight/en-US/what_to_test.txt](fastlane/testflight/en-US/what_to_test.txt).
+
 ## The browser map
 
 The `web/` React app is the current product surface. It mirrors the native
