@@ -129,11 +129,11 @@ struct TaxSaleCatalogTests {
     @Test func halifaxMapsEveryAdvertisedTaxSale24ScheduleARow() throws {
         let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-12-08"))
 
-        // Twenty-nine exact-PID rows in the revised December 8 Schedule A. One further source
+        // Twenty-six exact-PID rows in the revised December 8 Schedule A. One further source
         // row prints MOBILE without a PID and is counted, not listed. Geometry
         // exceptions remain empty; NSPRD was not used to invent unmapped PIDs.
-        #expect(event.listings.count == 29)
-        #expect(event.pids.count == 29)
+        #expect(event.listings.count == 26)
+        #expect(event.pids.count == 26)
         #expect(event.geometryExceptions.isEmpty)
 
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00531624")?.event.id == event.id)
@@ -142,6 +142,9 @@ struct TaxSaleCatalogTests {
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40131880") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40313280") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00591297") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00154161") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00154179") == nil)
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "40859399") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00015966") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "41051889") == nil)
         #expect(!event.pids.contains("00015966"))
@@ -149,6 +152,9 @@ struct TaxSaleCatalogTests {
         #expect(!event.pids.contains("41051897"))
         #expect(!event.pids.contains("00535617"))
         #expect(!event.pids.contains("41274085"))
+        #expect(!event.pids.contains("00154161"))
+        #expect(!event.pids.contains("00154179"))
+        #expect(!event.pids.contains("40859399"))
     }
 
     @Test func cbrmIsCarriedAsHistoryRatherThanAnOffering() throws {
