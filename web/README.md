@@ -1741,20 +1741,20 @@ cannot first be matched to a verified archive capture also fails closed.
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-dec8.2026.pdf)
   have SHA-256
   `2a8bdbe1c6d78eb6782e7d09ceec1e153165266646b31da29ed2e53d052b859b`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov18.pdf)
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov19.pdf)
   has SHA-256
-  `badd7991b505c7794ef6da6aa7f1fd3f41951ecdaeff494e4f7ece8c6502ffe6`.
-  The owner-free snapshot records retrieval on 2026-11-18.
-- Schedule A contains 30 source rows: 29 exact-PID listings covering 29 PIDs,
+  `483b368766dcc2b5d55ff60f3b29b03b2d7bcae779170f3ee4055d8be91826f8`.
+  The owner-free snapshot records retrieval on 2026-11-20.
+- Schedule A contains 27 source rows: 26 exact-PID listings covering 26 PIDs,
   all mapped, and 1 mobile-home row printed `MOBILE` without a PID. That
-  mobile-home row is counted, not listed. Eleven source rows print HST
+  mobile-home row is counted, not listed. Nine source rows print HST
   `Yes`, and two print redeemable `No`. Those inputs are validated and counted
   but HST is not added to the public listing schema. Geometry exceptions remain
   empty; NSPRD was not used to invent unmapped PIDs. The assessed-name column
   and owner-bearing PDF bytes are not committed. Words that straddle the owner
   and description columns are dropped rather than copied. The byte-for-byte
   owner-free public dataset SHA-256 is
-  `bf03f96696e2363a34c035c75c2c585d78c861d7a622ba94212b86808be432e4`.
+  `0b7a014ede98c9e973115e00c20afb2ddb3524f3d7de3b3d809786c96892e58c`.
 - Tender `HRM-TaxSale23` closed at 10:00 AM September 15, 2026. The October 4
   refresh verified the dated official
   [results PDF](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tax-sale-website-results-sept15.26.pdf)

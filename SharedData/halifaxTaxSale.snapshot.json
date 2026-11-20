@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
   "municipality": "Halifax Regional Municipality",
-  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov18.pdf",
+  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/dec8.2026newspaper.websitenov19.pdf",
   "landingPage": "https://www.halifax.ca/home-property/property-taxes/tax-sale",
   "tenderInstructions": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-dec8.2026.pdf",
-  "retrievedDate": "2026-11-18",
+  "retrievedDate": "2026-11-20",
   "tenderNumber": "HRM-TaxSale24",
   "tenderDocumentSha256": "2a8bdbe1c6d78eb6782e7d09ceec1e153165266646b31da29ed2e53d052b859b",
-  "scheduleDocumentSha256": "badd7991b505c7794ef6da6aa7f1fd3f41951ecdaeff494e4f7ece8c6502ffe6",
-  "sourceFactsSha256": "629e8ef6ebb8ccb9cb6856e603d99f02a2f4069288cb7a30e24a07a69393b186",
+  "scheduleDocumentSha256": "483b368766dcc2b5d55ff60f3b29b03b2d7bcae779170f3ee4055d8be91826f8",
+  "sourceFactsSha256": "289044111aff5dc47685396d2c177935ef6bbf4fb6961a9a82f048bcc63b0e6b",
   "sourceHashPolicy": "Both dated official PDFs contain assessed-owner names. This receipt hashes the source bytes and normalized owner-free facts; the PDFs themselves are not committed.",
   "ownerNamesExcluded": true,
   "eventDate": "2026-12-08",
   "bidDeadlineTime": "10:00",
   "venue": "Online or Alderney Customer Service Centre, 40 Alderney Drive, Dartmouth, Nova Scotia",
-  "sourceRowCount": 30,
-  "listingCount": 29,
-  "parcelIdentifierCount": 29,
-  "mappedListingCount": 29,
-  "mappedParcelIdentifierCount": 29,
-  "hstYesCount": 11,
+  "sourceRowCount": 27,
+  "listingCount": 26,
+  "parcelIdentifierCount": 26,
+  "mappedListingCount": 26,
+  "mappedParcelIdentifierCount": 26,
+  "hstYesCount": 9,
   "notRedeemableCount": 2,
   "mobileHomeWithoutPidCount": 1,
   "geometryExceptions": [],
@@ -48,17 +48,6 @@
     },
     {
       "item": 3,
-      "aan": "01470469",
-      "pids": [
-        "00154161"
-      ],
-      "description": "2053 Gottingen St Lot 1 Halifax - Building",
-      "openingBidCents": 8625458,
-      "redeemable": true,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 4,
       "aan": "01568159",
       "pids": [
         "00323527"
@@ -69,7 +58,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 5,
+      "item": 4,
       "aan": "02001632",
       "pids": [
         "40228942"
@@ -80,7 +69,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 6,
+      "item": 5,
       "aan": "02732858",
       "pids": [
         "40055295"
@@ -91,7 +80,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 7,
+      "item": 6,
       "aan": "03022897",
       "pids": [
         "41524166"
@@ -102,7 +91,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 8,
+      "item": 7,
       "aan": "03115275",
       "pids": [
         "40225195"
@@ -113,7 +102,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 9,
+      "item": 8,
       "aan": "03287408",
       "pids": [
         "00573956"
@@ -124,7 +113,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 10,
+      "item": 9,
       "aan": "03294625",
       "pids": [
         "40290983"
@@ -135,7 +124,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 11,
+      "item": 10,
       "aan": "03535371",
       "pids": [
         "00108811"
@@ -146,7 +135,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 12,
+      "item": 11,
       "aan": "03537293",
       "pids": [
         "00174318"
@@ -157,18 +146,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 13,
-      "aan": "03986829",
-      "pids": [
-        "00154179"
-      ],
-      "description": "2059 Gottingen St Halifax - Building",
-      "openingBidCents": 4133267,
-      "redeemable": true,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 14,
+      "item": 12,
       "aan": "04293835",
       "pids": [
         "00493627"
@@ -179,7 +157,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 15,
+      "item": 13,
       "aan": "05711436",
       "pids": [
         "00627356"
@@ -190,7 +168,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 16,
+      "item": 14,
       "aan": "07663501",
       "pids": [
         "40534083"
@@ -201,7 +179,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 17,
+      "item": 15,
       "aan": "08569010",
       "pids": [
         "40599466"
@@ -212,7 +190,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 18,
+      "item": 16,
       "aan": "08603405",
       "pids": [
         "40612947"
@@ -223,7 +201,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 19,
+      "item": 17,
       "aan": "08897638",
       "pids": [
         "40739393"
@@ -234,7 +212,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 20,
+      "item": 18,
       "aan": "08960550",
       "pids": [
         "40772196"
@@ -245,7 +223,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 21,
+      "item": 19,
       "aan": "08987661",
       "pids": [
         "00604546"
@@ -256,7 +234,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 22,
+      "item": 20,
       "aan": "08994285",
       "pids": [
         "40807844"
@@ -267,18 +245,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 23,
-      "aan": "09118187",
-      "pids": [
-        "40859399"
-      ],
-      "description": "235 Haliburton Cres Lot 1424 Stillwater Lake - Dwelling",
-      "openingBidCents": 2178205,
-      "redeemable": true,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 24,
+      "item": 21,
       "aan": "09607862",
       "pids": [
         "41108697"
@@ -289,7 +256,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 25,
+      "item": 22,
       "aan": "09666591",
       "pids": [
         "41163619"
@@ -300,7 +267,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 26,
+      "item": 23,
       "aan": "10573300",
       "pids": [
         "41401472"
@@ -311,7 +278,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 27,
+      "item": 24,
       "aan": "10978874",
       "pids": [
         "41509852"
@@ -322,7 +289,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 28,
+      "item": 25,
       "aan": "10999405",
       "pids": [
         "41502675"
@@ -333,7 +300,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 29,
+      "item": 26,
       "aan": "11036015",
       "pids": [
         "41527086"
