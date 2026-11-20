@@ -1710,8 +1710,23 @@ final class MapController: NSObject {
         applyBottomLayoutMargin()
     }
 
+    /// MKMapView's own layout margin, kept on the three sides this code does
+    /// not measure.
+    static let sideLayoutMargin: CGFloat = 0
+
+    /// Sets the margins whole, never as `layoutMargins.bottom = …`. With
+    /// `insetsLayoutMarginsFromSafeArea` on, reading `layoutMargins` returns
+    /// the safe area added in, so writing the read back stored it: every card
+    /// change grew the top margin by the status bar's height, and MapKit
+    /// centred a followed dot lower each time, until it sat under the bottom
+    /// controls.
     private func applyBottomLayoutMargin() {
-        mapView?.layoutMargins.bottom = Self.bottomInset(ornament: bottomOrnamentInset, cards: bottomCardHeights)
+        let side = Self.sideLayoutMargin
+        mapView?.layoutMargins = UIEdgeInsets(
+            top: side, left: side,
+            bottom: Self.bottomInset(ornament: bottomOrnamentInset, cards: bottomCardHeights),
+            right: side
+        )
         updateReticle()
     }
 
